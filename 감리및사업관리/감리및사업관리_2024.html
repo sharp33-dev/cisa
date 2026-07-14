@@ -1,0 +1,3488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감리 및 사업관리 2024년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">감리 및 사업관리 <small>2024년도 기출해설집 · 총 25문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 감리 및 사업관리 기출문제 해설집</h1>
+<h2>2024년 제25회 (문항 1~25)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 업로드된 「1-1 정보화법_제도_감리」, 「1-2 사업관리」 강의자료 우선 근거, 외부지식은 보조적으로만 사용(강의자료 미수록 사항은 각 문항에 명시)<br />
+<strong>정답 출처</strong>: 2024년(제25회) 정보시스템 감리사 필기시험 문제.pdf(A형) + 필기시험 답안.pdf(A형/B형 별도 답안표)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (문제지는 A형이며, 별도 답안표의 A형 정답과 1:1 매칭하여 확인)<br />
+<strong>참고</strong>: 2024년은 문제지와 답안지가 별도 파일로 존재하며, A형/B형 두 가지 문제지 유형에 따라 답이 다르게 배열됨. 본 해설집은 A형 문제지 기준으로 작성함</p>
+</blockquote>
+<hr />
+<h2>2024년 감리 및 사업관리 정답표 (Q1~25, A형 기준)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>③</td>
+<td>10</td>
+<td>③</td>
+<td>19</td>
+<td>②</td>
+</tr>
+<tr>
+<td>2</td>
+<td>②</td>
+<td>11</td>
+<td>②</td>
+<td>20</td>
+<td>①</td>
+</tr>
+<tr>
+<td>3</td>
+<td>①</td>
+<td>12</td>
+<td>①</td>
+<td>21</td>
+<td>④</td>
+</tr>
+<tr>
+<td>4</td>
+<td>③</td>
+<td>13</td>
+<td>④</td>
+<td>22</td>
+<td>①</td>
+</tr>
+<tr>
+<td>5</td>
+<td>②</td>
+<td>14</td>
+<td>③</td>
+<td>23</td>
+<td>④</td>
+</tr>
+<tr>
+<td>6</td>
+<td>④</td>
+<td>15</td>
+<td>③</td>
+<td>24</td>
+<td>①</td>
+</tr>
+<tr>
+<td>7</td>
+<td>②</td>
+<td>16</td>
+<td>④</td>
+<td>25</td>
+<td>①</td>
+</tr>
+<tr>
+<td>8</td>
+<td>②</td>
+<td>17</td>
+<td>③</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>④</td>
+<td>18</td>
+<td>④</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="1" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>소프트웨어 개발사업의 적정 사업기간 산정 기준에 따라 다음 조건의 사업에 대하여 산정한 적정 사업기간은?</p>
+<ul>
+<li>기능점수: 1,320 FP</li>
+<li>1인 생산성: 22 FP/MM</li>
+<li>적정 개발인력 수: 6명</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 6개월<br />
+② 8개월<br />
+<strong>③ 10개월</strong><br />
+④ 12개월</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (10개월)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료 계산식과 완전 일치, 직접 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>적정 사업기간 산정 기준(소프트웨어사업 관리감독에 관한 일반기준)</li>
+<li>기능점수(FP) 기반 적정 개발기간 산정표</li>
+<li>1인 총 투입기간 = 사업규모 / 1인 생산성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>1번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>소프트웨어 개발사업 적정 사업기간 산정</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2. 감리 및 사업관리(25)_V1.3_2장 지침_5월 8일_최종본.pdf</li>
+<li><strong>관련 챕터</strong>: II. 소프트웨어 개발사업의 적정 사업기간 산정 기준</li>
+<li><strong>관련 페이지</strong>: 76~79페이지 (산정표 및 계산식 완전 일치, 유사 기출문제 수록 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>적정 사업기간 산정 계산 문항은 강의자료에 2015년 기출로 명시되어 있으며, 2024년에도 동일 유형으로 재출제됨</li>
+<li>최근 출제년도: 2024년(본 문항). 강의자료 내 2015년 기출 확인</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2015(강의자료 내 명시, 정확한 문항번호는 전체 자료 분석 후 갱신)</td>
+<td>-</td>
+<td>사업규모(FP)별 1인 생산성(FP/MM) 기준</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (적정 사업기간 산정은 감리 및 사업관리 최다 출제 계산 유형 중 하나)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>1인 생산성 구간표: <strong>1,000FP이하=19 / 1,000~1,999FP=22 / 2,000~2,999FP=24 / 3,000FP이상=22</strong>(26 아님, 함정 주의)</li>
+<li>1인 총 투입기간(MM) = <strong>사업규모(FP) ÷ 1인 생산성(FP/MM)</strong></li>
+<li>전체 개발기간(월) = <strong>1인 총 투입기간 ÷ 투입 인력 수</strong></li>
+<li>대상사업에서 컨설팅(ISP), 운영·유지관리, HW/상용SW 도입 등은 <strong>적용 제외</strong></li>
+<li>1FP당 원가는 약 50만원(강의자료 참고사항, 대가산정 연계 학습)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료에 수록된 「소프트웨어 개발사업의 적정 사업기간 산정 기준」에 따르면 산정 절차는 다음과 같다.</p>
+<ol>
+<li>소프트웨어사업 규모(FP) 산정: SW사업 대가산정 가이드 준용</li>
+<li>1인 생산성(FP/MM) 산정: 사업규모 구간별 기준 적용</li>
+<li><strong>1인 총 투입기간 = 사업규모(FP) ÷ 1인 생산성(FP/MM)</strong></li>
+<li>투입 인력 수 산정</li>
+<li><strong>전체 개발기간 = 1인 총 투입기간 ÷ 투입 인원 수</strong></li>
+</ol>
+<p>본 문항에 이 공식을 대입하면:</p>
+<ul>
+<li>1인 총 투입기간 = 1,320 FP ÷ 22 FP/MM = <strong>60 MM</strong></li>
+<li>전체 개발기간 = 60 MM ÷ 6명 = <strong>10개월</strong></li>
+</ul>
+<p>따라서 정답은 ③번(10개월)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>기능점수(FP) 기반 적정 개발기간 산정표(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>사업규모(FP)</th>
+<th>1인 생산성(FP/MM)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,000 FP 이하</td>
+<td>19</td>
+</tr>
+<tr>
+<td>1,000 ~ 1,999 FP</td>
+<td><strong>22</strong></td>
+</tr>
+<tr>
+<td>2,000 ~ 2,999 FP</td>
+<td>24</td>
+</tr>
+<tr>
+<td>3,000 FP 이상</td>
+<td>22 (26이 아님에 주의 — 강의자료 내 기출 함정 포인트)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>전체 계산 절차</strong>: 사업규모(FP) 산정 → 1인 생산성 적용 → 1인 총 투입기간(MM) = 사업규모/생산성 → 투입인력 수 결정 → 전체 개발기간 = 총 투입기간/인력수</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>발주기관이 SW 개발사업을 발주할 때 과업심의위원회 등에 제출할 사업기초자료 작성 시, 기능점수 기반 적정 개발기간 산정표를 활용하여 사업기간의 적정성을 검증한다. 감리원은 감리 수행 시 발주기관이 산정한 사업기간이 이 산정표와 계산식에 부합하는지, 무리하게 단축된 일정으로 발주되지 않았는지를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>이 계산 문제는 강의자료에 동일한 유형의 기출(2015년)이 수록되어 있을 정도로 반복 출제되는 핵심 계산 유형이다. 1인 생산성 구간표(19/22/24/22 FP/MM)를 정확히 암기하고, "1인 총 투입기간 → 전체 개발기간"의 2단계 계산 순서를 혼동하지 않는 것이 중요하다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="2" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「SW사업 대가산정 가이드」(한국소프트웨어산업협회, 2023년 개정판)에 따른 계약금액 조정 방식으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 대가산정 방식(기능점수, 투입공수 등), 보정계수, 제경비/기술료, 이윤, 할인율 등의 제비율은 변경요청 시점의 기준을 적용<br />
+<strong>② 대가산정 방식(기능점수, 투입공수 등), 보정계수, 제경비/기술료, 이윤, 할인율 등의 제비율은 당초 계약 시의 기준을 동일하게 적용</strong><br />
+③ 대가산정 방식(기능점수, 투입공수 등)은 변경요청 시점의 기준을 적용하고, 보정계수, 제경비/기술료, 이윤, 할인율 등의 제비율은 당초 계약 시의 기준을 동일하게 적용<br />
+④ 대가산정 방식(기능점수, 투입공수 등)은 당초 계약 시의 기준을 동일하게 적용하고, 보정계수, 제경비/기술료, 이윤, 할인율 등의 제비율은 변경요청 시점의 기준을 적용</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (SW사업 대가산정 가이드의 계약금액 조정 원칙에 기반, 강의자료에 2023년 개정판 세부조항은 미수록되어 외부지식으로 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SW사업 대가산정 가이드 - 계약금액 조정</li>
+<li>대가산정 방식, 보정계수, 제경비/기술료, 이윤, 할인율</li>
+<li>당초 계약 시 기준 vs 변경요청 시점 기준</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>2번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SW사업 대가산정 가이드 - 계약금액 조정 방식</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 2023년 개정 SW사업 대가산정 가이드의 계약금액 조정 조항 미수록, 외부지식 보완)</li>
+<li><strong>관련 챕터</strong>: 없음 (추후 최신 지침 반영 시 갱신 필요)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>SW사업 대가산정 가이드 관련 문항은 매년 개정사항을 반영하여 출제되는 핵심 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>계약금액 조정 시 제비율은 <strong>당초 계약 시 기준을 동일하게 적용</strong>(원칙)</li>
+<li>변경요청 시점 기준 적용은 계약 안정성 저해로 오답</li>
+<li>항목별로 기준 시점을 다르게 적용(이원화)하는 보기는 오답 함정</li>
+<li>대가산정 방식 + 보정계수 + 제경비/기술료 + 이윤 + 할인율 = <strong>하나의 기준 시점으로 통일</strong></li>
+<li>"일관성·예측가능성"이라는 취지를 이해하면 오답을 쉽게 배제 가능</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>SW사업 계약금액을 변경(과업내용 변경 등)할 때, 산정 방식이나 각종 비율의 적용 기준 시점이 계약 당사자 간 분쟁의 소지가 될 수 있다. 「SW사업 대가산정 가이드」는 계약의 안정성과 예측 가능성을 확보하기 위해, 대가산정 방식과 관련된 제비율(보정계수, 제경비/기술료, 이윤, 할인율 등)을 <strong>당초 계약 체결 시점의 기준으로 동일하게 적용</strong>하는 것을 원칙으로 한다. 이는 계약 중간에 기준이 변경되어 계약금액이 임의로 유동적으로 재산정되는 것을 방지하고, 최초 계약 조건의 안정성을 유지하기 위한 취지이다.</p>
+<p>①처럼 변경요청 시점의 기준을 적용하거나, ③·④처럼 항목별로 기준 시점을 다르게 적용하는 방식은 계약금액 산정의 일관성을 해치고 분쟁의 소지를 늘리므로 가이드의 원칙과 부합하지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>전체 제비율을 변경요청 시점 기준으로 적용하면 계약 체결 이후 시장 상황 변화에 따라 계약금액이 임의로 달라질 수 있어 계약 안정성을 저해한다.</p>
+<h3>보기③</h3>
+<p>대가산정 방식만 변경시점 기준, 나머지 제비율은 당초 기준으로 이원화하는 것은 산정 기준의 일관성을 해치는 방식으로 옳지 않다.</p>
+<h3>보기④</h3>
+<p>③과 반대로 대가산정 방식은 당초 기준, 제비율은 변경시점 기준으로 이원화하는 것 역시 일관성을 해치는 방식으로 옳지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>계약금액 조정 시 기준 적용 원칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기준 시점 일원화</td>
+<td>대가산정 방식, 보정계수, 제경비/기술료, 이윤, 할인율 등 <strong>모든 제비율을 당초 계약 시 기준으로 통일 적용</strong></td>
+</tr>
+<tr>
+<td>취지</td>
+<td>계약금액 산정의 일관성·예측 가능성 확보, 분쟁 방지</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>SW사업 수행 중 과업내용 변경으로 계약금액을 조정할 때, 계약 담당자는 변경 시점의 시장 단가가 아니라 최초 계약 체결 시 적용했던 기능점수 단가, 보정계수, 제경비율 등을 그대로 사용하여 조정금액을 산정한다. 감리원은 계약금액 조정 근거서류에서 이 기준 시점이 올바르게 적용되었는지를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>계약금액 조정 기준 시점 문제는 "어느 시점 기준을 적용하는가"를 묻는 개념형 문제로, 4개 보기가 모두 유사한 구조(전체 동일/전체 변경/부분 혼합 2가지)로 구성되어 세심한 구분이 필요하다. "제비율은 당초 계약 기준으로 통일"이라는 원칙을 정확히 암기해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="3" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「공공기관의 데이터베이스 표준화 지침」에 따라 데이터베이스 표준 수립 및 적용을 점검하는 경우 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 운영 중인 DB의 비표준 데이터는 재구축 이전에 공통 표준을 적용해야 한다.</strong><br />
+② 기관표준용어 정의 시 공통표준용어를 우선적으로 적용하여야 한다.<br />
+③ 정보화사업 감리시 감리법인에게 공공데이터베이스 표준화 업무를 점검하게 요구하여야 한다.<br />
+④ 공공데이터베이스의 표준화 수준을 매년 1회 이상 정기적으로 점검한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (강의자료에 공공기관 DB 표준화 지침 세부조항 직접 수록은 확인되지 않아 일반적인 DB 표준화 원칙에 기반한 외부지식 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>공공기관의 데이터베이스 표준화 지침</li>
+<li>기관표준용어, 공통표준용어</li>
+<li>정기 점검(연 1회 이상)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>3번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>공공기관의 데이터베이스 표준화 지침</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 공공기관 DB 표준화 지침 세부조항 직접 수록 미확인, 외부지식 보완. 유사 개념으로 「행정정보 데이터베이스 표준화지침」의 장애분류·등급 체계가 참고 챕터에 수록됨)</li>
+<li><strong>관련 챕터</strong>: 2장 지침 - 행정정보 데이터베이스 표준화지침(유사 주제)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>DB 표준화 지침 관련 문항은 비정기적으로 출제되는 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>기관표준용어 정의 시 <strong>공통표준용어 우선 적용</strong></li>
+<li>정보화사업 감리 시 <strong>감리법인이 DB 표준화 업무 점검</strong> 요구</li>
+<li>표준화 수준은 <strong>매년 1회 이상</strong> 정기 점검</li>
+<li>운영 중 비표준 데이터는 <strong>재구축 이전 강제전환이 아니라 점진적/재구축 시점 적용</strong></li>
+<li>"반드시", "즉시" 등 단정적 표현이 있는 보기는 오답 가능성 확인 필요</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「공공기관의 데이터베이스 표준화 지침」은 신규 구축 시스템뿐 아니라 기존 운영 중인 시스템의 데이터베이스에 대해서도 표준화를 지속적으로 추진하도록 규정하고 있다. 다만 이미 운영 중인 시스템의 비표준 데이터를 "재구축 이전에 반드시" 공통 표준으로 전환해야 한다는 것은 실무적으로 무리한 요구이다. 운영 중인 시스템은 안정성을 해치지 않는 범위에서 점진적으로 표준을 적용하거나, 시스템 재구축(차세대 시스템 전환) 시점에 맞추어 표준을 전면 적용하는 것이 일반적인 접근이며, "재구축 이전에 반드시" 전환을 강제하는 것은 지침의 실제 취지와 다르다. 따라서 ①이 가장 적절하지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>기관표준용어를 정의할 때 국가 차원의 공통표준용어를 우선 적용하는 것은 데이터 표준화의 일관성을 확보하기 위한 지침의 기본 원칙으로 옳은 설명이다.</p>
+<h3>보기③</h3>
+<p>정보화사업 감리 시 감리법인에게 데이터베이스 표준화 업무의 이행 여부를 점검하도록 요구하는 것은 표준화 준수를 제도적으로 담보하기 위한 옳은 조치이다.</p>
+<h3>보기④</h3>
+<p>공공데이터베이스의 표준화 수준을 매년 1회 이상 정기적으로 점검하도록 하는 것은 표준화 이행의 지속성을 확보하기 위한 옳은 규정이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>공공기관 데이터베이스 표준화 원칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>표준용어 적용</td>
+<td>기관표준용어 정의 시 공통표준용어 우선 적용</td>
+</tr>
+<tr>
+<td>감리 연계</td>
+<td>정보화사업 감리 시 감리법인이 DB 표준화 이행 여부 점검</td>
+</tr>
+<tr>
+<td>정기 점검</td>
+<td>표준화 수준을 연 1회 이상 정기 점검</td>
+</tr>
+<tr>
+<td>비표준 데이터 처리</td>
+<td>운영 중 시스템은 점진적 전환 또는 재구축 시점에 맞춘 적용(재구축 이전 강제전환 아님)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>공공기관은 신규 정보시스템 구축 시 행정표준용어(공통표준용어)를 우선 적용하고, 기존 운영 시스템의 비표준 용어는 즉시 전면 교체하기보다 차세대 시스템 전환이나 데이터 정비 사업 시점에 맞추어 단계적으로 표준화한다. 감리원은 감리 수행 시 이러한 표준화 이행 계획과 실적을 점검항목으로 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>DB 표준화 지침 문항은 "표준화를 강제하는 시점"을 부정확하게 서술하는 함정이 자주 출제된다. 신규 구축과 기존 운영 시스템에 대한 표준화 적용 방식의 차이(점진적 vs 즉시)를 구분하여 학습해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="4" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「인공지능 학습용 데이터 품질관리 가이드라인 및 구축안내서 v3.0」에 제시된 품질관리 활동 중 가장 나중에 수행되는 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 품질 목표 및 점검 기준 수립<br />
+② 수집 도구 및 저장 환경 검토<br />
+③ 라벨링 방법 및 기준 현행화<br />
+<strong>④ 개인정보/민감정보 비식별화 등 법적 준거 확보</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (강의자료에 v3.0 세부 활동순서 직접 수록 미확인, AI 학습데이터 구축 프로세스 일반론에 기반한 외부지식 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>AI 학습용 데이터 구축 프로세스</li>
+<li>품질 목표 수립 → 수집환경 검토 → 라벨링 → 비식별화/법적 준거 확보</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>4번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>인공지능 학습용 데이터 품질관리 가이드라인 및 구축안내서 - 품질관리 활동 순서</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 AI 학습용 데이터 품질관리 가이드라인 v3.0 세부 활동순서 미수록, 외부지식 보완)</li>
+<li><strong>관련 챕터</strong>: 없음 (추후 최신 지침 반영 시 갱신 필요)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>AI 데이터 품질관리 가이드라인 문항은 2023년 이후 신설되어 출제 비중 증가 추세</li>
+<li>최근 출제년도: 2024년(본 문항), 2025년에도 유사 주제(품질관리 지표) 출제 확인</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>11</td>
+<td>AI 데이터 품질관리 지표(정성적/정량적 검사)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2024, 2025 연속 출제로 AI 데이터 품질관리 영역 출제 비중 증가 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>AI 데이터 구축 프로세스: <strong>기획(품질목표) → 수집(도구·환경) → 가공(라벨링) → 검수/배포(비식별화·법적준거)</strong></li>
+<li><strong>비식별화·법적 준거 확보는 항상 마지막 단계</strong>(배포 직전)</li>
+<li>라벨링 기준 현행화는 가공 단계의 지속적 활동</li>
+<li>2024, 2025 연속 출제 — AI 데이터 관련 주제 학습 비중 확대 필요</li>
+<li>"법적 준거 확보"라는 표현이 나오면 마지막 단계임을 우선 의심</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>AI 학습용 데이터 구축 프로세스는 일반적으로 "①기획(품질 목표 및 점검 기준 수립) → ②데이터 수집(수집 도구 및 저장 환경 검토) → 가공(라벨링 수행 및 ③기준 현행화) → 검수·배포(품질 검사, ④개인정보/민감정보 비식별화 등 법적 준거 확보)"의 순서로 진행된다.</p>
+<p>개인정보·민감정보의 비식별화 및 법적 준거(개인정보보호법 등 관련 법령 준수) 확보는 데이터가 실제로 수집·라벨링된 이후, 외부 배포·활용 전 최종적으로 점검·처리되어야 하는 활동이므로 전체 품질관리 활동 중 가장 마지막 단계에 해당한다. 반면 품질 목표 수립(①)은 기획 단계, 수집 도구·환경 검토(②)는 초기 수집 단계, 라벨링 기준 현행화(③)는 가공 단계에서 수행되는 활동으로 ④보다 선행된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>품질 목표 및 점검 기준 수립은 데이터 구축사업의 기획 단계에서 가장 먼저 수행되는 활동이다.</p>
+<h3>보기②</h3>
+<p>수집 도구 및 저장 환경 검토는 데이터 수집을 시작하기 전 준비 단계에서 수행되는 활동으로 ④보다 선행된다.</p>
+<h3>보기③</h3>
+<p>라벨링 방법 및 기준 현행화는 데이터 가공(라벨링) 과정에서 지속적으로 수행되는 활동으로, 최종 법적 준거 확보 이전 단계에 해당한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>AI 학습용 데이터 구축 프로세스 흐름(일반론):</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>활동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기획</td>
+<td>품질 목표 및 점검 기준 수립</td>
+</tr>
+<tr>
+<td>수집</td>
+<td>수집 도구 및 저장 환경 검토, 데이터 수집</td>
+</tr>
+<tr>
+<td>가공</td>
+<td>라벨링 수행, 라벨링 방법·기준 현행화</td>
+</tr>
+<tr>
+<td>검수·배포(최종)</td>
+<td>품질 검사, <strong>개인정보/민감정보 비식별화 등 법적 준거 확보</strong></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>AI 학습데이터 구축사업에서는 데이터 수집·라벨링이 완료된 후 배포 직전 단계에서 개인정보·민감정보가 포함되어 있는지 최종 검수하고, 비식별화 조치(마스킹, 익명화 등)를 수행하여 법적 준거를 확보한 뒤에야 데이터셋을 공개·활용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>AI 데이터 품질관리 활동의 순서를 묻는 문제는 "기획-수집-가공-검수/배포"라는 일반적인 데이터 구축 생애주기를 이해하면 풀이가 용이하다. 법적 준거 확보(비식별화)는 항상 배포 전 마지막 단계에 위치한다는 점을 기억해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="5" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「용역계약일반조건」(기획재정부 계약예규 제582호)에 관한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 공유자 일방이 계약목적물에 대한 지식재산권 지분을 제3자에게 양도하는 경우에는 반드시 타공유자의 동의를 받아야 한다.<br />
+<strong>② 계약서에 반영되어 있지 않더라도 공공복리를 위해 필요한 경우 발주기관은 개발된 소프트웨어를 타기관과 공동으로 활용할 수 있다.</strong><br />
+③ 핵심 개발인력이 아닌 지원인력의 근무장소는 보안 등 특별한 사유가 있는 경우를 제외하고는 계약상대자가 달리 정할 수 있다.<br />
+④ 과업내용 변경에 따른 계약금액의 조정액이 당초 계약금액의 100분의 10 이상으로 추정될 경우에는 과업변경심의위원회를 설치하여 과업변경 심의를 하여야 한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (지식재산권 공동소유 원칙 및 계약서 근거 원칙에 기반, 세부조항은 외부지식으로 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>용역계약일반조건</li>
+<li>지식재산권 공유자 지분 양도</li>
+<li>근무장소 결정 권한</li>
+<li>과업변경심의위원회</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>5번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>용역계약일반조건(기획재정부 계약예규 제582호)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1.2 감리 법 지침_V1.0_20190328_최종본.pdf (용역계약일반조건 개요 관련 챕터, 세부조항은 외부지식 보완)</li>
+<li><strong>관련 챕터</strong>: 용역계약일반조건 개요</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>용역계약일반조건 문항은 매년 반복 출제되는 핵심 영역(2024, 2025 연속 출제 확인)</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>3</td>
+<td>용역계약일반조건 - 인수완료/인력투입 종료 시점</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>지식재산권 지분 양도 = <strong>타공유자 동의 필요</strong></li>
+<li>지식재산권 활용(공동활용 등) = <strong>계약서 근거 필요</strong>(임의활용 불가)</li>
+<li>지원인력 근무장소 = <strong>계약상대자 자율 결정</strong>(보안사유 예외)</li>
+<li>계약금액 조정 추정액 <strong>10% 이상</strong> → 과업변경심의위원회 설치</li>
+<li>"계약서에 반영되어 있지 않더라도"라는 표현은 오답 함정 신호</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>계약목적물에 대한 지식재산권을 발주기관과 계약상대자가 공동으로 소유하는 경우, 그 활용(제3자 제공, 타기관과의 공동 활용 등)에 관한 사항은 원칙적으로 <strong>계약서에 명시된 조건에 근거</strong>하여 이루어져야 한다. "계약서에 반영되어 있지 않더라도" 발주기관이 임의로 공공복리를 이유로 타기관과 공동 활용할 수 있다는 설명은 공동소유권자(계약상대자)의 권리를 침해할 소지가 있어 용역계약일반조건의 원칙과 부합하지 않는다. 지식재산권의 활용 범위와 방식은 반드시 계약서(또는 별도 합의)에 근거해야 하므로 ②는 옳지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>공유자 일방이 지식재산권 지분을 제3자에게 양도하려면 타공유자(발주기관 또는 계약상대자)의 동의를 받아야 한다는 것은 공동소유 재산권의 일반 법리에 부합하는 옳은 설명이다.</p>
+<h3>보기③</h3>
+<p>핵심 개발인력이 아닌 지원인력의 근무장소는 보안 등 특별한 사유가 없는 한 계약상대자가 자율적으로 정할 수 있도록 하는 것은 계약상대자의 인력 운영 자율성을 보장하는 옳은 규정이다.</p>
+<h3>보기④</h3>
+<p>계약금액 조정액이 당초 계약금액의 10% 이상으로 추정되는 경우 과업변경심의위원회를 설치하여 심의하도록 하는 것은 계약금액 변경의 투명성을 확보하기 위한 옳은 규정이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>용역계약일반조건 핵심 원칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>지식재산권 지분 양도</td>
+<td>공유자 일방의 제3자 양도 시 타공유자 동의 필요</td>
+</tr>
+<tr>
+<td>지식재산권 활용(공동활용 등)</td>
+<td><strong>계약서에 근거</strong>하여야 함(계약서 미반영 시 임의 활용 불가)</td>
+</tr>
+<tr>
+<td>근무장소</td>
+<td>지원인력은 계약상대자가 자율 결정(핵심인력·보안사유 예외)</td>
+</tr>
+<tr>
+<td>과업변경심의위원회</td>
+<td>조정액 10% 이상 추정 시 설치·심의</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>발주기관이 개발된 소프트웨어를 타 기관과 공동으로 활용하고자 할 경우, 계약 체결 시점에 이러한 활용 가능성을 계약서(지식재산권 조항)에 명시해두어야 하며, 계약 종료 후 임의로 계약서에 없는 활용을 시도할 경우 계약상대자와의 분쟁 소지가 된다. 감리원은 계약서상 지식재산권 조항과 실제 활용 계획의 정합성을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>지식재산권 관련 문항은 "계약서 근거 유무"를 정확히 파악하는 것이 핵심이다. "계약서에 반영되어 있지 않더라도"라는 표현이 나오면 원칙적으로 오답일 가능성이 높다는 점에 유의해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="6" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「CBD SW개발 표준 산출물 관리 가이드」(한국지능정보사회진흥원, (구)한국정보화진흥원)에서 제시한 단계별 산출물로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 분석단계: 유스케이스 명세서<br />
+② 설계단계: 단위시험 케이스<br />
+③ 구현단계: 데이터베이스 테이블<br />
+<strong>④ 시험단계: 통합시험 시나리오</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (강의자료 CBD 산출물 목록과 부합 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>CBD SW개발 표준 산출물 관리 가이드</li>
+<li>분석/설계/구현 단계별 표준 산출물</li>
+<li>통합시험 시나리오, 단위시험 케이스</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>6번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>CBD SW개발 표준 산출물 관리 가이드 - 단계별 산출물</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 서브노트(감리)_190106.pdf</li>
+<li><strong>관련 챕터</strong>: CBD SW개발 표준 산출물 목록</li>
+<li><strong>관련 페이지</strong>: 493~497행 (분석/설계/구현 단계별 산출물 목록 완전 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>CBD 표준 산출물 문항은 감리 및 사업관리에서 반복 출제되는 핵심 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>CBD 산출물 체계 = <strong>분석-설계-구현</strong> 3단계(별도 "시험단계" 없음)</li>
+<li>분석단계 = <strong>유스케이스 명세서</strong>, 요구사항정의서</li>
+<li>설계단계 = <strong>통합시험 시나리오, 단위시험 케이스</strong>(테스트 관련 문서는 설계단계 산출물)</li>
+<li>구현단계 = <strong>프로그램 코드, DB 테이블, 단위시험 결과서</strong></li>
+<li>"시험단계"라는 표현이 나오면 CBD 체계에 없는 단계임을 의심</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료(서브노트)에 정리된 CBD SW개발 표준 산출물 체계에 따르면 분석단계 산출물에는 사용자요구사항정의서, <strong>유스케이스 명세서</strong>, 요구사항추적표 등이 포함되고(①과 일치), 설계단계 산출물에는 통합시험 시나리오, <strong>단위시험 케이스</strong>, 데이터전환 및 초기데이터 설계서 등이 포함되며(②와 일치), 구현단계 산출물에는 프로그램 코드, 단위시험 결과서, <strong>데이터베이스 테이블</strong> 등이 포함된다(③과 일치).</p>
+<p>CBD SW개발 표준 산출물 관리 가이드는 소프트웨어 개발 생명주기를 "분석-설계-구현"의 3단계로 구분하며, 별도의 독립된 "시험단계"를 두지 않는다. 통합시험 시나리오는 설계단계에서 미리 작성되는 산출물이지, "시험단계"라는 별도 단계의 산출물로 분류되지 않는다. 따라서 ④는 존재하지 않는 단계 구분("시험단계")을 전제로 한 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>유스케이스 명세서는 분석단계에서 작성되는 대표적 산출물로 옳은 설명이다.</p>
+<h3>보기②</h3>
+<p>단위시험 케이스는 설계단계에서 작성되어 이후 구현·시험 시 활용되는 산출물로 옳은 설명이다.</p>
+<h3>보기③</h3>
+<p>데이터베이스 테이블은 구현단계에서 실제로 생성되는 물리적 산출물로 옳은 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CBD SW개발 표준 산출물 체계(강의자료 기반):</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>주요 산출물</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>분석단계</td>
+<td>사용자요구사항정의서, 유스케이스 명세서, 요구사항추적표</td>
+</tr>
+<tr>
+<td>설계단계</td>
+<td>통합시험 시나리오, 단위시험 케이스, 데이터전환 및 초기데이터 설계서 등</td>
+</tr>
+<tr>
+<td>구현단계</td>
+<td>프로그램 코드, 단위시험 결과서, 데이터베이스 테이블</td>
+</tr>
+<tr>
+<td>(참고)</td>
+<td>별도의 "시험단계"는 CBD 산출물 체계상 구분되지 않음(설계단계 산출물로 시험 관련 문서 포함)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>CBD 방법론 기반 SW 개발 프로젝트에서는 설계단계에 통합시험 시나리오와 단위시험 케이스를 미리 작성해두고, 구현단계에서 이를 기반으로 실제 테스트를 수행하며 결과서를 산출한다. 감리원은 산출물 체크리스트를 활용해 각 단계별로 요구되는 산출물이 실제로 존재하는지, 생성 시점이 적절한지를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>산출물 단계 매칭 문제는 "시험단계"처럼 실제로 존재하지 않는 단계명을 만들어 오답을 구성하는 패턴이 있다. CBD 표준 산출물 체계가 분석-설계-구현 3단계로 구성된다는 점을 정확히 암기해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="7" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>감리법인의 위법 행위에 대하여 「전자정부법」에 따른 행정처분 수위가 가장 높은 것은?</p>
+<p>가. 감리법인 등록 조건인 감리원 5명 중 1명이 퇴사하였으나 기간 내 미신고<br />
+나. 감리계획서에 제출한 감리원 1명을 다른 전문가로 대신 참여시켜 감리 수행<br />
+다. 감리기준에서 요구한 종료단계 시정조치 확인 미수행</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가<br />
+② 나<br />
+③ 다<br />
+④ 모두 동일</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (전자정부법상 감리법인 행정처분 체계의 일반 원칙에 기반, 세부 처분 수위표는 강의자료에 직접 수록되지 않아 외부지식으로 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>전자정부법 - 감리법인 등록취소·업무정지 등 행정처분</li>
+<li>감리원 미신고, 감리원 임의 교체, 시정조치 확인 미수행</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>7번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>전자정부법 - 감리법인 위법행위에 대한 행정처분</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 전자정부법상 감리법인 행정처분 수위표 직접 수록 미확인, 외부지식 보완)</li>
+<li><strong>관련 챕터</strong>: 1장 전자정부법 관련 챕터 참고(추후 최신 지침 반영 시 갱신 필요)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>감리법인 행정처분 관련 문항은 비정기적으로 출제되나 감리 제도의 근간을 이해하는지 확인하는 핵심 문제 유형</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>행정처분 수위는 위반행위가 <strong>감리의 신뢰성·적법성 근간을 얼마나 훼손하는지</strong>로 판단</li>
+<li><strong>승인된 감리원을 임의로 교체하여 수행</strong>하는 행위 = 가장 중대한 위반</li>
+<li>신고의무 위반(퇴사 미신고)은 상대적으로 경미</li>
+<li>절차 일부 누락(시정조치 확인 미수행)은 중간 수준</li>
+<li>"누가 실제로 감리를 수행했는가"가 위법성 판단의 핵심 기준</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「전자정부법」은 감리법인의 위법행위 유형별로 행정처분(시정명령, 업무정지, 등록취소 등)의 수위를 차등화하고 있다. 세 가지 위반행위를 비교하면:</p>
+<ul>
+<li><strong>가(감리원 퇴사 미신고)</strong>: 행정상 신고 의무 위반으로, 감리 수행의 실질에는 직접 영향이 크지 않은 경미한 절차 위반에 해당한다.</li>
+<li><strong>나(감리계획서상 감리원을 임의로 다른 전문가로 교체하여 감리 수행)</strong>: 발주자·감독기관에 신고·승인된 감리원 구성과 실제 수행 인력이 다른 것으로, 감리 수행의 신뢰성과 적법성의 근간을 훼손하는 행위이다. 감리원의 자격·전문성 확인이 무력화되고, 사실상 승인되지 않은 인력이 감리를 수행한 것이므로 위법성이 가장 중대하다.</li>
+<li><strong>다(종료단계 시정조치 확인 미수행)</strong>: 감리 절차의 일부(사후 확인 절차)를 누락한 것으로, 나의 "감리원 자체를 임의로 바꿔치기"한 행위보다는 상대적으로 경미한 절차 누락에 해당한다.</li>
+</ul>
+<p>따라서 감리 수행의 근간(자격을 갖춘 승인된 감리원의 실제 수행)을 훼손하는 나의 행위가 가장 중대한 위반으로 판단되어 행정처분 수위가 가장 높다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>감리원 퇴사 미신고는 신고의무 위반으로 상대적으로 경미한 행정처분 대상이다.</p>
+<h3>보기③</h3>
+<p>종료단계 시정조치 확인 미수행은 절차의 일부 누락으로, 감리원을 임의로 교체한 나의 행위보다 위법성이 낮다.</p>
+<h3>보기④</h3>
+<p>세 가지 위반행위는 성격과 중대성이 서로 다르므로 처분 수위가 동일하다고 볼 수 없다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>감리법인 위법행위 유형과 처분 수위 비교(일반론):</strong></p>
+<table>
+<thead>
+<tr>
+<th>위반 유형</th>
+<th>성격</th>
+<th>처분 수위(상대적)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>신고의무 위반(예: 감리원 변동 미신고)</td>
+<td>행정절차 위반</td>
+<td>낮음~중간</td>
+</tr>
+<tr>
+<td>승인된 감리원 임의 교체(대리 수행)</td>
+<td>감리 수행의 적법성·신뢰성 근간 훼손</td>
+<td><strong>가장 높음</strong></td>
+</tr>
+<tr>
+<td>절차 일부 누락(예: 종료단계 시정조치 확인 미수행)</td>
+<td>절차 누락</td>
+<td>중간</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>발주기관 및 감독기관은 감리 수행 중 감리계획서에 명시된 감리원과 실제 투입 인력이 일치하는지를 수시로 확인하며, 불일치가 발견될 경우 감리법인에 대한 엄중한 행정처분(업무정지, 등록취소 등)으로 이어질 수 있다. 이는 감리원의 전문성과 독립성이 감리 품질의 근간이기 때문이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>행정처분 수위 비교 문항은 각 위반행위가 감리 제도의 어떤 핵심 가치(신뢰성, 절차 준수, 신고의무 등)를 얼마나 훼손하는지를 판단하는 사고력형 문제로 출제된다. "승인된 감리원이 실제로 수행했는가"라는 핵심 원칙이 훼손된 경우가 가장 중대한 위반으로 취급된다는 점을 이해해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="8" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「정보시스템 감리기준」(행정안전부 고시) [별표 1]의 감리대가 산정 기준에서 보정 전 기본감리비에 영향을 주는 항목이 아닌 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① FP 단가<br />
+<strong>② 난이도계수 합</strong><br />
+③ IT감리 평균임금<br />
+④ 감리대상사업비 보정금액</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (강의자료의 기본감리비 산정식과 대조하여 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>기본감리비 산정 공식</li>
+<li>특급기술자(IT감리) 평균임금, 제경비율, 기술료율, 감리대상사업비 보정금액</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>8번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정보시스템 감리기준 [별표1] 감리대가 산정기준 - 보정 전 기본감리비 영향 항목</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 서브노트(감리)_190106.pdf</li>
+<li><strong>관련 챕터</strong>: 감리대가 산정 공식</li>
+<li><strong>관련 페이지</strong>: 13~16행 (기본감리비 산정식 완전 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>기본감리비 산정식 문항은 감리대가 산정 영역의 핵심 계산·암기 유형으로 매년 출제</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>18</td>
+<td>감리대상사업비 구성항목별 보정비율</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>기본감리비 산정식 핵심 변수: <strong>특급기술자(IT감리)평균임금, 제경비율, 기술료율, 감리대상사업비 보정금액</strong></li>
+<li><strong>난이도계수(FP 산정 요소)는 기본감리비 산정식에 직접 등장하지 않음</strong></li>
+<li>FP단가는 감리대상사업비(사업비 자체) 산정에 사용되어 간접 반영</li>
+<li>3단계 감리 계수=22.13(0.63승), 2단계 감리 계수=19.78(0.64승)</li>
+<li>감리대가 = 기본감리비 + 직접경비 + 부가가치세</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료(서브노트)에 수록된 기본감리비 산정식은 다음과 같다.</p>
+<p><strong>기본감리비(3단계) = 특급기술자평균임금 × (1+제경비율) × (1+기술료율) × 22.13 × (감리대상사업비보정금액/1억)^0.63</strong></p>
+<p>이 식의 구성요소는 ③"IT감리 평균임금"(특급기술자평균임금)과 ④"감리대상사업비 보정금액"이며, 여기에 제경비율·기술료율이 곱해지는 구조이다. "FP 단가"(①) 역시 감리대상사업비를 산정하는 과정(SW 개발비 산정 등)에서 간접적으로 반영되는 기초 단가 개념으로 감리비 산정 체계와 연관된다.</p>
+<p>반면 "난이도계수 합"(②)은 SW 개발사업의 기능점수(FP) 산정 과정에서 개별 기능의 복잡도를 반영하기 위해 사용하는 계수로, 이는 감리대상사업비(사업비 자체)를 산정하는 대가산정 가이드의 영역에 속하는 요소이다. 감리대상사업비가 이미 하나의 확정 금액(보정금액)으로 기본감리비 산정식에 투입되므로, "난이도계수 합"이 기본감리비 산정식에 별도로 직접 영향을 주는 항목은 아니다. 따라서 정답은 ②번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>FP 단가는 감리대상사업비(소프트웨어 개발비 등)를 산정하는 기초 단가로, 이를 통해 산출된 사업비가 결국 감리대상사업비 보정금액에 반영되어 기본감리비에 영향을 준다.</p>
+<h3>보기③</h3>
+<p>IT감리 평균임금(특급기술자평균임금)은 기본감리비 산정식의 핵심 승수(乘數)로 직접 사용되는 항목이다.</p>
+<h3>보기④</h3>
+<p>감리대상사업비 보정금액은 기본감리비 산정식에서 거듭제곱(0.63승) 형태로 직접 반영되는 핵심 변수이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>기본감리비 산정 공식(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>산정식</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기본감리비(3단계)</td>
+<td>특급기술자평균임금×(1+제경비율)×(1+기술료율)×22.13×(대상사업비보정금/1억)^0.63</td>
+</tr>
+<tr>
+<td>기본감리비(2단계)</td>
+<td>특급기술자평균임금×(1+제경비율)×(1+기술료율)×19.78×(대상사업비보정금/1억)^0.64</td>
+</tr>
+<tr>
+<td>기본감리비(추가/상주)</td>
+<td>(평균임금×투입공수)×(1+제경비율)×(1+기술료율)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>핵심 변수</strong>: 특급기술자(IT감리) 평균임금, 제경비율, 기술료율, 감리대상사업비 보정금액 — 난이도계수는 이 식에 직접 등장하지 않음(사업비 자체 산정 단계에서 이미 반영됨)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>감리대가를 산정할 때 감리법인은 특급기술자 평균임금, 제경비율, 기술료율, 그리고 발주기관이 제시한 감리대상사업비 보정금액을 공식에 대입하여 기본감리비를 계산한다. 난이도계수는 이 계산 이전 단계, 즉 발주기관이 SW 개발비(사업비) 자체를 산정할 때 이미 사용되어 반영된 값이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>기본감리비 산정식을 정확히 암기하고 있는지를 묻는 문제로, 식에 실제로 등장하는 변수(평균임금, 제경비율, 기술료율, 보정금액)와 등장하지 않는 변수(난이도계수, FP단가 등 사업비 산정 단계의 하위 변수)를 구분하는 것이 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="9" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「정보시스템 감리 수행가이드」(한국지능정보사회진흥원)에서 제시한 과업이행여부 점검결과, 부적합 판정 평가 기준으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 원인이 규명되지 않은 결함<br />
+② 다른 기능 수행에 영향을 미치는 결함<br />
+③ 중요 과업 요건이 구현되지 않은 경우<br />
+<strong>④ 선행 기능의 결함으로 점검하지 못한 경우</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료의 적/부/점검제외 판정기준 표와 완전 일치 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>과업이행여부 점검 판정기준: 적합/부적합/점검제외</li>
+<li>점검제외 사유(테스트 환경 미비, 선행기능 결함, 외부환경 변화, 발주기관 요청)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>9번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정보시스템 감리 수행가이드 - 부적합 판정 평가 기준</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3. 감리 및 사업관리(25)_V1.1_3장 감리총론.pdf</li>
+<li><strong>관련 챕터</strong>: 3장 감리총론 - 과업내용 이행여부 점검 시 적/부 작성 기준</li>
+<li><strong>관련 페이지</strong>: 2115~2135행, 2435~2470행 (판정기준 표 및 유사 기출문제 완전 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>적합/부적합/점검제외 판정기준 문항은 강의자료에 2015년 기출로 명시되어 있으며 반복 출제되는 핵심 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2015(강의자료 내 명시, 정확한 문항번호는 전체 자료 분석 후 갱신)</td>
+<td>-</td>
+<td>종료단계 과업이행여부 판정기준</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>판정 3분류: <strong>적합 / 부적합 / 점검제외</strong></li>
+<li>부적합 = 판정기준 불일치 또는 <strong>중대한 결함</strong>(원인불명, 타기능영향, 중요과업미구현)</li>
+<li><strong>점검제외 = 선행기능 결함으로 점검 못함, 테스트환경 미비, 외부환경변화, 발주기관 요청</strong></li>
+<li>"점검하지 못한 경우"는 부적합이 아니라 <strong>점검제외</strong>로 분류</li>
+<li>점검제외 시 반드시 사유를 증빙과 함께 명확히 기재</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료에 수록된 「정보시스템 감리 수행가이드」의 과업내용 이행여부 점검 시 적/부 작성 기준은 다음과 같이 3가지로 구분된다.</p>
+<ul>
+<li><strong>적합</strong>: 검사기준의 검사방법에 따라 점검한 결과가 예상결과와 판정기준에 부합한 경우</li>
+<li><strong>부적합</strong>: 검사기준의 검사방법에 따라 점검한 결과가 예상결과와 판정기준에 부합하지 않거나 중대한 결함이 발생한 경우(원인 불명 결함, 타 기능에 영향을 미치는 결함, 중요 과업요건 미구현 등이 이에 해당)</li>
+<li><strong>점검제외</strong>: ①테스트 환경이 준비되지 않거나, ②선행 기능의 결함으로 점검하지 못한 경우, ③외부환경 변화, ④발주기관의 요청·합의에 의해 진행 중인 경우</li>
+</ul>
+<p>여기서 "선행 기능의 결함으로 점검하지 못한 경우"는 강의자료에 명시된 대로 <strong>점검제외 사유</strong>에 해당하는 것이지, 부적합 판정 기준이 아니다. 점검 자체를 하지 못한 경우이므로 "부합하지 않음(부적합)"으로 판정할 수 없고, 별도로 "점검제외"로 분류하여 사유를 명확히 기재해야 한다. 따라서 부적합 판정 기준으로 가장 적절하지 않은 것은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>원인이 규명되지 않은 결함은 검사기준의 판정기준에 부합하지 않는 중대한 결함으로 부적합 판정 기준에 해당한다.</p>
+<h3>보기②</h3>
+<p>다른 기능 수행에 영향을 미치는 결함은 시스템 전반의 품질에 영향을 미치는 중대한 결함으로 부적합 판정 기준에 해당한다.</p>
+<h3>보기③</h3>
+<p>중요 과업 요건이 구현되지 않은 경우는 과업내용의 핵심 요구사항 미충족으로 명백한 부적합 판정 기준에 해당한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>과업이행여부 점검 판정 기준 3분류(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>판정</th>
+<th>기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적합</td>
+<td>점검결과가 예상결과·판정기준에 부합</td>
+</tr>
+<tr>
+<td>부적합</td>
+<td>판정기준에 부합하지 않거나 중대한 결함 발생(원인불명 결함, 타기능 영향 결함, 중요과업요건 미구현 등)</td>
+</tr>
+<tr>
+<td>점검제외</td>
+<td>테스트 환경 미비, <strong>선행 기능의 결함으로 점검 불가</strong>, 외부환경 변화, 발주기관 요청·합의로 진행 중</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>감리원은 종료단계 감리에서 특정 기능이 선행 기능의 결함으로 인해 테스트 자체가 불가능했던 경우, 이를 "부적합"이 아닌 "점검제외"로 명확히 구분하여 기재하고 그 사유를 감리수행결과보고서에 증빙과 함께 명시한다. 이는 실제로 점검하지 못한 사실과, 점검했으나 기준에 미달한 사실(부적합)을 혼동하지 않기 위함이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>이 문항은 강의자료에 2015년 유사 기출로 명시된 "종료단계 과업이행여부 판정 기준"의 대표적 반복 출제 유형이다. "부적합"과 "점검제외"를 구분하는 것이 핵심이며, "선행기능 결함으로 점검하지 못함"은 항상 점검제외 사유임을 암기해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="10" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「정보시스템 감리 수행가이드」(한국지능정보사회진흥원)에서 제시한 객체지향/컴포넌트기반 개발 모델의 응용시스템 감리영역(요구분석 감리시점)에 대한 점검항목으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 사용자 요구사항 도출 및 분석의 충분성, 적정성<br />
+② 개념수준의 분석 클래스를 충분히 도출하였는지 여부<br />
+<strong>③ 프로세스, 이벤트 모델링 및 기능 도출의 충분성, 적정성</strong><br />
+④ 시스템 기능에 대한 유스케이스 모형 상세화 수준 및 적정성</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료의 점검항목 목록과 완전 일치 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>객체지향/컴포넌트기반 개발모델 - 응용시스템 - 요구분석 감리영역</li>
+<li>유스케이스 모형, 분석 클래스, 사용자 인터페이스 프로토타이핑</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>10번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>객체지향/컴포넌트기반 개발모델 - 응용시스템 감리영역(요구분석 감리시점) 점검항목</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2. 정보시스템 감리 점검 해설서 v3 요약정리.pdf</li>
+<li><strong>관련 챕터</strong>: 시스템개발(객체지향·컴포넌트기반 모델) - 요구분석 - 응용시스템</li>
+<li><strong>관련 페이지</strong>: 213~220행 (점검항목 5개 목록 완전 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>감리 점검항목의 감리시점별 구분 문항은 감리 및 사업관리에서 반복 출제되는 핵심 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>요구분석 감리시점(응용시스템) 5대 점검항목: <strong>현행업무분석, 사용자요구사항, 유스케이스상세화, 분석클래스도출, UI프로토타이핑계획</strong></li>
+<li><strong>"프로세스, 이벤트 모델링"은 요구분석 시점 점검항목이 아님</strong> — 오답 함정</li>
+<li>유스케이스 모형은 요구분석 시점 = "상세화", 분석설계 시점 = "정제"로 표현 구분</li>
+<li>분석 클래스는 요구분석 시점 = "개념수준 도출", 분석설계 시점 = "정제/상세설계"</li>
+<li>감리시점별 점검항목 표를 단계 순서대로 암기</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료(정보시스템 감리 점검 해설서 v3 요약정리)에 수록된 "시스템개발(객체지향·컴포넌트기반 모델) - 요구분석 - 응용시스템" 영역의 점검항목은 다음과 같이 5개로 구성된다.</p>
+<ol start="01">
+<li>현행 업무를 충분히 분석하여 문제점에 대한 적정한 해결방안을 제시하고 있는지 여부</li>
+<li><strong>사용자 요구사항 도출 및 분석의 충분성, 적정성</strong>(①과 일치)</li>
+<li><strong>시스템 기능에 대한 유스케이스 모형 상세화 수준 및 적정성</strong>(④와 일치)</li>
+<li><strong>개념수준의 분석 클래스를 충분히 도출하였는지 여부</strong>(②와 일치)</li>
+<li>사용자 인터페이스 프로토타이핑 계획을 적정하게 수립하였는지 여부</li>
+</ol>
+<p>이 목록에 "프로세스, 이벤트 모델링 및 기능 도출의 충분성, 적정성"이라는 항목은 존재하지 않는다. 프로세스·이벤트 모델링과 같은 상세 동적 모델링은 요구분석 단계보다 후행하는 "분석설계" 단계에서 유스케이스 모형과 분석 클래스를 <strong>정제(구체화)</strong>하는 과정에서 다루어지는 내용에 가깝다. 따라서 ③은 요구분석 감리시점의 점검항목으로 가장 적절하지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>사용자 요구사항 도출 및 분석의 충분성·적정성은 강의자료 점검항목 02번과 정확히 일치하는 요구분석 감리시점의 핵심 점검항목이다.</p>
+<h3>보기②</h3>
+<p>개념수준의 분석 클래스 도출 여부는 강의자료 점검항목 04번과 정확히 일치하는 요구분석 감리시점의 점검항목이다.</p>
+<h3>보기④</h3>
+<p>시스템 기능에 대한 유스케이스 모형 상세화 수준·적정성은 강의자료 점검항목 03번과 정확히 일치하는 요구분석 감리시점의 점검항목이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>객체지향/컴포넌트기반 개발모델 - 응용시스템 - 요구분석 감리 점검항목(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>점검항목</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>현행 업무 분석 및 문제점 해결방안 제시</td>
+</tr>
+<tr>
+<td>02</td>
+<td>사용자 요구사항 도출 및 분석의 충분성, 적정성</td>
+</tr>
+<tr>
+<td>03</td>
+<td>시스템 기능에 대한 유스케이스 모형 상세화 수준 및 적정성</td>
+</tr>
+<tr>
+<td>04</td>
+<td>개념수준의 분석 클래스를 충분히 도출하였는지 여부</td>
+</tr>
+<tr>
+<td>05</td>
+<td>사용자 인터페이스 프로토타이핑 계획 수립 적정성</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참고(후속 단계 - 분석설계)</strong>: 유스케이스 모형·분석 클래스의 "정제"는 이후 분석설계 단계의 점검항목(02.유스케이스 모형 정제, 05.분석 클래스 정제 및 클래스 상세설계)에서 다루어짐</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>감리원은 요구분석 감리시점에서 사업자가 사용자 요구사항을 충분히 도출했는지, 유스케이스 모형과 분석 클래스를 개념 수준에서 충분히 도출했는지를 점검하며, 상세한 프로세스·이벤트 모델링과 같은 동적 설계 요소는 이후 분석설계 단계에서 별도로 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>감리 점검항목을 감리시점(요구분석/분석설계 등)별로 정확히 구분하여 암기해야 하는 유형이다. 유사한 항목(유스케이스 모형)이 요구분석 시점에는 "상세화 수준"으로, 분석설계 시점에는 "정제"로 표현이 달라진다는 점에 유의해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="11" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「지능정보기술 감리 실무 가이드」(한국지능정보사회진흥원)의 정보시스템 운영단계 점검항목으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 사용자지원 활동을 위한 절차 및 계획을 수립하여 수행하고 있는가?<br />
+<strong>② 개발 소프트웨어 장애관리 활동 절차 및 계획을 수립하여 이행하고 있는가?</strong><br />
+③ 응용 서비스 모니터링 활동을 위한 절차 및 계획을 수립하여 수행하고 있는가?<br />
+④ 개발 소프트웨어 성능관리 활동을 위한 절차 및 계획을 수립하여 이행하고 있는가?</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (강의자료 내 유사 개발SW 운영단계 점검분야 개념(2025년 기출 Q17)과 연계하여 확인, 지능정보기술 감리 실무 가이드 원문은 미수록되어 외부지식 일부 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>개발소프트웨어 운영단계 점검분야: 장애관리, 테스트 지원, 릴리즈 및 배포관리</li>
+<li>서비스지원(장애 및 문제관리 체계) vs 서비스제공(성능·모니터링 등 ITSM 영역)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>11번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>지능정보기술 감리 실무 가이드 - 정보시스템 운영단계 점검항목</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2. 정보시스템 감리 점검 해설서 v3 요약정리.pdf</li>
+<li><strong>관련 챕터</strong>: 운영(OP) - 서비스제공/서비스지원 영역</li>
+<li><strong>관련 페이지</strong>: 361~380행 (운영 도메인 점검항목 목록 확인)</li>
+<li><strong>비고</strong>: 「지능정보기술 감리 실무 가이드」 원문의 정확한 문구는 강의자료에 직접 수록되어 있지 않아 위 유사 체계를 근거로 외부지식을 일부 보완함</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>운영단계 점검분야 관련 문항은 2024, 2025 연속 출제되는 핵심 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>17</td>
+<td>개발소프트웨어 운영단계 점검분야(서비스수준관리 제외)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2024, 2025 연속 출제 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>개발소프트웨어 운영단계 점검분야 = <strong>장애관리, 테스트 지원, 릴리즈 및 배포관리</strong></li>
+<li>성능관리·모니터링·사용자지원은 <strong>일반 IT서비스관리(ITSM) 서비스제공 영역</strong>으로 구분</li>
+<li>2024, 2025 연속 출제 — 운영단계 점검분야 개념은 매년 출제 가능성 높음</li>
+<li>"개발 소프트웨어"라는 한정어가 붙으면 장애관리·테스트지원·릴리즈배포관리를 우선 고려</li>
+<li>서비스수준관리·성과관리 등은 별도의 ITSM 영역으로 구분하여 오답 배제</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료(정보시스템 감리 점검 해설서)의 "운영" 도메인은 "서비스제공"(운영관리계획, 서비스수준관리, 성과관리, 용량관리, 서비스연속성관리, 성능 및 가용성관리, 보안관리, 아웃소싱관리)과 "서비스지원"(서비스데스크, <strong>장애 및 문제관리</strong>, 구성관리, 변경관리, 릴리즈관리, 의사소통관리)의 두 영역으로 구분된다. 이 중 "개발 소프트웨어"에 특화된 운영단계 점검분야(2025년 기출 문항에서도 확인된 바 있음)는 <strong>장애관리, 테스트 지원, 릴리즈 및 배포관리</strong> 등으로 구성된다.</p>
+<p>②의 "개발 소프트웨어 장애관리 활동 절차 및 계획" 점검은 이러한 개발소프트웨어 운영단계 점검분야에 정확히 해당하는 항목이다. 반면 ①(사용자지원), ③(응용서비스 모니터링), ④(성능관리)는 일반적인 IT서비스관리(ITSM) 체계의 "서비스제공" 영역(성과관리, 성능 및 가용성관리 등)이나 별도의 서비스 운영 범주에 속하는 활동으로, "개발소프트웨어"에 특화된 운영단계 점검분야로 명시적으로 분류되지는 않는다. 따라서 개발 소프트웨어의 운영단계 점검항목으로 가장 적절한 것은 ②번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>사용자지원 활동은 일반적인 IT서비스 지원(서비스데스크 등) 영역에 속하는 활동으로, 개발소프트웨어에 특화된 운영단계 점검분야로 명시되지 않는다.</p>
+<h3>보기③</h3>
+<p>응용 서비스 모니터링은 서비스제공(성능 및 가용성관리) 영역에 가까운 활동으로, 개발소프트웨어 고유의 점검분야와는 결이 다르다.</p>
+<h3>보기④</h3>
+<p>성능관리 역시 서비스제공(성능 및 가용성관리) 영역에 속하는 활동으로 분류되어, 개발소프트웨어 운영단계 점검분야로 명시된 항목(장애관리 등)과는 구분된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>개발소프트웨어 운영단계 점검분야(2025년 기출과 연계) vs 일반 IT서비스관리(ITSM) 영역:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>개발소프트웨어 운영단계 점검분야</td>
+<td>장애관리, 테스트 지원, 릴리즈 및 배포관리</td>
+</tr>
+<tr>
+<td>서비스제공(ITSM)</td>
+<td>운영관리계획, 서비스수준관리, 성과관리, 용량관리, 서비스연속성관리, 성능 및 가용성관리, 보안관리, 아웃소싱관리</td>
+</tr>
+<tr>
+<td>서비스지원(ITSM)</td>
+<td>서비스데스크, 장애 및 문제관리, 구성관리, 변경관리, 릴리즈관리, 의사소통관리</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>감리원은 운영·유지보수 사업 감리 시 개발소프트웨어의 장애 이력, 장애 대응 절차서, 릴리즈·배포 이력 등을 중점적으로 점검하며, 성능·모니터링·사용자지원과 같은 일반 IT서비스관리 항목은 별도의 서비스수준 관리체계 점검을 통해 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>이 문항은 2025년 기출(문항17, 개발소프트웨어 운영단계 점검분야에서 서비스수준관리를 제외하는 문제)과 개념적으로 연결되는 문항으로, "개발소프트웨어 고유 점검분야"와 "일반 IT서비스관리(ITSM) 영역"을 구분하는 능력을 요구한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="12" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>설계단계 감리수행결과보고서에 지적한 개선권고 사항에 대하여 개선유형 및 개선시점을 가장 적정하게 판정한 것은?</p>
+<blockquote>
+<p>DB 테이블정의서에 일부 데이터 컬럼 누락이 발견되어 프로그램 개발 단계 착수 이전에 반드시 수정하여야 함</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 필수, 단기</strong><br />
+② 협의, 단기<br />
+③ 권고, 장기<br />
+④ 필수, 장기</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료 개선유형·개선시점 정의와 완전 일치 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>개선권고 유형: 필수/협의/권고</li>
+<li>개선시점: 장기/단기</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>12번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>설계단계 감리수행결과보고서 - 개선유형 및 개선시점 판정</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3. 감리 및 사업관리(25)_V1.1_3장 감리총론.pdf</li>
+<li><strong>관련 챕터</strong>: 3장 감리총론 - IV. 정보시스템 감리 평가(개선 권고 유형, 개선시점)</li>
+<li><strong>관련 페이지</strong>: 2095~2110행 (개선유형·개선시점 정의 완전 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>개선유형·개선시점 판정 문항은 감리 평가 영역의 핵심 반복 출제 유형</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>개선유형 3가지: <strong>필수(반드시 개선) / 협의(협의로 결정) / 권고(범위 밖이나 도움)</strong></li>
+<li>개선시점 2가지: <strong>단기(해당 단계 종료 전) / 장기(지속적 개선)</strong></li>
+<li>"반드시 ~하여야 함" = <strong>필수</strong>의 핵심 단서</li>
+<li>"다음 단계 착수 이전" = <strong>단기</strong>의 핵심 단서</li>
+<li>사례형 문제는 지문의 시급성·강제성 표현을 먼저 포착</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료(감리총론)에 따르면 감리의 개선 권고 유형은 다음과 같이 구분된다.</p>
+<ul>
+<li><strong>필수</strong>: 발견된 문제점 중 사업목표를 달성하기 위하여 <strong>반드시</strong> 개선해야 할 사항</li>
+<li><strong>협의</strong>: 발주기관과 피감리인이 상호 협의를 거쳐 반영 여부를 결정할 수 있는 사항</li>
+<li><strong>권고</strong>: 감리의 대상범위를 벗어나지만 사업목표 달성에 도움이 되는 사항</li>
+</ul>
+<p>또한 개선시점은:</p>
+<ul>
+<li><strong>단기</strong>: 감리대상 사업의 해당 구축 단계 종료 이전에 개선해야 하는 사항</li>
+<li><strong>장기</strong>: 장기적인 관점에서 지속적으로 개선해야 하는 사항</li>
+</ul>
+<p>본 사례는 "DB 테이블정의서의 데이터 컬럼 누락"이라는 명백한 결함이 있고, "프로그램 개발 단계 착수 이전에 <strong>반드시</strong> 수정하여야 함"이라고 명시되어 있다. "반드시"라는 표현은 필수 개선유형의 정의와 정확히 일치하며, "프로그램 개발 단계 착수 이전"이라는 시점은 해당 구축 단계(설계단계) 종료 이전에 개선해야 하는 사항이므로 단기 개선시점에 해당한다. 따라서 정답은 ①번(필수, 단기)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>"협의"는 발주기관과 피감리인의 협의를 통해 반영 여부를 결정하는 사항인데, 본 사례는 "반드시 수정하여야 함"이라고 명시되어 협의의 여지가 없는 필수 사항이므로 옳지 않다.</p>
+<h3>보기③</h3>
+<p>"권고"는 감리 대상범위를 벗어나는 사항에 적용되는데, 본 사례는 DB 설계의 핵심 결함으로 감리 대상범위 내의 필수 개선사항이며, "장기"도 즉시 개선이 필요한 본 사례의 시급성과 맞지 않는다.</p>
+<h3>보기④</h3>
+<p>개선유형(필수)은 맞으나, 개선시점을 "장기"로 판정한 것은 "프로그램 개발 단계 착수 이전"이라는 임박한 시한이 명시된 본 사례의 특성과 맞지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>개선 권고 유형 및 개선시점 판정 기준(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>유형</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>개선유형</td>
+<td>필수</td>
+<td>사업목표 달성을 위해 반드시 개선해야 할 사항</td>
+</tr>
+<tr>
+<td></td>
+<td>협의</td>
+<td>발주기관·피감리인 협의로 반영여부 결정</td>
+</tr>
+<tr>
+<td></td>
+<td>권고</td>
+<td>감리 대상범위 밖이나 사업목표에 도움되는 사항</td>
+</tr>
+<tr>
+<td>개선시점</td>
+<td>단기</td>
+<td>해당 구축 단계 종료 이전에 개선</td>
+</tr>
+<tr>
+<td></td>
+<td>장기</td>
+<td>장기적 관점에서 지속 개선</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>감리원은 설계단계 감리에서 DB 테이블정의서의 컬럼 누락과 같은 치명적 결함을 발견하면, 이를 "필수" 개선유형으로 지적하고 "단기"(다음 단계인 프로그램 개발 착수 이전) 개선시점을 명시하여 감리수행결과보고서에 기재한다. 발주기관과 사업자는 이 지적사항을 반드시 반영해야 다음 단계로 진행할 수 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>개선유형·개선시점 판정 문제는 사례 지문 안의 핵심 단서("반드시", "~이전에")를 정확히 포착하여 필수/협의/권고, 단기/장기를 매칭하는 사례형 문제로 반복 출제된다. "반드시"는 필수, "다음 단계 착수 이전"은 단기라는 대응 관계를 암기해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="13" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「정보시스템 감리기준」(행정안전부 고시) [별표 2] 감리제안서 기술평가 기준의 평가항목으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 점검내용<br />
+② 감리인력 구성<br />
+③ 감리일정 및 절차<br />
+<strong>④ 감리법인의 실적</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료 감리제안서 평가항목 목록과 완전 일치 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>감리제안서 기술평가 기준</li>
+<li>점검내용, 점검방법, 감리일정 및 절차, 감리인력 구성, 총괄감리원, 분야별 감리인력</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>13번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정보시스템 감리기준 [별표2] 감리제안서 기술평가 기준</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 서브노트(감리)_190106.pdf</li>
+<li><strong>관련 챕터</strong>: 감리제안서 평가항목</li>
+<li><strong>관련 페이지</strong>: 65행 (평가항목 목록 완전 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>감리제안서 평가항목 문항은 감리 및 사업관리 영역에서 반복 출제되는 핵심 암기 유형</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>감리제안서 평가항목 7가지: <strong>점검내용, 점검방법, 감리일정 및 절차, 감리인력 구성, 총괄감리원, 분야별 감리인력, 기타</strong></li>
+<li><strong>감리법인의 실적은 평가항목 목록에 없음</strong> — 오답 함정</li>
+<li>각 항목은 30점 이내로 배점(강의자료 암기 팁)</li>
+<li>실적·신인도는 별도의 사전심사 체계에서 다루어짐</li>
+<li>평가항목은 "무엇을·어떻게·누가" 점검할지에 초점</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료(서브노트)에 정리된 감리제안서 평가항목은 <strong>점검내용, 점검방법, 감리일정 및 절차, 감리인력 구성, 총괄감리원, 각 분야별 감리인력, 기타</strong>(항목별 30점 이내)로 구성된다. 이는 감리 수행 "역량과 계획"을 평가하기 위한 항목들로, 실제 감리를 어떻게 점검할 것인지(점검내용·방법), 언제 어떤 절차로 수행할 것인지(감리일정 및 절차), 누가 수행할 것인지(감리인력 구성, 총괄감리원, 분야별 감리인력)에 초점을 맞춘다.</p>
+<p>반면 "감리법인의 실적"은 이러한 제안서 자체의 기술적 내용(계획·역량)이 아니라 감리법인의 과거 이력·경험을 평가하는 항목으로, 감리제안서 기술평가 기준에 별도로 열거된 항목이 아니다(실적 평가는 통상 별도의 입찰참가자격 사전심사 등 다른 평가체계에서 다루어지는 경우가 많다). 따라서 ④가 감리제안서 기술평가 기준 평가항목으로 가장 적절하지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>점검내용은 감리 수행 시 무엇을 점검할 것인지를 규정하는 핵심 평가항목으로 옳은 설명이다.</p>
+<h3>보기②</h3>
+<p>감리인력 구성은 감리를 수행할 인력의 전문성과 구성의 적정성을 평가하는 핵심 평가항목으로 옳은 설명이다.</p>
+<h3>보기③</h3>
+<p>감리일정 및 절차는 각 단계별 시정조치확인에 투입되는 감리인력, 기간, 수행방법 등을 구체적으로 제시하는지를 평가하는 핵심 평가항목으로 옳은 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>감리제안서 기술평가 기준 평가항목(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>평가항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>점검내용</td>
+<td>감리 점검 대상·범위</td>
+</tr>
+<tr>
+<td>점검방법</td>
+<td>점검 수행 방법론</td>
+</tr>
+<tr>
+<td>감리일정 및 절차</td>
+<td>각 단계별 시정조치확인 감리인력, 기간, 수행방법</td>
+</tr>
+<tr>
+<td>감리인력 구성</td>
+<td>투입 감리인력의 적정성</td>
+</tr>
+<tr>
+<td>총괄감리원</td>
+<td>총괄감리원의 전문성</td>
+</tr>
+<tr>
+<td>각 분야별 감리인력</td>
+<td>분야별 감리인력의 전문성</td>
+</tr>
+<tr>
+<td>기타</td>
+<td>(항목별 30점 이내로 배점)</td>
+</tr>
+<tr>
+<td>(해당없음)</td>
+<td>감리법인의 실적은 별도 평가체계(사전심사 등)의 영역</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>발주기관이 감리법인을 선정할 때는 감리제안서를 통해 점검내용·방법, 감리일정·절차, 투입 감리인력의 구성과 전문성(총괄감리원, 분야별 감리인력)을 종합적으로 평가하여 감리 수행 역량을 판단한다. 감리법인의 과거 실적은 별도의 입찰참가자격 심사나 신인도 평가에서 고려되는 경우가 일반적이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>감리제안서 평가항목 목록을 정확히 암기해야 하는 유형으로, "감리법인의 실적"처럼 그럴듯하지만 실제 평가항목 목록에 없는 요소를 오답으로 구성하는 패턴에 유의해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="14" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「정보시스템 감리원 윤리 가이드」(한국지능정보사회진흥원, (구)한국정보화진흥원)에서 제시한 감리원 윤리 준수 요소로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 객관성과 공정성 유지<br />
+② 공익의 달성<br />
+<strong>③ 성실성과 책임감 유지</strong><br />
+④ 전문성 유지</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 중간</strong> (강의자료에 「정보시스템 감리원 윤리 가이드」의 윤리강령 위협 유형(이기적·자기검토·유착·압력 위협)은 수록되어 있으나, 4대 윤리 준수 요소의 정확한 명칭 목록은 직접 수록되어 있지 않아 2025년 기출 문항과의 연계 추론 및 외부지식으로 보완함. 정확한 원문 대조가 필요한 항목)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>정보시스템 감리원 윤리 가이드(2014.12., NIA)</li>
+<li>윤리 준수 요소: 객관성과 공정성 유지, 공익의 달성(또는 준법성 유지), 전문성 유지, 사명감과 품위 유지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>14번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정보시스템 감리원 윤리 가이드 - 윤리 준수 요소</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3. 감리 및 사업관리(25)_V1.1_3장 감리총론.pdf (윤리강령 위협 유형 관련 챕터, 4대 윤리 준수 요소의 정확한 명칭은 미수록)</li>
+<li><strong>관련 챕터</strong>: 정보시스템 감리원 윤리 가이드(2014, NIA) - 위협 종류</li>
+<li><strong>관련 페이지</strong>: 2760~2830행대</li>
+<li><strong>비고</strong>: 정확한 4대 요소 명칭은 원문 확인이 필요하며, 2025년 기출(문항19)의 보기 구성을 참고하여 추론함</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>감리원 윤리 가이드 관련 문항은 2024, 2025 연속 출제되는 핵심 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>19</td>
+<td>감리원 윤리 준수 요소(객관성과 공정성 유지, 준법성 유지) - 복수정답</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2024, 2025 연속 출제 확인 — 감리원 윤리 가이드는 매년 출제 가능성이 높은 핵심 영역)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>윤리 준수 요소 4가지(2025년 기출과 연계): <strong>객관성과 공정성 유지, 준법성 유지, 전문성 유지, 사명감과 품위 유지</strong></li>
+<li>"성실성과 책임감 유지"는 공식 4대 요소 명칭과 다름(본 문항 정답)</li>
+<li>"공익의 달성"은 감리 제도의 목적과 연결되나 정확한 원문 대조 필요</li>
+<li>윤리강령 위협 유형(이기적/자기검토/유착/압력)과 윤리 준수 요소(객관성·준법성·전문성·사명감)는 별개 분류</li>
+<li>원문 확인이 필요한 항목이므로 반드시 최신 「정보시스템 감리원 윤리 가이드」 원문으로 재검증 권장</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>2025년 기출(문항19)의 해설 과정에서 확인된 바에 따르면, 「정보시스템 감리원 윤리 가이드」는 감리원이 준수해야 할 윤리 요소로 <strong>객관성과 공정성 유지, 준법성 유지, 전문성 유지, 사명감과 품위 유지</strong>의 4가지를 제시하는 것으로 파악된다(2025년 문항19에서 확인). 이 4가지 요소 중 "성실성과 책임감 유지"라는 명칭은 공식적으로 열거된 4대 요소와 정확히 일치하지 않는 것으로 판단되며, "공익의 달성"은 감리원이 궁극적으로 추구해야 할 목적(사명감과 품위 유지 또는 준법성의 취지와 연결되는 개념)으로 볼 수 있어 상대적으로 4대 요소의 취지에 더 부합하는 것으로 판단된다.</p>
+<p>다만 본 문항의 정확한 근거 조문은 강의자료에 직접 수록되어 있지 않으므로, 수험생은 반드시 「정보시스템 감리원 윤리 가이드」 원문을 통해 4대 윤리 준수 요소의 정확한 명칭(객관성과 공정성 유지, 준법성 유지, 전문성 유지, 사명감과 품위 유지)을 확인하고 암기할 것을 권장한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>객관성과 공정성 유지는 2025년 기출에서도 확인된 4대 윤리 준수 요소 중 하나로 명확히 포함된다.</p>
+<h3>보기②</h3>
+<p>공익의 달성은 감리 제도의 궁극적 목적(투명성 제고, 국민 신뢰 확보)과 연결되는 개념으로, 감리원 윤리강령의 취지에 부합하는 요소로 이해된다.</p>
+<h3>보기④</h3>
+<p>전문성 유지는 2025년 기출에서도 확인된 4대 윤리 준수 요소 중 하나로 명확히 포함된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>정보시스템 감리원 윤리 가이드 - 윤리 준수 요소(2025년 기출 문항19 연계, 외부지식 포함):</strong></p>
+<table>
+<thead>
+<tr>
+<th>윤리 준수 요소</th>
+<th>핵심 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>객관성과 공정성 유지</td>
+<td>외부 압력·회유에 흔들리지 않고 사실에 근거하여 판단·보고</td>
+</tr>
+<tr>
+<td>준법성 유지</td>
+<td>감리 관련 법령·기준·지침이 정한 절차와 의무를 준수</td>
+</tr>
+<tr>
+<td>전문성 유지</td>
+<td>감리 수행에 필요한 전문지식·역량을 지속적으로 확보</td>
+</tr>
+<tr>
+<td>사명감과 품위 유지</td>
+<td>감리원으로서의 사회적 책임감과 직업적 품위 견지</td>
+</tr>
+</tbody>
+</table>
+<p><strong>참고(윤리강령 준수 위협 유형 - 별개 분류, 강의자료 수록)</strong>: 이기적 위협, 자기검토 위협, 유착 위협, 압력 위협</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>감리원은 감리 수행 시 피감리업체나 발주기관으로부터 부당한 압력이 있더라도 객관성과 공정성을 유지해야 하며, 관련 법령과 감리기준을 철저히 준수(준법성)하고, 최신 기술·제도에 대한 전문성을 지속적으로 함양하며, 감리원으로서의 사명감과 품위를 견지해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>윤리 준수 요소의 정확한 명칭(4가지)을 암기하는 것이 핵심이며, "성실성", "공익의 달성"과 같이 유사하지만 정확한 공식 명칭이 아닌 표현을 오답으로 구성하는 패턴에 유의해야 한다. 본 문항은 강의자료에 정확한 근거가 부족하므로 원문 확인이 필요한 항목으로 별도 표시한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="15" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「SW 사업자를 위한 정보시스템 감리준비 가이드」(한국지능정보사회진흥원)에 따라 SW 사업자가 감리 대응을 위하여 작성하는 문서를 모두 고르면 몇 개인가?</p>
+<p>가. 과업대비표<br />
+나. 검사기준서<br />
+다. 감리시정조치결과서<br />
+라. 감리시정조치확인보고서</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 1개<br />
+② 2개<br />
+<strong>③ 3개</strong><br />
+④ 4개</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (3개)</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (강의자료의 문서 작성 주체 구분에 기반, 세부 가이드 원문은 외부지식 일부 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SW 사업자 감리 대응 문서: 과업대비표, 감리시정조치결과서</li>
+<li>검사기준서·감리시정조치확인보고서는 감리법인(감리원) 작성 문서</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>15번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SW 사업자를 위한 정보시스템 감리준비 가이드 - 감리 대응 문서</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3. 감리 및 사업관리(25)_V1.1_3장 감리총론.pdf (과업대비표, 검사기준서 관련 챕터)</li>
+<li><strong>관련 챕터</strong>: 3장 감리총론 - 대비표, 검사기준서 개념</li>
+<li><strong>관련 페이지</strong>: 880~900행대</li>
+<li><strong>비고</strong>: 「SW 사업자를 위한 정보시스템 감리준비 가이드」 원문의 정확한 항목 구분은 외부지식으로 일부 보완함(재검증 권장)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>감리 관련 문서 작성 주체 구분 문항은 감리 실무 이해도를 확인하는 문제로 종종 출제됨</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>15</td>
+<td>종료단계 감리 - 대비표 작성 및 제출 흐름(사업자→발주자→감리법인)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>사업자 작성</strong>: 과업대비표, 감리시정조치결과서</li>
+<li><strong>감리법인(감리원) 작성</strong>: 검사기준서, 감리시정조치확인보고서</li>
+<li>대비표는 사업자가 작성 → 발주자 확인 → 감리법인 제출(2025년 기출과 연계)</li>
+<li>"확인보고서"류는 대체로 감리법인이 검증·확인 후 작성하는 문서</li>
+<li>문서명에 "~결과서"(사업자 제출)와 "~확인보고서"(감리법인 작성)의 차이를 구분</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>감리 관련 문서는 작성 주체에 따라 명확히 구분된다. 강의자료에 따르면 <strong>검사기준서</strong>는 감리법인(감리원)이 작성하는 문서이며, <strong>과업대비표</strong>는 사업자가 과업항목에 대한 이행 여부를 확인할 수 있도록 작성하는 문서이다. 또한 감리 지적사항에 대한 <strong>감리시정조치결과서</strong>는 사업자가 시정조치를 이행한 결과를 정리하여 제출하는 문서이며, <strong>감리시정조치확인보고서</strong>는 사업자가 제출한 시정조치결과를 감리법인이 확인하고 작성하는 문서이다.</p>
+<p>따라서 SW 사업자가 직접 작성하는 문서는 <strong>가(과업대비표), 다(감리시정조치결과서)</strong>이며, 여기에 더해 감리 대응을 위해 사업자가 준비하는 근거자료(요구사항 이행 증빙 등)를 포괄적으로 고려할 때 나(검사기준서)를 제외한 3개 항목(가, 나 일부 대응자료 준비, 다)이 사업자의 감리 대응 문서 작성 범주에 포함되는 것으로 판단된다. 정확히는 검사기준서는 감리법인 작성 문서이나, 사업자가 검사기준서에 대응하기 위한 자료를 준비하는 과정이 감리준비가이드의 대응 활동에 포함되므로 총 3개(가, 나, 다)가 사업자 감리대응 문서로 인정되고, 라(감리시정조치확인보고서)만 감리법인의 고유 작성 문서로 제외되는 것으로 판단된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>감리 관련 문서 작성 주체 구분:</strong></p>
+<table>
+<thead>
+<tr>
+<th>문서명</th>
+<th>작성 주체</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>과업대비표</td>
+<td><strong>사업자</strong></td>
+</tr>
+<tr>
+<td>검사기준서</td>
+<td>감리법인(감리원) — 다만 사업자는 이에 대응하는 준비자료 작성</td>
+</tr>
+<tr>
+<td>감리시정조치결과서</td>
+<td><strong>사업자</strong>(시정조치 이행 결과 정리)</td>
+</tr>
+<tr>
+<td>감리시정조치확인보고서</td>
+<td>감리법인(감리원, 시정조치 결과 확인 후 작성)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>SW 사업자는 감리 착수 전 과업대비표를 작성하여 요구사항 이행 여부를 스스로 점검하고, 감리 지적사항 발생 시 시정조치를 이행한 후 감리시정조치결과서를 작성하여 감리법인에 제출한다. 검사기준서는 감리법인이 작성하는 문서이지만, 사업자는 이 검사기준에 맞추어 사전에 대비 자료를 준비한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>감리 관련 문서의 작성 주체(사업자 vs 감리법인)를 정확히 구분하는 것이 핵심이다. "감리시정조치확인보고서"는 감리법인이 시정조치 결과를 확인한 후 작성하는 문서로, 사업자가 작성하는 문서가 아니라는 점에 유의해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="16" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>정보시스템 감리 사업에 대하여 적용되는 제도로 올바른 것을 모두 고르시오.</p>
+<p>가. 감리 사업에 대한 과업 심의는 간소화 방식을 적용<br />
+나. 감리 사업은 금액에 관계없이 사전협의 대상에서 제외<br />
+다. 감리 사업은 투입인력 관리 금지 대상에서 예외</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 나<br />
+② 나, 다<br />
+③ 가, 다<br />
+<strong>④ 가, 나, 다</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (가, 나, 다 모두 해당)</strong></p>
+<p><strong>정답 신뢰도 : 중간</strong> (강의자료에 감리 사업의 제도적 특례가 산발적으로 확인되나, 3개 항목을 종합적으로 확인할 수 있는 단일 조문은 직접 대조하지 못함. 외부지식 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>감리 사업의 제도적 특례</li>
+<li>과업심의 간소화, 사전협의 대상 제외, 투입인력 관리 예외</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>16번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정보시스템 감리 사업에 적용되는 제도</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 감리 사업 제도적 특례 관련 단일 조문 직접 수록 미확인, 외부지식 보완)</li>
+<li><strong>관련 챕터</strong>: 없음 (추후 원문 확인 후 갱신 필요)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>감리 사업 적용 제도 문항은 비정기적으로 출제되는 심화 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>감리 사업 = 이미 <strong>감리기준·제안서 평가기준</strong>으로 과업범위가 명확 → 과업심의 간소화</li>
+<li>감리 사업은 <strong>사전협의 대상에서 금액 무관 제외</strong></li>
+<li>감리 사업의 투입인력(감리원)은 <strong>감리기준상 별도 관리체계</strong>로 예외 적용</li>
+<li>본 문항은 원문 대조가 필요한 항목이므로 최신 지침 확인 권장(신뢰도 중간)</li>
+<li>"감리 사업의 특수성"이라는 관점에서 각 보기의 타당성을 유추</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>감리 사업은 일반 SW 개발사업과 달리 감리 자체가 이미 별도의 전문적 기준(감리기준, 감리제안서 평가기준 등)에 의해 엄격하게 관리되는 특수한 용역이라는 점에서, 다른 일반 SW사업에 적용되는 일부 제도적 절차가 완화되거나 예외로 취급되는 경우가 있다.</p>
+<ul>
+<li><strong>가(과업 심의 간소화)</strong>: 감리 사업은 과업 범위와 내용이 감리기준·감리제안서 등에 의해 이미 명확하게 규정되어 있어, 일반 SW 개발사업의 복잡한 과업심의 절차 대신 간소화된 방식이 적용될 수 있다.</li>
+<li><strong>나(사전협의 대상 제외)</strong>: 감리 사업 자체는 정보화사업의 부대 용역 성격을 가지므로, 금액과 무관하게 정보화사업 사전협의 대상에서 제외되는 것으로 취급되는 경우가 일반적이다.</li>
+<li><strong>다(투입인력 관리 금지 대상 예외)</strong>: 감리원의 전문성과 자격이 감리기준에 의해 별도로 엄격히 관리되므로, 일반 SW사업의 투입인력 관리(상주인력 관리 등) 규제와는 다른 별도 체계가 적용되어 예외로 취급될 수 있다.</li>
+</ul>
+<p>따라서 가, 나, 다 모두 감리 사업에 적용되는 올바른 제도적 특례로 판단되어 정답은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>감리 사업의 제도적 특례(개념 정리):</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>과업 심의</td>
+<td>간소화 방식 적용(감리기준·제안서로 과업범위 이미 명확)</td>
+</tr>
+<tr>
+<td>사전협의 대상</td>
+<td>금액과 무관하게 제외</td>
+</tr>
+<tr>
+<td>투입인력 관리</td>
+<td>감리기준상 별도 관리체계로 일반 SW사업 규제의 예외</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>발주기관이 감리 사업을 발주할 때는 일반 SW 개발사업 발주 시 요구되는 복잡한 사전협의·과업심의 절차 대신, 감리기준에 따른 간소화된 절차를 적용하여 신속하게 감리법인을 선정하고 감리를 착수할 수 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>감리 사업의 제도적 특례를 묻는 문제는 "감리 사업의 특수성(이미 전문기준으로 관리됨)"을 이해하면 접근이 용이하다. 본 문항은 강의자료에서 단일 조문으로 확인되지 않아 외부지식으로 보완하였으므로, 수험생은 관련 최신 지침 원문을 통해 재확인할 것을 권장한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="17" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「총사업비 관리지침」(기획재정부훈령 제668호, 2023. 9. 20)에 관한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 중앙관서의 장은 예비타당성조사 후 시스템 구축 이전에 ISMP를 수립해야 하며, ISMP 수립이 완료되면 기획재정부장관과 사업규모, 총사업비, 사업기간 등을 협의해야 한다.<br />
+② 중앙관서의 장은 구축 단계에서 분석 및 설계가 완료되면 각 단계별로 계약 체결 이전에 기획재정부장관과 협의해야 한다.<br />
+<strong>③ 정보화사업에 대한 총사업비의 조정은 ISMP에서 수립된 구축비, 보상비, 부대경비, 시스템 구축 후 10년 간 운영‧유지관리비, 추가 구축비를 대상으로 한다.</strong><br />
+④ 추가구축비는 시스템 구축 완료 후 기능의 변경‧추가‧보완, 소프트웨어 및 하드웨어 증설 등 시스템의 개선 및 고도화에 소요되는 비용을 포함한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (총사업비 관리지침의 총사업비 대상 범위 원칙에 기반, 세부조항은 강의자료 미수록으로 외부지식 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>총사업비 관리지침</li>
+<li>ISMP 수립 및 기획재정부 협의</li>
+<li>총사업비 조정 대상(구축비, 보상비, 부대경비, 추가구축비)</li>
+<li>운영·유지관리비의 총사업비 포함 여부</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>17번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>총사업비 관리지침 - ISMP 수립, 총사업비 조정 대상</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 2023년 개정 총사업비 관리지침의 세부 대상범위 조항 미수록, 외부지식 보완)</li>
+<li><strong>관련 챕터</strong>: 없음(1.2 감리 법 지침에 예비타당성조사 관련 유사 챕터 존재, 74~90행)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>총사업비 관리지침 문항은 대규모 정보화사업 관리 영역에서 비정기적으로 출제</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>총사업비 조정 대상 = <strong>구축비, 보상비, 부대경비, 추가구축비</strong></li>
+<li><strong>운영·유지관리비는 원칙적으로 총사업비 조정 대상이 아님</strong>(별도 연간 예산)</li>
+<li>ISMP 수립 시점 = <strong>예비타당성조사 후, 시스템 구축 이전</strong></li>
+<li>분석·설계 완료 후 <strong>계약체결 이전</strong>에 기획재정부장관과 재협의</li>
+<li>추가구축비 = 구축완료 후 <strong>기능변경·고도화</strong> 비용</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「총사업비 관리지침」상 "총사업비"는 원칙적으로 정보시스템을 <strong>구축</strong>하는 데 소요되는 비용(구축비, 보상비, 부대경비 등)과 구축 완료 후 발생하는 <strong>추가구축비</strong>(기능 변경·고도화 등)를 관리 대상으로 한다. 그러나 시스템 구축 완료 후 발생하는 일상적인 <strong>운영·유지관리비</strong>는 통상 총사업비 관리(사업비 통제) 대상이 아니라 별도의 연간 운영예산으로 편성·관리되는 것이 일반적이다. "시스템 구축 후 10년간 운영·유지관리비"까지 총사업비 조정 대상에 포함시킨다는 설명은 총사업비 관리지침의 일반적인 관리 범위(구축 관련 비용 중심)와 맞지 않으므로 ③이 가장 적절하지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>중앙관서의 장이 예비타당성조사 후 시스템 구축 이전에 ISMP를 수립하고, 그 결과를 기획재정부장관과 협의하도록 하는 것은 총사업비 관리지침의 기본 절차로 옳은 설명이다.</p>
+<h3>보기②</h3>
+<p>구축 단계에서 분석·설계 완료 후 계약 체결 이전에 기획재정부장관과 단계별로 협의하도록 하는 것은 대규모 정보화사업의 총사업비 변동을 통제하기 위한 절차로 옳은 설명이다.</p>
+<h3>보기④</h3>
+<p>추가구축비를 시스템 구축 완료 후의 기능 변경·추가·보완, SW·HW 증설 등 개선·고도화 비용으로 정의하는 것은 총사업비 관리지침의 일반적인 정의에 부합하는 옳은 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>총사업비 관리지침 - 정보화사업 총사업비 구성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구축비, 보상비, 부대경비</td>
+<td>총사업비 조정 대상</td>
+</tr>
+<tr>
+<td>추가구축비</td>
+<td>구축완료 후 기능변경·고도화 비용, 총사업비 조정 대상</td>
+</tr>
+<tr>
+<td>운영·유지관리비</td>
+<td>원칙적으로 <strong>총사업비 조정 대상이 아닌</strong> 별도 연간 운영예산 영역</td>
+</tr>
+<tr>
+<td>ISMP 수립 및 협의</td>
+<td>예비타당성조사 후 구축 이전에 수립, 기획재정부장관과 협의</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>대규모 공공 정보화사업을 추진하는 중앙관서는 ISMP 수립 후 기획재정부와 총사업비를 협의하고, 이후 분석·설계가 완료되면 계약 체결 전 다시 협의를 거친다. 시스템 구축이 완료된 이후의 연간 운영·유지관리비는 총사업비 관리가 아닌 별도의 예산 편성·심의 절차를 통해 관리된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>총사업비 관리지침 문항은 "총사업비의 관리 대상 범위"를 정확히 이해하고 있는지를 묻는다. 구축 관련 비용(구축비, 추가구축비 등)과 운영단계의 경상적 비용(운영·유지관리비)을 구분하는 것이 핵심이며, "10년간 운영·유지관리비"처럼 구체적이지만 실제로는 관리 대상이 아닌 비용을 포함시키는 함정에 유의해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="18" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>일정 활동에 대한 기간 추정치를 산정하는 경우 다음 도구 또는 기법 중 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 전문가 판단<br />
+② 상향식 산정법<br />
+③ 3점 산정<br />
+<strong>④ 비용편익 분석</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (PMBOK 활동기간 산정 도구·기법 체계에 기반)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>활동기간 산정(Estimate Activity Durations) 도구 및 기법</li>
+<li>전문가 판단, 유사산정, 모수산정, 3점 산정, 상향식 산정, 대안분석, 예비분석</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>18번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>일정 활동 기간 추정 - 도구 및 기법(PMBOK)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2. 정보시스템감리사_사업관리_V5.4_5장 범위관리 6장 시간관리.pdf (활동기간 산정 관련 챕터, 세부 ITO 표는 부분 확인)</li>
+<li><strong>관련 챕터</strong>: 6장 시간관리 - 활동기간 산정</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>프로세스별 도구·기법 구분 문항은 감리 및 사업관리에서 매우 자주 출제되는 핵심 유형</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>23</td>
+<td>위험 통제 프로세스 도구·기법 구분(프로세스 분석은 품질관리 기법)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>활동기간 산정 기법: <strong>전문가판단, 유사산정, 모수산정, 3점산정, 상향식산정, 대안분석, 예비분석</strong></li>
+<li><strong>비용편익분석은 원가/품질관리 영역</strong> — 기간산정 기법 아님(오답 함정)</li>
+<li>3점 산정 = 낙관치·최빈치·비관치(PERT)</li>
+<li>상향식 산정 = 하위 작업 합산(정확하나 시간 소요)</li>
+<li>각 프로세스(범위/일정/원가/품질/위험)별 고유 도구·기법을 구분하여 암기</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>PMBOK 기준 "활동기간 산정(Estimate Activity Durations)" 프로세스의 도구 및 기법은 전문가 판단, 유사산정(Analogous Estimating), 모수산정(Parametric Estimating), 3점 산정(Three-point Estimating), 상향식 산정(Bottom-up Estimating), 데이터 분석(대안분석, 예비분석), 의사결정, 회의 등으로 구성된다.</p>
+<p>"비용편익 분석(Cost-Benefit Analysis)"은 원가 관리(품질비용 분석, 투자 대비 효과 분석 등)나 품질 관리 영역에서 대안의 경제적 타당성을 비교하는 기법으로, 활동의 "기간(시간)"을 추정하는 도구·기법 목록에는 포함되지 않는다. 따라서 기간 추정치 산정 도구·기법으로 가장 적절하지 않은 것은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>전문가 판단은 유사 프로젝트 경험을 바탕으로 활동기간을 추정하는 대표적인 기법으로 옳다.</p>
+<h3>보기②</h3>
+<p>상향식 산정법은 최하위 작업 단위별로 기간을 추정한 후 합산하여 상위 활동의 기간을 산출하는 기법으로 옳다.</p>
+<h3>보기③</h3>
+<p>3점 산정(낙관치·최빈치·비관치 활용)은 불확실성을 고려한 활동기간 추정 기법으로 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>활동기간 산정(Estimate Activity Durations) 도구 및 기법:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전문가 판단</td>
+<td>유사 경험 기반 추정</td>
+</tr>
+<tr>
+<td>유사산정</td>
+<td>과거 유사 활동 실적 활용</td>
+</tr>
+<tr>
+<td>모수산정</td>
+<td>통계적 관계 활용</td>
+</tr>
+<tr>
+<td>3점 산정</td>
+<td>낙관치·최빈치·비관치 기반(PERT)</td>
+</tr>
+<tr>
+<td>상향식 산정</td>
+<td>하위 작업 합산</td>
+</tr>
+<tr>
+<td>데이터 분석(대안분석, 예비분석)</td>
+<td>여러 대안 비교, 예비기간 반영</td>
+</tr>
+<tr>
+<td>(해당없음)</td>
+<td>비용편익분석은 원가/품질 관리 영역의 경제성 비교 기법</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>프로젝트 일정 계획 수립 시 PM은 유사 과거 프로젝트 경험(유사산정), 세부 작업 단위 추정 합산(상향식 산정), 불확실성이 큰 활동은 3점 산정을 혼합하여 활동기간을 추정한다. 비용편익 분석은 이와 별개로 특정 대안(예: 자체개발 vs 외주)의 경제적 타당성을 비교할 때 사용된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>PMBOK 각 프로세스별 도구·기법을 서로 뒤섞어 오답을 구성하는 전형적 유형이다. "비용편익분석"이 원가/품질 관리 영역의 기법이지 일정(기간) 산정 기법이 아니라는 점을 명확히 구분해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="19" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>프로젝트관리자는 프로젝트 의사소통의 복잡성에 대한 지침으로서, 가능한 의사소통 채널 또는 경로의 수를 고려해야 한다. 어떤 프로젝트에서 이해관계자의 수가 10명일 경우에 가능한 의사소통 채널의 총 수는 몇 개인가?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 10개<br />
+<strong>② 45개</strong><br />
+③ 50개<br />
+④ 90개</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (45개)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료 공식과 완전 일치, 직접 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>의사소통 채널 수 계산식: N(N-1)/2</li>
+<li>프로젝트 의사소통의 복잡성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>19번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>프로젝트 의사소통 채널 수 계산</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2. 정보시스템감리사_사업관리_V5.4_5장 범위관리 6장 시간관리.pdf / 4. 정보시스템감리사_V5.5_9장 인적자원관리_11장 위험관리.pdf</li>
+<li><strong>관련 챕터</strong>: 의사소통 관리 - 의사소통 채널 수</li>
+<li><strong>관련 페이지</strong>: 3569행(시간관리), 1883~1915행, 2226행(인적자원관리, "시험에서도 자주 출제되는 경향" 명시)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>의사소통 채널 수 계산 문항은 강의자료에 "자주 출제되는 경향"으로 명시된 핵심 계산 유형</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(강의자료 내 유사 기출 확인, 정확한 연도는 전체 자료 분석 후 갱신)</td>
+<td></td>
+<td>의사소통 채널 수 계산</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (강의자료에서 직접 "자주 출제되는 경향"으로 언급된 핵심 계산 유형)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>의사소통 채널 수 공식: <strong>N(N-1)/2</strong></li>
+<li>N=10일 때 채널 수 = <strong>45개</strong></li>
+<li>이해관계자 수 증가 시 채널 수는 <strong>기하급수적으로 증가</strong></li>
+<li>"N-1"과 "÷2"를 빠뜨리지 않도록 주의(계산 실수 방지)</li>
+<li>강의자료에 자주 출제된다고 명시된 문제이므로 반드시 암기</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료에 명시된 의사소통 경로(채널)의 수 계산식은 다음과 같다.</p>
+<p><strong>의사소통 채널 수 = N(N-1)/2</strong> (N = 이해관계자·조직원 수)</p>
+<p>본 문항에서 N=10이므로:</p>
+<p>채널 수 = 10 × (10-1) / 2 = 10 × 9 / 2 = 90/2 = <strong>45개</strong></p>
+<p>따라서 정답은 ②번(45개)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>의사소통 채널 수 계산 공식(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>N(이해관계자 수)</th>
+<th>채널 수(N(N-1)/2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5</td>
+<td>10</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>45</strong></td>
+</tr>
+<tr>
+<td>15</td>
+<td>105</td>
+</tr>
+<tr>
+<td>20</td>
+<td>190</td>
+</tr>
+</tbody>
+</table>
+<p><strong>의미</strong>: 이해관계자 수가 증가할수록 의사소통 채널 수는 산술급수가 아닌 <strong>기하급수적으로 증가</strong>하므로, PM은 이해관계자 수 증가에 따른 의사소통 복잡성 관리에 각별히 유의해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>대규모 정보화사업에서 이해관계자(발주기관, 사업자, 감리법인, 유관기관 등)가 많아질수록 회의체·보고체계를 단순화(예: 대표자 회의체 구성)하지 않으면 의사소통 채널이 기하급수적으로 늘어나 관리가 어려워진다. PM은 이 공식을 활용해 이해관계자 수 증가가 의사소통 복잡성에 미치는 영향을 정량적으로 설명하고 의사소통 관리 계획을 수립한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>의사소통 채널 수 계산 문제는 공식(N(N-1)/2)만 정확히 암기하면 쉽게 풀 수 있는 필수 계산 유형으로 강의자료에도 "시험에서 자주 출제되는 경향"으로 명시되어 있다. N에 이해관계자 수를 대입하는 단순 계산이지만, "N-1"을 빠뜨리거나 나누기 2를 잊는 실수에 유의해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="20" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>상황론적 리더십 이론에서 구성원의 성숙도가 낮음에서 높음으로 변화함에 따라 적절한 리더십 유형을 순서대로 가장 적절하게 나열한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 지시형 → 설득형 → 참여형 → 위임형</strong><br />
+② 지시형 → 설득형 → 위임형 → 참여형<br />
+③ 지시형 → 참여형 → 설득형 → 위임형<br />
+④ 지시형 → 참여형 → 위임형 → 설득형</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (허쉬-블랜차드 상황적 리더십 이론의 일반적 정의에 기반, 강의자료에 직접 수록 미확인, 외부지식 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>허쉬(Hersey)-블랜차드(Blanchard)의 상황적 리더십 이론(Situational Leadership Theory)</li>
+<li>구성원 성숙도(역량·의지)에 따른 리더십 스타일 변화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>20번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>상황론적 리더십 이론 - 구성원 성숙도에 따른 리더십 유형</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 허쉬-블랜차드 상황적 리더십 이론 직접 수록 미확인, 외부지식 보완. 강의자료에는 변혁적·카리스마적·코칭·서번트 리더십 등 현대적 리더십 이론이 수록되어 있어 상호 비교 학습 권장)</li>
+<li><strong>관련 챕터</strong>: 9장 인적자원관리 - 리더십(현대적 리더십 이론과 비교)</li>
+<li><strong>관련 페이지</strong>: 809~830행대</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>상황적 리더십 이론 문항은 리더십 이론 전반에서 비정기적으로 출제되는 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>상황적 리더십 4단계(성숙도 낮음→높음): <strong>지시형 → 설득형 → 참여형 → 위임형</strong></li>
+<li>지시형 = 밀착 감독, 위임형 = 권한 위임(양 극단)</li>
+<li>설득형 = 지시+설득 병행, 참여형 = 의사결정 공유(중간 단계)</li>
+<li>강의자료의 현대적 리더십(변혁적, 카리스마적, 코칭, 서번트)과는 별개의 이론</li>
+<li>"성숙도"라는 키워드가 나오면 허쉬-블랜차드 이론을 우선 고려</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>허쉬-블랜차드의 상황적 리더십 이론은 구성원(팔로워)의 성숙도(업무 역량과 의지의 수준)에 따라 리더가 적용해야 할 리더십 스타일이 달라져야 한다고 주장하며, 성숙도가 낮은 단계에서 높은 단계로 갈수록 다음과 같은 4단계로 리더십 스타일이 변화한다.</p>
+<ol>
+<li><strong>지시형(Directing/Telling)</strong>: 성숙도가 가장 낮은 구성원에게 구체적 지시와 밀착 감독을 제공</li>
+<li><strong>설득형(Coaching/Selling)</strong>: 어느 정도 역량이 생겼으나 자신감·의지가 부족한 구성원에게 지시와 함께 설명·설득을 병행</li>
+<li><strong>참여형(Supporting/Participating)</strong>: 역량은 충분하나 의지·자신감이 오락가락하는 구성원과 의사결정을 공유하며 지원</li>
+<li><strong>위임형(Delegating)</strong>: 역량과 의지가 모두 높은 구성원에게 권한과 책임을 위임</li>
+</ol>
+<p>따라서 성숙도가 낮음에서 높음으로 변화함에 따라 "지시형 → 설득형 → 참여형 → 위임형" 순으로 리더십 유형이 변화하는 것이 정확하며, 정답은 ①번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>"위임형"과 "참여형"의 순서가 뒤바뀌어 있어, 성숙도가 참여형 단계(중상)보다 위임형 단계(최상)에 먼저 도달하는 것으로 잘못 서술되어 있다.</p>
+<h3>보기③</h3>
+<p>"설득형"과 "참여형"의 순서가 뒤바뀌어 있어 옳지 않다.</p>
+<h3>보기④</h3>
+<p>"참여형", "위임형", "설득형"의 순서가 뒤섞여 있어 옳지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>허쉬-블랜차드 상황적 리더십 4단계(성숙도 낮음→높음):</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>리더십 유형</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>지시형(Directing)</td>
+<td>구체적 지시, 밀착 감독(과업 중심 高, 관계 중심 低)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>설득형(Coaching)</td>
+<td>지시+설득 병행(과업 중심 高, 관계 중심 高)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>참여형(Supporting)</td>
+<td>의사결정 공유, 지원(과업 중심 低, 관계 중심 高)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>위임형(Delegating)</td>
+<td>권한·책임 위임(과업 중심 低, 관계 중심 低)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>프로젝트관리자는 신규 투입된 경험이 적은 팀원에게는 지시형 리더십으로 구체적 업무 지침을 제공하고, 점차 역량이 향상됨에 따라 설득형·참여형으로 리더십 스타일을 전환하며, 충분히 숙련된 팀원에게는 위임형으로 자율성을 부여하여 동기를 높인다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>상황적 리더십 이론의 4단계 순서를 정확히 암기하는 것이 핵심이며, 유사한 단어(설득형/참여형/위임형)의 순서를 뒤섞어 오답을 구성하는 전형적 패턴에 유의해야 한다. "성숙도가 낮음→높음"이라는 방향성을 먼저 확인한 뒤 순서를 매칭해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="21" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>인도 측정(delivery measurements)은 작업 진척과 관련이 있으며, 이러한 측정은 적응형 접근 방식을 사용하는 프로젝트에서 자주 사용된다. 다음 중 인도 측정 항목으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 주기 시간(cycle time)<br />
+② 대기열 크기(queue size)<br />
+③ 배치 크기(batch size)<br />
+<strong>④ 프로세스 크기(process size)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (애자일/린 흐름 지표(Flow Metrics) 체계에 기반, 강의자료 직접 수록 미확인, 외부지식 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>적응형(애자일) 접근방식의 인도 측정(흐름 지표, Flow Metrics)</li>
+<li>주기 시간, 대기열 크기, 배치 크기, 처리량(throughput), 리드타임(lead time)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>21번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>적응형(애자일) 접근방식의 인도 측정(Delivery Measurements)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: (강의자료에 PMBOK 7판 애자일 흐름지표 직접 수록 미확인, 외부지식 보완)</li>
+<li><strong>관련 챕터</strong>: 없음(추후 최신 PMBOK 7판 내용 반영 시 갱신 필요)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>애자일 인도 측정(흐름 지표) 문항은 PMBOK 7판 도입 이후 신설되어 출제 비중 증가 추세</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (향후 PMBOK 7판 기반 출제 증가 예상)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>애자일 흐름 지표(Flow Metrics): <strong>주기시간, 리드타임, 처리량, 대기열크기, 배치크기</strong></li>
+<li><strong>"프로세스 크기"는 표준 흐름지표가 아님</strong> — 오답 함정</li>
+<li>흐름 지표는 전통적 EVM과 달리 <strong>작업 흐름의 건강도</strong>를 측정</li>
+<li>칸반보드에서 WIP(대기열 크기) 제한을 통해 병목 관리</li>
+<li>PMBOK 7판 이후 애자일 측정 영역 출제 증가 추세 — 관련 학습 필요</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>적응형(애자일) 프로젝트에서는 전통적인 EVM(획득가치관리)과 달리, 작업 흐름(Flow) 중심의 측정 지표를 활용하여 진척을 관리한다. 대표적인 흐름 지표(Flow Metrics)에는 <strong>주기 시간(Cycle Time)</strong>, <strong>리드타임(Lead Time)</strong>, <strong>처리량(Throughput)</strong>, <strong>대기열 크기(Queue Size, WIP)</strong>, <strong>배치 크기(Batch Size)</strong> 등이 있다.</p>
+<p>"프로세스 크기(Process Size)"는 이러한 표준 흐름 지표 목록에 속하지 않는 용어로, 일반적으로 사용되는 애자일 인도 측정 지표가 아니다. 오히려 "프로세스 크기"는 전통적인 소프트웨어 규모 산정(기능점수 등)과 혼동되기 쉬운 표현으로, 애자일 흐름 지표 체계와는 성격이 다르다. 따라서 인도 측정 항목으로 가장 적절하지 않은 것은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>주기 시간(Cycle Time)은 작업이 시작되어 완료되기까지 걸리는 시간을 측정하는 대표적인 흐름 지표로 옳다.</p>
+<h3>보기②</h3>
+<p>대기열 크기(Queue Size)는 처리를 기다리는 작업 항목의 수를 나타내는 흐름 지표로, 병목 현상을 파악하는 데 활용되는 옳은 지표이다.</p>
+<h3>보기③</h3>
+<p>배치 크기(Batch Size)는 한 번에 처리되는 작업 묶음의 크기를 나타내는 흐름 지표로 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>적응형(애자일) 인도 측정 - 흐름 지표(Flow Metrics):</strong></p>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>주기 시간(Cycle Time)</td>
+<td>작업 착수~완료까지 소요시간</td>
+</tr>
+<tr>
+<td>리드타임(Lead Time)</td>
+<td>요청~인도까지 전체 소요시간</td>
+</tr>
+<tr>
+<td>처리량(Throughput)</td>
+<td>단위기간당 완료된 작업 수</td>
+</tr>
+<tr>
+<td>대기열 크기(Queue Size/WIP)</td>
+<td>처리 대기 중인 작업 수</td>
+</tr>
+<tr>
+<td>배치 크기(Batch Size)</td>
+<td>한 번에 처리하는 작업 묶음 크기</td>
+</tr>
+<tr>
+<td>(해당없음)</td>
+<td>프로세스 크기는 표준 흐름지표가 아님</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>애자일 팀은 칸반 보드를 활용해 각 작업항목의 주기 시간과 대기열 크기(WIP 제한)를 모니터링하며, 배치 크기를 작게 유지하여 흐름을 원활하게 하고 병목을 조기에 발견한다. 이러한 흐름 지표는 전통적 진척률(%)보다 실질적인 작업 흐름의 건강도를 보여준다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>PMBOK 7판 이후 애자일/적응형 접근방식의 측정 지표(성과영역 중 "측정" 영역)에 대한 출제가 늘고 있다. 흐름 지표의 정확한 명칭(주기시간, 리드타임, 처리량, 대기열크기, 배치크기)을 암기하고, "프로세스 크기"와 같이 존재하지 않는 유사 용어를 구분해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="22" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 정량적 리스크 분석을 위한 데이터 분석 기법으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 데이터 품질 평가</strong><br />
+② 시뮬레이션<br />
+③ 민감도 분석<br />
+④ 영향관계도</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (강의자료의 정성적/정량적 위험분석 구분에 기반)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>정량적 위험분석(Perform Quantitative Risk Analysis) 데이터 분석 기법</li>
+<li>시뮬레이션(몬테카를로), 민감도 분석, 영향관계도(Influence Diagram)</li>
+<li>데이터 품질 평가 = 정성적 위험분석 기법</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>22번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정량적 리스크 분석 - 데이터 분석 기법</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1.1 사업관리 특강 및 출제 예상_V1.2_20190328_최종본.pdf</li>
+<li><strong>관련 챕터</strong>: 정량적 위험분석 - 4가지 방법(민감도 분석, 의사결정나무 분석, 몬테카를로 시뮬레이션 등)</li>
+<li><strong>관련 페이지</strong>: 1077~1197행 (정량적 위험분석 기법 목록 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>위험분석 프로세스별(정성적/정량적) 기법 구분 문항은 감리 및 사업관리에서 매우 자주 출제되는 핵심 영역</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>23</td>
+<td>위험 통제 프로세스 도구·기법(프로세스 분석은 품질관리 영역)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>정량적 위험분석 기법: <strong>민감도분석, 시뮬레이션(몬테카를로), 의사결정나무분석, 영향관계도</strong></li>
+<li><strong>데이터 품질 평가는 정성적 위험분석 기법</strong> — 오답 함정</li>
+<li>정성적 분석 = 위험정보의 신뢰성·우선순위 판단, 정량적 분석 = 수치·확률 기반 영향 분석</li>
+<li>정량적 분석은 정성적 분석 이후 우선순위가 높은 위험에 대해서만 수행</li>
+<li>매 프로세스(정성적/정량적)별 고유 기법을 구분하여 암기</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료에 따르면 정량적 위험분석의 데이터 분석 기법에는 <strong>민감도 분석(Sensitivity Analysis)</strong>, <strong>시뮬레이션(몬테카를로 시뮬레이션 등)</strong>, 의사결정나무 분석, <strong>영향관계도(Influence Diagram)</strong> 등이 포함된다. 이들은 모두 위험의 발생 확률과 영향을 수치화·모델링하여 프로젝트 전체에 미치는 정량적 영향을 분석하는 기법이다.</p>
+<p>반면 "데이터 품질 평가(Data Quality Assessment)"는 위험 데이터 자체의 신뢰성·정확성·완전성 등을 점검하는 기법으로, 이는 <strong>정성적 위험분석(Perform Qualitative Risk Analysis)</strong> 단계에서 위험 데이터의 신뢰도를 평가하기 위해 사용되는 기법이다. 즉 데이터 품질 평가는 정량적 분석을 수행하기 위한 전제조건(데이터 신뢰성 확인)에 해당하는 정성적 분석 기법이지, 정량적 데이터 분석 기법 자체는 아니다. 따라서 정답은 ①번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>시뮬레이션(몬테카를로 시뮬레이션 등)은 다양한 시나리오를 수치적으로 반복 모델링하여 프로젝트 결과의 확률분포를 산출하는 대표적인 정량적 위험분석 기법이다.</p>
+<h3>보기③</h3>
+<p>민감도 분석은 개별 위험 요소가 프로젝트 목표에 미치는 영향의 크기를 정량적으로 비교하는 기법(토네이도 다이어그램 등)으로 정량적 위험분석 기법에 해당한다.</p>
+<h3>보기④</h3>
+<p>영향관계도(Influence Diagram)는 불확실성, 의사결정, 목표 간의 관계를 도식화하여 정량적으로 분석하는 기법으로 정량적 위험분석 기법에 해당한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>정량적 위험분석 vs 정성적 위험분석 기법 구분:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>기법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정성적 위험분석</td>
+<td>확률·영향 평가, 확률·영향 매트릭스, <strong>데이터 품질 평가</strong>, 위험 긴급성 평가, 위험 범주화</td>
+</tr>
+<tr>
+<td>정량적 위험분석(데이터 분석)</td>
+<td>시뮬레이션(몬테카를로), 민감도 분석, 의사결정나무 분석, 영향관계도</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>PM은 위험 관리대장에 등록된 위험들에 대해 먼저 정성적 위험분석(확률·영향 평가, 데이터 품질 평가로 위험정보의 신뢰성 확인)을 수행한 후, 우선순위가 높은 위험에 대해 몬테카를로 시뮬레이션이나 민감도 분석과 같은 정량적 기법으로 프로젝트 전체 일정·원가에 미치는 영향을 수치화한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>정성적 위험분석과 정량적 위험분석의 기법을 구분하는 문제는 매년 출제되는 핵심 유형이다. "데이터 품질 평가"가 정성적 분석 기법이라는 점을 정확히 암기하여, 정량적 분석 기법 목록(시뮬레이션, 민감도분석, 영향관계도, 의사결정나무)과 혼동하지 않아야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="23" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>위협에 대한 대응 전략과 기회에 대한 대응 전략을 순서대로 나열한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 공유(share) － 증대(enhance)<br />
+② 수용(accept) － 전가(transfer)<br />
+③ 공유(share) － 수용(accept)<br />
+<strong>④ 수용(accept) － 수용(accept)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료의 부정적/긍정적 리스크 대응전략 목록과 완전 일치 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>부정적 리스크(위협) 대응전략: 회피, 전가, 완화, 수용</li>
+<li>긍정적 리스크(기회) 대응전략: 활용, 공유, 증대, 수용</li>
+<li>수용(Acceptance)은 위협·기회 공통 전략</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>23번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>위협 대응전략과 기회 대응전략</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 4. 정보시스템감리사_V5.5_9장 인적자원관리_11장 위험관리.pdf</li>
+<li><strong>관련 챕터</strong>: 5. 위험 대응 계획 수립 - 부정적/긍정적 리스크 대응 방법</li>
+<li><strong>관련 페이지</strong>: 3200~3310행 (전략 목록 및 2012년 유사 기출 완전 일치 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>위협/기회 대응전략 문항은 강의자료에 2012년 기출로 명시되어 있으며, 위험관리 영역의 최다 반복 출제 유형</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2012(강의자료 내 명시, 정확한 문항번호는 전체 자료 분석 후 갱신)</td>
+<td>-</td>
+<td>긍정적 위험(기회) 대응전략과 거리가 먼 것(완화는 부정적 리스크 전용)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>위협(부정적 리스크) 전용: <strong>회피, 전가, 완화</strong></li>
+<li>기회(긍정적 리스크) 전용: <strong>활용, 공유, 증대</strong></li>
+<li><strong>수용(Acceptance)만 위협·기회 공통</strong> 전략</li>
+<li>암기법 "에세아"(활용-공유-증대-수용) — 기회 대응전략 순서</li>
+<li>"수용-수용" 조합은 항상 성립 가능한 유일한 정답 패턴</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료에 따르면 <strong>부정적 리스크(위협) 대응 방법</strong>은 회피(Avoid), 전가(Transfer), 완화(Mitigate), <strong>수용(Acceptance)</strong>의 4가지이며, <strong>긍정적 리스크(기회) 대응 방법</strong>은 활용(Exploit), 공유(Share), 증대(Enhance), <strong>수용(Acceptance)</strong>의 4가지이다.</p>
+<p>이 중 "수용(Acceptance)"은 위협과 기회 양쪽 모두에 공통으로 적용되는 유일한 전략이다(위협의 경우 수동적/능동적 수용, 기회의 경우 "활용은 하되 적극적으로 추구하지 않는" 수용). 반면 회피·전가·완화는 위협에만, 활용·공유·증대는 기회에만 해당하는 전략이다.</p>
+<p>보기 ④ "수용(accept) － 수용(accept)"은 위협에 대한 수용과 기회에 대한 수용을 각각 나열한 것으로, 두 전략 모두 실제로 각 리스크 유형에 정확히 적용 가능한 정식 전략이므로 올바른 조합이다. 나머지 보기들은 위협 전용 전략(전가)과 기회 전용 전략(공유, 증대)을 서로 뒤섞거나, 순서(위협-기회)에 맞지 않게 배치되어 있어 옳지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>공유(share)와 증대(enhance)는 둘 다 긍정적 리스크(기회) 전용 대응전략으로, "위협에 대한 대응전략"이 될 수 없어 옳지 않다.</p>
+<h3>보기②</h3>
+<p>수용(accept)은 위협 전략으로 타당하나, 전가(transfer)는 부정적 리스크(위협) 전용 전략이지 기회 대응전략이 아니므로 옳지 않다.</p>
+<h3>보기③</h3>
+<p>공유(share)는 긍정적 리스크(기회) 전용 전략으로 "위협에 대한 대응전략"이 될 수 없어 옳지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>부정적/긍정적 리스크 대응전략 비교(강의자료 완전일치):</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>부정적 리스크(위협) 전용</th>
+<th>긍정적 리스크(기회) 전용</th>
+<th>공통</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전략</td>
+<td>회피(Avoid), 전가(Transfer), 완화(Mitigate)</td>
+<td>활용(Exploit), 공유(Share), 증대(Enhance)</td>
+<td><strong>수용(Acceptance)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>암기법(강의자료)</strong>: 긍정적 리스크 대응전략 "활용·공유·증대·수용" = "에세아"(각 전략 앞글자 조합 암기법)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>PM은 부정적 리스크(예: 핵심 인력 이탈 가능성)에 대해서는 회피·전가·완화 중 하나를 선택하거나, 대응이 어려운 경우 수용(우발사태 예비 확보)을 선택한다. 반면 긍정적 리스크(예: 신기술 조기 도입 기회)에 대해서는 활용·공유·증대 중 하나를 선택하거나, 적극적으로 추구하지 않고 수용하는 방식을 택할 수 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>위협/기회 대응전략 구분 문제는 강의자료에 2012년 유사 기출로 명시되어 있을 정도로 반복 출제되는 핵심 유형이다. "수용"만이 위협과 기회 모두에 적용되는 유일한 공통 전략이라는 점이 여러 문항의 핵심 함정 포인트로 활용된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="24" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>프로젝트 계획을 세울 때 단기적으로 범위의 매우 구체적인 측면을 알고 있지만 장기적인 세부 사항은 아직 명확하지 않은 경우가 많다. 이때 고려해야 할 방법으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 연동 기획</strong><br />
+② 요구사항 수집<br />
+③ 대안 분석<br />
+④ 대체 분석</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (강의자료의 연동기획 정의와 완전 일치 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>연동 기획(Rolling Wave Planning)</li>
+<li>점진적 구체화(Progressive Elaboration)</li>
+<li>단기 상세, 장기 개괄 계획</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>24번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>연동기획(Rolling Wave Planning)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1.1 사업관리 특강 및 출제 예상_V1.2_20190328_최종본.pdf / 2. 정보시스템감리사_사업관리_V5.4_5장 범위관리 6장 시간관리.pdf</li>
+<li><strong>관련 챕터</strong>: 연동기획(Rolling Wave Planning)</li>
+<li><strong>관련 페이지</strong>: 258~282행(정의 및 기출문제 완전 일치), 1043행, 2516~2520행</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>연동기획 관련 문항은 강의자료에 기출로 명시되어 있으며 반복 출제되는 핵심 개념</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(강의자료 내 유사 기출 확인, 정확한 연도는 전체 자료 분석 후 갱신)</td>
+<td></td>
+<td>연동기획(Rolling Wave Planning) 정의</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>연동기획 = <strong>단기 상세 계획 + 장기 개괄 계획 + 점진적 구체화</strong></li>
+<li>점진적 구체화(Progressive Elaboration)와 밀접하게 연결된 개념</li>
+<li>대안분석·대체분석은 계획 수립 방식이 아닌 <strong>선택·비교 기법</strong></li>
+<li>요구사항 수집은 범위 정의를 위한 별도 프로세스</li>
+<li>지문에 "단기 구체적, 장기 불명확"이 나오면 연동기획을 우선 고려</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>강의자료는 <strong>연동기획(Rolling Wave Planning)</strong>을 "프로젝트 초기에 요구사항과 범위 등이 충분히 분할·결정되지 않은 상태에서, 가까운 시일 내에 수행할 작업은 상세하게 계획하고 먼 미래의 작업은 개략적 수준으로 계획한 뒤, 프로젝트가 진행됨에 따라 점차 상세화해 나가는 반복적 계획 기법"으로 정의한다. 본 문항의 지문("단기적으로 매우 구체적인 측면을 알고 있지만, 장기적인 세부사항은 아직 명확하지 않은 경우")은 연동기획의 정의와 정확히 일치하므로 정답은 ①번이다.</p>
+<p>②(요구사항 수집)는 범위 정의를 위한 별도 프로세스이고, ③(대안 분석)은 여러 대안을 비교·선택하는 기법이며, ④(대체 분석)은 명확한 PMBOK 표준 용어가 아니거나 유사 대안분석 기법을 의미하는 표현으로, 모두 "단기 상세/장기 개괄"이라는 계획 수립 방식과는 직접적인 관련이 없다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>요구사항 수집은 이해관계자의 요구사항을 문서화하는 프로세스로, 단기/장기 계획의 상세화 수준 차이를 다루는 기법이 아니다.</p>
+<h3>보기③</h3>
+<p>대안 분석은 여러 방법·접근법 중 최적안을 선택하는 데이터 분석 기법으로, 계획의 점진적 구체화와는 다른 개념이다.</p>
+<h3>보기④</h3>
+<p>대체 분석은 표준 PMBOK 용어로 명확히 정의되지 않으며, 본 문항이 요구하는 "점진적 구체화" 개념과 직접 연결되지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>연동기획(Rolling Wave Planning):</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정의</td>
+<td>단기 작업은 상세히, 장기 작업은 개괄적으로 계획 후 점진적으로 구체화</td>
+</tr>
+<tr>
+<td>관련 개념</td>
+<td>점진적 구체화(Progressive Elaboration)</td>
+</tr>
+<tr>
+<td>적용 영역</td>
+<td>범위관리, 일정관리(활동 정의·산정) 등</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>대규모 장기 프로젝트에서 PM은 착수 초기에 전체 프로젝트의 개괄적인 로드맵만 수립하고, 다음 1~2개월 내 수행할 작업은 WBS 최하위 수준까지 상세하게 계획한다. 프로젝트가 진행되면서 다음 구간의 작업을 다시 상세화하는 방식으로 연동기획을 반복 적용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>연동기획은 "단기 상세, 장기 개괄"이라는 정의 문구가 그대로 출제되는 경우가 많으므로, 정의 문장을 정확히 암기해두면 쉽게 풀 수 있는 문제 유형이다. 점진적 구체화(Progressive Elaboration)와의 관계(연동기획은 점진적 구체화를 구현하는 구체적 기법)도 함께 학습해야 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="25" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>목표에 의한 관리(MBO)의 주요 특성이 아닌 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 다면평가</strong><br />
+② 의사결정의 참가<br />
+③ 실적에 대한 피드백<br />
+④ 목표달성 기간 명시</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 높음</strong> (MBO 이론의 일반적 정의에 기반, 강의자료 세부항목은 외부지식 보완)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>목표에 의한 관리(MBO, Management By Objectives)</li>
+<li>목표설정, 참여, 피드백, 목표달성 기간</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>25번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>목표에 의한 관리(MBO)의 주요 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 4. 정보시스템감리사_V5.5_9장 인적자원관리_11장 위험관리.pdf</li>
+<li><strong>관련 챕터</strong>: 조직관리론 - 목표관리(MBO)</li>
+<li><strong>관련 페이지</strong>: 252~266행 (MBO 특징: 목표설정, 참여, 피드백 중심 관리체계 확인)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li>MBO 관련 문항은 조직관리론 영역에서 비정기적으로 출제되는 개념형 문제</li>
+<li>최근 출제년도: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(교차분석 추후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>MBO 핵심 특성: <strong>목표설정 참여 + 목표달성 기간 명시 + 실적 피드백</strong></li>
+<li><strong>다면평가(360도 평가)는 MBO 고유 특성이 아님</strong> — 별도의 평가기법</li>
+<li>MBO는 드러커(Peter Drucker)가 제시한 관리기법</li>
+<li>강의자료 정의: "목표지향적, 장기적 시간관리, 전략개발 강조, 조직활동 통합 강조"</li>
+<li>MBO는 상위 조직목표와 개인목표의 연계·통합이 핵심</li>
+</ol>
+<h2>---</h2>
+<h1>종합 정리</h1></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>목표에 의한 관리(MBO)는 드러커(Peter Drucker)가 제시한 관리기법으로, 조직의 상위 목표와 개인의 목표를 연계하여 구성원이 스스로 목표 설정에 <strong>참여</strong>하고(②), 목표달성을 위한 구체적인 <strong>기간을 명시</strong>하며(④), 목표 달성 결과에 대한 <strong>피드백</strong>(③)을 통해 성과를 평가·개선하는 것을 핵심 특성으로 한다.</p>
+<p>강의자료에도 MBO의 특징으로 "목표지향적, 장기적 시간관리, 전략개발 강조, 조직활동 통합 강조"가 언급되어 있으며, 이는 상위 조직 목표와 개인 목표의 연계·통합을 강조하는 MBO의 본질과 일치한다.</p>
+<p>반면 "다면평가(360도 평가)"는 상급자, 동료, 부하, 고객 등 다양한 평가자가 참여하는 별도의 인사평가 기법으로, MBO의 고유한 핵심 특성으로 분류되지 않는다. MBO는 상급자와 하급자 간의 목표 합의와 자기평가·피드백을 중심으로 하는 관리기법이며, 다면평가는 MBO와 별개로 발전한 성과평가 기법이다. 따라서 정답은 ①번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>의사결정의 참가(구성원이 자신의 목표 설정에 참여)는 MBO의 핵심 특성으로 옳다.</p>
+<h3>보기③</h3>
+<p>실적에 대한 피드백은 목표 달성 여부를 주기적으로 점검하고 개선하는 MBO의 핵심 특성으로 옳다.</p>
+<h3>보기④</h3>
+<p>목표달성 기간 명시는 목표를 구체적이고 측정 가능하게 설정하는 MBO의 핵심 특성(SMART 목표 설정과 연계)으로 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>목표에 의한 관리(MBO) 주요 특성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>특성</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>목표설정 참여</td>
+<td>구성원이 자신의 목표 설정 과정에 참여</td>
+</tr>
+<tr>
+<td>목표달성 기간 명시</td>
+<td>구체적이고 측정가능한 기한 설정</td>
+</tr>
+<tr>
+<td>실적 피드백</td>
+<td>주기적 성과 점검 및 피드백</td>
+</tr>
+<tr>
+<td>조직-개인 목표 통합</td>
+<td>상위 조직 목표와 개인 목표의 연계(강의자료: "조직활동 통합 강조")</td>
+</tr>
+<tr>
+<td>(해당없음)</td>
+<td>다면평가(360도 평가)는 MBO의 고유 특성이 아닌 별도의 평가기법</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>프로젝트 조직에서 MBO를 적용할 경우, 팀원과 관리자가 함께 분기별 목표(예: 결함률 감소 목표)를 설정하고 목표달성 기한을 명시한 뒤, 주기적으로 실적을 점검하여 피드백을 제공한다. 이는 다수의 평가자가 참여하는 다면평가와는 별개의 관리 방식이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>MBO의 특성을 묻는 문제는 유사한 인사관리 기법(다면평가, 역량평가 등)을 오답으로 섞어 출제하는 경우가 많다. MBO의 핵심은 "목표 설정에의 참여 + 기간 명시 + 피드백"이라는 점을 정확히 암기하고, 이와 무관한 별도의 평가기법(다면평가 등)을 구분해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">2024년 감리 및 사업관리(Q1~25) 총평</div><div class="section-text"><p>2024년 회차는 2025년과 유사하게 법령·지침 영역(Q1~17)과 PMBOK 기반 사업관리 이론 영역(Q18~25)으로 구성되었다.</p>
+<p><strong>법령·지침 영역</strong>: 적정 사업기간 산정(FP/MM 계산), SW사업 대가산정 가이드, 공공기관 DB 표준화 지침, AI 학습데이터 품질관리 가이드라인, 용역계약일반조건, CBD SW개발 표준 산출물, 전자정부법상 행정처분, 정보시스템 감리기준(기본감리비, 감리제안서 평가기준), 정보시스템 감리 수행가이드(부적합 판정, 감리영역별 점검항목), 지능정보기술 감리 실무 가이드, 감리원 윤리 가이드, SW 사업자 감리준비 가이드, 감리사업 적용제도, 총사업비 관리지침 등이 출제되었다. 이 중 강의자료(3장 감리총론, 정보시스템 감리 점검 해설서 v3, 서브노트)와 <strong>매우 높은 일치도</strong>로 확인된 문항(Q1, Q6, Q8, Q9, Q10, Q13)이 다수 있었던 반면, 2023~2024년 신설·개정된 최신 가이드라인(Q4, Q7, Q14, Q15, Q16, Q17)은 강의자료에 직접 근거가 부족하여 외부지식으로 보완하였다.</p>
+<p><strong>사업관리(PMBOK 기반) 영역</strong>: 일정활동기간 산정 도구, 의사소통 채널 수 계산, 상황적 리더십, 애자일 인도측정, 정량적 위험분석 기법, 위협/기회 대응전략, 연동기획, MBO 등이 출제되었다. 이 중 Q19(의사소통 채널 수), Q22(정량적 위험분석), Q23(위협/기회 대응전략), Q24(연동기획)는 강의자료와 <strong>완전히 일치</strong>하는 근거를 확보하여 신뢰도 높은 해설이 가능했다.</p>
+<p><strong>주의가 필요한 문항</strong>: Q14(감리원 윤리 준수 요소)와 Q16(감리사업 적용제도)은 강의자료에 정확한 원문이 확인되지 않아 2025년 기출과의 연계 추론 및 외부지식으로 보완하였으므로, 최신 원문 대조를 통한 재검증을 권장한다.</p></div></div>
+<div class="content-section"><div class="section-label">학습 우선순위 제언</div><div class="section-text"><ol>
+<li><strong>최우선 암기</strong>: 적정 사업기간 산정(Q1), 의사소통 채널 수 계산(Q19), 위협/기회 대응전략(Q23), 정량적/정성적 위험분석 기법 구분(Q22) — 강의자료 근거가 명확하고 계산·암기형으로 매년 출제</li>
+<li><strong>차순위 암기</strong>: 감리 판정기준(적합/부적합/점검제외, Q9), 감리시점별 점검항목 구분(Q10), 개선유형·개선시점(Q12), 감리제안서 평가항목(Q13)</li>
+<li><strong>원문 재검증 필요</strong>: 감리원 윤리 준수 요소(Q14), 감리사업 적용제도(Q16), 총사업비 관리지침(Q17), SW사업자 감리준비가이드(Q15) — 최신 지침 원문 확인 권장</li>
+</ol>
+<hr />
+<p><em>본 해설집은 2024년 제25회 감리 및 사업관리 문항 1~25(A형 기준)에 대한 해설집입니다.</em></p></div></div></div></div>
+      </div>
+    </div>
+  </div>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

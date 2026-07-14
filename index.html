@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보시스템 감리사 기출해설 시스템</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a; --primary-dark: #0f172a; --accent-color: #0ea5e9;
+            --border-color: #cbd5e1; --bg-sidebar: #1e293b; --bg-main: #f8fafc;
+            --text-main: #334155; --text-dark: #0f172a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        .sidebar { width: 300px; background-color: var(--bg-sidebar); color: #f1f5f9; display: flex; flex-direction: column; border-right: 1px solid #334155; flex-shrink: 0; transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+        .sidebar.hidden { margin-left: -300px; }
+        .sidebar-header { padding: 1.25rem 1.25rem 1.25rem 0.9rem; background-color: var(--primary-dark); border-bottom: 1px solid #334155; }
+        .sidebar-header-row { display: flex; align-items: center; gap: 0.6rem; }
+        .sidebar-header-row > .icon-btn { margin-left: auto; }
+        .sidebar-header h1 { font-size: 1.1rem; font-weight: 800; color: #ffffff; }
+        .sidebar-header p { font-size: 0.72rem; color: #94a3b8; margin-top: 0.2rem; }
+        .icon-btn { background: none; border: none; cursor: pointer; padding: 0.35rem; border-radius: 6px; display: flex; flex-shrink: 0; }
+        .icon-btn svg { width: 22px; height: 22px; }
+        .sidebar .icon-btn svg { fill: #cbd5e1; }
+        .sidebar .icon-btn:hover { background-color: #334155; }
+
+        .menu-container { flex: 1; overflow-y: auto; padding: 1rem 0; }
+        .course-btn { width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1.25rem; color: #cbd5e1; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .course-btn::after { content: '▼'; font-size: 0.65rem; transition: transform 0.2s; }
+        .course-btn.collapsed::after { transform: rotate(-90deg); }
+        .year-list { list-style: none; background-color: #0f172a; }
+        .course-btn.collapsed + .year-list { display: none; }
+        .year-btn { width: 100%; text-align: left; background: none; border: none; padding: 0.6rem 1.75rem; color: #94a3b8; font-size: 0.88rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+        .year-btn:hover { color: #e2e8f0; }
+        .year-item.active .year-btn { color: #38bdf8; background-color: #1e293b; font-weight: 700; }
+        .year-btn .tag { font-size: 0.65rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px; }
+        .year-btn .tag.ready { background-color: #065f46; color: #6ee7b7; }
+        .year-btn .tag.soon { background-color: #334155; color: #94a3b8; }
+        .empty-note { padding: 0.6rem 1.75rem; color: #64748b; font-size: 0.82rem; font-style: italic; }
+
+        .main-container { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .content-region { flex: 1; position: relative; overflow: hidden; background-color: var(--bg-main); }
+        #content-frame { width: 100%; height: 100%; border: none; background-color: #ffffff; }
+
+        .floating-toggle { position: absolute; top: 0.6rem; left: 0.6rem; z-index: 20; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.4rem; cursor: pointer; box-shadow: 0 2px 6px rgb(0 0 0 / 0.12); }
+        .floating-toggle:hover { background: #f1f5f9; }
+        .floating-toggle svg { width: 22px; height: 22px; fill: #475569; }
+
+        .welcome-screen { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem; background-color: var(--bg-main); }
+        .welcome-screen h2 { font-size: 1.75rem; color: var(--primary-color); margin-bottom: 1rem; font-weight: 800; }
+        .welcome-screen p { font-size: 1rem; color: var(--text-main); max-width: 640px; margin-bottom: 1.5rem; line-height: 1.7; }
+        .welcome-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+        .welcome-badges span { background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 999px; padding: 0.4rem 0.9rem; font-size: 0.82rem; font-weight: 700; color: var(--primary-color); }
+
+        .placeholder-screen { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem; background-color: var(--bg-main); }
+        .placeholder-screen h2 { font-size: 1.4rem; color: var(--text-dark); margin-bottom: 0.75rem; font-weight: 800; }
+        .placeholder-screen p { font-size: 0.95rem; color: var(--text-main); max-width: 560px; line-height: 1.7; }
+    </style>
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-header-row">
+                <div>
+                    <h1>정보시스템 감리사 기출해설</h1>
+                    <p>과목별 · 연도별 기출문제 해설 학습 시스템</p>
+                </div>
+                <button class="icon-btn" onclick="toggleSidebar()" title="메뉴 접기">
+                    <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="menu-container" id="menu-container"></div>
+    </div>
+
+    <div class="main-container">
+        <div class="content-region">
+            <button class="floating-toggle" onclick="toggleSidebar()" title="메뉴 펼치기">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+
+            <iframe id="content-frame" title="기출해설 본문" style="display:none;"></iframe>
+
+            <div class="welcome-screen" id="welcome-screen">
+                <h2>정보시스템 감리사 기출해설 학습 시스템</h2>
+                <p>왼쪽 메뉴에서 <strong>과목</strong>을 펼치고 <strong>연도</strong>를 선택하면, 해당 연도 기출문제 해설집이 이 영역에 표시됩니다. 각 해설집은 원본 해설 md의 내용을 축약·변경 없이 그대로 담습니다.</p>
+                <div class="welcome-badges">
+                    <span>감리 및 사업관리</span><span>소프트웨어공학</span><span>데이터베이스</span><span>시스템구조</span><span>보안</span>
+                </div>
+            </div>
+
+            <div class="placeholder-screen" id="placeholder-screen">
+                <h2 id="placeholder-title">준비 중입니다</h2>
+                <p id="placeholder-msg">해당 연도 해설집은 원본 md를 반영하여 순차적으로 개방될 예정입니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const courses = [
+            { name: "감리 및 사업관리", slug: "감리및사업관리", years: [2025, 2024, 2023, 2022, 2021] },
+            { name: "소프트웨어공학",   slug: "소프트웨어공학",   years: [2025, 2024, 2023, 2022, 2021] },
+            { name: "데이터베이스",     slug: "데이터베이스",     years: [] },
+            { name: "시스템구조",       slug: "시스템구조",       years: [] },
+            { name: "보안",             slug: "보안",             years: [] }
+        ];
+
+        const built = {
+            "감리및사업관리_2025": true, "감리및사업관리_2024": true, "감리및사업관리_2023": true,
+            "감리및사업관리_2022": true, "감리및사업관리_2021": true,
+            "소프트웨어공학_2025": true, "소프트웨어공학_2024": true, "소프트웨어공학_2023": true,
+            "소프트웨어공학_2022": true, "소프트웨어공학_2021": true
+        };
+
+        let activeYearEl = null;
+
+        function buildMenu() {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+            courses.forEach((course, ci) => {
+                const item = document.createElement('div');
+                item.className = 'course-item';
+                const btn = document.createElement('button');
+                btn.className = 'course-btn' + (ci === 0 ? '' : ' collapsed');
+                btn.textContent = course.name;
+                btn.onclick = () => btn.classList.toggle('collapsed');
+                item.appendChild(btn);
+                const ul = document.createElement('ul');
+                ul.className = 'year-list';
+                if (course.years.length === 0) {
+                    const li = document.createElement('li');
+                    li.className = 'empty-note';
+                    li.textContent = '준비 중';
+                    ul.appendChild(li);
+                } else {
+                    course.years.forEach(year => {
+                        const key = course.slug + '_' + year;
+                        const isReady = !!built[key];
+                        const li = document.createElement('li');
+                        li.className = 'year-item';
+                        const yb = document.createElement('button');
+                        yb.className = 'year-btn';
+                        yb.innerHTML = '<span>' + year + '년도 기출해설집</span>' +
+                            '<span class="tag ' + (isReady ? 'ready' : 'soon') + '">' + (isReady ? '열람' : '준비중') + '</span>';
+                        yb.onclick = () => selectYear(li, course, year);
+                        li.appendChild(yb);
+                        ul.appendChild(li);
+                    });
+                }
+                item.appendChild(ul);
+                container.appendChild(item);
+            });
+        }
+
+        function selectYear(li, course, year) {
+            if (activeYearEl) activeYearEl.classList.remove('active');
+            li.classList.add('active');
+            activeYearEl = li;
+            const key = course.slug + '_' + year;
+            const frame = document.getElementById('content-frame');
+            const welcome = document.getElementById('welcome-screen');
+            const placeholder = document.getElementById('placeholder-screen');
+            welcome.style.display = 'none';
+            if (built[key]) {
+                placeholder.style.display = 'none';
+                frame.style.display = 'block';
+                frame.src = encodeURIComponent(course.slug) + '/' + encodeURIComponent(course.slug + '_' + year + '.html');
+            } else {
+                frame.style.display = 'none';
+                frame.removeAttribute('src');
+                document.getElementById('placeholder-title').textContent = course.name + ' ' + year + '년도 · 준비 중';
+                document.getElementById('placeholder-msg').textContent = '해당 연도 해설집은 원본 해설 md를 반영하여 개별 페이지로 순차 개방될 예정입니다.';
+                placeholder.style.display = 'flex';
+            }
+        }
+
+        function toggleSidebar() {
+            const hidden = document.getElementById('sidebar').classList.toggle('hidden');
+            document.body.classList.toggle('sidebar-collapsed', hidden);
+        }
+
+        buildMenu();
+    </script>
+</body>
+</html>

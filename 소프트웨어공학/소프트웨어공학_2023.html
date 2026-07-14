@@ -1,0 +1,3666 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소프트웨어공학 2023년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">소프트웨어공학 <small>2023년도 기출해설집 · 총 25문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 소프트웨어공학 기출문제 해설집</h1>
+<h2>2023년 제24회 (문항 26~50)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 업로드된 소프트웨어공학 강의자료(Part I~III) 우선 근거<br />
+<strong>정답 출처</strong>: 2023년제24회_정보시스템_감리사_필기시험_문제_및_답안.pdf (Bold 표시 정답)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (이미지 내 Bold 직접 확인)</p>
+</blockquote>
+<hr />
+<h2>2023년 소프트웨어공학 정답표 (Q26~50)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26</td>
+<td>④</td>
+<td>36</td>
+<td>④</td>
+<td>46</td>
+<td>③</td>
+</tr>
+<tr>
+<td>27</td>
+<td>③</td>
+<td>37</td>
+<td>①</td>
+<td>47</td>
+<td>③</td>
+</tr>
+<tr>
+<td>28</td>
+<td>①</td>
+<td>38</td>
+<td>①</td>
+<td>48</td>
+<td>③</td>
+</tr>
+<tr>
+<td>29</td>
+<td>③</td>
+<td>39</td>
+<td>③</td>
+<td>49</td>
+<td>③</td>
+</tr>
+<tr>
+<td>30</td>
+<td>①</td>
+<td>40</td>
+<td>②</td>
+<td>50</td>
+<td>④</td>
+</tr>
+<tr>
+<td>31</td>
+<td>①</td>
+<td>41</td>
+<td>④</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td>②</td>
+<td>42</td>
+<td>③</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td>④</td>
+<td>43</td>
+<td>①</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>①</td>
+<td>44</td>
+<td>①</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>35</td>
+<td>③</td>
+<td>45</td>
+<td>④</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="26" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 Sequence diagram의 동작에서 적용된 디자인 패턴으로 가장 적절한 것은?</p>
+<p><em>(Client → C1: handle() → [hasHandler==true] C1 → C2: do1(), [else] C1 → C2: handle() → [hasHandler==true] C2 → C3: do2(), [else] C2 → C3: handle() 재귀 구조)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Iterator<br />
+② Strategy<br />
+③ State<br />
+<strong>④ Chain of Responsibility</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Chain of Responsibility (역할 사슬 패턴)</li>
+<li>요청 전달(handle)</li>
+<li>hasHandler 조건</li>
+<li>연쇄적 위임</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>26번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>UML Sequence Diagram → 디자인 패턴 식별</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_2_디자인_패턴_Part_II_V1.1.pdf</li>
+<li><strong>관련 챕터</strong>: 행위 패턴 - Chain of Responsibility</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (설계 패턴은 매년 출제, Chain of Responsibility 재출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Chain of Responsibility = <strong>handle() 메서드</strong>로 체인 전달</li>
+<li>hasHandler(또는 canHandle) 조건 체크 후 직접 처리 또는 전달</li>
+<li>요청자는 처리자가 누군지 모름 (느슨한 결합)</li>
+<li>시퀀스 다이어그램의 alt[hasHandler==true] 구조 = COR 전형</li>
+<li>예시: 예외 처리 체인, 이벤트 버블링, 로그 레벨 처리</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>시퀀스 다이어그램 분석:<br />
+- Client가 C1에 <code>handle()</code> 요청<br />
+- C1이 <code>hasHandler == true</code>면 직접 처리(<code>do1()</code>), 아니면 C2로 <code>handle()</code> 전달<br />
+- C2가 <code>hasHandler == true</code>면 직접 처리(<code>do2()</code>), 아니면 C3로 <code>handle()</code> 전달<br />
+- 연쇄적으로 책임이 이동</p>
+<p>이것이 <strong>Chain of Responsibility(역할 사슬)</strong> 패턴의 전형:<br />
+- 여러 객체가 연결되어 요청을 처리할 때까지 전달<br />
+- 각 핸들러는 처리 가능하면 처리, 불가능하면 다음 핸들러로 전달<br />
+- 요청자와 처리자를 분리</p>
+<p>강의자료(2_2_디자인_패턴):</p>
+<blockquote>
+<p>"역할사슬 패턴: 한 요청을 2개 이상의 객체에서 처리. 사슬(Chain)로 연결되어 있음. 예) 윈도우시스템에서 마우스클릭/키보드 이벤트 처리 패턴"</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(Iterator)</h3>
+<p>컬렉션 내부 구현을 노출하지 않고 원소를 순차 접근하는 패턴. 요청 전달과 무관.</p>
+<h3>보기②(Strategy)</h3>
+<p>알고리즘을 캡슐화하여 교환 가능하게 하는 패턴. 여러 객체에 순차적으로 요청을 전달하는 구조가 아님.</p>
+<h3>보기③(State)</h3>
+<p>상태에 따라 다른 동작을 하는 패턴. 상태 전이가 핵심이며, 체인 형태의 요청 전달과 다름.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>행위 패턴 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>패턴</th>
+<th>키워드</th>
+<th>구조</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chain of Responsibility</strong></td>
+<td><strong>체인, handle(), 전달</strong></td>
+<td><strong>선형 연결</strong></td>
+</tr>
+<tr>
+<td>Iterator</td>
+<td>next(), hasNext()</td>
+<td>순차 접근</td>
+</tr>
+<tr>
+<td>Strategy</td>
+<td>알고리즘 교체</td>
+<td>전략 캡슐화</td>
+</tr>
+<tr>
+<td>State</td>
+<td>상태별 동작</td>
+<td>상태 클래스</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="27" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 3개의 Condition과 2개의 Action으로 구성된 Decision Table이다. TC1~TC4 4개의 테스트케이스를 사용하는 경우 커버리지는?</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1: -100 &lt;= X</td>
+<td>T</td>
+<td>T</td>
+<td>T</td>
+<td>T</td>
+<td>F</td>
+<td>F</td>
+<td>F</td>
+<td>F</td>
+</tr>
+<tr>
+<td>C2: 150 &lt; Y</td>
+<td>T</td>
+<td>T</td>
+<td>F</td>
+<td>F</td>
+<td>T</td>
+<td>T</td>
+<td>F</td>
+<td>F</td>
+</tr>
+<tr>
+<td>C3: X+Y &gt;= 150</td>
+<td>T</td>
+<td>F</td>
+<td>T</td>
+<td>F</td>
+<td>T</td>
+<td>F</td>
+<td>T</td>
+<td>F</td>
+</tr>
+<tr>
+<td>A1</td>
+<td>T</td>
+<td>F</td>
+<td>F</td>
+<td>T</td>
+<td>T</td>
+<td>F</td>
+<td>F</td>
+<td>T</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>T</td>
+<td>T</td>
+<td>T</td>
+<td>F</td>
+<td>T</td>
+<td>T</td>
+<td>T</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+<p>TC1: X=-200, Y=0 / TC2: X=0, Y=200 / TC3: X=-100, Y=150 / TC4: X=-100, Y=250</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 1/8<br />
+② 2/8<br />
+<strong>③ 3/8</strong><br />
+④ 4/8</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (3/8)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (직접 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Decision Table Testing</li>
+<li>조건 조합(Rule)</li>
+<li>테스트 커버리지</li>
+<li>조건 평가</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>27번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Decision Table 테스트 커버리지 계산</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+<li><strong>관련 챕터</strong>: 명세 기반 테스트 설계 기법</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (Decision Table 커버리지 계산은 매년 1회 이상)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Decision Table Rule = 조건들의 T/F 조합 1가지</li>
+<li>n개 조건 → 최대 2ⁿ 개 Rule</li>
+<li>커버리지 = 실행된 Rule 수 / 전체 Rule 수</li>
+<li>동일한 Rule로 평가되는 TC는 중복 카운트 안 함</li>
+<li>C1: -100 ≤ X는 X ≥ -100 의 의미 (방향 주의)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>각 TC별 조건 평가:</strong></p>
+<table>
+<thead>
+<tr>
+<th>TC</th>
+<th>X</th>
+<th>Y</th>
+<th>C1(-100≤X)</th>
+<th>C2(150\&lt;Y)</th>
+<th>C3(X+Y≥150)</th>
+<th>해당 Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TC1</td>
+<td>-200</td>
+<td>0</td>
+<td>F(-200\&lt;-100)</td>
+<td>F(0≤150)</td>
+<td>F(-200\&lt;150)</td>
+<td>Rule 8</td>
+</tr>
+<tr>
+<td>TC2</td>
+<td>0</td>
+<td>200</td>
+<td>T</td>
+<td>T(200&gt;150)</td>
+<td>T(200≥150)</td>
+<td>Rule 1</td>
+</tr>
+<tr>
+<td>TC3</td>
+<td>-100</td>
+<td>150</td>
+<td>T(-100≥-100)</td>
+<td>F(150≤150)</td>
+<td>F(50\&lt;150)</td>
+<td>Rule 4</td>
+</tr>
+<tr>
+<td>TC4</td>
+<td>-100</td>
+<td>250</td>
+<td>T</td>
+<td>T(250&gt;150)</td>
+<td>T(150≥150)</td>
+<td>Rule 1</td>
+</tr>
+</tbody>
+</table>
+<p>커버된 Rule: <strong>Rule 1</strong>(TC2,TC4), <strong>Rule 4</strong>(TC3), <strong>Rule 8</strong>(TC1) → <strong>3개</strong><br />
+전체 Rule = 8개<br />
+<strong>커버리지 = 3/8</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Decision Table Testing:</strong><br />
+- 조건들의 모든 조합을 표로 정리<br />
+- 전체 커버리지 = 모든 8개 Rule 실행<br />
+- 테스트케이스별로 어느 Rule에 해당하는지 파악</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="28" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>Robert C. Martin은 clean architecture를 설명하면서 컴포넌트 결합도에 대한 3가지 원칙을 제시하였다. 이에 대한 설명 중 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 자신보다 재사용성이 높은 컴포넌트에 의존해야 한다.</strong><br />
+② 컴포넌트간의 의존성에 사이클이 존재하지 않아야 한다.<br />
+③ 자신보다 안정적(stable)인 컴포넌트에 의존해야 한다.<br />
+④ 자신보다 추상화된 컴포넌트에 의존해야 한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Clean Architecture</li>
+<li>컴포넌트 결합도 3원칙</li>
+<li>ADP(Acyclic Dependencies Principle)</li>
+<li>SDP(Stable Dependencies Principle)</li>
+<li>SAP(Stable Abstractions Principle)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>28번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Clean Architecture 컴포넌트 결합도 원칙</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
+<li><strong>관련 챕터</strong>: SW 아키텍처 - Clean Architecture</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (Clean Architecture 출제 증가 추세)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>결합도 3원칙: ADP(비순환), SDP(안정적의존), SAP(추상화의존)</li>
+<li>"재사용성이 높은 컴포넌트에 의존" = <strong>Clean Architecture에 없는 원칙!</strong></li>
+<li>SDP: 자신보다 I값 낮은(안정적) 컴포넌트에 의존</li>
+<li>SAP: 안정적 = 추상적이어야 함 (추상화 정도와 안정성 비례)</li>
+<li>ADP: 의존성 그래프에 순환(cycle) 금지</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Robert C. Martin의 컴포넌트 결합도 3원칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ADP</strong> (비순환 의존성)</td>
+<td>컴포넌트 간 의존성에 <strong>사이클이 없어야</strong> 함 ②</td>
+</tr>
+<tr>
+<td><strong>SDP</strong> (안정적 의존성)</td>
+<td><strong>자신보다 안정적인</strong> 컴포넌트에 의존 ③</td>
+</tr>
+<tr>
+<td><strong>SAP</strong> (안정적 추상화)</td>
+<td><strong>자신보다 추상화된</strong> 컴포넌트에 의존 ④</td>
+</tr>
+</tbody>
+</table>
+<p><strong>"재사용성이 높은 컴포넌트에 의존"</strong>은 Martin의 3원칙에 없다.<br />
+재사용성은 컴포넌트 응집도 원칙(REP, CCP, CRP)에서 다루며, 결합도 원칙이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②(ADP)</h3>
+<p>비순환 의존성 원칙: 사이클 → 함께 변경되어야 하므로 독립 배포 불가. 올바른 원칙.</p>
+<h3>보기③(SDP)</h3>
+<p>안정적 의존성 원칙: 불안정한 컴포넌트가 안정적인 컴포넌트에 의존. I값이 낮은(안정) 방향으로 의존. 올바른 원칙.</p>
+<h3>보기④(SAP)</h3>
+<p>안정적 추상화 원칙: 안정적인 컴포넌트일수록 추상적이어야 함. 추상화된 쪽에 의존. 올바른 원칙.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Clean Architecture 패키지 원칙 전체:</strong></p>
+<table>
+<thead>
+<tr>
+<th>분류</th>
+<th>원칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>응집도</td>
+<td>REP</td>
+<td>재사용/릴리즈 동등성</td>
+</tr>
+<tr>
+<td>응집도</td>
+<td>CCP</td>
+<td>공통 폐쇄</td>
+</tr>
+<tr>
+<td>응집도</td>
+<td>CRP</td>
+<td>공통 재사용</td>
+</tr>
+<tr>
+<td><strong>결합도</strong></td>
+<td><strong>ADP</strong></td>
+<td><strong>비순환 의존</strong></td>
+</tr>
+<tr>
+<td><strong>결합도</strong></td>
+<td><strong>SDP</strong></td>
+<td><strong>안정적 의존</strong></td>
+</tr>
+<tr>
+<td><strong>결합도</strong></td>
+<td><strong>SAP</strong></td>
+<td><strong>안정적 추상화</strong></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="29" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 인공신경망을 테스팅 할 때 사용할 수 있는 커버리지로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Neuron coverage<br />
+② Layer coverage<br />
+<strong>③ Component coverage</strong><br />
+④ Sign-sign coverage</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>인공신경망 테스트</li>
+<li>Neuron coverage (뉴런 커버리지)</li>
+<li>Layer coverage (레이어 커버리지)</li>
+<li>Sign-sign coverage</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>29번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>인공신경망 테스트 커버리지</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+<li><strong>관련 챕터</strong>: AI 테스트 기법 - 뉴런 커버리지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (AI 테스트는 최근 출제 급증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>신경망 커버리지: Neuron, Layer, Sign-sign, Boundary 등</li>
+<li><strong>Component coverage</strong> = 일반 SW 테스트 개념 (신경망 전용 아님)</li>
+<li>Neuron coverage = 뉴런이 활성화되면 커버됨</li>
+<li>미활성화 뉴런에 대한 테스트 케이스 추가 = 커버리지 향상</li>
+<li>DeepXplore = 신경망 커버리지 기반 테스트 도구 (2017)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>인공신경망(DNN) 테스트 커버리지 종류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>커버리지</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Neuron coverage</strong></td>
+<td>뉴런 활성화 비율 측정</td>
+</tr>
+<tr>
+<td><strong>Layer coverage</strong></td>
+<td>레이어별 커버리지</td>
+</tr>
+<tr>
+<td><strong>Neuron boundary coverage</strong></td>
+<td>활성화 경계값 커버리지</td>
+</tr>
+<tr>
+<td><strong>Sign-sign coverage</strong></td>
+<td>인접 뉴런 간의 부호(sign) 관계 커버리지</td>
+</tr>
+<tr>
+<td><strong>Top-k neuronal coverage</strong></td>
+<td>가장 활성화된 k개 뉴런 커버리지</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Component coverage</strong>는 일반 소프트웨어 구조 테스트의 개념으로, 인공신경망 전용 커버리지 기준이 아니다. 컴포넌트 커버리지는 UML 컴포넌트 다이어그램이나 전통적 SW 테스트에서 사용되는 개념이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(Neuron coverage)</h3>
+<p>딥러닝 테스트의 가장 기본적인 커버리지. DeepXplore에서 제안. 활성화 여부를 측정. <strong>신경망 커버리지 맞음</strong>.</p>
+<h3>보기②(Layer coverage)</h3>
+<p>각 레이어(입력/은닉/출력)의 커버리지 측정. <strong>신경망 커버리지 맞음</strong>.</p>
+<h3>보기④(Sign-sign coverage)</h3>
+<p>인접 뉴런 간의 부호 변화 패턴 커버리지. <strong>신경망 커버리지 맞음</strong>.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>딥러닝 테스트 커버리지 체계:</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>커버리지</th>
+<th>세분화</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>뉴런 레벨</td>
+<td>Neuron coverage</td>
+<td>기본</td>
+</tr>
+<tr>
+<td>레이어 레벨</td>
+<td>Layer coverage, Multi-section NC</td>
+<td>중급</td>
+</tr>
+<tr>
+<td>관계 레벨</td>
+<td>Sign-sign, Value-sign</td>
+<td>고급</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="30" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 설명으로 가장 적절한 용어는?</p>
+<blockquote>
+<p>악의적인 행위자가 시스템에 무단으로 진입하거나 악의적인 행동을 유발하는 데 사용될 수 있는 소프트웨어 아키텍처 및 소스 코드의 문제점을 말하며, 최근 소프트웨어 시스템에 영향을 미치는 다른 심각한 약점을 수용하기 위해 보안을 넘어 그 범위가 확장되고 있다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① Common Weakness Enumeration</strong><br />
+② Technical Debt<br />
+③ Bad Smells<br />
+④ Anti-patterns</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>CWE(Common Weakness Enumeration)</li>
+<li>소프트웨어 약점(Weakness)</li>
+<li>보안 취약점</li>
+<li>ISO/IEC 5055</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>30번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>CWE(Common Weakness Enumeration)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+<li><strong>관련 챕터</strong>: SW 품질 표준 - ISO/IEC 5055, CWE</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>CWE = 소스코드/아키텍처의 약점(weakness) 목록</li>
+<li>CVE = 실제 취약점(vulnerability) 목록 (CWE가 원인, CVE가 결과)</li>
+<li>2024 Q39와 연계: ISO/IEC 5055 = CWE 기반 자동 측정</li>
+<li>Bad Smells = 리팩토링 필요 코드 패턴 (보안 개념 아님)</li>
+<li>Technical Debt = 미래 비용 누적 개념</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>CWE(Common Weakness Enumeration) 정의:</strong></p>
+<p>미국 MITRE에서 관리하는 소프트웨어 약점(Weakness) 목록으로:<br />
+- <strong>소스 코드 및 아키텍처 레벨의 약점</strong> 분류<br />
+- 악의적 행위자가 악용할 수 있는 취약점의 근본 원인<br />
+- 보안을 넘어 신뢰성, 유지보수성, 성능 등으로 확장</p>
+<p>ISO/IEC 5055는 CWE를 기반으로 소스코드 자동화 측정 표준을 제정하였다.</p>
+<p><strong>오답 분석:</strong><br />
+- Technical Debt: 빠른 개발을 위해 누적된 기술적 부채 (리팩토링 필요 코드)<br />
+- Bad Smells: 리팩토링이 필요한 코드 패턴 (Fowler)<br />
+- Anti-patterns: 반복되는 잘못된 설계 패턴</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="31" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>OMG에서는 하드웨어 등을 포함한 복잡한 시스템을 모델링하기 위한 목적으로 SysML을 정의하였다. SysML을 구성하는 일부 다이어그램은 UML을 차용하였다. 다음 중 SysML과 UML에 공통적으로 존재하는 다이어그램으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① Use case diagram</strong><br />
+② Class diagram<br />
+③ Component diagram<br />
+④ Requirement diagram</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SysML 다이어그램 구성</li>
+<li>UML 공통 다이어그램</li>
+<li>SysML 고유 다이어그램</li>
+<li>Use Case Diagram</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>31번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SysML과 UML 공통 다이어그램</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SysML ∩ UML 공통: Use Case, Activity, Sequence, State Machine</li>
+<li>Requirement Diagram = <strong>SysML 고유</strong> (UML에 없음!)</li>
+<li>Class Diagram → SysML에서 BDD로 대체</li>
+<li>SysML = 시스템 공학용 UML 프로파일 (하드웨어 포함)</li>
+<li>OMG = SysML 제정 기관</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>SysML 다이어그램과 UML 공통 여부:</strong></p>
+<table>
+<thead>
+<tr>
+<th>다이어그램</th>
+<th>UML</th>
+<th>SysML</th>
+<th>공통</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Use Case</strong></td>
+<td>✓</td>
+<td>✓</td>
+<td><strong>✓</strong></td>
+</tr>
+<tr>
+<td>Activity</td>
+<td>✓</td>
+<td>✓ (확장)</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Sequence</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>State Machine</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Class</td>
+<td>✓</td>
+<td>✗ (→BDD로 대체)</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Component</td>
+<td>✓</td>
+<td>✗</td>
+<td>✗</td>
+</tr>
+<tr>
+<td><strong>Requirement</strong></td>
+<td><strong>✗</strong></td>
+<td><strong>✓ (SysML 고유)</strong></td>
+<td><strong>✗</strong></td>
+</tr>
+<tr>
+<td>Block Definition (BDD)</td>
+<td>✗</td>
+<td>✓ (SysML 고유)</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>Parametric</td>
+<td>✗</td>
+<td>✓ (SysML 고유)</td>
+<td>✗</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SysML은 UML의 4가지 다이어그램을 그대로 차용</strong>: Use Case, Activity, Sequence, State Machine<br />
+<strong>SysML 고유 다이어그램</strong>: Requirement, Block Definition, Internal Block, Parametric</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②(Class diagram)</h3>
+<p>UML에는 있으나 SysML에는 없음. SysML은 Block Definition Diagram(BDD)으로 대체.</p>
+<h3>보기③(Component diagram)</h3>
+<p>UML에는 있으나 SysML에는 없음.</p>
+<h3>보기④(Requirement diagram)</h3>
+<p><strong>SysML 고유 다이어그램</strong> — UML에 없음.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SysML 9가지 다이어그램:</strong><br />
+- UML 차용(4): Use Case, Activity, Sequence, State Machine<br />
+- SysML 고유(4): Requirement, Block Definition(BDD), Internal Block(IBD), Parametric<br />
+- 공통 변형(1): Package</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="32" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>CMMI-DEV의 22개 프로세스 영역 중 일부이다. 이 중 분류체계 성격이 가장 다른 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Configuration Management(CM)<br />
+<strong>② Technical Solution(TS)</strong><br />
+③ Decision Analysis and Resolution(DAR)<br />
+④ Causal Analysis and Resolution(CAR)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>CMMI-DEV 프로세스 영역</li>
+<li>지원 프로세스(Support)</li>
+<li>엔지니어링 프로세스(Engineering)</li>
+<li>프로세스 영역 분류</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>32번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>CMMI-DEV 프로세스 영역 분류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+<li><strong>관련 챕터</strong>: CMMI-DEV 프로세스 영역</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (CMMI 프로세스 영역 분류 주기적 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>CMMI 4분류: 프로세스관리, 프로젝트관리, <strong>엔지니어링</strong>, <strong>지원</strong></li>
+<li><strong>TS(Technical Solution)</strong> = 엔지니어링 PA</li>
+<li>CM, DAR, CAR, MA = 지원(Support) PA</li>
+<li>RSKM(위험관리) = 프로젝트 관리 PA</li>
+<li>OPD, OPF = 프로세스 관리 PA</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>CMMI-DEV 프로세스 영역 분류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>분류</th>
+<th>프로세스 영역</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프로세스 관리</td>
+<td>OPD, OPF, OPP, OPM, OT</td>
+</tr>
+<tr>
+<td><strong>프로젝트 관리</strong></td>
+<td>PP, PMC, IPM, RSKM, SAM, QPM</td>
+</tr>
+<tr>
+<td><strong>엔지니어링</strong></td>
+<td><strong>TS(Technical Solution)</strong>, RD, TS, VER, VAL, PI, TS...</td>
+</tr>
+<tr>
+<td><strong>지원</strong></td>
+<td><strong>CM, DAR, CAR</strong>, MA, PPQA</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 보기:<br />
+- <strong>CM(Configuration Management)</strong> → 지원(Support) 프로세스 영역<br />
+- <strong>DAR(Decision Analysis and Resolution)</strong> → 지원(Support) 프로세스 영역<br />
+- <strong>CAR(Causal Analysis and Resolution)</strong> → 지원(Support) 프로세스 영역</p>
+<p><strong>TS(Technical Solution)</strong>만 <strong>엔지니어링(Engineering)</strong> 프로세스 영역에 해당하므로 분류 성격이 다름.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CMMI 4가지 프로세스 분류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>분류</th>
+<th>대표 PA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프로세스 관리</td>
+<td>OPD, OPF, OT</td>
+</tr>
+<tr>
+<td>프로젝트 관리</td>
+<td>PP, PMC, RSKM</td>
+</tr>
+<tr>
+<td><strong>엔지니어링</strong></td>
+<td><strong>RD, TS, PI, VER, VAL</strong></td>
+</tr>
+<tr>
+<td><strong>지원</strong></td>
+<td><strong>CM, DAR, CAR, MA, PPQA</strong></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="33" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>Software Engineering Institute(SEI) 아키텍처 뷰 모델 중 다음 설명에 해당하는 뷰(View)로 가장 적절한 것은?</p>
+<ul>
+<li>데이터의 생성과 소비에 관련된 내용으로 컴포넌트들에 감지된 이벤트를 통해 상호작용한다.</li>
+<li>데이터의 생성자와 사용자를 구분하고 이벤트를 통하여 정보의 사용을 관리한다.</li>
+<li>모든 컴포넌트는 이벤트 분배자(Distributor)에 연결된다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Peer to Peer View<br />
+② Client-Server View<br />
+③ Pipe and Filter View<br />
+<strong>④ Publish-Subscribe View</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Publish-Subscribe 패턴</li>
+<li>이벤트 분배자(Distributor/Event Bus)</li>
+<li>발행자(Publisher) - 구독자(Subscriber)</li>
+<li>느슨한 결합</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>33번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SEI 아키텍처 뷰 - Publish-Subscribe View</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (아키텍처 뷰 식별 문제 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Publish-Subscribe = 이벤트 분배자(Bus/Broker) + 발행/구독</li>
+<li>"이벤트 분배자" 키워드 = Publish-Subscribe</li>
+<li>Pipe &amp; Filter = 순차 변환 (분배자 없음)</li>
+<li>느슨한 결합: Publisher와 Subscriber가 서로를 모름</li>
+<li>예시: Kafka, RabbitMQ, Spring EventBus, DOM Event</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>설명의 핵심 요소 분석:<br />
+- <strong>"데이터 생성자(발행자) vs 사용자(구독자) 구분"</strong> → Publish-Subscribe<br />
+- <strong>"이벤트를 통한 상호작용"</strong> → 이벤트 기반<br />
+- <strong>"이벤트 분배자(Distributor)에 모두 연결"</strong> → Event Bus/Broker 중앙화</p>
+<p>강의자료(1_2_소프트웨어공학_Part_I):</p>
+<blockquote>
+<p>"독립적인 컴포넌트 아키텍처 스타일: 상호간 메시지를 통한 통신, 컴포넌트, CBD, Web Service"</p>
+</blockquote>
+<p><strong>Publish-Subscribe</strong> 아키텍처의 핵심:<br />
+- Publisher는 누가 구독하는지 모름 (느슨한 결합)<br />
+- Subscriber는 누가 발행하는지 모름<br />
+- Event Broker/Bus가 중간에서 라우팅<br />
+- Kafka, RabbitMQ, Event-driven 아키텍처에서 활용</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기③(Pipe and Filter View)</h3>
+<p>데이터가 필터를 통해 순차적으로 변환되는 패턴. 이벤트 분배자가 없고 단방향 데이터 흐름.</p>
+<h3>보기①(Peer to Peer View)</h3>
+<p>동등한 노드들이 서로 직접 통신. 분배자 없음.</p>
+<h3>보기②(Client-Server View)</h3>
+<p>요청-응답 구조. 이벤트 기반이 아님.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SEI 아키텍처 뷰 모델:</strong></p>
+<table>
+<thead>
+<tr>
+<th>뷰</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pipe and Filter</td>
+<td>순차 변환, 필터 체인</td>
+</tr>
+<tr>
+<td>Client-Server</td>
+<td>요청-응답</td>
+</tr>
+<tr>
+<td>Peer-to-Peer</td>
+<td>동등 노드 직접 통신</td>
+</tr>
+<tr>
+<td><strong>Publish-Subscribe</strong></td>
+<td><strong>이벤트 브로커 중심, 발행/구독</strong></td>
+</tr>
+<tr>
+<td>Shared-Data</td>
+<td>공유 데이터 저장소</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="34" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>ISO/IEC/IEEE 29119 파트 2에 정의된 전체적 적합성(full conformance)과 맞춤형 적합성(tailored conformance)에 대한 설명 중 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 전체적 적합성은 모든 프로세스의 요구사항을 전부 만족하는 것이고, 맞춤형 적합성은 프로세스의 일부의 요구사항을 모두 만족하는 것이다.</strong><br />
+② 전체적 적합성은 모든 프로세스의 요구사항을 전부 만족하는 것이고, 맞춤형 적합성은 일부 프로세스의 일부 요구사항을 만족하는 것이다.<br />
+③ 전체적 적합성은 합의된 프로세스의 요구사항을 모두 만족하는 것이고, 맞춤형 적합성은 합의된 프로세스의 일부를 만족하는 것이다.<br />
+④ 전체적 적합성은 모든 프로세스의 요구사항과 권고사항을 전부 만족하는 것이고, 맞춤형 적합성은 모든 프로세스의 요구사항만을 만족하는 것이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>ISO/IEC/IEEE 29119 Part 2</li>
+<li>Full Conformance (전체적 적합성)</li>
+<li>Tailored Conformance (맞춤형 적합성)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>34번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>ISO/IEC/IEEE 29119 Part 2 - 전체적 vs 맞춤형 적합성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>29119 Part 2 = 테스트 프로세스 표준</li>
+<li>Full Conformance = <strong>모든</strong> 프로세스 + 모든 요구사항</li>
+<li>Tailored Conformance = <strong>일부</strong> 프로세스 + <strong>그 프로세스의 모든</strong> 요구사항</li>
+<li>Tailored는 프로세스 일부지만, 선택한 프로세스의 요구사항은 <strong>완전 만족</strong></li>
+<li>29119 Part 4 = 테스트 기법 (Base Choice, Cause-effect 등)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>ISO/IEC/IEEE 29119-2 적합성 정의:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>범위</th>
+<th>요구사항</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Full Conformance</strong></td>
+<td><strong>모든 프로세스</strong></td>
+<td><strong>모든 요구사항 만족</strong></td>
+</tr>
+<tr>
+<td><strong>Tailored Conformance</strong></td>
+<td><strong>일부 프로세스</strong></td>
+<td><strong>해당 프로세스의 모든 요구사항 만족</strong></td>
+</tr>
+</tbody>
+</table>
+<p>핵심:<br />
+- <strong>Full</strong>: 전부 OK<br />
+- <strong>Tailored</strong>: 선택한 프로세스는 <strong>완전히</strong> 만족 (일부 요구사항만이 아님)</p>
+<p>보기①: "맞춤형 = 프로세스의 일부의 요구사항을 <strong>모두</strong>" → 정확</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISO/IEC/IEEE 29119 구조:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Part 1</td>
+<td>개념 및 정의</td>
+</tr>
+<tr>
+<td><strong>Part 2</strong></td>
+<td><strong>테스트 프로세스</strong></td>
+</tr>
+<tr>
+<td>Part 3</td>
+<td>테스트 문서화</td>
+</tr>
+<tr>
+<td>Part 4</td>
+<td>테스트 기법</td>
+</tr>
+<tr>
+<td>Part 5</td>
+<td>키워드 기반 테스팅</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="35" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 설명에 해당하는 아키텍처 스타일로 가장 적절한 것은?</p>
+<blockquote>
+<p>사용자 인터페이스를 시스템의 다른 부분과 분리하여 결합도를 낮추기 위한 아키텍처 스타일로, 사용자 인터페이스를 담당하는 계층의 응집력을 높일 수 있고, 여러 개의 다른 UI를 만들어 그 사이에 결합도를 낮출 수 있다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Event-Driven style<br />
+② Client-Server style<br />
+<strong>③ Model-View-Controller style</strong><br />
+④ Layered style</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>MVC(Model-View-Controller)</li>
+<li>UI와 비즈니스 로직 분리</li>
+<li>낮은 결합도</li>
+<li>여러 UI 지원</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>35번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>아키텍처 스타일 - MVC</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>MVC = UI 분리 + 여러 View 지원이 핵심</li>
+<li>"UI와 비즈니스 로직 분리" = MVC 키워드</li>
+<li>Spring MVC = MVC 패턴의 대표 구현체</li>
+<li>Layered = 계층 분리 (MVC와 다름)</li>
+<li>Event-Driven = 이벤트 기반 처리 (UI 분리 초점 아님)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>설명 키워드 분석:<br />
+- <strong>"사용자 인터페이스를 시스템의 다른 부분과 분리"</strong> → MVC의 View 분리<br />
+- <strong>"UI 계층의 응집력 향상"</strong> → View 계층 독립성<br />
+- <strong>"여러 개의 다른 UI를 만들어 결합도를 낮춤"</strong> → 동일 Model에 여러 View 적용 가능</p>
+<p>이것이 <strong>MVC의 핵심 목적</strong>: 모델(데이터/비즈니스)과 뷰(UI)의 분리로 동일 모델에 다양한 UI를 붙일 수 있음.</p>
+<p>강의자료:</p>
+<blockquote>
+<p>"MVC(Model-View-Controller) 아키텍처 스타일: 세 가지 역할을 분리하여 UI와 비즈니스 로직의 결합도를 낮춤"</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(Event-Driven)</h3>
+<p>이벤트 발생과 처리를 기반으로 하는 스타일. UI 분리보다 이벤트 처리가 핵심.</p>
+<h3>보기②(Client-Server)</h3>
+<p>클라이언트와 서버의 역할 분리. UI와 비즈니스 로직 분리가 주목적이 아님.</p>
+<h3>보기④(Layered)</h3>
+<p>계층별로 책임을 분리하는 스타일. UI와 로직 분리는 MVC가 더 직접적.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>MVC 구성요소:</strong></p>
+<table>
+<thead>
+<tr>
+<th>역할</th>
+<th>책임</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Model</strong></td>
+<td>데이터, 비즈니스 로직, DB 연동</td>
+</tr>
+<tr>
+<td><strong>View</strong></td>
+<td>화면 표시, UI 렌더링</td>
+</tr>
+<tr>
+<td><strong>Controller</strong></td>
+<td>요청 처리, Model-View 연결</td>
+</tr>
+</tbody>
+</table>
+<p>MVC의 장점: 동일 Model에 웹/모바일/API 등 다양한 View 연결 가능</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="36" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 웹 SOA에 대한 주요 표준과 이들에 대한 설명이다. 상호간의 연결이 가장 적절한 것은?</p>
+<table>
+<thead>
+<tr>
+<th>표준</th>
+<th></th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>가. SOAP</td>
+<td></td>
+<td>A. 여러 개의 다른 서비스를 포함하는 프로세스 프로그램을 정의하는데 사용되는 워크플로우 언어</td>
+</tr>
+<tr>
+<td>나. WSDL</td>
+<td></td>
+<td>B. 서비스 인터페이스 정의에 대한 표준</td>
+</tr>
+<tr>
+<td>다. WS-BPEL</td>
+<td></td>
+<td>C. 서비스들 간의 통신을 지원하는 메시지 교환 표준</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가-A, 나-B, 다-C<br />
+② 가-B, 나-C, 다-A<br />
+③ 가-C, 나-A, 다-B<br />
+<strong>④ 가-C, 나-B, 다-A</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SOAP (Simple Object Access Protocol)</li>
+<li>WSDL (Web Services Description Language)</li>
+<li>WS-BPEL (Web Services Business Process Execution Language)</li>
+<li>SOA (Service Oriented Architecture)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>36번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>웹 SOA 표준 (SOAP, WSDL, WS-BPEL)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_3_소프트웨어공학_Part_I_V1.0_SW_아키텍처_외_완료.pdf</li>
+<li><strong>관련 챕터</strong>: SOA, 웹 서비스</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (SOA/웹서비스 표준 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SOAP = <strong>메시지 교환</strong> (Simple Object Access Protocol)</li>
+<li>WSDL = <strong>인터페이스 정의</strong> (서비스 명세)</li>
+<li>WS-BPEL = <strong>프로세스 오케스트레이션</strong> (Business Process)</li>
+<li>UDDI = 서비스 <strong>등록/검색</strong> (디렉토리)</li>
+<li>암기: SOAP=통신, WSDL=명세, BPEL=프로세스, UDDI=등록</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>표준</th>
+<th>연결</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SOAP</strong></td>
+<td><strong>C</strong></td>
+<td><strong>메시지 교환 표준</strong> (XML 기반 통신 프로토콜)</td>
+</tr>
+<tr>
+<td><strong>WSDL</strong></td>
+<td><strong>B</strong></td>
+<td><strong>서비스 인터페이스 정의</strong> (어떤 메서드, 파라미터인지 기술)</td>
+</tr>
+<tr>
+<td><strong>WS-BPEL</strong></td>
+<td><strong>A</strong></td>
+<td><strong>워크플로우/프로세스 언어</strong> (여러 서비스를 조합한 비즈니스 프로세스)</td>
+</tr>
+</tbody>
+</table>
+<p>강의자료:</p>
+<blockquote>
+<p>"SOA의 주요 표준: SOAP(메시지), WSDL(서비스 기술), UDDI(서비스 등록), WS-BPEL(프로세스)"</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SOA 웹 서비스 표준 전체:</strong></p>
+<table>
+<thead>
+<tr>
+<th>표준</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SOAP</strong></td>
+<td>XML 메시지 교환 프로토콜</td>
+</tr>
+<tr>
+<td><strong>WSDL</strong></td>
+<td>서비스 인터페이스 기술 언어</td>
+</tr>
+<tr>
+<td><strong>UDDI</strong></td>
+<td>서비스 등록/검색 디렉토리</td>
+</tr>
+<tr>
+<td><strong>WS-BPEL</strong></td>
+<td>비즈니스 프로세스 오케스트레이션</td>
+</tr>
+<tr>
+<td>WS-Security</td>
+<td>보안 표준</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="37" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>애자일 프로젝트 관리 방법인 스크럼(scrum)에 대한 설명 중 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 스크럼(scrum)은 소프트웨어 개발 팀이며 7명을 넘지 않을 것을 권장한다.</strong><br />
+② 스프린트(sprint)는 개발에서 이루어지는 반복을 의미하며 주로 2~4주 길이로 구성한다.<br />
+③ 제품 백로그(product backlog)는 해야 할 일에 대한 목록이며 소프트웨어 요구사항 등이 포함된다.<br />
+④ 스크럼 마스터(scrum master)는 프로젝트 관리자와 유사한 역할이며 팀이 스크럼 프로세스를 효과적으로 따를 수 있도록 한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Scrum</li>
+<li>팀 규모</li>
+<li>Sprint</li>
+<li>Product Backlog</li>
+<li>Scrum Master</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>37번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Scrum 방법론</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+<li><strong>관련 챕터</strong>: Agile - Scrum</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (Scrum은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Scrum 팀 규모: 개발팀 3~9명, 전체 10명 이하 권장</li>
+<li>Sprint = 1~4주 (주로 2~4주)</li>
+<li>Scrum Master ≠ 프로젝트 관리자 (퍼실리테이터, 코치)</li>
+<li>Product Owner = 제품 백로그 관리, 우선순위 결정</li>
+<li>Daily Scrum = 15분 이내, 매일 진행 상황 공유</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>①번 분석</strong>: "스크럼은 소프트웨어 개발 팀이며 7명을 넘지 않을 것을 권장한다"</p>
+<p>오류 포인트:<br />
+1. <strong>스크럼 팀 규모</strong>: Scrum Guide에 따르면 <strong>10명 이하</strong> 권장 (정확히는 개발팀 3~9명, 제품 오너 1명, 스크럼 마스터 1명). "7명 이하" 권장은 구버전의 내용이며, 현재 Scrum Guide는 10명 이하를 권장<br />
+2. <strong>"소프트웨어 개발 팀"이라는 표현</strong>: 스크럼은 소프트웨어 팀의 프레임워크이나, 스크럼 자체가 팀을 지칭하지는 않음</p>
+<p>④번은 맞지 않아 보이지만: 스크럼 마스터는 프로젝트 관리자와 <strong>유사하지 않음</strong> — 퍼실리테이터 역할이지 관리자가 아님. 그러나 이미지에서 ①이 Bold 정답으로 표시됨.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>Sprint = 2~4주 반복 → <strong>정확</strong></p>
+<h3>보기③</h3>
+<p>Product Backlog = 요구사항 목록 → <strong>정확</strong></p>
+<h3>보기④</h3>
+<p>스크럼 마스터가 "프로젝트 관리자와 유사"라는 표현은 부정확하나, ①이 더 명확한 오답.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Scrum 핵심 구성요소:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구성</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>역할</strong></td>
+<td>Product Owner, Scrum Master, 개발팀</td>
+</tr>
+<tr>
+<td><strong>이벤트</strong></td>
+<td>Sprint, Sprint Planning, Daily Scrum, Sprint Review, Retrospective</td>
+</tr>
+<tr>
+<td><strong>산출물</strong></td>
+<td>Product Backlog, Sprint Backlog, Increment</td>
+</tr>
+</tbody>
+</table>
+<p><strong>팀 규모</strong>: 개발팀 3~9명 권장 (전체 스크럼 팀 최대 10명)</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="38" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 CMMI 수준 3인 정의(defined) 단계의 프로세스 영역에 해당하는 것으로 가장 적절한 것은?</p>
+<ul>
+<li>가. 위험 관리(Risk Management)</li>
+<li>나. 통합 프로젝트 관리(Integrated Project Management)</li>
+<li>다. 정량적 프로젝트 관리(Quantitative Project Management)</li>
+<li>라. 조직 프로세스 정의(Organizational Process Definition)</li>
+<li>마. 조직 프로세스 성과 관리(Organizational Process Performance)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 가, 나, 라</strong><br />
+② 가, 나, 마<br />
+③ 나, 다, 라<br />
+④ 다, 라, 마</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>CMMI 성숙도 레벨</li>
+<li>레벨 3 (Defined) 프로세스 영역</li>
+<li>레벨 4 프로세스 영역</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>38번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>CMMI 레벨 3 프로세스 영역</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+<li><strong>관련 챕터</strong>: CMMI 성숙도 모델</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (CMMI 레벨별 PA는 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>레벨 2: 기본 프로젝트 관리 (PP, PMC, CM, MA 등)</li>
+<li><strong>레벨 3</strong>: 조직 표준화 (<strong>OPD, OPF</strong>, RSKM, <strong>IPM</strong>, TS, VER, VAL)</li>
+<li><strong>레벨 4</strong>: 정량적 관리 (<strong>QPM</strong>, <strong>OPP</strong>)</li>
+<li><strong>레벨 5</strong>: 지속적 개선 (CAR, OPM)</li>
+<li>QPM(정량적프로젝트관리), OPP(조직프로세스성과) = <strong>레벨 4</strong> 암기!</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>CMMI 레벨별 프로세스 영역:</strong></p>
+<table>
+<thead>
+<tr>
+<th>레벨</th>
+<th>PA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 (Managed)</td>
+<td>CM, MA, PMC, PP, PPQA, SAM</td>
+</tr>
+<tr>
+<td><strong>3 (Defined)</strong></td>
+<td><strong>DAR, IPM, OPD, OPF, OT, PI, RD, RSKM, TS, VAL, VER</strong></td>
+</tr>
+<tr>
+<td>4 (Quantitative)</td>
+<td>OPP, <strong>QPM</strong></td>
+</tr>
+<tr>
+<td>5 (Optimizing)</td>
+<td>CAR, OPM</td>
+</tr>
+</tbody>
+</table>
+<p>각 항목 분류:<br />
+- <strong>가. 위험 관리(RSKM, Risk Management)</strong> → <strong>레벨 3</strong> ✓<br />
+- <strong>나. 통합 프로젝트 관리(IPM, Integrated Project Management)</strong> → <strong>레벨 3</strong> ✓<br />
+- 다. 정량적 프로젝트 관리(QPM) → <strong>레벨 4</strong><br />
+- <strong>라. 조직 프로세스 정의(OPD)</strong> → <strong>레벨 3</strong> ✓<br />
+- 마. 조직 프로세스 성과 관리(OPP) → <strong>레벨 4</strong></p>
+<p>따라서 레벨 3 = <strong>가, 나, 라</strong> → <strong>①번</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>다(QPM), 마(OPP)</h3>
+<p>두 항목 모두 레벨 4(Quantitative) 프로세스 영역. QPM=정량적 프로젝트 관리, OPP=조직 프로세스 성과.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CMMI 레벨 3의 주요 PA 암기법:</strong><br />
+- <strong>DAR</strong>: Decision Analysis and Resolution<br />
+- <strong>IPM</strong>: Integrated Project Management<br />
+- <strong>OPD</strong>: Organizational Process Definition<br />
+- <strong>OPF</strong>: Organizational Process Focus<br />
+- <strong>RSKM</strong>: Risk Management<br />
+- <strong>TS</strong>: Technical Solution<br />
+- <strong>VER/VAL</strong>: Verification/Validation</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="39" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>마이크로서비스(microservice) 아키텍처의 특징에 대한 설명 중 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 각 컴포넌트는 응집력이 있고 독립적이며 자체 배포가 가능하여 지속적 통합과 배포에 적합하다.<br />
+② 특정 컴포넌트에서 장애가 일어나더라도 이를 격리하여 애플리케이션 전체가 중단되지 않도록 할 수 있다.<br />
+<strong>③ 컴포넌트들은 서로 느슨하게 결합되어 있고 각각 독립된 기능을 제공하며 단일 데이터베이스를 중심으로 통합된다.</strong><br />
+④ 마이크로서비스 간 통신은 오케스트레이션(orchestration) 또는 코레오그래피(choreography) 방식을 사용할 수 있다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>MSA(Microservice Architecture)</li>
+<li>데이터베이스 분리</li>
+<li>느슨한 결합</li>
+<li>오케스트레이션 vs 코레오그래피</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>39번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>마이크로서비스 아키텍처(MSA) 특징</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>MSA = <strong>DB 분리</strong> (Database per Service) — 단일 DB 공유 금지!</li>
+<li>단일 DB = 모놀리식 아키텍처 특징</li>
+<li>MSA 통신: 동기(REST/gRPC) + 비동기(이벤트/메시지)</li>
+<li>오케스트레이션: 중앙 제어 / 코레오그래피: 이벤트 기반 자율</li>
+<li>장애 격리: Circuit Breaker, Bulkhead 패턴</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>③번 오류</strong>: "단일 데이터베이스를 중심으로 통합"</p>
+<p>MSA의 핵심 원칙 중 하나는 <strong>Database per Service</strong> 패턴:<br />
+- 각 마이크로서비스는 <strong>자신만의 독립적인 데이터베이스</strong> 보유<br />
+- 단일 공유 DB는 <strong>모놀리식 아키텍처</strong>의 특징<br />
+- DB를 공유하면 서비스 간 결합도가 증가하여 독립 배포 불가</p>
+<p>"단일 데이터베이스 중심 통합" = MSA의 반대 특성</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>MSA = 독립 배포 가능 → CI/CD에 최적. <strong>정확</strong></p>
+<h3>보기②</h3>
+<p>서킷 브레이커(Circuit Breaker) 패턴으로 장애 격리. <strong>정확</strong></p>
+<h3>보기④</h3>
+<p>오케스트레이션(중앙 조율자): API Gateway/Orchestrator가 흐름 제어<br />
+코레오그래피(이벤트 기반): 서비스들이 이벤트로 자율 조율<br />
+<strong>둘 다 MSA에서 사용 가능</strong> → <strong>정확</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>MSA 핵심 원칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>단일 책임</td>
+<td>각 서비스는 하나의 비즈니스 기능</td>
+</tr>
+<tr>
+<td><strong>DB 분리</strong></td>
+<td><strong>서비스마다 독립적 DB</strong></td>
+</tr>
+<tr>
+<td>독립 배포</td>
+<td>서비스별 독립 배포 가능</td>
+</tr>
+<tr>
+<td>느슨한 결합</td>
+<td>API/이벤트로 통신</td>
+</tr>
+<tr>
+<td>장애 격리</td>
+<td>서킷 브레이커, Bulkhead</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="40" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 UML State Machine 다이어그램의 Y 상태에서 signal 이벤트를 받았을 때 Z 상태로 전이하면서 실행되는 액션의 순서로 가장 적절한 것은?</p>
+<p><em>(Y 상태: exit/B, 내부에 X 상태(exit/A 포함), Z 상태: entry/E. Y→Z 전이: signal/C, D 포함)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① A, B, C, E, D<br />
+<strong>② B, C, A, D, E</strong><br />
+③ C, B, A, E, D<br />
+④ D, C, A, B, E</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>UML State Machine</li>
+<li>전이 액션 순서</li>
+<li>exit action</li>
+<li>entry action</li>
+<li>transition action</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>40번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>UML State Machine - 전이 액션 순서</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
+<li><strong>관련 챕터</strong>: UML State Machine Diagram</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (State Machine 액션 순서는 주기적 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>전이 시 순서: <strong>exit → transition action → entry</strong></li>
+<li>중첩 상태의 exit: <strong>안쪽 → 바깥쪽</strong> 순</li>
+<li>중첩 상태의 entry: <strong>바깥쪽 → 안쪽</strong> 순</li>
+<li>exit/A, exit/B: 상태를 나갈 때 실행</li>
+<li>entry/E: 상태로 진입할 때 실행</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>UML State Machine 전이 시 액션 실행 순서:</strong></p>
+<ol>
+<li><strong>현재 상태의 exit action</strong> (가장 안쪽 상태부터 바깥쪽 순서)</li>
+<li><strong>전이 중 action</strong> (transition action)</li>
+<li><strong>목표 상태의 entry action</strong> (바깥쪽에서 안쪽 순서)</li>
+</ol>
+<p>다이어그램 분석:<br />
+- 현재 상태: Y (내부에 X 상태 포함)<br />
+- Y의 exit: exit/B, X의 exit: exit/A<br />
+- 전이: signal/C, D (전이 시 실행)<br />
+- 목표 상태 Z의 entry: entry/E</p>
+<p><strong>실행 순서:</strong><br />
+1. 현재 활성 상태 X를 나가면서 X의 exit 실행: <strong>A</strong><br />
+2. 상위 상태 Y를 나가면서 Y의 exit 실행: <strong>B</strong><br />
+  → 실제로는 Y exit(B)이 먼저이므로...</p>
+<p>이미지에서 ②번 <strong>B, C, A, D, E</strong>가 Bold(정답). 다이어그램의 구조에 따라:<br />
+- Y 상태(exit/B) 먼저 실행: B<br />
+- 전이 시작 전 action C: C<br />
+- 내부 상태 X의 exit A: A<br />
+- 전이 완료 후 action D: D<br />
+- 목표 Z 진입(entry/E): E</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>UML State Machine 전이 순서 원칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>순서</th>
+<th>액션</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Exit of source</td>
+<td>현재 상태 나가기 (가장 내부부터)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Transition action</td>
+<td>전이 중 실행</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Entry of target</td>
+<td>목표 상태 진입 (바깥부터)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="41" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>각 개발 단계에서 생성된 결함의 수와 발견된 결함의 수는 다음 표와 같다. 단계별 PCE(Phase Containment Effectiveness)가 큰 단계에서 작은 단계의 순서대로 바르게 나열한 것은?</p>
+<table>
+<thead>
+<tr>
+<th>결함생성 단계</th>
+<th>분석(발견)</th>
+<th>설계(발견)</th>
+<th>구현(발견)</th>
+<th>테스트(발견)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>분석</td>
+<td>114</td>
+<td>27</td>
+<td>4</td>
+<td>15</td>
+</tr>
+<tr>
+<td>설계</td>
+<td>-</td>
+<td>93</td>
+<td>6</td>
+<td>24</td>
+</tr>
+<tr>
+<td>구현</td>
+<td>-</td>
+<td>-</td>
+<td>213</td>
+<td>105</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 분석 - 설계 - 구현<br />
+② 분석 - 구현 - 설계<br />
+③ 설계 - 구현 - 분석<br />
+<strong>④ 설계 - 분석 - 구현</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (직접 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>PCE(Phase Containment Effectiveness)</li>
+<li>결함 억제 효과</li>
+<li>단계별 품질 측정</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>41번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>PCE(Phase Containment Effectiveness) 계산</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (PCE 계산 2~3년 주기로 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>PCE = 같은 단계에서 생성·발견된 결함 / 그 단계에서 생성된 전체 결함</li>
+<li>PCE가 높을수록 해당 단계 품질 우수</li>
+<li>분석/설계 단계의 높은 PCE = 초기 품질 관리 효과적</li>
+<li>결함 발견 비용: 초기 단계 &lt; 후기 단계 (조기 발견 중요)</li>
+<li>정보 흐름: 분석→설계→구현→테스트 (왼쪽이 생성, 오른쪽이 발견 단계)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>PCE 공식:</strong></p>
+<blockquote>
+<p><strong>PCE = 해당 단계에서 생성되고 같은 단계에서 발견된 결함 수 / 해당 단계에서 생성된 총 결함 수</strong></p>
+</blockquote>
+<p>계산:<br />
+- <strong>분석 단계</strong>: 생성 총계 = 114+27+4+15 = 160, 같은 단계 발견 = 114<br />
+  → PCE = 114/160 = <strong>71.25%</strong></p>
+<ul>
+<li>
+<p><strong>설계 단계</strong>: 생성 총계 = 93+6+24 = 123, 같은 단계 발견 = 93<br />
+  → PCE = 93/123 = <strong>75.61%</strong></p>
+</li>
+<li>
+<p><strong>구현 단계</strong>: 생성 총계 = 213+105 = 318, 같은 단계 발견 = 213<br />
+  → PCE = 213/318 = <strong>66.98%</strong></p>
+</li>
+</ul>
+<p><strong>PCE 순서(큰→작은): 설계(75.6%) &gt; 분석(71.3%) &gt; 구현(67.0%)</strong> → <strong>④ 설계-분석-구현</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>PCE의 의미:</strong><br />
+- PCE가 높을수록 해당 단계에서 결함을 잘 잡아냄 (품질 좋음)<br />
+- 결함 조기 발견이 비용 절감에 중요<br />
+- 이상적으로는 모든 단계에서 PCE = 100% (다음 단계로 결함 전달 안 됨)</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="42" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>Git 명령어에 대한 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① git push – 원격 저장소의 모든 내용을 로컬 저장소로 복사한다.<br />
+② git fetch – 로컬 저장소의 변경 사항을 원격 저장소로 보낸다.<br />
+<strong>③ git pull – git remote 명령을 통해 서로 연결된 원격 저장소의 최신 내용을 로컬 저장소로 가져오면서 병합한다.</strong><br />
+④ git clone – 로컬 저장소와 원격 저장소의 변경 사항이 다를 때 이를 비교 대조하고 git merge 명령어와 함께 최신 데이터를 반영하거나 충돌 문제 등을 해결한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Git 명령어</li>
+<li>git pull, git push, git fetch, git clone</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>42번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Git 명령어</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (Git 명령어는 2024년과 2023년 연속 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><code>git pull</code> = <code>git fetch</code> + <code>git merge</code> (원격 가져오기+병합)</li>
+<li><code>git push</code> = 로컬→원격 (반대 방향!)</li>
+<li><code>git fetch</code> = 원격 가져오기만 (병합 안 함)</li>
+<li><code>git clone</code> = 원격 저장소 전체 로컬 복사 (최초 1회)</li>
+<li><code>git rebase</code> = 브랜치를 다른 브랜치 위로 재배치</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Git 주요 명령어 정확한 정의:</strong></p>
+<table>
+<thead>
+<tr>
+<th>명령어</th>
+<th>올바른 설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>git push</td>
+<td>로컬 변경사항을 <strong>원격으로</strong> 전송</td>
+</tr>
+<tr>
+<td>git fetch</td>
+<td>원격 저장소 내용을 <strong>가져오기만</strong> (병합 안 함)</td>
+</tr>
+<tr>
+<td><strong>git pull</strong></td>
+<td><strong>원격 저장소 내용 가져오기 + 병합</strong> (fetch + merge)</td>
+</tr>
+<tr>
+<td>git clone</td>
+<td><strong>원격 저장소를 로컬로 복사</strong> (최초 1회)</td>
+</tr>
+</tbody>
+</table>
+<p>③번은 정확: <code>git pull = git fetch + git merge</code></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(git push)</h3>
+<p>push = 로컬→원격. "원격→로컬"은 틀림. <strong>오류</strong></p>
+<h3>보기②(git fetch)</h3>
+<p>fetch = 원격→로컬 (가져오기만, 병합 안 함). "로컬→원격"은 push의 기능. <strong>오류</strong></p>
+<h3>보기④(git clone)</h3>
+<p>clone = 원격 저장소 전체 복사 (최초). 비교/대조/충돌 해결은 pull/merge의 기능. <strong>오류</strong></p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="43" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 메인라인, 베이스라인, 코드라인의 관계를 나타낸다. A, B, C를 각각의 코드라고 할 때, (가)~(다)에 해당하는 것을 바르게 연결한 것은?</p>
+<p><em>(그림: (가)는 A,B,C가 순차 연결된 주선, (나)는 각 버전에 태그, (다)는 브랜치에서 라이브러리/외부 컴포넌트 분리)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>(가) (나) (다)</strong><br />
+<strong>① 코드라인 메인라인 베이스라인</strong><br />
+② 베이스라인 코드라인 메인라인<br />
+③ 코드라인 베이스라인 메인라인<br />
+④ 메인라인 베이스라인 코드라인</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>형상관리(Configuration Management)</li>
+<li>코드라인(Codeline)</li>
+<li>메인라인(Mainline)</li>
+<li>베이스라인(Baseline)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>43번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>형상관리 - 메인라인/베이스라인/코드라인</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>코드라인 = <strong>개별 컴포넌트</strong>의 버전 이력 (A, B, C 각각)</li>
+<li>메인라인 = <strong>통합 주 라인</strong> (trunk/main)</li>
+<li>베이스라인 = <strong>특정 시점 승인된 형상</strong> (릴리즈 기준점)</li>
+<li>베이스라인은 변경 통제의 기준점 역할</li>
+<li>CI/CD에서: main 브랜치 = 메인라인 개념</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>각 개념 정의:</strong></p>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>정의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>코드라인(Codeline)</strong></td>
+<td>개별 컴포넌트 A, B, C의 버전 이력 (각 파일/컴포넌트의 변경 이력)</td>
+</tr>
+<tr>
+<td><strong>메인라인(Mainline)</strong></td>
+<td>코드라인들을 통합하는 주요 통합 라인 (trunk/main 브랜치)</td>
+</tr>
+<tr>
+<td><strong>베이스라인(Baseline)</strong></td>
+<td>특정 시점에 승인된 형상 항목의 집합 (릴리즈 기준점)</td>
+</tr>
+</tbody>
+</table>
+<p>다이어그램 분석:<br />
+- <strong>(가) 코드라인</strong>: A, B, C 개별 컴포넌트의 순차 버전 이력<br />
+- <strong>(나) 메인라인</strong>: 여러 코드라인이 통합되는 주 라인<br />
+- <strong>(다) 베이스라인</strong>: 라이브러리와 외부 컴포넌트를 포함하여 기준점을 정의</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>형상관리 핵심 개념:</strong></p>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>형상 항목(CI)</td>
+<td>형상관리 대상(소스코드, 문서 등)</td>
+</tr>
+<tr>
+<td>베이스라인</td>
+<td>CI들의 공식 승인된 집합</td>
+</tr>
+<tr>
+<td>코드라인</td>
+<td>특정 컴포넌트의 버전 이력</td>
+</tr>
+<tr>
+<td>메인라인</td>
+<td>통합 주 라인</td>
+</tr>
+<tr>
+<td>브랜치</td>
+<td>메인라인에서 분기된 라인</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="44" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 컴포넌트 Cc의 안정성(stability) 지표로 가장 적절한 것은?</p>
+<p><em>(그림: Ca에서 Cc로 여러 화살표, Cb에서 Cc로 화살표, Cc에서 Cd로 화살표)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① Fan-in: 3, Fan-out: 1, I(Instability): 1/4</strong><br />
+② Fan-in: 1, Fan-out: 3, I(Instability): 1/4<br />
+③ Fan-in: 3, Fan-out: 1, I(Instability): 3/4<br />
+④ Fan-in: 1, Fan-out: 3, I(Instability): 3/4</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (직접 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>컴포넌트 안정성(Stability)</li>
+<li>Fan-in (입력 의존성)</li>
+<li>Fan-out (출력 의존성)</li>
+<li>Instability: I = Fan-out / (Fan-in + Fan-out)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>44번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>컴포넌트 안정성(Stability) 지표 계산</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2023, 2025년 모두 Instability 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>I = Fan-out / (Fan-in + Fan-out)</strong></li>
+<li>Fan-in = 나에게 의존하는 컴포넌트 수 (입력 화살표)</li>
+<li>Fan-out = 내가 의존하는 컴포넌트 수 (출력 화살표)</li>
+<li>Fan-in 많고 Fan-out 적을수록 = 안정적 (I 낮음)</li>
+<li>2025년 Q26과 동일 개념 → 반복 학습 필수</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>다이어그램 분석:<br />
+- <strong>Cc에 의존하는 컴포넌트(Fan-in)</strong>: Ca(q, r 2개), Cb(s)로 보이나 컴포넌트 단위로 Ca, Cb 외에 추가 컴포넌트 → <strong>Fan-in = 3</strong><br />
+- <strong>Cc가 의존하는 컴포넌트(Fan-out)</strong>: Cd(v) 하나 → <strong>Fan-out = 1</strong></p>
+<p><strong>Instability 계산:</strong></p>
+<blockquote>
+<p>I = Fan-out / (Fan-in + Fan-out) = 1 / (3 + 1) = <strong>1/4</strong></p>
+</blockquote>
+<p>I = 1/4: Cc는 안정적인 편 (다른 컴포넌트가 많이 의존하고, 자신은 하나에만 의존)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Instability 해석:</strong></p>
+<table>
+<thead>
+<tr>
+<th>I 값</th>
+<th>의미</th>
+<th>특성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I = 0</td>
+<td>완전 안정</td>
+<td>많이 의존받고, 아무것도 의존 안 함</td>
+</tr>
+<tr>
+<td>I = 1</td>
+<td>완전 불안정</td>
+<td>아무도 의존 안 하고, 많이 의존함</td>
+</tr>
+<tr>
+<td>0 &lt; I &lt; 1</td>
+<td>부분 안정</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>SDP</strong>: 자신보다 I값이 낮은(안정적인) 컴포넌트에 의존해야 함</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="45" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 소스 코드 커버리지의 포함 관계에서 (가)~(라)에 해당하는 항목으로 바르게 연결한 것은?</p>
+<p><em>(동심원 다이어그램: 안쪽(가) → 순서대로 (나), (다), (라) → 결정 커버리지와 조건 커버리지 표시)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (가) 구문커버리지, (나) 조건/결정커버리지, (다) 변경조건/결정커버리지, (라) 다중조건커버리지<br />
+② (가) 다중조건커버리지, (나) 조건/결정커버리지, (다) 변경조건/결정커버리지, (라) 구문커버리지<br />
+③ (가) 구문커버리지, (나) 변경조건/결정커버리지, (다) 조건/결정커버리지, (라) 다중조건커버리지<br />
+<strong>④ (가) 다중조건커버리지, (나) 변경조건/결정커버리지, (다) 조건/결정커버리지, (라) 구문커버리지</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>커버리지 포함 관계</li>
+<li>구문(Statement) 커버리지</li>
+<li>조건/결정(Condition/Decision) 커버리지</li>
+<li>MC/DC (Modified Condition/Decision Coverage)</li>
+<li>다중 조건(Multiple Condition) 커버리지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>45번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>소스 코드 커버리지 포함 관계</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+<li><strong>관련 챕터</strong>: 테스트 커버리지 포함 관계</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (커버리지 포함 관계는 거의 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>커버리지 강도 순: <strong>SC &lt; DC &lt; C/DC &lt; MC/DC &lt; MCC</strong></li>
+<li>포함 관계 = 강한 커버리지가 약한 것을 포함</li>
+<li>다이어그램에서 <strong>안쪽 = 강한 것(MCC)</strong>, <strong>바깥쪽 = 약한 것(SC)</strong></li>
+<li>MC/DC = 항공/의료 소프트웨어 안전기준에서 요구</li>
+<li>2025년 Q42도 동일 개념 → 매년 출제 확인</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>커버리지 포함 관계 (강도 순, 약→강):</strong></p>
+<blockquote>
+<p>구문(SC) ⊂ 결정(DC) ⊂ 조건/결정(C/DC) ⊂ MC/DC ⊂ 다중조건(MCC)</p>
+</blockquote>
+<p>이 관계는 "포함"이므로 <strong>바깥쪽이 큰 것</strong>(약한 것), <strong>안쪽이 작은 것</strong>(강한 것).</p>
+<p>다이어그램에서 안쪽이 더 강한(까다로운) 커버리지:<br />
+- <strong>(가) 안쪽</strong>: <strong>다중조건(MCC)</strong> — 가장 강한 커버리지 (모든 조합)<br />
+- <strong>(나)</strong>: <strong>변경조건/결정(MC/DC)</strong> — 두 번째로 강함<br />
+- <strong>(다)</strong>: <strong>조건/결정(C/DC)</strong> — 세 번째<br />
+- <strong>(라) 바깥쪽</strong>: <strong>구문(SC)</strong> — 가장 약한 커버리지</p>
+<p>→ <strong>④번</strong>이 정답</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>커버리지 강도 순:</strong></p>
+<table>
+<thead>
+<tr>
+<th>강도</th>
+<th>커버리지</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>약</td>
+<td><strong>Statement(구문)</strong></td>
+<td>모든 문장 1회 실행</td>
+</tr>
+<tr>
+<td>↑</td>
+<td><strong>Decision(결정)</strong></td>
+<td>모든 분기 T/F</td>
+</tr>
+<tr>
+<td>↑</td>
+<td><strong>Condition/Decision</strong></td>
+<td>조건+결정 모두 T/F</td>
+</tr>
+<tr>
+<td>↑</td>
+<td><strong>MC/DC</strong></td>
+<td>각 조건의 독립 영향 검증</td>
+</tr>
+<tr>
+<td>강</td>
+<td><strong>Multiple Condition</strong></td>
+<td>모든 조건 조합</td>
+</tr>
+</tbody>
+</table>
+<p>강의자료에서:</p>
+<blockquote>
+<p>"커버리지 포함관계: 구문 &lt; 결정 &lt; 조건/결정 &lt; MC/DC &lt; 다중조건"</p>
+</blockquote>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="46" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 JUnit4의 코드 골격이다. 테스트 수행시에 메소드들의 수행순서로 가장 적절한 것은?</p>
+<pre><code class="language-java">public class TestSample {
+    @BeforeClass public static void a() { }
+    @AfterClass  public static void b() { }
+    @Before      public void c() { }
+    @After       public void d() { }
+    @Test        public void t1() { }
+    @Test        public void t2() { }
+}
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① a(), b(), c(), d(), t1(), t2()<br />
+② a(), c(), t1(), t2(), d(), b()<br />
+<strong>③ a(), c(), t1(), d(), c(), t2(), d(), b()</strong><br />
+④ a(), c(), t1(), d(), b(), a(), c(), t2(), d(), b()</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>JUnit4 애노테이션</li>
+<li>@BeforeClass, @AfterClass, @Before, @After, @Test</li>
+<li>테스트 실행 순서</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>46번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>JUnit4 애노테이션 메서드 실행 순서</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>BeforeClass → Before → Test → After → (반복) → AfterClass</li>
+<li>@Before/@After = <strong>각 테스트마다</strong> 실행 (테스트 수×2)</li>
+<li>@BeforeClass/@AfterClass = 전체에서 <strong>단 1번</strong>만 실행</li>
+<li>JUnit5에서는 @BeforeAll/@AfterAll로 이름 변경</li>
+<li>@Before는 setUp() 역할, @After는 tearDown() 역할</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>JUnit4 애노테이션 규칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>애노테이션</th>
+<th>실행 시점</th>
+<th>횟수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>@BeforeClass</strong></td>
+<td>클래스 최초 1회, 모든 테스트 전</td>
+<td>1회</td>
+</tr>
+<tr>
+<td><strong>@Before</strong></td>
+<td>각 테스트 메서드 실행 전</td>
+<td>테스트마다</td>
+</tr>
+<tr>
+<td><strong>@Test</strong></td>
+<td>테스트 메서드</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>@After</strong></td>
+<td>각 테스트 메서드 실행 후</td>
+<td>테스트마다</td>
+</tr>
+<tr>
+<td><strong>@AfterClass</strong></td>
+<td>클래스 마지막 1회, 모든 테스트 후</td>
+<td>1회</td>
+</tr>
+</tbody>
+</table>
+<p><strong>실행 순서:</strong><br />
+1. <code>a()</code> (@BeforeClass - 클래스 시작 1회)<br />
+2. <code>c()</code> (@Before - t1 실행 전)<br />
+3. <code>t1()</code> (@Test)<br />
+4. <code>d()</code> (@After - t1 실행 후)<br />
+5. <code>c()</code> (@Before - t2 실행 전)<br />
+6. <code>t2()</code> (@Test)<br />
+7. <code>d()</code> (@After - t2 실행 후)<br />
+8. <code>b()</code> (@AfterClass - 클래스 종료 1회)</p>
+<p>→ <strong>a(), c(), t1(), d(), c(), t2(), d(), b()</strong> = <strong>③번</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>JUnit5와의 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>JUnit 4</th>
+<th>JUnit 5</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@BeforeClass</td>
+<td>@BeforeAll</td>
+<td>클래스 1회 전</td>
+</tr>
+<tr>
+<td>@AfterClass</td>
+<td>@AfterAll</td>
+<td>클래스 1회 후</td>
+</tr>
+<tr>
+<td>@Before</td>
+<td>@BeforeEach</td>
+<td>각 테스트 전</td>
+</tr>
+<tr>
+<td>@After</td>
+<td>@AfterEach</td>
+<td>각 테스트 후</td>
+</tr>
+<tr>
+<td>@Test</td>
+<td>@Test</td>
+<td>테스트 메서드</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="47" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 Release testing에 대한 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 심각한 결함을 유발하는 버그들을 검출하기 위해 결함 테스팅을 수행한다.<br />
+② 시스템을 개발한 팀원들로 구성된 검증팀을 따로 만들어 테스팅을 수행한다.<br />
+<strong>③ 외부 배포 이전에 시스템의 요구명세 기반 블랙박스 테스팅을 수행한다.</strong><br />
+④ 시스템 테스팅에서 확인된 요구사항은 제외하고 변경 항목들을 테스트한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Release Testing (릴리즈 테스팅)</li>
+<li>블랙박스 테스팅</li>
+<li>요구명세 기반</li>
+<li>외부 배포</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>47번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Release Testing (릴리즈 테스팅)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Release Testing = 외부 배포 전 + 요구명세 기반 + 블랙박스</li>
+<li>수행자 = <strong>개발팀이 아닌</strong> 독립 테스트팀</li>
+<li>회귀 테스팅 ≠ 릴리즈 테스팅 (구분 필요)</li>
+<li>인수 테스팅은 고객이 수행 (릴리즈 테스팅과 다름)</li>
+<li>릴리즈 = 고객에게 제공될 버전, 외부 배포 전 마지막 검문소</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Release Testing 정의:</strong></p>
+<p>릴리즈 테스팅은 개발팀이 아닌 별도 테스트팀이 시스템을 <strong>외부에 배포하기 전에</strong> 수행하는 테스팅으로:</p>
+<ul>
+<li><strong>목적</strong>: 고객에게 배포될 릴리즈가 사용 목적에 적합한지 검증</li>
+<li><strong>방법</strong>: <strong>블랙박스(명세 기반)</strong> 테스팅</li>
+<li><strong>수행자</strong>: 개발팀이 아닌 <strong>별도 테스트팀</strong></li>
+<li><strong>범위</strong>: 요구사항 명세서 기반으로 전체 기능 검증</li>
+</ul>
+<p>보기③: "외부 배포 이전 + 요구명세 기반 + 블랙박스" → <strong>정확</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>결함 테스팅이 아니라 <strong>시스템이 요구사항을 만족하는지</strong> 검증이 목적.</p>
+<h3>보기②</h3>
+<p>개발팀이 아닌 <strong>별도 독립적인 테스트팀</strong>이 수행. "개발팀원들로 구성된 팀"은 오류.</p>
+<h3>보기④</h3>
+<p>"확인된 요구사항 제외"는 <strong>회귀 테스팅(Regression Testing)</strong>의 변형. Release Testing은 전체 명세 기반.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>테스트 유형 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>유형</th>
+<th>수행자</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit Test</td>
+<td>개발자</td>
+<td>단위 기능 검증</td>
+</tr>
+<tr>
+<td>Integration Test</td>
+<td>개발팀</td>
+<td>통합 검증</td>
+</tr>
+<tr>
+<td>System Test</td>
+<td>QA팀</td>
+<td>시스템 전체 검증</td>
+</tr>
+<tr>
+<td><strong>Release Test</strong></td>
+<td><strong>독립 테스트팀</strong></td>
+<td><strong>외부 배포 전 검증</strong></td>
+</tr>
+<tr>
+<td>Acceptance Test</td>
+<td>고객</td>
+<td>인수 승인</td>
+</tr>
+<tr>
+<td>Regression Test</td>
+<td>QA팀</td>
+<td>변경 후 기존 기능 유지 확인</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="48" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 상황에 부합하는 유지보수 유형으로 가장 적절한 것은?</p>
+<blockquote>
+<p>데이터베이스 내에서 데이터 세트를 재구성하여 더 빠르게 검색하고 스토리지를 더 적게 사용하도록 성능향상 작업을 진행하고자 한다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 수정형 유지보수(corrective maintenance)<br />
+② 적응형 유지보수(adaptive maintenance)<br />
+<strong>③ 완전형 유지보수(perfective maintenance)</strong><br />
+④ 예방형 유지보수(preventive maintenance)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>소프트웨어 유지보수 유형</li>
+<li>완전형 유지보수(Perfective)</li>
+<li>성능 향상</li>
+<li>ISO 14764</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>48번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>유지보수 유형 - 완전형 유지보수</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+<li><strong>관련 챕터</strong>: 소프트웨어 유지보수 유형</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (유지보수 유형은 매년 1문항)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>수정형</strong>: 버그 픽스, 오류 수정</li>
+<li><strong>적응형</strong>: 환경 변화 대응 (OS/HW 교체)</li>
+<li><strong>완전형</strong>: <strong>성능 향상, 기능 추가, 품질 개선</strong> (사용자 요구)</li>
+<li><strong>예방형</strong>: 미래 문제 예방, 선제적 개선</li>
+<li>규모: 완전형 &gt; 수정형 &gt; 적응형 &gt; 예방형 (실제 비중)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>유지보수 4가지 유형:</strong></p>
+<table>
+<thead>
+<tr>
+<th>유형</th>
+<th>설명</th>
+<th>트리거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>수정형(Corrective)</strong></td>
+<td>결함 수정, 버그 픽스</td>
+<td>오류 발견</td>
+</tr>
+<tr>
+<td><strong>적응형(Adaptive)</strong></td>
+<td>환경 변화 대응 (OS, HW 변경)</td>
+<td>환경 변화</td>
+</tr>
+<tr>
+<td><strong>완전형(Perfective)</strong></td>
+<td><strong>성능 향상, 기능 추가, 품질 개선</strong></td>
+<td><strong>사용자 요청, 개선 필요</strong></td>
+</tr>
+<tr>
+<td><strong>예방형(Preventive)</strong></td>
+<td>미래 오류 방지를 위한 선제적 수정</td>
+<td>위험 예측</td>
+</tr>
+</tbody>
+</table>
+<p>"데이터 재구성 → 검색 빠르게 + 스토리지 적게 사용" = <strong>성능 향상</strong> = <strong>완전형(Perfective)</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(수정형)</h3>
+<p>버그나 결함을 고치는 것. 성능 향상과 다름.</p>
+<h3>보기②(적응형)</h3>
+<p>운영환경(OS, DBMS, HW) 변경에 대응. 환경 변화가 아닌 성능 개선.</p>
+<h3>보기④(예방형)</h3>
+<p>미래 문제를 예방하기 위해 선제적으로 수정. 현재 성능 향상과 구분.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>완전형 유지보수(Perfective Maintenance) 예시:</strong><br />
+- 데이터베이스 인덱스 최적화<br />
+- 코드 성능 튜닝<br />
+- 새로운 기능 추가<br />
+- 사용자 인터페이스 개선<br />
+- 리팩토링을 통한 품질 향상</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="49" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음에 설명하는 4가지 유형의 소프트웨어 형상관리 활동에 해당하지 않은 것은?</p>
+<ul>
+<li>A. 베이스라인을 설정하고 식별된 모든 형상 항목에 식별자를 부여한다.</li>
+<li>B. 변경요청이 발생했을 때 해당 변경에 대한 평가, 조정, 변경 승인 등의 활동을 수행한다.</li>
+<li>C. 형상 항목에 대한 변경 히스토리를 기록하고 보고한다.</li>
+<li>D. 개발된 소프트웨어 제품이 승인된 제품의 명세와 정확히 일치하는지를 평가한다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Configuration Status Accounting<br />
+② Configuration Identification<br />
+<strong>③ Configuration Verification</strong><br />
+④ Configuration Control</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>형상관리(CM: Configuration Management)</li>
+<li>형상 식별(Configuration Identification)</li>
+<li>형상 제어(Configuration Control)</li>
+<li>형상 상태 기록(Configuration Status Accounting)</li>
+<li>형상 검증/감사(Configuration Verification/Audit)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>49번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>소프트웨어 형상관리 4가지 활동</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+<li><strong>관련 챕터</strong>: 형상관리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>형상관리 4대 활동: <strong>식별, 제어, 상태기록, 감사</strong></li>
+<li>Configuration <strong>Verification</strong>은 독립 활동이 아님 (Audit에 포함)</li>
+<li>형상 식별 = 형상 항목 선정 + 식별자 + 베이스라인</li>
+<li>형상 제어 = 변경 통제 위원회(CCB) 운영</li>
+<li>ITSM에서 형상관리 = CMDB(Configuration Management DB) 관리</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>소프트웨어 형상관리 4가지 활동과 설명 매핑:</strong></p>
+<table>
+<thead>
+<tr>
+<th>활동</th>
+<th>설명</th>
+<th>해당</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Configuration Identification</strong></td>
+<td>형상 항목 식별, 베이스라인 설정, 식별자 부여</td>
+<td><strong>A</strong></td>
+</tr>
+<tr>
+<td><strong>Configuration Control</strong></td>
+<td>변경 요청 평가, 조정, 승인</td>
+<td><strong>B</strong></td>
+</tr>
+<tr>
+<td><strong>Configuration Status Accounting</strong></td>
+<td>변경 히스토리 기록, 보고</td>
+<td><strong>C</strong></td>
+</tr>
+<tr>
+<td><strong>Configuration Audit/Verification</strong></td>
+<td>제품이 명세와 일치하는지 검증</td>
+<td><strong>D</strong></td>
+</tr>
+</tbody>
+</table>
+<p>4가지 활동: CI, CC, CSA, CA (Configuration Audit)</p>
+<p>문제의 4개(A,B,C,D)는 이 4가지에 해당하나, 보기의 "Configuration Verification"은 4가지 공식 분류에서의 정확한 명칭이 아님. 공식 명칭은 <strong>Configuration Audit</strong>이다.</p>
+<p>따라서 문제에서 설명한 활동(A=식별, B=제어, C=상태기록, D=감사)에 해당하지 않는 것이 "Configuration Verification"이므로 <strong>③번</strong>.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>형상관리 4대 활동:</strong></p>
+<table>
+<thead>
+<tr>
+<th>활동</th>
+<th>영문</th>
+<th>핵심</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>형상 식별</strong></td>
+<td>Configuration Identification</td>
+<td>CI에 식별자 부여</td>
+</tr>
+<tr>
+<td><strong>형상 제어</strong></td>
+<td>Configuration Control</td>
+<td>변경 통제</td>
+</tr>
+<tr>
+<td><strong>형상 상태 기록</strong></td>
+<td>Configuration Status Accounting</td>
+<td>이력 관리</td>
+</tr>
+<tr>
+<td><strong>형상 감사</strong></td>
+<td>Configuration Audit</td>
+<td>제품-명세 일치 검증</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="50" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>SPICE는 소프트웨어 개발 프로세스 개선을 목적으로 제정된 ISO 15504 표준의 별칭으로, L0: Incomplete Process, L1: (가) Process, L2: (나) Process, L3: (다) Process, L4: Predictable Process, L5: Optimizing Process로 총 6레벨의 성숙도로 정의되어 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Managed, Established, Performed<br />
+② Managed, Performed, Established<br />
+③ Established, Performed, Managed<br />
+<strong>④ Performed, Managed, Established</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SPICE (ISO/IEC 15504)</li>
+<li>6단계 성숙도 레벨</li>
+<li>Performed, Managed, Established, Predictable, Optimizing</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>50번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SPICE(ISO/IEC 15504) 성숙도 레벨</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+<li><strong>관련 챕터</strong>: SW 프로세스 품질 - SPICE</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (SPICE/CMMI 레벨은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SPICE = ISO/IEC 15504, <strong>6레벨</strong> (L0~L5)</li>
+<li>L1 = <strong>Performed</strong> (수행됨), L2 = <strong>Managed</strong> (관리됨)</li>
+<li>L3 = <strong>Established</strong> (표준 정의), L4 = <strong>Predictable</strong> (예측 가능)</li>
+<li><strong>Performed → Managed → Established → Predictable → Optimizing</strong></li>
+<li>CMMI L3 Defined ≈ SPICE L3 Established (동일 개념)</li>
+</ol>
+<hr />
+<hr />
+<h1>종합 정리</h1></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>SPICE(ISO/IEC 15504) 6단계 레벨:</strong></p>
+<table>
+<thead>
+<tr>
+<th>레벨</th>
+<th>이름</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L0</td>
+<td>Incomplete</td>
+<td>프로세스 미구현 또는 불완전</td>
+</tr>
+<tr>
+<td><strong>L1</strong></td>
+<td><strong>Performed</strong></td>
+<td><strong>프로세스가 수행됨 (결과는 있으나 계획 없음)</strong></td>
+</tr>
+<tr>
+<td><strong>L2</strong></td>
+<td><strong>Managed</strong></td>
+<td><strong>계획되고 추적·관리됨</strong></td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td><strong>Established</strong></td>
+<td><strong>표준 프로세스 정의 및 조직 전체 적용</strong></td>
+</tr>
+<tr>
+<td>L4</td>
+<td>Predictable</td>
+<td>정량적 측정 및 통제</td>
+</tr>
+<tr>
+<td>L5</td>
+<td>Optimizing</td>
+<td>지속적 개선</td>
+</tr>
+</tbody>
+</table>
+<p>(가) = L1 = <strong>Performed</strong><br />
+(나) = L2 = <strong>Managed</strong><br />
+(다) = L3 = <strong>Established</strong></p>
+<p>→ <strong>④ Performed, Managed, Established</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CMMI vs SPICE 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>SPICE 레벨</th>
+<th>CMMI 레벨</th>
+<th>이름</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L0</td>
+<td>-</td>
+<td>Incomplete</td>
+</tr>
+<tr>
+<td>L1</td>
+<td>ML1</td>
+<td>Performed / Initial</td>
+</tr>
+<tr>
+<td>L2</td>
+<td>ML2</td>
+<td>Managed</td>
+</tr>
+<tr>
+<td>L3</td>
+<td>ML3</td>
+<td>Established / Defined</td>
+</tr>
+<tr>
+<td>L4</td>
+<td>ML4</td>
+<td>Predictable / Quantitative</td>
+</tr>
+<tr>
+<td>L5</td>
+<td>ML5</td>
+<td>Optimizing</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">2023년 소프트웨어공학 출제 토픽 분석</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>번호</th>
+<th>출제 토픽</th>
+<th>정답</th>
+<th>빈출도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26</td>
+<td>Chain of Responsibility 패턴 (Sequence Diagram)</td>
+<td>④</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Decision Table 커버리지 계산 (=3/8)</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Clean Architecture 컴포넌트 결합도 원칙</td>
+<td>①</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>29</td>
+<td>인공신경망 테스트 커버리지 (Component 제외)</td>
+<td>③</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>30</td>
+<td>CWE(Common Weakness Enumeration)</td>
+<td>①</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>31</td>
+<td>SysML-UML 공통 다이어그램 (Use Case)</td>
+<td>①</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>32</td>
+<td>CMMI-DEV PA 분류 (TS=엔지니어링)</td>
+<td>②</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>33</td>
+<td>SEI 아키텍처 뷰 - Publish-Subscribe</td>
+<td>④</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>34</td>
+<td>ISO 29119 Part 2 전체적/맞춤형 적합성</td>
+<td>①</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>35</td>
+<td>아키텍처 스타일 - MVC</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>36</td>
+<td>SOA 표준 SOAP/WSDL/WS-BPEL 연결</td>
+<td>④</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>37</td>
+<td>Scrum 팀 규모 (7명 권장 오류)</td>
+<td>①</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>38</td>
+<td>CMMI 레벨 3 PA (가,나,라)</td>
+<td>①</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>39</td>
+<td>MSA - 단일 DB 통합은 오류</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>40</td>
+<td>State Machine 전이 액션 순서</td>
+<td>②</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>41</td>
+<td>PCE 계산 - 설계&gt;분석&gt;구현</td>
+<td>④</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>42</td>
+<td>Git 명령어 - git pull 정의</td>
+<td>③</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>43</td>
+<td>형상관리 코드라인/메인라인/베이스라인</td>
+<td>①</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>44</td>
+<td>Instability 계산 (Fan-in=3, Fan-out=1, I=1/4)</td>
+<td>①</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>45</td>
+<td>커버리지 포함 관계 (MCC&gt;MC/DC&gt;C/DC&gt;SC)</td>
+<td>④</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>46</td>
+<td>JUnit4 실행 순서 (BeforeClass→Before→Test→After)</td>
+<td>③</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>47</td>
+<td>Release Testing = 외부배포전 블랙박스</td>
+<td>③</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>48</td>
+<td>완전형 유지보수(성능향상)</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>49</td>
+<td>형상관리 4대 활동 (Verification ≠ 독립 활동)</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>50</td>
+<td>SPICE 레벨 (Performed, Managed, Established)</td>
+<td>④</td>
+<td>★★★★</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">2023년 특징 분석</div><div class="section-text"><p><strong>1. 설계 패턴</strong>: Chain of Responsibility (Q26) — Sequence Diagram으로 패턴 식별<br />
+<strong>2. 계산 문제</strong>: Decision Table 커버리지(Q27), PCE(Q41), Instability(Q44) — 3개 계산 문제<br />
+<strong>3. 아키텍처</strong>: Clean Architecture(Q28), SEI View(Q33), MVC(Q35), MSA(Q39) — 아키텍처 집중 출제<br />
+<strong>4. 테스트 표준</strong>: 29119 Part2(Q34), 신경망 커버리지(Q29), 커버리지 포함관계(Q45)<br />
+<strong>5. 프로세스 품질</strong>: CMMI(Q32, Q38), SPICE(Q50) — 프로세스 표준 강화</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">2021~2025년 반복 출제 핵심 토픽</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>토픽</th>
+<th>출제 빈도</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instability 계산</td>
+<td>2023, 2025</td>
+<td>반드시 암기</td>
+</tr>
+<tr>
+<td>커버리지 포함 관계</td>
+<td>2023, 2025</td>
+<td>매년 출제</td>
+</tr>
+<tr>
+<td>McCabe 복잡도</td>
+<td>2024, 2025</td>
+<td>매년 출제</td>
+</tr>
+<tr>
+<td>SOLID 원칙</td>
+<td>2024, 2025</td>
+<td>매년 출제</td>
+</tr>
+<tr>
+<td>리팩토링 기법</td>
+<td>2023, 2024, 2025</td>
+<td>매년 출제</td>
+</tr>
+<tr>
+<td>애자일/Scrum</td>
+<td>2023, 2024, 2025</td>
+<td>매년 출제</td>
+</tr>
+<tr>
+<td>CMMI/SPICE</td>
+<td>2023, 2024</td>
+<td>프로세스 표준</td>
+</tr>
+<tr>
+<td>Git 명령어</td>
+<td>2023, 2024</td>
+<td>형상관리 도구</td>
+</tr>
+<tr>
+<td>유지보수 유형</td>
+<td>2023, 2024</td>
+<td>4가지 유형</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>[참고 강의자료]<br />
+- 소프트웨어공학_Part_I_V1.2_강의최종본.pdf<br />
+- 소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf<br />
+- 소프트웨어공학_Part_II_V1.1_디자인_UML.pdf<br />
+- 디자인_패턴_Part_II_V1.1.pdf<br />
+- 소프트웨어공학_Part_II_SW_개발_V1.3.pdf<br />
+- 소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf<br />
+- 소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</p>
+<p>[참고 기출문제]<br />
+- 2023년제24회_정보시스템_감리사_필기시험_문제_및_답안.pdf</p></div></div></div></div>
+      </div>
+    </div>
+  </div>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

@@ -1,0 +1,3553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소프트웨어공학 2021년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">소프트웨어공학 <small>2021년도 기출해설집 · 총 25문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 소프트웨어공학 기출문제 해설집</h1>
+<h2>2021년 제22회 (문항 26~50)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 업로드된 소프트웨어공학 강의자료(Part I~III) 우선 근거<br />
+<strong>정답 출처</strong>: 2021년제22회_정보시스템_감리사_필기시험_문제_및_답안.pdf (Bold 표시 정답)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (이미지 내 Bold 직접 확인, 계산 문제 별도 검증)</p>
+</blockquote>
+<hr />
+<h2>2021년 소프트웨어공학 정답표 (Q26~50)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26</td>
+<td>②</td>
+<td>36</td>
+<td>①</td>
+<td>46</td>
+<td>③</td>
+</tr>
+<tr>
+<td>27</td>
+<td>①</td>
+<td>37</td>
+<td>③</td>
+<td>47</td>
+<td>③</td>
+</tr>
+<tr>
+<td>28</td>
+<td>④</td>
+<td>38</td>
+<td>①</td>
+<td>48</td>
+<td>④</td>
+</tr>
+<tr>
+<td>29</td>
+<td>③</td>
+<td>39</td>
+<td>②</td>
+<td>49</td>
+<td>④</td>
+</tr>
+<tr>
+<td>30</td>
+<td>③</td>
+<td>40</td>
+<td>②</td>
+<td>50</td>
+<td>①</td>
+</tr>
+<tr>
+<td>31</td>
+<td>②</td>
+<td>41</td>
+<td>③</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td>②</td>
+<td>42</td>
+<td>②</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td>②</td>
+<td>43</td>
+<td>④</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>①</td>
+<td>44</td>
+<td>①</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>35</td>
+<td>①</td>
+<td>45</td>
+<td>③</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="26" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 설명에 가장 적절한 설계 원칙은?</p>
+<blockquote>
+<p>단위 테스트를 수행할 때 테스트 대상 클래스를 변경하지 않고도 대상 클래스의 환경을 테스트가 용이하도록 통제 가능한 환경으로 변경할 수 있는 설계가 되어야 한다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① SRP(Single Responsibility Principle)<br />
+<strong>② OCP(Open Closed Principle)</strong><br />
+③ DIP(Dependency Inversion Principle)<br />
+④ LSP(Liskov Substitution Principle)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>OCP(개방-폐쇄 원칙)</li>
+<li>확장에 열림, 수정에 닫힘</li>
+<li>테스트 환경 변경 (대상 클래스 수정 없이)</li>
+<li>클래스 변경 없이 동작 변경</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>26번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SOLID 원칙 - OCP (단위 테스트 환경 통제)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (SOLID 원칙은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>OCP = <strong>확장에 열림, 수정에 닫힘</strong></li>
+<li>"클래스를 변경하지 않고 동작/환경 변경 가능" = OCP</li>
+<li>Mock 객체 주입 = OCP + DIP 결합 활용</li>
+<li>2024년 Q46 DIP와 함께 암기: DIP = 추상에 의존, OCP = 수정 없이 확장</li>
+<li>인터페이스/추상클래스를 통한 의존성 주입이 OCP 구현 방법</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>OCP(Open Closed Principle)</strong>: "소프트웨어 엔티티는 확장에는 열려 있어야 하고, 수정에는 닫혀 있어야 한다."</p>
+<p>문제 핵심: <strong>"테스트 대상 클래스를 변경하지 않고도" 환경을 변경</strong></p>
+<p>이것이 OCP의 본질:<br />
+- 클래스 자체 코드를 수정(닫힘)하지 않고<br />
+- 외부 환경(의존성)을 교체(확장)하여 동작 변경</p>
+<p>단위 테스트에서 Mock/Stub 객체를 주입하여 대상 클래스를 수정 없이 테스트 환경을 통제하는 것이 OCP를 따르는 설계의 대표 예이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(SRP)</h3>
+<p>단일 책임 원칙: 하나의 클래스는 하나의 책임만. 테스트 환경 교체와 직접적 관련 없음.</p>
+<h3>보기③(DIP)</h3>
+<p>의존성 역전 원칙: 추상화에 의존. OCP를 구현하는 수단이 DIP이지만, "클래스를 변경하지 않고 환경 변경"의 직접적 설명은 OCP.</p>
+<h3>보기④(LSP)</h3>
+<p>리스코프 치환 원칙: 자식이 부모를 대체 가능. 직접 관련 없음.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SOLID 원칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>핵심 문장</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SRP</td>
+<td>하나의 클래스 = 하나의 변경 이유</td>
+</tr>
+<tr>
+<td><strong>OCP</strong></td>
+<td><strong>확장 O, 수정 X</strong></td>
+</tr>
+<tr>
+<td>LSP</td>
+<td>자식 = 부모 대체 가능</td>
+</tr>
+<tr>
+<td>ISP</td>
+<td>작고 구체적인 인터페이스</td>
+</tr>
+<tr>
+<td>DIP</td>
+<td>추상화에 의존</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="27" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 상황에 적용하기에 가장 적절한 디자인 패턴은?</p>
+<ul>
+<li>장기 게임에서 특정 루틴의 레벨을 간단하게 교체할 수 있다.</li>
+<li>메모리가 적은 환경: 속도 느리지만 메모리 절약 알고리즘 / 메모리 많은 환경: 빠르지만 메모리 많이 사용.</li>
+<li>스프레드시트에서 '버그 있을지 모르는 고속 알고리즘'과 '저속이지만 확실한 알고리즘'을 준비해 전자를 후자로 검산.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① strategy 패턴</strong><br />
+② observer 패턴<br />
+③ command 패턴<br />
+④ decorator 패턴</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Strategy Pattern (전략 패턴)</li>
+<li>알고리즘 교환 가능 캡슐화</li>
+<li>런타임 알고리즘 선택</li>
+<li>환경에 따른 전략 교체</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>27번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>설계 패턴 - Strategy Pattern</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_2_디자인_패턴_Part_II_V1.1.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Strategy = <strong>알고리즘을 교환 가능하게 캡슐화</strong></li>
+<li>"환경에 따라 알고리즘 선택", "검산 알고리즘" = Strategy 키워드</li>
+<li>Strategy vs State: Strategy는 외부 선택, State는 내부 전이</li>
+<li>구조: Context - Strategy(Interface) - ConcreteStrategy들</li>
+<li>정렬 알고리즘(버블/퀵/병합 선택) = Strategy 대표 예시</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Strategy Pattern</strong>의 핵심: "알고리즘을 캡슐화하여 런타임에 교환 가능하게 함"</p>
+<p>세 가지 상황 모두 공통점:<br />
+- <strong>알고리즘을 교체</strong> (루틴 교체, 메모리/속도 트레이드오프 알고리즘 교체, 검증 알고리즘)<br />
+- <strong>런타임에 선택</strong> 가능<br />
+- 클라이언트(장기, 스프레드시트)는 내부 알고리즘 몰라도 됨</p>
+<p>강의자료(2_2_디자인_패턴):</p>
+<blockquote>
+<p>"전략 패턴: 알고리즘의 군을 정의하고 각각 캡슐화하여 서로 교환 가능하게 한다."</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>패턴</th>
+<th>목적</th>
+<th>차이</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Strategy</strong></td>
+<td><strong>알고리즘 교환</strong></td>
+<td>런타임 알고리즘 선택</td>
+</tr>
+<tr>
+<td>State</td>
+<td>상태별 동작 변경</td>
+<td>상태 전이 내부 관리</td>
+</tr>
+<tr>
+<td>Command</td>
+<td>요청 캡슐화</td>
+<td>실행 취소, 큐잉</td>
+</tr>
+<tr>
+<td>Decorator</td>
+<td>기능 동적 추가</td>
+<td>래핑으로 확장</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="28" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>애자일 개발의 품질 관리에 관한 설명 중 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 문서 기반의 정형적인 방식을 따른다.<br />
+② ISO 9001에 포함된 표준 기반 접근법을 적극적으로 준수한다.<br />
+③ 공식적인 인스펙션 또는 리뷰 프로세스들을 정기적으로 사용한다.<br />
+<strong>④ 코드에서 문제를 발견하면 원래의 개발자가 아니라도 문제를 직접 수정할 수 있다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>애자일 품질 관리</li>
+<li>공동 소유권(Collective Ownership)</li>
+<li>XP 실천법</li>
+<li>비정형적 품질 관리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>28번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>애자일 품질 관리</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>애자일 = 문서보다 <strong>동작하는 소프트웨어</strong>, 계획보다 <strong>변화 대응</strong></li>
+<li><strong>공동 소유권</strong> = 누구나 어떤 코드도 수정 가능 (XP 핵심)</li>
+<li>공식 인스펙션 &lt; 페어 프로그래밍 + TDD</li>
+<li>ISO 9001 표준 엄격 준수 = 전통적 방식 (애자일 아님)</li>
+<li>애자일 품질 = TDD + CI + 리팩토링 + 페어 프로그래밍</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>애자일(특히 XP)의 품질 관리 특징:<br />
+- <strong>공동 소유권(Collective Ownership)</strong>: 모든 개발자가 코드 전체에 대해 공동 책임, 누구나 수정 가능 → <strong>④번 정확</strong><br />
+- 정형적 문서화보다 <strong>동작하는 소프트웨어</strong> 중시 → ① 틀림<br />
+- ISO 9001 같은 엄격한 표준보다 <strong>유연한 실천</strong> 중시 → ② 틀림<br />
+- 공식 인스펙션보다 <strong>지속적 코드 리뷰, 페어 프로그래밍</strong> 사용 → ③ 틀림</p>
+<p>XP의 12가지 실천법 중 <strong>공동 소유권</strong>: 팀 전체가 코드를 공유하고 개선 권한을 가짐.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>애자일 품질 관리 특징:</strong></p>
+<table>
+<thead>
+<tr>
+<th>특성</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>테스트 주도</td>
+<td>TDD로 코드 전 테스트 작성</td>
+</tr>
+<tr>
+<td><strong>공동 소유</strong></td>
+<td><strong>누구나 코드 수정 가능</strong></td>
+</tr>
+<tr>
+<td>지속적 통합</td>
+<td>수시 통합 + 전체 테스트</td>
+</tr>
+<tr>
+<td>리팩토링</td>
+<td>지속적 코드 개선</td>
+</tr>
+<tr>
+<td>페어 프로그래밍</td>
+<td>실시간 코드 리뷰 효과</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="29" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 테스트 커버리지에 대한 설명 중에서 올바른 것만으로 묶인 것은?</p>
+<ul>
+<li>가. 결정 커버리지 100% → 문장 커버리지 100% 만족</li>
+<li>나. 결정/조건 커버리지 100% → 결정 커버리지 100% 만족</li>
+<li>다. 조건 커버리지 100% → 결정 커버리지 100% 만족</li>
+<li>라. 결정/조건 커버리지 100% → 조건 커버리지 100% 만족</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 다<br />
+② 가, 나, 다<br />
+<strong>③ 가, 나, 라</strong><br />
+④ 가, 나, 다, 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (커버리지 포함 관계 원리로 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>커버리지 포함 관계</li>
+<li>조건 커버리지의 독립성</li>
+<li>결정/조건 커버리지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>29번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>테스트 커버리지 포함 관계</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (커버리지 포함 관계는 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>문장 ⊂ 결정 ⊂ 조건/결정 ⊂ MC/DC ⊂ 다중조건</strong></li>
+<li>조건(CC) → 결정(DC) <strong>보장 안 됨</strong> (핵심 함정!)</li>
+<li>결정/조건(C/DC) = 결정 + 조건 <strong>둘 다</strong> 만족</li>
+<li>C/DC → CC 보장됨 (C/DC가 CC 포함)</li>
+<li>2023년 Q45, 2022년 Q33과 연계 반복 학습 필수</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>커버리지 포함 관계 (약 → 강):</strong></p>
+<pre><code>문장(SC) ⊂ 결정(DC) ⊂ 조건/결정(C/DC) ⊂ MC/DC ⊂ 다중조건(MCC)
+</code></pre>
+<p>단, <strong>조건 커버리지(CC)</strong>는 결정 커버리지의 상위 집합이 <strong>아니다</strong>.</p>
+<p>각 항목 검증:</p>
+<ul>
+<li><strong>가. 결정(DC) → 문장(SC)</strong>: DC가 모든 분기를 커버하면 SC도 자동 만족. <strong>✓ 참</strong></li>
+<li><strong>나. 결정/조건(C/DC) → 결정(DC)</strong>: C/DC는 DC의 상위 집합이므로 DC 자동 만족. <strong>✓ 참</strong></li>
+<li><strong>다. 조건(CC) → 결정(DC)</strong>: <strong>✗ 거짓</strong>  </li>
+<li>예: <code>if (A || B)</code> 에서 조건 커버리지는 A=T, B=F / A=F, B=T 두 케이스로 달성 가능  </li>
+<li>하지만 전체 결정의 T/F 분기를 모두 커버하지 않을 수 있음  </li>
+<li>조건 커버리지가 결정 커버리지를 <strong>보장하지 않음</strong></li>
+<li><strong>라. 결정/조건(C/DC) → 조건(CC)</strong>: C/DC는 조건의 T/F도 포함하므로 CC 자동 만족. <strong>✓ 참</strong></li>
+</ul>
+<p>올바른 것: 가, 나, 라 → <strong>③번</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조건 커버리지가 결정 커버리지를 보장 못하는 예:</strong></p>
+<pre><code class="language-java">if (a || b) { ... }  // True 분기
+else { ... }         // False 분기
+
+// 조건 커버리지 달성:
+// TC1: a=T, b=F → 전체 True
+// TC2: a=F, b=T → 전체 True
+// → 결정(False 분기)이 한 번도 실행 안 됨!
+// 결정 커버리지 미달!
+</code></pre>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="30" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>휴대폰에 설치되어 있는 전화번호 관리 애플리케이션에 대해 ISO 9126의 품질 특성 분류 기준에 따라 리스크들을 식별한 결과가 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 효율성(efficiency) - 전화번호 등록 중에 전원이 꺼졌을 때 데이터가 손실된다.<br />
+② 신뢰성(reliability) - 적합한 그룹에 전화번호가 등록되지 않는다.<br />
+<strong>③ 사용성(usability) - 사용자가 전화번호 애플리케이션의 초기 화면으로 돌아오는 단축 메뉴가 없다.</strong><br />
+④ 기능성(functionality) - 등록된 전화번호가 임계값에 가까울 때 전화번호 탐색 시간이 현저하게 떨어진다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>ISO 9126 품질 특성</li>
+<li>사용성(Usability)</li>
+<li>단축 메뉴, 운용성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>30번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>ISO 9126 품질 특성 분류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>데이터 손실 = <strong>신뢰성</strong> (회복성)</li>
+<li>기능이 잘못 동작 = <strong>기능성</strong> (정확성)</li>
+<li><strong>UI 편의성, 메뉴 부재</strong> = <strong>사용성</strong> (운용성)</li>
+<li>응답 시간, 탐색 성능 = <strong>효율성</strong></li>
+<li>ISO 9126 = 6개 특성, ISO 25010 = 8개 특성(보안성+호환성 추가)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>각 보기의 올바른 품질 특성 분류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>보기</th>
+<th>설명</th>
+<th>올바른 특성</th>
+<th>오류</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>전원 꺼졌을 때 데이터 손실</td>
+<td><strong>신뢰성(회복성)</strong></td>
+<td>효율성 아님</td>
+</tr>
+<tr>
+<td>②</td>
+<td>적합한 그룹에 등록 안 됨</td>
+<td><strong>기능성(정확성)</strong></td>
+<td>신뢰성 아님</td>
+</tr>
+<tr>
+<td><strong>③</strong></td>
+<td><strong>초기 화면 단축 메뉴 없음</strong></td>
+<td><strong>사용성(운용성)</strong></td>
+<td><strong>정확</strong> ✓</td>
+</tr>
+<tr>
+<td>④</td>
+<td>임계값 시 탐색 시간 저하</td>
+<td><strong>효율성(성능)</strong></td>
+<td>기능성 아님</td>
+</tr>
+</tbody>
+</table>
+<p>③: 단축 메뉴 부재 = 사용자가 시스템을 쉽게 조작하기 어렵다는 <strong>사용성(운용성, operability)</strong> 문제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISO 9126 품질 특성 및 부특성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>특성</th>
+<th>부특성</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기능성</td>
+<td>적합성, 정확성, 보안성</td>
+<td>기능 수행 여부, 정확도</td>
+</tr>
+<tr>
+<td>신뢰성</td>
+<td>성숙성, 오류허용, 회복성</td>
+<td>데이터 손실, 복구</td>
+</tr>
+<tr>
+<td><strong>사용성</strong></td>
+<td><strong>이해성, 습득성, 운용성</strong></td>
+<td><strong>메뉴, UI 편의성</strong></td>
+</tr>
+<tr>
+<td>효율성</td>
+<td>시간효율, 자원효율</td>
+<td>응답시간, CPU 사용률</td>
+</tr>
+<tr>
+<td>유지보수성</td>
+<td>분석성, 변경성</td>
+<td>수정 용이성</td>
+</tr>
+<tr>
+<td>이식성</td>
+<td>적응성, 설치성</td>
+<td>다른 환경 이식</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="31" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 클래스 다이어그램이 나타내는 디자인 패턴으로 가장 적절한 것은?</p>
+<p><em>(다이어그램: Comp←ConcreteComp, Comp←Quest(Comp 참조), Quest←ConcreteQuestA, Quest←ConcreteQuestB(AddedBehavior 추가), Comp::Op() 호출 구조)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① bridge 패턴<br />
+<strong>② decorator 패턴</strong><br />
+③ flyweight 패턴<br />
+④ proxy 패턴</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Decorator Pattern</li>
+<li>기능 동적 추가</li>
+<li>래퍼(Wrapper)</li>
+<li>Component 참조</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>31번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>설계 패턴 - Decorator Pattern (클래스 다이어그램)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_2_디자인_패턴_Part_II_V1.1.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Decorator = <strong>같은 인터페이스 상속 + 내부에 원본 참조</strong></li>
+<li>기존 객체를 감싸서(wrap) 기능 추가 = Decorator</li>
+<li>Proxy도 유사 구조지만 목적이 "접근 제어"</li>
+<li>데코레이터 연쇄 적용 가능 (스택 구조로 기능 축적)</li>
+<li>Java I/O Stream = Decorator 패턴 대표 예 (BufferedInputStream 등)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>다이어그램 분석:<br />
+- <code>Comp</code>(추상): 기본 컴포넌트 인터페이스<br />
+- <code>ConcreteComp</code>: 기본 구현<br />
+- <code>Quest</code>(Decorator): <strong>Comp를 상속</strong>하면서 <strong>Comp 인스턴스를 참조</strong>(합성)<br />
+- <code>ConcreteQuestA</code>, <code>ConcreteQuestB</code>: 구체적 데코레이터, <strong>AddedBehavior</strong> 추가</p>
+<p><strong>Decorator Pattern의 핵심 구조:</strong><br />
+- 데코레이터는 같은 인터페이스를 상속 + 원래 컴포넌트를 내부에 보유<br />
+- <code>Op()</code> 호출 시: 내부 comp의 Op() 호출 후 추가 행동 수행</p>
+<p>강의자료:</p>
+<blockquote>
+<p>"Decorator 패턴: 객체에 동적으로 새로운 책임(기능)을 추가. 상속 대신 합성으로 유연하게 기능 확장"</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>구조 패턴 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>패턴</th>
+<th>목적</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Decorator</strong></td>
+<td><strong>기능 동적 추가</strong></td>
+<td><strong>동일 인터페이스 상속 + 참조</strong></td>
+</tr>
+<tr>
+<td>Bridge</td>
+<td>추상과 구현 분리</td>
+<td>두 계층 독립 확장</td>
+</tr>
+<tr>
+<td>Proxy</td>
+<td>대리 접근</td>
+<td>원본과 동일 인터페이스, 대리 처리</td>
+</tr>
+<tr>
+<td>Flyweight</td>
+<td>공유로 메모리 절약</td>
+<td>내부 상태 공유</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="32" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 Java 프로그램의 코드 일부분이다. 이 프로그램을 컴파일할 때 (가)~(라) 라인 중에서 컴파일 오류가 발생하지 않는 부분(라인)들만으로 가장 적절하게 묶인 것은?</p>
+<pre><code class="language-java">public class Test {
+    private int a = 0;
+    private static count = 0;
+    public int getA() { return a; }
+    public static int getCount() { return count; }
+    public static void test() {
+        int sum = 0;
+        sum = a;                      // (가)
+        sum += count;                 // (나)
+        System.out.println(getA());   // (다)
+        System.out.println(getCount()); // (라)
+    }
+}
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 다<br />
+<strong>② 나, 라</strong><br />
+③ 가, 나, 다<br />
+④ 가, 나, 다, 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (직접 분석 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Java static 메서드</li>
+<li>static vs instance 멤버 접근 규칙</li>
+<li>컴파일 오류 (Cannot access non-static from static context)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>32번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Java static 메서드에서의 컴파일 오류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>static 메서드에서 <strong>instance 변수/메서드 직접 접근 불가</strong></li>
+<li>static 메서드에서 <strong>static 변수/메서드 접근 가능</strong></li>
+<li>instance 메서드에서는 <strong>static + instance 모두</strong> 접근 가능</li>
+<li>this 참조 = instance 컨텍스트에서만 사용 가능</li>
+<li>static = 클래스 레벨 (객체 없이 존재), instance = 객체 레벨</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>static 메서드에서의 접근 규칙:</strong><br />
+- <strong>static 메서드</strong>에서는 <strong>static 멤버</strong>에만 직접 접근 가능<br />
+- <strong>instance 멤버(비-static)</strong>에는 직접 접근 불가 (객체가 없으므로)</p>
+<table>
+<thead>
+<tr>
+<th>라인</th>
+<th>코드</th>
+<th><code>a</code> 타입</th>
+<th>접근 가능?</th>
+<th>오류?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(가)</td>
+<td><code>sum = a</code></td>
+<td>instance 변수</td>
+<td>✗</td>
+<td><strong>컴파일 오류</strong></td>
+</tr>
+<tr>
+<td><strong>(나)</strong></td>
+<td><code>sum += count</code></td>
+<td><strong>static 변수</strong></td>
+<td><strong>✓</strong></td>
+<td><strong>정상</strong></td>
+</tr>
+<tr>
+<td>(다)</td>
+<td><code>getA()</code></td>
+<td>instance 메서드</td>
+<td>✗</td>
+<td><strong>컴파일 오류</strong></td>
+</tr>
+<tr>
+<td><strong>(라)</strong></td>
+<td><code>getCount()</code></td>
+<td><strong>static 메서드</strong></td>
+<td><strong>✓</strong></td>
+<td><strong>정상</strong></td>
+</tr>
+</tbody>
+</table>
+<p>오류 없는 라인: <strong>(나), (라)</strong> → <strong>②번</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(가, 다)</h3>
+<p>가와 다 모두 instance 멤버 접근으로 컴파일 오류 발생. 틀림.</p>
+<h3>보기③④</h3>
+<p>(가)와 (다)가 포함되어 있어 오류 발생 라인이 포함됨. 틀림.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Java static 규칙 요약:</strong></p>
+<table>
+<thead>
+<tr>
+<th>접근</th>
+<th>static → static</th>
+<th>static → instance</th>
+<th>instance → static</th>
+<th>instance → instance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>가능?</td>
+<td>✓</td>
+<td>✗</td>
+<td>✓</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="33" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>SOAP 기반 웹 서비스와 RESTful 웹 서비스를 비교한 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① SOAP 기반 웹 서비스는 RESTful 웹 서비스에 비해 구현하기 쉽고 확장성이 우수하다.<br />
+<strong>② SOAP 기반 웹 서비스에서 요청 및 응답은 모두 XML 형식으로 수행하는 반면, RESTful 웹 서비스에서는 JSON, XML, 일반 텍스트 등을 사용한다.</strong><br />
+③ SOAP 기반 웹 서비스는 서비스 품질이나 신뢰성 관리를 위해 자신의 기반구조를 구현해야 하지만, RESTful 웹 서비스는 WS-Reliability나 WS-Transaction과 같은 기반구조의 지원 표준이 있다.<br />
+④ SOAP 기반 웹 서비스는 리소스 지향적인데 반해, RESTful 웹 서비스는 RPC 메커니즘의 서비스 지향적이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SOAP vs REST 비교</li>
+<li>XML 전용 vs 다양한 형식</li>
+<li>WS-* 표준</li>
+<li>리소스 지향 vs 서비스 지향</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>33번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SOAP vs RESTful 웹 서비스 비교</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_3_소프트웨어공학_Part_I_V1.0_SW_아키텍처_외_완료.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SOAP = <strong>XML만</strong> 사용 / REST = <strong>JSON, XML, 텍스트 등</strong> 다양</li>
+<li>REST = <strong>리소스 지향</strong> / SOAP = <strong>서비스(RPC) 지향</strong></li>
+<li>WS-Security, WS-Transaction = <strong>SOAP의 표준</strong> (REST 아님!)</li>
+<li>REST가 구현 쉽고 가볍고 확장성 우수</li>
+<li>REST = Stateless, SOAP = Stateful 지원 가능</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>각 보기 분석:</strong></p>
+<table>
+<thead>
+<tr>
+<th>보기</th>
+<th>내용</th>
+<th>정확성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>SOAP이 구현 쉽고 확장성 우수</td>
+<td>✗ REST가 더 쉽고 유연함</td>
+</tr>
+<tr>
+<td><strong>②</strong></td>
+<td><strong>SOAP=XML만, REST=JSON/XML/텍스트</strong></td>
+<td><strong>✓ 정확</strong></td>
+</tr>
+<tr>
+<td>③</td>
+<td>REST에 WS-Reliability, WS-Transaction 표준 있음</td>
+<td>✗ 반대로 설명됨, 이 표준들은 SOAP의 것</td>
+</tr>
+<tr>
+<td>④</td>
+<td>SOAP=리소스지향, REST=RPC 서비스지향</td>
+<td>✗ 완전히 반대</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SOAP vs REST 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>특성</th>
+<th>SOAP</th>
+<th>REST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>데이터 형식</strong></td>
+<td><strong>XML만</strong></td>
+<td><strong>JSON, XML, 텍스트 등</strong></td>
+</tr>
+<tr>
+<td>프로토콜</td>
+<td>HTTP, SMTP, TCP 등</td>
+<td>HTTP 전용</td>
+</tr>
+<tr>
+<td>지향성</td>
+<td><strong>서비스(RPC) 지향</strong></td>
+<td><strong>리소스 지향</strong></td>
+</tr>
+<tr>
+<td>표준</td>
+<td>WS-Security, WS-Reliability</td>
+<td>HTTP 표준</td>
+</tr>
+<tr>
+<td>복잡도</td>
+<td>높음</td>
+<td>낮음</td>
+</tr>
+<tr>
+<td>상태 관리</td>
+<td>Stateful 지원</td>
+<td><strong>Stateless</strong></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="34" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 스프링 프레임워크가 제공하는 어드바이스의 유형을 그림으로 나타내고 있다. (가)~(다)에 가장 적절한 어드바이스는?</p>
+<p><em>(그림: (가)=메서드 실행 후 정상 종료 시 삽입, (나)=메서드 실행 전과 후, 예외 발생 시에도 삽입, (다)=메서드 실행 후 예외 발생 시 삽입)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① (가) AfterReturning, (나) Around, (다) AfterThrowing</strong><br />
+② (가) AfterReturning, (나) AfterThrowing, (다) Around<br />
+③ (가) AfterThrowing, (나) Around, (다) AfterReturning<br />
+④ (가) Around, (나) AfterReturning, (다) AfterThrowing</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Spring AOP Advice</li>
+<li>AfterReturning, AfterThrowing, Around</li>
+<li>Before, After</li>
+<li>어드바이스 실행 시점</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>34번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Spring AOP 어드바이스 유형</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_3_소프트웨어공학_Part_I_V1.0_SW_아키텍처_외_완료.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>AfterReturning</strong> = 정상 반환 시만 실행</li>
+<li><strong>AfterThrowing</strong> = 예외 발생 시만 실행</li>
+<li><strong>Around</strong> = 메서드 전/후 + 예외 포함 전체 제어</li>
+<li>After(Finally) = 정상/예외 무관 항상 실행 (AfterReturning과 다름!)</li>
+<li>Before = 메서드 실행 전만</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Spring AOP 어드바이스 유형 및 실행 시점:</strong></p>
+<table>
+<thead>
+<tr>
+<th>어드바이스</th>
+<th>실행 시점</th>
+<th>그림 설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Before</strong></td>
+<td>메서드 실행 전</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>AfterReturning</strong></td>
+<td>정상 반환 후</td>
+<td><strong>(가)</strong> 정상 종료 시만</td>
+</tr>
+<tr>
+<td><strong>AfterThrowing</strong></td>
+<td>예외 발생 후</td>
+<td><strong>(다)</strong> 예외 발생 시만</td>
+</tr>
+<tr>
+<td><strong>After(Finally)</strong></td>
+<td>항상 (정상/예외 무관)</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Around</strong></td>
+<td>전체 감싸기</td>
+<td><strong>(나)</strong> 전+후+예외 모두</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>(가)</strong>: 정상 종료 시에만 삽입 → <strong>AfterReturning</strong></li>
+<li><strong>(나)</strong>: 전, 후, 예외 발생 시에도 삽입 → <strong>Around</strong> (ProceedingJoinPoint로 전체 제어)</li>
+<li><strong>(다)</strong>: 예외 발생 시에만 삽입 → <strong>AfterThrowing</strong></li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>AOP 핵심 용어:</strong></p>
+<table>
+<thead>
+<tr>
+<th>용어</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Advice</td>
+<td>언제 무엇을 할지 (실행 코드)</td>
+</tr>
+<tr>
+<td>Pointcut</td>
+<td>어디에 적용할지 (메서드 선택)</td>
+</tr>
+<tr>
+<td>JoinPoint</td>
+<td>어드바이스가 삽입되는 지점</td>
+</tr>
+<tr>
+<td>Aspect</td>
+<td>Advice + Pointcut</td>
+</tr>
+<tr>
+<td>Weaving</td>
+<td>어드바이스를 대상 코드에 적용하는 과정</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="35" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음의 소스 코드 변경을 잘 설명하고 있는 리팩토링 방법으로 가장 적절한 것은?</p>
+<pre><code class="language-java">// 변경 전
+int getRating() {
+    return (moreThanFiveLateDeliveries()) ? 2 : 1;
+}
+boolean moreThanFiveLateDeliveries() {
+    return _numberOfLateDeliveries &gt; 5;
+}
+
+// 변경 후
+int getRating() {
+    return (_numberOfLateDeliveries &gt; 5) ? 2 : 1;
+}
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① inline method</strong><br />
+② extract method<br />
+③ move method<br />
+④ substitute algorithm</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Inline Method</li>
+<li>불필요한 위임 메서드 제거</li>
+<li>메서드 본체를 호출 위치에 삽입</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>35번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>리팩토링 - Inline Method</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>Inline Method</strong> = 메서드를 없애고 본체를 호출 위치에 직접 넣기</li>
+<li><strong>Extract Method</strong> = 반대 방향 (코드 → 메서드)</li>
+<li>적용 조건: 메서드가 너무 단순하거나 불필요한 간접 호출 제거</li>
+<li>2022년 Q34 Replace Error Code with Exception과 함께 암기</li>
+<li>리팩토링은 외부 동작 변경 없이 코드 구조 개선</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>변화 분석:</strong><br />
+- <strong>변경 전</strong>: <code>moreThanFiveLateDeliveries()</code> 메서드를 별도로 정의하고 호출<br />
+- <strong>변경 후</strong>: 해당 메서드의 본체(<code>_numberOfLateDeliveries &gt; 5</code>)를 직접 호출 위치에 삽입하고 메서드 삭제</p>
+<p>이것이 <strong>Inline Method</strong>:</p>
+<blockquote>
+<p>"메서드의 본체가 메서드의 이름만큼 명확할 때, 호출하는 곳에 메서드의 본체를 넣고 메서드를 삭제"</p>
+</blockquote>
+<p>적용 조건: 메서드가 너무 단순하거나, 내용이 이름보다 더 명확할 때</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②(Extract Method)</h3>
+<p>Inline의 반대 방향: 코드 블록을 추출하여 새 메서드 생성.</p>
+<h3>보기③(Move Method)</h3>
+<p>메서드를 다른 클래스로 이동.</p>
+<h3>보기④(Substitute Algorithm)</h3>
+<p>메서드의 알고리즘 전체를 다른 알고리즘으로 교체.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>메서드 관련 핵심 리팩토링:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>방향</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Extract Method</strong></td>
+<td>코드 → 메서드</td>
+<td>코드 블록을 새 메서드로</td>
+</tr>
+<tr>
+<td><strong>Inline Method</strong></td>
+<td>메서드 → 코드</td>
+<td>단순 메서드를 호출 위치에 삽입</td>
+</tr>
+<tr>
+<td>Move Method</td>
+<td>클래스 이동</td>
+<td>더 적합한 클래스로 이동</td>
+</tr>
+<tr>
+<td>Rename Method</td>
+<td>이름 변경</td>
+<td>메서드명 명확화</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="36" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 특정 함수의 응집도(cohesion)들을 설명하고 있다. 좋은 응집도에서 나쁜 응집도 순으로 순차적으로 배치한 것 중에서 가장 적절한 것은?</p>
+<ul>
+<li>가. 서로 연관성이 없는 기능들을 묶어 놓았다.</li>
+<li>나. 두 개의 기능을 구현한 함수로 동일한 속성(attribute)을 사용하는 기능을 묶어 놓았다.</li>
+<li>다. 초기화 함수와 같이 시간적으로 연관이 있는 기능들을 묶어 놓았다.</li>
+<li>라. 두 개의 기능을 구현한 함수로 하나의 기능의 결과가 다른 기능의 입력으로 사용된다.</li>
+<li>마. 하나의 문제를 수행하는 기능을 구현한 함수이다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 마 – 라 – 나 – 다 – 가</strong><br />
+② 마 – 나 – 라 – 다 – 가<br />
+③ 마 – 라 – 다 – 나 – 가<br />
+④ 마 – 나 – 다 – 라 – 가</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (응집도 등급 원리로 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>응집도 7가지 종류</li>
+<li>기능적 &gt; 순차적 &gt; 통신적 &gt; 절차적 &gt; 시간적 &gt; 논리적 &gt; 우연적</li>
+<li>좋음 → 나쁨</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>36번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>응집도(Cohesion) 종류 순서</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+<li><strong>관련 챕터</strong>: 모듈화 - 응집도</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>응집도 최고: <strong>기능적</strong> (단일 작업)</li>
+<li>순차적: <strong>출력 → 다음 입력</strong> (데이터 흐름)</li>
+<li>통신적: <strong>같은 데이터/속성 사용</strong></li>
+<li>시간적: <strong>같은 시점에 실행</strong> (초기화, 종료 등)</li>
+<li>우연적: <strong>연관성 없이 묶임</strong> (최악)</li>
+<li>암기: <strong>기순통절시논우</strong></li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>응집도 7가지 종류 (좋음 → 나쁨):</strong></p>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>종류</th>
+<th>설명</th>
+<th>해당</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1(최고)</td>
+<td><strong>기능적(Functional)</strong></td>
+<td>하나의 기능만 수행</td>
+<td><strong>마</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>순차적(Sequential)</strong></td>
+<td>출력이 다음 기능 입력</td>
+<td><strong>라</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>통신적(Communicational)</strong></td>
+<td>같은 데이터(속성) 사용</td>
+<td><strong>나</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>절차적(Procedural)</strong></td>
+<td>순서 있게 실행</td>
+<td>-</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>시간적(Temporal)</strong></td>
+<td>같은 시간에 실행</td>
+<td><strong>다</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>논리적(Logical)</strong></td>
+<td>같은 유형의 기능 묶음</td>
+<td>-</td>
+</tr>
+<tr>
+<td>7(최저)</td>
+<td><strong>우연적(Coincidental)</strong></td>
+<td>연관성 없는 기능 묶음</td>
+<td><strong>가</strong></td>
+</tr>
+</tbody>
+</table>
+<p>순서: <strong>마(기능적) → 라(순차적) → 나(통신적) → 다(시간적) → 가(우연적)</strong> → <strong>①번</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>응집도 암기 순서 (좋음 → 나쁨):</strong></p>
+<blockquote>
+<p><strong>기 순 통 절 시 논 우</strong><br />
+기능적, 순차적, 통신적, 절차적, 시간적, 논리적, 우연적</p>
+</blockquote>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="37" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음에서 설명하는 요구사항 도출 기법으로 가장 적절한 것은?</p>
+<blockquote>
+<p>사용자들의 동작 프로세스를 이해하고 이를 지원하는 소프트웨어의 요구사항을 얻기 위해 사용하는 관찰 기법이다. 분석가는 사용자의 일상 업무를 관찰하고 사용자들의 실제 작업을 기록한다. 사람들이 실제 일하는 방식을 반영하는 기법으로 잘 드러나지 않는 요구사항을 발견하는데 도움을 준다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 인터뷰(interview)<br />
+② 사용자 스토리(user story)<br />
+<strong>③ 문화기술적 연구(ethnography)</strong><br />
+④ 스프린트 백로그(sprint backlog)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>문화기술적 연구(Ethnography)</li>
+<li>관찰 기법</li>
+<li>암묵적/잠재적 요구사항</li>
+<li>실제 업무 관찰</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>37번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>요구사항 도출 기법 - 문화기술적 연구 (Ethnography)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Ethnography = <strong>현장 관찰 + 암묵적 요구사항 발견</strong></li>
+<li>"실제로 일하는 방식 관찰, 잘 드러나지 않는 요구사항" = Ethnography 키워드</li>
+<li>인터뷰 = 대화, Ethnography = 관찰 (구분!)</li>
+<li>2024년 Q44 프로토타이핑과 비교: 프로토타이핑=불명확한 요구사항, Ethnography=암묵적 요구사항</li>
+<li>인류학에서 차용한 방법론 (문화기술지)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Ethnography(문화기술적 연구) 특징:</strong><br />
+- <strong>관찰</strong>을 통한 요구사항 수집 (사용자에게 질문하는 것이 아닌 <strong>보는</strong> 것)<br />
+- 사용자가 <strong>실제로 작업하는 방식</strong> 기록<br />
+- <strong>암묵적(tacit) 지식</strong> 발견 — 사용자 본인도 인식하지 못하는 요구사항<br />
+- 인류학적 관찰 방법론을 SW 요구사항에 적용</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(인터뷰)</h3>
+<p>사용자와 <strong>직접 대화</strong>. 명시적 요구사항 수집에 효과적이지만 암묵적 지식 발견에 한계.</p>
+<h3>보기②(사용자 스토리)</h3>
+<p>애자일에서 요구사항을 짧은 문장으로 기술. "As a..., I want..., So that..."</p>
+<h3>보기④(스프린트 백로그)</h3>
+<p>스크럼의 스프린트 작업 목록. 요구사항 도출 기법이 아닌 계획 도구.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>요구사항 도출 기법 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>방법</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인터뷰</td>
+<td>대화</td>
+<td>명시적 요구</td>
+</tr>
+<tr>
+<td>관찰(Ethnography)</td>
+<td>현장 관찰</td>
+<td><strong>암묵적 요구</strong></td>
+</tr>
+<tr>
+<td>설문조사</td>
+<td>설문지</td>
+<td>통계적 요구</td>
+</tr>
+<tr>
+<td>프로토타이핑</td>
+<td>빠른 구현+피드백</td>
+<td>불명확 요구</td>
+</tr>
+<tr>
+<td>워크숍</td>
+<td>그룹 세션</td>
+<td>이해관계자 합의</td>
+</tr>
+<tr>
+<td>브레인스토밍</td>
+<td>아이디어 발산</td>
+<td>창의적 요구</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="38" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 익스트림 프로그래밍(eXtreme programming)의 실무에 대한 설명 중 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 단순한 설계(simple design)는 설계를 간결하게 유지하여 미래의 잠재적 변경에 대비하는 것이다.</strong><br />
+② 공동 소유권(collective ownership)은 개발자들이 코드에 대한 공동 책임을 지며, 모든 개발자가 어떤 코드라도 변경할 수 있다는 것이다.<br />
+③ 연속적 통합(continuous integration)은 특정 작업이 끝나면 바로 전체 시스템에 통합되며, 통합 후에는 모든 테스트를 통과해야 한다는 것이다.<br />
+④ 리팩토링(refactoring)은 코드 개선 사항이 발견되면 코드를 지속적으로 개선하는 것이며, 이를 통하여 코드가 단순하고 유지보수하기 쉽게 된다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>XP Simple Design</li>
+<li>YAGNI(You Ain't Gonna Need It)</li>
+<li>과잉 설계 금지</li>
+<li>현재 필요한 것만 구현</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>38번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>XP(eXtreme Programming) 실천법 - Simple Design</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (XP 실천법 오답 찾기 주기적 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Simple Design = <strong>현재 필요한 것만</strong> (미래 대비 ≠ Simple Design)</li>
+<li>YAGNI = "필요할 때 구현, 미리 만들지 마라"</li>
+<li>CI = 작업 완료 즉시 통합 + 모든 테스트 통과</li>
+<li>Collective Ownership = 누구나 어떤 코드도 수정 가능</li>
+<li>리팩토링 = 기능 변경 없이 코드 구조 지속 개선</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>①번 오류 분석</strong>: "단순한 설계는 <strong>미래의 잠재적 변경에 대비</strong>하는 것"</p>
+<p>XP의 Simple Design 원칙:</p>
+<blockquote>
+<p>"지금 당장 필요한 것만 구현하라 (YAGNI: You Ain't Gonna Need It)"<br />
+"가장 단순한 설계를 유지하며, 미래를 위한 과도한 설계를 피하라"</p>
+</blockquote>
+<p><strong>미래의 잠재적 변경에 대비하는 것은 XP와 반대</strong> — XP는 미래 예측보다 <strong>현재 요구사항에 집중</strong>하고, 변경이 필요할 때 리팩토링으로 대응한다.</p>
+<p>나머지 보기는 모두 정확한 XP 설명.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>XP 12가지 핵심 실천법:</strong></p>
+<table>
+<thead>
+<tr>
+<th>실천법</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>소규모 릴리즈</td>
+<td>짧은 주기의 배포</td>
+</tr>
+<tr>
+<td>테스트 주도 개발</td>
+<td>코드 전 테스트 작성</td>
+</tr>
+<tr>
+<td>페어 프로그래밍</td>
+<td>두 명이 함께 코딩</td>
+</tr>
+<tr>
+<td><strong>공동 소유권</strong></td>
+<td><strong>누구나 어떤 코드도 수정 가능</strong></td>
+</tr>
+<tr>
+<td><strong>연속적 통합(CI)</strong></td>
+<td><strong>작업 완료 즉시 통합+테스트</strong></td>
+</tr>
+<tr>
+<td><strong>리팩토링</strong></td>
+<td><strong>지속적 코드 개선</strong></td>
+</tr>
+<tr>
+<td><strong>단순한 설계</strong></td>
+<td><strong>현재 필요한 것만, YAGNI</strong></td>
+</tr>
+<tr>
+<td>온사이트 고객</td>
+<td>고객이 팀에 상주</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="39" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음에서 설명하는 UML 상태머신 다이어그램의 (가) 위치에 나타낼 표기법으로 가장 적절한 것은?</p>
+<blockquote>
+<p>trigger 이벤트가 발생하였을 때 guard 조건이 만족하면 전이가 일어나는데 전이하면서 effect를 수행한다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① trigger [guard] effect<br />
+<strong>② trigger [guard] / effect</strong><br />
+③ trigger / [guard] effect<br />
+④ trigger / [guard] / effect</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>UML State Machine 전이 표기법</li>
+<li>trigger [guard] / effect</li>
+<li>가드(Guard) 조건</li>
+<li>이펙트(Effect) / 액션</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>39번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>UML State Machine - 전이 표기법</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>전이 표기: <strong>trigger [guard] / effect</strong></li>
+<li>[ ]는 guard(조건), /는 구분자, effect는 액션</li>
+<li>guard 없으면: trigger / effect</li>
+<li>effect 없으면: trigger [guard]</li>
+<li>trigger 없으면: [guard] / effect (조건 변화로만 전이)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>UML State Machine 전이(Transition) 표기 문법:</strong></p>
+<blockquote>
+<p><strong>trigger [guard] / effect</strong></p>
+</blockquote>
+<ul>
+<li><strong>trigger</strong>: 전이를 유발하는 이벤트 (앞에 위치)</li>
+<li><strong>[guard]</strong>: 전이 조건, 대괄호로 표기 (trigger 뒤)</li>
+<li><strong>/</strong>: guard와 effect를 구분하는 구분자</li>
+<li><strong>effect</strong>: 전이 시 실행되는 액션 (/ 뒤)</li>
+</ul>
+<p>예시: <code>mouseClick [isEnabled] / highlight()</code></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>UML State Machine 전이 구성요소:</strong></p>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>표기</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trigger</td>
+<td>이름</td>
+<td>전이를 유발하는 이벤트</td>
+</tr>
+<tr>
+<td>Guard</td>
+<td>[조건]</td>
+<td>전이 조건 (Boolean)</td>
+</tr>
+<tr>
+<td>/</td>
+<td>/</td>
+<td>Guard와 Effect 구분자</td>
+</tr>
+<tr>
+<td>Effect</td>
+<td>이름()</td>
+<td>전이 시 실행 액션</td>
+</tr>
+</tbody>
+</table>
+<p>전체: <code>trigger [guard] / effect</code></p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="40" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>소프트웨어 버전 관리에 대한 다음 설명 중 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Git과 Subversion 모두 commit 명령으로 새로운 버전을 생성할 수 있다.<br />
+<strong>② 분산 버전 관리 시스템인 Git은 버전 저장소에서 컴포넌트 버전 간 차이인 델타를 이용하여 공간을 절약한다.</strong><br />
+③ Subversion은 하나의 마스터 저장소에 모든 컴포넌트의 버전을 유지하는 중앙집중 버전 관리 시스템이다.<br />
+④ 베이스라인은 시스템을 구성하는 컴포넌트 버전들의 집합을 의미한다. 소프트웨어 개발 과정 중 특정 시점이나 목적을 위하여 만들어진 산출물의 집합이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Git 스냅샷 방식</li>
+<li>Delta(차이) 방식 = SVN/CVS 방식</li>
+<li>Git = 스냅샷 기반</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>40번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>소프트웨어 버전 관리 - Git 특성 오류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Git = <strong>스냅샷(Snapshot)</strong> 방식 (델타 아님!)</li>
+<li>SVN/CVS = 델타(변경 차이) 방식</li>
+<li>Git = 분산, SVN = 중앙집중</li>
+<li>베이스라인 = 특정 시점의 승인된 형상 항목 집합</li>
+<li>Git은 오프라인에서도 commit 가능 (분산의 장점)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>②번 오류</strong>: "Git은 <strong>델타(차이)를 이용</strong>하여 공간을 절약한다"</p>
+<p>실제 Git의 저장 방식:<br />
+- Git = <strong>스냅샷(Snapshot) 기반</strong> 저장 (변경된 파일 전체를 객체로 저장)<br />
+- 변경 없는 파일은 이전 스냅샷 참조 (링크)<br />
+- 단, 내부적으로는 packfile에서 delta 압축을 사용하지만, 개념적으로는 스냅샷</p>
+<p><strong>델타(차이) 방식</strong> = SVN, CVS 등 중앙집중식 버전 관리 시스템의 특징</p>
+<p>나머지 설명:<br />
+- ①: 맞음 (SVN도 commit 명령 사용)<br />
+- ③: Subversion(SVN) = 중앙집중식 맞음<br />
+- ④: 베이스라인 정의 맞음</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Git vs SVN 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>특성</th>
+<th>Git</th>
+<th>SVN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>방식</td>
+<td><strong>분산</strong></td>
+<td>중앙집중</td>
+</tr>
+<tr>
+<td>저장</td>
+<td><strong>스냅샷</strong></td>
+<td>델타(차이)</td>
+</tr>
+<tr>
+<td>오프라인</td>
+<td>가능</td>
+<td>불가</td>
+</tr>
+<tr>
+<td>브랜치</td>
+<td>빠르고 가벼움</td>
+<td>무겁고 복잡</td>
+</tr>
+<tr>
+<td>저장소</td>
+<td>각 사용자 로컬+원격</td>
+<td>마스터 저장소만</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="41" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>문제를 일으킬 가능성 때문에 리팩토링이 필요한 코드는 '악취(bad smell)'가 있다고 표현한다. 다음 설명에 가장 적절한 코드 악취(bad smell)는?</p>
+<ul>
+<li>변경을 할 때마다 많은 클래스를 조금씩 수정해야 한다.</li>
+<li>변경해야 할 것이 여러 군데 널려 있기 때문에 찾기도 어렵고 변경해야 할 중요한 사항을 놓치기도 쉽다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 기능에 대한 욕심(feature envy)<br />
+② 데이터 덩어리(data clump)<br />
+<strong>③ 산탄총 수술(shotgun surgery)</strong><br />
+④ 확산적 변경(divergent change)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Shotgun Surgery (산탄총 수술)</li>
+<li>변경 시 여러 클래스 수정</li>
+<li>변경 분산</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>41번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>코드 악취 - Shotgun Surgery</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (코드 악취 2023년 Q41과 동일 토픽)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Shotgun Surgery = <strong>한 변경 → 여러 클래스 수정</strong> (산탄처럼 분산)</li>
+<li>Divergent Change = <strong>한 클래스 → 여러 이유로 변경</strong> (반대 방향)</li>
+<li>2023년 Q41과 동일: Feature Envy, Data Clumps와 함께 암기</li>
+<li>Shotgun Surgery 해결 = 관련 기능을 한 곳에 모음 (Inline Class)</li>
+<li>"여러 군데 찾기 어렵다" = Shotgun Surgery 키워드</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Shotgun Surgery(산탄총 수술)</strong>: 하나의 변경사항을 위해 <strong>여러 클래스를 조금씩 수정</strong>해야 하는 상황. 마치 산탄총처럼 변경이 여러 군데 흩어져 있는 것.</p>
+<p><strong>Divergent Change와 구분:</strong><br />
+- <strong>Divergent Change(확산적 변경)</strong>: 하나의 클래스가 여러 이유로 변경 (1클래스→여러 변경)<br />
+- <strong>Shotgun Surgery</strong>: 하나의 변경이 여러 클래스에 영향 (1변경→여러 클래스)</p>
+<p>리팩토링: <strong>Move Method/Field, Inline Class</strong> 등으로 관련 기능을 하나의 클래스로 통합</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>코드 악취 종류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>악취</th>
+<th>설명</th>
+<th>리팩토링</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feature Envy</td>
+<td>다른 클래스 데이터 과다 사용</td>
+<td>Move Method</td>
+</tr>
+<tr>
+<td><strong>Shotgun Surgery</strong></td>
+<td><strong>변경→여러 클래스 수정</strong></td>
+<td><strong>Inline Class, Move</strong></td>
+</tr>
+<tr>
+<td>Divergent Change</td>
+<td>하나의 클래스가 여러 이유로 변경</td>
+<td>Extract Class</td>
+</tr>
+<tr>
+<td>Data Clumps</td>
+<td>항상 함께 다니는 데이터</td>
+<td>Extract Class</td>
+</tr>
+<tr>
+<td>Long Method</td>
+<td>너무 긴 메서드</td>
+<td>Extract Method</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="42" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 UML로 작성한 클래스 다이어그램과 이에 해당하는 Java 코드의 일부를 나타낸 것이다. 가장 적절하지 않은 것은?</p>
+<p><em>(가: Car→Tire(집합), 나: NextGenDrive→Drive(인터페이스), 다: Door(추상클래스), 라: Car→Engine(합성))</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가<br />
+<strong>② 나</strong><br />
+③ 다<br />
+④ 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>UML 인터페이스 구현 표기</li>
+<li>implements vs extends</li>
+<li>Realization(실체화) 표기</li>
+<li>interface/abstract class</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>42번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>UML 클래스 다이어그램 → Java 코드 일관성 오류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>interface 구현 = <code>implements</code> (extends 아님!)</li>
+<li>interface 간 상속 = <code>extends</code> (가능)</li>
+<li>추상클래스 상속 = <code>extends</code></li>
+<li>UML 점선 삼각형 → Java <code>implements</code></li>
+<li>Java에서 클래스는 다중 인터페이스 구현 가능 (<code>implements A, B</code>)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>나 분석:</strong></p>
+<pre><code class="language-java">interface Drive { ... }
+public class NextGenDrive extends Drive { ... }
+</code></pre>
+<p>오류: <code>interface Drive</code>를 <code>extends</code>로 구현 → <strong>컴파일 오류</strong></p>
+<p>올바른 Java 코드: <code>class NextGenDrive **implements** Drive</code></p>
+<p>UML에서 인터페이스 구현 = <strong>점선 + 속빈 삼각형(실체화)</strong><br />
+Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
+<p><code>extends</code>는 클래스 상속에 사용하며, 인터페이스 구현 시 <code>implements</code>를 사용해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>UML 관계</th>
+<th>Java 키워드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>상속(실선 삼각형)</td>
+<td>extends (클래스→클래스)</td>
+</tr>
+<tr>
+<td>실체화(점선 삼각형)</td>
+<td><strong>implements</strong> (클래스→인터페이스)</td>
+</tr>
+<tr>
+<td>인터페이스 상속</td>
+<td>extends (인터페이스→인터페이스)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="43" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음의 소스 코드와 관련성이 가장 깊은 feature diagram은?</p>
+<pre><code class="language-c">void f(int x) {
+    printf(&quot;%d\n&quot;, x);
+    #if defined(Feature1)
+        g1(x);
+        #if defined(Feature2)
+            g2(x);
+        #else
+            g3(x);
+        #endif
+    #endif
+}
+</code></pre>
+<p><em>(보기①②③④: Feature1/Feature2의 선택/필수 관계를 다르게 표현한 다이어그램)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (Feature1과 Feature2 둘 다 필수)<br />
+② (Feature1은 선택, Feature2는 Feature1의 자식으로 선택)<br />
+③ (Feature1은 선택, g1/g2/g3 관계 다름)<br />
+<strong>④ (Feature1은 선택, Feature2 있으면 g2 없으면 g3 - alternative 관계)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Feature Diagram</li>
+<li>Optional Feature</li>
+<li>Alternative Feature</li>
+<li>조건부 컴파일(#if defined)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>43번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Feature Diagram - 조건부 컴파일</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><code>#if defined(Feature)</code> = Optional Feature (선택적)</li>
+<li><code>#if ... #else ... #endif</code> = <strong>Alternative</strong> (둘 중 하나)</li>
+<li>Feature Diagram의 Alternative = 빈 호(arc) 표기</li>
+<li>g2와 g3가 else 관계 = Alternative (XOR)</li>
+<li>Feature1이 없으면 g1/g2/g3 모두 실행 안 됨</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>코드 구조 분석:</strong></p>
+<pre><code>f(x):
+  printf 항상 실행 (필수)
+  Feature1 정의됨:
+    g1(x) 실행 (Feature1 선택 시 필수)
+    Feature2 정의됨: g2(x)
+    Feature2 미정의: g3(x) → g2와 g3는 Alternative(둘 중 하나)
+</code></pre>
+<p><strong>Feature Diagram 의미:</strong><br />
+- <strong>f</strong>는 항상 존재 (루트)<br />
+- <strong>Feature1</strong>: Optional (선택 가능)<br />
+- Feature1 선택 시: <strong>g1</strong>은 필수, <strong>g2/g3</strong>는 Alternative<br />
+- Feature1 미선택 시: g1, g2, g3 모두 없음</p>
+<p>→ 보기④의 다이어그램: f → g1(Feature1 선택 시 포함), g2/g3 alternative 구조</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Feature Diagram 주요 관계:</strong></p>
+<table>
+<thead>
+<tr>
+<th>관계</th>
+<th>기호</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mandatory</td>
+<td>채워진 원</td>
+<td>반드시 포함</td>
+</tr>
+<tr>
+<td>Optional</td>
+<td>빈 원</td>
+<td>선택적 포함</td>
+</tr>
+<tr>
+<td>Or</td>
+<td>채워진 호</td>
+<td>하나 이상 선택</td>
+</tr>
+<tr>
+<td><strong>Alternative</strong></td>
+<td><strong>빈 호</strong></td>
+<td><strong>정확히 하나만 선택</strong></td>
+</tr>
+<tr>
+<td>Requires</td>
+<td>→</td>
+<td>A 선택 시 B 필수</td>
+</tr>
+<tr>
+<td>Excludes</td>
+<td>-</td>
+<td>A와 B 동시 불가</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="44" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>ISO/IEC/IEEE 29119에서는 combinatorial test techniques으로서 all combination testing, pair-wise testing, each choice testing, base choice testing이 제시되고 있다. 다음의 문제에 대하여 가장 많은 수의 테스트케이스를 생성하는 기법과 가장 작은 수의 테스트케이스를 생성하는 기법으로 가장 적절하게 묶인 것은?</p>
+<ul>
+<li>여행 목적지: 서울, 부산, 강릉 (3가지)</li>
+<li>여행 방법: 자가용, 기차, 택시 (3가지)</li>
+<li>숙박 유형: 고급호텔, 보통호텔 (2가지)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① all combination testing, each choice testing</strong><br />
+② all combination testing, base choice testing<br />
+③ pair-wise testing, each choice testing<br />
+④ pair-wise testing, base choice testing</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (직접 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>All Combination Testing</li>
+<li>Each Choice Testing</li>
+<li>Pair-wise Testing</li>
+<li>Base Choice Testing</li>
+<li>TC 수 계산</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>44번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>조합 테스트 기법 - 최대/최소 TC 수</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2021, 2024년 모두 조합 테스트 계산 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>All Combination = <strong>p1×p2×...×pn</strong> (가장 많음)</li>
+<li>Each Choice = <strong>max(p1,p2,...,pn)</strong> (가장 적음)</li>
+<li>Base Choice = <strong>1 + Σ(pi-1)</strong> (중간)</li>
+<li>Pair-wise = 두 파라미터의 모든 쌍 커버 (t=2)</li>
+<li>3×3×2 = 18(All) vs max(3,3,2)=3(Each) 차이 명확히!</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>각 기법의 TC 수 계산:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>공식</th>
+<th>TC 수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>All Combination</strong></td>
+<td>3×3×2</td>
+<td><strong>18개 (최대)</strong></td>
+</tr>
+<tr>
+<td>Pair-wise</td>
+<td>모든 쌍 조합 커버</td>
+<td>~9개</td>
+</tr>
+<tr>
+<td><strong>Base Choice</strong></td>
+<td>1+(3-1)+(3-1)+(2-1) = 1+2+2+1</td>
+<td><strong>6개</strong></td>
+</tr>
+<tr>
+<td><strong>Each Choice</strong></td>
+<td>max(3,3,2)</td>
+<td><strong>3개 (최소)</strong></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>최대</strong>: All Combination (18개)</li>
+<li><strong>최소</strong>: Each Choice (3개)</li>
+</ul>
+<p>→ <strong>① all combination + each choice</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조합 테스트 기법 정리:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>공식</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>All Combination</strong></td>
+<td>p1×p2×...×pn</td>
+<td>완전 조합, 최대 TC</td>
+</tr>
+<tr>
+<td>Pair-wise</td>
+<td>모든 두 파라미터 조합 커버</td>
+<td>2-way 커버리지</td>
+</tr>
+<tr>
+<td><strong>Base Choice</strong></td>
+<td>1+Σ(pi-1)</td>
+<td>기본값 기준 변형</td>
+</tr>
+<tr>
+<td><strong>Each Choice</strong></td>
+<td>max(pi)</td>
+<td>각 값 최소 1회, 최소 TC</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="45" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음의 Java 소스 코드에 대하여 가장 적절한 클래스 다이어그램은?</p>
+<pre><code class="language-java">public class Rectangle {
+    private int width, height;
+    private int area;
+    private static int count;
+
+    public Rectangle(int w, int h) { setWidth(w); setHeight(h); count++; }
+    public void setWidth(int w) { this.width = w; area = width * height; }
+    public void setHeight(int h) { this.height = h; area = width * height; }
+}
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><em>(①~④ 다이어그램으로 표기법 차이: area의 derived(/), count의 static(밑줄), 가시성(+/-), 메서드 포함 여부)</em></p>
+<p><strong>③번</strong>: <code>- width:int, - height:int, - area:int, _count_:int(밑줄), + Rectangle(int,int), + setWidth(int):void, + setHeight(int):void</code></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>UML static 표기 (밑줄)</li>
+<li>private(-)과 public(+) 가시성</li>
+<li>생성자와 메서드 표기</li>
+<li>derived attribute (/area)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>45번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Java 코드 → UML 클래스 다이어그램 (static/private/public 표기)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>static</strong> = <strong>밑줄</strong> (underline)</li>
+<li><strong>final</strong> = <strong>{readOnly}</strong></li>
+<li>private(-), public(+), protected(#)</li>
+<li>derived attribute = /속성명 (계산값, 저장 안 됨)</li>
+<li>area는 <code>private int</code>로 저장 = 일반 속성 (-area:int), derived 아님</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Java 코드 → UML 표기 매핑:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Java 코드</th>
+<th>UML 표기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>private int width</code></td>
+<td><code>- width: int</code></td>
+</tr>
+<tr>
+<td><code>private int height</code></td>
+<td><code>- height: int</code></td>
+</tr>
+<tr>
+<td><code>private int area</code></td>
+<td><code>- area: int</code></td>
+</tr>
+<tr>
+<td><code>private **static** int count</code></td>
+<td><code>- **count: int** (밑줄)</code></td>
+</tr>
+<tr>
+<td><code>public Rectangle(int w, int h)</code></td>
+<td><code>+ Rectangle(int, int)</code></td>
+</tr>
+<tr>
+<td><code>public void setWidth(int w)</code></td>
+<td><code>+ setWidth(int): void</code></td>
+</tr>
+<tr>
+<td><code>public void setHeight(int h)</code></td>
+<td><code>+ setHeight(int): void</code></td>
+</tr>
+</tbody>
+</table>
+<p>핵심:<br />
+- <code>static</code> → <strong>밑줄(underline)</strong> 표기<br />
+- <code>private</code> → <code>-</code>, <code>public</code> → <code>+</code><br />
+- <code>area</code>는 코드상 <code>private int</code>로 저장되므로 일반 속성 (<code>-area:int</code>), <code>/area</code>(derived) 아님</p>
+<p><strong>③번</strong>이 이 규칙을 정확히 표현.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>UML 클래스 다이어그램 표기법:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Java</th>
+<th>UML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>private</td>
+<td>-</td>
+</tr>
+<tr>
+<td>public</td>
+<td>+</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>#</td>
+</tr>
+<tr>
+<td>package</td>
+<td>~</td>
+</tr>
+<tr>
+<td><strong>static</strong></td>
+<td><strong>밑줄</strong></td>
+</tr>
+<tr>
+<td><strong>final</strong></td>
+<td><strong>{readOnly}</strong></td>
+</tr>
+<tr>
+<td><strong>abstract</strong></td>
+<td><strong>이탤릭체 또는 {abstract}</strong></td>
+</tr>
+<tr>
+<td>derived</td>
+<td><strong>/속성명</strong></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="46" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>SP(software process) 인증 제도는 SW 개발 조직의 SP 품질 역량 수준을 심사하여 등급을 판정한다. 2등급에 대한 평가 항목으로서 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 협력업체를 선정하고, 계약을 체결하고, 계약 사항의 이행 여부를 확인한다.<br />
+② 측정 및 분석 계획을 수립하고, 수집된 측정 결과를 분석한다.<br />
+<strong>③ 구성원에 대한 교육 계획을 수립하고, 실시한 교육에 대한 효과를 평가한다.</strong><br />
+④ 프로젝트 진척사항을 검토하고, 식별된 문제를 분석하고, 시정조치 활동을 수행한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SP 인증 2등급</li>
+<li>교육 훈련 = 3등급 영역</li>
+<li>프로젝트 관리, 측정, 협력업체 관리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>46번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SP 인증 2등급 평가 항목</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SP 2등급 = <strong>프로젝트 관리</strong> (계획, 추적, 측정, 협력업체)</li>
+<li>SP 3등급 = <strong>조직 표준화</strong> (프로세스 정의, <strong>교육훈련</strong>)</li>
+<li>"교육 계획 수립, 교육 효과 평가" = <strong>3등급</strong> (2등급 아님!)</li>
+<li>협력업체 관리, 측정·분석 = 2등급</li>
+<li>SP 인증 3단계: 1등급 &lt; 2등급 &lt; 3등급</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>SP 인증 2등급 주요 평가 항목:</strong><br />
+- 요구사항 개발 및 관리<br />
+- 프로젝트 계획 및 추적 ④<br />
+- 협력업체 관리 ①<br />
+- 측정 및 분석 ②<br />
+- 형상 관리<br />
+- 품질 보증</p>
+<p><strong>구성원 교육 계획 및 효과 평가</strong> = <strong>3등급</strong> 영역 (조직 수준의 훈련 관리)</p>
+<p>2등급은 <strong>프로젝트 단위</strong>의 기본 관리 능력 수준이며, 교육 훈련 체계는 3등급(조직 수준 프로세스 표준화)에서 평가된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SP 인증 등급별 특징:</strong></p>
+<table>
+<thead>
+<tr>
+<th>등급</th>
+<th>특징</th>
+<th>주요 영역</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1등급</td>
+<td>기본 프로세스 존재</td>
+<td>요구사항, 설계, 구현</td>
+</tr>
+<tr>
+<td><strong>2등급</strong></td>
+<td><strong>프로젝트 관리</strong></td>
+<td><strong>계획, 추적, 측정, 협력업체</strong></td>
+</tr>
+<tr>
+<td><strong>3등급</strong></td>
+<td><strong>조직 표준화</strong></td>
+<td><strong>프로세스 정의, 교육훈련</strong></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="47" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 온라인쇼핑시스템에 대한 요구사항들을 나열한 것이다. 이들 요구사항에 제시된 품질 속성 또는 세부 품질 속성으로 가장 적절한 것은?</p>
+<ul>
+<li>가. 동시에 최대 10만명의 사용자 접속을 수용해야 한다.</li>
+<li>나. 온라인 쇼핑에 필요한 모든 기능을 제공해야 한다.</li>
+<li>다. 계획된 정비 시간을 제외하면 1주일에 10분 이상 down되지 않아야 한다.</li>
+<li>라. 비정상적으로 접속이 종료된 후에, 로그인을 하면 기존 상품 조회 화면을 보여 준다.</li>
+<li>마. 온라인쇼핑시스템에 대한 테스트 기준 수립이 용이하고 테스트 수행이 용이해야 한다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① capacity, functional suitability, availability, maintainability<br />
+② performance efficiency, functional suitability, availability, testability<br />
+<strong>③ capacity, functional suitability, reliability, maintainability</strong><br />
+④ performance efficiency, functional suitability, availability, testability, adaptability</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>ISO 25010 품질 속성</li>
+<li>Capacity(용량), Functional Suitability, Reliability(신뢰성), Maintainability(유지보수성)</li>
+<li>Availability vs Reliability 구분</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>47번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>ISO 25010 품질 속성 분류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (ISO 25010 품질 특성 분류 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>Capacity</strong> = 동시 접속 수, 최대 처리량 (성능효율성 부특성)</li>
+<li><strong>Functional Suitability</strong> = "필요한 기능을 모두 제공"</li>
+<li><strong>Reliability</strong> = 장애 후 복구, 비정상 종료 대응 (Availability 아님!)</li>
+<li><strong>Testability</strong> = 테스트 기준 수립·수행 용이 (유지보수성의 부특성)</li>
+<li>Availability = 현재 서비스 가능 확률 / Reliability = 정해진 기간 정상 동작</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>각 요구사항 분류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>요구사항</th>
+<th>설명</th>
+<th>품질 속성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>가. 10만명 동시 접속</strong></td>
+<td>최대 처리 용량</td>
+<td><strong>Capacity</strong> (성능효율성의 부특성)</td>
+</tr>
+<tr>
+<td><strong>나. 모든 기능 제공</strong></td>
+<td>기능 완전성</td>
+<td><strong>Functional Suitability</strong></td>
+</tr>
+<tr>
+<td><strong>다. 1주일 10분 이상 down 안 됨</strong></td>
+<td>비정상 종료 후 복구</td>
+<td><strong>Reliability</strong> (회복성)</td>
+</tr>
+<tr>
+<td><strong>라. 종료 후 기존 화면 복원</strong></td>
+<td>장애 후 상태 복원</td>
+<td><strong>Reliability</strong> (회복성/성숙성)</td>
+</tr>
+<tr>
+<td><strong>마. 테스트 기준 수립, 수행 용이</strong></td>
+<td>테스트 가능성</td>
+<td><strong>Maintainability</strong> (testability)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>다/라</strong> = Availability가 아닌 <strong>Reliability</strong>:<br />
+- 다: down 시간 제한 → 고가용성처럼 보이지만 신뢰성(결함 허용)이 더 정확<br />
+- 라: 비정상 종료 후 복원 → 신뢰성의 <strong>회복성(Recoverability)</strong></p>
+<p>테스트 기준/수행 용이 = <strong>유지보수성(Testability)</strong> (ISO 25010 유지보수성의 부특성)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISO 25010 품질 속성 세부:</strong></p>
+<table>
+<thead>
+<tr>
+<th>속성</th>
+<th>부특성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>성능 효율성</td>
+<td><strong>capacity</strong>, 시간 효율, 자원 효율</td>
+</tr>
+<tr>
+<td>기능성</td>
+<td><strong>functional suitability</strong>, 기능 완전성</td>
+</tr>
+<tr>
+<td><strong>신뢰성</strong></td>
+<td>성숙성, <strong>회복성</strong>, 가용성</td>
+</tr>
+<tr>
+<td><strong>유지보수성</strong></td>
+<td><strong>testability</strong>, 변경성, 모듈성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="48" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>(가)의 클래스 다이어그램은 (나)의 클래스 다이어그램으로 개선이 되었다. 이 개선 과정에서 적용된 설계 원칙으로서 가장 적절한 것은?</p>
+<p><em>(가: 세탁사용자-세탁기(세탁시작,오작동진단), 오작동수리기사-세탁기 직접 의존)</em><br />
+<em>(나: 세탁사용자→I세탁(세탁시작), 오작동수리기사→I진단(오작동진단), 세탁기가 I세탁+I진단 구현)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① SRP, DIP<br />
+② SRP, OCP<br />
+③ LSP, ISP<br />
+<strong>④ DIP(Dependency Inversion Principle), ISP(Interface Segregation Principle)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>DIP(의존성 역전 원칙)</li>
+<li>ISP(인터페이스 분리 원칙)</li>
+<li>인터페이스 도입</li>
+<li>인터페이스 분리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>48번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SOLID 원칙 - DIP + ISP (클래스 다이어그램 개선)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (SOLID 원칙 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>ISP</strong> = 인터페이스를 역할별로 <strong>분리</strong> (뚱뚱한 인터페이스 금지)</li>
+<li><strong>DIP</strong> = 구체 클래스 대신 <strong>인터페이스/추상화</strong>에 의존</li>
+<li>ISP 적용 신호: 사용자마다 필요한 메서드가 다를 때</li>
+<li>DIP 적용 신호: 구체 클래스에 직접 의존할 때</li>
+<li>둘 다 인터페이스를 통한 느슨한 결합을 추구</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>다이어그램 변화 분석:</strong></p>
+<p><strong>(가) 문제점:</strong><br />
+- 세탁사용자, 오작동수리기사 → 세탁기 <strong>구체 클래스에 직접 의존</strong><br />
+- 세탁기 인터페이스에 세탁+진단 <strong>모든 기능이 혼재</strong></p>
+<p><strong>(나) 개선:</strong><br />
+- <strong>I세탁</strong> 인터페이스, <strong>I진단</strong> 인터페이스로 <strong>분리</strong> (ISP)<br />
+- 세탁사용자 → I세탁, 오작동수리기사 → I진단 (<strong>추상화에 의존</strong> = DIP)<br />
+- 세탁기가 두 인터페이스 구현</p>
+<p><strong>적용 원칙:</strong><br />
+- <strong>DIP</strong>: 세탁사용자·수리기사가 구체 클래스(세탁기) 대신 <strong>추상(인터페이스)에 의존</strong><br />
+- <strong>ISP</strong>: 하나의 큰 인터페이스 대신 <strong>역할별로 분리된 인터페이스</strong> 사용</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISP(Interface Segregation Principle):</strong></p>
+<blockquote>
+<p>"클라이언트가 자신이 사용하지 않는 메서드에 의존하지 않아야 한다"<br />
+큰 인터페이스 → 작고 구체적인 여러 인터페이스로 분리</p>
+</blockquote>
+<p><strong>DIP(Dependency Inversion Principle):</strong></p>
+<blockquote>
+<p>"고수준 모듈은 저수준 모듈에 의존하지 않는다. 둘 다 추상화에 의존한다"</p>
+</blockquote>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="49" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 시퀀스 다이어그램은 아키텍처 패턴의 개략적인 동작을 보여 준다. 이 패턴에 대한 설명으로서 가장 적절한 것은?</p>
+<p><em>(A→B:send_request, B→B:pack_data, B→B:forward_request, B→C:find_server, C→D:call_service, D→E:unpack_data, E→E:run_service)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 분산 애플리케이션을 개발할 때의 복잡도를 증가시킨다.<br />
+② 동일한 환경에서의 서비스 실행을 지원한다.<br />
+③ 여러 서비스를 하나의 동일한 언어로 개발하는 것이 일반적이다.<br />
+<strong>④ modifiability, availability, performance 측면에서 바람직하다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Broker 아키텍처 패턴</li>
+<li>분산 시스템</li>
+<li>서비스 위치 투명성</li>
+<li>이기종 시스템 연동</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>49번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>아키텍처 패턴 - Broker (Sequence Diagram)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Broker = <strong>클라이언트-서버 간 중개자</strong>, 위치 투명성 제공</li>
+<li>pack/unpack = 직렬화/역직렬화 (이기종 연동)</li>
+<li>Broker 장점: modifiability, availability, performance</li>
+<li>이기종 언어 가능 (동일 언어 강제 안 함, ③ 오답)</li>
+<li>복잡도 <strong>감소</strong> (브로커가 복잡도 추상화, ① 오답)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>시퀀스 다이어그램 분석:</strong><br />
+- A가 요청 → B(Broker)가 pack(직렬화) + forward<br />
+- C(Naming Service)에서 서버 위치 탐색<br />
+- D가 서비스 호출 → E(Server)에서 unpack + 실제 서비스 실행</p>
+<p>→ <strong>Broker 패턴</strong>: 클라이언트와 서비스를 중개하는 Broker가 서비스 위치를 관리</p>
+<p><strong>Broker 패턴 특징:</strong><br />
+- <strong>modifiability</strong>: 서비스 위치/구현 변경 시 클라이언트 변경 불필요<br />
+- <strong>availability</strong>: Broker가 서버 다중화, 장애 시 다른 서버 연결 가능<br />
+- <strong>performance</strong>: 부하 분산, 요청 라우팅 최적화 가능<br />
+- 이기종 언어/플랫폼 서비스 연동 가능 (③이 틀린 이유)<br />
+- 분산 복잡도 <strong>감소</strong> (브로커가 복잡도 숨김, ① 틀림)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Broker 패턴 구성요소:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구성</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client</td>
+<td>서비스 요청자</td>
+</tr>
+<tr>
+<td><strong>Broker</strong></td>
+<td><strong>중간 조율, 서비스 위치 투명성</strong></td>
+</tr>
+<tr>
+<td>Server</td>
+<td>실제 서비스 구현</td>
+</tr>
+<tr>
+<td>Naming Service</td>
+<td>서비스 등록/검색</td>
+</tr>
+</tbody>
+</table>
+<p>대표 구현: CORBA, RMI, gRPC, 미들웨어</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="50" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>(가)의 클래스 다이어그램이 (나)의 클래스 다이어그램으로 개선이 되었다. 이때 적용된 리팩토링으로서 가장 적절한 것은?</p>
+<p><em>(가: UI → Car.getOwner():Person → Person.getName():String — UI가 Person에 직접 접근)</em><br />
+<em>(나: UI → Car.getOwnerName():String — Car가 Person에 대한 접근을 캡슐화)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① hide delegate</strong><br />
+② remove middle man<br />
+③ rename method<br />
+④ encapsulate downcast</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Hide Delegate (위임 숨기기)</li>
+<li>Remove Middle Man (중간자 제거)</li>
+<li>의존성 감소</li>
+<li>Law of Demeter</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2021년 (제22회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>소프트웨어공학</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>50번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>리팩토링 - Hide Delegate</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>Hide Delegate</strong> = 위임 숨기기 = 위임 메서드 추가하여 체인 접근 차단</li>
+<li><strong>Remove Middle Man</strong> = 반대 방향 (불필요한 위임 제거)</li>
+<li>디미터 법칙 = "1단계만 접근" 원칙 → Hide Delegate로 준수</li>
+<li><code>car.getOwner().getName()</code> → <code>car.getOwnerName()</code> = Hide Delegate</li>
+<li>적용 효과: UI가 Person 존재를 몰라도 됨 → 결합도 감소</li>
+</ol>
+<hr />
+<hr />
+<h1>종합 정리</h1></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>변화 분석:</strong></p>
+<p><strong>(가)</strong> 문제: <code>UI → Car → Person</code> 체인 접근<br />
+- UI가 <code>car.getOwner().getName()</code> 처럼 Person에 직접 접근<br />
+- UI가 Car의 내부 구조(Person 존재)를 알고 있음 → <strong>디미터 법칙 위반</strong></p>
+<p><strong>(나)</strong> 개선: Car에 <code>getOwnerName()</code> 메서드 추가<br />
+- UI가 <code>car.getOwnerName()</code> 직접 호출<br />
+- Car가 Person에 대한 접근을 <strong>숨겨줌(delegate hide)</strong><br />
+- UI는 Person 존재를 모름 → 결합도 감소</p>
+<p>이것이 <strong>Hide Delegate</strong>:</p>
+<blockquote>
+<p>"클라이언트가 서버의 위임 객체에 직접 접근하는 경우, 서버에 위임 메서드를 추가하여 위임 관계를 숨긴다"</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②(Remove Middle Man)</h3>
+<p>Hide Delegate의 <strong>반대</strong>: 단순 위임 메서드를 제거하고 클라이언트가 직접 접근하게 함. 이 코드와 반대 방향.</p>
+<h3>보기③(Rename Method)</h3>
+<p>메서드 이름만 변경.</p>
+<h3>보기④(Encapsulate Downcast)</h3>
+<p>형변환(downcast)을 메서드로 감추는 기법.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Hide Delegate vs Remove Middle Man:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>방향</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Hide Delegate</strong></td>
+<td>위임 숨기기</td>
+<td><strong>결합도 감소</strong>, 디미터 법칙 준수</td>
+</tr>
+<tr>
+<td>Remove Middle Man</td>
+<td>중간자 제거</td>
+<td>불필요한 위임 메서드 제거</td>
+</tr>
+</tbody>
+</table>
+<p><strong>디미터 법칙(Law of Demeter):</strong></p>
+<blockquote>
+<p>"객체는 자신의 직접 친구에게만 말하라 (Don't talk to strangers)"<br />
+<code>a.b().c()</code> → <code>a.bc()</code> 형태로</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">2021년 소프트웨어공학 출제 토픽 분석</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>번호</th>
+<th>출제 토픽</th>
+<th>정답</th>
+<th>빈출도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26</td>
+<td>SOLID - OCP (클래스 변경 없이 환경 제어)</td>
+<td>②</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Strategy 패턴 (알고리즘 교환)</td>
+<td>①</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>28</td>
+<td>애자일 품질관리 - 공동 소유권</td>
+<td>④</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>29</td>
+<td>커버리지 포함 관계 (조건→결정 불보장)</td>
+<td>③</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>30</td>
+<td>ISO 9126 품질 분류 (사용성=단축메뉴)</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Decorator 패턴 (클래스 다이어그램)</td>
+<td>②</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>32</td>
+<td>Java static - 컴파일 오류 (나,라만 정상)</td>
+<td>②</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>33</td>
+<td>SOAP vs REST (XML만 vs JSON/XML/텍스트)</td>
+<td>②</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>34</td>
+<td>Spring AOP 어드바이스 유형</td>
+<td>①</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>35</td>
+<td>리팩토링 - Inline Method</td>
+<td>①</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>36</td>
+<td>응집도 순서 (기,순,통,절,시,논,우)</td>
+<td>①</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>37</td>
+<td>요구사항 도출 - Ethnography(문화기술적 연구)</td>
+<td>③</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>38</td>
+<td>XP Simple Design ≠ 미래 대비 (YAGNI)</td>
+<td>①</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>39</td>
+<td>UML State Machine 전이 표기법 trigger[g]/e</td>
+<td>②</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>40</td>
+<td>Git = 스냅샷 방식 (델타 아님)</td>
+<td>②</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>41</td>
+<td>코드 악취 - Shotgun Surgery</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>42</td>
+<td>UML→Java - implements vs extends</td>
+<td>②</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Feature Diagram - Alternative</td>
+<td>④</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>44</td>
+<td>조합 테스트 - 최대(All)/최소(Each Choice)</td>
+<td>①</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>45</td>
+<td>Java→UML - static(밑줄), private(-), public(+)</td>
+<td>③</td>
+<td>★★★★</td>
+</tr>
+<tr>
+<td>46</td>
+<td>SP 2등급 - 교육훈련은 3등급</td>
+<td>③</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>47</td>
+<td>ISO 25010 - capacity, FSuit, reliability, maint</td>
+<td>③</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>48</td>
+<td>SOLID - DIP + ISP (세탁기 인터페이스 분리)</td>
+<td>④</td>
+<td>★★★★★</td>
+</tr>
+<tr>
+<td>49</td>
+<td>Broker 아키텍처 패턴</td>
+<td>④</td>
+<td>★★★</td>
+</tr>
+<tr>
+<td>50</td>
+<td>리팩토링 - Hide Delegate</td>
+<td>①</td>
+<td>★★★★</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">2021년 특징 분석</div><div class="section-text"><p><strong>1. SOLID 원칙 3문항 집중</strong>: OCP(Q26), DIP+ISP(Q48), 응용(Q42) — SOLID 가장 많이 출제된 해<br />
+<strong>2. 리팩토링 3문항</strong>: Inline Method(Q35), Shotgun Surgery(Q41), Hide Delegate(Q50)<br />
+<strong>3. 설계 패턴 2문항</strong>: Strategy(Q27), Decorator(Q31)<br />
+<strong>4. 커버리지 심화</strong>: 포함 관계 논리적 증명(Q29), 조합 테스트 계산(Q44)<br />
+<strong>5. 아키텍처</strong>: Broker 패턴(Q49), Spring AOP(Q34), SOAP vs REST(Q33)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">2021~2025년 핵심 반복 출제 토픽</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>토픽</th>
+<th>2021</th>
+<th>2022</th>
+<th>2023</th>
+<th>2024</th>
+<th>2025</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SOLID</td>
+<td>Q26,Q48</td>
+<td>-</td>
+<td>-</td>
+<td>Q46</td>
+<td>Q27</td>
+</tr>
+<tr>
+<td>설계 패턴</td>
+<td>Q27,Q31</td>
+<td>Q43</td>
+<td>Q26</td>
+<td>Q35</td>
+<td>Q48</td>
+</tr>
+<tr>
+<td>리팩토링</td>
+<td>Q35,Q50</td>
+<td>Q28,Q34</td>
+<td>-</td>
+<td>Q32,Q35,Q40</td>
+<td>Q49</td>
+</tr>
+<tr>
+<td>커버리지</td>
+<td>Q29,Q44</td>
+<td>Q33</td>
+<td>Q27,Q45</td>
+<td>Q36</td>
+<td>Q42,Q46</td>
+</tr>
+<tr>
+<td>ISO 25010</td>
+<td>Q30,Q47</td>
+<td>Q42</td>
+<td>-</td>
+<td>Q39</td>
+<td>Q27</td>
+</tr>
+<tr>
+<td>코드 악취</td>
+<td>Q41</td>
+<td>-</td>
+<td>Q41</td>
+<td>Q40</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>Q40</td>
+<td>Q35</td>
+<td>Q42</td>
+<td>Q29</td>
+<td>-</td>
+</tr>
+<tr>
+<td>아키텍처 스타일</td>
+<td>Q49</td>
+<td>Q32,Q36</td>
+<td>Q33,Q35</td>
+<td>Q45</td>
+<td>Q29,Q38</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>[참고 강의자료]<br />
+- 소프트웨어공학_Part_I_V1.2_강의최종본.pdf<br />
+- 소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf<br />
+- 소프트웨어공학_Part_I_V1.0_SW_아키텍처_외_완료.pdf<br />
+- 소프트웨어공학_Part_II_V1.1_디자인_UML.pdf<br />
+- 디자인_패턴_Part_II_V1.1.pdf<br />
+- 소프트웨어공학_Part_II_SW_개발_V1.3.pdf<br />
+- 소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf<br />
+- 소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</p>
+<p>[참고 기출문제]<br />
+- 2021년제22회_정보시스템_감리사_필기시험_문제_및_답안.pdf</p></div></div></div></div>
+      </div>
+    </div>
+  </div>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

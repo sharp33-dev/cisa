@@ -1,0 +1,3797 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터베이스 2023년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">데이터베이스 <small>2023년도 기출해설집 · 총 25문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 데이터베이스 기출문제 해설집</h1>
+<h2>2023년 제24회 (문항 51~75)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 업로드된 「3. 데이터베이스(구환회 기술사)」 강의자료(Chapter1 개요 ~ Chapter7 빅데이터·기타) 우선 근거, 외부지식은 보조적으로만 사용<br />
+<strong>정답 출처</strong>: 2023년(제24회) 정보시스템 감리사 필기시험 문제 및 답안.pdf (원본 Bold 표시 정답 - 이미지 직접 대조 확인)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (PDF 이미지 확대 대조로 Bold 표시 검증 + 계산문항 직접 검산 완료)</p>
+</blockquote>
+<hr />
+<h2>2023년 데이터베이스 정답표 (Q51~75)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>51</td>
+<td>③</td>
+<td>60</td>
+<td>④</td>
+<td>69</td>
+<td>②</td>
+</tr>
+<tr>
+<td>52</td>
+<td>②</td>
+<td>61</td>
+<td>①</td>
+<td>70</td>
+<td>③</td>
+</tr>
+<tr>
+<td>53</td>
+<td>①</td>
+<td>62</td>
+<td>③</td>
+<td>71</td>
+<td>②</td>
+</tr>
+<tr>
+<td>54</td>
+<td>②</td>
+<td>63</td>
+<td>④</td>
+<td>72</td>
+<td>③</td>
+</tr>
+<tr>
+<td>55</td>
+<td>③</td>
+<td>64</td>
+<td>①</td>
+<td>73</td>
+<td>③</td>
+</tr>
+<tr>
+<td>56</td>
+<td>③</td>
+<td>65</td>
+<td>④</td>
+<td>74</td>
+<td>④</td>
+</tr>
+<tr>
+<td>57</td>
+<td>④</td>
+<td>66</td>
+<td>②</td>
+<td>75</td>
+<td>②</td>
+</tr>
+<tr>
+<td>58</td>
+<td>④</td>
+<td>67</td>
+<td>③</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>59</td>
+<td>②</td>
+<td>68</td>
+<td>③</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="51" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>ISO 8000의 데이터 품질 기준 관련하여 다음 괄호안에 적합한 용어는?</p>
+<pre><code>(     ) 오류는 데이터가 표준 코드 값 또는 표준 도메인 값에 위배될 경우 발생한다.
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 충분성<br />
+② 사실성<br />
+<strong>③ 적합성</strong><br />
+④ 필수성</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (적합성)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 품질 기준 정의)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>ISO 8000 데이터 품질</li>
+<li>적합성(conformance): 표준 코드·도메인 준수</li>
+<li>유효성(validity)/도메인 규칙</li>
+<li>데이터 품질 차원</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>51번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>ISO 8000 데이터 품질 기준 - 적합성(conformance)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter1(36p)_개요.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter1 개요 - 데이터 품질</li>
+<li><strong>관련 개념</strong>: ISO 8000, 적합성, 품질 차원</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 데이터 품질 기준 용어는 개요 파트 출제</li>
+<li><strong>재출제 경향</strong>: 품질 차원 정의 매칭</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (데이터 품질 기준은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>적합성 = 표준 코드·도메인 준수</strong></li>
+<li>정확성/사실성 = 실제와 일치</li>
+<li>완전성/충분성 = 빠짐없이 존재</li>
+<li>ISO 8000 = 데이터 품질 표준</li>
+<li>도메인 위반 → 적합성 오류</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>적합성(conformance)</strong>은 데이터가 정해진 <strong>표준 코드 값이나 표준 도메인(허용 값 범위)에 부합</strong>하는 정도를 나타내는 데이터 품질 기준이다. 표준 코드/도메인을 위반하면 적합성 오류가 발생한다.</p>
+<p>문제의 "표준 코드 값 또는 표준 도메인 값에 위배될 경우 발생"은 정확히 적합성 오류의 정의이므로 정답은 ③번이다. 충분성(데이터 존재·완전성), 사실성(실제와 일치), 필수성(필수 항목 존재)은 각각 다른 품질 차원이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>충분성은 필요한 데이터가 충분히 존재하는지(완전성)에 대한 기준으로, 표준 코드·도메인 위반과는 다르다.</p>
+<h3>보기②</h3>
+<p>사실성은 데이터가 실제 사실과 일치하는지(정확성)의 기준이다.</p>
+<h3>보기③</h3>
+<p>정답. 표준 코드/도메인 값 준수 여부 = 적합성.</p>
+<h3>보기④</h3>
+<p>필수성은 반드시 있어야 할 필수 데이터의 존재 여부에 대한 기준이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>데이터 품질 기준(차원) 예시:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기준</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적합성</td>
+<td>표준 코드·도메인 규칙 준수</td>
+</tr>
+<tr>
+<td>정확성/사실성</td>
+<td>실제 사실과 일치</td>
+</tr>
+<tr>
+<td>완전성/충분성</td>
+<td>필요한 데이터가 빠짐없이 존재</td>
+</tr>
+<tr>
+<td>일관성</td>
+<td>값 간 모순 없음</td>
+</tr>
+<tr>
+<td>유일성</td>
+<td>중복 없음</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>데이터 품질 감리 시 코드 값·도메인 규칙(예: 성별 코드, 날짜 형식) 위반 여부를 프로파일링해 적합성 오류를 진단하고 정제 규칙을 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>품질 차원(적합성·정확성·완전성 등)의 정의를 구분한다. "표준 코드/도메인 위반 = 적합성"을 정확히 연결한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="52" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>고정 길이 레코드 방식을 사용할 때, 레코드의 길이가 300 바이트, 블록의 크기가 4096 바이트, 블록 헤더의 길이가 12 바이트라고 가정한다. 다음 중 15개의 레코드를 저장하는 상황을 잘 표현한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 첫 번째 블록에는 196 바이트가 남는다.<br />
+<strong>② 두 번째 블록에는 3,484 바이트가 남는다.</strong><br />
+③ 두 번째 블록에는 3,494 바이트가 남는다.<br />
+④ 두 번째 블록에는 3,784 바이트가 남는다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 블로킹 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>블로킹 팩터(blocking factor)</li>
+<li>블록 = 헤더 + 레코드 영역</li>
+<li>블록당 저장 가능 레코드 수</li>
+<li>잔여 공간(내부 단편화)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>52번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>고정 길이 레코드의 블록 적재(blocking factor)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter5(34p)_유형.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter5 유형 - 파일/저장 구조(블로킹)</li>
+<li><strong>관련 개념</strong>: 블로킹 팩터, 블록 헤더, 내부 단편화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 블록 적재 계산은 저장구조 계산형 단골</li>
+<li><strong>재출제 경향</strong>: 블로킹 팩터·잔여 공간 계산</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>71</td>
+<td>확장성 해시(저장구조)</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (블록 적재 계산은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>레코드 영역 = <strong>블록 − 헤더</strong>(4084)</li>
+<li>블로킹 팩터 = ⌊4084/300⌋ = <strong>13</strong></li>
+<li>15개 → 2블록(13 + 2)</li>
+<li>2번째 블록 잔여 = 4096−12−600 = <strong>3,484</strong></li>
+<li>헤더 차감·레코드 수 계산 주의</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>블록에서 레코드가 실제로 들어가는 공간 = 블록 크기 − 헤더 = 4096 − 12 = <strong>4084 바이트</strong>.<br />
+블록당 저장 가능 레코드 수 = ⌊4084 / 300⌋ = ⌊13.6⌋ = <strong>13개</strong>.</p>
+<ul>
+<li><strong>첫 번째 블록</strong>: 13개 저장 → 300×13 = 3900 바이트 사용, 잔여 = 4096 − 12 − 3900 = <strong>184 바이트</strong>(①의 196은 오답).</li>
+<li><strong>두 번째 블록</strong>: 남은 15 − 13 = <strong>2개</strong> 저장 → 300×2 = 600 바이트 사용, 잔여 = 4096 − 12 − 600 = <strong>3,484 바이트</strong>.</li>
+</ul>
+<p>따라서 "두 번째 블록에 3,484 바이트가 남는다"는 ②번이 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>첫 번째 블록 잔여는 4096 − 12 − 3900 = 184 바이트로, 196이 아니다.</p>
+<h3>보기②</h3>
+<p>정답. 두 번째 블록은 2개(600B) 저장, 잔여 4096 − 12 − 600 = 3,484 바이트.</p>
+<h3>보기③</h3>
+<p>3,494는 헤더(12)를 빼지 않는 등 잔여 계산을 12만큼 잘못한 오답이다.</p>
+<h3>보기④</h3>
+<p>3,784는 두 번째 블록에 레코드 1개만 저장했다고 오산(4096−12−300=3784)한 값이다. 남은 레코드는 2개다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>블록 저장 계산:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>레코드 영역</td>
+<td>블록 − 헤더 = 4084</td>
+</tr>
+<tr>
+<td>블로킹 팩터</td>
+<td>⌊4084/300⌋ = 13</td>
+</tr>
+<tr>
+<td>필요 블록 수</td>
+<td>⌈15/13⌉ = 2</td>
+</tr>
+<tr>
+<td>2번째 블록 레코드</td>
+<td>2개(600B), 잔여 3484</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>저장 용량·성능 감리 시 레코드 크기·블록 크기로 블로킹 팩터와 내부 단편화를 계산해 저장 효율과 I/O 블록 수를 추정한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"블록 − 헤더"로 레코드 영역을 구한 뒤 블로킹 팩터를 계산하고, 마지막 블록 잔여를 정확히 산출하는지 묻는다. 헤더 차감 누락(③)·레코드 수 오산(④)이 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="53" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 ERD(Entity Relationship Diagram)에서 수퍼키(superkey)에 해당되지 <u>않는</u> 것은? (단, Registration과 Vehicle_id는 각각 후보키이다. Registration은 State·Number로 구성된 복합 속성, CAR의 속성은 Year, Model, Color, Make 등이다.)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① (State, Year, Model)</strong><br />
+② (Vehicle_id, Number)<br />
+③ (Registration, State)<br />
+④ (Registration, Vehicle_id, Year)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 슈퍼키 정의)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>슈퍼키 = 후보키를 포함하는 속성 집합</li>
+<li>후보키: Registration, Vehicle_id</li>
+<li>유일 식별 가능 여부</li>
+<li>복합 속성(Registration = State + Number)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>53번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>슈퍼키(superkey) 판정</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter3(98p)_모델링.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter3 모델링 - 키 개념</li>
+<li><strong>관련 개념</strong>: 슈퍼키, 후보키, 복합 속성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 키 판정은 모델링 파트 단골</li>
+<li><strong>재출제 경향</strong>: 슈퍼키/후보키 구분</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>51</td>
+<td>후보키(폐포)</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (키 개념은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>슈퍼키 = <strong>후보키를 포함</strong>(최소성 불필요)</li>
+<li>후보키 = 유일성 + 최소성</li>
+<li>본 문항 후보키 = Registration, Vehicle_id</li>
+<li>①은 두 후보키 어느 것도 포함 못 함</li>
+<li>복합 속성은 구성요소 모두 있어야 완성</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>슈퍼키는 튜플을 유일하게 식별하는 속성 집합으로, <strong>반드시 어떤 후보키(Registration 또는 Vehicle_id)를 포함</strong>해야 한다.</p>
+<ul>
+<li><strong>①</strong> (State, Year, Model): Vehicle_id도 없고, Registration(State+Number)을 완성하지도 못한다(Number 없음). 따라서 어떤 후보키도 포함하지 못하므로 <strong>슈퍼키가 아니다.</strong></li>
+<li><strong>②</strong> (Vehicle_id, Number): 후보키 Vehicle_id를 포함 → 슈퍼키.</li>
+<li><strong>③</strong> (Registration, State): 후보키 Registration을 포함 → 슈퍼키.</li>
+<li><strong>④</strong> (Registration, Vehicle_id, Year): 후보키 두 개를 포함 → 슈퍼키.</li>
+</ul>
+<p>따라서 슈퍼키가 아닌 것은 ①번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답(슈퍼키 아님). 후보키(Registration/Vehicle_id)를 포함하지 않아 유일 식별이 보장되지 않는다.</p>
+<h3>보기②</h3>
+<p>Vehicle_id(후보키) 포함 → 슈퍼키. 잉여 속성 Number가 있어도 슈퍼키 자격은 유지된다.</p>
+<h3>보기③</h3>
+<p>Registration(후보키) 포함 → 슈퍼키.</p>
+<h3>보기④</h3>
+<p>Registration·Vehicle_id 모두 포함 → 슈퍼키.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>키 개념:</strong></p>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>정의</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>슈퍼키</td>
+<td>유일 식별(후보키 포함), 최소성 불필요</td>
+</tr>
+<tr>
+<td>후보키</td>
+<td>유일성 + 최소성</td>
+</tr>
+<tr>
+<td>기본키</td>
+<td>후보키 중 선정</td>
+</tr>
+<tr>
+<td>대체키</td>
+<td>후보키 중 기본키 제외</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>키 설계 감리 시 슈퍼키/후보키/기본키를 구분해 불필요한 잉여 속성이 키에 포함되지 않았는지, 유일 식별이 보장되는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"슈퍼키 = 후보키 포함"이라는 정의로 판정한다. 후보키 어느 것도 포함하지 못하는 집합(①)을 골라내야 한다. 복합 속성(Registration)의 완성 여부가 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="54" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>릴레이션 R과 S에 대하여 |R| = 7, |S| = 6이다. 다음 릴레이션 연산결과의 상한값 중 가장 작은 값은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① |R ∪ S|<br />
+<strong>② |R ∩ S|</strong><br />
+③ |R − S|<br />
+④ |R × S|</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (|R ∩ S|)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 각 연산 상한 계산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>합집합/교집합/차집합/카티션 곱의 크기 상한</li>
+<li>교집합 상한 = min(|R|, |S|)</li>
+<li>상한값 비교</li>
+<li>집합 연산 특성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>54번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>집합·관계대수 연산 결과 카디널리티 상한</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 집합 연산/관계대수</li>
+<li><strong>관련 개념</strong>: 합집합, 교집합, 차집합, 카티션 곱</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 연산 결과 크기 상한은 관계대수 계산형 단골</li>
+<li><strong>재출제 경향</strong>: 집합 연산 크기 비교</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2024년(문항 52 카디널리티)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>52</td>
+<td>관계대수 카디널리티</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (연산 크기 상한은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>|R∪S| ≤ |R|+|S| (최대)</li>
+<li><strong>|R∩S| ≤ min(|R|,|S|)</strong> (최소)</li>
+<li>|R−S| ≤ |R|</li>
+<li>|R×S| = |R|×|S| (곱)</li>
+<li>본 문항 최소 상한 = 교집합 6</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>각 연산 결과의 카디널리티 상한(최대 가능 크기)은 다음과 같다.</p>
+<ul>
+<li><strong>|R ∪ S|</strong> ≤ |R| + |S| = 7 + 6 = <strong>13</strong></li>
+<li><strong>|R ∩ S|</strong> ≤ min(|R|, |S|) = min(7, 6) = <strong>6</strong></li>
+<li><strong>|R − S|</strong> ≤ |R| = <strong>7</strong></li>
+<li><strong>|R × S|</strong> = |R| × |S| = 7 × 6 = <strong>42</strong></li>
+</ul>
+<p>가장 작은 상한값은 교집합 |R ∩ S|의 6이다. 따라서 정답은 ②번이다. 교집합은 두 릴레이션 모두에 존재하는 튜플만 남으므로 크기가 작은 릴레이션(|S|=6)을 넘을 수 없다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>합집합 상한은 13으로 가장 크다(중복이 없을 때).</p>
+<h3>보기②</h3>
+<p>정답. 교집합 상한 = min(7,6) = 6으로 가장 작다.</p>
+<h3>보기③</h3>
+<p>차집합 상한은 |R| = 7이다(S와 겹치지 않을 때).</p>
+<h3>보기④</h3>
+<p>카티션 곱은 7 × 6 = 42로 항상 가장 크다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>집합/곱 연산 크기 상한:</strong></p>
+<table>
+<thead>
+<tr>
+<th>연산</th>
+<th>상한</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R ∪ S</td>
+<td></td>
+</tr>
+<tr>
+<td>R ∩ S</td>
+<td>min(</td>
+</tr>
+<tr>
+<td>R − S</td>
+<td></td>
+</tr>
+<tr>
+<td>R × S</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>쿼리 결과 크기 추정 감리 시 각 집합 연산의 상한을 이용해 중간 결과·조인 폭발 여부를 예측하고 실행 계획 타당성을 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>각 집합 연산의 크기 상한 공식을 정확히 아는지 묻는다. 교집합이 min으로 가장 작고 카티션 곱이 곱으로 가장 큰 점이 핵심.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="55" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>ER 모델의 약한 개체(weak entity)에 대한 설명으로 옳지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 자기 자신의 키 속성을 가지지 않는 개체 타입을 약한 개체 타입이라고 한다.<br />
+② 약한 개체를 강한 개체와 연결시키는 관계 타입을 식별 관계라고 부른다.<br />
+<strong>③ 약한 개체가 식별 관계에 대해 전체 참여 제약을 가질 필요는 없다.</strong><br />
+④ 모든 존재 종속(existence dependency)이 약한 개체 타입이 될 필요는 없다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 약한 개체 개념 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>약한 개체(weak entity)</li>
+<li>식별 관계(identifying relationship)</li>
+<li>전체 참여(total participation)</li>
+<li>부분키(partial key)·존재 종속</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>55번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>약한 개체(weak entity)의 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter3(98p)_모델링.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter3 모델링 - 약한 개체/식별 관계</li>
+<li><strong>관련 개념</strong>: weak entity, 식별 관계, 전체 참여</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 약한 개체 특성은 모델링 파트 단골</li>
+<li><strong>재출제 경향</strong>: 식별 관계·참여 제약 확인</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>69</td>
+<td>참여 제약(NOT NULL)</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (약한 개체는 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>약한 개체 = <strong>자체 키 없음</strong>(부분키만)</li>
+<li>강한 개체에 <strong>존재 종속</strong></li>
+<li>식별 관계로 연결</li>
+<li>식별 관계에 <strong>전체 참여(필수)</strong></li>
+<li>③은 "전체 참여 불필요"로 뒤집음(오답)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>약한 개체는 자신만의 키(식별자)가 없어 <strong>강한 개체(소유 개체)에 존재적으로 종속</strong>되며, 강한 개체와 연결하는 관계를 <strong>식별 관계</strong>라고 한다. 이때 <strong>약한 개체는 식별 관계에 반드시 전체 참여</strong>한다(모든 약한 개체 인스턴스는 소유 개체와 연결되어야 존재할 수 있음).</p>
+<p>③은 "전체 참여 제약을 가질 필요는 없다"고 서술했으나, 약한 개체는 식별 관계에 <strong>반드시 전체 참여</strong>해야 하므로 옳지 않다. 정답은 ③번이다. ①(자체 키 없음), ②(식별 관계), ④(존재 종속이 곧 약한 개체는 아님)는 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 약한 개체는 자기 자신만의 키 속성을 가지지 않는다(부분키만 가짐).</p>
+<h3>보기②</h3>
+<p>옳음. 약한 개체를 강한 개체와 연결하는 관계가 식별 관계다.</p>
+<h3>보기③</h3>
+<p>정답(옳지 않음). 약한 개체는 식별 관계에 <strong>전체 참여</strong>해야 한다("필요 없다"는 틀림).</p>
+<h3>보기④</h3>
+<p>옳음. 존재 종속이 있다고 해서 모두 약한 개체 타입인 것은 아니다(자체 키가 있으면 강한 개체일 수 있음).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>약한 개체 특성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>키</td>
+<td>자체 키 없음, 부분키(discriminator) 보유</td>
+</tr>
+<tr>
+<td>소유 개체</td>
+<td>강한 개체에 존재 종속</td>
+</tr>
+<tr>
+<td>식별 관계</td>
+<td>강한↔약한 개체 연결 관계</td>
+</tr>
+<tr>
+<td>참여</td>
+<td>식별 관계에 <strong>전체 참여</strong>(필수)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>주문-주문상세, 부모-자녀처럼 독립 식별자가 없는 종속 개체 모델링 감리 시 식별 관계·부분키·전체 참여가 정확히 설정됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>약한 개체는 식별 관계에 전체 참여한다는 필수 제약을 뒤집은 보기(③)를 골라낸다. 부분키·존재 종속 개념도 함께 정리한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="56" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 ER 다이어그램을 관계 모델로 변환할 경우 릴레이션의 개수로 가장 적절한 것은? (단, ER 다이어그램의 이중선은 전체 참여를, 이중타원은 다치 속성을, 밑줄을 친 속성은 키 속성을 의미한다.)</p>
+<pre><code>EMPLOYEE(ENO, Name) ─N─ WORKS_ON(Hours) ─M─ PROJECT(PNO, Name, Location[이중타원=다치])
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 2<br />
+② 3<br />
+<strong>③ 4</strong><br />
+④ 5</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (4개)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 사상 규칙 적용)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>N:M 관계 → 교차 릴레이션 신설</li>
+<li>다치 속성(이중타원) → 별도 릴레이션</li>
+<li>개체 릴레이션(EMPLOYEE, PROJECT)</li>
+<li>릴레이션 총 개수 산정</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>56번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>ER→관계 변환 시 릴레이션 개수(N:M + 다치 속성)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter3(98p)_모델링.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter3 모델링 - ER→관계 사상</li>
+<li><strong>관련 개념</strong>: N:M 교차 릴레이션, 다치 속성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: ER 변환 릴레이션 수 산정은 모델링 단골</li>
+<li><strong>재출제 경향</strong>: 다치 속성·N:M 처리</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2024년(문항 56 N:M)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>56</td>
+<td>N:M 사상</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>55</td>
+<td>1:1 사상</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (ER 변환은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>개체 2개 → 릴레이션 2개</li>
+<li>N:M → <strong>교차 릴레이션 신설</strong>(WORKS_ON)</li>
+<li><strong>다치 속성(이중타원) → 별도 릴레이션</strong></li>
+<li>본 문항 총 <strong>4개</strong></li>
+<li>관계 속성(Hours)은 교차 릴레이션에 포함</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>관계 모델 변환 규칙을 적용한다.<br />
+1. <strong>EMPLOYEE(ENO, Name)</strong> — 개체 릴레이션 1개<br />
+2. <strong>PROJECT(PNO, Name)</strong> — 개체 릴레이션 1개<br />
+3. <strong>WORKS_ON(ENO, PNO, Hours)</strong> — N:M 관계는 교차 릴레이션 신설 1개<br />
+4. <strong>PROJECT_Location(PNO, Location)</strong> — 다치 속성(Location, 이중타원)은 별도 릴레이션 1개</p>
+<p>따라서 총 <strong>4개</strong>의 릴레이션이 생성되며 정답은 ③번이다. 다치 속성은 단일 릴레이션의 한 컬럼으로 표현할 수 없으므로 반드시 별도 릴레이션으로 분리해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②</h3>
+<p>개체(2) + N:M 교차(1) + 다치 속성(1) = 4개가 필요하므로 2·3개는 부족하다(다치 속성 릴레이션 또는 교차 릴레이션 누락).</p>
+<h3>보기③</h3>
+<p>정답. EMPLOYEE, PROJECT, WORKS_ON, PROJECT_Location = 4개.</p>
+<h3>보기④</h3>
+<p>5개는 불필요한 릴레이션을 추가로 만든 경우다. 관계 속성 Hours는 WORKS_ON에 포함되므로 별도 릴레이션이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ER→관계 변환 규칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>릴레이션</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>개체</td>
+<td>개체당 1릴레이션</td>
+</tr>
+<tr>
+<td>1:N 관계</td>
+<td>N측에 FK(추가 릴레이션 불필요)</td>
+</tr>
+<tr>
+<td>N:M 관계</td>
+<td>교차 릴레이션 신설</td>
+</tr>
+<tr>
+<td>다치 속성</td>
+<td>별도 릴레이션 신설</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>논리→물리 변환 감리 시 다치 속성·N:M 관계가 각각 별도/교차 테이블로 정확히 분해됐는지, 릴레이션 수와 키 구성이 적절한지 검증한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>N:M(교차 릴레이션) + 다치 속성(별도 릴레이션)을 모두 반영해 릴레이션 수를 세는지 확인한다. 다치 속성 릴레이션 누락이 대표 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="57" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 뷰(view)의 변경 연산에 대해 적절하게 설명된 것을 모두 나열한 것은?</p>
+<pre><code>가. 두 개 이상의 테이블이 관련되어 정의된 뷰는 변경할 수 없다.
+나. DISTINCT, GROUP BY가 사용되어 정의된 뷰는 변경할 수 없다.
+다. 기본 테이블의 기본 키를 구성하는 속성이 포함되어있지 않은 뷰는 변경할 수 없다.
+라. 뷰의 열이 상수나 산술 연산자 또는 함수가 사용된 산술식으로 만들어진 뷰는 변경할 수 없다.
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 다, 라<br />
+② 나, 다, 라<br />
+③ 가, 나, 라<br />
+<strong>④ 가, 나, 다, 라</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (가, 나, 다, 라 모두)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 뷰 갱신 규칙 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>갱신 가능 뷰(updatable view) 조건</li>
+<li>조인 뷰·집계 뷰 갱신 불가</li>
+<li>기본키 미포함 뷰 갱신 불가</li>
+<li>산술식/상수/함수 열 갱신 불가</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>57번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>뷰(view)의 변경(갱신) 가능 조건</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 뷰(갱신 가능성)</li>
+<li><strong>관련 개념</strong>: updatable view, 집계 뷰, 기본키</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 뷰 갱신 조건은 SQL 파트 단골</li>
+<li><strong>재출제 경향</strong>: 갱신 불가 사유 판정</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>63</td>
+<td>뷰 질의 변경</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>65</td>
+<td>뷰 정의</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (뷰 갱신 조건은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>조인(다중 테이블) 뷰 → 갱신 불가</li>
+<li><strong>DISTINCT/GROUP BY(집계) 뷰 → 갱신 불가</strong></li>
+<li>기본키 미포함 뷰 → 갱신 불가</li>
+<li>산술식/상수/함수 열 → 갱신 불가</li>
+<li>본 문항 네 조건 모두 옳음</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>뷰는 기본 테이블의 특정 행/열로 정확히 역매핑될 수 있을 때만 갱신 가능하다. 다음의 경우 뷰 갱신이 제한된다.<br />
+- <strong>가</strong>: 두 개 이상 테이블 조인 뷰 → 어느 테이블을 갱신할지 모호 → 변경 불가.<br />
+- <strong>나</strong>: DISTINCT·GROUP BY(집계) 뷰 → 원본 행과 1:1 대응이 깨짐 → 변경 불가.<br />
+- <strong>다</strong>: 기본 테이블의 기본키가 뷰에 없으면 → 어느 행을 갱신할지 식별 불가 → 변경 불가.<br />
+- <strong>라</strong>: 상수·산술식·함수로 만들어진 유도 열 → 원본 값 역산 불가 → 변경 불가.</p>
+<p>네 설명 모두 옳으므로 정답은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②·③</h3>
+<p>가·나·다·라가 모두 올바른 뷰 갱신 제한 조건이므로, 일부만 나열한 보기는 정답이 될 수 없다.</p>
+<h3>보기④</h3>
+<p>정답. 조인·집계·기본키 미포함·산술식 유도열 모두 뷰 갱신 불가 사유.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>갱신 불가 뷰 유형:</strong></p>
+<table>
+<thead>
+<tr>
+<th>유형</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>조인(다중 테이블)</td>
+<td>갱신 대상 모호</td>
+</tr>
+<tr>
+<td>집계(GROUP BY, 집계함수)/DISTINCT</td>
+<td>행 대응 불가</td>
+</tr>
+<tr>
+<td>기본키 미포함</td>
+<td>갱신 행 식별 불가</td>
+</tr>
+<tr>
+<td>산술식/상수/함수 열</td>
+<td>원본 역산 불가</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>뷰를 통한 데이터 수정 감리 시 갱신 가능 뷰 조건을 만족하는지, 갱신 불가 뷰에 대해 INSTEAD OF 트리거 등 대안을 사용했는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>뷰 갱신 제한 조건(조인·집계·기본키·산술식)을 종합적으로 이해했는지 묻는다. 네 조건이 모두 정답인 유형이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="58" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>속성 X, Y, Z를 포함하는 릴레이션 R(X, Y, Z)에 존재하는 함수 종속(functional dependency)에서 항상 성립하는 추론 규칙으로 옳지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① X ⊇ Y 이면 X → Y<br />
+② X → YZ 이면 X → Y 이고 X → Z<br />
+③ X → Y 이면 임의의 Z에 대해 XZ → YZ<br />
+<strong>④ XZ → YZ 이면 임의의 Z에 대해 X → Y</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 암스트롱 공리 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>암스트롱 공리(반사·증가·이행)</li>
+<li>분해 규칙, 합병 규칙</li>
+<li>유사 이행/의사 이행</li>
+<li>잘못된 역규칙</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>58번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>함수 종속성 추론 규칙(암스트롱 공리)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter3(98p)_모델링.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter3 모델링 - 함수 종속/추론 규칙</li>
+<li><strong>관련 개념</strong>: 암스트롱 공리, 분해/합병</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 추론 규칙 판정은 정규화 파트 단골</li>
+<li><strong>재출제 경향</strong>: 공리·파생 규칙의 성립 여부</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>51</td>
+<td>함수 종속·폐포</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (추론 규칙은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>반사(Y⊆X⇒X→Y), 증가(XZ→YZ), 이행</li>
+<li>분해(X→YZ⇒X→Y,X→Z), 합병</li>
+<li><strong>증가의 역(XZ→YZ⇒X→Y)은 성립 안 함</strong></li>
+<li>본 문항 ④가 잘못된 규칙</li>
+<li>폐포 계산에 공리 활용</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>함수 종속의 추론 규칙(암스트롱 공리와 파생 규칙)을 검토한다.<br />
+- <strong>①</strong> X ⊇ Y이면 X → Y : <strong>반사(reflexivity) 규칙</strong> → 옳음.<br />
+- <strong>②</strong> X → YZ이면 X → Y, X → Z : <strong>분해(decomposition) 규칙</strong> → 옳음.<br />
+- <strong>③</strong> X → Y이면 XZ → YZ : <strong>증가(augmentation) 규칙</strong> → 옳음.<br />
+- <strong>④</strong> XZ → YZ이면 X → Y : 이는 증가 규칙의 <strong>역방향</strong>으로 <strong>일반적으로 성립하지 않는다.</strong> 예컨대 XZ가 함께 있어야 YZ를 결정하는데, Z를 제거한 X만으로 Y를 결정한다는 보장이 없다. 따라서 옳지 않다.</p>
+<p>정답(옳지 않은 것)은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>반사 규칙: Y가 X의 부분집합이면 X → Y. 항상 성립.</p>
+<h3>보기②</h3>
+<p>분해 규칙: X → YZ면 X → Y, X → Z로 분해 가능. 성립.</p>
+<h3>보기③</h3>
+<p>증가 규칙: X → Y면 양변에 Z를 더해 XZ → YZ. 성립.</p>
+<h3>보기④</h3>
+<p>정답(옳지 않음). 증가 규칙의 역(XZ→YZ ⇒ X→Y)은 일반적으로 성립하지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>암스트롱 공리·파생 규칙:</strong></p>
+<table>
+<thead>
+<tr>
+<th>규칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>반사</td>
+<td>Y ⊆ X ⇒ X → Y</td>
+</tr>
+<tr>
+<td>증가</td>
+<td>X → Y ⇒ XZ → YZ</td>
+</tr>
+<tr>
+<td>이행</td>
+<td>X → Y, Y → Z ⇒ X → Z</td>
+</tr>
+<tr>
+<td>합병</td>
+<td>X → Y, X → Z ⇒ X → YZ</td>
+</tr>
+<tr>
+<td>분해</td>
+<td>X → YZ ⇒ X → Y, X → Z</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>정규화·종속성 분석 감리 시 추론 규칙으로 함수 종속의 폐포를 정확히 유도하는지, 잘못된 역규칙으로 후보키·정규형을 오판하지 않는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>암스트롱 공리(반사·증가·이행)와 파생 규칙을 구분하고, 증가 규칙의 잘못된 역규칙(④)을 골라낸다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="59" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 릴레이션 A(P, Q, R)와 B(Q, R, S)에 대해 결과 릴레이션 C(P, Q, R, S)가 나오도록 하는 관계 대수 연산으로 옳은 것은? (결과 C에는 매칭되지 않은 A의 튜플이 S=NULL로 포함되어 있다.)</p>
+<pre><code>A                  B                C
+P  Q  R            Q  R  S          P  Q  R  S
+p1 q1 r1           q1 r1 s1         p1 q1 r1 s1
+p2 q1 r1           q1 r1 s2         p1 q1 r1 s2
+p3 q1 r2           q2 r3 s3         p2 q1 r1 s1
+p4 q2 r3                            p2 q1 r1 s2
+                                    p3 q1 r2 NULL
+                                    p4 q2 r3 s3
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① A ⋈_N B (자연 조인)<br />
+<strong>② A ⟗⁺ B (외부 조인)</strong><br />
+③ A ⋉ B (세미 조인)<br />
+④ A ∪⁺ B (외부 합집합)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (외부 조인)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 결과 NULL 튜플 분석)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>외부 조인(outer join)</li>
+<li>미매칭 튜플 보존(NULL 보충)</li>
+<li>자연 조인과의 차이</li>
+<li>세미 조인/외부 합집합 구분</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>59번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>외부 조인(outer join)의 관계대수 식별</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 조인 연산(외부 조인)</li>
+<li><strong>관련 개념</strong>: outer join, 자연/세미 조인</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 조인 연산 식별은 관계대수 단골</li>
+<li><strong>재출제 경향</strong>: 결과로 연산 종류 판별</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 53 full outer join)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>53</td>
+<td>full outer join 결과</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>60</td>
+<td>LEFT OUTER JOIN</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (조인 연산은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>결과에 <strong>NULL 보충 튜플 → 외부 조인</strong></li>
+<li>자연 조인 = 매칭만(미매칭 제거)</li>
+<li>세미 조인 = 한쪽 속성만</li>
+<li>외부 합집합 = 이질 스키마 합집합</li>
+<li>본 문항 p3 NULL 보존 → 외부 조인</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>결과 C를 보면 p3의 튜플(q1, r2)이 B에 매칭되는 (Q, R)=(q1, r2)가 없어 <strong>(p3, q1, r2, NULL)</strong>로 보존되어 있다. 이처럼 매칭되지 않은 좌측(A) 튜플을 NULL 보충으로 결과에 포함시키는 연산은 <strong>외부 조인(outer join)</strong>이다.</p>
+<p>자연 조인(①)이라면 매칭되지 않는 p3 튜플은 결과에서 사라진다. 세미 조인(③)은 A의 속성만 결과에 남기고 매칭된 것만 반환하며, 외부 합집합(④)은 스키마가 다른 릴레이션의 합집합 개념이다. 따라서 NULL 보충 튜플을 포함하는 결과를 만드는 연산은 ②번 외부 조인이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>자연 조인은 매칭되는 튜플만 결합한다. 매칭 안 되는 p3(NULL) 튜플이 결과에 없어야 하므로 C와 다르다.</p>
+<h3>보기②</h3>
+<p>정답. 외부 조인은 미매칭 좌측 튜플을 NULL 보충으로 보존한다.</p>
+<h3>보기③</h3>
+<p>세미 조인(A ⋉ B)은 A의 속성만 유지하고 B와 매칭된 A 튜플만 반환한다. S 컬럼이 없어 C와 다르다.</p>
+<h3>보기④</h3>
+<p>외부 합집합은 서로 다른 스키마를 합쳐 NULL로 채우는 합집합 개념으로, 조인 결과와 다르다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조인 계열 연산:</strong></p>
+<table>
+<thead>
+<tr>
+<th>연산</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>자연 조인</td>
+<td>매칭 튜플만 결합</td>
+</tr>
+<tr>
+<td>외부 조인</td>
+<td>미매칭 튜플 NULL 보충 보존</td>
+</tr>
+<tr>
+<td>세미 조인</td>
+<td>한쪽 속성만, 매칭된 것만</td>
+</tr>
+<tr>
+<td>외부 합집합</td>
+<td>이질 스키마 합집합(NULL 보충)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>데이터 대사·통합 감리 시 미매칭 데이터를 보존해야 하는 경우(외부 조인)와 매칭만 필요한 경우(내부/자연 조인)를 구분해 쿼리가 요구를 충족하는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>결과에 NULL 보충 튜플이 있으면 외부 조인임을 식별한다. 자연 조인(미매칭 제거)과의 차이가 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="60" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>EMPLOYEE 테이블의 Dno 열에 대해 다음과 같은 참조 무결성이 선언되었다고 할 때, 이와 관련된 설명으로 옳은 것은?</p>
+<pre><code class="language-sql">CONSTRAINT EmpDeptFK
+  FOREIGN KEY(Dno) REFERENCES DEPARTMENT(Dnumber)
+    ON DELETE SET DEFAULT
+    ON UPDATE CASCADE
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① EMPLOYEE 테이블의 Dno 값이 삭제되면 DEPARTMENT의 Dnumber 값은 디폴트 값으로 설정된다.<br />
+② EMPLOYEE 테이블의 Dno 값이 갱신되면 DEPARTMENT의 Dnumber 값도 그 값으로 갱신된다.<br />
+③ DEPARTMENT의 Dnumber 값이 삭제되면 EMPLOYEE 테이블의 Dno 값은 NULL 값으로 설정된다.<br />
+<strong>④ DEPARTMENT의 Dnumber 값이 갱신되면 EMPLOYEE 테이블의 Dno 값도 그 값으로 갱신된다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 참조 옵션 방향 해석)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>외래키 참조 방향(자식 EMPLOYEE → 부모 DEPARTMENT)</li>
+<li>ON DELETE SET DEFAULT</li>
+<li>ON UPDATE CASCADE</li>
+<li>부모 변경이 자식에 전파</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>60번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>참조 무결성 옵션(SET DEFAULT / CASCADE) 해석</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 참조 무결성</li>
+<li><strong>관련 개념</strong>: ON DELETE/UPDATE, SET DEFAULT, CASCADE</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 참조 옵션 해석은 DDL 파트 단골</li>
+<li><strong>재출제 경향</strong>: 방향·옵션 동작 확인</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 62), 2024년(문항 55)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>62</td>
+<td>참조 옵션</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>55</td>
+<td>ON DELETE CASCADE</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (참조 무결성은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>참조 옵션 = <strong>부모 변경 → 자식 적용</strong></li>
+<li>ON DELETE SET DEFAULT = 부모 삭제 시 자식 기본값</li>
+<li>ON UPDATE CASCADE = 부모 갱신 시 자식 연쇄 갱신</li>
+<li>SET DEFAULT ≠ NULL</li>
+<li>자식 변경은 부모에 영향 없음</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>외래키는 자식(EMPLOYEE.Dno)이 부모(DEPARTMENT.Dnumber)를 참조한다. 참조 옵션은 <strong>부모(DEPARTMENT) 쪽의 변경</strong>이 발생할 때 자식(EMPLOYEE)이 어떻게 반응할지를 정의한다.<br />
+- <strong>ON DELETE SET DEFAULT</strong>: 부모(Dnumber) 삭제 시 자식(Dno)을 <strong>기본값</strong>으로 설정.<br />
+- <strong>ON UPDATE CASCADE</strong>: 부모(Dnumber) 갱신 시 자식(Dno)도 <strong>연쇄 갱신</strong>.</p>
+<p>④는 "DEPARTMENT의 Dnumber 갱신 → EMPLOYEE의 Dno 연쇄 갱신"으로 ON UPDATE CASCADE와 정확히 일치하므로 옳다. 정답은 ④번이다.</p>
+<p>①·②는 자식(EMPLOYEE) 변경이 부모(DEPARTMENT)에 영향을 준다고 방향을 반대로 서술했고, ③은 삭제 시 NULL이 아니라 SET DEFAULT(기본값)이므로 틀렸다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>방향 반대. 참조 옵션은 부모 변경 시 자식에 적용된다(자식 삭제가 부모에 영향 X).</p>
+<h3>보기②</h3>
+<p>방향 반대. 자식(EMPLOYEE) 갱신이 부모(DEPARTMENT)를 바꾸지 않는다.</p>
+<h3>보기③</h3>
+<p>부모 삭제 시 자식은 SET DEFAULT(기본값)이지 NULL이 아니다.</p>
+<h3>보기④</h3>
+<p>정답. 부모(Dnumber) 갱신 → 자식(Dno) 연쇄 갱신(ON UPDATE CASCADE).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>참조 옵션 적용 방향:</strong></p>
+<table>
+<thead>
+<tr>
+<th>옵션</th>
+<th>발생(부모)</th>
+<th>자식 처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ON DELETE SET DEFAULT</td>
+<td>부모 삭제</td>
+<td>자식 FK 기본값</td>
+</tr>
+<tr>
+<td>ON UPDATE CASCADE</td>
+<td>부모 갱신</td>
+<td>자식 FK 연쇄 갱신</td>
+</tr>
+<tr>
+<td>방향</td>
+<td>부모 → 자식</td>
+<td>(자식 변경은 부모에 영향 없음)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>참조 무결성 설계 감리 시 옵션이 부모→자식 방향으로 적용됨을 이해하고, 업무 규칙(부서 개편 시 사원 부서 코드 처리)과 일치하는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>참조 옵션은 부모 변경 시 자식에 적용된다는 방향, SET DEFAULT vs NULL 차이를 구분한다. 방향 반전(①·②)이 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="61" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음과 같은 함수 종속을 가진 릴레이션 R을 BCNF로 정규화한 결과로 옳은 것은? (단, 밑줄친 열은 기본키, 이탤릭체는 외래 키를 의미한다.)</p>
+<pre><code>R(A, B, C, D)
+함수종속: A→(B, C, D), B→(A, C, D), D→C
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① R1(<u>A</u>, B, <em>D</em>), R2(<u>D</u>, C)</strong><br />
+② R1(<u>A</u>, B, <em>C</em>), R2(<u>C</u>, D)<br />
+③ R1(<u>A</u>, <em>B</em>, C), R2(<u>B</u>, D)<br />
+④ R1(<u>A</u>, C, D), R2(<u>B</u>, <em>A</em>)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + BCNF 분해 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>후보키: A, B(각각 전체 결정)</li>
+<li>BCNF 위반 결정자: D(비후보키)</li>
+<li>D→C 분리</li>
+<li>무손실 분해</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>61번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>BCNF 정규화 분해</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter3(98p)_모델링.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter3 모델링 - 정규화(BCNF)</li>
+<li><strong>관련 개념</strong>: BCNF, 결정자, 무손실 분해</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: BCNF 분해는 정규화 심화 단골</li>
+<li><strong>재출제 경향</strong>: 위반 종속 분리 결과 선택</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2024년(문항 57 BCNF)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>57</td>
+<td>BCNF 분해 판정</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>54</td>
+<td>2NF 정규화</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (정규화는 매년 2~3문항)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>후보키 A, B(각각 전체 결정)</li>
+<li><strong>D→C: D 비후보키 → BCNF 위반</strong></li>
+<li>위반 종속 분리 → R2(D, C)</li>
+<li>나머지 R1(A, B, D), D는 외래키</li>
+<li>무손실 분해 확인</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>R(A, B, C, D)에서 A→BCD, B→ACD이므로 후보키는 <strong>A와 B</strong>(각각 모든 속성 결정)이다. 그런데 <strong>D→C</strong>는 결정자 D가 후보키가 아니므로 <strong>BCNF(및 3NF)를 위반</strong>한다.</p>
+<p>BCNF를 만족하도록 위반 종속 D→C를 분리한다.<br />
+- <strong>R2(D, C)</strong>: D→C를 담는 릴레이션(D가 키).<br />
+- <strong>R1(A, B, D)</strong>: 나머지. A·B가 후보키이고 D는 외래키(R2 참조).</p>
+<p>이 분해는 무손실이며 두 릴레이션 모두 BCNF를 만족한다. 따라서 정답은 ①번 R1(A, B, D), R2(D, C)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>R2(C, D)는 D→C를 담지만 R1(A, B, C)에 C가 남아 D→C 위반이 분리되지 않거나 무손실이 깨질 수 있어 부적절하다.</p>
+<h3>보기③</h3>
+<p>R2(B, D) 구성이 D→C 위반을 해소하지 못하고 C의 배치가 잘못됐다.</p>
+<h3>보기④</h3>
+<p>R2(B, A) 등 구성이 D→C 위반 분리와 무손실 요건을 충족하지 못한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>BCNF 분해 절차:</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>후보키 식별(A, B)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>BCNF 위반 FD 탐지(D→C, D 비후보키)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>위반 FD를 별도 릴레이션으로(R2(D,C))</td>
+</tr>
+<tr>
+<td>4</td>
+<td>나머지에 결정자(D) 외래키로 유지(R1(A,B,D))</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>정규화 감리 시 비후보키 결정자(D→C 같은)를 분리해 갱신 이상을 제거하고, 분해가 무손실·종속성 보존을 만족하는지 검증한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>BCNF 위반 결정자(D)를 찾아 분리하고, 남은 릴레이션에 결정자를 외래키로 유지하는 분해를 선택한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="62" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 Sailors, Boats, Reserves 3개의 릴레이션에서 질의 "color가 'red'인 Boat와 'green'인 Boat를 모두 reserve한 Sailor의 sname을 검색하라."를 SQL로 나타낸 문장으로 옳은 것은? (단, Sailors, Boats, Reserves 릴레이션 각각의 기본 키는 sid, bid, (sid, bid)이다.)</p>
+<pre><code>Sailors(sid, sname, rating, age)
+Boats(bid, bname, color)
+Reserves(sid, bid, day)
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① … WHERE S.sid=R.sid AND R.bid=B.bid AND (B.color='red' OR B.color='green');<br />
+② … WHERE S.sid=R.sid AND R.bid=B.bid AND (B.color='red' AND B.color='green');<br />
+<strong>③ SELECT S.sname FROM Sailors S, Reserves R1, Boats B1, Reserves R2, Boats B2 WHERE S.sid=R1.sid AND R1.bid=B1.bid AND S.sid=R2.sid AND R2.bid=B2.bid AND B1.color='red' AND B2.color='green';</strong><br />
+④ (red 검색) UNION (green 검색)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 집합 의미 분석)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>"모두(AND) 만족" = 교집합(INTERSECT) 의미</li>
+<li>동일 행에서 red·green 동시 불가</li>
+<li>자기 조인(Reserves·Boats 두 벌)</li>
+<li>OR/UNION은 합집합(오답)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>62번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>"두 조건 모두 만족" SQL(자기 조인/다중 조인)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 조인/집합 질의</li>
+<li><strong>관련 개념</strong>: 자기 조인, INTERSECT, 교집합 질의</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: "모두 만족" 질의 구현은 SQL 심화 단골</li>
+<li><strong>재출제 경향</strong>: 자기 조인·교집합 vs 합집합</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 58 나눗셈)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>58</td>
+<td>나눗셈(모든 프로젝트)</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>61</td>
+<td>EXISTS AND EXISTS</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (교집합·자기 조인 질의는 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>"모두(AND)" = <strong>교집합</strong>(자기 조인/INTERSECT)</li>
+<li>한 행에서 red=green 불가(② 항상 공집합)</li>
+<li>Reserves·Boats <strong>두 벌</strong> 자기 조인(③)</li>
+<li>OR/UNION = 합집합("또는")</li>
+<li>for all은 나눗셈/이중 NOT EXISTS</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>"red 보트와 green 보트를 <strong>모두</strong> 예약한 선원"은 두 조건을 <strong>동시에</strong> 만족(교집합)해야 한다. 하나의 예약 행(R, B)은 red이면서 동시에 green일 수 없으므로(②의 <code>B.color='red' AND B.color='green'</code>은 항상 거짓), <strong>Reserves와 Boats를 각각 두 벌(R1·B1, R2·B2)로 자기 조인</strong>하여 같은 선원(S.sid)이 red 보트(B1)와 green 보트(B2)를 각각 예약했음을 표현해야 한다.</p>
+<p>③번은 정확히 이 구조로, 같은 sid가 red 보트와 green 보트를 각각 예약한 경우를 조인으로 찾는다. 따라서 정답은 ③번이다. ①(OR)·④(UNION)는 red <strong>또는</strong> green(합집합)이라 요구와 다르고, ②는 한 행에서 red=green을 요구해 항상 공집합이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>OR는 red 또는 green을 예약한 선원(합집합)으로 "모두"가 아니다.</p>
+<h3>보기②</h3>
+<p>한 예약 행에서 <code>color='red' AND color='green'</code>은 동시에 성립 불가 → 항상 빈 결과.</p>
+<h3>보기③</h3>
+<p>정답. Reserves·Boats 두 벌로 자기 조인하여 같은 선원이 red·green을 각각 예약했음을 표현.</p>
+<h3>보기④</h3>
+<p>UNION은 red 예약 선원 ∪ green 예약 선원(합집합)으로, 교집합("모두")이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>"모두 만족" 질의 구현:</strong></p>
+<table>
+<thead>
+<tr>
+<th>방법</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>자기 조인</td>
+<td>동일 키를 여러 벌 조인(각 조건별)</td>
+</tr>
+<tr>
+<td>INTERSECT</td>
+<td>각 조건 결과의 교집합</td>
+</tr>
+<tr>
+<td>나눗셈/이중 NOT EXISTS</td>
+<td>전량 만족(for all)</td>
+</tr>
+<tr>
+<td>OR/UNION</td>
+<td>합집합("또는") → 부적절</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>"A와 B를 모두 이용한 고객" 같은 교집합 조회 감리 시 자기 조인/INTERSECT로 구현했는지, OR/UNION으로 잘못 합집합 처리하지 않았는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"모두(AND)"는 교집합이며, 한 행에서 red=green 불가라는 점을 이용한 자기 조인 필요성을 이해했는지 묻는다. OR/UNION 함정에 유의.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="63" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 STUDENT(학생)와 ENROLL(수강) 릴레이션에서 "Cno가 'C413'인 과목을 수강한 학생의 Sname, Dept와 수강의 Grade를 검색하라."는 질의를 SQL로 나타낸 문장으로 옳은 것은? (단, STUDENT와 ENROLL 릴레이션 각각의 기본 키는 Sno, (Sno, Cno)이다.)</p>
+<pre><code>STUDENT(Sno, Sname, Year, Dept)
+ENROLL(Sno, Cno, Grade)
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① SELECT Sname, Dept, Grade FROM STUDENT JOIN ENROLL WITH(Sno) WHERE ENROLL.Cno = 'C413';<br />
+② SELECT Sname, Dept, Grade FROM STUDENT NATURAL JOIN ENROLL USING(Sno) WHERE ENROLL.Cno = 'C413';<br />
+③ SELECT Sname, Dept, Grade FROM STUDENT NATURAL JOIN ENROLL ON (STUDENT.Sno = ENROLL.Sno) WHERE ENROLL.Cno = 'C413';<br />
+<strong>④ SELECT Sname, Dept, Grade FROM STUDENT JOIN ENROLL ON (STUDENT.Sno = ENROLL.Sno) WHERE ENROLL.Cno = 'C413';</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + JOIN 구문 규칙)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>JOIN ... ON 조건절</li>
+<li>NATURAL JOIN vs USING vs ON(혼용 불가)</li>
+<li>올바른 조인 구문</li>
+<li>WITH는 조인 키워드 아님</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>63번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>JOIN 구문(ON 조건절)의 올바른 사용</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 조인 구문</li>
+<li><strong>관련 개념</strong>: JOIN ON/USING/NATURAL</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 조인 구문 정확성은 SQL 기본 단골</li>
+<li><strong>재출제 경향</strong>: 구문 혼용·비표준 키워드 판정</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>63</td>
+<td>뷰 질의 변경(조인)</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (조인 구문은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>JOIN ... <strong>ON (조건)</strong> = 표준</li>
+<li>NATURAL JOIN + ON/USING = <strong>혼용 불가</strong></li>
+<li>WITH는 조인 키워드 아님</li>
+<li>본 문항 ④가 유일한 올바른 구문</li>
+<li>WHERE로 추가 필터(Cno)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>표준 SQL의 조인 구문은 <code>A JOIN B ON (조건)</code> 또는 <code>A NATURAL JOIN B</code> 또는 <code>A JOIN B USING(공통컬럼)</code> 형태다. 이들을 <strong>혼용할 수 없다</strong>.</p>
+<ul>
+<li><strong>④</strong>: <code>STUDENT JOIN ENROLL ON (STUDENT.Sno = ENROLL.Sno)</code> — 올바른 ON 조인. WHERE로 Cno='C413' 필터. <strong>정답</strong>.</li>
+<li>①: <code>JOIN ... WITH(Sno)</code> — WITH는 조인 키워드가 아니다(잘못된 구문).</li>
+<li>②: <code>NATURAL JOIN ... USING(Sno)</code> — NATURAL JOIN과 USING을 함께 쓸 수 없다.</li>
+<li>③: <code>NATURAL JOIN ... ON(...)</code> — NATURAL JOIN과 ON을 함께 쓸 수 없다.</li>
+</ul>
+<p>따라서 문법적으로 올바른 것은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p><code>WITH(Sno)</code>는 존재하지 않는 조인 구문이다.</p>
+<h3>보기②</h3>
+<p>NATURAL JOIN은 공통 컬럼으로 자동 조인하므로 USING을 추가로 쓸 수 없다(구문 충돌).</p>
+<h3>보기③</h3>
+<p>NATURAL JOIN에 ON 조건절을 함께 붙일 수 없다(구문 충돌).</p>
+<h3>보기④</h3>
+<p>정답. <code>JOIN ... ON (조건)</code> + WHERE 필터로 올바른 표준 구문.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조인 구문 형태:</strong></p>
+<table>
+<thead>
+<tr>
+<th>형태</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ON</td>
+<td>A JOIN B ON A.k=B.k</td>
+</tr>
+<tr>
+<td>USING</td>
+<td>A JOIN B USING(k)</td>
+</tr>
+<tr>
+<td>NATURAL</td>
+<td>A NATURAL JOIN B</td>
+</tr>
+<tr>
+<td>혼용</td>
+<td>NATURAL+ON, NATURAL+USING 불가</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>조인 쿼리 리뷰 감리 시 표준 조인 구문을 정확히 사용하고, NATURAL JOIN의 암묵적 공통 컬럼 조인으로 인한 예기치 않은 결과를 방지하는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>JOIN 구문의 올바른 형태와 혼용 불가(NATURAL+ON/USING)를 구분한다. WITH 같은 비존재 키워드를 배제한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="64" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 트랜잭션 T1~T5에 대해 각각의 수행 시간을 표기하였다. 트랜잭션 수행 중 체크 포인트를 실시하였고, 그 이후 시스템이 다운되었다. 시스템이 재가동될 때 수행되는 회복 기능으로 가장 적절한 것은?</p>
+<pre><code>- T1: 체크포인트 이전에 시작·완료(커밋)
+- T2: 체크포인트 이전 시작 → 이후(다운 전) 완료
+- T4: 체크포인트 이후 시작 → 다운 전 완료
+- T3: 체크포인트 걸쳐 다운 시점까지 미완료
+- T5: 체크포인트 이후 시작 → 다운 시점까지 미완료
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① T2, T4 트랜잭션은 재수행한다.</strong><br />
+② T2, T4 트랜잭션은 취소한다.<br />
+③ T3, T4, T5 트랜잭션은 재수행한다.<br />
+④ T3, T4, T5 트랜잭션은 취소한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 체크포인트 회복 규칙)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>체크포인트(checkpoint)</li>
+<li>REDO(재수행): 체크포인트 이후 커밋된 트랜잭션</li>
+<li>UNDO(취소): 미완료 트랜잭션</li>
+<li>체크포인트 이전 커밋은 반영 완료(회복 불필요)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>64번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>체크포인트 기반 회복(REDO/UNDO 대상 판정)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter2(69p)_트랜잭션.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter2 트랜잭션 - 회복(체크포인트)</li>
+<li><strong>관련 개념</strong>: checkpoint, REDO/UNDO</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 체크포인트 회복 판정은 트랜잭션 파트 단골</li>
+<li><strong>재출제 경향</strong>: 트랜잭션별 REDO/UNDO 분류</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 70), 2024년(문항 74)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>70</td>
+<td>로그 회복(redo/undo)</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>74</td>
+<td>WAL(AFIM/BFIM)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (회복/체크포인트는 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>체크포인트 <strong>이전 커밋</strong> → 무처리(T1)</li>
+<li>체크포인트 <strong>이후 커밋</strong> → <strong>REDO</strong>(T2, T4)</li>
+<li><strong>미완료</strong> → UNDO(T3, T5)</li>
+<li>본 문항 재수행 = T2, T4</li>
+<li>커밋 여부로 REDO/UNDO 결정</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>체크포인트 기반 회복 규칙은 다음과 같다.<br />
+- <strong>체크포인트 이전에 커밋 완료</strong>(T1): 이미 디스크에 반영됨 → <strong>회복 불필요</strong>.<br />
+- <strong>체크포인트 이후 시점에 커밋 완료</strong>(T2, T4): 커밋됐지만 디스크 반영이 보장되지 않음 → <strong>REDO(재수행)</strong>.<br />
+- <strong>다운 시점까지 미완료</strong>(T3, T5): 커밋되지 않음 → <strong>UNDO(취소)</strong>.</p>
+<p>따라서 재수행(REDO) 대상은 <strong>T2, T4</strong>이며(①), 취소(UNDO) 대상은 T3, T5이다. 정답은 ①번이다. (T1은 체크포인트 이전 커밋으로 회복 대상이 아니다.)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답. T2·T4는 체크포인트 이후 커밋 완료 → REDO(재수행).</p>
+<h3>보기②</h3>
+<p>T2·T4는 커밋 완료이므로 취소가 아니라 재수행 대상이다.</p>
+<h3>보기③</h3>
+<p>T3·T5는 미완료로 UNDO(취소) 대상이며, T4는 커밋 완료(REDO)라 함께 묶을 수 없다.</p>
+<h3>보기④</h3>
+<p>T4는 커밋 완료로 취소 대상이 아니다(재수행). T3·T5만 취소한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>체크포인트 회복 분류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>트랜잭션 유형</th>
+<th>처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>체크포인트 이전 커밋</td>
+<td>반영 완료(무처리)</td>
+</tr>
+<tr>
+<td>체크포인트 이후 커밋</td>
+<td>REDO(재수행)</td>
+</tr>
+<tr>
+<td>다운 시 미완료</td>
+<td>UNDO(취소)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>DBMS 회복 정책 감리 시 체크포인트 주기와 REDO/UNDO 대상 선정이 표준 절차(ARIES 등)에 부합해 복구 시간과 정합성을 보장하는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>체크포인트 이전 커밋은 회복 불필요, 이후 커밋은 REDO, 미완료는 UNDO라는 3분류를 그림에서 정확히 판정하는지 묻는다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="65" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 릴레이션 EMPLOYEE와 DEPENDENT를 생성하는 데이터 정의문이다. 두 릴레이션에 대해 "자신의 부양가족과 이름이 같은 직원의 이름(Name)을 출력하라"를 처리하는 SQL 질의를 모두 나열한 것은?</p>
+<pre><code class="language-sql">CREATE TABLE EMPLOYEE ( Name VARCHAR(15) NOT NULL, Ssn CHAR(9) NOT NULL, PRIMARY KEY(Ssn) );
+CREATE TABLE DEPENDENT ( Essn CHAR(9) NOT NULL, Name VARCHAR(15) NOT NULL, PRIMARY KEY(Essn, Name), FOREIGN KEY(Essn) REFERENCES EMPLOYEE(Ssn) );
+
+가. SELECT E.Name FROM EMPLOYEE AS E WHERE E.Ssn IN (SELECT Essn FROM DEPENDENT AS D WHERE E.Name=D.Name);
+나. SELECT E.Name FROM EMPLOYEE AS E WHERE EXISTS (SELECT * FROM DEPENDENT AS D WHERE E.Ssn=D.Essn AND E.Name=D.Name);
+다. SELECT E.Name FROM EMPLOYEE AS E, DEPENDENT AS D WHERE E.Ssn=D.Essn AND E.Name=D.Name;
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 나<br />
+② 가, 다<br />
+③ 가, 다<br />
+<strong>④ 가, 나, 다</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (가, 나, 다 모두)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 동등 질의 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>IN 상관 부속질의(가)</li>
+<li>EXISTS 상관 부속질의(나)</li>
+<li>조인(다)</li>
+<li>동일 결과 여부</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>65번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>동일 결과 SQL(IN/EXISTS/조인) 판정</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 부속질의/조인</li>
+<li><strong>관련 개념</strong>: IN, EXISTS, 조인 동등성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 동등 질의 판정은 SQL 심화 단골</li>
+<li><strong>재출제 경향</strong>: IN/EXISTS/조인 상호 변환</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>57</td>
+<td>동등 쿼리 비교</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>61</td>
+<td>EXISTS 상관 질의</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (동등 질의 판정은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>IN·EXISTS·조인은 동일 조건이면 <strong>동일 결과</strong></li>
+<li>상관 IN(가), EXISTS(나), 조인(다) 모두 성립</li>
+<li>조건: E.Ssn=D.Essn AND E.Name=D.Name</li>
+<li>본 문항 가·나·다 모두 옳음</li>
+<li>조인 시 중복 행 주의(본 문항은 동일)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>"직원의 Ssn과 부양가족의 Essn이 같고(같은 직원), 직원 이름과 부양가족 이름이 같은" 직원을 찾는 질의다. 세 방식 모두 이 조건을 정확히 표현한다.<br />
+- <strong>가(IN)</strong>: E.Ssn이 (E.Name과 이름이 같은 부양가족의 Essn) 집합에 포함 → 상관 IN 부속질의로 동일 조건.<br />
+- <strong>나(EXISTS)</strong>: E.Ssn=D.Essn AND E.Name=D.Name인 부양가족이 존재 → 동일 조건.<br />
+- <strong>다(조인)</strong>: E.Ssn=D.Essn AND E.Name=D.Name 조인 → 동일 조건.</p>
+<p>세 방식 모두 같은 결과를 내므로 정답은 ④번(가, 나, 다)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②·③</h3>
+<p>가·나·다 세 방식이 모두 동일 결과를 내므로, 일부만 나열한 보기는 정답이 아니다.</p>
+<h3>보기④</h3>
+<p>정답. IN·EXISTS·조인 세 방식 모두 동일한 결과.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>상호 변환 가능 질의:</strong></p>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IN 부속질의</td>
+<td>값 목록 포함 여부</td>
+</tr>
+<tr>
+<td>EXISTS 부속질의</td>
+<td>조건 만족 행 존재 여부</td>
+</tr>
+<tr>
+<td>조인</td>
+<td>조인 조건으로 결합</td>
+</tr>
+<tr>
+<td>동등성</td>
+<td>조건이 동일하면 결과 동일(중복 주의)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>동등 질의 리팩터링 감리 시 IN/EXISTS/조인 간 변환이 결과를 바꾸지 않는지, 조인의 중복 행 발생 여부를 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>같은 조건을 IN/EXISTS/조인으로 표현했을 때 동일 결과임을 이해했는지 묻는다. 세 방식 모두 정답인 유형이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="66" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 트랜잭션의 동시성 제어에서 격리성(isolation)을 나타내는 예로써, 트랜잭션 T1, T2가 ①~⑤ 순서대로 수행할 때 생길 수 있는 현상으로 가장 적절한 것은?</p>
+<pre><code>T1: ① SELECT 도시, COUNT(*) FROM 고객 GROUP BY 도시;
+T2: ② INSERT INTO 고객(고객번호, 이름, 도시, 나이) VALUES(3,'김민재','통영',27);
+T2: ③ COMMIT;
+T1: ④ SELECT 나이, COUNT(*) FROM 고객 GROUP BY 나이;
+T1: ⑤ COMMIT;
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 오손 데이터 읽기(dirty read)<br />
+<strong>② 유령 데이터 읽기(phantom read)</strong><br />
+③ 연쇄 데이터 읽기(cascading read)<br />
+④ 직렬 데이터 읽기(serializable read)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (유령 읽기, phantom read)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 격리성 현상 구분)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>유령 읽기(phantom read)</li>
+<li>범위 질의 중 새 행 삽입</li>
+<li>격리성 위반 현상</li>
+<li>dirty/non-repeatable/phantom 구분</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>66번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>격리성 위반 현상 - 유령 읽기(phantom read)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter2(69p)_트랜잭션.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter2 트랜잭션 - 격리성/동시성 이상 현상</li>
+<li><strong>관련 개념</strong>: phantom read, 격리수준</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 격리성 이상 현상 구분은 트랜잭션 파트 단골</li>
+<li><strong>재출제 경향</strong>: dirty/non-repeatable/phantom 판별</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>54</td>
+<td>로킹 전략</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>66</td>
+<td>다중 단위 로킹</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (격리성 현상은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>Phantom = 범위 재조회 시 새 행 출현</strong></li>
+<li>Dirty = 미커밋 읽기</li>
+<li>Non-repeatable = 같은 행 값 변경</li>
+<li>본 문항: T2 INSERT+COMMIT → 유령 읽기</li>
+<li>SERIALIZABLE로 방지</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>T1이 집계 질의(범위 조회)를 수행하는 사이에 T2가 <strong>새로운 행을 INSERT하고 커밋</strong>하면, T1이 다시 범위 질의를 수행할 때 이전에 없던 "유령" 행이 나타난다. 이것이 <strong>유령 읽기(phantom read)</strong>이다.</p>
+<ul>
+<li><strong>오손 읽기(dirty read)</strong>: 커밋되지 않은 데이터를 읽음(여기서는 T2가 커밋함 → 해당 없음).</li>
+<li><strong>반복 불가능 읽기(non-repeatable read)</strong>: 기존 행의 값이 바뀜(여기서는 새 행 삽입).</li>
+<li><strong>유령 읽기(phantom read)</strong>: 새 행 삽입/삭제로 결과 집합의 행 수가 달라짐 → 본 상황에 해당.</li>
+</ul>
+<p>따라서 정답은 ②번이다. (③ cascading read, ④ serializable read는 표준 격리성 이상 현상 명칭이 아니다.)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>dirty read는 미커밋 데이터를 읽는 것인데, T2가 커밋 후이므로 해당하지 않는다.</p>
+<h3>보기②</h3>
+<p>정답. 범위 질의 사이 새 행 삽입 → 유령 읽기.</p>
+<h3>보기③</h3>
+<p>'연쇄 데이터 읽기'는 표준 격리성 이상 현상이 아니다(cascading rollback과 혼동 유도).</p>
+<h3>보기④</h3>
+<p>'직렬 데이터 읽기'는 이상 현상이 아니라 오히려 직렬성(정상)에 가까운 표현이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>격리성 이상 현상:</strong></p>
+<table>
+<thead>
+<tr>
+<th>현상</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dirty read</td>
+<td>미커밋 데이터 읽기</td>
+</tr>
+<tr>
+<td>Non-repeatable read</td>
+<td>같은 행 재조회 시 값 변경</td>
+</tr>
+<tr>
+<td>Phantom read</td>
+<td>범위 재조회 시 새 행 출현</td>
+</tr>
+<tr>
+<td>방지</td>
+<td>격리수준 상향(SERIALIZABLE 등)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>동시성 이슈 감리 시 범위 집계·조회 트랜잭션에서 유령 읽기가 문제되는지, 필요 시 격리수준을 SERIALIZABLE로 올리거나 범위 락을 사용하는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>새 행 삽입으로 결과 집합이 달라지는 현상이 phantom read임을 구분한다. dirty(미커밋)·non-repeatable(값 변경)과의 차이가 핵심.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="67" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>동시성 제어(concurrency control)의 로킹(locking) 단위에 대한 다음 설명 중 옳은 것을 모두 나열한 것은?</p>
+<pre><code>가. 로킹 단위가 작아지면 동시성(병행) 수준은 낮아진다.
+나. 데이터베이스, 파일, 레코드 등은 로킹 단위가 될 수 있다.
+다. 로킹 단위가 작아지면 일반적으로 로킹 오버헤드가 증가한다.
+라. 한꺼번에 로킹할 수 있는 데이터의 크기를 로킹 단위라 한다.
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 다<br />
+② 가, 나, 라<br />
+<strong>③ 나, 다, 라</strong><br />
+④ 가, 나, 다, 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (나, 다, 라)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 로킹 단위 특성 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>로킹 단위(granularity)</li>
+<li>단위 작아짐 → 동시성 ↑, 오버헤드 ↑</li>
+<li>단위 커짐 → 동시성 ↓, 오버헤드 ↓</li>
+<li>로킹 단위 종류(DB/파일/레코드)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>67번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>동시성 제어 로킹 단위(granularity)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter2(69p)_트랜잭션.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter2 트랜잭션 - 병행제어(로킹 단위)</li>
+<li><strong>관련 개념</strong>: granularity, 동시성/오버헤드</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 로킹 단위 특성은 병행제어 파트 단골</li>
+<li><strong>재출제 경향</strong>: 동시성·오버헤드 트레이드오프</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 66 다중 단위 로킹)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>66</td>
+<td>다중 단위 로킹</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>54</td>
+<td>로킹 전략</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (로킹 단위는 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>로킹 단위 <strong>작아짐 → 동시성↑, 오버헤드↑</strong></li>
+<li>커짐 → 동시성↓, 오버헤드↓</li>
+<li>로킹 단위 = DB/파일/레코드/필드</li>
+<li>가(단위↓→동시성↓)는 오답</li>
+<li>로킹 단위 = 한 번에 잠그는 데이터 크기</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>가</strong>: "로킹 단위가 작아지면 동시성 수준은 <strong>낮아진다</strong>" → <strong>틀림</strong>. 로킹 단위가 작아지면 더 세밀하게 잠글 수 있어 <strong>동시성은 높아진다</strong>.</li>
+<li><strong>나</strong>: 데이터베이스·파일·레코드·필드 등은 로킹 단위가 될 수 있다 → <strong>옳음</strong>.</li>
+<li><strong>다</strong>: 로킹 단위가 작아지면 관리할 로크 수가 늘어 <strong>로킹 오버헤드가 증가</strong>한다 → <strong>옳음</strong>.</li>
+<li><strong>라</strong>: 한꺼번에 로킹할 수 있는 데이터 크기 = 로킹 단위 → <strong>옳음</strong>.</li>
+</ul>
+<p>따라서 옳은 것은 나·다·라이며 정답은 ③번이다. 가는 동시성 방향을 반대로 서술했다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②·④</h3>
+<p>'가'(단위 작아지면 동시성 낮아짐)를 포함한 보기는 옳지 않다. 단위가 작아지면 동시성은 높아진다.</p>
+<h3>보기③</h3>
+<p>정답. 나(로킹 단위 종류)·다(오버헤드 증가)·라(로킹 단위 정의)만 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>로킹 단위 트레이드오프:</strong></p>
+<table>
+<thead>
+<tr>
+<th>단위</th>
+<th>동시성</th>
+<th>오버헤드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>작음(레코드/필드)</td>
+<td>높음</td>
+<td>큼(로크 多)</td>
+</tr>
+<tr>
+<td>큼(DB/파일)</td>
+<td>낮음</td>
+<td>작음(로크 少)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>동시성·성능 감리 시 로킹 단위(행/페이지/테이블)와 로크 에스컬레이션 정책이 워크로드에 적합해 경합과 오버헤드를 균형 있게 관리하는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"단위 작아짐 = 동시성↑·오버헤드↑"의 방향을 정확히 아는지 묻는다. 동시성 방향을 뒤집은 보기(가)가 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="68" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>로킹 규약 중에서 strict 2단계 로킹 규약(strict 2PL)에 해당하는 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 데이터 항목에 대해 read나 write 연산을 하려면 반드시 lock을 걸고 트랜잭션 실행을 종료하기 전에 unlock을 수행<br />
+② 로크를 걸기만 하는 확장 단계와 로크를 풀기만 하는 축소 단계로 구성<br />
+<strong>③ 로킹이 2단계일 뿐 아니라 모든 독점 로크는 그 트랜잭션이 완료될 때까지 unlock하지 않고 그대로 유지</strong><br />
+④ 로킹이 2단계일 뿐 아니라 모든 로크는 그 트랜잭션이 완료될 때까지 unlock하지 않고 그대로 유지</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 2PL 변형 구분)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>2단계 로킹(2PL): 확장·축소 단계</li>
+<li>Strict 2PL: <strong>독점(exclusive) 로크</strong>를 커밋까지 유지</li>
+<li>Rigorous 2PL: 모든 로크를 커밋까지 유지</li>
+<li>연쇄 복귀(cascading rollback) 방지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>68번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Strict 2PL(엄격한 2단계 로킹)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter2(69p)_트랜잭션.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter2 트랜잭션 - 2단계 로킹(변형)</li>
+<li><strong>관련 개념</strong>: strict/rigorous 2PL, 연쇄 복귀</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 2PL 변형 구분은 병행제어 심화 단골</li>
+<li><strong>재출제 경향</strong>: strict vs rigorous 판별</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>67</td>
+<td>로킹 단위</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>66</td>
+<td>다중 단위 로킹</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2PL은 매년 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>기본 2PL = 확장·축소 단계</li>
+<li><strong>Strict 2PL = 독점 로크 커밋까지 유지</strong></li>
+<li>Rigorous 2PL = 모든 로크 커밋까지 유지</li>
+<li>strict/rigorous → 연쇄 복귀 방지</li>
+<li>본 문항 ③(독점 로크) vs ④(모든 로크)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>② 기본 2PL</strong>: 로크를 거는 확장 단계와 푸는 축소 단계로 구성(한 번 풀면 다시 못 잠금).</li>
+<li><strong>③ Strict 2PL(엄격한 2PL)</strong>: 기본 2PL에 더해 <strong>모든 독점(exclusive/write) 로크를 트랜잭션이 완료(커밋/롤백)될 때까지 유지</strong>한다. 이로써 미커밋 데이터를 다른 트랜잭션이 읽지 못하게 해 연쇄 복귀를 방지한다.</li>
+<li><strong>④ Rigorous 2PL(강력한 2PL)</strong>: <strong>모든 로크(공유+독점)</strong>를 커밋까지 유지한다.</li>
+</ul>
+<p>문제는 strict 2PL을 물으므로, <strong>독점 로크</strong>를 완료까지 유지한다는 ③번이 정답이다. ④(모든 로크 유지)는 rigorous 2PL의 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>일반적인 로킹의 기본 서술로, strict 2PL의 핵심(독점 로크 커밋까지 유지)을 담지 못한다.</p>
+<h3>보기②</h3>
+<p>기본 2PL(확장·축소 단계)의 정의이지 strict 2PL은 아니다.</p>
+<h3>보기③</h3>
+<p>정답. Strict 2PL = 독점 로크를 트랜잭션 완료까지 유지.</p>
+<h3>보기④</h3>
+<p>모든 로크(공유 포함)를 완료까지 유지 = rigorous 2PL의 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>2PL 변형:</strong></p>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기본 2PL</td>
+<td>확장·축소 단계</td>
+</tr>
+<tr>
+<td>Strict 2PL</td>
+<td>독점 로크를 커밋까지 유지</td>
+</tr>
+<tr>
+<td>Rigorous 2PL</td>
+<td>모든 로크를 커밋까지 유지</td>
+</tr>
+<tr>
+<td>효과</td>
+<td>strict/rigorous는 연쇄 복귀 방지</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>병행제어 정책 감리 시 strict 2PL로 미커밋 데이터 노출과 연쇄 복귀를 방지하는지, 로크 유지로 인한 동시성 저하를 어떻게 관리하는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>strict 2PL(독점 로크 유지)과 rigorous 2PL(모든 로크 유지)의 차이를 구분한다. "독점 로크"라는 단어가 핵심 단서다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="69" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>대표적인 분산 파일 시스템인 HDFS(Hadoop Distributed File System)는 여러 노드(node)로 구성되어 있다. 다음의 (가), (나)에 들어갈 노드 이름으로 가장 옳은 것은?</p>
+<pre><code>· (가)는 메타정보를 관리하며 데이터 블록들이 어느 (나)에 있는지를 유지한다.
+· (나)는 실제 데이터 블록을 저장하고 클라이언트에 이를 제공한다.
+· Secondary (가)는 primary (가)가 고장(fail)일 때를 대비하는 백업 노드이다.
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (가) master node, (나) data node<br />
+<strong>② (가) name node, (나) data node</strong><br />
+③ (가) master node, (나) slave node<br />
+④ (가) name node, (나) slave node</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 ((가) name node, (나) data node)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + HDFS 구조 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>NameNode(메타데이터 관리, 마스터)</li>
+<li>DataNode(실제 블록 저장, 슬레이브)</li>
+<li>Secondary NameNode(백업/체크포인트)</li>
+<li>블록 위치 관리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>69번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>하</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>HDFS 노드 구성(NameNode/DataNode)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter7(19p)_빅데이터_기타.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter7 빅데이터·기타 - HDFS</li>
+<li><strong>관련 개념</strong>: NameNode, DataNode, Secondary NameNode</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: HDFS 구조는 빅데이터 파트 반복 출제</li>
+<li><strong>재출제 경향</strong>: 노드 역할·명칭 확인</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 67 HDFS 성능)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>67</td>
+<td>HDFS 읽기/쓰기</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>72</td>
+<td>Spark RDD</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (HDFS는 최근 반복 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>NameNode = 메타데이터·블록 위치</strong>(마스터)</li>
+<li><strong>DataNode = 실제 블록 저장</strong>(슬레이브)</li>
+<li>Secondary NameNode = 백업/체크포인트</li>
+<li>정식 명칭 사용(master/slave 아님)</li>
+<li>블록 기본 3벌 복제</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>HDFS는 마스터-슬레이브 구조로, <strong>NameNode</strong>가 파일→블록→위치의 <strong>메타데이터를 관리</strong>하고 어느 <strong>DataNode</strong>에 블록이 있는지 유지한다. <strong>DataNode</strong>는 실제 데이터 블록을 저장하고 클라이언트에 제공한다. <strong>Secondary NameNode</strong>는 NameNode의 메타데이터 체크포인트/백업 역할을 한다.</p>
+<p>문제의 (가)는 메타정보를 관리하는 NameNode, (나)는 실제 블록을 저장하는 DataNode이므로 정답은 ②번이다. HDFS의 공식 명칭은 name node/data node이며, master/slave는 역할 구분의 일반 용어일 뿐 노드의 정식 이름이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>'master node'는 역할 개념이지 HDFS의 정식 노드 이름(NameNode)이 아니다.</p>
+<h3>보기②</h3>
+<p>정답. (가) NameNode(메타데이터), (나) DataNode(실제 블록).</p>
+<h3>보기③</h3>
+<p>(가) master, (나) slave 모두 정식 명칭이 아니다.</p>
+<h3>보기④</h3>
+<p>(나)를 slave node로 표기했으나 정식 명칭은 DataNode다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>HDFS 노드:</strong></p>
+<table>
+<thead>
+<tr>
+<th>노드</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NameNode</td>
+<td>메타데이터·블록 위치 관리(마스터)</td>
+</tr>
+<tr>
+<td>DataNode</td>
+<td>실제 블록 저장·제공(슬레이브)</td>
+</tr>
+<tr>
+<td>Secondary NameNode</td>
+<td>메타데이터 체크포인트/백업</td>
+</tr>
+<tr>
+<td>블록 복제</td>
+<td>기본 3벌, 내결함성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>빅데이터 인프라 감리 시 NameNode 단일 장애점(SPOF) 대비(HA·Secondary), DataNode 복제·랙 인식 설정을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>NameNode(메타데이터)/DataNode(블록)의 정식 명칭과 역할을 구분한다. master/slave 같은 일반 용어와 혼동하지 않도록 한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="70" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 SQL 구문은 테이블 STUDENT에 대한 SELECT와 UPDATE 권한을 admuser에게 부여하는 기능을 한다. 그런데 이때 권한을 부여받은 admuser가 다른 사용자에게 SELECT나 UPDATE 권한을 다시 부여할 수 있도록 하기 위해서 (가)에 들어갈 구문으로 가장 옳은 것은?</p>
+<pre><code class="language-sql">GRANT SELECT, UPDATE ON STUDENT TO admuser (가);
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① WITH OPTION GRANT<br />
+② WITH OPTION REGRANT<br />
+<strong>③ WITH GRANT OPTION</strong><br />
+④ WITH REGRANT OPTION</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (WITH GRANT OPTION)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 표준 SQL 구문)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>GRANT 권한 부여</li>
+<li>WITH GRANT OPTION(재부여 권한)</li>
+<li>권한 전파</li>
+<li>REVOKE와 연쇄 회수</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>70번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>권한 부여 - WITH GRANT OPTION</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter4 SQL - 권한(GRANT/REVOKE)</li>
+<li><strong>관련 개념</strong>: WITH GRANT OPTION, 권한 전파</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 권한 부여 구문은 DCL 파트 단골</li>
+<li><strong>재출제 경향</strong>: WITH GRANT OPTION·REVOKE 구문</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (권한 구문은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>재부여 권한 = <strong>WITH GRANT OPTION</strong></li>
+<li>GRANT 권한 ON 객체 TO 사용자</li>
+<li>REVOKE로 회수(CASCADE 연쇄)</li>
+<li>어순 바뀐 OPTION GRANT는 오답</li>
+<li>REGRANT는 존재하지 않는 구문</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>권한을 부여받은 사용자가 그 권한을 <strong>다른 사용자에게 다시 부여</strong>할 수 있도록 하려면, GRANT 문 끝에 <strong><code>WITH GRANT OPTION</code></strong>을 붙인다. 이는 표준 SQL 구문이다.</p>
+<p>따라서 <code>GRANT SELECT, UPDATE ON STUDENT TO admuser WITH GRANT OPTION;</code>이 되어야 하므로 정답은 ③번이다. ①·②·④의 어순/단어(OPTION GRANT, REGRANT 등)는 잘못된 구문이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>'WITH OPTION GRANT'는 어순이 틀린 비표준 구문이다.</p>
+<h3>보기②</h3>
+<p>'WITH OPTION REGRANT'는 존재하지 않는 구문이다.</p>
+<h3>보기③</h3>
+<p>정답. <code>WITH GRANT OPTION</code>이 재부여 권한을 주는 표준 구문.</p>
+<h3>보기④</h3>
+<p>'WITH REGRANT OPTION'은 존재하지 않는 구문이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>권한 관리 구문:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구문</th>
+<th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GRANT 권한 ON 객체 TO 사용자</td>
+<td>권한 부여</td>
+</tr>
+<tr>
+<td>WITH GRANT OPTION</td>
+<td>재부여 권한 포함</td>
+</tr>
+<tr>
+<td>REVOKE</td>
+<td>권한 회수</td>
+</tr>
+<tr>
+<td>CASCADE 회수</td>
+<td>전파된 권한 연쇄 회수</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>권한 관리 감리 시 WITH GRANT OPTION 남용으로 권한이 과도하게 전파되지 않는지, 회수 시 연쇄 회수(CASCADE)가 적절히 이뤄지는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>재부여 권한의 표준 구문 <code>WITH GRANT OPTION</code>을 정확히 아는지 묻는다. 어순·단어를 바꾼 오답을 배제한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="71" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>분산 데이터베이스 시스템에서 분산 투명성에 대한 설명으로 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 데이터의 실제 저장 위치를 알 필요 없이 데이터베이스의 논리적 이름만으로 데이터에 접근할 수 있는 위치 투명성(location transparency)을 보장해야 한다.<br />
+<strong>② 분산 데이터베이스와 관련된 트랜잭션들이 동시에 수행되더라도 항상 일관성을 유지하는 장애 투명성(failure transparency)을 보장해야 한다.</strong><br />
+③ 동일한 데이터가 여러 지역에 중복해서 저장되는 경우 사용자가 중복을 인식하지 못하게 하는 중복 투명성(replication transparency)을 보장해야 한다.<br />
+④ 하나의 릴레이션을 더 작은 조각(단편)으로 나누고 각 조각을 별개의 릴레이션으로 처리할 때 완전성, 회복성, 분리성을 보장하는 단편화 투명성(fragmentation transparency)을 보장해야 한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 분산 투명성 정의)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>위치/중복/단편화/병행 투명성</li>
+<li>장애 투명성 vs 병행 투명성 혼동</li>
+<li>분산 투명성 종류</li>
+<li>명칭-정의 매칭</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>71번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>분산 데이터베이스 - 분산 투명성 종류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter7(19p)_빅데이터_기타.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter7 빅데이터·기타 - 분산 데이터베이스</li>
+<li><strong>관련 개념</strong>: 분산 투명성(위치/중복/단편화/병행/장애)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 분산 투명성 종류는 분산 DB 파트 단골</li>
+<li><strong>재출제 경향</strong>: 명칭-정의 매칭</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>72</td>
+<td>NoSQL/CAP</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (분산 투명성은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>위치/중복/단편화/병행/장애 투명성</li>
+<li><strong>병행 투명성 = 동시 수행에도 일관성</strong></li>
+<li>장애 투명성 = 장애에도 원자성 보장</li>
+<li>본 문항 ②는 병행을 장애로 오라벨</li>
+<li>명칭-정의 매칭 주의</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>②는 "트랜잭션들이 동시에 수행되더라도 항상 일관성을 유지"하는 성질을 <strong>장애 투명성(failure transparency)</strong>이라고 서술했으나, 이 설명은 <strong>병행 투명성(concurrency transparency)</strong>에 해당한다. <strong>장애 투명성</strong>은 시스템·구성요소 장애가 발생해도 트랜잭션이 정확히 완료(원자성 보장)되는 것을 사용자가 인식하지 못하게 하는 성질이다. 명칭과 정의가 어긋났으므로 ②가 적절하지 않다. 정답은 ②번이다.</p>
+<p>①(위치 투명성), ③(중복 투명성), ④(단편화 투명성)는 각각 정의와 명칭이 정확히 일치한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 논리적 이름만으로 접근 = 위치 투명성.</p>
+<h3>보기②</h3>
+<p>정답(부적절). "동시 수행 시 일관성 유지"는 <strong>병행 투명성</strong>의 설명이며 장애 투명성이 아니다.</p>
+<h3>보기③</h3>
+<p>옳음. 중복 저장을 사용자가 인식하지 못하게 = 중복(복제) 투명성.</p>
+<h3>보기④</h3>
+<p>옳음. 릴레이션을 단편으로 나눠도 인식하지 못하게 = 단편화 투명성.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>분산 투명성 종류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>투명성</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>위치</td>
+<td>저장 위치 몰라도 접근</td>
+</tr>
+<tr>
+<td>중복(복제)</td>
+<td>중복 저장 인식 불필요</td>
+</tr>
+<tr>
+<td>단편화</td>
+<td>분할(단편) 인식 불필요</td>
+</tr>
+<tr>
+<td>병행</td>
+<td>동시 수행에도 일관성</td>
+</tr>
+<tr>
+<td>장애</td>
+<td>장애에도 원자성 보장</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>분산 DB 설계 감리 시 각 투명성 보장 여부를 점검하고, 장애 투명성(원자성)과 병행 투명성(동시성 일관성)을 명확히 구분해 요구사항에 반영했는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>투명성 명칭과 정의의 매칭을 묻는다. 병행 투명성의 정의를 장애 투명성으로 잘못 라벨링한 보기가 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="72" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>NoSQL 시스템의 특징을 표현하는 CAP 이론에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 복제본을 가지는 분산 시스템의 요구사항을 설명한다.<br />
+② 일관성(consistency), 가용성(availability), 분할 감내(partition tolerance) 성질을 의미한다.<br />
+<strong>③ NoSQL 시스템에서는 CAP의 세 가지 성질을 모두 보장할 것을 요구한다.</strong><br />
+④ NoSQL 시스템에서는 보통 일관성의 완화된 형태인 궁극적 일관성(eventual consistency)을 수용한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + CAP 정리 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>CAP 정리(C·A·P 중 둘만 선택)</li>
+<li>세 성질 동시 보장 불가</li>
+<li>궁극적 일관성(eventual consistency)</li>
+<li>분산 시스템 트레이드오프</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>72번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>NoSQL과 CAP 이론</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter7(19p)_빅데이터_기타.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter7 빅데이터·기타 - NoSQL/CAP</li>
+<li><strong>관련 개념</strong>: CAP 정리, 궁극적 일관성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: CAP 정리는 NoSQL 파트 반복 출제</li>
+<li><strong>재출제 경향</strong>: 세 성질·둘만 선택 원칙 확인</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 73 CAP)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>73</td>
+<td>NoSQL/CAP 성질</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>51</td>
+<td>NoSQL 문서 모델</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (CAP/NoSQL은 최근 반복 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>CAP = 일관성·가용성·분할 감내</li>
+<li><strong>셋 중 둘만 선택</strong>(동시 보장 불가)</li>
+<li>③은 "모두 보장"으로 뒤집음(오답)</li>
+<li>NoSQL은 궁극적 일관성 수용</li>
+<li>분할(P)은 분산에서 불가피</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>CAP 정리의 핵심은 분산 시스템에서 <strong>일관성(C)·가용성(A)·분할 감내(P) 세 성질을 동시에 모두 만족할 수 없고, 최대 두 개만 선택</strong>할 수 있다는 것이다. 특히 네트워크 분할(P)은 분산 환경에서 불가피하므로 실제로는 C와 A 사이에서 절충한다.</p>
+<p>③은 "세 가지를 <strong>모두 보장</strong>할 것을 요구한다"고 서술했으나, CAP 정리는 정반대로 세 성질을 동시에 만족할 수 없다고 말한다. 따라서 ③이 적절하지 않으며 정답은 ③번이다. ①(복제 분산 요구사항)·②(CAP 정의)·④(궁극적 일관성 수용)는 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. CAP은 복제본을 갖는 분산 시스템의 트레이드오프를 설명한다.</p>
+<h3>보기②</h3>
+<p>옳음. CAP = Consistency·Availability·Partition tolerance.</p>
+<h3>보기③</h3>
+<p>정답(부적절). CAP은 세 성질을 <strong>동시에 모두 만족할 수 없다</strong>고 말한다(둘만 선택).</p>
+<h3>보기④</h3>
+<p>옳음. NoSQL은 강한 일관성 대신 궁극적 일관성을 흔히 수용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CAP 정리:</strong></p>
+<table>
+<thead>
+<tr>
+<th>성질</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consistency</td>
+<td>모든 노드가 같은 데이터</td>
+</tr>
+<tr>
+<td>Availability</td>
+<td>항상 응답</td>
+</tr>
+<tr>
+<td>Partition tolerance</td>
+<td>네트워크 분할에도 동작</td>
+</tr>
+<tr>
+<td>핵심</td>
+<td>셋 중 <strong>둘만</strong> 선택 가능</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>분산 저장소 선정 감리 시 요구되는 일관성 수준(강한/궁극적)과 가용성·분할 내성 우선순위를 CAP 관점에서 평가해 적합한 NoSQL을 선택했는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"CAP 세 성질 동시 보장 불가(둘만 선택)"라는 핵심을 뒤집은 보기(③)를 골라낸다. 궁극적 일관성 개념도 함께 정리한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="73" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>멀티미디어 데이터에 대한 다양한 유형의 검색 질의를 처리하기 위한 기법 중 "수학 함수로 저장된 데이터와 질의 조건으로 주어진 데이터 간의 유사도를 수학 함수로 계산하여 유사도가 높은 데이터를 검색한다."는 어떤 기법을 설명한 것인가?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 랭킹 기법(ranking technique)<br />
+② 인덱스 기법(index technique)<br />
+<strong>③ 매칭 기법(matching technique)</strong><br />
+④ 필터링 기법(filtering technique)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (매칭 기법)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 기법 정의)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>멀티미디어 검색</li>
+<li>매칭 기법(유사도 함수 계산)</li>
+<li>유사도 기반 검색</li>
+<li>랭킹/인덱스/필터링과 구분</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>73번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>멀티미디어 검색 기법 - 매칭(matching) 기법</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter6(55p)_분석.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter6 분석 - 멀티미디어/정보검색</li>
+<li><strong>관련 개념</strong>: 매칭 기법, 유사도, 내용 기반 검색</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 멀티미디어 검색 기법은 분석 파트 출제</li>
+<li><strong>재출제 경향</strong>: 기법 정의 매칭</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>66</td>
+<td>정보검색 전처리(stemming)</td>
+</tr>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (멀티미디어 검색은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>매칭 = 유사도 함수 계산으로 검색</strong></li>
+<li>랭킹 = 결과 순위화</li>
+<li>인덱스 = 특징 색인</li>
+<li>필터링 = 후보 축소</li>
+<li>내용 기반 검색의 핵심 = 매칭</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>매칭 기법(matching technique)</strong>은 저장된 멀티미디어 데이터의 특징을 <strong>수학 함수(유사도 함수)로 표현</strong>하고, 질의 데이터와의 <strong>유사도를 수학적으로 계산</strong>해 유사도가 높은 데이터를 찾는 방법이다. 이미지·음성·영상 등 내용 기반 검색(CBIR)의 핵심 방식이다.</p>
+<p>문제의 "유사도를 수학 함수로 계산하여 유사도가 높은 데이터를 검색"은 정확히 매칭 기법의 정의이므로 정답은 ③번이다. 랭킹(결과 순위화), 인덱스(색인 자료구조), 필터링(후보 축소)은 다른 개념이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>랭킹 기법은 검색된 결과를 관련도 순으로 정렬(순위화)하는 것으로, 유사도 계산 자체와는 다르다.</p>
+<h3>보기②</h3>
+<p>인덱스 기법은 빠른 검색을 위한 색인 자료구조(예: 다차원 인덱스) 구성에 관한 것이다.</p>
+<h3>보기③</h3>
+<p>정답. 유사도를 수학 함수로 계산해 검색 = 매칭 기법.</p>
+<h3>보기④</h3>
+<p>필터링 기법은 후보를 미리 걸러 탐색 범위를 줄이는 전처리 개념이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>멀티미디어 검색 기법:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>매칭</td>
+<td>유사도 함수 계산으로 검색</td>
+</tr>
+<tr>
+<td>랭킹</td>
+<td>결과 관련도 순 정렬</td>
+</tr>
+<tr>
+<td>인덱스</td>
+<td>특징 벡터 색인(다차원 인덱스)</td>
+</tr>
+<tr>
+<td>필터링</td>
+<td>후보 축소 전처리</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>내용 기반 멀티미디어 검색(이미지·음성) 시스템 감리 시 특징 추출·유사도 함수(매칭)·색인·순위화가 요구 성능을 만족하는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"유사도 함수 계산 = 매칭 기법"을 다른 검색 기법(랭킹/인덱스/필터링)과 구분한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="74" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 (가)부터 (라)는 관계형 데이터베이스와 NoSQL의 몇 가지 측면을 기술해 놓은 것이다. 이들 중 관계형 데이터베이스보다 비교적 NoSQL에 가까운 측면을 기술한 것을 모두 선택한 것으로 가장 적절한 것은?</p>
+<pre><code>(가) 스키마: 스키마가 없거나 변경이 자유롭다.
+(나) 확장성: 클러스터 환경에 적합하다.
+(다) 검색기능: 단순한 데이터 검색 기능을 제공한다.
+(라) 트랜잭션: 일관성 유지를 보장하기 어렵다.
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 라<br />
+② 가, 나, 라<br />
+③ 나, 다, 라<br />
+<strong>④ 가, 나, 다, 라</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (가, 나, 다, 라 모두)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + NoSQL 특성 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>NoSQL: 스키마리스·수평 확장</li>
+<li>단순 검색(복잡 조인 미흡)</li>
+<li>완화된 일관성(BASE)</li>
+<li>관계형 대비 특징</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>74번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>관계형 DB 대비 NoSQL의 특징</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter7(19p)_빅데이터_기타.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter7 빅데이터·기타 - NoSQL 특성</li>
+<li><strong>관련 개념</strong>: 스키마리스, 수평 확장, BASE</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 관계형 vs NoSQL 비교는 최신 트렌드 출제</li>
+<li><strong>재출제 경향</strong>: NoSQL 특성 식별</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2025년(문항 73)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>73</td>
+<td>NoSQL/CAP</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>51</td>
+<td>NoSQL 문서 모델</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (NoSQL 특성은 최근 반복 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>NoSQL = <strong>스키마리스·수평 확장</strong></li>
+<li>단순 검색(복잡 조인 미흡)</li>
+<li>완화된 일관성(BASE/궁극적)</li>
+<li>관계형 = 고정 스키마·ACID·복잡 SQL</li>
+<li>본 문항 네 측면 모두 NoSQL</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>네 측면 모두 관계형 DB보다 NoSQL에 가까운 특성이다.<br />
+- <strong>(가) 스키마리스/유연한 스키마</strong>: NoSQL의 대표 특징(관계형은 고정 스키마).<br />
+- <strong>(나) 클러스터 확장성(수평 확장)</strong>: NoSQL이 분산·클러스터에 강함.<br />
+- <strong>(다) 단순 검색 기능</strong>: NoSQL은 복잡한 조인·SQL 대신 단순 조회 중심.<br />
+- <strong>(라) 일관성 보장 어려움</strong>: NoSQL은 강한 일관성보다 궁극적 일관성(BASE)을 수용.</p>
+<p>따라서 네 측면 모두 NoSQL에 가까우므로 정답은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②·③</h3>
+<p>가·나·다·라 모두 NoSQL에 가까운 특징이므로, 일부만 선택한 보기는 정답이 아니다.</p>
+<h3>보기④</h3>
+<p>정답. 스키마리스·클러스터 확장·단순 검색·완화된 일관성 모두 NoSQL 특성.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>관계형 vs NoSQL:</strong></p>
+<table>
+<thead>
+<tr>
+<th>측면</th>
+<th>관계형</th>
+<th>NoSQL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>스키마</td>
+<td>고정</td>
+<td>유연/없음</td>
+</tr>
+<tr>
+<td>확장</td>
+<td>수직(scale-up)</td>
+<td>수평(cluster)</td>
+</tr>
+<tr>
+<td>검색</td>
+<td>복잡 SQL/조인</td>
+<td>단순 조회</td>
+</tr>
+<tr>
+<td>일관성</td>
+<td>ACID(강함)</td>
+<td>BASE(궁극적)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>데이터 저장 기술 선정 감리 시 유연 스키마·수평 확장·단순 조회·완화 일관성 요구에는 NoSQL, 복잡 트랜잭션·강한 일관성에는 관계형이 적합한지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>NoSQL의 대표 특성 4가지(스키마리스·수평확장·단순검색·완화 일관성)를 관계형과 대비해 이해했는지 묻는다. 네 측면 모두 NoSQL 쪽인 유형이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="75" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 k-Means 군집화(k-Means clustering) 알고리즘에 대한 설명이다. 옳은 것을 모두 나열한 것은?</p>
+<pre><code>(가) 초기 중심점 선택에 따라 군집 결과가 달라질 수 있다.
+(나) 군집 모양이 구형(원형)이 아닐 경우에 다른 방법보다 잘 동작한다.
+(다) 이상치(outlier)를 포함하고 있는 경우 잘 동작하지 않는다.
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 나<br />
+<strong>② 가, 다</strong><br />
+③ 나, 다<br />
+④ 가, 나, 다</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (가, 다)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + k-Means 특성 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>초기 중심점 민감성</li>
+<li>구형(볼록) 군집에 적합</li>
+<li>이상치(outlier)에 취약</li>
+<li>평균 기반 군집화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2023년 (제24회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>75번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>k-Means 군집화 알고리즘의 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 3.데이터베이스_구환회기술사_Chapter6(55p)_분석.pdf</li>
+<li><strong>관련 챕터</strong>: Chapter6 분석 - 군집화(k-Means)</li>
+<li><strong>관련 개념</strong>: k-Means, 초기값 민감, 이상치</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: k-Means 특성은 분석 파트 반복 출제</li>
+<li><strong>재출제 경향</strong>: 초기값·군집 형태·이상치 특성</li>
+<li><strong>최근 출제년도</strong>: 2023년(본 문항), 2024년(문항 75 k-Means 계산)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>75</td>
+<td>k-Means 거리 계산</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>74</td>
+<td>의사결정트리</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (군집화 특성은 간헐 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>k-Means는 <strong>초기 중심점에 민감</strong>(가)</li>
+<li><strong>구형(볼록) 군집에 적합</strong>(비구형에 약함, 나 오답)</li>
+<li><strong>이상치에 취약</strong>(다)</li>
+<li>k(군집 수) 사전 지정 필요</li>
+<li>대안: DBSCAN(비구형·이상치)</li>
+</ol>
+<h2>---</h2>
+<h1>2023년 데이터베이스(Q51~75) 총평</h1></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>(가)</strong>: k-Means는 초기 중심점(centroid) 선택에 따라 지역 최적해로 수렴이 달라질 수 있다 → <strong>옳음</strong>(그래서 k-means++ 같은 초기화 개선을 사용).</li>
+<li><strong>(나)</strong>: k-Means는 <strong>구형(원형·볼록)</strong> 군집을 가정하므로, 군집 모양이 구형이 아닐 때는 <strong>오히려 잘 동작하지 않는다</strong> → <strong>틀림</strong>.</li>
+<li><strong>(다)</strong>: 평균(중심)을 사용하므로 <strong>이상치에 민감</strong>하여 이상치가 있으면 잘 동작하지 않는다 → <strong>옳음</strong>.</li>
+</ul>
+<p>따라서 옳은 것은 가·다이며 정답은 ②번이다. (나)는 사실과 반대(비구형에 약함)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·④</h3>
+<p>'나'(비구형에 잘 동작)를 포함하고 있어 옳지 않다. k-Means는 구형 군집에 적합하다.</p>
+<h3>보기②</h3>
+<p>정답. 초기 중심점 민감(가)·이상치에 취약(다)이 옳다.</p>
+<h3>보기③</h3>
+<p>'나'를 포함해 옳지 않다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>k-Means 특성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>초기값 민감</td>
+<td>초기 중심에 따라 결과 변동(k-means++)</td>
+</tr>
+<tr>
+<td>군집 형태</td>
+<td>구형(볼록)에 적합, 비구형에 약함</td>
+</tr>
+<tr>
+<td>이상치</td>
+<td>평균 기반이라 민감(취약)</td>
+</tr>
+<tr>
+<td>k 지정</td>
+<td>군집 수 k를 사전 지정</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>군집 분석 감리 시 데이터 분포(비구형)·이상치 존재에 따라 k-Means 대신 DBSCAN·GMM 등 대안이 적절한지, 초기화·k 선정이 타당한지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>k-Means가 구형 군집에 적합(비구형에 약함)하고 이상치에 취약하다는 특성을 정확히 아는지 묻는다. "비구형에 잘 동작"이라는 반대 서술(나)이 함정이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제 경향</div><div class="section-text"><p>2023년(제24회) 데이터베이스는 (1) <strong>모델링·키·정규화</strong>(53·55·56·58·61), (2) <strong>SQL·관계대수·조인/집합</strong>(54·57·59·62·63·65·70), (3) <strong>저장구조</strong>(52), (4) <strong>트랜잭션(격리성·회복·2PL·로킹)</strong>(60·64·66·67·68), (5) <strong>분산·빅데이터·분석</strong>(51·69·71·72·73·74·75)로 폭넓게 분포했다. 특히 트랜잭션(격리성·2PL)과 분산/NoSQL·데이터마이닝 비중이 크고, SQL 구문·집합 의미론도 견고히 출제됐다.</p></div></div>
+<div class="content-section"><div class="section-label">학습 우선순위 제언</div><div class="section-text"><ol>
+<li><strong>정규화·키·ER 변환</strong>(53·56·58·61): 판정·분해·변환 훈련 필수</li>
+<li><strong>SQL 의미론(조인·집합·부속질의)</strong>(59·62·63·65): "모두/또는" 구현과 구문 정확성</li>
+<li><strong>트랜잭션(격리성·2PL·체크포인트)</strong>(64·66·67·68): 이상 현상·회복·로킹 규약</li>
+<li><strong>분산 투명성·CAP·HDFS</strong>(69·71·72): 명칭-정의 매칭</li>
+<li><strong>데이터마이닝(k-Means·매칭)</strong>(73·75): 알고리즘 특성 이해</li>
+</ol></div></div>
+<div class="content-section"><div class="section-label">정답 신뢰도 요약</div><div class="section-text"><ul>
+<li>전 문항 원본 PDF 이미지 Bold 대조 확인</li>
+<li>계산형(52 블록 잔여 3,484, 54 카디널리티 상한) 직접 검산 완료</li>
+<li>복수정답 없음</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출처</div><div class="section-text"><p><strong>[참고 강의자료]</strong><br />
+- 3.데이터베이스_구환회기술사_Chapter1(36p)_개요.pdf<br />
+- 3.데이터베이스_구환회기술사_Chapter2(69p)_트랜잭션.pdf<br />
+- 3.데이터베이스_구환회기술사_Chapter3(98p)_모델링.pdf<br />
+- 3.데이터베이스_구환회기술사_Chapter4(134p)_SQL.pdf<br />
+- 3.데이터베이스_구환회기술사_Chapter5(34p)_유형.pdf<br />
+- 3.데이터베이스_구환회기술사_Chapter6(55p)_분석.pdf<br />
+- 3.데이터베이스_구환회기술사_Chapter7(19p)_빅데이터_기타.pdf</p>
+<p><strong>[참고 기출문제]</strong><br />
+- 2023년(제24회) 정보시스템 감리사 필기시험 문제 및 답안.pdf</p></div></div></div></div>
+      </div>
+    </div>
+  </div>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

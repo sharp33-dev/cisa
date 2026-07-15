@@ -274,7 +274,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>필수성은 반드시 있어야 할 필수 데이터의 존재 여부에 대한 기준이다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>데이터 품질 기준(차원) 예시:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>데이터 품질은 여러 관점(차원)의 기준으로 측정·관리하며, ISO 8000 등 표준이 이를 체계화한다. <strong>적합성(conformance)</strong>은 데이터가 표준 코드 값·표준 도메인(허용 값 범위·형식) 규칙에 부합하는지를 보는 기준으로, 성별 코드나 날짜 형식 위반이 적합성 오류다. <strong>정확성/사실성</strong>은 데이터가 실제 사실과 일치하는지, <strong>완전성/충분성</strong>은 필요한 데이터가 빠짐없이 존재하는지, <strong>일관성</strong>은 값 간 모순이 없는지, <strong>유일성</strong>은 중복이 없는지를 본다. 이처럼 값 자체의 타당성을 보는 유효성 계열과 활용 관점(적시성·접근성 등)을 구분한다. 특히 "표준 코드·도메인 위반=적합성"이라는 매칭이 핵심이다. 데이터 품질 진단 감리에서는 프로파일링으로 도메인·코드 위반, 결측·중복·모순을 정량 측정하고 정제 규칙을 권고하는지 검토한다.</p>
+<p><strong>데이터 품질 기준(차원) 예시:</strong></p>
 <table>
 <thead>
 <tr>
@@ -421,7 +422,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>3,784는 두 번째 블록에 레코드 1개만 저장했다고 오산(4096−12−300=3784)한 값이다. 남은 레코드는 2개다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>블록 저장 계산:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>디스크는 블록(페이지) 단위로 입출력하므로, 고정 길이 레코드를 저장할 때 한 블록에 몇 개의 레코드가 들어가는지가 저장 효율을 좌우한다. 블록에는 관리용 <strong>헤더</strong>가 있어 실제 레코드가 들어가는 영역은 '블록 크기 − 헤더'다. 한 블록에 저장 가능한 레코드 수인 <strong>블로킹 팩터</strong>는 ⌊(블록−헤더)/레코드 크기⌋로 내림 계산한다. 예로 블록 4096, 헤더 12, 레코드 300이면 사용 영역 4084, 블로킹 팩터 ⌊4084/300⌋=13이다. 필요한 블록 수는 ⌈전체 레코드/블로킹 팩터⌉이고, 마지막 블록의 잔여 공간은 '블록 − 헤더 − (그 블록의 레코드 수 × 레코드 크기)'로 구한다. 이때 남는 공간을 <strong>내부 단편화</strong>라 한다. 용량 산정·성능 감리에서는 블로킹 팩터와 단편화를 계산해 저장 효율과 I/O 블록 수를 추정한다.</p>
+<p><strong>블록 저장 계산:</strong></p>
 <table>
 <thead>
 <tr>
@@ -565,7 +567,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>Registration·Vehicle_id 모두 포함 → 슈퍼키.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>키 개념:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>키는 릴레이션의 튜플을 식별하는 속성(집합)으로, 유일성과 최소성 충족 여부에 따라 구분된다. <strong>슈퍼키(superkey)</strong>는 튜플을 유일하게 식별하는 모든 속성 집합으로 <strong>유일성만</strong> 요구하며, 잉여 속성이 포함돼도 무방하다(그래서 어떤 후보키를 포함하기만 하면 슈퍼키다). <strong>후보키(candidate key)</strong>는 슈퍼키 중 어떤 속성을 빼도 유일성이 깨지는 <strong>최소 슈퍼키</strong>(유일성+최소성)이고, <strong>기본키(primary key)</strong>는 후보키 중 대표로 선정한 것, <strong>대체키</strong>는 나머지 후보키다. 따라서 어떤 속성 집합이 슈퍼키인지 보려면 후보키(또는 그 구성요소 전부)를 포함하는지 확인하면 되고, 복합 후보키는 구성 속성을 모두 포함해야 완성된다. 키 설계 감리에서는 식별자가 유일성을 보장하는지, 불필요한 잉여 속성이 키에 포함돼 최소성을 해치지 않는지 검토한다.</p>
+<p><strong>키 개념:</strong></p>
 <table>
 <thead>
 <tr>
@@ -709,7 +712,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>카티션 곱은 7 × 6 = 42로 항상 가장 크다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>집합/곱 연산 크기 상한:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>집합·곱 연산의 결과 카디널리티는 상한(최대 가능 크기)이 정해져 있어, 질의 결과 규모 예측에 활용된다. <strong>합집합</strong> |R∪S|는 두 릴레이션에 중복이 전혀 없을 때 최대가 되어 상한이 |R|+|S|다. <strong>교집합</strong> |R∩S|는 양쪽 모두에 있는 튜플만 남으므로 크기가 작은 릴레이션을 넘을 수 없어 상한이 min(|R|,|S|)다. <strong>차집합</strong> |R−S|는 S와 겹치지 않을 때 최대여서 상한이 |R|다. <strong>카티션 곱</strong> |R×S|는 모든 조합이므로 항상 |R|×|S|로 가장 크게 폭증한다. 따라서 크기가 다른 두 릴레이션에서 교집합의 상한이 가장 작고 카티션 곱이 가장 크다. 예로 |R|=7, |S|=6이면 교집합 상한은 6, 합집합 13, 차집합 7, 곱 42다. 질의 최적화 감리에서는 이런 상한으로 중간 결과·조인 폭발 여부를 예측한다.</p>
+<p><strong>집합/곱 연산 크기 상한:</strong></p>
 <table>
 <thead>
 <tr>
@@ -847,7 +851,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>옳음. 존재 종속이 있다고 해서 모두 약한 개체 타입인 것은 아니다(자체 키가 있으면 강한 개체일 수 있음).</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>약한 개체 특성:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>약한 개체(weak entity)는 자기 자신만으로는 튜플을 유일하게 식별할 키가 없어, 다른 <strong>강한(소유) 개체에 존재적으로 종속</strong>하는 개체 타입이다. 약한 개체는 내부 구분자인 <strong>부분키(discriminator)</strong>만 갖고, 소유 개체와 연결하는 관계를 <strong>식별 관계(identifying relationship)</strong>라 한다. 약한 개체의 완전한 식별자는 <strong>소유 개체의 기본키 + 부분키</strong>의 조합으로 만들어진다(임의의 다른 속성이 아님). 또한 약한 개체는 소유 개체 없이는 존재할 수 없으므로 식별 관계에 <strong>반드시 전체 참여(필수)</strong>한다. 예로 주문상세는 주문(소유)의 기본키와 자신의 라인번호(부분키)로 식별되고 주문 없이 존재할 수 없다. 단, 존재 종속이 있다고 모두 약한 개체는 아니다(자체 키가 있으면 강한 개체). 종속 개체 모델링 감리에서 식별 관계·부분키·전체 참여가 올바로 설정됐는지 확인한다.</p>
+<p><strong>약한 개체 특성:</strong></p>
 <table>
 <thead>
 <tr>
@@ -989,7 +994,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>5개는 불필요한 릴레이션을 추가로 만든 경우다. 관계 속성 Hours는 WORKS_ON에 포함되므로 별도 릴레이션이 아니다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ER→관계 변환 규칙:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>ER 다이어그램을 관계 모델로 변환할 때 생성되는 릴레이션 수는 개체·관계·다치 속성의 구성으로 결정된다. 각 <strong>개체 타입</strong>은 하나의 릴레이션이 되고, <strong>1:N 관계</strong>는 N측에 1측 기본키를 외래키로 두므로 추가 릴레이션이 필요 없다. <strong>N:M 관계</strong>는 어느 쪽에도 외래키를 둘 수 없어 양측 기본키를 조합한 <strong>별도의 교차(관계) 릴레이션</strong>을 신설하고 관계 속성도 여기에 둔다. <strong>다치 속성(이중 타원)</strong>은 한 컬럼으로 표현할 수 없어 소유 개체의 기본키와 함께 <strong>별도 릴레이션</strong>으로 분리한다. 따라서 개체 2개 + N:M 관계 1개 + 다치 속성 1개면 총 4개의 릴레이션이 생긴다. 관계 자신의 단순 속성(예: 근무시간)은 교차 릴레이션에 포함되므로 별도 릴레이션이 아니다. 논리→물리 전환 감리에서는 N:M 교차 릴레이션과 다치 속성 분리, 키 구성이 정확한지 검토한다.</p>
+<p><strong>ER→관계 변환 규칙:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1132,7 +1138,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>정답. 조인·집계·기본키 미포함·산술식 유도열 모두 뷰 갱신 불가 사유.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>갱신 불가 뷰 유형:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>뷰(view)는 기본 테이블의 특정 행·열로 정확히 역매핑될 수 있을 때만 갱신(INSERT/UPDATE/DELETE)이 가능하다. 다음의 경우 뷰 갱신이 제한된다. ① <strong>여러 테이블을 조인</strong>한 뷰는 어느 테이블을 갱신할지 모호해 불가하고, ② <strong>DISTINCT·GROUP BY·집계 함수</strong>로 만든 뷰는 원본 행과 1:1 대응이 깨져 불가하며, ③ 기본 테이블의 <strong>기본키가 뷰에 포함되지 않으면</strong> 어느 행을 갱신할지 식별할 수 없어 불가하고, ④ <strong>상수·산술식·함수로 유도된 열</strong>은 원본 값을 역산할 수 없어 불가하다. 단 GROUP BY를 뷰 정의에 사용하는 것 자체는 가능하며(생성은 되되 갱신만 제한), 뷰는 실체화 여부와 무관하게 CREATE VIEW로 생성한다. 갱신이 꼭 필요하면 INSTEAD OF 트리거로 처리한다. 뷰를 통한 데이터 수정 감리에서는 갱신 가능 뷰 조건 충족 여부와 대안 사용을 확인한다.</p>
+<p><strong>갱신 불가 뷰 유형:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1274,7 +1281,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>정답(옳지 않음). 증가 규칙의 역(XZ→YZ ⇒ X→Y)은 일반적으로 성립하지 않는다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>암스트롱 공리·파생 규칙:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>함수 종속의 추론은 <strong>암스트롱 공리(Armstrong's axioms)</strong>라는 세 기본 규칙과 그로부터 유도되는 파생 규칙으로 이뤄진다. 기본 공리는 ① <strong>반사(reflexivity)</strong>: Y가 X의 부분집합이면 X→Y, ② <strong>증가(augmentation)</strong>: X→Y이면 임의의 Z에 대해 XZ→YZ, ③ <strong>이행(transitivity)</strong>: X→Y이고 Y→Z이면 X→Z이다. 여기서 유도되는 파생 규칙으로 <strong>합병</strong>(X→Y, X→Z ⇒ X→YZ), <strong>분해</strong>(X→YZ ⇒ X→Y, X→Z), <strong>의사 이행</strong> 등이 있다. 이 규칙들은 모두 건전(sound)하고 완전(complete)해, 폐포(closure) 계산과 후보키·정규형 판정의 기초가 된다. 주의할 점은 증가 규칙의 <strong>역방향</strong>(XZ→YZ ⇒ X→Y)은 일반적으로 성립하지 않는다는 것이다(Z가 함께 있어야 결정되는 경우가 있으므로). 종속성 분석 감리에서는 이 규칙으로 폐포를 정확히 유도해 잘못된 역규칙으로 키·정규형을 오판하지 않도록 한다.</p>
+<p><strong>암스트롱 공리·파생 규칙:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1425,7 +1433,8 @@ p4 q2 r3                            p2 q1 r1 s2
 <h3>보기④</h3>
 <p>외부 합집합은 서로 다른 스키마를 합쳐 NULL로 채우는 합집합 개념으로, 조인 결과와 다르다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조인 계열 연산:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>조인 계열 연산은 미매칭 튜플과 결과 스키마를 어떻게 다루느냐로 구분된다. <strong>자연 조인(natural join)</strong>은 공통 속성으로 매칭되는 튜플만 결합하고 결과에 양쪽 속성을 모두 포함하며, 매칭 안 되는 튜플은 사라진다. <strong>외부 조인(outer join)</strong>은 미매칭 튜플을 보존하되 상대 속성을 NULL로 채우며(좌/우/완전), 결과에 NULL 보충 행이 나타나는 것이 특징이다. <strong>세미 조인(semi join, ⋉)</strong>은 한쪽(R)의 속성만 결과에 남기고 다른 쪽(S)과 매칭되는 R 튜플만 반환한다(S 속성은 포함하지 않음). <strong>외부 합집합(outer union)</strong>은 스키마가 다른 릴레이션을 합치며 없는 속성을 NULL로 채운다. 따라서 결과에 NULL 보충 튜플이 있으면 외부 조인, 결과 스키마가 한쪽뿐이면 세미 조인으로 판별한다. 데이터 대사·분산 질의 최적화 감리에서 미매칭 보존(외부 조인)·전송량 절감(세미 조인) 사용의 적절성을 검토한다.</p>
+<p><strong>조인 계열 연산:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1571,7 +1580,8 @@ p4 q2 r3                            p2 q1 r1 s2
 <h3>보기④</h3>
 <p>정답. 부모(Dnumber) 갱신 → 자식(Dno) 연쇄 갱신(ON UPDATE CASCADE).</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>참조 옵션 적용 방향:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>참조 무결성 옵션(ON DELETE/ON UPDATE)은 <strong>부모(참조되는) 릴레이션의 변경이 자식(참조하는) 릴레이션에 미치는 방향</strong>으로 적용된다는 점이 핵심이다. 외래키는 자식에 정의되며, 자식의 변경이 부모에 영향을 주지는 않는다. <strong>ON DELETE</strong>는 부모 튜플이 삭제될 때 자식을 어떻게 할지(CASCADE 연쇄 삭제, SET NULL, SET DEFAULT, RESTRICT/NO ACTION 거부)를, <strong>ON UPDATE</strong>는 부모의 키 값이 변경될 때(주로 CASCADE로 자식 외래키도 연쇄 갱신) 정한다. 예로 "부서번호가 변경되면 소속 직원의 부서번호도 갱신"은 ON UPDATE CASCADE이고, "부서 삭제 시 직원을 기본 부서로"는 ON DELETE SET DEFAULT다. SET DEFAULT와 SET NULL, 그리고 방향(자식 변경이 부모에 영향 없음)을 혼동하지 않아야 한다. 설계 감리에서는 각 외래키 옵션이 업무 규칙과 방향이 일치하는지 확인한다.</p>
+<p><strong>참조 옵션 적용 방향:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1713,7 +1723,8 @@ p4 q2 r3                            p2 q1 r1 s2
 <h3>보기④</h3>
 <p>R2(B, A) 등 구성이 D→C 위반 분리와 무손실 요건을 충족하지 못한다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>BCNF 분해 절차:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>BCNF(Boyce-Codd 정규형)는 릴레이션의 <strong>모든 비자명 함수 종속의 결정자가 후보키</strong>가 되도록 하는 정규형으로, 3NF보다 엄격하다. 분해 절차는 ① 릴레이션의 후보키를 식별하고, ② 결정자가 후보키가 아닌 함수 종속(BCNF 위반 종속, 예: 비후보키 D가 C를 결정하는 D→C)을 찾아, ③ 그 위반 종속을 별도 릴레이션(R2=결정자+종속속성)으로 분리하고, ④ 나머지 속성으로 R1을 구성하되 결정자를 외래키로 남긴다. 이 분해는 항상 무손실이지만 종속성 보존은 보장되지 않을 수 있다는 점에 유의한다. 예로 R(A,B,C,D)에서 A·B가 후보키인데 D→C가 있으면, R2(D,C)로 분리하고 R1(A,B,D)를 남긴다. 반복 적용해 모든 결정자가 후보키가 될 때까지 분해한다. 정규화 감리에서는 비후보키 결정자를 근거로 BCNF 분해가 무손실·타당한지 검토한다.</p>
+<p><strong>BCNF 분해 절차:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1855,7 +1866,8 @@ Reserves(sid, bid, day)
 <h3>보기④</h3>
 <p>UNION은 red 예약 선원 ∪ green 예약 선원(합집합)으로, 교집합("모두")이 아니다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>"모두 만족" 질의 구현:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>"A와 B를 <strong>모두</strong> 만족(보유)한" 같은 조건은 교집합(intersection) 의미이므로, 합집합을 뜻하는 OR/UNION과 구분해 구현해야 한다. 한 행(튜플)이 서로 배타적인 두 조건을 동시에 만족할 수 없는 경우(예: 한 예약 행의 색이 red이면서 동시에 green일 수는 없음), 하나의 조건절 <code>color='red' AND color='green'</code>은 항상 거짓이 되어 결과가 빈다. 따라서 같은 선원이 red 보트와 green 보트를 <strong>각각</strong> 예약했음을 표현하려면 관련 릴레이션을 <strong>여러 벌로 자기 조인</strong>하거나(Reserves·Boats를 두 번 참조), <strong>INTERSECT</strong>로 각 조건 결과의 교집합을 구하거나, "S의 모든 원소를 보유"라면 <strong>나눗셈/이중 NOT EXISTS</strong>를 쓴다. OR·UNION은 "또는"(합집합)이라 요구와 다르다. 교집합·전칭 조회 감리에서는 자기 조인/INTERSECT/나눗셈으로 올바로 구현했는지, OR/UNION으로 합집합 처리하는 오류가 없는지 확인한다.</p>
+<p><strong>"모두 만족" 질의 구현:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2002,7 +2014,8 @@ ENROLL(Sno, Cno, Grade)
 <h3>보기④</h3>
 <p>정답. <code>JOIN ... ON (조건)</code> + WHERE 필터로 올바른 표준 구문.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조인 구문 형태:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>SQL 표준의 명시적 조인 구문은 세 형태가 있으며 서로 혼용할 수 없다. <strong>ON 절 조인</strong>은 <code>A JOIN B ON A.키=B.키</code>처럼 임의의 조인 조건을 직접 명시하는 가장 일반적 형태다. <strong>USING 절 조인</strong>은 <code>A JOIN B USING(공통컬럼)</code>으로 이름이 같은 공통 컬럼을 기준으로 조인하며 결과에 그 컬럼이 한 번만 나온다. <strong>NATURAL JOIN</strong>은 <code>A NATURAL JOIN B</code>로 이름이 같은 모든 공통 컬럼을 자동으로 조인 기준으로 삼는다. NATURAL JOIN은 이미 조인 기준이 정해지므로 ON이나 USING을 함께 붙일 수 없고(구문 충돌), WITH 같은 표기는 존재하지 않는다. 따라서 <code>JOIN ... ON (조건)</code>이 표준이며, <code>NATURAL JOIN ... ON</code> 또는 <code>NATURAL JOIN ... USING</code>은 잘못된 구문이다. 조인 쿼리 감리에서는 표준 구문 사용과, NATURAL JOIN의 암묵적 공통 컬럼 조인으로 인한 의도치 않은 결과를 검토한다.</p>
+<p><strong>조인 구문 형태:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2149,7 +2162,8 @@ ENROLL(Sno, Cno, Grade)
 <h3>보기④</h3>
 <p>T4는 커밋 완료로 취소 대상이 아니다(재수행). T3·T5만 취소한다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>체크포인트 회복 분류:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>체크포인트(검사시점)는 그 시점까지 커밋된 트랜잭션의 변경을 디스크에 반영하고 로그에 표시를 남겨, 장애 회복 시 로그를 처음부터 훑지 않고 검사시점 이후만 처리하도록 해 복구 시간을 줄인다. 회복 시 트랜잭션은 세 부류로 나뉜다. <strong>체크포인트 이전에 커밋 완료</strong>된 트랜잭션은 이미 디스크에 반영됐으므로 아무 처리도 필요 없다. <strong>체크포인트 이후에 커밋 완료</strong>된 트랜잭션은 커밋됐지만 디스크 반영이 보장되지 않으므로 <strong>REDO(재실행)</strong>하되, 그 범위는 트랜잭션 처음이 아니라 <strong>검사시점 이후</strong>의 변경이다. <strong>장애 시점까지 미완료(미커밋)</strong>인 트랜잭션은 <strong>UNDO(취소)</strong>한다. 즉 커밋 여부와 검사시점 기준으로 REDO/UNDO 대상이 결정된다. 회복 절차 감리에서는 체크포인트 주기와 REDO(검사시점 이후)·UNDO 대상 선정이 표준에 부합하는지 확인한다.</p>
+<p><strong>체크포인트 회복 분류:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2289,7 +2303,8 @@ CREATE TABLE DEPENDENT ( Essn CHAR(9) NOT NULL, Name VARCHAR(15) NOT NULL, PRIMA
 <h3>보기④</h3>
 <p>정답. IN·EXISTS·조인 세 방식 모두 동일한 결과.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>상호 변환 가능 질의:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>같은 조건을 표현하는 SQL은 여러 방식으로 작성할 수 있고, 조건이 동일하면 결과도 같다. <strong>IN 부속질의</strong>는 값이 부속질의 결과 집합에 포함되는지 보고, <strong>EXISTS 부속질의</strong>는 상관 조건을 만족하는 행이 존재하는지 보며, <strong>조인</strong>은 조인 조건으로 두 릴레이션을 결합한다. "직원의 식별키와 부양가족의 참조키가 같고 이름도 같은" 같은 조건은 IN(상관), EXISTS, 조인 어느 방식으로 써도 동일 결과를 낸다. 다만 조인은 매칭이 여러 건이면 <strong>중복 행</strong>이 생길 수 있어(필요 시 DISTINCT), NOT IN은 NULL에 취약한 반면 NOT EXISTS는 NULL 안전한 차이가 있다. 옵티마이저는 이들을 상호 변환해 더 효율적인 실행 계획을 고르기도 한다. 쿼리 리팩터링 감리에서는 IN/EXISTS/조인 간 변환이 결과(행 수·중복)를 바꾸지 않는지 확인한다.</p>
+<p><strong>상호 변환 가능 질의:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2438,7 +2453,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>'직렬 데이터 읽기'는 이상 현상이 아니라 오히려 직렬성(정상)에 가까운 표현이다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>격리성 이상 현상:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>여러 트랜잭션이 동시에 실행될 때 격리성이 충분히 보장되지 않으면 세 가지 대표 이상 현상이 발생한다. <strong>오손 읽기(dirty read)</strong>는 어떤 트랜잭션이 아직 커밋하지 않은(이후 롤백될 수도 있는) 변경 값을 다른 트랜잭션이 읽는 것이다. <strong>반복 불가능 읽기(non-repeatable read)</strong>는 한 트랜잭션이 같은 행을 두 번 읽는 사이 다른 트랜잭션이 그 행의 값을 바꿔 두 결과가 달라지는 것이다. <strong>유령 읽기(phantom read)</strong>는 한 트랜잭션이 같은 조건의 범위를 두 번 조회하는 사이 다른 트랜잭션이 조건에 맞는 <strong>새 행을 삽입</strong>해, 없던 행이 나타나는 것이다. 이들은 격리 수준(READ UNCOMMITTED→READ COMMITTED→REPEATABLE READ→SERIALIZABLE)을 높이거나 범위 락으로 방지한다. 동시성 감리에서는 서비스 특성에 맞는 격리 수준 설정과 범위 조회의 유령 읽기 대응을 검토한다.</p>
+<p><strong>격리성 이상 현상:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2582,7 +2598,8 @@ T1: ⑤ COMMIT;
 <h3>보기③</h3>
 <p>정답. 나(로킹 단위 종류)·다(오버헤드 증가)·라(로킹 단위 정의)만 옳다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>로킹 단위 트레이드오프:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>로킹 단위(granularity)는 한 번에 잠그는 데이터의 크기로, 데이터베이스·파일·테이블·페이지·레코드·필드 등이 될 수 있다. 로킹 단위가 <strong>작아질수록</strong>(예: 행 단위) 서로 다른 트랜잭션이 각기 다른 작은 항목을 잠글 수 있어 <strong>동시성(병행성)은 높아지지만</strong>, 관리해야 할 로크 수가 늘어 <strong>로킹 오버헤드가 증가</strong>한다. 반대로 단위가 <strong>커질수록</strong>(예: 테이블 단위) 로크 수가 적어 오버헤드는 낮지만 한 번에 넓은 범위를 잠가 동시성이 떨어진다. 즉 동시성과 오버헤드는 상충 관계다. 이 상충을 조율하기 위해 계층적 로킹과 의도 로크, 필요 시 여러 작은 로크를 큰 로크로 바꾸는 로크 승격(escalation)을 사용한다. 동시성·성능 감리에서는 로킹 단위와 승격 정책이 워크로드의 경합·오버헤드를 균형 있게 관리하는지 검토한다.</p>
+<p><strong>로킹 단위 트레이드오프:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2719,7 +2736,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>모든 로크(공유 포함)를 완료까지 유지 = rigorous 2PL의 설명이다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>2PL 변형:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>2단계 로킹(2PL)은 직렬 가능성을 보장하는 대표 병행제어 규약으로, 각 트랜잭션이 로크를 <strong>거는 확장(growing) 단계</strong>와 <strong>푸는 축소(shrinking) 단계</strong>로 나뉘어 한 번 로크를 풀기 시작하면 다시 잠글 수 없게 한다. 기본 2PL은 직렬성은 보장하지만 다른 트랜잭션이 미커밋 데이터를 읽어 <strong>연쇄 복귀(cascading rollback)</strong>가 일어날 수 있다. 이를 막기 위한 변형으로, <strong>엄격한(strict) 2PL</strong>은 <strong>모든 배타(exclusive) 로크를 트랜잭션이 완료(커밋/롤백)될 때까지 유지</strong>하고, <strong>강력한(rigorous) 2PL</strong>은 공유·배타를 포함한 <strong>모든 로크</strong>를 완료까지 유지한다. 둘 다 미커밋 데이터 노출과 연쇄 복귀를 방지하며, 실무 DBMS는 주로 strict 2PL을 쓴다. 즉 "독점 로크를 커밋까지"는 strict, "모든 로크를 커밋까지"는 rigorous다. 병행제어 감리에서는 격리성·연쇄 복귀 방지와 로크 유지로 인한 동시성 저하 관리를 검토한다.</p>
+<p><strong>2PL 변형:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2861,7 +2879,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>(나)를 slave node로 표기했으나 정식 명칭은 DataNode다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>HDFS 노드:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>HDFS는 대용량 파일을 여러 노드에 분산 저장하는 마스터-슬레이브 구조의 분산 파일시스템이다. <strong>NameNode(마스터)</strong>는 파일→블록→위치의 메타데이터를 관리하며 데이터 블록이 어느 DataNode에 있는지 유지한다(실제 데이터는 저장하지 않음). <strong>DataNode(슬레이브)</strong>는 실제 데이터 블록을 저장하고 클라이언트에 제공한다. <strong>Secondary NameNode</strong>는 NameNode의 메타데이터를 주기적으로 체크포인트/백업해 복구를 돕는 노드다(NameNode의 실시간 대체는 아니며, 고가용성은 별도 HA 구성으로 제공). 파일은 큰 블록으로 나뉘어 기본 3벌로 복제 저장되어 일부 노드 장애에도 데이터가 유지된다. master/slave는 역할 개념이고 정식 명칭은 NameNode/DataNode다. 빅데이터 인프라 감리에서는 NameNode 단일 장애점 대비(HA·Secondary), DataNode 복제·랙 인식 설정을 점검한다.</p>
+<p><strong>HDFS 노드:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2996,7 +3015,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>'WITH REGRANT OPTION'은 존재하지 않는 구문이다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>권한 관리 구문:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>DBMS의 권한 관리(DCL)는 GRANT와 REVOKE로 이뤄진다. <strong>GRANT 권한 ON 객체 TO 사용자</strong>는 특정 객체(테이블·뷰 등)에 대한 권한(SELECT·INSERT·UPDATE·DELETE 등)을 사용자/역할에 부여한다. 권한을 받은 사용자가 그 권한을 <strong>다른 사용자에게 다시 부여</strong>할 수 있게 하려면 GRANT 문 끝에 <strong><code>WITH GRANT OPTION</code></strong>을 붙인다(어순·단어가 바뀐 OPTION GRANT, REGRANT 등은 잘못된 구문). <strong>REVOKE</strong>는 부여한 권한을 회수하며, WITH GRANT OPTION으로 전파된 권한까지 함께 거둘 때는 CASCADE로 연쇄 회수한다. 이런 재부여 권한은 편리하지만 권한이 과도하게 전파될 위험이 있어 최소 권한 원칙에 따라 신중히 부여해야 한다. 권한 관리 감리에서는 WITH GRANT OPTION 남용 여부, 역할 기반 접근 통제, 회수 시 연쇄 처리 등을 검토한다.</p>
+<p><strong>권한 관리 구문:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3134,7 +3154,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>옳음. 릴레이션을 단편으로 나눠도 인식하지 못하게 = 단편화 투명성.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>분산 투명성 종류:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>분산 데이터베이스는 데이터가 여러 사이트에 나뉘어 저장·복제되지만, 사용자가 이를 마치 하나의 통합 DB처럼 쓰도록 여러 <strong>투명성(transparency)</strong>을 제공한다. <strong>위치 투명성</strong>은 데이터의 물리적 저장 위치를 몰라도 논리적 이름만으로 접근하게 하고, <strong>이름부여(naming) 투명성</strong>은 각 객체가 유일한 이름을 가져 위치와 무관하게 이름으로 접근하게 한다. <strong>중복(복제) 투명성</strong>은 데이터가 여러 사이트에 복제돼 있어도 사용자가 중복을 인식하지 못하게 하고, <strong>단편화 투명성</strong>은 릴레이션이 여러 조각으로 분할돼 있어도 이를 인식하지 못하게 한다. <strong>병행 투명성</strong>은 여러 트랜잭션이 동시에 수행돼도 일관성을 유지함을, <strong>장애 투명성</strong>은 장애가 발생해도 트랜잭션의 원자성이 보장됨을 뜻한다. 병행 투명성(동시성 일관성)과 장애 투명성(원자성)을 혼동하지 않아야 한다. 분산 DB 감리에서는 각 투명성 보장 여부와 명칭-정의의 정확성을 검토한다.</p>
+<p><strong>분산 투명성 종류:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3276,7 +3297,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>옳음. NoSQL은 강한 일관성 대신 궁극적 일관성을 흔히 수용한다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CAP 정리:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>CAP 정리는 복제본을 갖는 분산 시스템이 세 가지 바람직한 성질을 동시에 모두 만족할 수 없고 최대 둘까지만 보장할 수 있다는 원리다. <strong>일관성(Consistency)</strong>은 모든 노드가 같은 시점에 같은 데이터를 보는 것, <strong>가용성(Availability)</strong>은 모든 요청이 항상(정상·실패 노드와 무관하게) 응답받는 것, <strong>분할 감내성(Partition tolerance)</strong>은 노드 간 네트워크가 분할(단절)돼도 시스템이 계속 동작하는 것이다. 실제 분산 환경에서 네트워크 분할(P)은 피할 수 없으므로, 분할이 생기면 일관성(C)과 가용성(A) 중 하나를 희생하는 절충을 한다. 그래서 많은 NoSQL은 강한 일관성 대신 <strong>궁극적 일관성(eventual consistency)</strong>을 수용하는 BASE 모델을 택한다. "세 가지를 모두 보장한다"는 서술은 CAP 정리에 정면으로 어긋난다. 저장소 선정 감리에서는 요구 일관성 수준과 가용성·분할 내성 우선순위를 CAP 관점에서 평가한다.</p>
+<p><strong>CAP 정리:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3414,7 +3436,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>필터링 기법은 후보를 미리 걸러 탐색 범위를 줄이는 전처리 개념이다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>멀티미디어 검색 기법:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>멀티미디어(이미지·음성·영상) 데이터는 텍스트와 달리 내용 기반 검색(CBIR)이 필요하며, 여러 기법이 함께 쓰인다. <strong>매칭(matching) 기법</strong>은 저장 데이터의 특징을 수학 함수(특징 벡터)로 표현하고, 질의 데이터와의 <strong>유사도를 수학 함수로 계산</strong>해 유사도가 높은 것을 찾는 핵심 방식이다(예: 색·질감·형태 특징 벡터 간 거리). <strong>인덱스 기법</strong>은 다차원 특징 벡터를 빠르게 검색하기 위한 색인 자료구조(R-tree 등)를 구성하고, <strong>필터링 기법</strong>은 비용이 큰 정밀 비교 전에 후보를 미리 걸러 탐색 범위를 줄이며, <strong>랭킹 기법</strong>은 검색 결과를 관련도 순으로 정렬한다. 즉 "유사도를 함수로 계산해 검색"하는 것은 매칭 기법이다. 내용 기반 멀티미디어 검색 시스템 감리에서는 특징 추출·유사도 함수·색인·순위화가 성능·정확도 요구를 충족하는지 검토한다.</p>
+<p><strong>멀티미디어 검색 기법:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3557,7 +3580,8 @@ T1: ⑤ COMMIT;
 <h3>보기④</h3>
 <p>정답. 스키마리스·클러스터 확장·단순 검색·완화된 일관성 모두 NoSQL 특성.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>관계형 vs NoSQL:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>관계형 데이터베이스와 NoSQL은 설계 철학이 달라 여러 측면에서 대비된다. <strong>스키마</strong> 면에서 관계형은 사전에 정의된 고정 스키마를 요구하는 반면 NoSQL은 스키마가 없거나 유연해 변경이 자유롭다. <strong>확장성</strong> 면에서 관계형은 주로 수직 확장(scale-up)에 의존하지만 NoSQL은 노드를 추가하는 <strong>수평 확장(cluster)</strong>에 적합하다. <strong>검색 기능</strong> 면에서 관계형은 복잡한 조인·SQL을 지원하지만 NoSQL은 대체로 단순 조회 중심이다. <strong>트랜잭션·일관성</strong> 면에서 관계형은 강한 ACID를, NoSQL은 강한 일관성 보장이 어려워 궁극적 일관성(BASE)을 수용한다. 즉 스키마리스·수평 확장·단순 검색·완화된 일관성은 NoSQL에 가까운 특성이다. 저장 기술 선정 감리에서는 유연 스키마·대용량·수평 확장이 필요하면 NoSQL, 복잡 트랜잭션·강한 일관성이 필요하면 관계형이 적합한지 검토한다.</p>
+<p><strong>관계형 vs NoSQL:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3707,7 +3731,8 @@ T1: ⑤ COMMIT;
 <h3>보기③</h3>
 <p>'나'를 포함해 옳지 않다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>k-Means 특성:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>k-Means는 데이터를 k개 군집으로 나누는 비지도 군집화로, 각 점을 가장 가까운 중심에 배정하고 중심을 재계산하는 과정을 반복한다. 특성상 몇 가지 한계와 성질이 있다. 첫째, <strong>초기 중심점 선택에 따라 결과가 달라진다</strong>(지역 최적해로 수렴). 이를 완화하려고 k-means++ 같은 초기화를 쓴다. 둘째, 유클리드 거리와 평균을 사용하므로 <strong>구형(볼록) 군집에 적합</strong>하고, 초승달·나선처럼 <strong>비구형 분포에서는 잘 동작하지 않는다</strong>. 셋째, 중심을 평균으로 구하므로 <strong>이상치(outlier)에 민감</strong>해 이상치가 있으면 중심이 왜곡된다. 또한 군집 수 k를 사전에 지정해야 한다. 비구형·이상치 상황에는 DBSCAN(밀도 기반)이나 GMM(확률 기반)이 대안이 된다. 군집 분석 감리에서는 데이터 분포·이상치에 따른 알고리즘 선택과 k·초기화의 타당성을 검토한다.</p>
+<p><strong>k-Means 특성:</strong></p>
 <table>
 <thead>
 <tr>

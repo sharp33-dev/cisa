@@ -284,7 +284,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>AFC는 C와 F를 포함해 전체를 결정하지만, 이미 CF만으로 전체가 결정되므로 A는 불필요(잉여)하다. <strong>최소성(minimality)에 위배</strong>되어 후보키가 아니라 상위 개념인 슈퍼키(super key)에 해당한다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>후보키 결정 절차(폐포 이용):</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>키는 릴레이션의 튜플을 식별하는 속성(집합)으로, 포함 관계에 따라 여러 종류로 나뉜다. <strong>슈퍼키</strong>는 튜플을 유일하게 식별하는 모든 속성 집합(유일성만 요구), <strong>후보키</strong>는 그중 더 줄일 수 없는 최소 슈퍼키(유일성+최소성), <strong>기본키</strong>는 후보키 중 대표로 선정한 것, <strong>대체키</strong>는 선정되지 않은 나머지 후보키다. 후보키를 찾는 핵심 도구가 <strong>폐포(closure) 계산</strong>인데, 어떤 함수 종속의 오른쪽(결정 대상)에도 나타나지 않는 속성은 다른 무엇으로도 유도될 수 없으므로 <strong>반드시 모든 후보키에 포함</strong>되어야 한다. 이 필수 속성들의 폐포를 계산해 전체 속성을 결정하면 후보키이고, 부족하면 결정자에 속성을 더해 나간다. 마지막으로 진부분집합이 전체를 결정하지 않는지 확인해 최소성을 검증한다. 데이터 모델링 감리에서는 이렇게 폐포 기반으로 식별자(기본키)의 유일성과 최소성을 점검한다.</p>
+<p><strong>후보키 결정 절차(폐포 이용):</strong></p>
 <table>
 <thead>
 <tr>
@@ -433,7 +434,8 @@ strong { color:#0f172a; font-weight:700; }
 <h3>보기④</h3>
 <p>정답. 속성은 보존되나 공통 속성 {A}가 R1·R2 어느 쪽도 결정하지 못해 무손실조인 조건 위배 → 복구 불가.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>무손실(lossless-join) 분해 판정:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>정규화 과정에서 하나의 릴레이션 R을 둘 이상으로 분해할 때는 <strong>무손실 조인(lossless-join)</strong>이 보장돼야 원래 데이터를 정확히 복원할 수 있다. 무손실이 성립하려면 두 조건이 필요하다. 첫째 <strong>속성 보존</strong>으로, 분해된 릴레이션들의 속성 합집합이 원래 R의 모든 속성을 포함해야 한다(하나라도 빠지면 그 속성은 영영 복원 불가). 둘째 <strong>무손실 조인 조건</strong>으로, 두 릴레이션의 공통 속성(교집합)이 둘 중 <strong>적어도 한쪽의 슈퍼키</strong>가 되어야 한다(즉 공통속성 → R1 또는 공통속성 → R2). 이 조건이 깨지면 다시 조인했을 때 원본에 없던 가짜 튜플, 곧 <strong>스퓨리어스 튜플(spurious tuple)</strong>이 생겨 정보가 왜곡된다. 함께 고려하는 성질로 원래의 함수 종속을 분해 후에도 유지하는 <strong>종속성 보존</strong>이 있으나, 무손실과 종속성 보존을 동시에 항상 만족시키지 못할 수도 있다. 감리에서는 테이블 분할 설계에서 조인 키가 한쪽 테이블의 키가 되는지 확인한다.</p>
+<p><strong>무손실(lossless-join) 분해 판정:</strong></p>
 <table>
 <thead>
 <tr>
@@ -614,7 +616,8 @@ a4  b2  c3             b3  c3  d3
 <h3>보기④</h3>
 <p>S(b3, c3, d3)은 R에 (b3, c3)이 없어 좌측이 unmatched → (–, b3, c3, d3) 생성. 가능하다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>외부 조인(Outer Join) 종류:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>조인은 공통 속성(조인 조건)을 기준으로 두 릴레이션을 결합하는데, 매칭되지 않는 튜플의 처리 방식에 따라 내부 조인과 외부 조인으로 나뉜다. <strong>내부 조인(inner join)</strong>은 양쪽에서 매칭되는 튜플만 결합해 미매칭 튜플은 결과에서 사라진다. <strong>외부 조인(outer join)</strong>은 미매칭 튜플을 보존하되 상대편 속성을 NULL로 채운다. 어느 쪽을 보존하느냐에 따라 좌측을 모두 보존하는 <strong>좌측 외부 조인</strong>, 우측을 보존하는 <strong>우측 외부 조인</strong>, 양쪽을 모두 보존하는 <strong>완전 외부 조인</strong>으로 구분된다. 핵심 원리는 "한 번이라도 매칭에 성공한 튜플은 NULL 보충 형태로 별도로 다시 나타나지 않는다"는 점이다. 즉 이미 실제 값과 결합된 튜플에 대해 좌측 또는 우측이 NULL인 가짜 조합은 생성되지 않는다. 데이터 대사·연계 감리에서는 미매칭(누락/과잉) 데이터를 보존해야 할 때 외부 조인을, 정합 데이터만 필요할 때 내부 조인을 쓰는지 확인한다.</p>
+<p><strong>외부 조인(Outer Join) 종류:</strong></p>
 <table>
 <thead>
 <tr>
@@ -763,7 +766,8 @@ a4  b2  c3             b3  c3  d3
 <h3>보기④</h3>
 <p>4개는 필요 이상으로 분해한 경우로, 2NF 기준에서는 불필요하다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>정규형 단계별 제거 대상:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>정규화는 함수 종속을 근거로 릴레이션을 단계적으로 분해해 삽입·삭제·갱신 이상(anomaly)을 제거하는 과정이며, 각 정규형은 특정 유형의 종속을 없앤다. <strong>1NF</strong>는 모든 속성이 원자값이어야 하고, <strong>2NF</strong>는 1NF를 만족하면서 기본키의 <strong>일부만으로 결정되는 부분 함수 종속을 제거</strong>한다(따라서 부분 종속은 복합키가 있을 때만 생기고, 단일 속성 키면 자동으로 2NF). <strong>3NF</strong>는 비주요 속성이 기본키가 아닌 다른 속성을 거쳐 결정되는 <strong>이행 함수 종속을 제거</strong>하고, <strong>BCNF</strong>는 모든 함수 종속의 결정자가 후보키가 되도록 한다. 여기서 중요한 것은 문제에서 요구하는 정규형 단계까지만 분해해야 한다는 점으로, 2NF까지 요구했는데 이행 종속(3NF 대상)까지 미리 분해하면 과분해가 된다. 감리에서는 복합 식별자 엔터티의 부분 종속과 비식별 속성의 이행 종속을 근거로 정규화 수준의 적정성을 판단한다.</p>
+<p><strong>정규형 단계별 제거 대상:</strong></p>
 <table>
 <thead>
 <tr>
@@ -913,7 +917,8 @@ E1과 E2는 1:1 관계 R
 <h3>보기④</h3>
 <p>1:1 관계, 특히 양쪽 참여가 필수(전체 참여)인 경우 두 엔터티를 한 릴레이션으로 병합하는 것은 널(NULL)을 줄이는 효과적인 사상이다. 적절하다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>관계 카디널리티별 외래키 사상 규칙:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>ER 다이어그램을 관계 모델(테이블)로 변환할 때는 관계의 카디널리티(1:1, 1:N, N:M)에 따라 외래키 배치나 별도 릴레이션 생성 방식이 달라진다. <strong>1:1</strong> 관계는 한쪽 엔터티에 상대의 기본키를 외래키로 넣거나, 참여가 양쪽 다 필수면 두 엔터티를 하나로 병합할 수 있다. <strong>1:N</strong> 관계는 반드시 <strong>N측 엔터티에 1측의 기본키를 외래키</strong>로 둔다(1측에 N개를 담을 수 없기 때문). <strong>N:M</strong> 관계는 어느 쪽에도 외래키를 둘 수 없으므로 양측 기본키를 조합한 <strong>별도의 교차(관계) 릴레이션</strong>을 신설하고, 관계 자체의 속성도 여기에 둔다. 공통 원칙은 어떤 사상 방식이든 두 엔터티를 이어주는 <strong>외래키(또는 병합)가 반드시 존재</strong>해야 관계 정보가 보존된다는 것이다. 논리→물리 모델 전환 감리에서는 카디널리티별 사상 규칙 준수와 참조 무결성 설정을 점검한다.</p>
+<p><strong>관계 카디널리티별 외래키 사상 규칙:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1057,7 +1062,8 @@ Grade     도메인 크기: 5    (A, B, C, D, F)
 <h3>보기④</h3>
 <p>8,000은 1000 × 8 등 CourseID를 누락한 부분 곱으로 잘못 도출한 값이다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>릴레이션 최대 카디널리티 원리:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>릴레이션의 각 튜플은 기본키 값으로 유일하게 식별되므로, 서로 다른 튜플은 반드시 서로 다른 기본키 값을 가져야 한다. 따라서 저장 가능한 <strong>최대 튜플 수(최대 카디널리티)</strong>는 <strong>기본키를 구성하는 속성들의 도메인 크기를 모두 곱한 값</strong>을 넘을 수 없다(각 기본키 조합마다 최대 한 개의 튜플). 이때 기본키에 포함되지 않는 비주요 속성은 각 기본키 조합에 대해 하나의 값이 종속적으로 정해질 뿐이므로 최대 튜플 수를 늘리지 않는다(그 도메인 크기는 곱하지 않는다). 예를 들어 (학생, 과목, 학기)가 기본키면 최대 튜플 수는 세 도메인 크기의 곱이고, 성적은 곱하지 않는다. 실제 카디널리티는 업무 제약·현실 데이터에 따라 이 최대치보다 작다. 용량 산정·인덱스 카디널리티 추정 감리에서 이 원리가 근거로 쓰인다.</p>
+<p><strong>릴레이션 최대 카디널리티 원리:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1204,7 +1210,8 @@ orders(orderid, custid, bookid, saleprice)
 <h3>보기④</h3>
 <p>인라인 뷰(사전 집계) + LEFT JOIN. 주문 없는 고객 s = NULL 포함. ①과 동일 결과.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>NULL과 조건 평가(3치 논리):</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>SQL의 NULL은 '값이 없음/알 수 없음'을 뜻하며, 일반 값과 달리 <strong>3치 논리(참·거짓·unknown)</strong>로 평가된다. NULL과의 모든 비교(<code>= NULL</code>, <code>&lt;&gt; NULL</code>, <code>NULL &gt;= 0</code> 등)는 참도 거짓도 아닌 <strong>unknown</strong>을 돌려주고, WHERE·HAVING·ON 같은 조건절은 결과가 <strong>참일 때만</strong> 행을 통과시키므로 unknown인 행은 걸러진다. 또 집계에서 SUM·AVG·COUNT(열)는 NULL을 <strong>무시</strong>하지만 COUNT(*)는 행 자체를 세고, 대상이 모두 NULL이거나 빈 그룹이면 SUM 결과가 NULL이 된다. 이 때문에 외부 조인으로 보존한 행이 이후 <code>HAVING 집계 &gt;= 0</code> 같은 NULL 비교 조건에서 탈락하거나, NOT IN 목록에 NULL이 섞여 결과가 통째로 비는 함정이 생긴다. 실무에서는 <code>IS NULL</code>/<code>IS NOT NULL</code>, <code>COALESCE</code>로 명시적으로 처리한다. 감리에서는 NULL 처리 누락으로 통계·조건 결과가 왜곡되지 않는지 확인한다.</p>
+<p><strong>NULL과 조건 평가(3치 논리):</strong></p>
 <table>
 <thead>
 <tr>
@@ -1355,7 +1362,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>옳음. <code>Π_ENO,PNO(W) ÷ Π_PNO(σ_DNO=1(P))</code>는 "1번 부서 프로젝트 전체 집합을 포함하는 직원"을 구하는 나눗셈으로 동일 결과를 낸다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>관계 나눗셈(division)의 SQL 관용 표현:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>관계 나눗셈(division)은 "S의 <strong>모든</strong> 원소와 짝을 이루는" 튜플을 찾는 for-all(전칭) 질의를 표현하는 연산이다. 예컨대 R(학생, 과목) ÷ S(과목)은 S의 모든 과목을 수강한 학생을 돌려준다. SQL에는 나눗셈 연산자가 없어 관용적으로 <strong>이중 NOT EXISTS</strong>나 <strong>NOT EXISTS + EXCEPT</strong>로 구현한다. 핵심 논리는 "그 학생이 수강하지 <strong>않은</strong> 필수 과목이 존재하지 <strong>않는다</strong>"는 이중 부정으로, (필수 집합 − 보유 집합)이 공집합이면 모두 보유한 것이다. 관계대수로는 <code>R ÷ S = π(R) − π((π(R)×S) − R)</code> 형태로 프로젝션·카티션 곱·차집합을 사용해 대체 표현된다. GROUP BY와 HAVING COUNT를 이용해 "보유한 필수 과목 수 = 전체 필수 과목 수"로도 표현할 수 있다. 감리에서는 "모든 ~을 만족" 요구가 합집합(OR)이 아니라 나눗셈/교집합으로 올바로 구현됐는지 확인한다.</p>
+<p><strong>관계 나눗셈(division)의 SQL 관용 표현:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1497,7 +1505,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>다를 4로 본 것은 L(10명) 그룹까지 포함한 오류다. L은 COUNT(*)=10 &lt; 20이라 HAVING에서 탈락한다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>NULL의 집계·그룹화 처리:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>집계·그룹화에서 NULL은 일반 값과 다르게 취급되므로 결과 카디널리티 계산에 주의해야 한다. 단순 <code>SELECT 열</code>은 중복 제거 없이 모든 행을 반환하므로 그 열이 NULL인 행까지 그대로 포함한다. <strong>DISTINCT</strong>는 서로 다른 값의 개수를 세는데 이때 여러 NULL을 <strong>하나의 값</strong>으로 취급해 한 번만 센다. <strong>GROUP BY</strong>도 마찬가지로 NULL을 <strong>하나의 그룹</strong>으로 묶는다. 집계 함수는 COUNT(*)가 행 수(널 무관)를 세는 반면 COUNT(열)·SUM·AVG는 NULL을 제외한다. 따라서 "학과가 NULL인 학생"이 있으면 DISTINCT 학과나 GROUP BY 학과의 결과 개수에 NULL 그룹이 하나 더해진다. 이 규칙을 놓쳐 NULL 그룹을 빼거나 이중 계상하면 통계가 왜곡된다. 감리에서는 미분류·미배정(NULL) 범주가 집계에서 하나의 그룹으로 정확히 반영되는지 점검한다.</p>
+<p><strong>NULL의 집계·그룹화 처리:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1639,7 +1648,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>정답. 프로젝트(라)·곱집합(나)·차집합(다)만으로 나눗셈을 구성한다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>나눗셈 대체식 단계:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>관계대수에서 나눗셈은 기본 연산이 아니라 프로젝션·카티션 곱·차집합으로 유도되는 파생 연산이다. R ÷ S를 계산하는 대체식은 다음 단계로 이뤄진다. 먼저 나눗셈 대상 속성만 프로젝션한 π(R)을 구하고, 여기에 S를 <strong>카티션 곱</strong>하여 "가능한 모든 (대상, S원소) 조합"을 만든다. 그다음 실제 R에 없는 조합을 <strong>차집합</strong>으로 걸러내면 "적어도 하나의 S원소와 짝을 이루지 못한 대상"이 드러난다. 마지막으로 π(R)에서 이들을 다시 차집합으로 빼면 "S의 모든 원소와 짝을 이루는 대상", 곧 나눗셈 결과가 남는다. 식으로는 <code>R ÷ S = π_c(R) − π_c((π_c(R) × S) − R)</code>이며, 합집합은 필요하지 않다. 이 구조를 이해하면 SQL의 이중 NOT EXISTS 패턴과 자연스럽게 연결된다. 감리에서는 for-all 질의의 구현이 이 논리에 부합하는지 검토한다.</p>
+<p><strong>나눗셈 대체식 단계:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1787,7 +1797,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>Π, ∪, −, ×. 합집합(∪)이 불필요하게 포함되어 있다. 나눗셈 대체식에 ∪는 등장하지 않는다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>관계대수 연산 분류:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>관계대수는 릴레이션을 입력받아 릴레이션을 출력하는 절차적 질의 언어로, 소수의 <strong>기본(완전 집합) 연산</strong>만으로 다른 모든 연산을 표현할 수 있다. 완전 집합은 셀렉트(σ, 조건 만족 행 선택), 프로젝트(π, 특정 열 추출), 합집합(∪), 차집합(−), 카티션 곱(×), 그리고 리네임(ρ)의 여섯 가지다. 교집합·조인·나눗셈 등은 이 기본 연산으로 유도되는 <strong>파생 연산</strong>이다. 예를 들어 교집합은 <code>R − (R − S)</code>, 자연 조인은 카티션 곱 후 셀렉트·프로젝트, 나눗셈은 프로젝트·카티션 곱·차집합의 조합으로 표현된다. 어떤 파생 연산이 어떤 기본 연산으로 분해되는지 알면, 특정 질의에 반드시 필요한 연산과 불필요한 연산을 구분할 수 있다. 질의 최적화·실행 계획 감리에서 고수준 연산이 기본 연산으로 어떻게 처리되는지 이해하는 기반이 된다.</p>
+<p><strong>관계대수 연산 분류:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1939,7 +1950,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>옳음. Super_ENO는 ON UPDATE CASCADE이므로 상사 ENO가 200→300으로 바뀌면 참조하는 직원의 Super_ENO도 300으로 갱신된다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>참조 무결성 유지 옵션:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>참조 무결성은 자식(참조하는) 릴레이션의 외래키 값이 부모(참조되는) 릴레이션에 반드시 존재하도록(또는 NULL) 보장하는 제약이다. 부모의 튜플이 삭제되거나 키가 갱신될 때 이를 참조하는 자식을 어떻게 처리할지 정하는 것이 <strong>참조 동작(referential action)</strong>이며, <code>ON DELETE</code>/<code>ON UPDATE</code> 절로 지정한다. <strong>CASCADE</strong>는 부모의 삭제·변경을 자식에 연쇄 적용하고, <strong>SET NULL</strong>은 자식 외래키를 NULL로, <strong>SET DEFAULT</strong>는 미리 정한 기본값으로 바꾸며, <strong>RESTRICT/NO ACTION</strong>은 참조가 남아 있으면 삭제·변경을 거부한다. 중요한 점은 이 동작이 <strong>부모의 변경이 자식에 미치는 방향</strong>으로 적용된다는 것과, 한 테이블 안에서도 외래키마다 서로 다른 옵션(예: 상사 FK는 SET NULL, 부서 FK는 SET DEFAULT)을 가질 수 있다는 것이다. 감리에서는 각 외래키의 삭제·갱신 옵션이 업무 규칙(부서 폐지 시 사원 처리 등)과 일치하고 고아 레코드가 생기지 않는지 확인한다.</p>
+<p><strong>참조 무결성 유지 옵션:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2101,7 +2113,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>가·나·다·라 전부이나 다가 틀려 오답.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>B+-트리 특성:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>B-트리 계열은 디스크 기반 DBMS 인덱스에 널리 쓰이는 균형 다진 탐색 트리로, 모든 리프가 같은 레벨에 있어(균형) 탐색·삽입·삭제가 트리 높이에 비례한 안정적 성능(O(log n))을 낸다. <strong>B-트리</strong>는 키와 데이터 포인터를 내부·리프 노드 모두에 저장해 중간 노드에서 탐색이 끝날 수 있는 반면, <strong>B+-트리</strong>는 <strong>실제 데이터(키)를 리프에만 저장</strong>하고 내부 노드는 탐색 경로용 인덱스만 두며, <strong>리프끼리 순차 포인터로 연결</strong>돼 범위 검색과 순차 접근에 유리하다. 삽입 시 노드가 가득 차면(오버플로) <strong>분할(split)</strong>이 일어나 중간 키가 상위로 올라가고, 이것이 루트까지 전파되면 트리 높이가 증가한다. 삭제 시 노드가 최소치 미만이면 병합·재분배가 일어난다. 트리 높이는 곧 디스크 접근 횟수이므로, 인덱스 설계·재구성(rebuild) 감리에서 삽입 패턴에 따른 분할·높이 변화를 검토한다.</p>
+<p><strong>B+-트리 특성:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2261,7 +2274,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>옳음. 마지막(11x) 버킷은 (b) 삭제로 {110100} 하나만 남는다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>확장성 해싱 핵심:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>확장성 해싱(extendible hashing)은 데이터 증감에 맞춰 디렉토리와 버킷을 동적으로 늘리고 줄이는 동적 해시 기법이다. <strong>디렉토리</strong>는 해시값의 상위 비트로 색인되는 포인터 배열이고, <strong>전역 깊이(global depth) d</strong>는 디렉토리가 사용하는 비트 수로 디렉토리 엔트리 수는 2^d다. 각 <strong>버킷</strong>은 자신을 구분하는 데 실제로 사용하는 비트 수인 <strong>지역 깊이(local depth) p</strong>를 가지며 항상 p ≤ d다. 하나의 버킷을 여러 디렉토리 엔트리가 공유하면 그 버킷의 지역 깊이는 전역 깊이보다 작다(공유 엔트리 2개면 p = d−1). 버킷이 넘칠 때 지역 깊이가 전역 깊이보다 작으면 버킷만 분할하지만, <strong>지역 깊이 = 전역 깊이인 포화 버킷이 넘치면 디렉토리를 2배로 확장(전역 깊이 +1)</strong>한 뒤 버킷을 나눈다. 반대로 삭제로 버킷이 비면 버디(짝) 버킷과 병합하고, 모든 지역 깊이가 전역 깊이보다 작아지면 디렉토리를 절반으로 줄인다. 감리에서는 삽입·삭제가 잦은 해시 파일의 저장 효율과 접근 성능을 검토한다.</p>
+<p><strong>확장성 해싱 핵심:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2408,7 +2422,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>정답. GROUP BY dept로 학과별 인원(전기3·전자2·컴퓨터2)을 정확히 계산.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>GROUP BY 사용 규칙:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>GROUP BY는 지정한 컬럼(들)의 값이 같은 행을 하나의 그룹으로 묶고, 각 그룹마다 집계 함수(COUNT·SUM·AVG·MAX·MIN)를 적용해 그룹당 한 행을 반환한다. 표준 SQL에서는 SELECT 절에 <strong>그룹 기준 컬럼과 집계 함수만</strong> 올 수 있으며, 그룹 기준이 아닌 비집계 컬럼을 함께 쓰면 오류다(어느 행 값을 대표로 쓸지 모호하기 때문). 그룹 집계 결과에 조건을 걸 때는 WHERE가 아니라 <strong>HAVING</strong>을 쓰는데, WHERE는 그룹화 이전 개별 행을, HAVING은 그룹화 이후 집계값을 필터한다. 뷰나 리포트에서 "~별 집계"를 구현할 때는 반드시 그 분류 축(예: 부서·학과)으로 GROUP BY 해야 하며, GROUP BY를 빠뜨리면 전체가 한 번에 집계된다. 감리에서는 집계 지표의 분류 기준(GROUP BY 컬럼)이 요구 지표와 일치하고 HAVING 조건이 올바른지 확인한다.</p>
+<p><strong>GROUP BY 사용 규칙:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2554,7 +2569,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>정답. IX-IX만 허용, SIX가 관련된 세 조합은 모두 대기.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>주요 로크 양립성(요약):</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>다중 단위 로킹(multiple granularity locking)은 데이터베이스-테이블-페이지-행처럼 계층적으로 구성된 데이터 항목에 대해, 잠그려는 수준과 그 상위 수준의 의도를 함께 표시해 로크 충돌을 효율적으로 판정하는 기법이다. 하위 항목에 실제 로크를 걸기 전에 상위 항목에 <strong>의도 로크(intention lock)</strong>를 걸어 "아래에서 무슨 로크가 진행 중"인지 알린다. <strong>IS</strong>(하위에 공유 로크 의도), <strong>IX</strong>(하위에 배타 로크 의도), <strong>SIX</strong>(현재 수준 전체에 공유 + 하위에 배타 의도)가 대표적이다. 양립성 규칙에서 IS는 대부분과 양립하고, <strong>IX는 IX끼리 양립</strong>(서로 다른 하위 항목에 배타 로크 가능)하지만 S·SIX·X와는 충돌한다. SIX는 이미 공유를 포함하므로 IX·S·SIX·X 대부분과 충돌한다. 이런 양립성 행렬로 서로 다른 트랜잭션이 계층의 여러 수준에서 동시에 작업할 수 있게 병행성을 조율한다. 감리에서는 로크 승격(escalation) 정책과 교착·경합 관리를 점검한다.</p>
+<p><strong>주요 로크 양립성(요약):</strong></p>
 <table>
 <thead>
 <tr>
@@ -2723,7 +2739,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>HDFS는 write-once, read-many 모델이나 "쓰기 완료 후에만 읽기 가능해 읽기가 느리다"는 인과가 잘못됐다. 읽기가 쓰기보다 일반적으로 빠르다.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>HDFS 핵심 구조:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>HDFS(Hadoop Distributed File System)는 대용량 데이터를 여러 노드에 분산 저장하는 마스터-슬레이브 구조의 분산 파일시스템이다. <strong>NameNode(마스터)</strong>는 파일→블록→위치의 <strong>메타데이터</strong>를 관리하고 어느 DataNode에 어떤 블록이 있는지 유지하며(실제 데이터는 저장하지 않음), <strong>DataNode(슬레이브)</strong>가 실제 데이터 블록을 저장하고 클라이언트에 제공한다. 파일은 큰 블록(기본 128MB 등)으로 나뉘어 기본 3벌로 <strong>복제</strong> 저장되므로 일부 노드가 고장나도 데이터가 유지되고(내결함성), 랙 인식(rack awareness)으로 복제본을 분산 배치한다. 접근 모델은 <strong>write-once, read-many</strong>로, 읽기는 클라이언트와 가까운 복제본에서 가져와 빠르지만 쓰기는 여러 복제본에 파이프라인으로 전파·확인해야 해 상대적으로 느리다. Secondary NameNode는 메타데이터 체크포인트/백업 역할을 한다. 감리에서는 복제 계수·NameNode 이중화(HA)·데이터 지역성 설정이 성능·가용성 요구에 맞는지 검토한다.</p>
+<p><strong>HDFS 핵심 구조:</strong></p>
 <table>
 <thead>
 <tr>
@@ -2861,7 +2878,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>지지도가 낮으면 오히려 빈발집합에서 제외되어 연관규칙이 될 가능성이 낮다. 서술이 잘못됨.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>연관 규칙 마이닝 지표:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>연관 규칙 마이닝은 "X를 사면 Y도 산다"처럼 항목 간 동시 발생 패턴을 찾는 기법으로, 대표 알고리즘이 Apriori다. 규칙의 흥미도는 세 지표로 평가한다. <strong>지지도(support)</strong>는 전체 거래 중 특정 항목집합이 함께 등장하는 비율, <strong>신뢰도(confidence)</strong>는 X를 포함한 거래 중 Y도 포함하는 비율(=support(X∪Y)/support(X)), <strong>향상도(lift)</strong>는 신뢰도를 Y의 지지도로 나눈 값으로 우연 대비 상관 강도를 나타낸다. Apriori의 핵심 원리는 <strong>비-단조성(하향 폐쇄)</strong>으로, 어떤 항목집합이 최소지지도를 넘지 못하면(비빈발) 그것을 포함하는 모든 상위 집합도 비빈발이라는 성질이다. 이를 이용해 비빈발 집합의 상위 후보를 미리 가지치기(pruning)해 탐색 공간을 줄인다. 항목집합이 커질수록 지지도는 감소(비증가)하므로 빈발 1-항목에서 시작해 크기를 늘려간다. 장바구니 분석·추천 감리에서 최소지지도·신뢰도 설정과 가지치기의 타당성을 검토한다.</p>
+<p><strong>연관 규칙 마이닝 지표:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3004,7 +3022,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>정답. 0.30 / 0.50 = 0.6.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>베이즈 분류 요소:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>베이즈 분류는 관측된 특성을 근거로 각 클래스일 확률(사후확률)을 계산해 가장 확률이 높은 클래스로 분류한다. 베이즈 정리는 <code>P(C|X) = P(X|C)·P(C) / P(X)</code>로, <strong>사전확률 P(C)</strong>(데이터 관측 전 클래스 확률)에 <strong>우도 P(X|C)</strong>(그 클래스에서 특성 X가 나타날 확률)를 곱하고, 전체 확률 <strong>P(X)=Σ P(X|Ci)P(Ci)</strong>로 나눠 정규화한다. 여기서 정규화(분모)를 빠뜨리고 분자만 계산하는 것이 대표적 실수이며, 사전확률이 모두 같으면 사후확률은 우도의 비율로 간단히 구해진다. <strong>나이브 베이즈</strong>는 특성들이 클래스 조건 하에서 서로 독립이라고 가정해 여러 특성의 우도를 곱으로 계산하는 실용적 변형으로, 스팸 필터·문서 분류에 널리 쓰인다. 확률이 0이 되는 문제는 라플라스 보정으로 완화한다. 감리에서는 사전확률·우도 추정이 데이터에 맞고 정규화·평활 처리가 적절한지 검토한다.</p>
+<p><strong>베이즈 분류 요소:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3165,7 +3184,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>옳음. T3 커밋 → D redo 14.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>로그 기반 회복 규칙:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>트랜잭션 회복은 장애 발생 시 로그를 이용해 데이터베이스를 일관된 상태로 되돌리는 절차다. 로그에는 각 변경의 <code>&lt;트랜잭션, 데이터, 변경 전 값(BFIM), 변경 후 값(AFIM)&gt;</code>이 기록되며, 회복 시 <strong>커밋이 완료된 트랜잭션은 REDO(변경 후 값으로 재실행)</strong>, <strong>커밋되지 않은 트랜잭션은 UNDO(변경 전 값으로 취소)</strong>한다. 갱신 방식에 따라 <strong>즉시 갱신(immediate update)</strong>은 커밋 전에도 디스크에 반영될 수 있어 UNDO와 REDO가 모두 필요하고, <strong>지연 갱신(deferred update)</strong>은 커밋 전까지 반영하지 않아 UNDO가 불필요(NO-UNDO)하며 REDO만 필요하다. WAL(로그 선기록) 원칙에 따라 데이터보다 로그를 먼저 기록하고, <strong>체크포인트</strong>를 두면 그 이전 커밋분은 반영 완료로 간주해 REDO 범위를 줄인다. 감리에서는 로그 방식·체크포인트 주기·REDO/UNDO 대상 선정이 표준(ARIES 등)에 부합해 복구 정합성을 보장하는지 확인한다.</p>
+<p><strong>로그 기반 회복 규칙:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3311,7 +3331,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>(a → b → d) + (a → c → d) 두 그룹 반복. <code>*</code>에 부합하여 유효.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>DTD 콘텐츠 모델 연산자:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>DTD(Document Type Definition)는 XML 문서의 구조(요소·속성·중첩·순서·개수)를 정의하는 스키마로, 인스턴스가 이 규칙을 지키는지 검증(유효성 검사)한다. 요소의 <strong>콘텐츠 모델</strong>은 자식 요소의 구성을 연산자로 표현한다. <strong>콤마(,)</strong>는 순서 있는 시퀀스(반드시 그 순서대로 모두), <strong>파이프(|)</strong>는 선택(택일), <strong>별표(*)</strong>는 0회 이상 반복, <strong>플러스(+)</strong>는 1회 이상, <strong>물음표(?)</strong>는 0 또는 1회를 뜻한다. 예컨대 <code>(a, (b|c), d)*</code>는 "a → (b 또는 c) → d" 그룹이 0회 이상 반복됨을 의미하므로, 각 반복 단위에는 a·(b 또는 c)·d가 모두 순서대로 있어야 한다. 따라서 (b|c)를 통째로 생략하면 필수 요소 누락으로 파싱(유효성) 오류가 난다. XSD는 DTD보다 자료형·네임스페이스를 정교하게 지원하는 후속 스키마다. 전자문서·연계 표준 감리에서 스키마와 인스턴스의 유효성 검증을 확인한다.</p>
+<p><strong>DTD 콘텐츠 모델 연산자:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3464,7 +3485,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>정답. 다(환경) → 마(준비) → 나(입력 바인딩) → 가(실행) → 라(결과 바인딩).</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SQL/CLI 처리 단계:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>SQL/CLI(Call Level Interface)와 JDBC는 응용 프로그램이 함수 호출로 DBMS에 SQL을 실행하고 결과를 받는 표준 인터페이스다. 전형적 처리 흐름은 <strong>환경·연결 설정 → SQL 준비(Prepare) → 입력 매개변수 바인딩 → 실행(Execute) → 결과 열 바인딩·인출(Fetch) → 자원 해제</strong> 순이다. 여기서 순서의 핵심은 입력 매개변수 바인딩(SQLBindParameter)은 <strong>실행 이전</strong>에, 결과 열 바인딩(SQLBindCol)은 결과가 나온 <strong>실행 이후</strong>에 온다는 점이다. SQL을 미리 컴파일해 두는 <strong>준비된 문장(PreparedStatement)</strong>은 동일 SQL을 매개변수만 바꿔 반복 실행할 때 효율적이고, 값 바인딩으로 입력을 처리하므로 <strong>SQL 인젝션 방지</strong>에도 유리하다. 감리에서는 커넥션 풀·PreparedStatement 사용, 매개변수·결과 매핑 순서, 커서·핸들 자원 해제가 올바른지 점검한다.</p>
+<p><strong>SQL/CLI 처리 단계:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3616,7 +3638,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>라(격리성)가 포함되어 부적절.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ACID vs CAP:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>관계형 트랜잭션의 신뢰성은 <strong>ACID</strong>로 요약된다. 원자성(Atomicity, 전부 또는 전무), 일관성(Consistency, 제약 유지), 격리성(Isolation, 동시 실행이 직렬 실행과 동등), 지속성(Durability, 커밋 결과 영속)이다. 반면 여러 노드에 복제되는 분산·NoSQL 시스템의 트레이드오프는 <strong>CAP 정리</strong>로 설명된다. 일관성(Consistency, 모든 노드가 같은 데이터), 가용성(Availability, 항상 응답), 분할 감내성(Partition tolerance, 네트워크 분할에도 동작) 셋 중 <strong>동시에 둘까지만</strong> 만족할 수 있다는 것이다. 분산 환경에서 네트워크 분할(P)은 사실상 불가피하므로 실제로는 C와 A 사이에서 절충하며, 많은 NoSQL은 강한 일관성 대신 <strong>궁극적 일관성(eventual consistency)</strong>을 수용하는 <strong>BASE</strong>(기본 가용·연성 상태·궁극적 일관성) 모델을 지향한다. 원자성·격리성은 ACID 속성이지 CAP 요소가 아니라는 점이 혼동 포인트다. 저장소 선정 감리에서 요구 일관성 수준과 가용성·분할 내성 우선순위를 CAP 관점으로 검토한다.</p>
+<p><strong>ACID vs CAP:</strong></p>
 <table>
 <thead>
 <tr>
@@ -3759,7 +3782,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>정답(틀림). (3,3)의 Gini는 0.5이며 1이 아니다. 이진 Gini 최댓값은 0.5.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>불순도 지표(이진 분류):</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>의사결정 트리는 각 노드에서 데이터를 가장 잘 나누는 속성을 골라 분기하며, 이때 노드의 <strong>불순도(impurity)</strong>를 얼마나 줄이는지(정보 이득)로 분기를 결정한다. 이진 분류에서 노드의 클래스 비율이 p, (1−p)일 때 대표 불순도 지표는 다음과 같다. <strong>지니 지수(Gini) = 1 − Σp²</strong>는 완전히 한 클래스만 있으면(순수) 0, 반반(0.5,0.5)이면 최대 <strong>0.5</strong>다. <strong>분류 오류(classification error) = 1 − max(p)</strong>도 순수면 0, 반반이면 0.5가 최대다. <strong>엔트로피 = −Σp·log₂p</strong>는 순수면 0, 반반이면 최대 <strong>1</strong>이다. 즉 이진 분류에서 지니·분류오류의 최댓값은 0.5인 반면 엔트로피 최댓값은 1이라는 차이가 핵심 함정이다. 예로 (3,3)이면 Gini=0.5, 오류율=0.5, 엔트로피=1이다. 불순도가 높을수록 분기가 필요하며, 과적합을 막기 위해 가지치기·최대깊이를 둔다. 모델 감리에서 분기 기준·과적합 방지 설정을 검토한다.</p>
+<p><strong>불순도 지표(이진 분류):</strong></p>
 <table>
 <thead>
 <tr>
@@ -3901,7 +3925,8 @@ WHERE  NOT EXISTS ((SELECT PNO
 <h3>보기④</h3>
 <p>정답(부적합). CSV는 평면 2차원 구조로 <strong>중첩 구조를 표현할 수 없다.</strong> "중첩 구조 표현 가능"은 잘못된 설명.</p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>데이터 포맷 비교:</strong></p>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>데이터 저장·교환 포맷은 구조 표현력과 용도가 서로 다르다. <strong>CSV</strong>는 쉼표/탭으로 구분한 <strong>평면(flat) 행·열 2차원</strong> 구조로, 표 형태 정형 데이터에 간단·효율적이지만 <strong>중첩(계층) 구조는 표현할 수 없다</strong>. <strong>JSON</strong>은 속성-값 쌍과 배열로 <strong>트리(중첩) 구조</strong>를 표현하는 문자열 기반 경량 포맷으로 웹 API·통신에 널리 쓰인다. <strong>XML</strong>은 태그로 계층 구조를 표현하고 스키마(DTD/XSD)·네임스페이스로 엄격한 검증이 가능해 문서·전자거래 교환에 쓰이나 JSON보다 장황하다. <strong>Key-Value 스토어</strong>는 키로 값을 빠르게 조회하는 단순 구조로 NoSQL 캐시·세션 저장에 적합하다. 핵심 구분은 CSV는 평면(중첩 불가), JSON·XML은 계층(중첩 가능)이라는 점이다. 데이터 연계·적재(ETL) 감리에서는 중첩 데이터를 평면 포맷으로 옮기며 정보 손실이 없는지, 교환 포맷 선택이 적절한지 확인한다.</p>
+<p><strong>데이터 포맷 비교:</strong></p>
 <table>
 <thead>
 <tr>

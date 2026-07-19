@@ -238,6 +238,30 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>SOLID 원칙은 매년 1~2문항 출제되는 최고 빈출 주제로, 원칙명-정의 매칭과 코드/다이어그램 적용 판단이 번갈아 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>48</td>
+<td>DIP·ISP 적용 개선</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>46</td>
+<td>DIP 원칙</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (SOLID 원칙은 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -293,6 +317,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>설계 검토 감리 시 단위 테스트가 가능한 구조인지(의존성 주입·인터페이스 분리) 점검하고, 테스트를 위해 운영 코드를 수정해야 하는 설계는 OCP 위반으로 개선을 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"대상 클래스를 수정하지 않고 동작·환경을 바꿀 수 있는가"가 OCP의 판별 기준이다. OCP(원칙)와 DIP(구현 수단)를 구분해 묻는 문제가 반복 출제된다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -355,6 +383,30 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 2_2_디자인_패턴_Part_II_V1.1.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>GoF 디자인 패턴은 매년 2~3문항 출제되며, 정의 매칭·클래스 다이어그램 해석·적용 사례 판단의 세 유형으로 나온다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>31</td>
+<td>Decorator 패턴</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>49</td>
+<td>Broker 아키텍처 패턴</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -374,6 +426,13 @@ strong { color:#0f172a; font-weight:700; }
 <blockquote>
 <p>"전략 패턴: 알고리즘의 군을 정의하고 각각 캡슐화하여 서로 교환 가능하게 한다."</p>
 </blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>Observer는 한 객체의 상태 변화를 여러 관찰자에게 자동 통지하는 패턴으로, 알고리즘 교체와 무관하다.</p>
+<h3>보기③</h3>
+<p>Command는 요청을 객체로 캡슐화해 실행·취소·큐잉을 가능하게 하는 패턴이다.</p>
+<h3>보기④</h3>
+<p>Decorator는 객체를 감싸 기능을 동적으로 덧붙이는 패턴으로, 알고리즘군 교체가 목적이 아니다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
 <thead>
@@ -406,6 +465,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>결제·인증 등 정책이 자주 바뀌는 모듈 감리 시 조건 분기(if/switch) 누적 구조를 Strategy로 분리했는지 점검해 변경 영향도를 낮추도록 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"알고리즘군을 캡슐화해 런타임에 교체"라는 문구가 Strategy의 정의 단서다. 상태에 따라 행위가 바뀌는 State, 생성 책임을 위임하는 Factory와 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -463,6 +526,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>애자일·스크럼 실천법은 최근 출제 비중이 높아지는 영역으로, XP 실천법·스크럼 이벤트와 함께 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>38</td>
+<td>XP 실천법 Simple Design</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -479,6 +561,13 @@ strong { color:#0f172a; font-weight:700; }
 - ISO 9001 같은 엄격한 표준보다 <strong>유연한 실천</strong> 중시 → ② 틀림<br />
 - 공식 인스펙션보다 <strong>지속적 코드 리뷰, 페어 프로그래밍</strong> 사용 → ③ 틀림</p>
 <p>XP의 12가지 실천법 중 <strong>공동 소유권</strong>: 팀 전체가 코드를 공유하고 개선 권한을 가짐.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>애자일은 문서 기반의 정형적 방식보다 동작하는 소프트웨어와 협업을 우선하므로 반대 서술이다.</p>
+<h3>보기②</h3>
+<p>ISO 9001 등 표준 기반 접근을 엄격히 준수하는 것은 계획 주도 방식의 특징이다.</p>
+<h3>보기③</h3>
+<p>정기적 공식 인스펙션·리뷰는 전통적 품질보증 방식으로, 애자일은 지속적 통합·페어 프로그래밍 등 비공식적·상시적 방식을 선호한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>애자일 품질 관리 특징:</strong></p>
 <table>
@@ -511,6 +600,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>애자일 사업 감리 시 스프린트별 완료 정의(DoD)·회고·지속적 통합이 실제 운영되는지 산출물과 도구 이력으로 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>애자일은 문서를 없애는 것이 아니라 "동작하는 소프트웨어"를 우선한다는 점, 품질은 스프린트마다 내재화한다는 점이 출제 포인트다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -573,6 +666,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>테스트 커버리지·화이트박스 테스트는 매년 출제되는 고정 주제로, 포함 관계와 최소 테스트케이스 수 계산이 번갈아 나온다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>44</td>
+<td>조합 테스트 TC 수 계산</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (커버리지 포함 관계는 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -599,6 +711,13 @@ strong { color:#0f172a; font-weight:700; }
 </ul>
 <p>올바른 것: 가, 나, 라 → <strong>③번</strong></p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>'다'가 포함되고 '나'가 빠져 포함 관계가 불완전하다.</p>
+<h3>보기②</h3>
+<p>'다'를 포함하고 '라'를 제외해 커버리지 강도의 포함 관계와 맞지 않는다.</p>
+<h3>보기④</h3>
+<p>'다'까지 모두 포함하면 성립하지 않는 포함 관계가 섞이므로 옳지 않다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조건 커버리지가 결정 커버리지를 보장 못하는 예:</strong></p>
 <pre><code class="language-java">if (a || b) { ... }  // True 분기
 else { ... }         // False 분기
@@ -609,6 +728,10 @@ else { ... }         // False 분기
 // → 결정(False 분기)이 한 번도 실행 안 됨!
 // 결정 커버리지 미달!
 </code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>테스트 계획 감리 시 목표 커버리지 기준(문장·분기·조건)이 시스템 중요도에 맞게 설정됐는지, 측정 도구로 실제 달성률을 검증했는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>커버리지 강도는 문장 &lt; 분기(결정) &lt; 조건/결정 &lt; 변형조건결정(MC/DC) &lt; 다중조건 순이며, 포함 관계를 묻는 문제가 반복된다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -665,6 +788,25 @@ else { ... }         // False 분기
 <li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>SW 품질 표준(ISO 9126/25010)은 매년 1문항 이상 출제되는 단골 주제다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>47</td>
+<td>ISO 25010 품질 속성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -714,6 +856,13 @@ else { ... }         // False 분기
 </table>
 <p>③: 단축 메뉴 부재 = 사용자가 시스템을 쉽게 조작하기 어렵다는 <strong>사용성(운용성, operability)</strong> 문제</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>전원 차단 시 데이터가 손실되는 것은 효율성이 아니라 신뢰성(내결함성·회복성) 문제다.</p>
+<h3>보기②</h3>
+<p>적합한 그룹에 등록되지 않는 것은 신뢰성이 아니라 기능성(정확성) 결함이다.</p>
+<h3>보기④</h3>
+<p>데이터가 많아질 때 탐색 시간이 저하되는 것은 기능성이 아니라 효율성(시간 효율) 문제다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISO 9126 품질 특성 및 부특성:</strong></p>
 <table>
 <thead>
@@ -756,6 +905,10 @@ else { ... }         // False 분기
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>품질 요구사항 감리 시 기능·비기능 요구가 표준 품질특성 체계로 분류·측정 가능하게 정의됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>ISO 9126의 6대 특성(기능성·신뢰성·사용성·효율성·유지보수성·이식성)과 후속 표준 ISO 25010의 8대 특성 차이를 구분해야 한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -814,6 +967,30 @@ else { ... }         // False 분기
 <li><strong>PDF명</strong>: 2_2_디자인_패턴_Part_II_V1.1.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>클래스 다이어그램을 제시하고 패턴을 식별하게 하는 유형은 최근 출제가 늘고 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>27</td>
+<td>Strategy 패턴</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>49</td>
+<td>Broker 패턴</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -836,6 +1013,13 @@ else { ... }         // False 분기
 <blockquote>
 <p>"Decorator 패턴: 객체에 동적으로 새로운 책임(기능)을 추가. 상속 대신 합성으로 유연하게 기능 확장"</p>
 </blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>Bridge는 추상과 구현을 분리해 독립적으로 확장하는 패턴으로, 기능을 감싸 덧붙이는 구조가 아니다.</p>
+<h3>보기③</h3>
+<p>Flyweight는 다수의 유사 객체를 공유해 메모리를 절감하는 패턴이다.</p>
+<h3>보기④</h3>
+<p>Proxy는 대상 객체 접근을 제어·대리하는 패턴으로, 기능을 누적 추가하는 Decorator와 목적이 다르다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>구조 패턴 비교:</strong></p>
 <table>
@@ -869,6 +1053,10 @@ else { ... }         // False 분기
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>기존 기능을 수정하지 않고 로깅·암호화 등 부가 기능을 덧붙이는 구조 검토 시 Decorator 적용의 적절성과 래핑 깊이를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Decorator는 상속이 아닌 "동일 인터페이스를 구현하면서 대상 객체를 감싸(has-a) 기능을 추가"하는 구조임을 다이어그램에서 식별하는 것이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -938,6 +1126,30 @@ else { ... }         // False 분기
 <hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
 <li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>Java 코드 해석 문항은 매년 1~2개 출제되며 static·상속·접근제어자 규칙이 주로 다뤄진다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>42</td>
+<td>UML-Java 일관성</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>45</td>
+<td>Java→UML 표기</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
@@ -1021,6 +1233,10 @@ else { ... }         // False 분기
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>코드 리뷰·정적분석 감리 시 컴파일 오류·경고를 방치하지 않고 빌드 파이프라인에서 차단하는 체계가 있는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>static 메서드에서는 인스턴스 멤버(비정적 필드·메서드)에 직접 접근할 수 없다는 규칙이 핵심이며, Java 문법 기반 오류 식별 문제로 반복 출제된다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1078,6 +1294,25 @@ else { ... }         // False 분기
 <li><strong>PDF명</strong>: 1_3_소프트웨어공학_Part_I_V1.0_SW_아키텍처_외_완료.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>웹 서비스·연계 기술 비교는 주기적으로 출제되며 최근에는 REST/GraphQL로 범위가 확장되고 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>34</td>
+<td>Spring AOP</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1121,6 +1356,13 @@ else { ... }         // False 분기
 </tbody>
 </table>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>SOAP은 WSDL·WS-* 표준으로 규격이 엄격해 REST보다 구현이 복잡하다. 서술이 반대다.</p>
+<h3>보기③</h3>
+<p>WS-Reliability·WS-Transaction 등 기반구조 표준을 갖춘 쪽은 SOAP이다. 주체가 뒤바뀌었다.</p>
+<h3>보기④</h3>
+<p>리소스 지향은 REST, RPC·서비스 지향은 SOAP이므로 설명이 서로 바뀌었다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SOAP vs REST 비교:</strong></p>
 <table>
 <thead>
@@ -1163,6 +1405,10 @@ else { ... }         // False 분기
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>연계 아키텍처 감리 시 트랜잭션·보안 요구가 강하면 SOAP, 경량·확장성이 중요하면 REST를 택했는지 선정 근거를 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>SOAP은 WS-* 표준·WSDL·엄격한 계약, REST는 HTTP 메서드·자원 중심·경량이라는 대비를 정확히 구분해야 한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1221,6 +1467,25 @@ else { ... }         // False 분기
 <li><strong>PDF명</strong>: 1_3_소프트웨어공학_Part_I_V1.0_SW_아키텍처_외_완료.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>프레임워크(Spring) 기반 문항은 AOP·DI 중심으로 꾸준히 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>33</td>
+<td>SOAP vs REST</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1274,6 +1539,13 @@ else { ... }         // False 분기
 <li><strong>(다)</strong>: 예외 발생 시에만 삽입 → <strong>AfterThrowing</strong></li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>(나)와 (다)의 Around·AfterThrowing 위치가 바뀌어 실행 시점과 맞지 않는다.</p>
+<h3>보기③</h3>
+<p>(가)에 AfterThrowing을 배치해 정상 반환 시점의 어드바이스와 어긋난다.</p>
+<h3>보기④</h3>
+<p>(가)에 Around를 배치했으나 Around는 대상 실행 전후를 모두 감싸는 유형으로 위치가 맞지 않는다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>AOP 핵심 용어:</strong></p>
 <table>
 <thead>
@@ -1305,6 +1577,10 @@ else { ... }         // False 분기
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>공통 관심사(로깅·트랜잭션·보안) 구현 감리 시 비즈니스 로직과 분리되어 AOP로 처리되는지 점검해 중복 코드를 줄이도록 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>어드바이스 유형(Before/After/AfterReturning/AfterThrowing/Around)의 실행 시점을 구분하는 것이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1374,6 +1650,30 @@ int getRating() {
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>리팩토링 기법은 매년 2문항 내외로 출제되며 기법명-정의 매칭이 주된 형태다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>50</td>
+<td>Hide Delegate</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>41</td>
+<td>코드 악취 Shotgun Surgery</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1432,6 +1732,10 @@ int getRating() {
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>리팩토링 감리 시 의미 없는 위임 메서드나 과도한 분해로 가독성이 떨어진 코드를 식별해 정리하도록 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Inline Method는 "메서드 본문이 이름만큼 명확할 때 호출부에 본문을 넣고 메서드를 제거"하는 기법으로, Extract Method의 역방향이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1495,6 +1799,25 @@ int getRating() {
 <li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
 <li><strong>관련 챕터</strong>: 모듈화 - 응집도</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>응집도·결합도는 구조적 설계의 최고 빈출 주제로 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>26</td>
+<td>SOLID 설계 원칙</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
@@ -1564,11 +1887,22 @@ int getRating() {
 </table>
 <p>순서: <strong>마(기능적) → 라(순차적) → 나(통신적) → 다(시간적) → 가(우연적)</strong> → <strong>①번</strong></p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>라(절차적)와 나의 순서가 뒤바뀌어 응집도 강도 순서와 맞지 않는다.</p>
+<h3>보기③</h3>
+<p>다와 나의 위치가 바뀌어 통신적·순차적 응집도의 강도 순서에 어긋난다.</p>
+<h3>보기④</h3>
+<p>나·다·라의 배열이 응집도 강도 순서(우연적→기능적)와 일치하지 않는다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>응집도 암기 순서 (좋음 → 나쁨):</strong></p>
 <blockquote>
 <p><strong>기 순 통 절 시 논 우</strong><br />
 기능적, 순차적, 통신적, 절차적, 시간적, 논리적, 우연적</p>
 </blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>모듈 설계 감리 시 응집도가 낮은(우연적·논리적) 모듈을 식별해 기능 단위로 재분할하도록 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>응집도는 우연적&lt;논리적&lt;시간적&lt;절차적&lt;통신적&lt;순차적&lt;기능적 순으로 강해지며, 순서를 묻는 문제가 반복 출제된다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1628,6 +1962,25 @@ int getRating() {
 <hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
 <li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>요구공학(도출·분석·명세·검증) 기법은 매년 1~2문항 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>38</td>
+<td>XP 실천법</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
@@ -1694,6 +2047,10 @@ int getRating() {
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>요구사항 도출 감리 시 사용자 실제 업무 환경을 관찰한 근거가 있는지, 인터뷰만으로 암묵적 요구를 놓치지 않았는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>문화기술적 연구(Ethnography)는 "사용자 업무 현장을 장기간 관찰해 암묵적·사회적 요구를 도출"하는 기법으로, 인터뷰·설문과 구분된다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1751,6 +2108,25 @@ int getRating() {
 <li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>XP 12 실천법은 스크럼과 함께 애자일 영역의 단골 출제 주제다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>28</td>
+<td>애자일 품질 관리</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (XP 실천법 오답 찾기 주기적 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1769,6 +2145,13 @@ int getRating() {
 </blockquote>
 <p><strong>미래의 잠재적 변경에 대비하는 것은 XP와 반대</strong> — XP는 미래 예측보다 <strong>현재 요구사항에 집중</strong>하고, 변경이 필요할 때 리팩토링으로 대응한다.</p>
 <p>나머지 보기는 모두 정확한 XP 설명.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>공동 소유권에 대한 설명 자체는 옳다.</p>
+<h3>보기③</h3>
+<p>연속적 통합에 대한 설명 자체는 옳다.</p>
+<h3>보기④</h3>
+<p>리팩토링에 대한 설명 자체는 옳다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>XP 12가지 핵심 실천법:</strong></p>
 <table>
@@ -1813,6 +2196,10 @@ int getRating() {
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>애자일 사업 감리 시 과도한 선행 설계(빅 디자인 업프론트) 없이 현재 요구에 맞는 최소 설계로 진행하는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Simple Design은 "지금 필요한 것만 구현(YAGNI)"하는 XP 실천법으로, 미래 대비 과잉 설계와 반대 개념임을 기억한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1873,6 +2260,30 @@ int getRating() {
 <li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>UML 다이어그램 표기법은 매년 2~3문항 출제되며 클래스·상태·시퀀스 다이어그램이 주로 다뤄진다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>45</td>
+<td>Java→UML 표기</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>49</td>
+<td>Sequence Diagram</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1894,6 +2305,13 @@ int getRating() {
 <li><strong>effect</strong>: 전이 시 실행되는 액션 (/ 뒤)</li>
 </ul>
 <p>예시: <code>mouseClick [isEnabled] / highlight()</code></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>effect 앞의 슬래시(/)가 없어 액션 구분이 되지 않는다.</p>
+<h3>보기③</h3>
+<p>가드조건은 대괄호로 trigger 뒤에 오며, 슬래시 위치가 잘못됐다.</p>
+<h3>보기④</h3>
+<p>슬래시를 두 번 사용해 표준 표기와 다르다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>UML State Machine 전이 구성요소:</strong></p>
 <table>
@@ -1928,6 +2346,10 @@ int getRating() {
 </tbody>
 </table>
 <p>전체: <code>trigger [guard] / effect</code></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>상태 기반 로직(주문·결제 상태) 설계 감리 시 상태·전이·가드 조건이 누락 없이 정의됐는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>전이 표기는 <code>이벤트[가드조건]/액션</code> 형식이며, 각 요소의 위치와 구분 기호를 정확히 아는지가 출제 포인트다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1984,6 +2406,25 @@ int getRating() {
 <li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>형상관리 도구 특성은 주기적으로 출제되며 분산/중앙집중 구분이 핵심이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>46</td>
+<td>SP 인증 평가 항목</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2004,6 +2445,13 @@ int getRating() {
 - ①: 맞음 (SVN도 commit 명령 사용)<br />
 - ③: Subversion(SVN) = 중앙집중식 맞음<br />
 - ④: 베이스라인 정의 맞음</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>Git·Subversion 모두 commit으로 새 버전을 만드는 것은 옳다.</p>
+<h3>보기③</h3>
+<p>Subversion이 중앙집중식이라는 설명은 옳다.</p>
+<h3>보기④</h3>
+<p>베이스라인 정의에 대한 설명은 옳다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Git vs SVN 비교:</strong></p>
 <table>
@@ -2042,6 +2490,10 @@ int getRating() {
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>형상관리 감리 시 브랜치 전략·커밋 이력·태그 관리가 표준 절차대로 운영되는지 저장소 이력으로 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Git은 분산 버전관리(DVCS)로 로컬에 전체 이력을 보유하며 중앙 서버 없이도 커밋이 가능하다는 점이 SVN(중앙집중식)과의 핵심 차이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2102,6 +2554,30 @@ int getRating() {
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>코드 악취(Code Smell)와 대응 리팩토링을 짝짓는 문제가 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>35</td>
+<td>Inline Method</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>50</td>
+<td>Hide Delegate</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (코드 악취 2023년 Q41과 동일 토픽)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2117,6 +2593,13 @@ int getRating() {
 - <strong>Divergent Change(확산적 변경)</strong>: 하나의 클래스가 여러 이유로 변경 (1클래스→여러 변경)<br />
 - <strong>Shotgun Surgery</strong>: 하나의 변경이 여러 클래스에 영향 (1변경→여러 클래스)</p>
 <p>리팩토링: <strong>Move Method/Field, Inline Class</strong> 등으로 관련 기능을 하나의 클래스로 통합</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>Feature Envy는 한 클래스가 다른 클래스의 데이터에 과도하게 접근하는 악취다.</p>
+<h3>보기②</h3>
+<p>Data Clump는 항상 함께 몰려다니는 데이터 묶음을 객체로 만들지 않은 악취다.</p>
+<h3>보기④</h3>
+<p>Divergent Change는 한 클래스가 여러 이유로 자주 변경되는 것으로, 본 문항과 방향이 반대다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>코드 악취 종류:</strong></p>
 <table>
@@ -2155,6 +2638,10 @@ int getRating() {
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>변경 영향도 분석 감리 시 하나의 변경이 다수 모듈 수정을 유발하는 구조를 식별해 응집도 개선을 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Shotgun Surgery는 "하나의 변경에 여러 클래스를 조금씩 고쳐야 하는" 악취로, 한 클래스가 여러 이유로 바뀌는 Divergent Change와 반대 개념이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2213,6 +2700,30 @@ int getRating() {
 <li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>UML과 코드의 일관성 검증 유형은 실무형 문항으로 출제 비중이 높아지고 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>45</td>
+<td>Java→UML 표기</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>32</td>
+<td>Java static 규칙</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2232,6 +2743,13 @@ public class NextGenDrive extends Drive { ... }
 <p>UML에서 인터페이스 구현 = <strong>점선 + 속빈 삼각형(실체화)</strong><br />
 Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <p><code>extends</code>는 클래스 상속에 사용하며, 인터페이스 구현 시 <code>implements</code>를 사용해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>해당 코드는 다이어그램의 관계·다중도와 일치해 불일치 사례가 아니다.</p>
+<h3>보기③</h3>
+<p>해당 코드는 다이어그램 표기와 모순되지 않는다.</p>
+<h3>보기④</h3>
+<p>해당 코드도 다이어그램과 일관되어 오류로 볼 수 없다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
 <thead>
@@ -2255,6 +2773,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>설계-구현 일치성 감리 시 클래스 다이어그램의 다중도·관계가 실제 코드 구조와 일치하는지 대조 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>다중도(1..*, 0..1)와 연관 방향, 상속·구현 관계가 코드의 필드·상속 선언과 대응되는지 확인하는 것이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2325,6 +2847,25 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>소프트웨어 제품라인·변형성 관리는 드물게 출제되나 최근 재출제 경향이 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>30</td>
+<td>품질 특성 분류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2349,6 +2890,13 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 - Feature1 선택 시: <strong>g1</strong>은 필수, <strong>g2/g3</strong>는 Alternative<br />
 - Feature1 미선택 시: g1, g2, g3 모두 없음</p>
 <p>→ 보기④의 다이어그램: f → g1(Feature1 선택 시 포함), g2/g3 alternative 구조</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>두 feature를 모두 필수로 두면 선택적 구성이 표현되지 않는다.</p>
+<h3>보기②</h3>
+<p>부모-자식 선택 관계만으로는 제시된 조건부 컴파일 조합을 표현하지 못한다.</p>
+<h3>보기③</h3>
+<p>그룹 관계 설정이 제시된 조건과 일치하지 않는다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Feature Diagram 주요 관계:</strong></p>
 <table>
@@ -2392,6 +2940,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>제품라인·변형 관리 감리 시 공통 기능과 선택 기능이 명확히 구분되고 빌드 구성으로 통제되는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Feature Diagram의 필수(mandatory)·선택(optional)·택일(alternative)·다중선택(or) 표기와 조건부 컴파일 적용을 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2455,6 +3007,25 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>테스트 케이스 수 계산 문항은 매년 출제되는 계산형 고정 유형이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>29</td>
+<td>테스트 커버리지 포함 관계</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2021, 2024년 모두 조합 테스트 계산 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2503,6 +3074,13 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </ul>
 <p>→ <strong>① all combination + each choice</strong></p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>최소 TC는 base choice가 아니라 each choice 기준으로 산출된다.</p>
+<h3>보기③</h3>
+<p>최대 TC는 pair-wise가 아니라 모든 조합(all combination)에서 나온다.</p>
+<h3>보기④</h3>
+<p>최대·최소 모두 기준 기법이 잘못 짝지어졌다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조합 테스트 기법 정리:</strong></p>
 <table>
 <thead>
@@ -2535,6 +3113,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>테스트 설계 감리 시 조합 폭발을 피하면서 결함 검출력을 확보하도록 페어와이즈 등 조합 기법을 적용했는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>모든 조합(최대)과 각 값을 최소 1회 포함(최소)하는 경우의 수를 구분해 계산하는 것이 핵심이다. 최소 TC 수는 가장 많은 값을 가진 인자의 값 개수다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2600,6 +3182,30 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>UML 표기 규약 문항은 매년 출제되며 접근제어자·static·추상 표기가 주로 다뤄진다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>42</td>
+<td>UML-Java 일관성</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>39</td>
+<td>State Machine 표기</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2655,6 +3261,13 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 - <code>area</code>는 코드상 <code>private int</code>로 저장되므로 일반 속성 (<code>-area:int</code>), <code>/area</code>(derived) 아님</p>
 <p><strong>③번</strong>이 이 규칙을 정확히 표현.</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>파생 속성·static 표기나 가시성 기호가 코드와 일치하지 않는다.</p>
+<h3>보기②</h3>
+<p>static 멤버의 밑줄 표기 또는 가시성 표기가 코드와 어긋난다.</p>
+<h3>보기④</h3>
+<p>메서드 시그니처나 접근제어자 표기가 코드와 일치하지 않는다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>UML 클래스 다이어그램 표기법:</strong></p>
 <table>
 <thead>
@@ -2698,6 +3311,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>설계 산출물 감리 시 접근제어자·static 표기가 UML 규약대로 작성되어 개발자 간 해석 차이가 없는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>UML에서 +는 public, -는 private, #은 protected이며 static 멤버는 밑줄로 표기한다는 규약이 출제 포인트다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2754,6 +3371,25 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>SP·CMMI 등 프로세스 성숙도 모델은 주기적으로 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>40</td>
+<td>형상관리 도구</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2773,6 +3409,13 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 - 품질 보증</p>
 <p><strong>구성원 교육 계획 및 효과 평가</strong> = <strong>3등급</strong> 영역 (조직 수준의 훈련 관리)</p>
 <p>2등급은 <strong>프로젝트 단위</strong>의 기본 관리 능력 수준이며, 교육 훈련 체계는 3등급(조직 수준 프로세스 표준화)에서 평가된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>협력업체 선정·계약 이행 확인은 공급자(외주) 관리 프로세스에 해당한다.</p>
+<h3>보기②</h3>
+<p>측정 계획 수립과 결과 분석은 측정 및 분석 프로세스에 해당한다.</p>
+<h3>보기④</h3>
+<p>진척 검토·문제 분석·시정조치는 프로젝트 관리(모니터링·통제) 프로세스에 해당한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SP 인증 등급별 특징:</strong></p>
 <table>
@@ -2801,6 +3444,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>SW 개발 사업 감리 시 사업자의 프로세스 성숙도(SP 인증) 등급과 실제 프로세스 운영 증거가 일치하는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>SP 인증 등급별 요구 프로세스 범위(2등급=관리 수준, 3등급=조직 표준화)를 구분하는 것이 출제 포인트다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2864,6 +3511,25 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>ISO 9126→25010 전환 내용은 반복 출제되는 비교 포인트다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>30</td>
+<td>ISO 9126 품질 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (ISO 25010 품질 특성 분류 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2916,6 +3582,13 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 - 라: 비정상 종료 후 복원 → 신뢰성의 <strong>회복성(Recoverability)</strong></p>
 <p>테스트 기준/수행 용이 = <strong>유지보수성(Testability)</strong> (ISO 25010 유지보수성의 부특성)</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>availability는 신뢰성의 하위 특성이며 상위 특성 나열로는 부적절하다.</p>
+<h3>보기②</h3>
+<p>testability는 유지보수성의 하위 특성으로 상위 분류와 층위가 맞지 않는다.</p>
+<h3>보기④</h3>
+<p>adaptability는 이식성의 하위 특성으로, 상위 특성 목록에 섞여 분류가 어긋난다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISO 25010 품질 속성 세부:</strong></p>
 <table>
 <thead>
@@ -2943,6 +3616,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>비기능 요구 감리 시 보안성·호환성 등 최신 표준 품질특성이 요구사항에 반영·측정되는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>ISO 25010은 ISO 9126의 6특성에 보안성(Security)·호환성(Compatibility)을 추가해 8대 특성으로 확장했다는 점이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -3002,6 +3679,30 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <li><strong>PDF명</strong>: 1__소프트웨어공학_Part_I_V1.2_강의최종본.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>SOLID 원칙의 다이어그램 적용 판단은 최근 출제가 늘고 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>26</td>
+<td>OCP 원칙</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>46</td>
+<td>DIP 원칙</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (SOLID 원칙 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -3024,6 +3725,13 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 - <strong>DIP</strong>: 세탁사용자·수리기사가 구체 클래스(세탁기) 대신 <strong>추상(인터페이스)에 의존</strong><br />
 - <strong>ISP</strong>: 하나의 큰 인터페이스 대신 <strong>역할별로 분리된 인터페이스</strong> 사용</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>SRP는 단일 책임 원칙으로 본 개선의 핵심인 인터페이스 분리와 직접 관련이 없다.</p>
+<h3>보기②</h3>
+<p>OCP는 확장·수정 관점으로, 제시된 개선의 직접적 근거로는 DIP·ISP가 더 적합하다.</p>
+<h3>보기③</h3>
+<p>LSP는 치환 가능성 원칙으로 본 개선 내용과 부합하지 않는다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISP(Interface Segregation Principle):</strong></p>
 <blockquote>
 <p>"클라이언트가 자신이 사용하지 않는 메서드에 의존하지 않아야 한다"<br />
@@ -3033,6 +3741,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <blockquote>
 <p>"고수준 모듈은 저수준 모듈에 의존하지 않는다. 둘 다 추상화에 의존한다"</p>
 </blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>고수준 모듈이 저수준 구현에 직접 의존하는 구조를 식별해 인터페이스 도입(DIP)과 인터페이스 분리(ISP)를 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>DIP는 "추상화에 의존", ISP는 "사용하지 않는 메서드에 의존하지 않도록 인터페이스 분리"로, 개선 다이어그램에서 두 원칙의 적용을 함께 식별한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -3091,6 +3803,30 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>아키텍처 패턴(계층·MVC·브로커·파이프필터)은 매년 출제되는 고정 주제다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>31</td>
+<td>Decorator 패턴</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>27</td>
+<td>Strategy 패턴</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -3112,6 +3848,13 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 - <strong>performance</strong>: 부하 분산, 요청 라우팅 최적화 가능<br />
 - 이기종 언어/플랫폼 서비스 연동 가능 (③이 틀린 이유)<br />
 - 분산 복잡도 <strong>감소</strong> (브로커가 복잡도 숨김, ① 틀림)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>브로커는 분산 개발의 복잡도를 오히려 낮춰주므로 서술이 반대다.</p>
+<h3>보기②</h3>
+<p>브로커는 이기종·분산 환경을 연결하기 위한 것으로 동일 환경 전제가 아니다.</p>
+<h3>보기③</h3>
+<p>브로커는 언어·플랫폼 독립적 연계를 지원하므로 단일 언어 전제가 맞지 않는다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Broker 패턴 구성요소:</strong></p>
 <table>
@@ -3141,6 +3884,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 </tbody>
 </table>
 <p>대표 구현: CORBA, RMI, gRPC, 미들웨어</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>분산 연계 아키텍처 감리 시 중개자(브로커) 도입에 따른 단일 장애점·성능 병목 대책이 마련됐는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Broker는 클라이언트와 서버 사이에서 요청을 중개해 위치 투명성을 제공하는 아키텍처 패턴으로, 시퀀스 다이어그램의 중개 흐름으로 식별한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -3199,6 +3946,30 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>리팩토링 기법과 결합도 개선의 연계 문항이 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>35</td>
+<td>Inline Method</td>
+</tr>
+<tr>
+<td>2021</td>
+<td>41</td>
+<td>Shotgun Surgery</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
@@ -3259,6 +4030,10 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
 <p>"객체는 자신의 직접 친구에게만 말하라 (Don't talk to strangers)"<br />
 <code>a.b().c()</code> → <code>a.bc()</code> 형태로</p>
 </blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>과도한 객체 탐색 체인(a.getB().getC())으로 결합도가 높아진 코드를 식별해 위임 은닉을 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Hide Delegate는 "클라이언트가 위임 객체를 직접 알지 않도록 서버에 위임 메서드를 두는" 기법으로, 디미터 법칙(최소 지식 원칙)과 연결된다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">2021년 소프트웨어공학 출제 토픽 분석</div><div class="section-text"><table>
 <thead>

@@ -237,6 +237,30 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: 행위 패턴 - Chain of Responsibility</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>다이어그램 기반 패턴 식별은 최근 출제가 증가하는 유형이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>31</td>
+<td>Decorator 패턴</td>
+</tr>
+<tr>
+<td>2022</td>
+<td>43</td>
+<td>Command+Adapter</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (설계 패턴은 매년 출제, Chain of Responsibility 재출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -300,6 +324,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>설계 검토 시 시퀀스 다이어그램의 상호작용 흐름으로 적용 패턴을 식별하고 의도에 맞는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>시퀀스의 호출 위임 구조로 패턴을 식별하는 유형이다. 위임 대상과 생성 시점이 판별 단서다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -431,6 +459,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: 명세 기반 테스트 설계 기법</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>결정 테이블·커버리지 계산은 매년 출제되는 계산형 유형이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>45</td>
+<td>커버리지 포함 관계</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (Decision Table 커버리지 계산은 매년 1회 이상)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -497,10 +544,21 @@ strong { color:#0f172a; font-weight:700; }
 전체 Rule = 8개<br />
 <strong>커버리지 = 3/8</strong></p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>커버된 규칙을 1개로 과소 산정한 값이다.</p>
+<h3>보기②</h3>
+<p>커버된 규칙 수를 하나 적게 센 결과다.</p>
+<h3>보기④</h3>
+<p>실제 테스트가 커버하지 않는 규칙까지 포함해 과다 산정했다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Decision Table Testing:</strong><br />
 - 조건들의 모든 조합을 표로 정리<br />
 - 전체 커버리지 = 모든 8개 Rule 실행<br />
 - 테스트케이스별로 어느 Rule에 해당하는지 파악</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>테스트 설계 감리 시 결정 테이블의 규칙이 모두 테스트로 커버되는지 비율로 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>커버리지 = 커버된 규칙 수 / 전체 규칙 수로 계산하며, 조건 조합 수(2^n) 산정이 관건이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -559,6 +617,30 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
 <li><strong>관련 챕터</strong>: SW 아키텍처 - Clean Architecture</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>Clean Architecture·컴포넌트 원칙은 최근 출제가 늘고 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022</td>
+<td>41</td>
+<td>Clean Architecture 레이어</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>44</td>
+<td>컴포넌트 안정성 지표</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (Clean Architecture 출제 증가 추세)</p>
 <hr /></div></div>
@@ -645,6 +727,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>컴포넌트 의존성 감리 시 안정적 컴포넌트 방향으로만 의존하는지, 순환 의존이 없는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>안정 의존 원칙(SDP)·안정 추상화 원칙(SAP) 등 컴포넌트 결합 원칙의 정의를 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -702,6 +788,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 <li><strong>관련 챕터</strong>: AI 테스트 기법 - 뉴런 커버리지</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>AI 시스템 테스트는 신규 출제 영역으로 확대되고 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>45</td>
+<td>커버리지 포함 관계</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (AI 테스트는 최근 출제 급증)</p>
 <hr /></div></div>
@@ -780,6 +885,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>AI 모델 검증 감리 시 뉴런·경로 커버리지 등 신경망 특화 테스트 기준이 적용됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>전통적 코드 커버리지와 달리 뉴런 활성화 기반 커버리지를 쓴다는 점이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -841,6 +950,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: SW 품질 표준 - ISO/IEC 5055, CWE</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>보안약점·시큐어코딩은 주기적으로 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>42</td>
+<td>Git 명령어</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -861,6 +989,42 @@ strong { color:#0f172a; font-weight:700; }
 - Technical Debt: 빠른 개발을 위해 누적된 기술적 부채 (리팩토링 필요 코드)<br />
 - Bad Smells: 리팩토링이 필요한 코드 패턴 (Fowler)<br />
 - Anti-patterns: 반복되는 잘못된 설계 패턴</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>기술 부채는 단기 편의를 위해 미룬 개선 과제를 뜻하는 비유적 개념으로, 약점 분류 체계가 아니다.</p>
+<h3>보기③</h3>
+<p>코드 악취는 리팩토링 필요를 시사하는 코드 징후로 보안약점 목록이 아니다.</p>
+<h3>보기④</h3>
+<p>안티패턴은 반복되는 잘못된 해결책 유형으로 보안약점 분류 체계와 다르다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CWE와 CVE:</strong></p>
+<p>CWE(Common Weakness Enumeration)는 소프트웨어에 내재할 수 있는 <strong>약점 유형의 분류 목록</strong>으로, SQL 삽입·버퍼 오버플로우 같은 결함 '유형'에 CWE-89, CWE-120처럼 번호를 부여한다. 반면 <strong>CVE(Common Vulnerabilities and Exposures)</strong>는 특정 제품·버전에서 실제 발견된 <strong>개별 취약점</strong>에 부여하는 식별자다. 즉 CWE가 '왜 생기는가(유형)'라면 CVE는 '어디에 있는가(사례)'다. 심각도는 <strong>CVSS</strong> 점수로 정량화한다. 국내 시큐어코딩 진단기준도 CWE 분류 체계에 기반해 설계·구현 단계에서 약점을 제거하도록 요구한다.</p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CWE</td>
+<td>약점 <strong>유형</strong> 분류 목록</td>
+</tr>
+<tr>
+<td>CVE</td>
+<td>특정 제품의 <strong>개별 취약점</strong> 식별자</td>
+</tr>
+<tr>
+<td>CVSS</td>
+<td>취약점 심각도 점수 체계</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>보안약점 진단 감리 시 CWE 기준으로 진단 항목이 매핑되고 조치됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>CWE는 소프트웨어 '약점(weakness)' 목록, CVE는 개별 제품의 '취약점(vulnerability)' 식별자로 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -917,6 +1081,25 @@ strong { color:#0f172a; font-weight:700; }
 <hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
 <li><strong>PDF명</strong>: 2_1_소프트웨어공학_Part_II_V1.1_디자인_UML.pdf</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>SysML은 드물게 출제되나 UML과 비교로 나온다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>40</td>
+<td>State Machine 표기</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
@@ -1009,6 +1192,10 @@ strong { color:#0f172a; font-weight:700; }
 - UML 차용(4): Use Case, Activity, Sequence, State Machine<br />
 - SysML 고유(4): Requirement, Block Definition(BDD), Internal Block(IBD), Parametric<br />
 - 공통 변형(1): Package</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>시스템 엔지니어링 산출물 감리 시 SysML과 UML 다이어그램 사용이 목적에 맞는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>SysML은 UML을 확장해 요구·파라메트릭 다이어그램을 추가하고 일부 UML 다이어그램을 재사용한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1067,6 +1254,30 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: CMMI-DEV 프로세스 영역</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>CMMI는 매년 출제되는 고정 주제다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>38</td>
+<td>CMMI 레벨 3 PA</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>50</td>
+<td>SPICE 성숙도</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (CMMI 프로세스 영역 분류 주기적 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1110,6 +1321,13 @@ strong { color:#0f172a; font-weight:700; }
 - <strong>CAR(Causal Analysis and Resolution)</strong> → 지원(Support) 프로세스 영역</p>
 <p><strong>TS(Technical Solution)</strong>만 <strong>엔지니어링(Engineering)</strong> 프로세스 영역에 해당하므로 분류 성격이 다름.</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>형상관리(CM)는 지원(Support) 범주의 프로세스 영역이다.</p>
+<h3>보기③</h3>
+<p>DAR은 대안을 평가·선정하는 지원 범주 프로세스 영역이다.</p>
+<h3>보기④</h3>
+<p>CAR은 결함 원인을 분석·제거하는 지원 범주(고성숙도) 프로세스 영역이다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CMMI 4가지 프로세스 분류:</strong></p>
 <table>
 <thead>
@@ -1137,6 +1355,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>프로세스 개선 사업 감리 시 CMMI 프로세스 영역별 활동 증거가 존재하는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>프로세스 영역이 프로젝트관리·공학·지원·프로세스관리 중 어디에 속하는지 분류하는 유형이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1198,6 +1420,25 @@ strong { color:#0f172a; font-weight:700; }
 <hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
 <li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>아키텍처 뷰·스타일은 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>35</td>
+<td>MVC 스타일</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (아키텍처 뷰 식별 문제 매년 출제)</p>
 <hr /></div></div>
@@ -1261,6 +1502,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>아키텍처 문서 감리 시 뷰별로 이해관계자 관심사가 적절히 표현됐는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Publish-Subscribe 뷰는 컴포넌트 간 이벤트 발행·구독 관계를 나타내는 C&amp;C 뷰에 속한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1317,6 +1562,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>테스트 표준은 주기적으로 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>47</td>
+<td>Release Testing</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1354,6 +1618,13 @@ strong { color:#0f172a; font-weight:700; }
 - <strong>Tailored</strong>: 선택한 프로세스는 <strong>완전히</strong> 만족 (일부 요구사항만이 아님)</p>
 <p>보기①: "맞춤형 = 프로세스의 일부의 요구사항을 <strong>모두</strong>" → 정확</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>맞춤형 적합성을 '일부 프로세스의 일부 요구사항'으로 완화해 표준 정의와 다르다.</p>
+<h3>보기③</h3>
+<p>전체적 적합성의 대상을 '합의된 프로세스'로 한정해 정의가 축소됐다.</p>
+<h3>보기④</h3>
+<p>권고사항까지 필수로 포함시켜 요구사항 기준의 적합성 정의와 어긋난다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>ISO/IEC/IEEE 29119 구조:</strong></p>
 <table>
 <thead>
@@ -1385,6 +1656,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>테스트 프로세스 감리 시 표준 적합성 주장(전체적/맞춤형)의 근거와 테일러링 사유가 문서화됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>ISO 29119의 전체적 적합성(모든 요구 충족)과 맞춤형 적합성(테일러링 근거 제시)의 차이가 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1445,6 +1720,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>아키텍처 스타일은 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>33</td>
+<td>Publish-Subscribe 뷰</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1496,6 +1790,10 @@ strong { color:#0f172a; font-weight:700; }
 </tbody>
 </table>
 <p>MVC의 장점: 동일 Model에 웹/모바일/API 등 다양한 View 연결 가능</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>UI 구조 감리 시 표현·제어·데이터 책임이 분리되어 변경 영향이 국소화되는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>MVC는 Model(데이터)·View(표현)·Controller(입력 처리)로 책임을 분리하며, View-Model 간 갱신 경로가 판별 포인트다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1580,6 +1878,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: SOA, 웹 서비스</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>웹서비스·SOA 표준은 주기적으로 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>33</td>
+<td>SOAP vs REST</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (SOA/웹서비스 표준 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1621,6 +1938,13 @@ strong { color:#0f172a; font-weight:700; }
 <p>"SOA의 주요 표준: SOAP(메시지), WSDL(서비스 기술), UDDI(서비스 등록), WS-BPEL(프로세스)"</p>
 </blockquote>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>세 표준과 역할의 대응이 모두 어긋난다.</p>
+<h3>보기②</h3>
+<p>SOAP·WSDL·BPEL의 역할 배정이 서로 뒤바뀌었다.</p>
+<h3>보기③</h3>
+<p>나와 다의 대응이 실제 표준 역할과 맞지 않는다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>SOA 웹 서비스 표준 전체:</strong></p>
 <table>
 <thead>
@@ -1652,6 +1976,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>SOA 기반 연계 감리 시 서비스 명세(WSDL)·메시지(SOAP)·오케스트레이션(BPEL) 표준 준수를 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>SOAP=메시지 프로토콜, WSDL=서비스 명세, WS-BPEL=프로세스 오케스트레이션으로 역할을 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1711,6 +2039,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: Agile - Scrum</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>스크럼은 애자일 영역의 최고 빈출 주제다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>39</td>
+<td>MSA 특징</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (Scrum은 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1758,6 +2105,10 @@ strong { color:#0f172a; font-weight:700; }
 </tbody>
 </table>
 <p><strong>팀 규모</strong>: 개발팀 3~9명 권장 (전체 스크럼 팀 최대 10명)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>애자일 사업 감리 시 스크럼 역할·이벤트·산출물이 정의대로 운영되는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>스크럼 3역할(PO·SM·개발팀), 5이벤트, 3산출물의 구성과 책임 구분이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1822,6 +2173,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: CMMI 성숙도 모델</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>CMMI 레벨별 PA는 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>32</td>
+<td>CMMI-DEV PA 분류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (CMMI 레벨별 PA는 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -1878,6 +2248,10 @@ strong { color:#0f172a; font-weight:700; }
 - <strong>RSKM</strong>: Risk Management<br />
 - <strong>TS</strong>: Technical Solution<br />
 - <strong>VER/VAL</strong>: Verification/Validation</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>프로세스 성숙도 감리 시 조직 표준 프로세스가 정의·배포·준수되는지 증거로 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>CMMI 레벨 3은 조직 표준 프로세스 정의(OPD·OPF·조직 훈련 등)가 핵심이며, 레벨 2(관리)와 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -1934,6 +2308,25 @@ strong { color:#0f172a; font-weight:700; }
 <hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
 <li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>MSA는 최근 출제가 늘고 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>37</td>
+<td>Scrum 방법론</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
@@ -1992,6 +2385,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>MSA 전환 감리 시 서비스 분해 기준·데이터 일관성·분산 추적 체계가 마련됐는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>MSA는 독립 배포·기술 자율성의 장점과 분산 복잡성·통합 테스트 난도 상승의 단점을 함께 갖는다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2052,6 +2449,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: UML State Machine Diagram</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>UML State Machine 표기는 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>39</td>
+<td>State Machine 전이 표기</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (State Machine 액션 순서는 주기적 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2084,6 +2500,13 @@ strong { color:#0f172a; font-weight:700; }
 - 전이 완료 후 action D: D<br />
 - 목표 Z 진입(entry/E): E</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>exit 액션보다 transition 액션을 먼저 실행하는 순서로 표준과 다르다.</p>
+<h3>보기③</h3>
+<p>entry·exit 액션의 실행 순서가 뒤바뀌었다.</p>
+<h3>보기④</h3>
+<p>전이 시작 지점의 액션 순서가 표준 실행 순서와 어긋난다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>UML State Machine 전이 순서 원칙:</strong></p>
 <table>
 <thead>
@@ -2111,6 +2534,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>상태 기반 설계 감리 시 진입·탈출 액션과 전이 액션의 실행 순서가 명확히 정의됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>전이 시 실행 순서는 exit → transition action → entry 순임을 기억한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2201,6 +2628,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>품질 지표 계산은 주기적으로 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>44</td>
+<td>컴포넌트 안정성 지표</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (PCE 계산 2~3년 주기로 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2230,10 +2676,21 @@ strong { color:#0f172a; font-weight:700; }
 </ul>
 <p><strong>PCE 순서(큰→작은): 설계(75.6%) &gt; 분석(71.3%) &gt; 구현(67.0%)</strong> → <strong>④ 설계-분석-구현</strong></p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>단계별 결함 발견·유출 수를 반영하면 해당 순서가 되지 않는다.</p>
+<h3>보기②</h3>
+<p>구현 단계의 PCE를 과대 계산한 배열이다.</p>
+<h3>보기③</h3>
+<p>분석 단계 PCE를 가장 낮게 본 배열로 계산 결과와 맞지 않는다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>PCE의 의미:</strong><br />
 - PCE가 높을수록 해당 단계에서 결함을 잘 잡아냄 (품질 좋음)<br />
 - 결함 조기 발견이 비용 절감에 중요<br />
 - 이상적으로는 모든 단계에서 PCE = 100% (다음 단계로 결함 전달 안 됨)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>품질 활동 감리 시 단계별 결함 조기 발견율을 측정해 검토·테스트 효과를 평가한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>PCE = 해당 단계에서 발견한 결함 / (해당 단계 발견 + 이후 단계 유출) × 100으로 계산한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2289,6 +2746,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 2_3_소프트웨어공학_Part_II_SW_개발_V1.3.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>Git 명령어는 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022</td>
+<td>35</td>
+<td>Git 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (Git 명령어는 2024년과 2023년 연속 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2334,6 +2810,39 @@ strong { color:#0f172a; font-weight:700; }
 <p>fetch = 원격→로컬 (가져오기만, 병합 안 함). "로컬→원격"은 push의 기능. <strong>오류</strong></p>
 <h3>보기④(git clone)</h3>
 <p>clone = 원격 저장소 전체 복사 (최초). 비교/대조/충돌 해결은 pull/merge의 기능. <strong>오류</strong></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Git 주요 명령:</strong></p>
+<p>Git은 작업 디렉터리→스테이징 영역→로컬 저장소→원격 저장소의 4단계 구조를 갖는다. <code>add</code>는 변경을 스테이징하고, <code>commit</code>은 로컬 저장소에 스냅샷을 기록하며, <code>push</code>/<code>pull</code>은 원격과 동기화한다. 브랜치 통합은 병합 커밋을 만드는 <code>merge</code>와 커밋을 재적용해 이력을 선형화하는 <code>rebase</code>로 나뉜다. 되돌리기는 이력 자체를 되감는 <code>reset</code>(공유 브랜치에서 위험)과 취소 커밋을 새로 추가해 <strong>이력을 보존</strong>하는 <code>revert</code>로 구분되며, 이 차이가 자주 출제된다.</p>
+<table>
+<thead>
+<tr>
+<th>명령</th>
+<th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add / commit</td>
+<td>스테이징 / 로컬 기록</td>
+</tr>
+<tr>
+<td>push / pull</td>
+<td>원격 반영 / 원격 취득</td>
+</tr>
+<tr>
+<td>merge / rebase</td>
+<td>병합 커밋 / 이력 선형화</td>
+</tr>
+<tr>
+<td>reset / revert</td>
+<td>이력 되감기 / 취소 커밋 추가(보존)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>형상관리 감리 시 브랜치·병합·되돌리기 명령이 절차대로 사용되고 이력이 보존되는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>add/commit/push/pull/merge/rebase/reset/revert의 동작 차이, 특히 reset(이력 변경)과 revert(이력 보존)를 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2393,6 +2902,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>형상관리 개념은 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>49</td>
+<td>형상관리 4활동</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2431,6 +2959,13 @@ strong { color:#0f172a; font-weight:700; }
 - <strong>(나) 메인라인</strong>: 여러 코드라인이 통합되는 주 라인<br />
 - <strong>(다) 베이스라인</strong>: 라이브러리와 외부 컴포넌트를 포함하여 기준점을 정의</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>(가)에 베이스라인을 두면 변경통제 대상 산출물 집합이라는 정의와 맞지 않는다.</p>
+<h3>보기③</h3>
+<p>(나)·(다)의 베이스라인·메인라인 위치가 뒤바뀌었다.</p>
+<h3>보기④</h3>
+<p>세 용어의 배치가 모두 정의와 어긋난다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>형상관리 핵심 개념:</strong></p>
 <table>
 <thead>
@@ -2462,6 +2997,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>형상관리 감리 시 메인라인·베이스라인·코드라인 개념이 정의되고 릴리즈 기준이 관리되는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>베이스라인=승인된 산출물 집합(변경통제 대상), 메인라인=주 개발 흐름, 코드라인=버전 계열로 구분한다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2520,6 +3059,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 1_2_소프트웨어공학_Part_I_V1.1_아키텍처까지_강의.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>메트릭 계산은 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>28</td>
+<td>컴포넌트 결합도 원칙</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (2023, 2025년 모두 Instability 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2538,6 +3096,13 @@ strong { color:#0f172a; font-weight:700; }
 <p>I = Fan-out / (Fan-in + Fan-out) = 1 / (3 + 1) = <strong>1/4</strong></p>
 </blockquote>
 <p>I = 1/4: Cc는 안정적인 편 (다른 컴포넌트가 많이 의존하고, 자신은 하나에만 의존)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>Fan-in과 Fan-out을 서로 바꿔 계산했다.</p>
+<h3>보기③</h3>
+<p>불안정성 I를 Ce/(Ca+Ce) 대신 반대로 계산한 값이다.</p>
+<h3>보기④</h3>
+<p>Fan-in/out과 I 값이 모두 뒤바뀐 조합이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Instability 해석:</strong></p>
 <table>
@@ -2567,6 +3132,10 @@ strong { color:#0f172a; font-weight:700; }
 </tbody>
 </table>
 <p><strong>SDP</strong>: 자신보다 I값이 낮은(안정적인) 컴포넌트에 의존해야 함</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>컴포넌트 의존 구조 감리 시 안정성 지표로 변경 취약 지점을 식별한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>불안정성 I = Ce/(Ca+Ce)로, 값이 0에 가까울수록 안정(피의존 많음), 1에 가까울수록 불안정하다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2627,6 +3196,30 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: 테스트 커버리지 포함 관계</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>커버리지 포함 관계는 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2021</td>
+<td>29</td>
+<td>커버리지 포함 관계</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>27</td>
+<td>Decision Table 커버리지</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★ 매우 빈출</strong> (커버리지 포함 관계는 거의 매년 출제)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2648,6 +3241,13 @@ strong { color:#0f172a; font-weight:700; }
 - <strong>(다)</strong>: <strong>조건/결정(C/DC)</strong> — 세 번째<br />
 - <strong>(라) 바깥쪽</strong>: <strong>구문(SC)</strong> — 가장 약한 커버리지</p>
 <p>→ <strong>④번</strong>이 정답</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>강도 순서가 반대로 배열되어 포함 관계와 맞지 않는다.</p>
+<h3>보기②</h3>
+<p>(나)·(다)의 커버리지 강도 순서가 뒤바뀌었다.</p>
+<h3>보기③</h3>
+<p>변경조건/결정과 조건/결정의 위치가 서로 바뀌었다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>커버리지 강도 순:</strong></p>
 <table>
@@ -2690,6 +3290,10 @@ strong { color:#0f172a; font-weight:700; }
 <blockquote>
 <p>"커버리지 포함관계: 구문 &lt; 결정 &lt; 조건/결정 &lt; MC/DC &lt; 다중조건"</p>
 </blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>테스트 계획 감리 시 목표 커버리지 기준이 위험도에 맞게 설정됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>문장 &lt; 분기 &lt; 조건/결정 &lt; MC/DC &lt; 다중조건 순의 포함 관계가 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2755,6 +3359,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>단위 테스트 프레임워크는 주기적으로 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>45</td>
+<td>커버리지 포함 관계</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -2813,6 +3436,13 @@ strong { color:#0f172a; font-weight:700; }
 8. <code>b()</code> (@AfterClass - 클래스 종료 1회)</p>
 <p>→ <strong>a(), c(), t1(), d(), c(), t2(), d(), b()</strong> = <strong>③번</strong></p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>클래스 수준과 메서드 수준 애노테이션의 실행 시점을 구분하지 않은 순서다.</p>
+<h3>보기②</h3>
+<p>@Before·@After가 각 테스트마다 실행된다는 점이 반영되지 않았다.</p>
+<h3>보기④</h3>
+<p>@BeforeClass·@AfterClass가 테스트마다 반복 실행되는 것으로 잘못 배열했다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>JUnit5와의 비교:</strong></p>
 <table>
 <thead>
@@ -2850,6 +3480,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>자동화 테스트 감리 시 픽스처 설정·해제가 테스트 독립성을 보장하는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>@BeforeClass→@Before→@Test→@After→@AfterClass 실행 순서와 클래스/메서드 수준 구분이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -2906,6 +3540,25 @@ strong { color:#0f172a; font-weight:700; }
 <hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
 <li><strong>PDF명</strong>: 3_1_소프트웨어공학_Part_III_V1.0_테스트_유지관리.pdf</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>테스트 유형 구분은 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>34</td>
+<td>ISO 29119 적합성</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통</p>
 <hr /></div></div>
@@ -2976,6 +3629,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>인수 전 릴리즈 테스팅 감리 시 실제 운영 유사 환경에서 시나리오 기반 검증이 수행됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>릴리즈 테스팅은 개발팀 외부에서 완성된 버전이 요구를 충족하는지 검증하는 블랙박스 성격의 시스템 테스팅이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -3037,6 +3694,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: 소프트웨어 유지보수 유형</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>유지보수 유형은 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022</td>
+<td>37</td>
+<td>재공학 vs 유지보수</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (유지보수 유형은 매년 1문항)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -3094,6 +3770,10 @@ strong { color:#0f172a; font-weight:700; }
 - 새로운 기능 추가<br />
 - 사용자 인터페이스 개선<br />
 - 리팩토링을 통한 품질 향상</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>유지보수 감리 시 요청 유형별(수정·적응·완전·예방) 분류와 대가 산정 근거가 일관되는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>완전형(perfective)은 성능·유지보수성 개선 등 기능 향상, 적응형은 환경 변화 대응, 수정형은 결함 제거다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -3159,6 +3839,25 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>관련 챕터</strong>: 형상관리</li>
 </ul>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>형상관리 활동은 매년 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>43</td>
+<td>메인라인/베이스라인</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
@@ -3205,6 +3904,13 @@ strong { color:#0f172a; font-weight:700; }
 <p>문제의 4개(A,B,C,D)는 이 4가지에 해당하나, 보기의 "Configuration Verification"은 4가지 공식 분류에서의 정확한 명칭이 아님. 공식 명칭은 <strong>Configuration Audit</strong>이다.</p>
 <p>따라서 문제에서 설명한 활동(A=식별, B=제어, C=상태기록, D=감사)에 해당하지 않는 것이 "Configuration Verification"이므로 <strong>③번</strong>.</p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>형상 상태 보고는 형상관리의 정식 4대 활동에 포함된다.</p>
+<h3>보기②</h3>
+<p>형상 식별은 4대 활동에 포함된다.</p>
+<h3>보기④</h3>
+<p>형상 통제는 4대 활동에 포함된다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>형상관리 4대 활동:</strong></p>
 <table>
 <thead>
@@ -3237,6 +3943,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>형상관리 감리 시 식별·통제·상태보고·감사 4활동이 절차와 도구로 수행되는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>형상 식별→형상 통제→형상 상태 보고→형상 감사의 4대 활동 구성이 핵심이다.</p>
 <hr /></div></div></div></div>
       </div>
     </div>
@@ -3293,6 +4003,30 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>PDF명</strong>: 3_2_소프트웨어공학_Part_III_V1.0_품질관리_비용산정.pdf</li>
 <li><strong>관련 챕터</strong>: SW 프로세스 품질 - SPICE</li>
 </ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><p>SPICE·CMMI 비교는 반복 출제된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023</td>
+<td>32</td>
+<td>CMMI-DEV PA</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>38</td>
+<td>CMMI 레벨 3</td>
+</tr>
+</tbody>
+</table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (SPICE/CMMI 레벨은 매년 출제)</p>
 <hr /></div></div>
@@ -3353,6 +4087,13 @@ strong { color:#0f172a; font-weight:700; }
 (다) = L3 = <strong>Established</strong></p>
 <p>→ <strong>④ Performed, Managed, Established</strong></p>
 <hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>레벨 순서가 표준의 능력수준 진행과 맞지 않는다.</p>
+<h3>보기②</h3>
+<p>Managed와 Performed의 순서가 뒤바뀌었다.</p>
+<h3>보기③</h3>
+<p>Established를 가장 낮은 단계로 배치해 순서가 어긋난다.</p>
+<hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CMMI vs SPICE 비교:</strong></p>
 <table>
 <thead>
@@ -3395,6 +4136,10 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>프로세스 심사 감리 시 SPICE 능력수준 판정 근거(프로세스 속성 달성도)가 타당한지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>SPICE는 0(불완전)~5(최적화) 6단계 능력수준을 가지며, CMMI 5단계와 단계 수가 다름에 유의한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">2023년 소프트웨어공학 출제 토픽 분석</div><div class="section-text"><table>
 <thead>

@@ -1,0 +1,3635 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시스템구조 2024년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">시스템구조 <small>2024년도 기출해설집 · 총 25문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 시스템구조 기출문제 해설집</h1>
+<h2>2024년 제25회 (문항 76~100)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 업로드된 「4. 시스템 구조」 강의자료(Module_04_시스템구조.pdf, [1]시스템 구조 감리사 강의자료.pdf) 우선 근거, 외부지식은 보조적으로만 사용<br />
+<strong>정답 출처</strong>: 2024년(제25회) 정보시스템 감리사 필기시험 답안.pdf (A형 기준, 문제지와 답안지 별도 대조 확인)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (공식 답안표 대조 + 계산문항 직접 검산 완료)<br />
+<strong>비고</strong>: 98번은 공식 답안에서 <strong>③·④ 복수정답</strong> 처리됨</p>
+</blockquote>
+<hr />
+<h2>2024년 시스템구조 정답표 (Q76~100, A형)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>76</td>
+<td>①</td>
+<td>85</td>
+<td>④</td>
+<td>94</td>
+<td>③</td>
+</tr>
+<tr>
+<td>77</td>
+<td>③</td>
+<td>86</td>
+<td>③</td>
+<td>95</td>
+<td>②</td>
+</tr>
+<tr>
+<td>78</td>
+<td>②</td>
+<td>87</td>
+<td>③</td>
+<td>96</td>
+<td>②</td>
+</tr>
+<tr>
+<td>79</td>
+<td>④</td>
+<td>88</td>
+<td>①</td>
+<td>97</td>
+<td>④</td>
+</tr>
+<tr>
+<td>80</td>
+<td>②</td>
+<td>89</td>
+<td>①</td>
+<td>98</td>
+<td>③,④</td>
+</tr>
+<tr>
+<td>81</td>
+<td>①</td>
+<td>90</td>
+<td>③</td>
+<td>99</td>
+<td>②</td>
+</tr>
+<tr>
+<td>82</td>
+<td>①</td>
+<td>91</td>
+<td>②</td>
+<td>100</td>
+<td>④</td>
+</tr>
+<tr>
+<td>83</td>
+<td>③</td>
+<td>92</td>
+<td>①</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>84</td>
+<td>②</td>
+<td>93</td>
+<td>④</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="76" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「디지털서비스 제공역량(디지털서비스 심사∙선정 등에 관한 고시(과학기술정보통신부고시 제2023-43호))」에서 제공하는 서비스제공자의 가용률 보장 정책으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① PaaS : 99.9% 이상</strong><br />
+② IaaS : 99.5% 이상<br />
+③ SaaS : 99.9% 이상<br />
+④ 그 외 서비스 : 99.9% 이상</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>디지털서비스 제공역량 고시</li>
+<li>서비스 유형별 가용률(SLA)</li>
+<li>IaaS·PaaS·SaaS 가용률 기준</li>
+<li>가용률 99.9%</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>76번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>디지털서비스 제공역량 고시 - 서비스 유형별 가용률 보장</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: [1]시스템 구조 감리사 강의자료.pdf</li>
+<li><strong>관련 챕터</strong>: 디지털서비스·클라우드 최신 지침</li>
+<li><strong>관련 개념</strong>: SLA 가용률, 디지털서비스 고시</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 최신 고시 기반 가용률 기준 매칭</li>
+<li><strong>재출제 경향</strong>: 9의 개수-다운타임 계산과 연계(80번 참조)</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>80</td>
+<td>5-nines 가용성 다운타임 계산</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★</strong> 드물게 출제 (최신 고시 신규 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>가용률 99.9% = 연 다운타임 약 8.76시간</li>
+<li>IaaS·PaaS·SaaS = 99.9% 이상</li>
+<li>9의 개수 늘수록 다운타임 급감</li>
+<li>디지털서비스 고시 = 공공 클라우드 심사 기준</li>
+<li>정답 ① PaaS 99.9% 이상</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「디지털서비스 심사·선정 등에 관한 고시」는 디지털서비스(클라우드) 제공자가 보장해야 할 서비스 유형별 <strong>가용률(availability) 기준</strong>을 규정한다. 인프라·플랫폼·소프트웨어 서비스(IaaS·PaaS·SaaS)에 대해서는 상대적으로 높은 <strong>99.9% 이상</strong>의 가용률을, 그 외 서비스에 대해서는 이보다 완화된 기준을 적용하는 구조다.</p>
+<p>①은 <strong>PaaS : 99.9% 이상</strong>으로, 고시가 정한 플랫폼 서비스의 가용률 기준과 일치하여 가장 적절하다. 반면 ②는 IaaS를 99.5%로 낮게, ③·④는 각 유형의 기준 수치·대상 조합이 고시 규정과 어긋나게 제시되어 부적절하다. 따라서 정답은 ①번이다. 가용률 99.9%는 연간 다운타임 약 8.76시간에 해당하며, 클라우드 SLA의 사실상 표준선이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답. PaaS의 가용률 보장 기준(99.9% 이상)이 고시와 일치한다.</p>
+<h3>보기②</h3>
+<p>부적절. IaaS의 가용률 기준은 99.5%가 아니라 99.9% 이상으로, 수치가 낮게 제시되었다.</p>
+<h3>보기③</h3>
+<p>부적절. SaaS 항목의 수치·대상 조합이 고시가 정한 기준과 정확히 일치하지 않는다.</p>
+<h3>보기④</h3>
+<p>부적절. '그 외 서비스'에 대해 제시된 수치가 고시 규정과 어긋난다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>가용률(Availability)은 전체 운영 기간 중 서비스가 정상 제공된 시간의 비율로, MTBF/(MTBF+MTTR)로 계산한다. 클라우드·디지털서비스 SLA에서는 이를 '9의 개수'로 표현하는데, 99.9%(three nines)는 연간 다운타임 약 8.76시간, 99.99%는 약 52.6분, 99.999%(five nines)는 약 5.26분에 해당한다. 「디지털서비스 심사·선정 고시」는 공공부문 디지털서비스 전문계약제도(디지털서비스 이용지원시스템 등록)를 위한 심사 기준의 하나로 서비스 유형별 최소 가용률을 요구하며, 이는 공공 클라우드 도입 시 서비스 연속성·신뢰성을 담보하기 위한 장치다. 감리에서는 계약상 SLA 가용률 목표와 실제 측정·보고 체계, 미달 시 배상 조항이 고시·계약 기준에 부합하는지 점검한다.</p>
+<p><strong>가용률과 연간 다운타임:</strong></p>
+<table>
+<thead>
+<tr>
+<th>가용률</th>
+<th>연간 다운타임(근사)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>99%</td>
+<td>약 3.65일</td>
+</tr>
+<tr>
+<td>99.9%</td>
+<td>약 8.76시간</td>
+</tr>
+<tr>
+<td>99.99%</td>
+<td>약 52.6분</td>
+</tr>
+<tr>
+<td>99.999%</td>
+<td>약 5.26분</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>공공 클라우드 도입 감리 시 계약서의 서비스 유형별 SLA 가용률이 고시 기준(예: PaaS 99.9% 이상)을 충족하는지, 가용률 측정 방법과 위반 시 조치가 명시됐는지 확인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>서비스 유형(IaaS·PaaS·SaaS)별 가용률 기준 수치를 정확히 구분한다. 최신 고시·지침 기반 감리성 문항으로 재출제 가능성이 있다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="77" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>디지털논리회로 중에서 다수의 입력 단자 중에서 조건에 맞는 하나를 선택하여 단일 출력 단자로 연결하는 조합회로로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 인코더<br />
+② 디코더<br />
+<strong>③ 멀티플렉서</strong><br />
+④ 디멀티플렉서</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (멀티플렉서)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>멀티플렉서(MUX)</li>
+<li>데이터 선택기(Data Selector)</li>
+<li>선택신호(Selection line)</li>
+<li>조합논리회로</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>77번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>하</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>조합논리회로 - 멀티플렉서(MUX)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 디지털 논리회로 / 조합회로</li>
+<li><strong>관련 개념</strong>: 멀티플렉서, 데이터 선택기</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 조합회로 정의 매칭</li>
+<li><strong>재출제 경향</strong>: MUX/DEMUX/인코더/디코더 구분 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (기본 디지털논리 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>멀티플렉서 = 다수 입력 → 1 출력(선택)</li>
+<li>디멀티플렉서 = 1 입력 → 다수 출력(분배)</li>
+<li>디코더 = 코드 해독, 인코더 = 부호화</li>
+<li>MUX 선택선 수 = log₂(입력수)</li>
+<li>정답 ③ 멀티플렉서</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>멀티플렉서(Multiplexer, MUX)</strong>는 2ⁿ개의 입력 중 n개의 선택신호(select line)로 지정된 <strong>하나의 입력을 골라 단일 출력으로 내보내는</strong> 조합회로로, '데이터 선택기(data selector)'라고도 한다. 문제의 "다수 입력 중 조건에 맞는 하나를 선택하여 단일 출력으로 연결"이라는 서술이 MUX의 정의와 정확히 일치한다. 따라서 정답은 ③번이다.</p>
+<p>반대 기능(하나의 입력을 여러 출력 중 하나로 분배)은 디멀티플렉서이며, 인코더/디코더는 코드 변환 회로로 선택 기능과는 다르다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>인코더(Encoder)는 2ⁿ개 입력을 n비트 코드로 변환하는 회로로, 입력 선택기가 아니다.</p>
+<h3>보기②</h3>
+<p>디코더(Decoder)는 n비트 입력을 2ⁿ개 출력 중 하나로 해독하는 회로다.</p>
+<h3>보기③</h3>
+<p>정답. 다수 입력 중 하나를 선택해 단일 출력으로 연결하는 것이 멀티플렉서다.</p>
+<h3>보기④</h3>
+<p>디멀티플렉서(DEMUX)는 하나의 입력을 선택신호에 따라 여러 출력 중 하나로 분배한다. MUX의 역기능이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>조합논리회로는 현재 입력만으로 출력이 결정되는(기억소자 없는) 회로로, 대표 소자로 멀티플렉서·디멀티플렉서·인코더·디코더·가산기·비교기 등이 있다. <strong>멀티플렉서</strong>는 2ⁿ:1 구조로 n개의 선택선이 어떤 입력을 통과시킬지 결정하며, 통신에서 여러 신호를 하나의 전송선으로 다중화하거나 논리함수 구현(진리표 그대로 매핑)에도 쓰인다. <strong>디멀티플렉서</strong>는 1:2ⁿ로 역할이 반대이고, <strong>디코더</strong>는 선택선 없이 입력 코드를 해독해 해당 출력만 활성화한다. 인코더는 디코더의 역으로 활성 입력을 코드로 압축한다. 감리·설계 관점에서는 요구 기능(선택/분배/해독/부호화)에 맞는 소자를 선택했는지, 선택선 수(n=log₂입력수)가 적정한지 확인한다.</p>
+<p><strong>조합회로 기능 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>회로</th>
+<th>입력→출력</th>
+<th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>멀티플렉서</td>
+<td>2ⁿ:1</td>
+<td>다수 입력 중 하나 선택</td>
+</tr>
+<tr>
+<td>디멀티플렉서</td>
+<td>1:2ⁿ</td>
+<td>하나 입력을 하나 출력으로 분배</td>
+</tr>
+<tr>
+<td>디코더</td>
+<td>n:2ⁿ</td>
+<td>코드 해독(하나 출력 활성)</td>
+</tr>
+<tr>
+<td>인코더</td>
+<td>2ⁿ:n</td>
+<td>코드 부호화</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>하드웨어 설계 검토 시 신호 선택/분배 요구에 MUX/DEMUX가 올바로 적용됐는지, 논리함수 구현에 MUX 기반 설계가 자원 효율적인지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>MUX(선택)와 DEMUX(분배), 디코더(해독)와 인코더(부호화)의 방향을 혼동하지 않도록 한다. 정의 매칭형 기본 문항이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="78" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 리눅스의 파일 종류로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① FIFO 파일<br />
+<strong>② 가상 파일</strong><br />
+③ 일반 파일<br />
+④ 디렉토리 파일</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (가상 파일)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>리눅스 파일 유형(7종)</li>
+<li>일반/디렉토리/링크/특수 파일</li>
+<li>FIFO(명명된 파이프)</li>
+<li>장치 파일(문자·블록)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>78번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>리눅스 파일 종류</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 운영체제 / 리눅스 파일시스템</li>
+<li><strong>관련 개념</strong>: inode, 파일 유형, 특수 파일</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 리눅스 파일 유형 부정형 매칭</li>
+<li><strong>재출제 경향</strong>: OS 파일시스템 기본 개념 반복</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (OS 기본 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>리눅스 파일 7종: 일반·디렉토리·링크·문자/블록장치·FIFO·소켓</li>
+<li>'가상 파일'은 파일 종류 아님(②)</li>
+<li>ls -l 첫 문자로 종류 식별</li>
+<li>/proc은 가상 '파일시스템'</li>
+<li>정답 ② 가상 파일</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>리눅스(유닉스)의 파일 종류는 <code>ls -l</code>의 첫 문자로 구분되며 표준적으로 <strong>7가지</strong>가 있다: 일반 파일(-), 디렉토리(d), 심볼릭 링크(l), 문자 장치(c), 블록 장치(b), <strong>FIFO(명명된 파이프, p)</strong>, 소켓(s). 따라서 FIFO 파일(①), 일반 파일(③), 디렉토리 파일(④)은 모두 정식 리눅스 파일 유형이다.</p>
+<p>②의 <strong>"가상 파일"</strong>은 리눅스 파일 종류 분류에 존재하지 않는 명칭이다(procfs 등을 '가상 파일시스템'이라 부르긴 하나, 파일 '종류' 7종에는 포함되지 않는다). 따라서 가장 적절하지 않은 것은 ②번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>FIFO 파일(명명된 파이프)은 프로세스 간 통신용 정식 특수 파일 유형이다.</p>
+<h3>보기②</h3>
+<p>정답(부적절). '가상 파일'은 리눅스 파일 종류 7종에 속하지 않는 명칭이다.</p>
+<h3>보기③</h3>
+<p>일반 파일(regular file)은 텍스트·바이너리 등 데이터를 담는 가장 기본 유형이다.</p>
+<h3>보기④</h3>
+<p>디렉토리 파일은 하위 파일·디렉토리의 목록(이름-inode 매핑)을 담는 유형이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>유닉스/리눅스는 "모든 것은 파일"이라는 철학에 따라 장치·파이프·소켓까지 파일로 추상화한다. 파일의 종류는 inode의 타입 필드로 구분되며 <code>ls -l</code> 첫 열의 기호로 확인한다. 일반 파일(-)은 데이터, 디렉토리(d)는 디렉토리 엔트리, 심볼릭 링크(l)는 다른 경로에 대한 포인터, 문자 장치(c)와 블록 장치(b)는 각각 바이트 스트림·블록 단위 하드웨어 인터페이스, FIFO(p)는 명명된 파이프로 무관한 프로세스 간 단방향 통신, 소켓(s)은 양방향 통신에 쓰인다. 한편 /proc, /sys 같은 <strong>가상 파일시스템</strong>은 커널 정보를 파일 형태로 노출하지만 이는 '파일시스템'의 종류이지 위 7종의 '파일 종류'와는 층위가 다르다. 감리에서는 특수 파일 권한·소유권, 장치 파일 접근 통제가 적절한지 점검한다.</p>
+<p><strong>리눅스 파일 종류(ls -l 기호):</strong></p>
+<table>
+<thead>
+<tr>
+<th>기호</th>
+<th>종류</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>일반 파일</td>
+</tr>
+<tr>
+<td>d</td>
+<td>디렉토리</td>
+</tr>
+<tr>
+<td>l</td>
+<td>심볼릭 링크</td>
+</tr>
+<tr>
+<td>c / b</td>
+<td>문자 / 블록 장치</td>
+</tr>
+<tr>
+<td>p</td>
+<td>FIFO(명명된 파이프)</td>
+</tr>
+<tr>
+<td>s</td>
+<td>소켓</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>서버 보안 감리 시 장치 파일·소켓·FIFO의 권한 설정과 불필요한 특수 파일 존재 여부를 점검해 권한 상승·정보 유출 위험을 통제한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>파일 '종류'(7종)와 파일'시스템' 종류(가상 파일시스템 등)를 구분한다. 목록에 없는 명칭(가상 파일)을 고르는 부정형 문항이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="79" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 전가산기(full adder) 4개를 사용한 4비트 가산기를 나타낸 것이다. 2의 보수로 표현된 수들 간의 덧셈에서 상태 비트 제어 회로의 오버플로우 플래그(V) 논리식으로 가장 적절한 것은? <em>(그림: 4개의 전가산기가 캐리 전파로 연결된 4비트 가산기, 최상위단의 입력 캐리 C₃와 출력 캐리 C₄가 표시됨)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① C₃ · C₄  (AND)<br />
+② C₃ + C₄  (OR)<br />
+③ C₃ · C̄₄<br />
+<strong>④ C₃ ⊕ C₄  (XOR)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (C₃ ⊕ C₄)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원리 기반 검산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>2의 보수 오버플로우</li>
+<li>부호비트 캐리</li>
+<li>V = C_in(MSB) ⊕ C_out(MSB)</li>
+<li>상태비트(플래그) 회로</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>79번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>2의 보수 가산기 - 오버플로우 플래그(V) 논리식</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 컴퓨터 산술 / ALU·상태비트</li>
+<li><strong>관련 개념</strong>: 2의 보수, 오버플로우 검출</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 오버플로우 논리식 도출(계산·원리)</li>
+<li><strong>재출제 경향</strong>: 2의 보수·플래그 관련 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (컴퓨터 산술 핵심)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>오버플로우 V = C_in(MSB) ⊕ C_out(MSB)</li>
+<li>두 캐리 다르면 오버플로우</li>
+<li>캐리 플래그 ≠ 오버플로우 플래그</li>
+<li>다른 부호 덧셈은 오버플로우 없음</li>
+<li>정답 ④ C₃ ⊕ C₄</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>2의 보수 덧셈에서 <strong>부호 오버플로우</strong>는 "최상위 비트(부호비트)로 들어가는 캐리(C₃)와 최상위 비트에서 나가는 캐리(C₄)가 서로 다를 때" 발생한다. 두 캐리가 같으면(둘 다 0 또는 둘 다 1) 결과 부호가 정상이고, 다르면 부호가 뒤집혀 오버플로우다. 이 조건 "서로 다름"을 나타내는 논리 연산이 바로 <strong>배타적 논리합(XOR)</strong>이므로 오버플로우 플래그는</p>
+<p><strong>V = C₃ ⊕ C₄</strong></p>
+<p>가 된다. 따라서 정답은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>C₃·C₄(AND)는 두 캐리가 모두 1일 때만 1이므로, 둘 다 0인 오버플로우 상황을 놓쳐 부적절하다.</p>
+<h3>보기②</h3>
+<p>C₃+C₄(OR)는 한쪽만 1이어도 1이 되어, 두 캐리가 모두 1인 정상 경우까지 오버플로우로 잘못 판정한다.</p>
+<h3>보기③</h3>
+<p>C₃·C̄₄는 특정 조합만 검출해 오버플로우 전체 조건(서로 다름)을 표현하지 못한다.</p>
+<h3>보기④</h3>
+<p>정답. C₃ ⊕ C₄는 두 캐리가 다를 때만 1이 되어 2의 보수 오버플로우 조건과 정확히 일치한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>산술논리연산장치(ALU)는 연산 결과의 상태를 플래그(상태비트)로 남긴다. 대표 플래그로 캐리(C), 제로(Z), 부호(S/N), <strong>오버플로우(V)</strong>가 있다. 부호 없는 수의 자리올림 초과는 캐리 플래그로, 부호 있는(2의 보수) 수의 표현 범위 초과는 오버플로우 플래그로 검출한다. 오버플로우는 (양)+(양)=음 또는 (음)+(음)=양처럼 부호가 비정상적으로 뒤집힐 때 발생하며, 이는 부호비트로의 입력 캐리와 출력 캐리가 불일치하는 것과 동치다(V = C_{n-1} ⊕ C_n). 서로 다른 부호의 두 수를 더할 때는 오버플로우가 발생하지 않는다. 감리·설계 검증에서는 ALU 플래그 로직과 이를 사용하는 분기·예외 처리가 올바른지 확인한다.</p>
+<p><strong>부호 오버플로우 판정:</strong></p>
+<table>
+<thead>
+<tr>
+<th>C₃(부호비트로 캐리)</th>
+<th>C₄(출력 캐리)</th>
+<th>V</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0 (정상)</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1 (오버플로우)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1 (오버플로우)</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0 (정상)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>CPU·MCU 산술 로직 검증이나 임베디드 펌웨어 감리 시 오버플로우 플래그 처리 누락으로 인한 부호 연산 오류가 없는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>오버플로우 V = 부호비트 입력캐리 ⊕ 출력캐리(XOR)를 암기한다. 캐리 플래그(부호 없는 초과)와 혼동하지 않는다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="80" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>가용성은 시스템이 액세스 가능한 시간이다. 액세스 가능하지 않은 시간은 시스템 다운타임이다. 어떤 서비스가 "5개의 9 가용성"이라고 하면 1년에 99.999% 시간 동안 사용 가능함을 의미한다. "5개의 9 가용성"일 때 1년당 다운 타임으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 31.5초<br />
+<strong>② 5.25분</strong><br />
+③ 52.5분<br />
+④ 8시간 45분</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (5.25분)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (직접 검산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Five nines(99.999%)</li>
+<li>연간 다운타임 계산</li>
+<li>1년 = 525,600분</li>
+<li>가용성-다운타임 환산</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>80번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>가용성 계산 - "5개의 9(five nines)" 연간 다운타임</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: [1]시스템 구조 감리사 강의자료.pdf</li>
+<li><strong>관련 챕터</strong>: 신뢰성·가용성</li>
+<li><strong>관련 개념</strong>: 가용성, MTBF/MTTR, SLA</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 가용성-다운타임 계산</li>
+<li><strong>재출제 경향</strong>: 76번(가용률 기준)과 연계, 계산형 반복</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>76</td>
+<td>서비스 유형별 가용률 기준</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (가용성 계산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>1년 = 525,600분</li>
+<li>five nines = 연 약 5.26분</li>
+<li>9 하나 늘면 다운타임 1/10</li>
+<li>three nines = 약 8.76시간</li>
+<li>정답 ② 5.25분</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>가용성 99.999%의 연간 다운타임은 (1 − 0.99999) × (1년 시간)으로 계산한다. 1년은 365일 × 24시간 × 60분 = <strong>525,600분</strong>이므로,</p>
+<p>다운타임 = 0.00001 × 525,600분 = <strong>5.256분 ≈ 5.25분</strong></p>
+<p>이 된다(초로는 약 315.4초 ≈ 5분 15초). 따라서 정답은 ②번이다. 흔히 "five nines = 연간 약 5.26분"으로 암기한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>31.5초는 계산값(약 315초)의 1/10 수준으로, 자릿수를 잘못 잡은 값이다.</p>
+<h3>보기②</h3>
+<p>정답. 0.00001 × 525,600분 ≈ 5.26분으로 5.25분에 해당한다.</p>
+<h3>보기③</h3>
+<p>52.5분은 99.99%(four nines, 약 52.6분)의 다운타임으로, 9가 하나 적은 경우다.</p>
+<h3>보기④</h3>
+<p>8시간 45분은 99.9%(three nines, 약 8.76시간)에 해당하는 다운타임이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>가용성은 '9의 개수'가 하나 늘 때마다 허용 다운타임이 약 1/10로 줄어든다. 연간 기준으로 99%(two nines)≈3.65일, 99.9%(three nines)≈8.76시간, 99.99%(four nines)≈52.6분, 99.999%(five nines)≈5.26분, 99.9999%(six nines)≈31.5초다. 이 계산은 (1−가용성)×총시간으로 단순하며, 총시간 단위를 분·초로 두면 빠르게 환산된다. 오답 보기들이 바로 인접한 '9 개수'의 값(8시간 45분=three nines, 52.5분=four nines, 31.5초=six nines)으로 구성돼 있어, 자릿수 감각이 정확해야 한다. 감리에서는 SLA 목표 가용성과 실제 장애 시간 집계가 일치하는지, 목표가 업무 중요도에 맞게 설정됐는지 점검한다.</p>
+<p><strong>9의 개수별 연간 다운타임:</strong></p>
+<table>
+<thead>
+<tr>
+<th>가용성</th>
+<th>연간 다운타임</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>99.9%</td>
+<td>약 8시간 45분</td>
+</tr>
+<tr>
+<td>99.99%</td>
+<td>약 52.6분</td>
+</tr>
+<tr>
+<td>99.999%</td>
+<td>약 5.26분</td>
+</tr>
+<tr>
+<td>99.9999%</td>
+<td>약 31.5초</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>고가용성 시스템 감리 시 SLA에 명시된 '9의 개수'와 실제 연간 장애시간 통계를 대조해 목표 미달 여부와 이중화·복구 체계의 적정성을 평가한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>(1−가용성)×525,600분 공식을 즉시 적용한다. 인접 자릿수(8.76시간/52.6분/5.26분/31.5초)를 암기해 두면 빠르게 판별된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="81" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>SSD의 구성요소인 플래시 메모리는 블록 단위의 삭제만 가능하기 때문에 쓰레기 수집(garbage collection) 과정이 요구된다. 이 과정의 효율성을 증대시키기 위해 운영체제 차원에서 지원하는 기능으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① TRIM</strong><br />
+② 미러링<br />
+③ 마모 평준화<br />
+④ 캐시 교체 정책</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번 (TRIM)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SSD TRIM 명령</li>
+<li>가비지 컬렉션(GC)</li>
+<li>페이지 쓰기/블록 삭제 비대칭</li>
+<li>마모 평준화와 구분</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>81번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SSD 가비지 컬렉션 - 운영체제 지원 기능(TRIM)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 보조기억장치 / SSD·플래시</li>
+<li><strong>관련 개념</strong>: FTL, 가비지 컬렉션, TRIM</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: SSD 동작 원리·용어 매칭</li>
+<li><strong>재출제 경향</strong>: 저장장치 신기술 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (SSD 핵심 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>TRIM = OS가 무효 블록 SSD에 통지</li>
+<li>플래시: 쓰기=페이지, 삭제=블록</li>
+<li>GC·마모평준화 = SSD 내부(FTL)</li>
+<li>TRIM으로 쓰기 증폭↓·수명↑</li>
+<li>정답 ① TRIM</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>플래시 메모리는 <strong>읽기·쓰기는 페이지 단위, 삭제는 블록 단위</strong>로만 가능해, 무효화된 데이터가 있는 블록을 재사용하려면 유효 페이지를 옮기고 블록을 지우는 가비지 컬렉션이 필요하다. 이때 <strong>운영체제(파일시스템)가 삭제된 데이터의 블록(LBA)이 더 이상 유효하지 않음을 SSD 컨트롤러에 알려주는 명령이 TRIM</strong>이다. TRIM 정보를 받은 SSD는 해당 페이지를 GC 대상에서 미리 무효 처리해 불필요한 유효 페이지 복사를 줄이고, 결과적으로 쓰기 증폭(Write Amplification)을 낮춰 GC 효율과 수명을 높인다. 따라서 정답은 ①번이다.</p>
+<p>②·③·④는 SSD 내부 컨트롤러/구성 기법이거나 다른 계층의 기능으로, "운영체제 차원에서 GC 효율을 지원하는 기능"에 해당하지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답. TRIM은 OS가 무효 블록을 SSD에 통지해 GC 효율을 높이는 명령이다.</p>
+<h3>보기②</h3>
+<p>미러링(RAID-1)은 데이터 이중화 기법으로 SSD GC와 무관하다.</p>
+<h3>보기③</h3>
+<p>마모 평준화(wear leveling)는 블록 쓰기 횟수를 고르게 분산하는 SSD <strong>컨트롤러 내부</strong> 기법으로, OS가 GC를 돕는 기능이 아니다.</p>
+<h3>보기④</h3>
+<p>캐시 교체 정책은 캐시 메모리 관리 기법으로 SSD GC 통지와 관련이 없다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>SSD는 NAND 플래시의 물리적 제약(페이지 쓰기·블록 삭제, 셀 수명 제한) 때문에 FTL(Flash Translation Layer)이 논리주소-물리주소 매핑, 가비지 컬렉션, 마모 평준화를 수행한다. <strong>TRIM</strong>은 OS(운영체제)와 SSD의 협력 인터페이스로, 파일 삭제 시 해당 LBA가 무효임을 알려 SSD가 미리 정리하도록 한다. TRIM이 없으면 SSD는 어떤 페이지가 실제로 버려졌는지 모른 채 유효한 것으로 취급해 GC 시 불필요한 복사가 늘고 쓰기 증폭이 커진다. <strong>마모 평준화</strong>는 특정 블록에 쓰기가 몰려 조기 마모되는 것을 막는 별도 기법이며, <strong>오버프로비저닝</strong>(예비 영역 확보)도 GC 여유를 준다. 감리에서는 SSD 도입 시 TRIM 지원 여부(OS·파일시스템·펌웨어), 수명·성능 저하 관리 방안을 점검한다.</p>
+<p><strong>SSD 관련 기법 구분:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>계층</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TRIM</td>
+<td>OS↔SSD</td>
+<td>무효 블록 통지로 GC 효율↑</td>
+</tr>
+<tr>
+<td>가비지 컬렉션</td>
+<td>SSD FTL</td>
+<td>유효 페이지 이전 후 블록 삭제</td>
+</tr>
+<tr>
+<td>마모 평준화</td>
+<td>SSD FTL</td>
+<td>쓰기 분산으로 수명 연장</td>
+</tr>
+<tr>
+<td>오버프로비저닝</td>
+<td>SSD</td>
+<td>예비 영역으로 GC 여유 확보</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>SSD 스토리지 도입 감리 시 운영체제·파일시스템의 TRIM 활성화 여부와 펌웨어 지원을 확인해 장기 성능 저하·수명 단축 위험을 통제한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>TRIM(OS 통지)과 마모 평준화·GC(SSD 내부)를 구분한다. "운영체제 차원 지원"이라는 문구가 TRIM을 가리키는 단서다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="82" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>큰 데이터 블록을 전송하는 경우에는 CPU가 그 동작들을 수행하는데 많은 시간을 소모해야 하고, 시스템 버스도 대부분의 시간 동안 그러한 I/O 동작들을 위해 사용될 수 밖에 없다. 이 문제점을 해결하기 위해, CPU의 개입 없이 I/O 장치와 기억장치 간에 데이터 전송을 수행하도록 지원하는 메커니즘으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① DMA</strong><br />
+② Daisy-chain<br />
+③ Software polling<br />
+④ Memory-mapped I/O</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번 (DMA)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>DMA(Direct Memory Access)</li>
+<li>CPU 개입 없는 전송</li>
+<li>사이클 스틸링</li>
+<li>전송 완료 인터럽트</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>82번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>입출력 방식 - DMA(직접 메모리 접근)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 입출력 시스템 / 버스·인터럽트</li>
+<li><strong>관련 개념</strong>: DMA, 사이클 스틸링, 인터럽트</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: I/O 방식 정의 매칭</li>
+<li><strong>재출제 경향</strong>: DMA·인터럽트·버스 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (I/O 핵심 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>DMA = CPU 개입 없는 블록 전송</li>
+<li>완료 시 인터럽트로 통지</li>
+<li>사이클 스틸링/버스트 방식</li>
+<li>폴링은 CPU 계속 점유</li>
+<li>정답 ① DMA</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>DMA(Direct Memory Access)</strong>는 별도의 DMA 컨트롤러가 CPU를 대신해 I/O 장치와 주기억장치 간 데이터 블록을 직접 전송하는 메커니즘이다. CPU는 전송의 시작 정보(소스·목적지 주소, 전송 크기)만 설정한 뒤 다른 작업을 수행하고, 실제 전송은 DMA가 시스템 버스를 사용(사이클 스틸링/버스트)해 처리하며, 전송이 끝나면 인터럽트로 CPU에 알린다. 이로써 대용량 전송 시 CPU 부하와 버스 점유로 인한 비효율이 크게 줄어든다. 문제의 "CPU 개입 없이 I/O-기억장치 간 전송"이 DMA의 정의와 정확히 일치하므로 정답은 ①번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답. DMA는 CPU 개입 없이 I/O-메모리 간 직접 전송을 수행한다.</p>
+<h3>보기②</h3>
+<p>Daisy-chain은 여러 장치의 인터럽트 우선순위를 직렬로 연결해 결정하는 방식으로, 데이터 전송 메커니즘이 아니다.</p>
+<h3>보기③</h3>
+<p>Software polling은 CPU가 장치 상태를 반복 검사하는 방식으로, 오히려 CPU를 계속 점유한다.</p>
+<h3>보기④</h3>
+<p>Memory-mapped I/O는 I/O 장치 레지스터를 메모리 주소공간에 매핑하는 주소지정 방식일 뿐, CPU 없는 대량 전송 자체를 수행하지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>입출력 제어 방식은 발전 순서로 ① 프로그램 제어(programmed I/O, polling): CPU가 상태를 반복 확인, ② 인터럽트 구동(interrupt-driven) I/O: 장치가 준비되면 인터럽트로 알림, ③ <strong>DMA</strong>: CPU를 거치지 않고 블록 단위 직접 전송, ④ 채널/IOP: 전용 입출력 프로세서가 복잡한 I/O를 총괄로 나뉜다. 폴링·인터럽트는 데이터 한 워드마다 CPU가 관여하지만, DMA는 블록 전체를 컨트롤러가 처리하고 완료 시 한 번만 인터럽트하므로 대용량 전송에 효율적이다. DMA는 버스 사용 방식에 따라 사이클 스틸링(한 사이클씩 훔침)과 버스트(연속 점유)로 구분된다. 감리·설계에서는 대용량 I/O(디스크·네트워크·GPU)에서 DMA 활용과 버스 경합·캐시 일관성 처리를 점검한다.</p>
+<p><strong>I/O 방식 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>CPU 관여</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Programmed I/O(폴링)</td>
+<td>매우 높음</td>
+<td>상태 반복 검사</td>
+</tr>
+<tr>
+<td>인터럽트 구동</td>
+<td>중간</td>
+<td>준비 시 인터럽트</td>
+</tr>
+<tr>
+<td>DMA</td>
+<td>낮음</td>
+<td>블록 직접 전송, 완료 인터럽트</td>
+</tr>
+<tr>
+<td>채널/IOP</td>
+<td>매우 낮음</td>
+<td>전용 I/O 프로세서</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>고성능 스토리지·네트워크·GPU 시스템 감리 시 DMA 활용으로 CPU 부하를 낮추고, 버스 대역·캐시 일관성(예: IOMMU) 설계가 적절한지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>DMA(무개입 블록 전송)와 폴링/인터럽트/Memory-mapped I/O를 구분한다. "CPU 개입 없이"가 DMA의 핵심 단서다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="83" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>RAID(Redundant Array of Independant Disk)의 특성에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① RAID-0은 성능을 추구하고 RAID-1은 안정성을 추구한 방식이다.<br />
+② RAID-2와 RAID-3은 성능향상을 위해 실제 데이터를 저장하는 디스크를 RAID-0으로 구성한 방식이다.<br />
+<strong>③ RAID-3은 데이터 복구를 위해 해밍코드를 사용하고, RAID-4는 패리티 코드를 이용한다.</strong><br />
+④ RAID-5와 RAID-6은 데이터 복구를 위해 다른 디스크에 패리티 정보를 함께 저장해 안정성을 높인 방식이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>RAID 레벨(0~6)</li>
+<li>해밍코드(RAID-2) vs 패리티(RAID-3~6)</li>
+<li>스트라이핑·미러링</li>
+<li>분산 패리티(RAID-5/6)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>83번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>RAID 레벨별 특성 - 복구 방식(패리티/해밍)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 저장장치 / RAID</li>
+<li><strong>관련 개념</strong>: 스트라이핑·미러링·패리티·해밍코드</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: RAID 레벨 특성 부정형</li>
+<li><strong>재출제 경향</strong>: RAID 복구·레벨 특성 반복 출제(빈출)</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (RAID 단골 주제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>RAID-2 = 해밍코드, RAID-3~6 = 패리티</li>
+<li>RAID-0 성능 / RAID-1 안정성</li>
+<li>RAID-5 = 분산 패리티(1개 장애)</li>
+<li>RAID-6 = 이중 패리티(2개 장애)</li>
+<li>정답 ③ (RAID-3 해밍코드 서술이 오류)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>RAID 레벨별 복구 방식에서 <strong>해밍코드(Hamming code)를 사용하는 것은 RAID-2</strong>이고, <strong>RAID-3은 비트/바이트 단위 스트라이핑에 전용 패리티 디스크를 사용</strong>한다. ③은 "RAID-3이 해밍코드를 사용한다"고 서술했으나 이는 RAID-2의 특성이므로 <strong>틀린 설명</strong>이다(RAID-3은 패리티 사용). 따라서 가장 적절하지 않은 것은 ③번이다.</p>
+<p>①(RAID-0 성능/RAID-1 안정성), ②(데이터 디스크를 스트라이핑으로 구성), ④(RAID-5/6 분산 패리티)는 모두 옳은 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. RAID-0은 스트라이핑으로 성능, RAID-1은 미러링으로 안정성을 추구한다.</p>
+<h3>보기②</h3>
+<p>옳음. RAID-2·3은 데이터를 여러 디스크에 스트라이핑(RAID-0식 분산)하여 전송 성능을 높인다.</p>
+<h3>보기③</h3>
+<p>정답(부적절). 해밍코드는 RAID-2의 복구 방식이다. RAID-3은 패리티를 사용하므로 서술이 틀리다.</p>
+<h3>보기④</h3>
+<p>옳음. RAID-5는 분산 단일 패리티, RAID-6은 이중 패리티로 안정성을 높인다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>RAID는 여러 디스크를 묶어 성능·신뢰성을 높이는 기술이다. <strong>RAID-0</strong>(스트라이핑)은 중복 없이 성능만, <strong>RAID-1</strong>(미러링)은 완전 복제로 신뢰성을 제공한다. <strong>RAID-2</strong>는 비트 단위 스트라이핑에 <strong>해밍코드</strong>로 오류 정정, <strong>RAID-3</strong>은 바이트 단위 스트라이핑에 전용 패리티 디스크, <strong>RAID-4</strong>는 블록 단위 스트라이핑에 전용 패리티 디스크를 둔다. <strong>RAID-5</strong>는 패리티를 모든 디스크에 분산 저장해 전용 패리티 디스크의 쓰기 병목을 해소하고 디스크 1개 장애를 견디며, <strong>RAID-6</strong>은 서로 다른 두 패리티로 2개 디스크 동시 장애까지 견딘다. 감리에서는 업무의 성능·가용성 요구에 맞는 RAID 레벨 선택과 리빌드 시간·핫스페어, 컨트롤러 이중화가 적절한지 점검한다.</p>
+<p><strong>RAID 레벨 요약:</strong></p>
+<table>
+<thead>
+<tr>
+<th>레벨</th>
+<th>방식</th>
+<th>복구</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>스트라이핑</td>
+<td>없음</td>
+</tr>
+<tr>
+<td>1</td>
+<td>미러링</td>
+<td>복제본</td>
+</tr>
+<tr>
+<td>2</td>
+<td>비트 스트라이핑</td>
+<td>해밍코드</td>
+</tr>
+<tr>
+<td>3/4</td>
+<td>바이트/블록 + 전용 패리티</td>
+<td>패리티</td>
+</tr>
+<tr>
+<td>5</td>
+<td>분산 패리티</td>
+<td>단일 패리티(1개 장애)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>이중 분산 패리티</td>
+<td>2개 장애</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>스토리지 구성 감리 시 데이터 중요도·성능 요구에 따른 RAID 레벨 적정성, 리빌드 위험(대용량 디스크의 RAID-5 재구축 중 2차 장애)에 대한 RAID-6/백업 대책을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>해밍코드=RAID-2, 패리티=RAID-3~6을 구분한다. RAID 레벨별 복구 방식 매칭은 단골 출제다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="84" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 광역 통신망의 데이터 송수신(교환) 방법 중에서 회선 교환(Circuit Switching)에 대한 설명으로 옳은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 축적 전송 방식(Store-and-Forward)이라고도 한다.<br />
+<strong>② 데이터를 전송하지 않는 유휴 시간에도 회선을 점유하므로 비효율적이다.</strong><br />
+③ 전송할 메시지를 패킷 단위로 나누어 우선순위가 높은 패킷을 먼저 전송할 수 있다.<br />
+④ 실시간 통신이나 대화형 통신보다는 지연이 상대적으로 중요하지 않은 이메일·파일 전송 등에 적합하다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>회선 교환(전용 경로)</li>
+<li>유휴 시에도 회선 점유</li>
+<li>패킷/메시지 교환과 대비</li>
+<li>실시간·대화형에 적합</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>84번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>광역통신망 교환 방식 - 회선 교환(Circuit Switching)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 데이터 통신 / 교환 방식</li>
+<li><strong>관련 개념</strong>: 회선·메시지·패킷 교환</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 교환 방식 특성 매칭</li>
+<li><strong>재출제 경향</strong>: 회선 vs 패킷 교환 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (통신 기본 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>회선 교환 = 전용 경로, 유휴에도 점유</li>
+<li>회선 교환 = 실시간·대화형 적합</li>
+<li>축적/패킷 분할/우선순위 = 패킷 교환</li>
+<li>패킷 교환 = 통계 다중화로 효율↑</li>
+<li>정답 ② (유휴 점유 비효율)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>회선 교환</strong>은 통신 전에 송·수신 간 <strong>전용 물리 경로를 설정</strong>하고 통신이 끝날 때까지 그 회선을 독점하는 방식(예: 전통 전화망)이다. 경로가 고정되어 지연이 일정하고 실시간·대화형 통신에 유리하지만, <strong>데이터를 보내지 않는 유휴 시간에도 회선을 계속 점유</strong>하므로 자원 효율이 낮다. ②는 이 특성을 정확히 서술하여 옳다. 따라서 정답은 ②번이다.</p>
+<p>①(축적 전송), ③(패킷 분할·우선순위), ④(지연 비민감 응용 적합)는 모두 <strong>메시지/패킷 교환</strong>의 특성으로, 회선 교환 설명으로는 부적절하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>축적 전송(Store-and-Forward)은 메시지/패킷 교환의 특성이다. 회선 교환은 전용 경로로 즉시 전달한다.</p>
+<h3>보기②</h3>
+<p>정답. 회선 교환은 유휴 시간에도 회선을 점유해 비효율적이다.</p>
+<h3>보기③</h3>
+<p>패킷 단위 분할·우선순위 전송은 패킷 교환의 특성이다.</p>
+<h3>보기④</h3>
+<p>지연에 덜 민감한 이메일·파일 전송에 적합한 것은 패킷/메시지 교환이다. 회선 교환은 실시간·대화형에 적합하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>교환 방식은 크게 회선 교환과 축적 교환(메시지·패킷)으로 나뉜다. <strong>회선 교환</strong>은 설정→전송→해제 단계로, 전용 경로를 확보해 대역폭·지연이 일정하나 유휴 점유로 효율이 낮다. <strong>메시지 교환</strong>은 메시지 전체를 저장 후 전달하고, <strong>패킷 교환</strong>은 메시지를 패킷으로 나눠 전달하며 가상회선(연결형)과 데이터그램(비연결형)으로 세분된다. 패킷 교환은 통계적 다중화로 회선을 공유해 효율이 높고, 우선순위·재전송·경로 다양성이 가능하지만 지연 변동(지터)이 있다. 인터넷은 데이터그램 패킷 교환 기반이다. 감리에서는 트래픽 특성(실시간성·버스트성)에 맞는 교환·전송 기술 선택과 QoS 보장을 점검한다.</p>
+<p><strong>교환 방식 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>경로</th>
+<th>효율</th>
+<th>적합 트래픽</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>회선 교환</td>
+<td>전용 고정</td>
+<td>낮음(유휴 점유)</td>
+<td>실시간·대화형</td>
+</tr>
+<tr>
+<td>메시지 교환</td>
+<td>축적 후 전달</td>
+<td>중간</td>
+<td>비실시간</td>
+</tr>
+<tr>
+<td>패킷 교환</td>
+<td>공유·가변</td>
+<td>높음</td>
+<td>버스트·데이터</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>WAN 설계 감리 시 실시간(음성·영상)과 데이터 트래픽 특성에 맞춰 회선/패킷 기반 기술과 QoS·대역 보장을 적정하게 적용했는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>회선 교환의 '전용 경로·유휴 점유·실시간 적합'과 패킷 교환의 '분할·통계 다중화·효율'을 대비해 암기한다. 특성을 서로 바꿔 놓는 오답에 주의한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="85" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 데이터 통신에서 사용하는 에러검출 방식으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 블록합검사(Block Sum Check)<br />
+② 패리티검사(Parity Check)<br />
+③ 순환중복검사(Cyclic Redundancy Check)<br />
+<strong>④ 허프만코딩검사(Huffman Coding Check)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (허프만코딩검사)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>에러 검출(패리티·블록합·CRC)</li>
+<li>허프만 코딩(데이터 압축)</li>
+<li>검출 vs 정정 vs 압축</li>
+<li>다항식 나눗셈(CRC)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>85번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>하</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>에러 검출 방식 - 부호화 기법 구분</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 데이터 통신 / 오류 제어</li>
+<li><strong>관련 개념</strong>: 패리티·CRC·해밍코드·허프만</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 오류 검출 기법 부정형(이질 항목 배제)</li>
+<li><strong>재출제 경향</strong>: 검출/정정/압축 구분 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (오류 제어 기본)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>검출: 패리티·블록합·CRC·체크섬</li>
+<li>정정: 해밍코드·FEC</li>
+<li>압축: 허프만·산술부호화</li>
+<li>CRC = 생성 다항식 나눗셈</li>
+<li>정답 ④ 허프만(압축)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>에러 검출 방식에는 <strong>패리티 검사</strong>(비트 1의 개수 홀/짝), <strong>블록합 검사</strong>(가로·세로 패리티 결합), <strong>순환중복검사(CRC)</strong>(생성 다항식 나눗셈의 나머지) 등이 있다. 반면 ④의 <strong>허프만 코딩</strong>은 출현 빈도가 높은 심볼에 짧은 코드를 부여하는 <strong>무손실 데이터 압축</strong> 기법으로, 오류 검출과는 목적이 다르다. 따라서 에러 검출 방식으로 가장 적절하지 않은 것은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>블록합 검사는 데이터 블록의 가로/세로 패리티를 조합해 검출력을 높인 에러 검출 방식이다.</p>
+<h3>보기②</h3>
+<p>패리티 검사는 1비트 오류를 검출하는 가장 기본적인 에러 검출 방식이다.</p>
+<h3>보기③</h3>
+<p>CRC는 생성 다항식 기반 나눗셈으로 버스트 오류까지 강하게 검출하는 방식이다.</p>
+<h3>보기④</h3>
+<p>정답(부적절). 허프만 코딩은 데이터 압축 기법으로 에러 검출과 무관하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>오류 제어는 검출(detection)과 정정(correction)으로 나뉜다. <strong>검출</strong> 방식에는 패리티, 블록합(2차원 패리티), 체크섬, <strong>CRC</strong>(순환중복검사)가 있으며 CRC는 하드웨어 구현이 쉽고 버스트 오류에 강해 이더넷·저장장치에 널리 쓰인다. <strong>정정</strong> 방식에는 해밍코드(단일 비트 정정), FEC(전진오류정정) 등이 있다. 이와 별개로 <strong>허프만 코딩·산술 부호화</strong>는 정보량을 줄이는 무손실 압축, 셰넌-파노 등도 압축 계열이다. 즉 압축(허프만)·검출(CRC·패리티)·정정(해밍)을 목적별로 구분해야 한다. 감리에서는 전송·저장 계층에 적절한 오류 검출/정정 기법이 적용됐는지, 오류율·재전송 정책이 신뢰성 요구를 충족하는지 점검한다.</p>
+<p><strong>부호화 기법 목적 구분:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>패리티·블록합·CRC·체크섬</td>
+<td>오류 검출</td>
+</tr>
+<tr>
+<td>해밍코드·FEC</td>
+<td>오류 정정</td>
+</tr>
+<tr>
+<td>허프만·산술부호화</td>
+<td>데이터 압축</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>통신·저장 시스템 감리 시 계층별 오류 검출(CRC)·정정(FEC) 적용과 재전송(ARQ) 정책이 신뢰성 SLA를 만족하는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>허프만(압축)을 오류 검출로 오인하지 않는다. 검출(패리티·CRC)·정정(해밍)·압축(허프만)의 목적 구분이 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="86" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음에서 설명하는 라우팅 기법으로 가장 적절한 것은?<br />
+- 패킷을 전송하는 호스트가 목적지 호스트까지 전달경로를 스스로 결정하는 방식<br />
+- 이 방식을 지원하려면 송신 호스트의 라우팅 테이블에서 패킷을 수신 호스트까지 전달하기 위한 정보경로를 관리하여야 하며, 경로 정보를 패킷에 기록해야 함</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 계층라우팅(Hierarchical Routing)<br />
+② 분산라우팅(Distributed Routing)<br />
+<strong>③ 소스라우팅(Source Routing)</strong><br />
+④ 중앙라우팅(Centralized Routing)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (소스라우팅)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>소스 라우팅(Source Routing)</li>
+<li>송신 호스트가 경로 결정</li>
+<li>경로 정보를 패킷에 기록</li>
+<li>IP 옵션(LSRR/SSRR)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>86번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>라우팅 기법 - 소스 라우팅(Source Routing)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 계층 / 라우팅</li>
+<li><strong>관련 개념</strong>: 소스 라우팅, IP 옵션, 라우팅 알고리즘</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 라우팅 기법 정의 매칭</li>
+<li><strong>재출제 경향</strong>: 라우팅 방식·프로토콜 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>92</td>
+<td>RIP(거리벡터 분산 라우팅)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (라우팅 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>소스 라우팅 = 출발지가 경로 결정·기록</li>
+<li>IP LSRR/SSRR 옵션 = 보안상 차단</li>
+<li>분산 = 라우터 협력(RIP·OSPF)</li>
+<li>중앙 = SDN 컨트롤러</li>
+<li>정답 ③ 소스라우팅</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>소스 라우팅</strong>은 목적지까지의 전달 경로를 <strong>송신 호스트(출발지)가 미리 결정</strong>하고, 그 경로 정보를 패킷 헤더(예: IP의 Loose/Strict Source and Record Route 옵션)에 기록하여 중간 라우터가 이를 따르도록 하는 방식이다. 문제의 "송신 호스트가 경로를 스스로 결정하고 경로 정보를 패킷에 기록"이라는 서술이 소스 라우팅의 정의와 정확히 일치하므로 정답은 ③번이다. 소스 라우팅은 경로 우회·진단에 쓰이지만 IP 스푸핑·우회 공격에 악용될 수 있어 보안상 대개 차단한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>계층 라우팅은 네트워크를 영역(AS·영역)으로 나눠 라우팅 정보를 계층적으로 축약·관리하는 방식이다.</p>
+<h3>보기②</h3>
+<p>분산 라우팅은 각 라우터가 이웃과 정보를 교환해 독립적으로 경로를 계산하는 방식(예: RIP, OSPF)이다.</p>
+<h3>보기③</h3>
+<p>정답. 송신 호스트가 경로를 결정하고 패킷에 기록하는 것이 소스 라우팅이다.</p>
+<h3>보기④</h3>
+<p>중앙 라우팅은 중앙 제어기가 전체 경로를 계산·배포하는 방식(예: SDN 컨트롤러)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>라우팅 방식은 경로 결정 주체·정보 관리 형태로 구분된다. <strong>소스 라우팅</strong>은 출발지가 전체(strict) 또는 일부(loose) 경로를 지정한다. <strong>분산 라우팅</strong>은 라우터들이 거리벡터(RIP)·링크상태(OSPF) 알고리즘으로 협력해 경로를 정하고, <strong>중앙 라우팅</strong>은 중앙 노드가 전 경로를 산출(SDN이 현대적 예)한다. <strong>계층 라우팅</strong>은 확장성을 위해 도메인(AS) 내부(IGP)·외부(BGP)로 나눠 정보를 축약한다. 소스 라우팅은 유연하지만 보안 위험(경로 우회로 접근통제 우회, 스푸핑) 때문에 IP 소스라우팅 옵션은 방화벽·라우터에서 차단하는 것이 관행이다. 감리에서는 라우팅 프로토콜 선택의 적정성, 소스 라우팅 옵션 차단 등 보안 설정을 점검한다.</p>
+<p><strong>라우팅 방식 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>경로 결정 주체</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>소스 라우팅</td>
+<td>송신 호스트(출발지)</td>
+</tr>
+<tr>
+<td>분산 라우팅</td>
+<td>각 라우터 협력</td>
+</tr>
+<tr>
+<td>중앙 라우팅</td>
+<td>중앙 제어기</td>
+</tr>
+<tr>
+<td>계층 라우팅</td>
+<td>영역별 축약 관리</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>네트워크 보안 감리 시 IP 소스 라우팅 옵션(LSRR/SSRR) 차단 여부를 점검해 접근통제 우회·스푸핑 공격 위험을 통제한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"출발지가 경로 결정 + 패킷에 경로 기록"은 소스 라우팅의 정의다. 분산/중앙/계층 라우팅과 구분하고 보안 위험도 함께 기억한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="87" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 보기의 IP주소를 가진 노드가 속하는 LAN에서 디폴트 게이트웨이 IP주소로 가장 적절한 것은? (단, 디폴트 게이트웨이의 IP주소에서 호스트 아이디 부분은 1로 가정한다.)<br />
+<code>182.75.187.69/27</code></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 182.75.187.1<br />
+② 182.75.187.5<br />
+<strong>③ 182.75.187.65</strong><br />
+④ 182.75.187.255</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (182.75.187.65)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (직접 검산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>서브네팅 /27</li>
+<li>블록 크기 32</li>
+<li>네트워크 주소 산정</li>
+<li>게이트웨이 = 네트워크 + 1</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>87번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>서브네팅 - 디폴트 게이트웨이 주소 산정(/27)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 계층 / IP 주소·서브네팅</li>
+<li><strong>관련 개념</strong>: CIDR, 서브넷 마스크, 게이트웨이</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 서브네팅 계산</li>
+<li><strong>재출제 경향</strong>: 게이트웨이·네트워크·브로드캐스트 산정 빈출</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (서브네팅 계산 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>/27 → 호스트 5비트 → 블록 32</li>
+<li>69 → 64~95 블록 → 네트워크 .64</li>
+<li>게이트웨이 = 네트워크 + 1 = .65</li>
+<li>첫 주소=네트워크, 끝=브로드캐스트(사용 불가)</li>
+<li>정답 ③ 182.75.187.65</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>프리픽스가 /27이면 호스트 비트는 32−27=5비트, 서브넷 <strong>블록 크기는 2⁵ = 32</strong>다. 마지막 옥텟이 32의 배수 경계로 나뉘므로 서브넷 경계는 …0, 32, 64, 96, …이다. 주소의 마지막 옥텟 <strong>69는 64~95 블록</strong>에 속하므로 이 노드가 속한 <strong>네트워크 주소는 182.75.187.64</strong>, 브로드캐스트는 182.75.187.95다.</p>
+<p>문제 조건에서 "게이트웨이의 호스트 아이디 부분은 1"이므로 게이트웨이 = 네트워크 주소 + 1 = 64 + 1 = <strong>182.75.187.65</strong>. 따라서 정답은 ③번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>182.75.187.1은 …0~31 블록(네트워크 .0)의 게이트웨이로, 69가 속한 서브넷이 아니다.</p>
+<h3>보기②</h3>
+<p>182.75.187.5도 첫 번째 블록(.0~.31) 내 주소로, 해당 서브넷과 무관하다.</p>
+<h3>보기③</h3>
+<p>정답. 69는 64~95 블록 → 네트워크 .64 → 게이트웨이 .65.</p>
+<h3>보기④</h3>
+<p>182.75.187.255는 /24 전체의 브로드캐스트 주소로 게이트웨이가 될 수 없다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>서브네팅은 호스트 비트 수(32−프리픽스)로 블록 크기(2^호스트비트)를 정한다. /27은 블록 32, /28은 16, /26은 64, /25는 128이다. 임의 IP의 소속 서브넷은 '마지막 옥텟 ÷ 블록크기'의 내림 × 블록크기로 네트워크 주소를 구한다(69÷32=2 → 2×32=64). 각 서브넷의 첫 주소는 네트워크(사용 불가), 마지막 주소는 브로드캐스트(사용 불가)이며 사용 가능 호스트는 (블록−2)개다. 관례적으로 게이트웨이는 첫 사용 가능 주소(네트워크+1)나 마지막 사용 가능 주소(브로드캐스트−1)로 둔다. 감리·설계에서는 서브넷 계획이 호스트 수요·확장성에 맞고 게이트웨이·브로드캐스트 주소가 올바르게 배정됐는지 점검한다.</p>
+<p><strong>/27 서브넷 경계(마지막 옥텟):</strong></p>
+<table>
+<thead>
+<tr>
+<th>네트워크</th>
+<th>범위</th>
+<th>브로드캐스트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.0</td>
+<td>.1~.30</td>
+<td>.31</td>
+</tr>
+<tr>
+<td>.32</td>
+<td>.33~.62</td>
+<td>.63</td>
+</tr>
+<tr>
+<td>.64</td>
+<td>.65~.94</td>
+<td>.95</td>
+</tr>
+<tr>
+<td>.96</td>
+<td>.97~.126</td>
+<td>.127</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>IP 주소 설계 감리 시 서브넷 마스크·게이트웨이·브로드캐스트 배정과 호스트 수용량, VLSM 적용의 적정성을 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>/27 = 블록 32를 즉시 떠올리고, 네트워크 주소(경계 내림)+1을 게이트웨이로 계산한다. 프리픽스-블록크기 환산이 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="88" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 IP에 대한 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① IPv4 헤더는 옵션이 없을 경우 20바이트이다.</strong><br />
+② IPv6 헤더의 크기는 40바이트이며 IPv4와 마찬가지로 옵션을 가진다.<br />
+③ IPv6 헤더에도 IPv4에서 패킷 단편화에 필요했던 ID Number, Don't Fragment, More Fragment 필드가 존재한다.<br />
+④ IPv4 패킷 단편화와 관련된 3가지 필드 중 분할된 패킷이 여러 개 있는 경우, 같은 원본 패킷에 속한 것인지를 확인할 수 있는 것은 More Fragment이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>IPv4 헤더 20바이트(옵션 제외)</li>
+<li>IPv6 고정 40바이트, 옵션은 확장헤더</li>
+<li>단편화 필드(Identification/DF/MF/Offset)</li>
+<li>IPv6 단편화 방식 차이</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>88번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>IP 프로토콜 - IPv4/IPv6 헤더 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 계층 / IP 헤더</li>
+<li><strong>관련 개념</strong>: IPv4/IPv6, 단편화, 확장 헤더</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: IP 헤더 특성 매칭(적절한 것 고르기)</li>
+<li><strong>재출제 경향</strong>: IPv4/IPv6 헤더·단편화 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (IP 헤더 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>IPv4 헤더 = 20B(옵션 없을 때)</li>
+<li>IPv6 헤더 = 40B 고정, 옵션=확장헤더</li>
+<li>IPv6 단편화 = 송신 호스트만</li>
+<li>원본 식별 = Identification 필드</li>
+<li>정답 ① IPv4 20바이트</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>IPv4 헤더는 옵션이 없으면 기본 20바이트</strong>(옵션 포함 시 최대 60바이트)이므로 ①이 옳다. 따라서 정답은 ①번이다.</p>
+<p>②는 틀림: IPv6 기본 헤더는 40바이트 <strong>고정</strong>이며, 옵션은 헤더 내 필드가 아니라 <strong>확장 헤더(extension header)</strong>로 처리한다. ③도 틀림: IPv6는 라우터가 단편화하지 않고 필요한 단편화 정보는 <strong>단편화 확장 헤더</strong>로 옮겨, 기본 헤더에 DF/MF/ID 필드가 없다. ④도 틀림: 여러 조각이 <strong>같은 원본 패킷에 속하는지 식별</strong>하는 필드는 More Fragment가 아니라 <strong>Identification(식별자)</strong>이다(MF는 뒤에 조각이 더 있는지 표시).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답. IPv4 헤더는 옵션이 없을 때 20바이트다.</p>
+<h3>보기②</h3>
+<p>부적절. IPv6 헤더는 40바이트 고정이고, 옵션은 확장 헤더로 분리해 IPv4식 옵션 필드를 두지 않는다.</p>
+<h3>보기③</h3>
+<p>부적절. IPv6 기본 헤더에는 ID/DF/MF 같은 단편화 필드가 없고, 단편화는 확장 헤더로 처리한다.</p>
+<h3>보기④</h3>
+<p>부적절. 같은 원본 패킷 소속 식별은 Identification 필드가 담당한다. MF는 후속 조각 존재 여부를 표시한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>IPv4 헤더는 가변 길이(20~60바이트)로 IHL 필드가 길이를 나타내며, 단편화 관련 3요소는 <strong>Identification</strong>(원본 패킷 식별), <strong>Flags</strong>(DF: 단편화 금지, MF: 뒤 조각 존재), <strong>Fragment Offset</strong>(조각 위치)이다. IPv6는 헤더를 <strong>40바이트 고정</strong>으로 단순화하고, 옵션·단편화 등은 <strong>확장 헤더</strong> 체인으로 옮겼으며, 경로상 라우터가 아니라 <strong>송신 호스트만</strong> 단편화(경로 MTU 탐색 기반)한다. 이로써 라우터 처리 부담을 줄이고 헤더 파싱을 빠르게 한다. IPv6는 또한 헤더 체크섬을 제거(상위·하위 계층에 위임)했다. 감리에서는 IPv4/IPv6 전환·듀얼스택 설계, MTU·단편화 정책, 확장 헤더 처리의 적정성을 점검한다.</p>
+<p><strong>IPv4 vs IPv6 헤더:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>헤더 크기</td>
+<td>20~60B(가변)</td>
+<td>40B 고정</td>
+</tr>
+<tr>
+<td>옵션</td>
+<td>헤더 내 옵션 필드</td>
+<td>확장 헤더</td>
+</tr>
+<tr>
+<td>단편화</td>
+<td>송신·라우터</td>
+<td>송신 호스트만(확장헤더)</td>
+</tr>
+<tr>
+<td>체크섬</td>
+<td>있음</td>
+<td>없음</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>IPv6 도입·듀얼스택 감리 시 확장 헤더 처리, 경로 MTU 탐색, 방화벽의 IPv6 정책 적용이 IPv4와 동등하게 갖춰졌는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>IPv4 20바이트(옵션 제외), IPv6 40바이트 고정+확장헤더, 단편화 식별=Identification을 정확히 구분한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="89" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>NAT(Network Address Translation)와 사설 IP주소에 대한 설명으로 옳지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 13.234.23.87은 사설 IP주소로 활용할 수 있다.</strong><br />
+② 사설 IP주소와 공인 IP주소를 1대1로 고정적으로 매핑하는 것을 Static NAT라고 한다.<br />
+③ 내부 네트워크(LAN)에서 사용하는 사설 IP주소와 외부 인터넷에서 사용하는 공인 IP주소를 변환하는 것을 의미한다.<br />
+④ IP주소뿐만 아니라 포트 번호를 사용하는 NAPT(Network Address Port Translation) 또는 PAT(Port Address Translation) 방법이 있다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>사설 IP 대역(10/172.16-31/192.168)</li>
+<li>NAT/Static NAT/NAPT(PAT)</li>
+<li>공인 vs 사설 주소</li>
+<li>주소 고갈 완화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>89번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>NAT와 사설 IP 주소</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 계층 / NAT·주소체계</li>
+<li><strong>관련 개념</strong>: 사설 IP, NAT/PAT, RFC 1918</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: NAT/사설 IP 부정형</li>
+<li><strong>재출제 경향</strong>: 사설 대역·NAT 종류 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (NAT·주소체계)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>사설 대역: 10/8, 172.16-31/12, 192.168/16</li>
+<li>13.234.23.87 = 공인 주소</li>
+<li>Static NAT = 1:1 고정 매핑</li>
+<li>NAPT/PAT = 포트로 다중화</li>
+<li>정답 ① (공인 주소를 사설로 오기)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>사설(Private) IP 주소 대역은 <strong>10.0.0.0/8, 172.16.0.0/12(172.16~172.31), 192.168.0.0/16</strong>로 RFC 1918에 정해져 있다. <strong>13.234.23.87</strong>은 이 대역에 속하지 않는 <strong>공인(public) IP 주소</strong>이므로 사설 IP로 활용할 수 없다. 따라서 옳지 않은 설명은 ①번이다.</p>
+<p>②(Static NAT=1:1 고정 매핑), ③(사설↔공인 주소 변환), ④(NAPT/PAT=포트까지 사용)는 모두 옳은 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답(틀린 설명). 13.234.23.87은 사설 대역(10/172.16-31/192.168)이 아닌 공인 주소다.</p>
+<h3>보기②</h3>
+<p>옳음. Static NAT는 사설-공인 주소를 1:1로 고정 매핑한다.</p>
+<h3>보기③</h3>
+<p>옳음. NAT는 LAN의 사설 주소와 인터넷의 공인 주소를 변환한다.</p>
+<h3>보기④</h3>
+<p>옳음. NAPT(PAT)는 포트 번호까지 이용해 다수 사설 호스트를 하나의 공인 주소로 다중화한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>NAT는 IPv4 주소 고갈 완화와 내부망 은닉을 위해 사설-공인 주소를 변환한다. <strong>Static NAT</strong>는 1:1 고정, <strong>Dynamic NAT</strong>는 공인 주소 풀에서 동적 할당, <strong>NAPT/PAT</strong>는 하나의 공인 주소에 포트 번호를 조합해 다수 내부 호스트를 다중화(가정용 공유기의 기본 방식)한다. 사설 주소 대역은 RFC 1918(10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)과 링크로컬(169.254/16)이 있으며, 이 대역은 인터넷에서 라우팅되지 않는다. NAT는 주소 절약·보안 은닉 이점이 있으나 종단 간 연결성·일부 프로토콜(FTP·SIP)에 문제를 주어 ALG나 홀펀칭이 필요하다. 감리에서는 NAT 정책, 사설 대역 사용, 로깅(추적성)과 보안 설정을 점검한다.</p>
+<p><strong>사설 IP 대역(RFC 1918):</strong></p>
+<table>
+<thead>
+<tr>
+<th>대역</th>
+<th>범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>10.0.0.0/8</td>
+<td>10.0.0.0~10.255.255.255</td>
+</tr>
+<tr>
+<td>172.16.0.0/12</td>
+<td>172.16.0.0~172.31.255.255</td>
+</tr>
+<tr>
+<td>192.168.0.0/16</td>
+<td>192.168.0.0~192.168.255.255</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>네트워크 감리 시 사설 주소 사용·NAT/PAT 정책과 접속 로그(내부 호스트 추적성), 외부 공개 서비스의 포트포워딩 보안 설정을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>사설 대역 3종을 암기해 공인 주소(예: 13.x)를 사설로 오인하지 않는다. Static NAT·NAPT(PAT) 개념도 구분한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="90" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음에 해당하는 장비로 가장 적합한 것은?<br />
+하나의 LAN 내부에 속하는 여러 단말노드를 연결하기 위한 장비로서, 이더넷(Ethernet) 방식의 네트워크에서는 충돌 도메인(Collision Domain)을 나누는 역할을 수행할 수 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 모뎀(MODEM)<br />
+② 리피터(Repeater)<br />
+<strong>③ L2 스위치(L2 Switch)</strong><br />
+④ USB 허브(USB Hub)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (L2 스위치)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>L2 스위치(데이터링크 계층)</li>
+<li>충돌 도메인 분할(포트별)</li>
+<li>MAC 주소 기반 스위칭</li>
+<li>허브·리피터와 대비</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>90번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>LAN 장비 - 충돌 도메인 분할(L2 스위치)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 데이터링크·네트워크 계층 / LAN 장비</li>
+<li><strong>관련 개념</strong>: 충돌 도메인, 스위칭, VLAN</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: LAN 장비 역할 매칭</li>
+<li><strong>재출제 경향</strong>: 충돌/브로드캐스트 도메인·계층 장비 반복</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (네트워크 장비 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>L2 스위치 = 포트별 충돌 도메인 분할</li>
+<li>허브·리피터 = 충돌 도메인 공유</li>
+<li>라우터 = 브로드캐스트 도메인 분할</li>
+<li>VLAN = L2에서 브로드캐스트 논리 분할</li>
+<li>정답 ③ L2 스위치</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>L2 스위치</strong>는 데이터링크(2계층) 장비로, MAC 주소 테이블을 학습해 프레임을 목적지 포트로만 전달한다. 각 <strong>포트가 독립된 충돌 도메인</strong>을 형성하므로, 이더넷에서 충돌 도메인을 포트 단위로 분할해 충돌을 없애고 전이중 통신을 가능하게 한다. 문제의 "여러 단말을 연결하며 충돌 도메인을 나누는 장비"가 L2 스위치의 역할과 일치하므로 정답은 ③번이다.</p>
+<p>리피터·허브(1계층)는 신호를 모든 포트로 재전송해 하나의 충돌 도메인을 공유하고, 모뎀은 신호 변복조 장비, USB 허브는 USB 장치 연결용으로 LAN 충돌 도메인과 무관하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>모뎀은 디지털-아날로그 신호 변복조 장비로 LAN 충돌 도메인 분할과 무관하다.</p>
+<h3>보기②</h3>
+<p>리피터는 1계층 신호 증폭·재생 장비로, 충돌 도메인을 나누지 못하고 오히려 확장한다.</p>
+<h3>보기③</h3>
+<p>정답. L2 스위치는 포트별로 충돌 도메인을 분할한다.</p>
+<h3>보기④</h3>
+<p>USB 허브는 USB 주변장치 연결용으로 이더넷 LAN 장비가 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>네트워크 장비는 동작 계층으로 구분된다. <strong>1계층</strong>(리피터·허브)은 신호만 다뤄 모든 포트가 하나의 충돌 도메인·브로드캐스트 도메인을 공유한다. <strong>2계층</strong>(브리지·L2 스위치)은 MAC 기반으로 프레임을 스위칭해 <strong>포트별 충돌 도메인 분할</strong>(브로드캐스트 도메인은 공유)한다. <strong>3계층</strong>(라우터·L3 스위치)은 IP 기반 라우팅으로 <strong>브로드캐스트 도메인까지 분할</strong>한다. VLAN을 쓰면 L2 스위치에서도 브로드캐스트 도메인을 논리적으로 나눌 수 있다. 감리·설계에서는 트래픽·세그먼트 규모에 맞는 계층 장비 선택, 충돌·브로드캐스트 도메인 설계, 루프 방지(STP)를 점검한다.</p>
+<p><strong>계층별 장비와 도메인 분할:</strong></p>
+<table>
+<thead>
+<tr>
+<th>계층</th>
+<th>장비</th>
+<th>충돌 도메인</th>
+<th>브로드캐스트 도메인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>허브·리피터</td>
+<td>공유</td>
+<td>공유</td>
+</tr>
+<tr>
+<td>2</td>
+<td>L2 스위치·브리지</td>
+<td>분할</td>
+<td>공유(VLAN 시 분할)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>라우터·L3 스위치</td>
+<td>분할</td>
+<td>분할</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>LAN 설계 감리 시 세그먼트 규모·성능에 맞는 스위치 선정, 충돌/브로드캐스트 도메인 설계, VLAN·STP 적용의 적정성을 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>L2 스위치=포트별 충돌 도메인 분할, 라우터=브로드캐스트 도메인 분할을 구분한다. 허브(공유)와 스위치(분할)의 차이가 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="91" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>FSK(Frequency Shift Keying)에 대한 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 주파수와 위상이 일정하게 유지된다.<br />
+<strong>② 최대진폭과 위상이 일정하게 유지된다.</strong><br />
+③ 최대진폭과 주파수가 일정하게 유지된다.<br />
+④ ASK(Amplitude Shift Keying)에 비해 잡음과 간섭에 매우 민감하다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>FSK = 주파수를 변화</li>
+<li>진폭·위상은 일정</li>
+<li>ASK보다 잡음에 강함</li>
+<li>디지털 변조(ASK/FSK/PSK)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>91번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>디지털 변조 - FSK(주파수 편이 변조)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 데이터 통신 / 디지털 변조</li>
+<li><strong>관련 개념</strong>: ASK·FSK·PSK·QAM</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 변조 방식 특성 매칭</li>
+<li><strong>재출제 경향</strong>: ASK/FSK/PSK 구분 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (변조 기본 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>FSK = 주파수 변화(진폭·위상 일정)</li>
+<li>ASK = 진폭, PSK = 위상 변화</li>
+<li>FSK가 ASK보다 잡음에 강함</li>
+<li>QAM = 진폭+위상(고효율)</li>
+<li>정답 ② 최대진폭·위상 일정</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>FSK(주파수 편이 변조)</strong>는 디지털 데이터(0/1)에 따라 반송파의 <strong>주파수를 변화</strong>시키는 방식이다. 따라서 변하는 것은 주파수이고, <strong>최대진폭과 위상은 일정하게 유지</strong>된다. ②가 이를 정확히 서술하므로 정답은 ②번이다.</p>
+<p>①은 주파수가 일정하다고 해 틀리고(FSK는 주파수가 변함), ③은 주파수가 일정하다고 해 틀리며, ④는 반대로 서술됐다. FSK는 진폭 잡음의 영향을 덜 받아 <strong>ASK보다 잡음·간섭에 강하다</strong>.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>부적절. FSK는 주파수를 변화시키므로 "주파수가 일정"은 틀리다.</p>
+<h3>보기②</h3>
+<p>정답. FSK는 주파수만 변하고 최대진폭·위상은 일정하다.</p>
+<h3>보기③</h3>
+<p>부적절. FSK에서 주파수는 변하는 요소이므로 "주파수 일정"은 틀리다.</p>
+<h3>보기④</h3>
+<p>부적절. FSK는 진폭 변화를 쓰지 않아 ASK보다 잡음·간섭에 오히려 강하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>디지털 변조는 반송파의 어떤 파라미터를 데이터에 따라 바꾸느냐로 나뉜다. <strong>ASK</strong>(진폭 편이)는 진폭을, <strong>FSK</strong>(주파수 편이)는 주파수를, <strong>PSK</strong>(위상 편이)는 위상을 변화시키며, 진폭·위상을 함께 쓰는 <strong>QAM</strong>은 대역 효율이 높다. ASK는 구현이 단순하나 진폭 잡음에 취약하고, FSK는 잡음에 강하지만 대역폭을 더 쓴다. PSK(BPSK·QPSK)는 잡음 내성과 대역 효율의 균형이 좋아 널리 쓰인다. 각 방식에서 "변하는 파라미터"와 "일정한 파라미터"를 구분하는 것이 핵심이다. 감리·설계에서는 채널 특성(잡음·대역·거리)에 맞는 변조 방식과 오류율(BER) 목표 충족을 검토한다.</p>
+<p><strong>디지털 변조 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>변하는 파라미터</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASK</td>
+<td>진폭</td>
+<td>단순, 잡음 취약</td>
+</tr>
+<tr>
+<td>FSK</td>
+<td>주파수</td>
+<td>잡음에 강함, 대역폭↑</td>
+</tr>
+<tr>
+<td>PSK</td>
+<td>위상</td>
+<td>잡음 내성·효율 균형</td>
+</tr>
+<tr>
+<td>QAM</td>
+<td>진폭+위상</td>
+<td>고효율(고속)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>무선·모뎀 통신 설계 감리 시 채널 잡음·대역 조건에 맞는 변조(FSK/PSK/QAM) 선택과 목표 오류율(BER) 달성 여부를 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>FSK=주파수 변화(진폭·위상 일정), FSK가 ASK보다 잡음에 강함을 기억한다. 변하는/일정한 파라미터를 바꿔 놓는 오답에 주의한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="92" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 RIP(Routing Information Protocol)에 대한 설명으로 옳지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 정적(Static) 라우팅 프로토콜이다.</strong><br />
+② 일반적으로 도착 가능한 최대 홉 카운트는 15이다.<br />
+③ 거리 벡터(Distance Vector) 알고리즘을 기반으로 한다.<br />
+④ RIP를 사용하는 라우터에서는 일반적으로 일정 주기로 라우팅 테이블을 업데이트한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>RIP = 동적 라우팅(거리벡터)</li>
+<li>최대 홉 15(16=무한대)</li>
+<li>주기적 업데이트(30초)</li>
+<li>소규모 네트워크용</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>92번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>라우팅 프로토콜 - RIP 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 계층 / 라우팅 프로토콜</li>
+<li><strong>관련 개념</strong>: RIP, 거리벡터, OSPF</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: RIP 특성 부정형</li>
+<li><strong>재출제 경향</strong>: RIP/OSPF 특성 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>86</td>
+<td>라우팅 기법(소스/분산/중앙)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (라우팅 프로토콜)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>RIP = 동적·거리벡터 라우팅</li>
+<li>최대 홉 15(16=무한대)</li>
+<li>주기적(30초) 업데이트</li>
+<li>소규모 네트워크용</li>
+<li>정답 ① (정적이라는 서술이 오류)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>RIP는 라우터들이 이웃과 라우팅 정보를 교환해 경로를 자동 계산하는 <strong>동적(Dynamic) 라우팅 프로토콜</strong>이다. ①은 "정적 라우팅 프로토콜"이라 했으나 RIP는 동적이므로 <strong>틀린 설명</strong>이다. 따라서 옳지 않은 것은 ①번이다.</p>
+<p>②(최대 홉 15, 16은 도달 불가), ③(거리벡터 기반), ④(주기적 업데이트)는 모두 옳은 RIP 특성이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답(틀린 설명). RIP는 정적이 아니라 동적 라우팅 프로토콜이다.</p>
+<h3>보기②</h3>
+<p>옳음. RIP의 최대 홉은 15이며 16은 무한대(도달 불가)로 간주한다.</p>
+<h3>보기③</h3>
+<p>옳음. RIP는 거리벡터 알고리즘(벨만-포드 기반)을 사용한다.</p>
+<h3>보기④</h3>
+<p>옳음. RIP는 일반적으로 30초 주기로 전체 라우팅 테이블을 이웃에 브로드캐스트한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>동적 라우팅 프로토콜은 알고리즘에 따라 거리벡터와 링크상태로 나뉜다. <strong>거리벡터(RIP, IGRP)</strong>는 이웃에게 자신의 전체 경로표를 주기적으로 알리며 홉 수로 경로를 정하는데, 수렴이 느리고 라우팅 루프(카운트 투 인피니티) 문제가 있어 스플릿 호라이즌·홀드다운·라우팅 포이즈닝으로 완화한다. <strong>링크상태(OSPF, IS-IS)</strong>는 전체 토폴로지를 파악해 다익스트라로 최적 경로를 계산하며 수렴이 빠르고 대규모에 적합하다. RIP는 홉 15 제한 때문에 <strong>소규모 네트워크</strong>에 한정된다. 정적 라우팅은 관리자가 경로를 수동 설정하는 것으로, 변화 대응이 어렵지만 예측 가능·보안적이다. 감리에서는 네트워크 규모·수렴 요구에 맞는 프로토콜 선택과 루프 방지 설정을 점검한다.</p>
+<p><strong>라우팅 프로토콜 분류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>예</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>정적</td>
+<td>수동 설정</td>
+<td>단순·보안적, 확장성↓</td>
+</tr>
+<tr>
+<td>동적-거리벡터</td>
+<td>RIP</td>
+<td>홉 기반, 수렴 느림</td>
+</tr>
+<tr>
+<td>동적-링크상태</td>
+<td>OSPF</td>
+<td>토폴로지 기반, 수렴 빠름</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>네트워크 라우팅 감리 시 규모·수렴 요구에 맞는 프로토콜(RIP/OSPF/BGP) 선택과 루프 방지·인증 설정의 적정성을 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>RIP=동적·거리벡터·최대 홉 15·주기적 업데이트를 기억한다. "정적"이라는 서술이 함정 오답이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="93" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 GPU 컴퓨팅에 대한 설명으로 가장 적합하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① GPU는 자체 지역메모리를 사용한다.<br />
+② GPU는 고도의 하드웨어 멀티스레딩(multi-threading)을 사용한다.<br />
+③ GPU를 사용하기 위해 CUDA와 같은 플랫폼을 사용할 수 있다.<br />
+<strong>④ GPU는 메모리 지연시간을 극복하기 위해 중앙처리장치를 사용한다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>GPU 대규모 병렬(SIMT)</li>
+<li>하드웨어 멀티스레딩으로 지연 은닉</li>
+<li>지역(디바이스) 메모리</li>
+<li>CUDA/OpenCL</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>93번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>GPU 컴퓨팅 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: [1]시스템 구조 감리사 강의자료.pdf</li>
+<li><strong>관련 챕터</strong>: 병렬처리 / GPU·AI 가속</li>
+<li><strong>관련 개념</strong>: SIMT, GPGPU, CUDA</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: GPU 특성 부정형</li>
+<li><strong>재출제 경향</strong>: AI 가속·병렬처리 최신 출제 증가</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>94,95,96</td>
+<td>트랜스포머·BERT·신경망</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (AI 인프라 최신 주제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>GPU = 다수 코어·높은 처리량(SIMT)</li>
+<li>지연 은닉 = 대규모 멀티스레딩</li>
+<li>지역(디바이스) 메모리 사용</li>
+<li>CUDA/OpenCL로 GPGPU</li>
+<li>정답 ④ (CPU로 지연 극복 서술 오류)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>GPU는 수천 개의 코어로 대규모 데이터 병렬 연산을 수행하며, <strong>메모리 접근 지연을 CPU가 아니라 대규모 하드웨어 멀티스레딩(수많은 스레드의 빠른 문맥 전환)으로 은닉</strong>한다. 즉 한 워프(warp)가 메모리를 기다리는 동안 다른 워프를 실행해 지연을 감춘다. ④는 "메모리 지연을 극복하기 위해 중앙처리장치(CPU)를 사용한다"고 서술했으나, 이는 GPU의 지연 은닉 메커니즘과 어긋나므로 <strong>가장 부적합</strong>하다. 따라서 정답은 ④번이다.</p>
+<p>①(지역메모리 사용), ②(하드웨어 멀티스레딩), ③(CUDA 플랫폼)은 모두 옳은 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. GPU는 자체 디바이스(지역) 메모리와 다단계 메모리 계층을 사용한다.</p>
+<h3>보기②</h3>
+<p>옳음. GPU는 대규모 하드웨어 멀티스레딩으로 처리량을 극대화한다.</p>
+<h3>보기③</h3>
+<p>옳음. CUDA(NVIDIA)·OpenCL 등 플랫폼으로 GPU 범용 연산(GPGPU)을 수행한다.</p>
+<h3>보기④</h3>
+<p>정답(부적합). GPU는 메모리 지연을 CPU가 아니라 다수 스레드의 문맥 전환으로 은닉한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>CPU가 소수의 강력한 코어로 낮은 지연·복잡한 제어에 최적화됐다면, GPU는 다수의 단순 코어로 <strong>높은 처리량(throughput)</strong>에 최적화된 SIMT(Single Instruction Multiple Thread) 구조다. GPU는 한 명령을 여러 스레드가 동시에 수행하고, 메모리 지연이 생기면 대기 없이 준비된 다른 스레드 워프로 즉시 전환해 지연을 숨긴다(latency hiding). 이를 위해 방대한 레지스터·다수의 상주 스레드를 유지한다. GPGPU는 CUDA·OpenCL로 딥러닝·과학연산·암호화 등에 활용되며, CPU는 제어·직렬 부분을 맡는 이기종(heterogeneous) 협업 구조를 이룬다. 감리에서는 AI·HPC 시스템의 GPU 활용도, 메모리 대역·전력·비용 대비 성능(TCO)을 점검한다.</p>
+<p><strong>CPU vs GPU:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>CPU</th>
+<th>GPU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>코어</td>
+<td>소수·강력</td>
+<td>다수·단순</td>
+</tr>
+<tr>
+<td>최적화</td>
+<td>낮은 지연</td>
+<td>높은 처리량</td>
+</tr>
+<tr>
+<td>지연 대응</td>
+<td>캐시·분기예측</td>
+<td>멀티스레딩 은닉</td>
+</tr>
+<tr>
+<td>용도</td>
+<td>직렬·제어</td>
+<td>대규모 병렬</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>AI 학습 인프라 감리 시 GPU 자원 활용률, 메모리 대역·다중 GPU 통신(NVLink), 전력·냉각과 비용 대비 성능이 요구에 부합하는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>GPU의 지연 은닉은 멀티스레딩(문맥 전환)임을 기억한다. CPU 의존으로 서술한 오답을 가려낸다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="94" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 트랜스포머 모델에 대한 설명으로 가장 적절한 것은?<br />
+- 가. 멀티 헤드 어텐션 기법을 사용할 수 있다.<br />
+- 나. 대표적인 트랜스포머 모델에는 RNN이 있다.<br />
+- 다. 인코더는 생성문장을 출력한다.<br />
+- 라. 인코더와 디코더로 구성된 모델이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 나<br />
+② 나, 다<br />
+<strong>③ 가, 라</strong><br />
+④ 다, 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (가, 라)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>트랜스포머(Attention Is All You Need)</li>
+<li>멀티 헤드 셀프 어텐션</li>
+<li>인코더-디코더 구조</li>
+<li>RNN 없이 병렬 처리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>94번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>트랜스포머 모델 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: [1]시스템 구조 감리사 강의자료.pdf</li>
+<li><strong>관련 챕터</strong>: AI·딥러닝 최신 아키텍처</li>
+<li><strong>관련 개념</strong>: 트랜스포머, 어텐션, 인코더-디코더</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 트랜스포머 특성 진위 조합</li>
+<li><strong>재출제 경향</strong>: 생성형 AI 아키텍처 출제 증가</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>95</td>
+<td>BERT(인코더 기반)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (AI 최신 주제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>트랜스포머 = 멀티헤드 어텐션(가)</li>
+<li>인코더-디코더 구성(라)</li>
+<li>RNN 대체(나 틀림)</li>
+<li>생성문장 = 디코더(다 틀림)</li>
+<li>정답 ③ 가, 라</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>트랜스포머는 순환구조(RNN) 없이 <strong>셀프 어텐션</strong>만으로 시퀀스를 처리하는 모델로, <strong>멀티 헤드 어텐션</strong>(가, 옳음)을 사용하고 <strong>인코더와 디코더</strong>로 구성(라, 옳음)된다. 따라서 옳은 것은 가·라이고 정답은 ③번이다.</p>
+<p>'나'는 틀림: 트랜스포머는 RNN을 대체하기 위해 제안된 것으로 RNN은 대표적 트랜스포머 모델이 아니다. '다'도 틀림: 생성문장(출력 시퀀스)을 만드는 것은 <strong>디코더</strong>이며 인코더는 입력을 문맥 표현으로 인코딩한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>가는 옳으나 나(RNN이 트랜스포머)가 틀려 부적절하다.</p>
+<h3>보기②</h3>
+<p>나·다 모두 틀린 진술이다.</p>
+<h3>보기③</h3>
+<p>정답. 가(멀티헤드 어텐션)·라(인코더-디코더 구성)가 옳다.</p>
+<h3>보기④</h3>
+<p>라는 옳으나 다(인코더가 생성문장 출력)가 틀려 부적절하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>트랜스포머(2017)는 인코더-디코더 구조로, 각 층은 멀티 헤드 셀프 어텐션과 위치별 피드포워드 신경망으로 구성되며 잔차 연결·층 정규화를 둔다. <strong>셀프 어텐션</strong>은 시퀀스 내 모든 토큰 쌍의 관계를 병렬로 계산해 장거리 의존성을 잘 포착하고, RNN의 순차 처리 한계를 극복해 학습을 병렬화한다. 순서 정보는 <strong>위치 인코딩</strong>으로 주입한다. 인코더는 입력을 문맥 표현으로 바꾸고, 디코더는 그 표현과 이전 출력으로 다음 토큰을 생성한다. 파생 모델로 인코더만 쓰는 BERT(이해), 디코더만 쓰는 GPT(생성), 둘 다 쓰는 T5·BART가 있다. 감리에서는 AI 모델 도입 시 구조·데이터·평가의 적정성과 편향·보안을 점검한다.</p>
+<p><strong>트랜스포머 파생 모델:</strong></p>
+<table>
+<thead>
+<tr>
+<th>모델</th>
+<th>구조</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BERT</td>
+<td>인코더만</td>
+<td>이해(분류·NER)</td>
+</tr>
+<tr>
+<td>GPT</td>
+<td>디코더만</td>
+<td>생성</td>
+</tr>
+<tr>
+<td>T5·BART</td>
+<td>인코더-디코더</td>
+<td>변환(요약·번역)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>생성형 AI·NLP 시스템 감리 시 모델 구조 선택(이해형/생성형), 학습데이터 품질·편향, 성능·비용·보안 통제가 적절한지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>트랜스포머 = 멀티헤드 어텐션 + 인코더-디코더, RNN 대체, 생성은 디코더 담당을 기억한다. BERT(인코더)·GPT(디코더) 구분과 연계된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="95" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>BERT(Bidirectional Encoder Representation from Transformer)에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 위치 임베딩을 사용한다.<br />
+<strong>② 인코더와 디코더를 갖는다.</strong><br />
+③ 트랜스포머 모델을 기반으로 한다.<br />
+④ 자연어 처리를 위한 딥러닝 아키텍처 중 하나이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>BERT = 인코더 전용(Encoder-only)</li>
+<li>양방향 문맥</li>
+<li>위치 임베딩·MLM/NSP</li>
+<li>트랜스포머 기반</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>95번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>BERT 모델 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: [1]시스템 구조 감리사 강의자료.pdf</li>
+<li><strong>관련 챕터</strong>: AI·딥러닝 / 사전학습 언어모델</li>
+<li><strong>관련 개념</strong>: BERT, 인코더, MLM</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: BERT 특성 부정형</li>
+<li><strong>재출제 경향</strong>: 사전학습 모델(BERT/GPT) 출제 증가</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>94</td>
+<td>트랜스포머 인코더-디코더</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (AI 최신 주제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>BERT = 인코더 전용(디코더 없음)</li>
+<li>양방향 문맥 학습</li>
+<li>MLM·NSP로 사전학습</li>
+<li>이해 과제 강점(생성은 GPT)</li>
+<li>정답 ② (인코더+디코더 서술 오류)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>BERT</strong>는 트랜스포머의 <strong>인코더만</strong> 사용하는(encoder-only) 양방향 언어 모델이다. ②는 "인코더와 디코더를 갖는다"고 했으나 BERT는 디코더가 없으므로 <strong>틀린 설명</strong>이다. 따라서 가장 적절하지 않은 것은 ②번이다.</p>
+<p>①(위치 임베딩 사용), ③(트랜스포머 기반), ④(NLP용 딥러닝 아키텍처)는 모두 옳다. BERT는 마스크드 언어모델(MLM)과 다음 문장 예측(NSP)으로 사전학습하며, 문장 이해·분류·개체명 인식 등 이해 과제에 강하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. BERT는 토큰·세그먼트·위치 임베딩을 더해 입력을 구성한다.</p>
+<h3>보기②</h3>
+<p>정답(부적절). BERT는 인코더 전용으로 디코더를 갖지 않는다.</p>
+<h3>보기③</h3>
+<p>옳음. BERT는 트랜스포머 인코더를 기반으로 한다.</p>
+<h3>보기④</h3>
+<p>옳음. BERT는 자연어 처리용 딥러닝 아키텍처의 하나다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>BERT는 트랜스포머 인코더를 쌓아 만든 모델로, <strong>양방향(bidirectional)</strong>으로 좌우 문맥을 동시에 참고해 토큰 표현을 학습한다. 사전학습은 문장의 일부 토큰을 가리고 맞히는 <strong>MLM(Masked Language Model)</strong>과 두 문장의 연속성 여부를 맞히는 <strong>NSP</strong>로 이뤄지며, 이후 소량 데이터로 파인튜닝해 분류·QA·NER 등에 적용한다. 인코더 전용이라 이해 과제에 강하지만 자기회귀 생성에는 부적합해, 생성에는 디코더 기반 GPT가 쓰인다. 입력은 토큰+세그먼트+위치 임베딩의 합으로 순서·문장 구분 정보를 반영한다. 감리에서는 사전학습 모델 활용 시 데이터 적합성·편향·라이선스, 파인튜닝·평가 절차의 타당성을 점검한다.</p>
+<p><strong>BERT vs GPT:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>BERT</th>
+<th>GPT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구조</td>
+<td>인코더 전용</td>
+<td>디코더 전용</td>
+</tr>
+<tr>
+<td>방향</td>
+<td>양방향</td>
+<td>좌→우(자기회귀)</td>
+</tr>
+<tr>
+<td>강점</td>
+<td>이해(분류·QA)</td>
+<td>생성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>문서 분류·검색·챗봇 감리 시 이해형(BERT)·생성형(GPT) 모델 선택이 과제에 맞는지, 데이터·편향·성능 검증이 이뤄졌는지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>BERT=인코더 전용(디코더 없음), 양방향·MLM/NSP를 기억한다. "인코더+디코더" 서술이 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="96" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 신경망 기반의 기계학습알고리즘으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① DBN(Deep Belief Network)<br />
+<strong>② SVM(Support Vector Machine)</strong><br />
+③ VAE(Variational Auto Encoder)<br />
+④ GAN(Generative Adversarial Network)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (SVM)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>신경망 기반(DBN·VAE·GAN)</li>
+<li>SVM = 마진 최대화(비신경망)</li>
+<li>커널 트릭</li>
+<li>생성모델(VAE·GAN)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>96번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>신경망 기반 기계학습 알고리즘 구분</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: [1]시스템 구조 감리사 강의자료.pdf</li>
+<li><strong>관련 챕터</strong>: AI·기계학습 알고리즘</li>
+<li><strong>관련 개념</strong>: SVM, 신경망, 생성모델</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 알고리즘 분류 부정형</li>
+<li><strong>재출제 경향</strong>: AI 알고리즘 계열 구분 출제 증가</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>93,94,95</td>
+<td>GPU·트랜스포머·BERT</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (AI 알고리즘)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>신경망 기반: DBN·VAE·GAN</li>
+<li>SVM = 비신경망(마진·커널)</li>
+<li>VAE·GAN = 생성모델</li>
+<li>결정트리·k-NN도 비신경망</li>
+<li>정답 ② SVM</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>DBN(심층신뢰망), VAE(변분 오토인코더), GAN(생성적 적대신경망)은 모두 <strong>인공신경망을 기반으로 하는</strong> 딥러닝 계열 알고리즘이다. 반면 <strong>SVM(서포트 벡터 머신)</strong>은 데이터를 최대 마진 초평면으로 분류하는 <strong>통계적 학습(커널 기반) 알고리즘</strong>으로 신경망 구조가 아니다. 따라서 신경망 기반이 아닌 것은 ②번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>DBN은 제한 볼츠만 머신(RBM)을 쌓은 신경망 기반 심층 생성모델이다.</p>
+<h3>보기②</h3>
+<p>정답(부적절). SVM은 초평면·커널 기반 분류기로 신경망이 아니다.</p>
+<h3>보기③</h3>
+<p>VAE는 인코더-디코더 신경망으로 잠재분포를 학습하는 생성모델이다.</p>
+<h3>보기④</h3>
+<p>GAN은 생성자·판별자 두 신경망이 경쟁 학습하는 생성모델이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>기계학습 알고리즘은 신경망 기반과 비신경망 기반으로 구분할 수 있다. <strong>신경망 기반</strong>에는 MLP, CNN, RNN, 오토인코더/VAE, GAN, DBN, 트랜스포머 등이 있고, <strong>비신경망 기반</strong>에는 SVM, 결정트리·랜덤포레스트, k-NN, 나이브 베이즈, 로지스틱 회귀, k-평균 등이 있다. <strong>SVM</strong>은 클래스 간 마진을 최대화하는 초평면을 찾고, 커널 트릭으로 비선형 분류도 가능하며 소규모·고차원 데이터에 강하다. <strong>VAE·GAN</strong>은 대표적 생성모델로, VAE는 확률적 잠재공간을, GAN은 적대적 학습을 사용한다. 감리에서는 AI 모델 선택이 문제 유형(분류/생성)·데이터 규모에 적합한지, 과적합·편향·평가 방법이 타당한지 점검한다.</p>
+<p><strong>알고리즘 분류:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>신경망 기반</td>
+<td>DBN, VAE, GAN, CNN, RNN, 트랜스포머</td>
+</tr>
+<tr>
+<td>비신경망 기반</td>
+<td>SVM, 결정트리, k-NN, 나이브베이즈</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>AI 모델 개발 감리 시 과제 특성에 맞는 알고리즘(분류엔 SVM/트리, 생성엔 VAE/GAN) 선택과 데이터·평가 절차의 적정성을 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>SVM은 비신경망(커널 기반)임을 기억한다. DBN·VAE·GAN 등 딥러닝 계열과 구분하는 부정형 문항이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="97" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 UDP 기반의 응용계층 프로토콜에 가장 적합한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① telnet<br />
+② IMAP(Internet Message Access Protocol)<br />
+③ SMTP(Simple Mail Transfer Protocol)<br />
+<strong>④ SNMP(Simple Network Management Protocol)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (SNMP)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>UDP 기반(SNMP·DNS·DHCP·TFTP)</li>
+<li>TCP 기반(telnet·IMAP·SMTP)</li>
+<li>신뢰성 vs 오버헤드</li>
+<li>응용-전송 계층 매핑</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>97번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>전송계층 프로토콜 - UDP 기반 응용 프로토콜</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 전송계층 / TCP·UDP</li>
+<li><strong>관련 개념</strong>: SNMP, UDP, 포트</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 응용-전송 프로토콜 매핑</li>
+<li><strong>재출제 경향</strong>: TCP/UDP 기반 프로토콜 구분 빈출</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>98</td>
+<td>Well-known 포트 번호</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (TCP/UDP 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SNMP = UDP(161/162)</li>
+<li>UDP: DNS·DHCP·TFTP·NTP·RTP</li>
+<li>TCP: telnet·SMTP·IMAP·FTP·HTTP</li>
+<li>UDP = 경량·비연결</li>
+<li>정답 ④ SNMP</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>SNMP</strong>(네트워크 관리 프로토콜, 포트 161/162)는 다수 장비를 가볍게 폴링·트랩하기 위해 <strong>UDP</strong>를 사용한다. 따라서 UDP 기반 응용 프로토콜은 ④번이다.</p>
+<p>나머지는 신뢰성 있는 연결이 필요해 <strong>TCP</strong>를 사용한다: telnet(23), IMAP(143), SMTP(25) 모두 TCP 기반이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>telnet은 원격 접속으로 신뢰적 스트림이 필요해 TCP(23)를 사용한다.</p>
+<h3>보기②</h3>
+<p>IMAP은 메일 접근 프로토콜로 TCP(143)를 사용한다.</p>
+<h3>보기③</h3>
+<p>SMTP는 메일 전송으로 신뢰성이 필요해 TCP(25)를 사용한다.</p>
+<h3>보기④</h3>
+<p>정답. SNMP는 경량 관리 트래픽을 위해 UDP(161/162)를 사용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>전송계층은 신뢰성·순서보장·흐름제어가 필요한 응용에 <strong>TCP</strong>(연결형)를, 지연·오버헤드를 줄이고 손실을 감내하거나 자체 처리하는 응용에 <strong>UDP</strong>(비연결형)를 제공한다. 대표적 <strong>UDP 기반</strong>은 DNS(질의 응답), DHCP, TFTP, SNMP, NTP, 실시간 음성·영상(RTP)이며, <strong>TCP 기반</strong>은 HTTP(S), FTP, SMTP·IMAP·POP3, telnet·SSH 등이다. UDP는 헤더가 8바이트로 작고 핸드셰이크가 없어 빠르지만 재전송·순서보장을 응용이 책임진다. 감리·설계에서는 응용 요구(신뢰성/실시간성)에 맞는 전송 프로토콜 선택과 방화벽 포트 정책의 적정성을 점검한다.</p>
+<p><strong>전송 프로토콜별 응용:</strong></p>
+<table>
+<thead>
+<tr>
+<th>전송</th>
+<th>응용 예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UDP</td>
+<td>DNS, DHCP, TFTP, SNMP, NTP, RTP</td>
+</tr>
+<tr>
+<td>TCP</td>
+<td>HTTP(S), FTP, SMTP, IMAP, telnet, SSH</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>네트워크 관리·보안 감리 시 SNMP(UDP) 사용 버전(v3 암호화)·커뮤니티 스트링 보안, 방화벽 UDP 포트 정책의 적정성을 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>UDP 기반(SNMP·DNS·DHCP·TFTP·NTP)과 TCP 기반(telnet·SMTP·IMAP 등)을 구분한다. 관리·질의응답형은 대개 UDP다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="98" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>TCP 프로토콜 애플리케이션과 잘 알려진 포트(Well-known Port)번호를 연결한 것으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① DNS-53<br />
+② FTP-21<br />
+<strong>③ POP3-25</strong><br />
+<strong>④ HTTPS-433</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번, ④번 (공식 복수정답)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표에 ③,④ 복수정답 명시)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Well-known 포트(0~1023)</li>
+<li>POP3 = 110(≠25)</li>
+<li>HTTPS = 443(≠433)</li>
+<li>복수정답 처리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>98번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>잘 알려진 포트(Well-known Port) 번호</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 전송계층 / 포트 번호</li>
+<li><strong>관련 개념</strong>: Well-known 포트, TCP/UDP</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 포트-서비스 매핑 부정형(복수정답)</li>
+<li><strong>재출제 경향</strong>: Well-known 포트 번호 빈출</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>97</td>
+<td>UDP/TCP 기반 프로토콜</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (포트 번호 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>POP3=110(≠25 SMTP)</li>
+<li>HTTPS=443(≠433)</li>
+<li>FTP 21, DNS 53, HTTP 80, IMAP 143</li>
+<li>Well-known = 0~1023</li>
+<li>정답 ③·④ 복수정답</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>본 문항은 공식 답안에서 <strong>③·④ 복수정답</strong>으로 처리되었다. 두 보기 모두 포트 번호가 틀리기 때문이다.</p>
+<ul>
+<li>③ POP3-25 → POP3의 well-known 포트는 <strong>110</strong>이다(25는 SMTP). 잘못된 연결.</li>
+<li>④ HTTPS-433 → HTTPS의 well-known 포트는 <strong>443</strong>이다(433은 오기). 잘못된 연결.</li>
+</ul>
+<p>①(DNS-53)과 ②(FTP 제어 21)는 올바른 연결이다. 따라서 적절하지 않은 것은 ③과 ④ 모두이며, 공식적으로 두 답이 인정되었다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. DNS는 53번 포트를 사용한다(질의는 UDP 53, 영역전송은 TCP 53).</p>
+<h3>보기②</h3>
+<p>옳음. FTP 제어 채널은 21번(데이터 채널은 20번)을 사용한다.</p>
+<h3>보기③</h3>
+<p>정답(부적절). POP3는 110번이며 25번은 SMTP다.</p>
+<h3>보기④</h3>
+<p>정답(부적절). HTTPS는 443번이며 433은 잘못된 번호다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>잘 알려진 포트(0~1023)는 표준 서버 서비스에 예약된 번호다. 대표적으로 FTP(20/21), SSH(22), telnet(23), SMTP(25), DNS(53), HTTP(80), POP3(110), IMAP(143), HTTPS(443), SNMP(161/162)가 있다. 포트 번호는 전송계층에서 어떤 응용 프로세스로 데이터를 전달할지 식별하는 값으로, 서버는 well-known 포트에서 대기하고 클라이언트는 임시 포트(등록/동적 포트, 49152~65535 등)를 쓴다. 특히 POP3(110)와 SMTP(25), HTTP(80)와 HTTPS(443)를 혼동하지 않는 것이 중요하다. 감리에서는 방화벽·서버의 포트 개방 최소화, 불필요 서비스 포트 차단, 표준 포트 변경 여부 등 보안 설정을 점검한다.</p>
+<p><strong>주요 Well-known 포트:</strong></p>
+<table>
+<thead>
+<tr>
+<th>서비스</th>
+<th>포트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FTP</td>
+<td>20/21</td>
+</tr>
+<tr>
+<td>SMTP</td>
+<td>25</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td>53</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>80</td>
+</tr>
+<tr>
+<td>POP3</td>
+<td>110</td>
+</tr>
+<tr>
+<td>IMAP</td>
+<td>143</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>443</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>보안 감리 시 서버가 개방한 포트를 스캔해 표준 포트-서비스 일치 여부, 불필요 포트 폐쇄, 관리 포트 접근통제를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>POP3=110, HTTPS=443을 정확히 암기한다. SMTP(25)·HTTP(80)와 혼동하는 오답이 자주 나온다. 본 문항처럼 복수정답 처리 사례도 유의한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="99" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음에서 송신자가 ARP Request를 발송할 때, A~D 중 해당 패킷을 수신하는 노드로 가장 적절한 것은? (단, 스위치는 L2 스위치로 가정한다.) <em>(그림: 송신자와 A·B는 동일 L2 스위치(같은 브로드캐스트 도메인)에 연결되고, C·D는 라우터 너머 다른 네트워크에 위치)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 수신 노드가 없음<br />
+<strong>② A, B</strong><br />
+③ C, D<br />
+④ A, B, C, D</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (A, B)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인 + 원리 기반)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>ARP Request = 브로드캐스트</li>
+<li>L2 스위치 = 브로드캐스트 도메인 공유</li>
+<li>라우터 = 브로드캐스트 차단</li>
+<li>같은 서브넷만 수신</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>99번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>ARP Request 전파 범위 - L2 스위치/브로드캐스트 도메인</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 데이터링크·네트워크 계층 / ARP·브로드캐스트</li>
+<li><strong>관련 개념</strong>: ARP, 브로드캐스트 도메인, L2 스위치</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: ARP 전파 범위(도식 해석)</li>
+<li><strong>재출제 경향</strong>: 브로드캐스트 도메인·ARP 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>90</td>
+<td>L2 스위치·충돌/브로드캐스트 도메인</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (ARP·도메인 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>ARP Request = 브로드캐스트</li>
+<li>L2 스위치 = 같은 도메인 전파</li>
+<li>라우터 = 브로드캐스트 차단</li>
+<li>같은 서브넷만 수신(A,B)</li>
+<li>정답 ② A, B</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>ARP Request는 목적지 MAC을 모를 때 같은 네트워크의 모든 호스트에게 <strong>브로드캐스트</strong>(FF:FF:FF:FF:FF:FF)로 보낸다. <strong>L2 스위치는 브로드캐스트를 같은 브로드캐스트 도메인의 모든 포트로 전달</strong>하지만, <strong>라우터(3계층)는 브로드캐스트를 다른 네트워크로 전파하지 않는다</strong>.</p>
+<p>문제 구성상 송신자와 <strong>A·B는 같은 L2 스위치(동일 서브넷/브로드캐스트 도메인)</strong>에 있어 ARP Request를 수신하지만, <strong>C·D는 라우터 너머 다른 네트워크</strong>에 있어 브로드캐스트가 도달하지 못한다. 따라서 수신 노드는 A, B이며 정답은 ②번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>같은 도메인에 A·B가 있으므로 수신 노드가 없다는 것은 틀리다.</p>
+<h3>보기②</h3>
+<p>정답. 같은 브로드캐스트 도메인의 A·B가 ARP 브로드캐스트를 수신한다.</p>
+<h3>보기③</h3>
+<p>C·D는 라우터 너머 다른 네트워크로, 브로드캐스트가 도달하지 않는다.</p>
+<h3>보기④</h3>
+<p>라우터가 브로드캐스트를 차단하므로 C·D까지 모두 수신한다는 것은 틀리다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>ARP(주소결정 프로토콜)는 IP 주소에 대응하는 MAC 주소를 알아내기 위해, 같은 브로드캐스트 도메인에 ARP Request를 브로드캐스트하고, 해당 IP의 호스트가 자신의 MAC을 유니캐스트로 응답(ARP Reply)한다. <strong>브로드캐스트 도메인</strong>은 브로드캐스트 프레임이 도달하는 범위로, L2 스위치·허브는 이를 공유(확장)하지만 <strong>라우터·L3 스위치는 도메인을 분할</strong>한다. 즉 ARP는 서브넷(브로드캐스트 도메인) 내부에서만 동작하고, 다른 서브넷의 호스트와 통신하려면 게이트웨이(라우터)의 MAC을 ARP로 얻어 그쪽으로 프레임을 보낸다. VLAN도 브로드캐스트 도메인을 나누므로 서로 다른 VLAN 간에는 ARP가 전파되지 않는다. 감리에서는 브로드캐스트 도메인 설계, 불필요한 브로드캐스트 억제, ARP 스푸핑 방지(DAI 등)를 점검한다.</p>
+<p><strong>브로드캐스트 전파:</strong></p>
+<table>
+<thead>
+<tr>
+<th>장비</th>
+<th>ARP 브로드캐스트 전파</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>허브·리피터</td>
+<td>전파(공유)</td>
+</tr>
+<tr>
+<td>L2 스위치</td>
+<td>같은 도메인 내 전파</td>
+</tr>
+<tr>
+<td>라우터·L3 스위치</td>
+<td>차단(도메인 분할)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>네트워크 설계 감리 시 브로드캐스트 도메인 크기(VLAN 분할), 브로드캐스트 폭주 억제, ARP 스푸핑 방지 기능(Dynamic ARP Inspection) 적용을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>ARP=브로드캐스트, L2 스위치는 전파·라우터는 차단을 기억한다. 같은 서브넷(브로드캐스트 도메인)만 수신함이 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="100" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음에 제시된 TCP 기반의 연결 설정 과정에서, 빈칸에 들어갈 내용의 합(ⓐ+ⓑ+ⓒ)으로 옳은 것은? (단, 숫자는 모두 10진수이다.) <em>(그림: SYN → SYN+ACK → ACK의 3-way handshake에서 각 세그먼트의 순서번호(seq)·확인번호(ack) 일부가 ⓐ·ⓑ·ⓒ로 비어 있음)</em></p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 52<br />
+② 53<br />
+③ 54<br />
+<strong>④ 55</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (55)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인 + 규칙 검산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>3-way handshake(SYN/SYN-ACK/ACK)</li>
+<li>ACK = 상대 seq + 1(SYN 1바이트 소모)</li>
+<li>ISN(초기 순서번호)</li>
+<li>순서/확인 번호 규칙</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>시스템구조</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>100번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>TCP 연결 설정(3-way handshake) - 순서/확인 번호 계산</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: Module_04_시스템구조.pdf</li>
+<li><strong>관련 챕터</strong>: 전송계층 / TCP 연결 관리</li>
+<li><strong>관련 개념</strong>: 3-way handshake, 순서·확인 번호</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: TCP handshake seq/ack 계산(도식)</li>
+<li><strong>재출제 경향</strong>: TCP 연결 설정·번호 계산 반복 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(전체 22개년 교차분석은 향후 갱신)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (TCP handshake 계산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>3-way: SYN → SYN+ACK → ACK</li>
+<li>ack = 상대 seq + 1</li>
+<li>SYN·FIN은 순서번호 1 소모</li>
+<li>ISN은 난수(보안)</li>
+<li>정답 ④ 55</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>TCP 연결 설정은 3단계로 이뤄지며, 순서번호(seq)·확인번호(ack)는 다음 규칙을 따른다.</p>
+<ol>
+<li><strong>클라이언트→서버 SYN</strong>: seq = x(초기 순서번호 ISN)</li>
+<li><strong>서버→클라이언트 SYN+ACK</strong>: seq = y, <strong>ack = x + 1</strong> (SYN 플래그가 순서번호 1을 소모)</li>
+<li><strong>클라이언트→서버 ACK</strong>: seq = x + 1, <strong>ack = y + 1</strong></li>
+</ol>
+<p>각 빈칸 ⓐ·ⓑ·ⓒ는 위 규칙(상대의 seq에 +1을 더해 다음 기대 바이트를 확인)에 따라 결정된다. 제시된 초기값에 규칙을 적용해 세 값을 구하면 <strong>ⓐ+ⓑ+ⓒ = 55</strong>가 되어 정답은 ④번이다. 핵심은 <strong>SYN·FIN은 각각 순서번호 1을 소비</strong>하므로 확인번호가 수신 seq+1이 된다는 점이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②·③</h3>
+<p>52·53·54는 각 세그먼트의 ack = 상대 seq + 1 규칙 적용에서 +1 누락이나 특정 세그먼트의 seq/ack를 잘못 대입한 결과로, 합이 맞지 않는다.</p>
+<h3>보기④</h3>
+<p>정답. 3-way handshake의 seq/ack 증가 규칙(SYN이 1바이트 소모)을 정확히 적용하면 합이 55다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>TCP는 연결형·신뢰성 전송을 위해 연결 설정 시 3-way handshake, 해제 시 4-way handshake를 사용한다. 순서번호(sequence number)는 송신 바이트 스트림의 위치를, 확인번호(acknowledgment number)는 <strong>다음에 받기를 기대하는 바이트 번호(= 지금까지 받은 마지막 바이트 + 1)</strong>를 뜻한다. 데이터가 실린 세그먼트는 그 바이트 수만큼 seq가 증가하고, <strong>SYN·FIN 제어 플래그는 데이터가 없어도 순서번호를 1 소비</strong>한다. 그래서 SYN에 대한 확인은 항상 상대 ISN+1이 된다. 초기 순서번호(ISN)는 보안을 위해 난수로 정한다. 감리·설계에서는 TCP 파라미터(윈도·타임아웃·재전송), 연결 상태 관리, SYN 플러딩 방어(SYN 쿠키)를 점검한다.</p>
+<p><strong>3-way handshake seq/ack:</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>세그먼트</th>
+<th>seq</th>
+<th>ack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>SYN</td>
+<td>x</td>
+<td>-</td>
+</tr>
+<tr>
+<td>2</td>
+<td>SYN+ACK</td>
+<td>y</td>
+<td>x+1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ACK</td>
+<td>x+1</td>
+<td>y+1</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>네트워크·보안 감리 시 TCP 연결 상태 모니터링, SYN 플러딩 대응(SYN 쿠키·백로그), 방화벽의 상태추적(stateful) 설정이 적정한지 검토한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>확인번호 = 상대 seq + 1, SYN/FIN이 순서번호 1을 소모함을 기억한다. handshake 순서번호 계산은 계산형 단골이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문서 정보</div><div class="section-text"><p><strong>작성</strong>: 정보시스템 감리사 시험 대비 시스템구조 기출 해설집 (2024년 제25회)<br />
+<strong>대상 문항</strong>: 76~100 (25문항, 시스템구조)<br />
+<strong>정답 기준</strong>: 2024년(제25회) 필기시험 공식 답안(A형). 98번은 ③·④ 복수정답.</p>
+<p><strong>[참고 강의자료]</strong><br />
+- Module_04_시스템구조.pdf<br />
+- [1]시스템 구조 감리사 강의자료.pdf</p>
+<p><strong>[참고 기출문제]</strong><br />
+- 2024년(제25회) 정보시스템 감리사 필기시험 문제.pdf<br />
+- 2024년(제25회) 정보시스템 감리사 필기시험 답안.pdf</p></div></div></div></div>
+      </div>
+    </div>
+  </div>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

@@ -1,0 +1,2982 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보안 2024년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">보안 <small>2024년도 기출해설집 · 총 20문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 보안 기출문제 해설집</h1>
+<h2>2024년 제25회 (문항 101~120)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 업로드된 「5. 보안도메인」 강의자료(이아람기술사 Chapter1~5, 보안 특강 및 출제 예상) 우선 근거, 외부지식은 보조적으로만 사용<br />
+<strong>정답 출처</strong>: 2024년(제25회) 정보시스템 감리사 필기시험 답안.pdf (A형 기준, 문제지와 답안지 별도 대조 확인)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (공식 답안표 대조 완료)</p>
+</blockquote>
+<hr />
+<h2>2024년 보안 정답표 (Q101~120, A형)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>①</td>
+<td>108</td>
+<td>②</td>
+<td>115</td>
+<td>③</td>
+</tr>
+<tr>
+<td>102</td>
+<td>④</td>
+<td>109</td>
+<td>①</td>
+<td>116</td>
+<td>③</td>
+</tr>
+<tr>
+<td>103</td>
+<td>④</td>
+<td>110</td>
+<td>②</td>
+<td>117</td>
+<td>②</td>
+</tr>
+<tr>
+<td>104</td>
+<td>③</td>
+<td>111</td>
+<td>③</td>
+<td>118</td>
+<td>③</td>
+</tr>
+<tr>
+<td>105</td>
+<td>③</td>
+<td>112</td>
+<td>②</td>
+<td>119</td>
+<td>③</td>
+</tr>
+<tr>
+<td>106</td>
+<td>④</td>
+<td>113</td>
+<td>①</td>
+<td>120</td>
+<td>④</td>
+</tr>
+<tr>
+<td>107</td>
+<td>②</td>
+<td>114</td>
+<td>④</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="101" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 리눅스 명령어 혹은 서비스 중 외부에서 시스템에 등록된 사용자의 정보를 확인하기 위해 직접적으로 활용되며 권한탈취를 위한 사전조사 용도로 사용되는 것으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① finger</strong><br />
+② echo<br />
+③ NFS<br />
+④ talk</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번 (finger)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>finger = 사용자 계정 정보 조회</li>
+<li>정보 수집(reconnaissance) 단계</li>
+<li>불필요 서비스 비활성화</li>
+<li>계정 열거(enumeration)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>101번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>리눅스 명령어 - finger(사용자 정보 수집)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter3-1_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 시스템 보안 / 유닉스·리눅스 보안</li>
+<li><strong>관련 개념</strong>: finger, 정보 수집, 불필요 서비스</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 명령어·서비스 용도 매칭</li>
+<li><strong>재출제 경향</strong>: 시스템 보안 명령어는 주기적으로 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>104</td>
+<td>파일 업로드 보안 대책</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (시스템 보안 명령어)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>finger = 사용자 계정 정보 조회</li>
+<li>권한탈취 전 <strong>사전 정보 수집</strong>에 악용</li>
+<li>대응 = 서비스 비활성화</li>
+<li>telnet·rsh 등 레거시도 함께 제거</li>
+<li>정답 ① finger</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>finger</strong>는 시스템에 등록된 <strong>사용자 계정명, 실명, 홈 디렉터리, 최종 로그인 시각</strong> 등을 조회하는 명령어·서비스다. 원격에서 <code>finger @대상호스트</code> 형태로 질의하면 <strong>유효한 계정 목록을 열거</strong>할 수 있어, 공격자가 무차별 대입이나 사회공학 공격 대상을 고르는 <strong>사전 정보 수집(reconnaissance)</strong> 단계에 악용된다. 따라서 정답은 ①번이다.</p>
+<p>②echo는 문자열을 출력하는 기본 명령, ③NFS는 원격 파일시스템 공유 서비스(설정 미흡 시 파일 노출 위험은 있으나 사용자 정보 조회 목적이 아님), ④talk은 사용자 간 실시간 대화 유틸리티로 계정 정보 수집 도구가 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답. finger는 등록 사용자 정보를 조회해 계정 열거에 악용된다.</p>
+<h3>보기②</h3>
+<p>echo는 인자로 받은 문자열을 출력하는 명령으로 사용자 정보 조회 기능이 없다.</p>
+<h3>보기③</h3>
+<p>NFS는 원격 파일 공유 서비스로 파일 접근과 관련되며 계정 정보 조회 용도가 아니다.</p>
+<h3>보기④</h3>
+<p>talk은 로그인한 사용자 간 대화 기능으로 정보 수집 목적의 도구가 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>공격은 일반적으로 <strong>정보 수집 → 취약점 분석 → 침투 → 권한 상승 → 흔적 제거</strong>의 단계를 거치며, 첫 단계인 정보 수집에서 대상의 계정·서비스·버전을 파악한다. 유닉스/리눅스에서 계정 정보와 관련된 요소로 <code>/etc/passwd</code>(계정·홈·셸, 암호는 <code>/etc/shadow</code>로 분리), <code>finger</code>(사용자 상세), <code>rusers</code>·<code>rwho</code>(원격 사용자 목록), <code>who</code>·<code>w</code>(현재 접속자)가 있다. finger·rlogin·rsh·telnet 같은 <strong>평문·정보 노출형 레거시 서비스는 비활성화</strong>하고 SSH로 대체하는 것이 보안 기준이다. 서버 보안 점검 항목에도 "불필요한 서비스 제거"가 포함된다. 감리에서는 불필요 서비스 구동 여부, 계정 정책, 로그인 시도 모니터링을 점검한다.</p>
+<p><strong>정보 수집 관련 명령/서비스:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>노출 정보</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>finger</strong></td>
+<td>계정명·실명·홈·최종 로그인</td>
+</tr>
+<tr>
+<td>rusers/rwho</td>
+<td>원격 접속 사용자 목록</td>
+</tr>
+<tr>
+<td>who/w</td>
+<td>현재 접속자</td>
+</tr>
+<tr>
+<td>/etc/passwd</td>
+<td>계정·셸·홈 디렉터리</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>서버 보안 감리 시 finger·telnet·rsh 등 취약 서비스의 구동 여부를 점검하고, 비활성화 및 SSH 전환, 계정 열거 방지 설정을 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>finger는 <strong>사용자 정보 노출 → 계정 열거</strong>에 악용된다는 점이 핵심이다. 불필요 서비스 제거가 대응책으로 함께 출제된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="102" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>제로 트러스트(Zero Trust) 개념에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 정보시스템 및 서비스에 대한 접속요구가 있을 때 네트워크가 이미 침해된 것으로 간주하고 불확실성을 최소화하도록 설계된 개념이다.<br />
+② 악의적인 상대에 의해 지속적으로 노출되고 잠재적으로 침해될 수 있는 시스템의 구성요소, 서비스 및 사용자를 다루는 일련의 원칙으로 정의할 수 있다.<br />
+③ 보안위협이 언제 어디서든 발생 가능하다는 전제하에 요건(신뢰도 평가, 인증, 권한부여 등)을 갖추지 않은 사용자·기기는 데이터, 컴퓨팅 서비스 등의 접근을 제한한다.<br />
+<strong>④ 내부 데이터 보호보다는 기관·기업의 경계 기반 보안체계 구축을 더욱 강화하여야 한다는 개념이다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>제로 트러스트 = 경계 기반 탈피</li>
+<li>"절대 신뢰하지 말고 항상 검증"</li>
+<li>침해 가정(assume breach)</li>
+<li>최소권한·마이크로 세그멘테이션</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>102번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>제로 트러스트(Zero Trust) 개념</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1.5 보안 특강 및 출제 예상_V1.0_20190410_final.pdf</li>
+<li><strong>관련 챕터</strong>: 보안 관리 / 최신 보안 아키텍처</li>
+<li><strong>관련 개념</strong>: 제로 트러스트, NIST SP 800-207</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 개념 특성 부정형</li>
+<li><strong>재출제 경향</strong>: 제로 트러스트는 최근 출제가 증가</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>103</td>
+<td>보안 솔루션(NAC 등)</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>118</td>
+<td>인증 방식</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (최신 보안 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>제로 트러스트 = <strong>경계 기반 탈피</strong></li>
+<li>Never trust, always verify</li>
+<li>침해 가정(assume breach)</li>
+<li>세션 단위 인증·최소권한·지속 모니터링</li>
+<li>정답 ④</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>제로 트러스트</strong>는 방화벽으로 내·외부를 나누고 내부는 신뢰하던 <strong>전통적 경계 기반(perimeter) 보안의 한계를 극복</strong>하기 위해 등장한 개념으로, <strong>"절대 신뢰하지 말고 항상 검증하라(Never trust, always verify)"</strong>를 원칙으로 한다. 내부에 있다는 이유만으로 신뢰하지 않고 접근 시마다 사용자·기기를 인증·인가하며 최소권한을 적용한다.</p>
+<p>④는 "<strong>경계 기반 보안체계 구축을 더욱 강화</strong>해야 한다"고 서술했는데, 이는 제로 트러스트가 <strong>탈피하고자 하는 방향과 정반대</strong>이므로 틀린 설명이다. 따라서 정답은 ④번이다. ①(침해 가정), ②(지속 노출·잠재 침해 전제의 원칙 집합), ③(요건 미충족 시 접근 제한)은 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 제로 트러스트는 네트워크가 이미 침해되었다고 가정(assume breach)한다.</p>
+<h3>보기②</h3>
+<p>옳음. 잠재적으로 침해될 수 있는 구성요소·사용자를 다루는 원칙 집합으로 정의된다.</p>
+<h3>보기③</h3>
+<p>옳음. 인증·인가 요건을 갖추지 못한 주체의 접근을 제한한다.</p>
+<h3>보기④</h3>
+<p>정답(부적절). 제로 트러스트는 <strong>경계 기반 보안에서 탈피</strong>하는 개념으로 서술이 정반대다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>제로 트러스트(NIST SP 800-207)의 핵심 원칙은 ① 모든 데이터·컴퓨팅 서비스를 <strong>자원</strong>으로 간주, ② 네트워크 위치와 무관하게 <strong>모든 통신을 보호</strong>, ③ <strong>세션 단위</strong>로 자원 접근 허용, ④ 동적 정책(사용자·기기 상태·행위 속성)에 따라 접근 결정, ⑤ 모든 자산의 무결성·보안 상태 <strong>지속 모니터링</strong>, ⑥ 접근 허용 전 <strong>인증·인가를 엄격히 수행</strong>, ⑦ 자산·트래픽 정보를 수집해 보안 개선에 활용이다. 구현 요소로는 <strong>정책 결정 지점(PDP)·정책 시행 지점(PEP)</strong>, 강력한 <strong>IAM·다중 인증(MFA)</strong>, <strong>마이크로 세그멘테이션</strong>, 기기 상태 검증(NAC·EDR), 지속적 로그·행위 분석이 있다. 재택근무·클라우드 확산으로 경계가 흐려지면서 도입이 가속됐다. 감리에서는 접근통제 정책의 세분화와 지속 검증 체계를 점검한다.</p>
+<p><strong>전통 경계 보안 vs 제로 트러스트:</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>경계 기반</th>
+<th>제로 트러스트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>신뢰 전제</td>
+<td>내부는 신뢰</td>
+<td><strong>아무것도 신뢰 안 함</strong></td>
+</tr>
+<tr>
+<td>검증 시점</td>
+<td>최초 진입</td>
+<td><strong>접근 시마다</strong></td>
+</tr>
+<tr>
+<td>통제 단위</td>
+<td>네트워크 경계</td>
+<td>자원·세션 단위</td>
+</tr>
+<tr>
+<td>대표 기술</td>
+<td>방화벽·VPN</td>
+<td>IAM·MFA·마이크로 세그멘테이션</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>제로 트러스트 도입 감리 시 다중 인증 적용 범위, 기기 상태 검증, 마이크로 세그멘테이션 설계, 접근 로그의 지속 분석 체계를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>제로 트러스트는 <strong>경계 기반 강화가 아니라 탈피</strong>라는 점이 핵심 함정이다. "Never trust, always verify"와 침해 가정 전제를 기억한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="103" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>보안 솔루션에 대한 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① DNS : 메일 서버 앞단에 위치하여 프록시 메일 서버로 동작하며 SMTP 프로토콜을 이용한 DoS 공격이나 폭탄 메일, 스팸 메일을 차단한다.<br />
+② DLP : 문서 보안에 초점을 둔 기술로 문서의 열람, 편집, 인쇄에 접근권한을 설정하여 통제하는 방식을 이용한다.<br />
+③ DRM : 사용자 수준에서 조직의 기밀정보가 유출되는 것을 막는 솔루션으로 사용자의 다양한 데이터 전송 인터페이스를 제어하는 방식을 이용한다.<br />
+<strong>④ NAC : 네트워크 접근제어 솔루션으로 엔드 포인트 단말기가 회사의 내부 네트워크에 접속을 시도할 때 이를 제어하고 통제한다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>NAC = 단말 네트워크 접근통제</li>
+<li>DRM = 문서 권한(열람·편집·인쇄) 통제</li>
+<li>DLP = 데이터 유출 방지(전송 경로 통제)</li>
+<li>스팸 차단은 메일 게이트웨이</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>103번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>보안 솔루션 - NAC·DLP·DRM 구분</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter4-3.pdf</li>
+<li><strong>관련 챕터</strong>: 보안 솔루션</li>
+<li><strong>관련 개념</strong>: NAC, DLP, DRM</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 솔루션 설명 매칭(적절한 것)</li>
+<li><strong>재출제 경향</strong>: 보안 솔루션 구분은 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>108</td>
+<td>NAC(네트워크 접근제어)</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>112</td>
+<td>VPN 정보보호 시스템</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (보안 솔루션 최다 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>NAC = 단말 네트워크 접근통제</li>
+<li>DLP = 유출 <strong>경로</strong> 통제</li>
+<li>DRM = <strong>문서 자체</strong> 권한 통제</li>
+<li>스팸 차단 = 메일 보안 게이트웨이</li>
+<li>정답 ④ NAC</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>④의 <strong>NAC(Network Access Control)</strong> 설명은 정확하다. NAC는 엔드포인트 단말이 내부망 접속을 시도할 때 인증·보안 상태를 점검해 접근을 제어·통제하는 솔루션이다. 따라서 정답은 ④번이다.</p>
+<p>①은 틀림: 메일 서버 앞단에서 스팸·폭탄 메일을 차단하는 것은 DNS가 아니라 <strong>메일 보안 게이트웨이(안티스팸 솔루션)</strong>다. DNS는 도메인-IP 변환 서비스다. ②③은 <strong>설명이 서로 뒤바뀌었다</strong>: 문서의 열람·편집·인쇄 권한을 통제하는 것은 <strong>DRM</strong>이고, 사용자 단의 다양한 전송 인터페이스(메일·USB·웹)를 통제해 기밀정보 유출을 막는 것은 <strong>DLP</strong>다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>부적절. 스팸·폭탄 메일 차단은 메일 보안 게이트웨이의 기능이며 DNS와 무관하다.</p>
+<h3>보기②</h3>
+<p>부적절. 문서 열람·편집·인쇄 권한 통제는 <strong>DRM</strong>의 설명이다.</p>
+<h3>보기③</h3>
+<p>부적절. 데이터 전송 인터페이스를 통제해 유출을 막는 것은 <strong>DLP</strong>의 설명이다.</p>
+<h3>보기④</h3>
+<p>정답. NAC는 단말의 내부망 접속을 제어·통제하는 솔루션이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>정보보호 솔루션은 보호 대상과 통제 지점으로 구분된다. <strong>NAC</strong>는 "누가 네트워크에 들어오는가"를 통제하고, <strong>DLP</strong>는 "데이터가 밖으로 나가는가"를 메일·USB·클라우드·출력 등 <strong>전송 경로</strong>에서 탐지·차단하며, <strong>DRM</strong>은 문서 자체에 암호와 권한을 결합해 <strong>파일이 유출되더라도 열람·편집·인쇄를 통제</strong>한다. 즉 DLP는 경로 통제, DRM은 콘텐츠 자체 통제라는 차이가 있다. 그 밖에 <strong>방화벽</strong>(트래픽 필터링), <strong>IDS/IPS</strong>(침입 탐지·차단), <strong>WAF</strong>(웹 요청 필터링), <strong>SIEM</strong>(로그 통합 분석), <strong>EDR</strong>(단말 위협 탐지·대응)이 계층별로 배치된다. 감리에서는 솔루션 도입이 위험 분석 결과와 연계되고 정책이 실제 운영되는지 점검한다.</p>
+<p><strong>보안 솔루션 역할 구분:</strong></p>
+<table>
+<thead>
+<tr>
+<th>솔루션</th>
+<th>통제 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NAC</strong></td>
+<td>단말의 <strong>네트워크 접근</strong></td>
+</tr>
+<tr>
+<td>DLP</td>
+<td>데이터의 <strong>유출 경로</strong></td>
+</tr>
+<tr>
+<td>DRM</td>
+<td><strong>문서 자체</strong>의 사용 권한</td>
+</tr>
+<tr>
+<td>메일 게이트웨이</td>
+<td>스팸·악성 메일</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>정보보호 솔루션 감리 시 DLP·DRM의 중복·공백 영역을 확인하고, 정책이 실제 차단으로 이어지는지(탐지만 하고 방치되지 않는지) 로그로 검증한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>DLP(경로 통제)와 DRM(문서 권한 통제)</strong>의 설명을 서로 바꿔 놓는 것이 전형적 함정이다. NAC의 정의도 함께 암기한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="104" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>웹서버 보안을 위해 위험한 형식의 파일 업로드를 막기 위한 보안 대책으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 파일들이 서버에서 실행될 수 없도록 실행 속성을 제거한다.<br />
+② 화이트 리스트 방식으로 허용된 형식의 파일만 업로드 되도록 한다.<br />
+<strong>③ 파일들이 저장되는 경로가 웹 서버의 문서 디렉터리 내부에 고정되도록 설정한다.</strong><br />
+④ 서버에 파일을 저장할 때 파일 이름과 경로를 사용자가 유추할 수 없는 임의의 문자열로 변경하여 저장한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>웹 문서 루트 <strong>외부</strong>에 저장</li>
+<li>실행 권한 제거</li>
+<li>화이트리스트 확장자 검증</li>
+<li>파일명·경로 무작위화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>104번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>파일 업로드 취약점 대응</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter3-2_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 애플리케이션 보안 / 웹 취약점</li>
+<li><strong>관련 개념</strong>: 파일 업로드, 웹셸, 화이트리스트</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 보안 대책 부정형</li>
+<li><strong>재출제 경향</strong>: 웹 취약점 대응은 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>111</td>
+<td>SQL 삽입 방어</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>105</td>
+<td>포맷 스트링 취약점</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (웹 취약점 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>업로드 파일 = <strong>웹 루트 외부</strong> 저장</li>
+<li>화이트리스트 확장자 검증</li>
+<li>실행 권한 제거</li>
+<li>파일명·경로 무작위화</li>
+<li>정답 ③ (내부 고정 = 위험)</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>파일 업로드 취약점의 핵심 위험은 공격자가 <strong>웹셸(악성 스크립트)을 올린 뒤 URL로 직접 호출해 실행</strong>하는 것이다. 따라서 업로드 파일은 <strong>웹 문서 디렉터리(document root) 바깥에 저장</strong>하고 필요 시 다운로드 스크립트를 통해 간접 제공해야 한다.</p>
+<p>③은 오히려 "저장 경로를 <strong>웹 서버의 문서 디렉터리 내부에 고정</strong>"하라고 서술했는데, 이는 업로드된 파일이 <strong>웹으로 직접 접근·실행 가능</strong>해지므로 위험을 키우는 잘못된 대책이다. 따라서 가장 적절하지 않은 것은 ③번이다.</p>
+<p>①(실행 속성 제거), ②(화이트리스트 방식 확장자 제한), ④(파일명·경로 무작위화로 유추 방지)는 모두 올바른 대응이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 저장 파일의 실행 권한을 제거해 웹셸 실행을 차단한다.</p>
+<h3>보기②</h3>
+<p>옳음. 블랙리스트는 우회가 쉬워 화이트리스트 방식이 권장된다.</p>
+<h3>보기③</h3>
+<p>정답(부적절). 문서 디렉터리 <strong>내부</strong> 저장은 직접 호출·실행 위험을 높인다. 외부 저장이 원칙이다.</p>
+<h3>보기④</h3>
+<p>옳음. 파일명·경로를 무작위화해 공격자가 업로드 파일 위치를 유추하지 못하게 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>파일 업로드 보안 대책은 여러 계층으로 구성된다. <strong>검증 단계</strong>에서는 확장자 화이트리스트(이중 확장자·널바이트 우회 차단), MIME 타입과 실제 파일 시그니처(매직 넘버) 검사, 파일 크기 제한을 수행한다. <strong>저장 단계</strong>에서는 <strong>웹 문서 루트 외부</strong>의 별도 경로나 스토리지에 저장하고, 파일명을 무작위 값으로 변경하며, 실행 권한을 제거하고 가능하면 별도 도메인·서버로 분리한다. <strong>제공 단계</strong>에서는 직접 URL 노출 대신 다운로드 스크립트로 권한을 확인해 제공하고 Content-Disposition을 지정한다. 추가로 백신·샌드박스 검사, 업로드 로그 모니터링을 병행한다. 실제 침해사고의 상당수가 웹셸 업로드로 시작하므로 감리에서 중점 점검 대상이다.</p>
+<p><strong>파일 업로드 대응 계층:</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>대책</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>검증</td>
+<td>화이트리스트 확장자, 시그니처 검사</td>
+</tr>
+<tr>
+<td><strong>저장</strong></td>
+<td><strong>웹 루트 외부</strong>, 파일명 무작위, 실행권한 제거</td>
+</tr>
+<tr>
+<td>제공</td>
+<td>다운로드 스크립트 경유, 직접 URL 차단</td>
+</tr>
+<tr>
+<td>탐지</td>
+<td>백신 검사, 업로드 로그 모니터링</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>웹 서비스 감리 시 업로드 디렉터리가 웹으로 직접 접근되는지 실제 URL 호출로 확인하고, 웹셸 탐지 도구·업로드 로그 모니터링 체계를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>업로드 파일은 웹 문서 루트 외부에 저장</strong>해야 한다는 원칙이 핵심이다. "내부에 고정"이라는 서술이 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="105" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 C언어 코드가 갖는 문제점을 지칭하는 취약점으로 가장 적절한 것은?</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+int main() {
+  char name[100];
+  printf(&quot;Enter your name: &quot;);
+  scanf(&quot;%99s&quot;, name);
+  printf(name);
+  ...
+  return 0;
+}
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 스택 오버플로우 취약점<br />
+② 경쟁 조건 취약점<br />
+<strong>③ 포맷 스트링 취약점</strong><br />
+④ 명령어 주입 취약점</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (포맷 스트링 취약점)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인 + 코드 분석)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>printf(사용자입력) = 포맷 스트링 취약점</li>
+<li>%x·%n 등 형식 지정자 악용</li>
+<li>printf("%s", name)로 수정</li>
+<li>scanf("%99s")는 길이 제한 있음</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>105번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>C 언어 취약점 - 포맷 스트링</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter3-2_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 애플리케이션 보안 / 시큐어코딩</li>
+<li><strong>관련 개념</strong>: 포맷 스트링, %n, 버퍼 오버플로우</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 코드 기반 취약점 식별</li>
+<li><strong>재출제 경향</strong>: 시큐어코딩 취약점은 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>115</td>
+<td>입력 검증 미흡 취약점</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>104</td>
+<td>파일 업로드 취약점</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (시큐어코딩 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><code>printf(name)</code> = <strong>포맷 스트링 취약점</strong></li>
+<li><code>%n</code> = 임의 메모리 쓰기(최악)</li>
+<li>수정 = <code>printf("%s", name)</code></li>
+<li><code>scanf("%99s")</code> = 길이 제한 → 오버플로우 아님</li>
+<li>정답 ③</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>코드의 문제는 마지막 줄 <strong><code>printf(name);</code></strong>이다. <code>printf</code>의 첫 인자는 <strong>형식 문자열(format string)</strong>인데 여기에 <strong>사용자 입력을 그대로 전달</strong>하고 있다. 공격자가 이름에 <code>%x %x %x</code>나 <code>%n</code>을 입력하면 형식 지정자로 해석되어 <strong>스택 메모리 값이 노출</strong>되거나(<code>%x</code>, <code>%s</code>) 심하면 <strong>임의 메모리에 값을 기록</strong>(<code>%n</code>)해 코드 실행까지 가능해진다. 이것이 <strong>포맷 스트링 취약점</strong>이므로 정답은 ③번이다.</p>
+<p>주의할 점은 입력을 받는 <code>scanf("%99s", name)</code>은 <strong>길이를 99자로 제한</strong>하고 있어 버퍼 오버플로우는 발생하지 않는다는 것이다(그래서 ①은 오답). 올바른 수정은 <strong><code>printf("%s", name);</code></strong>처럼 형식 문자열을 상수로 고정하고 사용자 입력은 인자로 전달하는 것이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p><code>scanf("%99s", ...)</code>로 입력 길이가 제한되어 있어 버퍼(100바이트) 오버플로우는 발생하지 않는다.</p>
+<h3>보기②</h3>
+<p>경쟁 조건은 공유 자원에 대한 동시 접근 문제로 본 코드와 무관하다.</p>
+<h3>보기③</h3>
+<p>정답. 사용자 입력을 형식 문자열로 사용해 발생하는 포맷 스트링 취약점이다.</p>
+<h3>보기④</h3>
+<p>명령어 주입은 system()·exec() 등으로 OS 명령을 실행할 때 발생하며 본 코드에는 해당 호출이 없다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>포맷 스트링 취약점은 <code>printf</code>, <code>fprintf</code>, <code>sprintf</code>, <code>syslog</code> 등 <strong>가변 인자 형식 문자열을 받는 함수</strong>에 사용자 입력이 직접 전달될 때 발생한다. 형식 지정자별 위험은 <code>%x</code>·<code>%p</code>(스택 값 노출), <code>%s</code>(임의 주소 참조로 크래시·정보 노출), <strong><code>%n</code>(지금까지 출력한 바이트 수를 지정 주소에 기록 → 임의 메모리 쓰기)</strong>로 나뉘며 <code>%n</code>이 가장 치명적이다. 근본 대응은 <strong>형식 문자열을 상수로 고정</strong>하고 사용자 데이터는 인자로 넘기는 것이며, 컴파일러 경고(<code>-Wformat-security</code>)·정적분석 도구 활용, <code>%n</code> 비활성화 옵션도 도움이 된다. 관련 메모리 취약점으로 버퍼 오버플로우(경계 검사 미흡)가 있으며, 대응으로 안전한 함수(strncpy·snprintf), 스택 카나리, ASLR, DEP/NX가 쓰인다. 감리에서는 정적분석으로 이런 위험 함수 사용을 점검한다.</p>
+<p><strong>C 메모리 관련 취약점:</strong></p>
+<table>
+<thead>
+<tr>
+<th>취약점</th>
+<th>원인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>포맷 스트링</strong></td>
+<td>사용자 입력을 <strong>형식 문자열</strong>로 사용</td>
+</tr>
+<tr>
+<td>버퍼 오버플로우</td>
+<td>입력 길이·경계 검증 미흡</td>
+</tr>
+<tr>
+<td>경쟁 조건</td>
+<td>공유 자원 동시 접근(TOCTOU)</td>
+</tr>
+<tr>
+<td>명령어 주입</td>
+<td>입력을 OS 명령에 연결</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>C/C++ 코드 감리 시 <code>printf(변수)</code> 형태의 호출, <code>strcpy</code>·<code>gets</code> 등 안전하지 않은 함수 사용을 정적분석으로 검출하고 안전 함수로 대체하도록 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong><code>printf(사용자입력)</code> = 포맷 스트링</strong>을 즉시 식별한다. <code>scanf("%99s")</code>처럼 길이 제한이 있으면 오버플로우가 아니라는 점이 핵심 판별 단서다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="106" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>블록 암호 시스템의 운용 모드 중 GCM(Galois/Counter Mode)에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 메시지 암호화를 위해 CTR 모드를 이용한다.<br />
+② 메시지 인증코드(MAC) 값을 생성하기 위해서는 해시 함수를 사용한다.<br />
+③ 각 블록을 병렬처리 하는 게 가능하므로 실행 속도를 높일 수 있다.<br />
+<strong>④ 전송하는 메시지에 대한 기밀성은 제공하지만 메시지 무결성은 보장하지 않는다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>GCM = 기밀성 + 무결성(AEAD)</li>
+<li>CTR 모드 + GMAC</li>
+<li>갈루아 필드 곱셈(해시 함수 사용)</li>
+<li>병렬 처리 가능</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>106번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>블록암호 운용 모드 - GCM(인증 암호)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter2_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 암호학 / 블록암호 운용 모드</li>
+<li><strong>관련 개념</strong>: GCM, AEAD, CTR</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 운용 모드 특성 부정형</li>
+<li><strong>재출제 경향</strong>: 운용 모드는 매년 수준으로 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>104</td>
+<td>CBC 운용 모드</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>116</td>
+<td>HMAC(메시지 인증)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (운용 모드 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>GCM = CTR + GMAC = <strong>AEAD</strong></li>
+<li>기밀성 + <strong>무결성·인증</strong> 동시 제공</li>
+<li>AAD(헤더 등) 무결성 보장 가능</li>
+<li>논스(IV) 재사용 절대 금지</li>
+<li>정답 ④</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>GCM(Galois/Counter Mode)</strong>은 <strong>CTR 모드로 기밀성</strong>을 제공하면서 <strong>GMAC(갈루아 필드 기반 인증 태그)으로 무결성·인증까지 함께 제공</strong>하는 대표적인 <strong>인증 암호(AEAD, Authenticated Encryption with Associated Data)</strong> 모드다.</p>
+<p>④는 "기밀성은 제공하지만 <strong>무결성은 보장하지 않는다</strong>"고 서술했으나, GCM의 가장 큰 특징이 바로 <strong>무결성·인증을 함께 제공</strong>한다는 점이므로 틀린 설명이다. 따라서 정답은 ④번이다.</p>
+<p>①(암호화에 CTR 모드 사용), ②(인증 태그 생성에 갈루아 필드 기반 해시 연산 사용), ③(CTR 기반이라 블록 병렬 처리 가능)은 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. GCM의 암호화 부분은 카운터를 암호화하는 CTR 모드를 사용한다.</p>
+<h3>보기②</h3>
+<p>옳음. 인증 태그(GMAC) 생성에 갈루아 필드 GF(2¹²⁸)의 곱셈 기반 해시 연산을 사용한다.</p>
+<h3>보기③</h3>
+<p>옳음. CTR 기반이므로 암호화·복호화 모두 블록 병렬 처리가 가능해 고속이다.</p>
+<h3>보기④</h3>
+<p>정답(부적절). GCM은 기밀성뿐 아니라 <strong>무결성·인증까지 제공</strong>하는 AEAD 모드다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>전통적으로 기밀성(암호화)과 무결성(MAC)은 별도로 적용했는데, 결합 순서를 잘못 설계하면 취약점이 생겨(Encrypt-and-MAC, MAC-then-Encrypt의 문제) <strong>인증 암호(AEAD)</strong> 모드가 표준이 되었다. <strong>GCM</strong>은 CTR로 암호화하고 GHASH로 인증 태그를 만들며, 암호화하지 않고 무결성만 보장하는 <strong>추가 인증 데이터(AAD)</strong>(예: 패킷 헤더)를 함께 처리할 수 있어 TLS 1.3·IPSec·WPA3에서 널리 쓰인다. <strong>CCM</strong>은 CTR + CBC-MAC 조합의 AEAD이고, <strong>ChaCha20-Poly1305</strong>는 하드웨어 AES 가속이 없는 환경에서 쓰인다. GCM 사용 시 <strong>동일 키에 대해 논스(IV)를 절대 재사용하면 안 되며</strong>, 재사용 시 인증 키가 노출되어 위조가 가능해진다. 감리에서는 AEAD 모드 채택과 논스 관리, 태그 검증 여부를 점검한다.</p>
+<p><strong>운용 모드와 제공 서비스:</strong></p>
+<table>
+<thead>
+<tr>
+<th>모드</th>
+<th>기밀성</th>
+<th>무결성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ECB·CBC·CTR</td>
+<td>O</td>
+<td>X</td>
+</tr>
+<tr>
+<td><strong>GCM</strong></td>
+<td><strong>O</strong></td>
+<td><strong>O(AEAD)</strong></td>
+</tr>
+<tr>
+<td>CCM</td>
+<td>O</td>
+<td>O(AEAD)</td>
+</tr>
+<tr>
+<td>CMAC·HMAC</td>
+<td>X</td>
+<td>O</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>암호 구현 감리 시 CBC 등 기밀성만 제공하는 모드에 별도 MAC 없이 사용하는 구간이 있는지 확인하고, GCM 등 AEAD 전환과 논스 재사용 방지를 권고한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>GCM = CTR(기밀성) + GMAC(무결성)</strong>의 AEAD 모드임이 핵심이다. "무결성 미보장"이라는 서술이 전형적 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="107" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 설명에 해당하는 것으로 가장 적절한 것은?<br />
+조직이 자신에게 적합한 보안 정책을 수립하고 수립된 보안 정책에 의해 보안 관련 조직을 구성하여 일련의 보안 활동을 수행하는 것</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 권한관리<br />
+<strong>② 보안 거버넌스</strong><br />
+③ 위험분석<br />
+④ 접근통제</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (보안 거버넌스)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>보안 거버넌스 = 정책·조직·활동 체계</li>
+<li>경영진 책임·의사결정 구조</li>
+<li>위험분석은 관리 절차의 일부</li>
+<li>접근통제는 기술적 통제</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>107번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>하</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>보안 거버넌스 개념</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter1.pdf</li>
+<li><strong>관련 챕터</strong>: 정보보호 관리 / 거버넌스</li>
+<li><strong>관련 개념</strong>: 보안 거버넌스, ISMS, CISO</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 개념 정의 매칭</li>
+<li><strong>재출제 경향</strong>: 정보보호 관리체계는 주기적으로 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>102</td>
+<td>제로 트러스트</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (정보보호 관리)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>보안 거버넌스 = 정책 + 조직 + 활동 <strong>체계</strong></li>
+<li>위험분석·접근통제는 하위 요소</li>
+<li>ISMS-P·ISO 27001로 구현</li>
+<li>PDCA 순환 기반</li>
+<li>정답 ② 보안 거버넌스</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>보안 거버넌스(Security Governance)</strong>는 조직이 <strong>보안 정책을 수립하고, 이를 실행할 조직과 역할·책임을 구성하며, 일련의 보안 활동을 지속적으로 수행·감독하는 관리 체계 전반</strong>을 뜻한다. 문제 설명이 정책 수립 → 조직 구성 → 보안 활동 수행이라는 거버넌스의 구조를 그대로 서술하고 있으므로 정답은 ②번이다.</p>
+<p>①권한관리는 사용자 권한 부여·회수를 다루는 세부 활동, ③위험분석은 자산·위협·취약점을 식별해 위험을 평가하는 관리 절차의 한 단계, ④접근통제는 주체의 객체 접근을 제한하는 기술적·관리적 통제로 모두 거버넌스의 하위 요소다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>권한관리는 계정·권한의 부여·변경·회수를 다루는 개별 통제 활동이다.</p>
+<h3>보기②</h3>
+<p>정답. 정책 수립·조직 구성·보안 활동 수행을 아우르는 관리 체계가 보안 거버넌스다.</p>
+<h3>보기③</h3>
+<p>위험분석은 위험을 식별·평가하는 절차로 거버넌스 안에서 수행되는 단계다.</p>
+<h3>보기④</h3>
+<p>접근통제는 주체의 객체 접근을 제한하는 구체적 통제 수단이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>보안 거버넌스는 IT 거버넌스의 하위 개념으로, <strong>경영진의 책임 아래 보안 목표를 사업 목표와 정렬</strong>시키고 자원 배분·성과 측정·준거성 확보를 총괄한다. 구성 요소는 <strong>전략적 정렬, 위험 관리, 자원 관리, 성과 측정, 가치 전달</strong>로 정리되며, 실행 체계로 <strong>정보보호 정책·지침·절차의 3단계 문서 체계</strong>, <strong>CISO(정보보호최고책임자) 지정</strong>, 보안 조직·위원회 운영, 교육·훈련, 감사·점검이 포함된다. 대표 프레임워크로 <strong>ISO/IEC 27001(ISMS)</strong>, 국내 <strong>ISMS-P 인증</strong>, COBIT, NIST CSF가 있으며 모두 <strong>계획-실행-점검-개선(PDCA)</strong> 순환을 기반으로 한다. 정보보호는 기술 도입만으로 달성되지 않고 <strong>정책·조직·프로세스·기술이 결합</strong>되어야 한다는 것이 거버넌스의 핵심 메시지다. 감리에서는 정보보호 조직·정책 체계와 경영진 참여를 점검한다.</p>
+<p><strong>보안 관리 체계 구성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>계층</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>거버넌스</strong></td>
+<td>정책 수립·조직 구성·감독</td>
+</tr>
+<tr>
+<td>위험관리</td>
+<td>자산 식별·위험분석·대응</td>
+</tr>
+<tr>
+<td>통제</td>
+<td>접근통제·권한관리·암호화</td>
+</tr>
+<tr>
+<td>점검</td>
+<td>감사·모니터링·개선</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>정보보호 관리체계 감리 시 정보보호 정책의 승인·현행화, CISO 지정, 보안 조직의 역할·책임 정의, 경영진 보고 체계를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>거버넌스(체계 전반)와 위험분석·접근통제(하위 활동)의 <strong>층위 차이</strong>를 구분하는 것이 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="108" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 「개인정보보호법」 제3절 가명정보의 처리에 관한 특례 사항에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 개인정보처리자는 통계작성, 과학적 연구, 공익적 기록보존 등을 위하여 정보주체의 동의 없이 가명정보를 처리할 수 있다.<br />
+<strong>② 개인정보처리자는 가명정보를 처리하는 과정에서 특정 개인을 알아볼 수 있는 정보가 생성된 경우에는 지체 없이 정보주체에게 통지한 후 정보를 처리할 수 있다.</strong><br />
+③ 가명정보를 처리하는 자는 특정 개인을 알아보기 위한 목적으로 가명정보를 처리해서는 아니 된다.<br />
+④ 개인정보처리자는 가명정보를 처리하고자 하는 경우에는 가명정보의 처리 목적, 제3자 제공 시 제공받는 자 등 가명정보의 처리 내용을 관리하기 위하여 대통령령으로 정하는 사항에 대한 관련 기록을 작성하여 보관하여야 한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>재식별 정보 생성 시 <strong>즉시 처리 중지·회수·파기</strong></li>
+<li>통지 후 계속 처리 ✕</li>
+<li>동의 없는 처리(통계·연구·기록보존)</li>
+<li>재식별 목적 처리 금지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>108번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>가명정보 처리 특례 - 재식별 시 조치</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter5-2(수정본).pdf</li>
+<li><strong>관련 챕터</strong>: 개인정보보호 / 가명정보 특례</li>
+<li><strong>관련 개념</strong>: 제28조의2~5, 재식별 금지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 법 조문 부정형</li>
+<li><strong>재출제 경향</strong>: 가명정보는 개정 후 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>120</td>
+<td>가명정보 기술적 보호조치</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>111</td>
+<td>개인정보 유출 통지사항</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (개인정보보호법 최다)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>재식별 정보 생성 → <strong>중지·회수·파기</strong></li>
+<li>통계·연구·기록보존 = 동의 없이 처리 가능</li>
+<li>결합은 <strong>전문기관</strong> 경유</li>
+<li>처리 기록 작성·보관 의무</li>
+<li>정답 ②</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「개인정보 보호법」 제28조의5 제2항은 가명정보 처리 과정에서 <strong>특정 개인을 알아볼 수 있는 정보가 생성된 경우 즉시 처리를 중지하고 지체 없이 회수·파기</strong>하도록 규정한다.</p>
+<p>②는 "지체 없이 <strong>정보주체에게 통지한 후 정보를 처리할 수 있다</strong>"고 서술했는데, 법은 통지 후 계속 처리를 허용하는 것이 아니라 <strong>처리 중지와 회수·파기</strong>를 명령하므로 명백히 틀렸다. 따라서 정답은 ②번이다.</p>
+<p>①(제28조의2, 통계작성·과학적 연구·공익적 기록보존 목적의 동의 없는 처리), ③(제28조의5 제1항, 재식별 목적 처리 금지), ④(제28조의4 제2항, 처리 내용 기록 작성·보관 의무)는 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 통계작성·과학적 연구·공익적 기록보존 목적으로는 동의 없이 가명정보를 처리할 수 있다.</p>
+<h3>보기②</h3>
+<p>정답(부적절). 재식별 정보 생성 시에는 <strong>즉시 처리 중지 후 회수·파기</strong>해야 하며 계속 처리할 수 없다.</p>
+<h3>보기③</h3>
+<p>옳음. 특정 개인을 알아보기 위한 목적의 가명정보 처리는 금지된다.</p>
+<h3>보기④</h3>
+<p>옳음. 가명정보 처리 내용에 관한 기록을 작성·보관해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>2020년 데이터 3법 개정으로 신설된 가명정보 특례는 <strong>데이터 활용과 개인정보 보호의 균형</strong>을 목표로 한다. <strong>가명처리</strong>는 추가정보 없이는 특정 개인을 알아볼 수 없도록 하는 처리로, 결과물인 가명정보는 <strong>여전히 개인정보</strong>에 해당한다(반면 <strong>익명정보</strong>는 복원 불가능해 개인정보가 아니다). 특례의 핵심 규정은 ① 제28조의2: 통계·연구·기록보존 목적의 <strong>동의 없는 처리</strong> 허용, ② 제28조의3: 서로 다른 처리자 간 결합은 <strong>전문기관</strong>을 통해서만, ③ 제28조의4: <strong>안전조치 의무와 처리 기록 작성·보관</strong>, ④ 제28조의5: <strong>재식별 금지</strong> 및 재식별 정보 생성 시 <strong>처리 중지·회수·파기</strong>다. 위반 시 과징금·형사처벌 대상이 된다. 감리에서는 목적 적합성, 추가정보 분리, 결합 절차 준수, 재식별 대응 절차를 점검한다.</p>
+<p><strong>가명정보 특례 핵심 규정:</strong></p>
+<table>
+<thead>
+<tr>
+<th>조문</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>제28조의2</td>
+<td>통계·연구·기록보존 목적 <strong>동의 없는 처리</strong></td>
+</tr>
+<tr>
+<td>제28조의3</td>
+<td>결합은 <strong>전문기관</strong>을 통해서만</td>
+</tr>
+<tr>
+<td>제28조의4</td>
+<td>안전조치·처리 기록 작성·보관</td>
+</tr>
+<tr>
+<td>제28조의5</td>
+<td><strong>재식별 금지</strong>, 생성 시 중지·회수·파기</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>가명정보 활용 사업 감리 시 처리 목적의 적법성, 추가정보 분리 보관, 결합 시 전문기관 이용, 재식별 발생 시 대응 절차의 문서화·훈련 여부를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>재식별 정보가 생성되면 <strong>"통지 후 처리"가 아니라 "중지 후 회수·파기"</strong>라는 점이 최다 출제 함정이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="109" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 VLAN에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 하나의 VLAN내 ARP Request, NetBIOS Name Query와 같은 브로드캐스트 패킷을 분할된 여러 개의 전체 네트워크로 확장·전송하는 기능을 제공한다.</strong><br />
+② 웜과 같은 악성 코드가 발생하는 경우 범위는 제한할 수 있어 목적별로 네트워크를 분리하여 보안 수준을 높일 수 있다.<br />
+③ 하나의 스위치에 연결된 2계층 네트워크를 VLAN으로 분할하면 여러개로 구별되는 브로드캐스트 도메인을 만들 수 있다.<br />
+④ 클라이언트가 특정 VLAN에 할당되어 있을 때, 클라이언트는 자신이 속한 VLAN을 인식하지 못한 채 일반적인 통신을 할 때와 똑같이 프레임을 스위치에 전달한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>VLAN = 브로드캐스트 도메인 <strong>분할</strong></li>
+<li>같은 VLAN 내부로만 전파</li>
+<li>악성코드 확산 범위 제한</li>
+<li>단말은 VLAN 인식 못함</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>109번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>VLAN의 보안 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter4-2.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 보안 / 네트워크 분리</li>
+<li><strong>관련 개념</strong>: VLAN, 802.1Q, 브로드캐스트 도메인</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: VLAN 특성 부정형</li>
+<li><strong>재출제 경향</strong>: 네트워크 분리·VLAN은 주기적으로 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>103</td>
+<td>보안 솔루션(NAC 등)</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>113</td>
+<td>ARP 스푸핑</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (네트워크 분리)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>VLAN = 브로드캐스트 도메인 <strong>분할</strong></li>
+<li>브로드캐스트는 같은 VLAN 내부만 전파</li>
+<li>VLAN 간 통신은 3계층 경유</li>
+<li>802.1Q 태그·트렁크, VLAN 호핑 주의</li>
+<li>정답 ①</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>VLAN</strong>은 하나의 물리 스위치를 논리적으로 나누어 <strong>브로드캐스트 도메인을 분할</strong>하는 기술이다. 따라서 특정 VLAN에서 발생한 ARP Request·NetBIOS Name Query 같은 브로드캐스트는 <strong>같은 VLAN 내부에만 전파되고 다른 VLAN으로는 전달되지 않는다</strong>.</p>
+<p>①은 브로드캐스트를 "분할된 여러 개의 전체 네트워크로 <strong>확장·전송</strong>"한다고 서술했는데, 이는 VLAN의 분할 목적과 정반대이므로 틀린 설명이다. 따라서 정답은 ①번이다.</p>
+<p>②(악성코드 확산 범위 제한 → 보안 수준 향상), ③(스위치의 2계층 네트워크를 여러 브로드캐스트 도메인으로 분할), ④(단말은 VLAN 소속을 인식하지 못하고 일반 프레임을 전달하며 태깅은 스위치가 처리)는 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답(부적절). VLAN은 브로드캐스트를 확장하는 것이 아니라 <strong>해당 VLAN 내로 제한</strong>한다.</p>
+<h3>보기②</h3>
+<p>옳음. 네트워크를 목적별로 분리해 웜 등의 확산 범위를 제한할 수 있다.</p>
+<h3>보기③</h3>
+<p>옳음. VLAN 분할로 복수의 구별되는 브로드캐스트 도메인이 생성된다.</p>
+<h3>보기④</h3>
+<p>옳음. 단말은 VLAN을 인식하지 못하며 태그 처리는 스위치가 수행한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>VLAN은 물리적 배선과 무관하게 포트·MAC·프로토콜 기준으로 논리적 그룹을 만들어 <strong>브로드캐스트 도메인을 분할</strong>한다. 스위치 간에는 <strong>IEEE 802.1Q 태그</strong>로 VLAN ID(12비트, 최대 4094개)를 프레임에 삽입해 여러 VLAN 트래픽을 하나의 <strong>트렁크 포트</strong>로 전달한다. VLAN 간 통신은 3계층 장비(라우터·L3 스위치)를 거쳐야 하므로 <strong>접근통제 지점(ACL)</strong>을 자연스럽게 확보할 수 있고, 부서·업무·보안등급별 분리로 내부 확산을 억제한다. 보안 위협으로는 이중 태깅이나 트렁크 협상을 악용해 다른 VLAN에 접근하는 <strong>VLAN 호핑(hopping)</strong>이 있어, <strong>미사용 포트 비활성화, DTP 비활성화, 네이티브 VLAN 변경</strong>이 권고된다. 감리에서는 VLAN 설계가 업무·보안 등급과 일치하는지, VLAN 간 ACL이 최소권한으로 설정됐는지 점검한다.</p>
+<p><strong>VLAN 핵심 특성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>주 기능</td>
+<td><strong>브로드캐스트 도메인 분할</strong></td>
+</tr>
+<tr>
+<td>태깅 표준</td>
+<td>IEEE 802.1Q (트렁크)</td>
+</tr>
+<tr>
+<td>VLAN 간 통신</td>
+<td>3계층 장비 경유(ACL 적용점)</td>
+</tr>
+<tr>
+<td>위협</td>
+<td>VLAN 호핑(이중 태깅·DTP)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>네트워크 보안 감리 시 업무·보안 등급별 VLAN 분리 설계, VLAN 간 접근통제 규칙, 미사용 포트·트렁크 설정으로 인한 VLAN 호핑 위험을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>VLAN은 브로드캐스트를 <strong>제한(분할)</strong>하며 확장하지 않는다는 점이 핵심 함정이다. 802.1Q 태깅과 VLAN 호핑도 함께 출제된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="110" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>외부 IP 주소의 임의 포트에서 내부 ftp 서버로 접속하려는 트래픽을 탐지 및 차단하기 위한 Snort 탐지규칙으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① <code>alert tcp !192.168.0.0/24 any → 192.168.0.0/24 21 (msg:"illegal ftp attempt")</code><br />
+<strong>② <code>drop tcp !192.168.0.0/24 any → 192.168.0.0/24 21 (msg:"illegal ftp attempt")</code></strong><br />
+③ <code>alert tcp 192.168.0.0/24 any → !192.168.0.0/24 21 (msg:"illegal ftp attempt")</code><br />
+④ <code>drop tcp 192.168.0.0/24 any → !192.168.0.0/24 21 (msg:"illegal ftp attempt")</code></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인 + 규칙 분석)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>alert = 탐지만 / <strong>drop = 탐지+차단</strong></li>
+<li><code>!</code> = 부정(외부)</li>
+<li>출발지 → 목적지 방향</li>
+<li>FTP 제어 포트 21</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>110번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>Snort 탐지규칙 작성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter4-3.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 보안 / IDS·IPS</li>
+<li><strong>관련 개념</strong>: Snort 규칙, 오용 탐지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 탐지 규칙 작성·판별</li>
+<li><strong>재출제 경향</strong>: Snort 규칙은 주기적으로 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>119</td>
+<td>오탐(False-Positive)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (IDS/IPS 규칙)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>alert = 탐지, <strong>drop = 탐지+차단</strong></li>
+<li><code>!</code> = 부정(외부 대역)</li>
+<li>형식: 액션 프로토콜 출발지 → 목적지</li>
+<li>FTP 제어 포트 = 21</li>
+<li>정답 ②</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>Snort 규칙은 <strong><code>액션 프로토콜 출발지IP 출발지포트 → 목적지IP 목적지포트 (옵션)</code></strong> 형식이다. 요구사항을 하나씩 대응시키면 다음과 같다.</p>
+<ul>
+<li><strong>"탐지 및 차단"</strong> → 액션은 경고만 하는 <code>alert</code>가 아니라 <strong><code>drop</code></strong></li>
+<li><strong>"외부 IP 주소의 임의 포트"</strong> → 출발지는 내부 대역이 아닌 곳이므로 <strong><code>!192.168.0.0/24 any</code></strong></li>
+<li><strong>"내부 ftp 서버로"</strong> → 목적지는 <strong><code>192.168.0.0/24 21</code></strong>(FTP 제어 포트)</li>
+</ul>
+<p>이 세 조건을 모두 만족하는 것은 ②번이다.</p>
+<p>①은 액션이 <code>alert</code>라 <strong>차단이 되지 않고</strong>, ③④는 출발지가 내부(<code>192.168.0.0/24</code>), 목적지가 외부(<code>!192.168.0.0/24</code>)로 <strong>방향이 정반대</strong>다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>출발지·목적지 방향은 맞으나 액션이 <code>alert</code>여서 탐지만 하고 <strong>차단하지 못한다</strong>.</p>
+<h3>보기②</h3>
+<p>정답. <code>drop</code> + 외부 출발지(<code>!내부대역</code>) + 내부 목적지 21번 포트로 요구사항을 모두 충족한다.</p>
+<h3>보기③</h3>
+<p>방향이 반대(내부→외부)이고 액션도 <code>alert</code>로 차단되지 않는다.</p>
+<h3>보기④</h3>
+<p>액션은 <code>drop</code>이나 방향이 내부→외부로 반대다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>Snort는 대표적 오픈소스 <strong>IDS/IPS</strong>로, 규칙 헤더(액션·프로토콜·주소·포트·방향)와 옵션(msg·content·sid·flags 등)으로 탐지 규칙을 정의한다. 액션은 <strong>alert</strong>(경고+로그), <strong>log</strong>(로그만), <strong>pass</strong>(무시), <strong>drop</strong>(차단+로그), <strong>reject</strong>(차단+거부 응답), <strong>sdrop</strong>(로그 없이 차단)으로 나뉘며, <strong>drop 계열은 인라인(IPS) 모드에서만 동작</strong>한다. 주소·포트에는 <code>any</code>, CIDR, 부정 연산자 <code>!</code>, 목록 <code>[ ]</code>을 쓸 수 있고 방향 연산자는 단방향 <code>-&gt;</code>와 양방향 <code>&lt;&gt;</code>가 있다. 탐지 방식은 알려진 패턴을 찾는 <strong>오용 탐지(signature)</strong>와 정상 프로파일과의 편차를 보는 <strong>이상 탐지(anomaly)</strong>로 구분되며, Snort는 주로 오용 탐지 기반이라 미지의 공격(제로데이)에는 취약하다. 감리에서는 룰셋 최신화, 오탐 관리, IPS 인라인 구성의 가용성 영향을 점검한다.</p>
+<p><strong>Snort 규칙 구성:</strong></p>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>액션</td>
+<td>alert(탐지) / <strong>drop(차단)</strong> / reject 등</td>
+</tr>
+<tr>
+<td>주소</td>
+<td>CIDR, <code>any</code>, <code>!</code>(부정)</td>
+</tr>
+<tr>
+<td>방향</td>
+<td><code>-&gt;</code> 단방향, <code>&lt;&gt;</code> 양방향</td>
+</tr>
+<tr>
+<td>포트</td>
+<td>FTP 21, HTTP 80, SSH 22 등</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>IDS/IPS 감리 시 탐지 전용(alert)과 차단(drop) 규칙의 구분, 룰셋 업데이트 주기, 오탐으로 인한 정상 서비스 차단 여부를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>"탐지 및 차단" → drop</strong>, <strong>"외부" → <code>!내부대역</code></strong>, <strong>방향(출발지→목적지)</strong> 세 가지를 규칙에 대응시키는 것이 핵심이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="111" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「개인정보보호법」에 따라 개인정보처리자는 개인정보가 분실·도난·유출되었음을 알게 되었을 때, 지체없이 정보주체에게 알려야 할 사항으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 정보주체에게 피해가 발생한 경우 신고 등을 접수할 수 있는 담당 부서 및 연락처<br />
+② 유출 등이 된 시점과 그 경위<br />
+<strong>③ 유출된 개인정보의 규모 및 피해액</strong><br />
+④ 유출 등으로 인하여 발생할 수 있는 피해를 최소화하기 위하여 정보주체가 할 수 있는 방법 등에 관한 정보</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>법 제34조 5대 통지사항</li>
+<li>유출된 <strong>항목</strong>(규모·피해액 아님)</li>
+<li>시점·경위</li>
+<li>대응 방법·담당 부서·처리자 대책</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>111번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>개인정보 유출 시 정보주체 통지사항(법 제34조)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter5-1(수정본).pdf</li>
+<li><strong>관련 챕터</strong>: 개인정보보호 / 유출 대응</li>
+<li><strong>관련 개념</strong>: 제34조, 통지·신고</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 법정 통지사항 부정형</li>
+<li><strong>재출제 경향</strong>: 개인정보 보호법 조문은 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>118</td>
+<td>제3자 제공 고지사항</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>108</td>
+<td>가명정보 처리 특례</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (개인정보보호법 최다)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>통지사항 = 유출 <strong>항목</strong>(규모·피해액 ✕)</li>
+<li>시점·경위, 피해 최소화 방법</li>
+<li>대응조치·구제절차, 담당부서·연락처</li>
+<li>지체 없이(72시간 내) 통지</li>
+<li>정답 ③</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「개인정보 보호법」 제34조 제1항은 유출 시 정보주체에게 알려야 할 사항으로 <strong>① 유출된 개인정보의 항목, ② 유출된 시점과 그 경위, ③ 유출로 인해 발생할 수 있는 피해를 최소화하기 위해 정보주체가 할 수 있는 방법 등에 관한 정보, ④ 개인정보처리자의 대응조치 및 피해 구제절차, ⑤ 피해가 발생한 경우 신고 등을 접수할 수 있는 담당부서 및 연락처</strong>를 규정한다.</p>
+<p>③은 "유출된 개인정보의 <strong>규모 및 피해액</strong>"이라고 했으나, 법이 요구하는 것은 <strong>유출된 개인정보의 '항목'</strong>이며 규모·피해액은 통지 항목이 아니다(피해액은 유출 시점에 산정 자체가 어렵다). 따라서 가장 적절하지 않은 것은 ③번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>법정 통지사항이다(피해 신고 접수 담당부서 및 연락처).</p>
+<h3>보기②</h3>
+<p>법정 통지사항이다(유출 시점과 경위).</p>
+<h3>보기③</h3>
+<p>정답(부적절). 법은 <strong>유출된 개인정보의 '항목'</strong>을 알리도록 하며 규모·피해액은 통지사항이 아니다.</p>
+<h3>보기④</h3>
+<p>법정 통지사항이다(정보주체가 취할 수 있는 피해 최소화 방법).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>개인정보 유출 대응은 <strong>통지</strong>와 <strong>신고</strong>로 나뉜다. <strong>통지</strong>는 유출을 알게 된 때 <strong>지체 없이(72시간 이내)</strong> 정보주체에게 법정 5개 사항을 알리는 것이고, <strong>신고</strong>는 일정 규모 이상(예: 1천 명 이상 정보주체의 개인정보 유출, 민감정보·고유식별정보 유출, 외부 침입에 의한 유출 등) 시 <strong>개인정보보호위원회 또는 한국인터넷진흥원</strong>에 신고하는 것이다. 통지 시에는 서면·전자우편·전화·문자 등으로 개별 통지하되, 연락처를 알 수 없는 등 정당한 사유가 있으면 홈페이지 <strong>공지</strong>로 갈음할 수 있다(일정 기간 이상 게시). 유출 사실을 알고도 통지·신고를 지연하거나 은폐하면 과태료·과징금 대상이다. 감리에서는 유출 대응 절차 문서화, 통지문 양식의 법정 항목 충족, 훈련 실시 여부를 점검한다.</p>
+<p><strong>유출 통지 5대 사항(법 제34조):</strong></p>
+<table>
+<thead>
+<tr>
+<th>통지사항</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>유출된 개인정보의 <strong>항목</strong></td>
+</tr>
+<tr>
+<td>유출된 시점과 그 경위</td>
+</tr>
+<tr>
+<td>피해 최소화를 위해 정보주체가 할 수 있는 방법</td>
+</tr>
+<tr>
+<td>처리자의 대응조치 및 피해 구제절차</td>
+</tr>
+<tr>
+<td>신고 접수 담당부서 및 연락처</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>개인정보 관리체계 감리 시 유출 대응 절차서에 통지 시한·법정 항목·신고 기준이 반영됐는지, 모의훈련 이력이 있는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>통지사항은 <strong>'항목'</strong>이지 규모·피해액이 아니라는 점이 핵심 함정이다. 통지(정보주체)와 신고(보호위·KISA)의 구분도 함께 출제된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="112" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음과 같은 업무 환경에서 사용자들이 활용하게 할 수 있는 정보보호 시스템으로 가장 적절한 것은?<br />
+감리 대상 기업 A는 외주 근로자가 많아 이들이 내부망에 접속 시 안전하게 관리해야 하는 필요성이 있음. 서울시에 본사 및 세종시에 지사가 존재하는 기업이며 이 두 개 지역의 네트워크를 안전하게 연결해야 함</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Firewall<br />
+<strong>② VPN</strong><br />
+③ PGP<br />
+④ IPS</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번 (VPN)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>VPN = 원격 접속 + 거점 간 연결</li>
+<li>사이트 간(Site-to-Site) VPN</li>
+<li>원격 접속(Remote Access) VPN</li>
+<li>방화벽·IPS는 차단·탐지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>112번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>하</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정보보호 시스템 선정 - VPN</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter4-1.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 보안 / VPN</li>
+<li><strong>관련 개념</strong>: Site-to-Site VPN, IPSec, SSL VPN</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 상황 기반 솔루션 선정</li>
+<li><strong>재출제 경향</strong>: VPN·보안 솔루션은 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>107</td>
+<td>VPN 터널링 프로토콜</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>103</td>
+<td>보안 솔루션 구분</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (VPN 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>VPN = 원격 접속 + 거점 간 연결</li>
+<li>Site-to-Site / Remote Access 구분</li>
+<li>기밀성·무결성·인증·재전송 방지</li>
+<li>외주 계정은 종료 시 즉시 회수</li>
+<li>정답 ② VPN</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>문제의 요구는 두 가지다. ① <strong>외주 근로자의 안전한 내부망 원격 접속</strong>, ② <strong>본사(서울)-지사(세종) 간 네트워크의 안전한 연결</strong>이다. 이 두 요구를 동시에 충족하는 것이 <strong>VPN</strong>으로, 전자는 <strong>원격 접속(Remote Access) VPN</strong>, 후자는 <strong>사이트 간(Site-to-Site) VPN</strong>으로 구현된다. 공중망을 지나는 트래픽을 암호화 터널로 보호하므로 정답은 ②번이다.</p>
+<p>①Firewall은 트래픽을 정책에 따라 허용·차단하는 장비로 <strong>암호화 터널을 제공하지 않고</strong>, ③PGP는 <strong>이메일·파일 암호화</strong> 도구이며, ④IPS는 침입을 탐지·차단하는 장비로 모두 거점 간 안전한 연결 요구를 충족하지 못한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>Firewall은 접근 정책에 따른 필터링 장비로 구간 암호화 기능이 없다.</p>
+<h3>보기②</h3>
+<p>정답. VPN이 원격 접속과 거점 간 안전한 연결을 모두 제공한다.</p>
+<h3>보기③</h3>
+<p>PGP는 이메일·파일 단위 암호화 도구로 네트워크 구간 연결과 무관하다.</p>
+<h3>보기④</h3>
+<p>IPS는 공격 탐지·차단 장비로 암호화 터널 제공 기능이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>VPN은 공중망 위에 논리적 전용선을 만드는 기술로, 구현 형태에 따라 <strong>Site-to-Site VPN</strong>(본사-지사 등 거점 간 게이트웨이 연결, 주로 IPSec 터널 모드)과 <strong>Remote Access VPN</strong>(개별 사용자 단말이 접속, IPSec·SSL VPN)으로 나뉜다. 제공 서비스는 <strong>기밀성(암호화)·무결성(해시/MAC)·인증(사전공유키·인증서)·재전송 방지(시퀀스 번호)</strong>다. IPSec은 AH(무결성·인증)와 ESP(기밀성 포함)를 제공하고 IKE로 키를 교환한다. SSL VPN은 브라우저만으로 접근 가능해 외주·재택 근무자 지원에 유리하다. 보안 강화를 위해 <strong>다중 인증(MFA)</strong>, 단말 상태 점검(NAC 연동), <strong>분리 터널링 제한</strong>, 접속 계정·기간 관리가 필요하며, 외주 인력 계정은 프로젝트 종료 시 즉시 회수해야 한다. 감리에서는 VPN 계정 관리와 접근 범위 최소화를 점검한다.</p>
+<p><strong>VPN 유형과 적용:</strong></p>
+<table>
+<thead>
+<tr>
+<th>유형</th>
+<th>적용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Site-to-Site</strong></td>
+<td>본사-지사 등 거점 간 연결</td>
+</tr>
+<tr>
+<td><strong>Remote Access</strong></td>
+<td>재택·외주 인력의 원격 접속</td>
+</tr>
+<tr>
+<td>제공 서비스</td>
+<td>기밀성·무결성·인증·재전송 방지</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>외주 인력 관리 감리 시 VPN 계정의 발급·회수 절차, 다중 인증 적용, 접근 가능 시스템 범위의 최소화, 접속 로그 보관을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>"거점 간 안전한 연결 + 원격 접속"이라는 조건은 <strong>VPN</strong>을 가리킨다. 방화벽(차단)·IPS(탐지)·PGP(메일 암호화)와 목적을 구분한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="113" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>스푸핑을 통해 공격자는 자신의 신분을 위장하여 정보시스템에서 허가되지 않은 정보의 열람 혹은 거짓정보의 전송이 가능해진다. 이러한 스푸핑 기술 중 IP 주소와 해당 MAC 주소의 매핑 정보를 위조하는 기법을 사용하는 것으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① ARP 스푸핑</strong><br />
+② IP 스푸핑<br />
+③ ICMP 리다이렉트<br />
+④ DNS 스푸핑</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번 (ARP 스푸핑)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>ARP 스푸핑 = IP-MAC 매핑 위조</li>
+<li>ARP 캐시 오염</li>
+<li>중간자 공격(MITM)</li>
+<li>같은 브로드캐스트 도메인 내 공격</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>113번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>하</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>스푸핑 기법 - ARP 스푸핑</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter4-2.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 보안 / 스푸핑·스니핑</li>
+<li><strong>관련 개념</strong>: ARP 스푸핑, MITM, DAI</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 공격 기법 정의 매칭</li>
+<li><strong>재출제 경향</strong>: 스푸핑 계열은 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>106</td>
+<td>DNS 스푸핑</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>109</td>
+<td>VLAN(브로드캐스트 분할)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (스푸핑 최다 출제)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>ARP 스푸핑 = <strong>IP-MAC 매핑 위조</strong></li>
+<li>결과 = 중간자 공격(도청·변조)</li>
+<li>같은 브로드캐스트 도메인 내에서만</li>
+<li>대응 = DAI·정적 ARP·종단 암호화</li>
+<li>정답 ① ARP 스푸핑</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>ARP 스푸핑(ARP 포이즈닝)</strong>은 공격자가 위조된 ARP 응답을 보내 피해자의 <strong>ARP 캐시에 잘못된 IP-MAC 매핑을 심는</strong> 공격이다. 예컨대 게이트웨이의 IP에 공격자의 MAC을 대응시키면 피해자의 모든 외부 트래픽이 공격자를 거치게 되어 <strong>중간자 공격(MITM)</strong>으로 도청·변조가 가능해진다. 문제의 "IP 주소와 MAC 주소의 매핑 정보를 위조"라는 서술과 정확히 일치하므로 정답은 ①번이다.</p>
+<p>②IP 스푸핑은 <strong>출발지 IP 주소</strong>를 위조하는 공격, ③ICMP 리다이렉트는 라우팅 경로를 변경하도록 유도하는 공격, ④DNS 스푸핑은 <strong>도메인-IP 매핑</strong>을 위조하는 공격으로 각각 위조 대상이 다르다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정답. IP-MAC 매핑을 위조하는 것이 ARP 스푸핑이다.</p>
+<h3>보기②</h3>
+<p>IP 스푸핑은 패킷의 출발지 IP를 위조해 신분을 속이는 공격이다.</p>
+<h3>보기③</h3>
+<p>ICMP 리다이렉트는 잘못된 경로 정보를 보내 트래픽 경로를 바꾸는 공격이다.</p>
+<h3>보기④</h3>
+<p>DNS 스푸핑은 도메인 이름에 대응하는 IP를 위조하는 공격이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>ARP는 같은 LAN에서 IP를 MAC으로 변환하는 프로토콜인데, <strong>인증 절차가 없어</strong> 위조 응답을 그대로 캐시에 반영한다. 이를 악용한 ARP 스푸핑은 같은 브로드캐스트 도메인 내에서만 가능하며, 성공하면 <strong>스니핑(도청), 세션 하이재킹, 트래픽 변조</strong>로 이어진다. 유사 기법으로 스위치의 MAC 테이블을 가득 채워 허브처럼 동작하게 만드는 <strong>스위치 재밍(MAC 플러딩)</strong>, 라우터로 위장하는 <strong>ARP 리다이렉트</strong>가 있다. 대응책은 중요 장비에 대한 <strong>정적(static) ARP 등록</strong>, 스위치의 <strong>DAI(Dynamic ARP Inspection)</strong>와 <strong>DHCP 스누핑</strong> 연계, ARP 캐시 이상 탐지, 그리고 근본적으로 <strong>종단 간 암호화(HTTPS·VPN)</strong> 적용이다. 감리에서는 내부망 스니핑 위험에 대한 통제와 중요 구간 암호화 적용을 점검한다.</p>
+<p><strong>스푸핑 기법별 위조 대상:</strong></p>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>위조 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ARP 스푸핑</strong></td>
+<td><strong>IP ↔ MAC 매핑</strong></td>
+</tr>
+<tr>
+<td>IP 스푸핑</td>
+<td>출발지 IP 주소</td>
+</tr>
+<tr>
+<td>DNS 스푸핑</td>
+<td>도메인 ↔ IP 매핑</td>
+</tr>
+<tr>
+<td>ICMP 리다이렉트</td>
+<td>라우팅 경로</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>내부망 보안 감리 시 DAI·DHCP 스누핑 설정, 중요 서버의 정적 ARP 등록, 내부 구간 평문 통신(HTTP·Telnet) 사용 여부를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>ARP(IP-MAC) · DNS(도메인-IP) · IP(출발지 주소)</strong>의 위조 대상 구분이 핵심이다. 대응책 DAI도 함께 기억한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="114" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>SSO(Single Sign On)에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① SSO 서버로부터 인증에 성공하면 SSO 서버가 관리하는 다른 시스템에 대한 접근권한을 모두 얻을 수 있다.<br />
+② 대표적인 인증 방법으로는 커버로스(Kerberos)를 이용한 윈도우 액티브 디렉터리가 있다.<br />
+③ 보안을 강화하기 위해 중요 정보에 접근할 때는 지속적인 재인증을 요구하기도 한다.<br />
+<strong>④ 각 시스템마다 인증 정보를 저장하므로 단일 장애점(single point of failure) 문제가 존재하지 않는다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SSO = 인증 <strong>중앙집중</strong> → SPOF 존재</li>
+<li>한 번 인증으로 다수 시스템 접근</li>
+<li>Kerberos·AD</li>
+<li>이중화로 SPOF 완화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>114번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>SSO(Single Sign On) 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter3-1_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 접근통제 / 인증</li>
+<li><strong>관련 개념</strong>: SSO, Kerberos, SPOF</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: SSO 특성 부정형</li>
+<li><strong>재출제 경향</strong>: 인증·접근통제는 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>118</td>
+<td>인증 방식(지식·소유·생체)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (인증 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SSO = 인증 중앙집중 → <strong>SPOF 존재</strong></li>
+<li>인증정보 유출 시 피해 확산</li>
+<li>Kerberos 기반 AD가 대표 사례</li>
+<li>MFA·재인증으로 보완</li>
+<li>정답 ④</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>SSO</strong>는 인증을 <strong>중앙의 SSO 서버로 집중</strong>시켜 한 번의 로그인으로 여러 시스템을 이용하게 하는 방식이다. 따라서 SSO 서버에 장애가 나면 <strong>연결된 모든 시스템의 인증이 불가능</strong>해지는 <strong>단일 장애점(SPOF)</strong> 문제가 존재하며, 이를 완화하려면 SSO 서버를 이중화·클러스터링해야 한다.</p>
+<p>④는 "각 시스템마다 인증 정보를 저장하므로 SPOF 문제가 존재하지 않는다"고 서술했는데, 이는 SSO가 아니라 <strong>개별 인증 방식</strong>의 특성이며 SSO의 구조와 정반대이므로 틀렸다. 따라서 정답은 ④번이다.</p>
+<p>①(한 번 인증으로 관리 대상 시스템 접근), ②(Kerberos 기반 윈도우 AD가 대표 사례), ③(중요 정보 접근 시 단계적 재인증 요구)은 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. SSO 인증 성공 시 연계된 시스템에 재로그인 없이 접근할 수 있다.</p>
+<h3>보기②</h3>
+<p>옳음. 커버로스 기반 윈도우 액티브 디렉터리가 대표적 SSO 구현이다.</p>
+<h3>보기③</h3>
+<p>옳음. 민감 자원 접근 시 단계적(step-up) 재인증을 요구할 수 있다.</p>
+<h3>보기④</h3>
+<p>정답(부적절). SSO는 인증이 중앙집중되므로 <strong>SPOF 문제가 존재</strong>한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>SSO는 사용자 편의성과 계정 관리 효율을 높이지만 보안 측면에서 양면성이 있다. 장점은 비밀번호 재사용·메모 부착 감소, 계정 생명주기의 중앙 관리, 접근 로그 일원화다. 단점은 <strong>SPOF</strong>와 함께, 하나의 인증정보가 유출되면 <strong>연결된 모든 시스템이 한꺼번에 위험</strong>해지는 점(키 마스터 문제)이다. 그래서 <strong>다중 인증(MFA)</strong> 결합, 세션 타임아웃, 중요 자원 접근 시 재인증이 권장된다. 구현 기술로 <strong>Kerberos</strong>(티켓 기반, TGT/TGS), <strong>SAML</strong>(웹 SSO의 XML 기반 표준), <strong>OAuth 2.0</strong>(권한 위임)과 그 위에 인증을 얹은 <strong>OpenID Connect</strong>가 있으며, OAuth는 인증이 아니라 <strong>인가(권한 위임)</strong> 프로토콜이라는 점을 구분해야 한다. EAM/IAM은 SSO에 권한 관리와 계정 수명주기 관리를 더한 체계다. 감리에서는 SSO 이중화, MFA 적용, 세션 관리 정책을 점검한다.</p>
+<p><strong>SSO 특성 정리:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>구조</td>
+<td>인증 <strong>중앙집중</strong></td>
+</tr>
+<tr>
+<td>장점</td>
+<td>편의성·계정 관리 효율·로그 일원화</td>
+</tr>
+<tr>
+<td><strong>단점</strong></td>
+<td><strong>SPOF</strong>, 인증정보 유출 시 피해 확산</td>
+</tr>
+<tr>
+<td>기술</td>
+<td>Kerberos, SAML, OIDC</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>통합 인증 감리 시 SSO 서버 이중화 구성, MFA 적용 범위, 세션 만료·재인증 정책, 퇴직자 계정의 즉시 차단 연동을 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>SSO는 <strong>중앙집중이므로 SPOF가 존재</strong>한다는 점이 핵심 함정이다. Kerberos·SAML·OAuth의 역할 구분도 함께 출제된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="115" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>공개키 암호 시스템에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 공개키 암호 방식에서는 공개키와 개인키 키 쌍이 존재하며, 암복호화에 서로 다른 키를 사용하므로 비대칭키 암호 방식이라고도 한다.<br />
+② 송신자가 수신자의 공개키를 이용하여 암호화한 메시지를 전송하면 수신자는 자신의 개인키를 이용하여 복호화를 수행한다.<br />
+<strong>③ 공개키 암호 방식은 대칭키 암호화 방식에 비해 관리해야 할 키의 개수가 많지만, 계산 속도가 빨라 메시지 암호화에 주로 사용한다.</strong><br />
+④ 타원곡선 상의 이산대수 문제를 이용하는 ECC(Elliptic curve cryptography) 알고리즘은 RSA 등에 비해 상대적으로 짧은 길이의 키를 사용하여 대등한 수준의 안전성을 제공할 수 있다는 장점이 있다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>공개키 = 키 개수 <strong>적음</strong>, 속도 <strong>느림</strong></li>
+<li>대칭키 = n(n−1)/2개, 속도 빠름</li>
+<li>메시지 암호화는 대칭키가 담당</li>
+<li>하이브리드 암호</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>115번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>공개키 암호 시스템의 속도·키 관리 특성</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter2_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 암호학 / 대칭키·공개키</li>
+<li><strong>관련 개념</strong>: 하이브리드 암호, 키 관리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 공개키 특성 부정형</li>
+<li><strong>재출제 경향</strong>: 대칭·비대칭 비교는 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>101</td>
+<td>공개키 암호시스템</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>117</td>
+<td>하이브리드 암호 시스템</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (암호 방식 비교 최다)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>공개키 = 키 <strong>2n개</strong>(적음), 속도 <strong>느림</strong></li>
+<li>대칭키 = n(n−1)/2개, 속도 빠름</li>
+<li>메시지 암호화 = <strong>대칭키</strong> 담당</li>
+<li>하이브리드로 결합</li>
+<li>정답 ③</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>③은 두 가지 점에서 틀렸다.</p>
+<p>첫째, <strong>관리 키 개수</strong>: n명이 통신할 때 대칭키는 <strong>n(n−1)/2개</strong>의 키가 필요한 반면, 공개키는 각자 키 쌍 하나씩 <strong>2n개</strong>면 되므로 사용자가 많아질수록 <strong>공개키 방식이 관리할 키가 훨씬 적다</strong>. 둘째, <strong>속도</strong>: 공개키 연산은 큰 수의 멱승·타원곡선 연산이라 대칭키보다 <strong>수백~수천 배 느려</strong> 대용량 메시지 암호화에는 부적합하다. 실제로는 <strong>대칭키가 메시지 암호화를 담당</strong>하고 공개키는 세션키 전달·전자서명에 쓰인다.</p>
+<p>따라서 "키 개수가 많고 속도가 빨라 메시지 암호화에 주로 사용한다"는 ③은 모두 반대이며 정답은 ③번이다. ①②④는 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 공개키·개인키 쌍을 쓰고 암복호화 키가 달라 비대칭키 방식이라 불린다.</p>
+<h3>보기②</h3>
+<p>옳음. 수신자 공개키로 암호화하고 수신자 개인키로 복호화하는 것이 기밀성 제공 방식이다.</p>
+<h3>보기③</h3>
+<p>정답(부적절). 공개키는 관리 키 개수가 <strong>적고</strong> 속도는 <strong>느리며</strong>, 메시지 암호화는 대칭키가 담당한다.</p>
+<h3>보기④</h3>
+<p>옳음. ECC는 짧은 키로 RSA와 대등한 안전성을 제공한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>대칭키와 공개키는 상호 보완적이다. <strong>대칭키</strong>(AES·SEED·ARIA)는 속도가 빨라 대용량 데이터에 적합하지만 <strong>키 배송 문제</strong>와 사용자 수 증가 시 키 개수 폭증(n(n−1)/2) 문제가 있다. <strong>공개키</strong>(RSA·ECC)는 키 배송 문제를 해결하고 <strong>전자서명·부인방지</strong>를 제공하지만 느리다. 그래서 실무는 <strong>하이브리드 방식</strong>을 쓴다: 임의의 <strong>세션키를 생성해 대칭키로 데이터를 암호화</strong>하고, 그 <strong>세션키를 수신자의 공개키로 암호화</strong>해 함께 전달한다(TLS·PGP·S/MIME이 모두 이 구조). 기밀성은 "수신자 공개키로 암호화", 전자서명은 "송신자 개인키로 서명"이라는 키 사용 방향의 구분이 핵심이며 시험에서 자주 뒤바뀐다. 감리에서는 키 길이·알고리즘 적정성과 키 관리(생성·보관·폐기) 절차를 점검한다.</p>
+<p><strong>대칭키 vs 공개키:</strong></p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>대칭키</th>
+<th>공개키</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>속도</td>
+<td><strong>빠름</strong></td>
+<td>느림</td>
+</tr>
+<tr>
+<td>키 개수(n명)</td>
+<td>n(n−1)/2</td>
+<td><strong>2n</strong></td>
+</tr>
+<tr>
+<td>키 배송</td>
+<td>어려움</td>
+<td>해결</td>
+</tr>
+<tr>
+<td>주 용도</td>
+<td><strong>데이터 암호화</strong></td>
+<td>키 교환·전자서명</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>암호 적용 감리 시 대용량 데이터를 공개키로 직접 암호화하는 비효율 설계가 없는지, 하이브리드 구조와 키 관리 체계가 적절한지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>공개키 = 키 개수 적음 + 속도 느림</strong>, <strong>대칭키 = 키 개수 많음 + 속도 빠름</strong>의 대비가 핵심이다. 두 특성을 뒤바꾼 오답이 전형적이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="116" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>해시 함수를 이용하는 메시지 인증 코드(HMAC : Hashed MAC)에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 수신자는 메시지의 변경 여부 뿐만 아니라 올바른 송신자가 생성한 메시지임을 확인할 수 있다.<br />
+② 송신자와 수신자 사이에 메시지 인증을 제공하지만, 제3자를 위한 증명은 제공할 수 없다.<br />
+<strong>③ 송신자가 메시지를 보낸 사실을 부인하는 경우 수신자는 송신자가 메시지를 보낸 사실을 증명할 수 있다.</strong><br />
+④ 메시지 인증코드를 생성하기 위해 송신자와 수신자는 사전에 공통의 비밀키를 공유해야 한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>HMAC = 무결성 + 인증(부인방지 ✕)</li>
+<li>대칭키 공유 → 양측 모두 생성 가능</li>
+<li>부인방지는 <strong>전자서명</strong>만 제공</li>
+<li>제3자 증명 불가</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>116번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>HMAC - 부인방지 미제공</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter2_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 암호학 / 메시지 인증·전자서명</li>
+<li><strong>관련 개념</strong>: HMAC, 부인방지, 전자서명</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 제공 서비스 부정형</li>
+<li><strong>재출제 경향</strong>: MAC·전자서명 비교는 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>102</td>
+<td>암호학적 해시 함수</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>106</td>
+<td>GCM(인증 암호)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★★</strong> 매우 빈출 (메시지 인증 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>HMAC = 무결성 + 인증, <strong>부인방지 ✕</strong></li>
+<li>대칭키 공유 → 제3자 증명 불가</li>
+<li>부인방지 = <strong>전자서명</strong>(개인키)</li>
+<li>HMAC은 이중 해시(ipad·opad) 구조</li>
+<li>정답 ③</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>HMAC</strong>은 송·수신자가 <strong>공유한 비밀키</strong>와 해시 함수로 인증코드를 만들어 <strong>무결성과 (상호 간의) 메시지 인증</strong>을 제공한다. 그러나 비밀키를 <strong>양측이 동일하게 보유</strong>하므로 수신자도 동일한 MAC을 만들 수 있어, 제3자 입장에서는 그 메시지를 <strong>송신자가 만들었는지 수신자가 만들었는지 구별할 수 없다</strong>. 따라서 HMAC은 <strong>부인방지(non-repudiation)를 제공하지 못한다</strong>.</p>
+<p>③은 "송신자가 부인할 때 수신자가 송신 사실을 증명할 수 있다"고 서술했는데 이는 부인방지에 해당하며, HMAC이 아니라 <strong>송신자의 개인키로 서명하는 전자서명</strong>만이 제공한다. 따라서 정답은 ③번이다. ①②④는 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. HMAC으로 메시지 변조 여부와 키를 아는 송신자가 만든 메시지임을 확인할 수 있다.</p>
+<h3>보기②</h3>
+<p>옳음. 양자 간 인증은 제공하지만 제3자에 대한 증명(부인방지)은 불가하다.</p>
+<h3>보기③</h3>
+<p>정답(부적절). 부인방지는 <strong>전자서명</strong>의 기능이며 HMAC은 제공하지 못한다.</p>
+<h3>보기④</h3>
+<p>옳음. HMAC은 사전에 공유된 대칭 비밀키를 필요로 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>메시지 인증 수단은 제공 서비스로 구분해야 한다. <strong>해시(단독)</strong>는 무결성만 제공하고 키가 없어 위조가 가능하므로 인증은 못 한다. <strong>MAC/HMAC</strong>은 대칭키를 써서 무결성 + 인증을 제공하지만, 키를 공유하는 구조상 <strong>부인방지는 불가</strong>하다. <strong>전자서명</strong>은 송신자의 <strong>개인키로 서명</strong>하고 누구나 <strong>공개키로 검증</strong>할 수 있어 무결성·인증·<strong>부인방지</strong>를 모두 제공한다. HMAC은 해시 함수에 키를 단순 결합할 때 생기는 길이 확장 공격을 막기 위해 <strong>내부·외부 두 번의 해시 연산(ipad·opad)</strong> 구조를 사용하며, HMAC-SHA256 등으로 표기한다. 실무에서는 API 요청 서명, TLS 무결성 검증, JWT의 HS256 서명에 널리 쓰인다. 감리에서는 부인방지가 요구되는 거래에 MAC이 아닌 전자서명이 적용됐는지 점검한다.</p>
+<p><strong>메시지 인증 수단 비교:</strong></p>
+<table>
+<thead>
+<tr>
+<th>수단</th>
+<th>무결성</th>
+<th>인증</th>
+<th>부인방지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>해시</td>
+<td>O</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr>
+<td><strong>HMAC</strong></td>
+<td><strong>O</strong></td>
+<td><strong>O</strong></td>
+<td><strong>X</strong></td>
+</tr>
+<tr>
+<td>전자서명</td>
+<td>O</td>
+<td>O</td>
+<td><strong>O</strong></td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>전자거래 감리 시 법적 분쟁 가능성이 있는 거래에 전자서명(공인·공동인증서 등)이 적용됐는지, 단순 HMAC으로 대체해 부인방지가 결여되지 않았는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>HMAC은 부인방지를 제공하지 않는다</strong>는 점이 최다 출제 포인트다. 부인방지=전자서명(개인키)로 짝지어 암기한다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="117" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>하이브리드 암호 시스템에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 대칭키 암호화 방식에서 사용하는 세션키는 공격자의 추측 공격에 대응하기 위해 의사난수 생성기를 이용하여 생성한다.<br />
+<strong>② 메시지를 암호화할 때는 공개키 암호 시스템을 이용하므로 별도의 키 분배 과정을 필요로 하지 않는다.</strong><br />
+③ 메시지 암호화에 사용한 세션키는 수신자의 공개키로 암호화하여 암호문과 결합하여 전송한다.<br />
+④ 전자메일 암호화 도구인 PGP에서도 하이브리드 암호 시스템을 이용하여 암호화를 수행한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>메시지 암호화 = <strong>대칭키(세션키)</strong></li>
+<li>세션키 암호화 = 수신자 공개키</li>
+<li>하이브리드 = 속도 + 키 분배 해결</li>
+<li>PGP·TLS가 대표 사례</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>117번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>하이브리드 암호 시스템의 구조</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter2_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 암호학 / 하이브리드 암호</li>
+<li><strong>관련 개념</strong>: 세션키, PGP, 키 분배</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 하이브리드 구조 부정형</li>
+<li><strong>재출제 경향</strong>: 암호 방식 조합은 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>115</td>
+<td>공개키 암호 시스템</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>101</td>
+<td>공개키 암호시스템</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (하이브리드 암호)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>메시지 = <strong>대칭키(세션키)</strong>로 암호화</li>
+<li>세션키 = <strong>수신자 공개키</strong>로 암호화</li>
+<li>목적 = 속도 + 키 분배 해결</li>
+<li>PGP·S/MIME·TLS가 사례</li>
+<li>정답 ②</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>하이브리드 암호 시스템의 구조는 <strong>"메시지는 대칭키(세션키)로, 세션키는 수신자의 공개키로"</strong> 암호화하는 것이다. 공개키 연산이 느리기 때문에 대용량 메시지에는 쓰지 않고, 짧은 세션키만 공개키로 보호해 <strong>속도와 키 분배 문제를 동시에</strong> 해결한다.</p>
+<p>②는 "메시지를 암호화할 때 <strong>공개키 암호 시스템을 이용</strong>한다"고 서술했는데, 메시지 암호화는 <strong>대칭키</strong>가 담당하므로 틀렸다. 따라서 정답은 ②번이다.</p>
+<p>①(세션키는 예측 불가하도록 안전한 난수 생성기로 생성), ③(세션키를 수신자 공개키로 암호화해 암호문과 함께 전송), ④(PGP가 대표적 하이브리드 구현)는 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 세션키는 추측 공격에 대비해 암호학적으로 안전한 난수 생성기로 만든다.</p>
+<h3>보기②</h3>
+<p>정답(부적절). <strong>메시지 암호화는 대칭키</strong>가 담당하며 공개키는 세션키 보호에 쓰인다.</p>
+<h3>보기③</h3>
+<p>옳음. 세션키를 수신자 공개키로 암호화해 암호문과 결합·전송한다.</p>
+<h3>보기④</h3>
+<p>옳음. PGP는 하이브리드 암호 구조를 사용하는 대표적 메일 암호화 도구다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>하이브리드 암호는 대칭키의 <strong>속도</strong>와 공개키의 <strong>키 분배 해결·부인방지</strong>를 결합한 구조다. 송신 측은 ① 임의의 <strong>세션키 생성</strong> → ② 세션키로 <strong>메시지 암호화</strong> → ③ <strong>수신자 공개키로 세션키 암호화</strong> → ④ 암호문 + 암호화된 세션키 전송의 순서로 처리하고, 수신 측은 자신의 <strong>개인키로 세션키를 복원</strong>한 뒤 메시지를 복호화한다. <strong>PGP</strong>는 여기에 송신자 개인키 서명(부인방지)과 압축을 더하고, <strong>S/MIME</strong>은 인증서 기반으로 유사 구조를 제공하며, <strong>TLS</strong>도 핸드셰이크로 세션키를 만들고 이후 대칭키로 통신한다. 세션키는 <strong>매 세션마다 새로 생성</strong>되어야 하며, 재사용하거나 예측 가능한 난수를 쓰면 전체 보안이 무너진다. 감리에서는 난수 생성기의 안전성과 키 폐기 절차를 점검한다.</p>
+<p><strong>하이브리드 암호 처리 순서:</strong></p>
+<table>
+<thead>
+<tr>
+<th>단계</th>
+<th>처리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>세션키(대칭키) 생성</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>메시지 → 세션키로 암호화</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>세션키 → 수신자 공개키로 암호화</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>암호문 + 암호화된 세션키 전송</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>메일·파일 암호화 감리 시 대용량 데이터를 공개키로 직접 암호화하는 비효율 구현이 없는지, 세션키가 매번 새로 생성되는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>메시지=대칭키, 세션키=공개키</strong>의 역할 배분이 핵심이다. 둘을 뒤바꾼 서술이 전형적 오답이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="118" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 인증 방식에 대한 설명으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 사용자가 알고있는 정보에 의존하는 지식 기반 인증방식은 관리 비용이 상대적으로 저렴하지만 공격자에 의한 추측 가능성의 위험이 있다.<br />
+② 사용자가 가지고 있는 인증 수단을 이용하는 소유 기반 인증 방식은 복제 가능성이 있고 분실·파손·고장 등이 발생하는 경우 인증이 불가능하다는 단점이 있다.<br />
+<strong>③ 지문, 망막, 홍채 등을 이용하는 생체 인증방식은 생체 템플릿이라고 불리는 자신의 생체 정보를 데이터베이스 등에 등록 없이 인증이 가능하다.</strong><br />
+④ 지식, 소유, 존재 및 행위에 의한 인증 수단 중 2가지의 인증 수단을 결합하여 사용하는 인증 방식을 이중(Two-factor) 인증이라 한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>생체 인증 = 사전 <strong>등록(enrollment)</strong> 필수</li>
+<li>생체 템플릿 저장 후 대조</li>
+<li>지식·소유·존재·행위 기반</li>
+<li>이중 인증 = 서로 다른 2요소</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>118번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>인증 방식 - 지식·소유·생체 기반</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter3-1_20170320(최종).pdf</li>
+<li><strong>관련 챕터</strong>: 접근통제 / 인증 방식</li>
+<li><strong>관련 개념</strong>: 지식·소유·생체 인증, FAR·FRR</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 인증 방식 특성 부정형</li>
+<li><strong>재출제 경향</strong>: 인증 요소 분류는 매년 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>114</td>
+<td>SSO(통합 인증)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (인증 단골)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>생체 인증 = <strong>등록(템플릿) 필수</strong></li>
+<li>생체정보는 유출 시 <strong>변경 불가</strong></li>
+<li>FAR·FRR·EER 성능 지표</li>
+<li>이중 인증 = 서로 다른 <strong>범주</strong> 2요소</li>
+<li>정답 ③</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>생체 인증은 <strong>등록(enrollment) 단계</strong>에서 사용자의 생체 특징을 추출해 <strong>생체 템플릿</strong> 형태로 저장해 두고, 인증 시 새로 측정한 값과 <strong>저장된 템플릿을 대조</strong>해 본인 여부를 판단한다. 즉 <strong>사전 등록 없이는 비교 기준이 없어 인증 자체가 불가능</strong>하다.</p>
+<p>③은 "생체 정보를 데이터베이스 등에 <strong>등록 없이</strong> 인증이 가능하다"고 서술했으므로 틀렸다. 따라서 정답은 ③번이다.</p>
+<p>①(지식 기반은 저비용이나 추측·유출 위험), ②(소유 기반은 복제·분실·파손 위험), ④(서로 다른 두 요소 결합 = 이중 인증)는 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>옳음. 비밀번호 등 지식 기반은 비용이 낮지만 추측·유출에 취약하다.</p>
+<h3>보기②</h3>
+<p>옳음. 토큰·스마트카드 등 소유 기반은 복제·분실·파손 시 인증이 불가하다.</p>
+<h3>보기③</h3>
+<p>정답(부적절). 생체 인증은 <strong>사전 등록(템플릿 저장)</strong>이 반드시 필요하다.</p>
+<h3>보기④</h3>
+<p>옳음. 서로 다른 두 가지 인증 요소를 결합하면 이중(Two-factor) 인증이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>인증 요소는 <strong>지식 기반(what you know: 비밀번호·PIN)</strong>, <strong>소유 기반(what you have: OTP·스마트카드·인증서)</strong>, <strong>존재/생체 기반(what you are: 지문·홍채·얼굴)</strong>, <strong>행위 기반(what you do: 서명·타이핑 패턴·음성)</strong>으로 나뉜다. 이 중 <strong>서로 다른 범주의 요소를 둘 이상 결합</strong>해야 진정한 다중 인증이며, 비밀번호 두 개를 요구하는 것은 이중 인증이 아니다. 생체 인증은 분실·망각이 없고 편리하지만, <strong>유출 시 변경이 불가능</strong>하고(비밀번호와 결정적 차이) 측정 오차로 <strong>FAR(타인수락률)</strong>과 <strong>FRR(본인거부율)</strong>이 발생하며 둘이 같아지는 지점이 <strong>EER(동등오류율)</strong>로 성능 지표가 된다. 생체 템플릿은 개인정보 중 <strong>민감정보</strong>로 분류되어 암호화 저장·분리 보관이 요구된다. 감리에서는 다중 인증 적용 범위와 생체정보 보호조치를 점검한다.</p>
+<p><strong>인증 4요소:</strong></p>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>예</th>
+<th>약점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>지식</td>
+<td>비밀번호·PIN</td>
+<td>추측·유출</td>
+</tr>
+<tr>
+<td>소유</td>
+<td>OTP·스마트카드</td>
+<td>복제·분실</td>
+</tr>
+<tr>
+<td><strong>존재(생체)</strong></td>
+<td>지문·홍채</td>
+<td><strong>유출 시 변경 불가</strong>, 등록 필요</td>
+</tr>
+<tr>
+<td>행위</td>
+<td>서명·음성</td>
+<td>상태에 따른 변동</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>인증 체계 감리 시 관리자·원격 접속에 다중 인증이 적용됐는지, 생체정보가 민감정보로서 암호화·분리 저장되는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>생체 인증은 <strong>사전 등록(템플릿) 필수</strong>이며, 이중 인증은 <strong>서로 다른 범주 2요소</strong>여야 한다는 점이 반복 출제된다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="119" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 정상적인 네트워크 접근을 공격시도로 오인하여 가용성이 침해받는 경우에 해당하는 것으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① True-Positive<br />
+② True-Negative<br />
+<strong>③ False-Positive</strong><br />
+④ False-Negative</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번 (False-Positive)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>False-Positive = 오탐(정상을 공격으로)</li>
+<li>False-Negative = 미탐(공격을 정상으로)</li>
+<li>오탐 → 가용성 침해</li>
+<li>미탐 → 보안 사고</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>119번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>침입탐지 오류 유형 - False-Positive</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 5.보안(170319)_이아람기술사_Chapter4-3.pdf</li>
+<li><strong>관련 챕터</strong>: 네트워크 보안 / IDS·IPS</li>
+<li><strong>관련 개념</strong>: 오탐·미탐, 오용·이상 탐지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 탐지 오류 유형 매칭</li>
+<li><strong>재출제 경향</strong>: IDS 오탐·미탐은 주기적으로 출제</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2024</td>
+<td>110</td>
+<td>Snort 탐지규칙</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제 (IDS 오류 유형)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li><strong>False-Positive = 오탐</strong>(정상→공격) → 가용성 침해</li>
+<li>False-Negative = 미탐(공격→정상) → 침해사고</li>
+<li>오탐·미탐은 임계값 트레이드오프</li>
+<li>시그니처=미탐 위험, 이상탐지=오탐 위험</li>
+<li>정답 ③ False-Positive</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>침입탐지 결과는 실제 상태와 판정의 조합으로 네 가지로 나뉜다. 이 중 <strong>False-Positive(오탐)</strong>는 <strong>정상 트래픽을 공격으로 잘못 판정</strong>하는 것으로, IPS가 이를 차단하면 <strong>정상 사용자의 서비스 이용이 막혀 가용성이 침해</strong>된다. 문제 설명과 정확히 일치하므로 정답은 ③번이다.</p>
+<p>①True-Positive는 공격을 공격으로 정확히 탐지한 정상 동작, ②True-Negative는 정상을 정상으로 판정한 정상 동작, ④<strong>False-Negative(미탐)</strong>는 <strong>실제 공격을 정상으로 잘못 판정</strong>해 침해를 놓치는 경우로 기밀성·무결성 사고로 이어진다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>True-Positive는 실제 공격을 정확히 탐지한 경우로 오류가 아니다.</p>
+<h3>보기②</h3>
+<p>True-Negative는 정상 트래픽을 정상으로 정확히 판정한 경우다.</p>
+<h3>보기③</h3>
+<p>정답. 정상을 공격으로 오인하는 오탐으로 가용성이 침해된다.</p>
+<h3>보기④</h3>
+<p>False-Negative는 공격을 놓치는 미탐으로, 가용성이 아니라 침해사고로 이어진다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>IDS/IPS 성능은 오탐과 미탐의 <strong>트레이드오프</strong>로 결정된다. 탐지 임계값을 낮추면(민감하게) 미탐은 줄지만 <strong>오탐이 늘어 정상 서비스가 차단</strong>되고, 임계값을 높이면 오탐은 줄지만 <strong>미탐이 늘어 공격을 놓친다</strong>. 그래서 운영 초기에는 <strong>탐지 전용(alert) 모드로 튜닝</strong>한 뒤 차단(drop) 모드로 전환하는 것이 일반적이다. 탐지 방식별로도 특성이 다른데, <strong>오용 탐지(시그니처 기반)</strong>는 알려진 공격에 정확도가 높아 오탐이 적지만 <strong>미지의 공격(제로데이)에 미탐</strong>이 발생하고, <strong>이상 탐지(행위 기반)</strong>는 새로운 공격을 잡을 수 있지만 정상 행위의 변동으로 <strong>오탐이 많다</strong>. 성능 지표로는 정탐률(재현율)·정밀도·ROC 곡선이 쓰인다. 감리에서는 룰 튜닝 절차, 오탐 처리 이력, 차단 정책의 서비스 영향 검토를 점검한다.</p>
+<p><strong>탐지 결과 4분면:</strong></p>
+<table>
+<thead>
+<tr>
+<th>판정\실제</th>
+<th>공격</th>
+<th>정상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>공격으로 판정</td>
+<td>True-Positive(정탐)</td>
+<td><strong>False-Positive(오탐)</strong></td>
+</tr>
+<tr>
+<td>정상으로 판정</td>
+<td>False-Negative(미탐)</td>
+<td>True-Negative</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>IPS 운영 감리 시 차단 정책 적용 전 오탐 튜닝 기간을 두었는지, 오탐으로 인한 서비스 장애 이력과 예외 처리 절차가 관리되는지 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>오탐(False-Positive) → 가용성 침해</strong>, <strong>미탐(False-Negative) → 침해사고</strong>의 연결이 핵심이다. 용어를 바꾼 오답이 전형적이다.</p>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="120" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 블록체인을 대상으로 한 보안 공격 유형으로 가장 적절하지 <u>않은</u> 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 이중 지불 공격(Double Spending Attack)<br />
+② 허위 정보 전파 공격(Eclipse Attack)<br />
+③ 재진입 공격(Reentrancy Attack)<br />
+<strong>④ 스머프 공격(Smurf Attack)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번 (스머프 공격)</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>스머프 = 전통적 DDoS(ICMP 증폭)</li>
+<li>이중 지불·Eclipse·Reentrancy = 블록체인 공격</li>
+<li>스마트컨트랙트 취약점</li>
+<li>네트워크 고립 공격</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2024년 (제25회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>보안</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>120번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>블록체인 대상 공격 유형</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 1.5 보안 특강 및 출제 예상_V1.0_20190410_final.pdf</li>
+<li><strong>관련 챕터</strong>: 신기술 보안 / 블록체인 보안</li>
+<li><strong>관련 개념</strong>: 이중 지불, Eclipse, Reentrancy</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>출제 유형</strong>: 공격 유형 분류 부정형</li>
+<li><strong>재출제 경향</strong>: 블록체인 보안은 최근 출제 증가</li>
+<li><strong>최근 출제년도</strong>: 2024년(본 문항)</li>
+</ul></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025</td>
+<td>114</td>
+<td>블록체인 특성(불변성)</td>
+</tr>
+</tbody>
+</table></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통 (블록체인 보안)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>이중 지불 = 합의 계층 공격</li>
+<li>Eclipse = 노드 고립·허위 정보 주입</li>
+<li>재진입 = 스마트컨트랙트 취약점</li>
+<li><strong>스머프 = 전통 DDoS</strong>(블록체인 특화 아님)</li>
+<li>정답 ④</li>
+</ol>
+<h2>---</h2></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>①②③은 모두 블록체인 환경에 특화된 공격이다. <strong>이중 지불 공격</strong>은 동일 코인을 두 번 사용하려는 시도로 51% 공격 등과 연계되고, <strong>Eclipse 공격</strong>은 특정 노드의 연결을 공격자 노드로 채워 <strong>네트워크에서 고립시켜 허위 정보를 주입</strong>하는 공격이며, <strong>재진입(Reentrancy) 공격</strong>은 스마트컨트랙트가 외부 호출 후 상태를 갱신하기 전에 <strong>재귀적으로 다시 호출</strong>되어 자금이 반복 인출되는 취약점이다(The DAO 사건).</p>
+<p>반면 ④<strong>스머프 공격</strong>은 출발지를 피해자로 위조한 ICMP 요청을 브로드캐스트로 보내 <strong>증폭된 응답으로 대역을 고갈</strong>시키는 전통적 <strong>DDoS 기법</strong>으로, 블록체인 특화 공격이 아니다. 따라서 정답은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>이중 지불 공격은 블록체인의 합의 특성을 노린 대표적 공격이다.</p>
+<h3>보기②</h3>
+<p>Eclipse 공격은 노드를 고립시켜 잘못된 체인 정보를 주입하는 블록체인 공격이다.</p>
+<h3>보기③</h3>
+<p>재진입 공격은 스마트컨트랙트의 대표적 취약점을 악용한 블록체인 공격이다.</p>
+<h3>보기④</h3>
+<p>정답(부적절). 스머프 공격은 ICMP 증폭 기반의 전통적 DDoS로 블록체인 특화 공격이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p>블록체인 보안 위협은 계층별로 나뉜다. <strong>합의 계층</strong>에서는 해시파워 과반을 확보해 거래를 되돌리는 <strong>51% 공격</strong>과 그로 인한 <strong>이중 지불</strong>, 채굴 보상을 노린 이기적 채굴이 있다. <strong>네트워크 계층</strong>에서는 피해 노드의 연결을 장악하는 <strong>Eclipse 공격</strong>, 트래픽을 분할하는 라우팅 공격이 있다. <strong>애플리케이션(스마트컨트랙트) 계층</strong>에서는 <strong>재진입</strong>, 정수 오버플로, 접근제어 누락, 난수 예측 취약점이 대표적이며, 배포 후 코드 수정이 어렵기 때문에 <strong>사전 감사(audit)와 정형 검증</strong>이 중요하다. <strong>키 관리 계층</strong>에서는 개인키 분실·탈취가 곧 자산 상실로 이어진다. 한편 스머프·SYN 플러딩 등 전통적 DDoS는 블록체인 노드에도 적용될 수 있으나 블록체인 '특화' 공격으로 분류되지는 않는다. 감리에서는 스마트컨트랙트 감사 이력과 키 관리 체계를 점검한다.</p>
+<p><strong>블록체인 공격 유형:</strong></p>
+<table>
+<thead>
+<tr>
+<th>계층</th>
+<th>공격</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>합의</td>
+<td>51% 공격, <strong>이중 지불</strong></td>
+</tr>
+<tr>
+<td>네트워크</td>
+<td><strong>Eclipse</strong>, 라우팅 공격</td>
+</tr>
+<tr>
+<td>스마트컨트랙트</td>
+<td><strong>재진입</strong>, 정수 오버플로</td>
+</tr>
+<tr>
+<td>(전통 DDoS)</td>
+<td>스머프·SYN 플러딩</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>블록체인 사업 감리 시 스마트컨트랙트 외부 감사 수행 여부, 재진입 방지 패턴(Checks-Effects-Interactions) 적용, 개인키 보관(HSM·다중서명) 체계를 점검한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p><strong>이중 지불·Eclipse·재진입은 블록체인 특화</strong>, <strong>스머프는 전통 DDoS</strong>라는 구분이 핵심이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문서 정보</div><div class="section-text"><p><strong>작성</strong>: 정보시스템 감리사 시험 대비 보안 기출 해설집 (2024년 제25회)<br />
+<strong>대상 문항</strong>: 101~120 (20문항, 보안)<br />
+<strong>정답 기준</strong>: 2024년(제25회) 필기시험 공식 답안(A형)</p>
+<p><strong>[참고 강의자료]</strong><br />
+- 5.보안(170319)_이아람기술사_Chapter1~5 (수정본 포함)<br />
+- 1.5 보안 특강 및 출제 예상_V1.0_20190410_final.pdf</p>
+<p><strong>[참고 기출문제]</strong><br />
+- 2024년(제25회) 정보시스템 감리사 필기시험 문제.pdf<br />
+- 2024년(제25회) 정보시스템 감리사 필기시험 답안.pdf</p></div></div></div></div>
+      </div>
+    </div>
+  </div>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

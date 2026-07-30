@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>[SA01] Module 04 · 시스템구조(4)</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+.slide { background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:22px 26px; margin-bottom:18px; scroll-margin-top:120px; }
+.slide-title { font-size:1.15rem; color:var(--primary); font-weight:bold; border-left:5px solid var(--secondary); padding-left:12px; margin-bottom:14px; }
+.slide-num { float:right; font-size:0.75rem; color:#94a3b8; font-weight:normal; }
+.slide p { margin:6px 0; }
+.slide ul { margin:8px 0 8px 22px; }
+.slide li { margin:3px 0; }
+.figs { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
+.figs img { max-width:100%; border:1px solid var(--border-color); border-radius:6px; background:#fff; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SA01] Module 04 · 시스템구조(4)</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/18</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차 <span style="font-weight:400;color:#94a3b8;font-size:0.75rem;">(운영체제·고가용성·스토리지)</span></h3>
+    <ul>
+<li><a href="#sa01-t88">3. 임베디드 프로세서 종류</a></li><li><a href="#sa01-t89">1. 메모리(memory)의 정의</a></li><li><a href="#sa01-t90">2. 집적도에 따른 분류</a></li><li><a href="#sa01-t91">3. 집적회로의 발전</a></li><li><a href="#sa01-t92">1. 운영체제(Operating System)의 정의</a></li><li><a href="#sa01-t93">3. 운영체제의 구성</a></li><li><a href="#sa01-t94">5. 운영체제 기능</a></li><li><a href="#sa01-t95">3. VFS 주요 객체</a></li><li><a href="#sa01-t96">3. 우선순위 역전 흐름</a></li><li><a href="#sa01-t97">1. 컴파일러(Compiler)의 정의</a></li><li><a href="#sa01-t98">1. 프로세스(Process)의 정의</a></li><li><a href="#sa01-t99">1. 교착상태(Dead Lock)의 정의</a></li><li><a href="#sa01-t100">3. 교착상태 발생원인</a></li><li><a href="#sa01-t101">1. 세마포어(Semaphore)의 정의</a></li><li><a href="#sa01-t102">1. Event Count/Sequencer의 동작</a></li><li><a href="#sa01-t103">1. 프락시 서버(Proxy Server)의 정의</a></li><li><a href="#sa01-t104">3. 프락시 서버 동작방식</a></li><li><a href="#sa01-t105">1. 캐쉬 서버(Cache Server)의 정의</a></li><li><a href="#sa01-t106">3. 웹 캐시 종류</a></li><li><a href="#sa01-t107">3. 웹 캐시 종류(계속)</a></li><li><a href="#sa01-t108">4. 웹 캐쉬 서버 비교</a></li><li><a href="#sa01-t109">1. HA(High Availability)의 정의</a></li><li><a href="#sa01-t110">1. FT(Fault Tolerant)의 정의</a></li><li><a href="#sa01-t111">1. 스케일 아웃(Scale out)</a></li><li><a href="#sa01-t112">1. 암달의 법칙(Amdahl’s law) 정의</a></li><li><a href="#sa01-t113">1. 부하분산(load balancing)의 정의</a></li><li><a href="#sa01-t114">3. 정적 부하방식</a></li><li><a href="#sa01-t115">4. 동적 부하방식</a></li><li><a href="#sa01-t116">2. FCIP(Fibre Channel over IP)</a></li><li><a href="#sa01-t117">4. iSCSI(internet SCSI)</a></li><li><a href="#sa01-t118">RAID(Redundant Array of Inexpensive Disks)</a></li><li><a href="#sa01-t119">2. RAID의 종류</a></li><li><a href="#sa01-t120">3. 핵심 프로세스</a></li><li><a href="#sa01-t121">3. SLA와 SLM 상호 흐름도</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 기출·예상문제 (15)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section class="section" id="sa01-t88">
+<h2>3. 임베디드 프로세서 종류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.294)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.294 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th><th>예</th></tr>
+<tr><td>임베디드 프로세서 아키텍처</td><td>• 프로세스 아키텍처는 프로세서의 기본구조 • 명령어의 구성이나 레지스터의 구성 등 프로세서의 핵심적인 특정 결정</td><td>• ARM • MIPS • PowerPC</td></tr>
+<tr><td>임베디드 프로세서 SoC</td><td>• SoC는 프로세서 코어에 UART나 타이머, 메모리, LCD 제어기 등 필요한 주변기기를 칩에 내장시켜 하나의 칩으로 만드는 기술</td><td>• PAX255(인텔) • S3C2440(삼성) • Au1200(AMD) • MPC860(모토로라)</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>스케줄러(scheduler)</td><td>• RTOS의 핵심으로 실시간성을 위해 태스크 관리에 따라 성능 좌우</td></tr>
+<tr><td>인터럽트 처리 (interrupt processing)</td><td>• 프로세서 외부의 장치가 프로세서 사용을 요청하는 신호</td></tr>
+<tr><td>자원관리 (Resource Management)</td><td>• 리소스가 제한된 임베디드 시스템에서 자원 활용 방법</td></tr>
+<tr><td>태스크(Task)</td><td>• 스케줄러가 프로그램들을 실행시키기 위한 일의 작은 단위 • 태스크들의 관리, 우선순위 정책, 스케줄링 알고리즘 선정</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t89">
+<h2>1. 메모리(memory)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.295-296)</span></h2>
+<figure class="fig"><img alt="원본 p.295" loading="lazy" src="assets/SA01fig/p295.jpg"/><figcaption>📄 원본 슬라이드 p.295</figcaption></figure>
+<figure class="fig"><img alt="원본 p.296" loading="lazy" src="assets/SA01fig/p296.jpg"/><figcaption>📄 원본 슬라이드 p.296</figcaption></figure>
+</section>
+<section class="section" id="sa01-t90">
+<h2>2. 집적도에 따른 분류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.297)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.297 표: 집적도에 따른 분류</p>
+<table>
+<tr><th>정식명칭</th><th>약칭</th><th>칩 1개에 집적된 기능 소자 수</th><th>사용</th></tr>
+<tr><td>저밀도 집적회로 (Small Scale Integration)</td><td>SSI</td><td>100만개 미만</td><td>메인프레임 컴퓨터 등</td></tr>
+<tr><td>중밀도 집적회로 (Medium Scale Integration)</td><td>MSI</td><td>100~1000개</td><td>인코더, 디코더, 카운터, 레지스터, 멀티플렉서, 디멀티플렉서, 소형기억장치 등</td></tr>
+<tr><td>고밀도 집적회로 (Large Scale Integration)</td><td>LSI</td><td>1000~10만개</td><td>컴퓨터의 메인 메모리나 계산기의 부품 등</td></tr>
+<tr><td>초고밀도 집적회로 (Very Large Scale Integration)</td><td>VLSI</td><td>10만~100만개</td><td>대규모 메모리, 마이크로 프로세서, 단일 칩 마이크로 프로세서 등</td></tr>
+<tr><td>울트라 고밀도 집적회로 (Ultra Large Scale Integration)</td><td>UVLSI</td><td>100만개 이상</td><td>인텔486, 펜티엄 등</td></tr>
+<tr><td>시스템 온 칩 (System on a Chip)</td><td>SoC</td><td>여러 개의 집적회로 통합</td><td>임베디드 시스템 분야 등</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t91">
+<h2>3. 집적회로의 발전 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.298)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.298 표: 집적회로의 발전</p>
+<table>
+<tr><th></th><th>3세대(1970년대 초반)</th><th>4세대(1970년도 중반)</th><th>5세대(1980년대 이후)</th></tr>
+<tr><td>주요소자</td><td>초기 저밀도 집적회로(SSI)</td><td>고밀도 집적회로(LSI)</td><td>초고밀도 집적회로(VLSI)</td></tr>
+<tr><td>주요기억장치</td><td>집적회로(IC), RAM과 ROM 사용</td><td>고밀도 집적회로(LSI)</td><td>초고밀도 집적회로(VLSI)</td></tr>
+<tr><td>보조기억장치</td><td>자기디스크, 자기테이프</td><td>자기디스크, 자기테이프</td><td>자기디스크, 광디스크</td></tr>
+<tr><td>처리속도</td><td>ns(10~9)</td><td>ps(10~12)</td><td>fs(10~15)</td></tr>
+<tr><td>사용언어</td><td>고급언어</td><td>고급언어</td><td>객체지향언어</td></tr>
+<tr><td>특징</td><td>시분할시스템 사용 OMR, OCR, MICR 도입 MIS 도입</td><td>마이크로 프로세서 개발로 가정용 PC의 등장, 네트워크 발달</td><td>인터넷의 확산, 퍼지(Fuzzy), 인공지능(AI), 음성인식, 패턴인식 등의 신기술</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t92">
+<h2>1. 운영체제(Operating System)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.299)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.299 표: 운영체제(Operating System)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>일괄처리 (batch processing)</td><td>• 작업 요청을 일정량 모아서 한꺼번에 처리, 초기 운영 체제의 형태, 비효율적(작업이 완전 종료될 때까지 기다리는 시간이 많음)</td></tr>
+<tr><td>시분할 (time sharing)</td><td>• 한 컴퓨터 시스템이 여러 작업을 수행할 때 컴퓨터 처리 능력을 시간별로 분할 • 일괄 처리 시스템에 비해 짧은 응답 시간을 가짐, 대화식(interactive)<br/>예) UNIX</td></tr>
+<tr><td>실시간 (real time)</td><td>• 정해진 시간 안에 어떠한 일이 반드시 종료되어야 하는 시스템 • 매우 빠른 입력, 처리속도를 가짐, RTOS(Real Time OS)라고 부름, 특수 목적의 전용 프로그램을 항상 메모리에 적재하여 반복 수행 • 예)<br/>증권거래 관리시스템, 은행 입출금 시스템, 미사일 제어, 우주선 비행시스템</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t93">
+<h2>3. 운영체제의 구성 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.300)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.300 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>커널(kernel)</td><td>• 좁은 의미의 운영체제 • OS의 핵심으로 부팅할 때 주기억장치에 로드되어 상주, 운영체제 중 자주 사용되는 부분을 커널로 구성, CPU 스케줄링, 인터럽트 처리 루틴, 시스템 자원을 관리하고 입출력 기능 수행</td></tr>
+<tr><td>서비스</td><td>• 필요할 때 보조 기억장치에서 주기억 장치로 로드되어 수행 편리성 제공</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t94">
+<h2>5. 운영체제 기능 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.301-302)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.301 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>자원할당</td><td>• CPU 사용시간, 메모리 공간, 파일 저장공간 자원관리</td></tr>
+<tr><td>제어 프로그램</td><td>• 입출력 장치의 제어, 사용자 프로그램의 제어</td></tr>
+<tr><td>사용자 편의 제공</td><td>• 컴퓨터에 대한 깊은 지식 없이 컴퓨터 사용 가능하게 함</td></tr>
+<tr><td>프로세스 관리</td><td>• 한 시스템 내의 기본 작업단위인 프로세스(Process)들을 효율적으로 관리</td></tr>
+<tr><td>파일 관리</td><td>• 시스템 내의 디렉토리 및 파일의 생성/제거</td></tr>
+<tr><td>입출력 시스템 관리</td><td>• 입출력 장치 별로 제공되는 디바이스 드라이버를 통해 다양한 입출력 시스템 관리</td></tr>
+<tr><td>보조 메모리 관리</td><td>• 디스크/테이프 등 2차 저장장치의 스케줄링 및 공간할당 관리</td></tr>
+<tr><td>네트워킹</td><td>• 네트워크 접근을 파일 접근으로 일반화하여 다양한 시스템 간 통신관리</td></tr>
+<tr><td>자원보호</td><td>• 정의한 시스템 자원에 대해 프로세스 또는 사용자 접근 제어</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.302" loading="lazy" src="assets/SA01fig/p302.jpg"/><figcaption>📄 원본 슬라이드 p.302</figcaption></figure>
+</section>
+<section class="section" id="sa01-t95">
+<h2>3. VFS 주요 객체 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.303-307)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.303 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>슈퍼 블록 객체</td><td>• 마운트 된 파일 시스템에 대한 정보를 저장. 전체 파일 시스템을 나타냄</td></tr>
+<tr><td>아이노드 객체</td><td>• 특정 파일에 대한 일반 정보를 저장. 디스크에 저장한 파일 제어 블록에 대응</td></tr>
+<tr><td>파일 객체</td><td>• 열린 파일과 프로세스 사이의 상호 작용과 관련한 정보를 저장, 각 프로세스가 열린 파일을 가지는 동안 커널 메모리에만 존재</td></tr>
+<tr><td>디엔트리 객체</td><td>• 디렉토리 항목(특정 파일 이름과 아이노드)과 이에 대응하는 파일의 연결에 대한 정보 저장</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>슈퍼 블록 객체</td><td>• 마운트 된 파일 시스템에 대한 정보를 저장. 전체 파일 시스템을 나타냄</td></tr>
+<tr><td>아이노드 객체</td><td>• 특정 파일에 대한 일반 정보를 저장. 디스크에 저장한 파일 제어 블록에 대응</td></tr>
+<tr><td>파일 객체</td><td>• 열린 파일과 프로세스 사이의 상호 작용과 관련한 정보를 저장, • 각 프로세스가 열린 파일을 가지는 동안 커널 메모리에만 존재</td></tr>
+<tr><td>디엔트리 객체</td><td>• 디렉토리 항목(특정 파일 이름과 아이노드)과 이에 대응하는 파일의 연결에 대한 정보 저장</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.306 표: 실시간 시스템(Real Time System)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>경성(hard)<br/>실시간 시스템</td><td>• 시스템이 주어진 마감시간을 만족시키지 못한 경우에 막대한 재산적 손실이나 인명의 피해를 주는 경우에 적용되는 시스템</td></tr>
+<tr><td>연성(soft)<br/>실시간 시스템</td><td>• 온라인 트랜잭션 시스템과 같이 시간제약 조건을 만족시키지 못하더라도 경성의 경우처럼 치명적이지 않고 마감시간을 넘겨 수행을 마쳐도 계산의 결과가 의미가 있는 경우에 적용되는 시스템</td></tr>
+<tr><td>준경성(firm)<br/>실시간 시스템</td><td>• 경성과 연성의 중간 형태로 마감시간을 넘겨 수행을 마치는 것은 무의미한 경우로 시간 초과에 대한 손실이 치명적이지 않은 경우에 적용되는 시스템</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.307: 우선순위 역전(Priority Inversion)</p>
+<p>1. 우선순위 역전(Priority Inversion)의 정의</p><ul><li>우선 순위가 높은 태스크(Task)가 Ready 상태(실행가능 상태)로 바뀌었지만, 더 낮은 우선순위의 태스크가 CPU를 점유하고 있어서 실행되지 못하는 상태</li><li>높은 우선순위의 프로세스가 낮은 우선순위의 프로세스로 인하여 수행이 블록(block)되어 있는 상태</li></ul><p>2. 우선순위 역전의 원인 • 스케줄링 규칙에서 실행되어야 하는 쓰레드와 동기화에서 실행되어야 하는 쓰레드가 서로 다른 경우, 결과적으로 두 쓰레드의 우선순위가 역전되어 나타남</p><p>1) 비선점 스케줄링에서 낮은 우선순위의 태스크가 자원을 점유</p><p>2) 실시간 운영체제에서의 상호배제를 위한 세마포어를 이용</p><p>3) 공유자원의 장기 소유</p><p>4) 자원 점유 후 릴리즈시 낮은 우선순위의 태스크가 자원을 점유하는 경우 </p>
+</section>
+<section class="section" id="sa01-t96">
+<h2>3. 우선순위 역전 흐름 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.308-310)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.308 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>우선순위 상속 (Priority Inheritance)</td><td>• 높은 우선 순위의 프로세스를 블록 시키고 있는 프로세스가 세마포어를 소유하고 실행 중일 때 우선 순위 낮은 프로세스를 세마포어 요청한 우선순위 높은 프로세스만큼 우선 순위를 일시적으로 높여주는 것</td></tr>
+<tr><td>우선순위 올림 (Priority Ceiling)</td><td>• 어떤 쓰레드가 뮤텍스를 소유하고 있는 동안은 지정된 우선순위에서 동작</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>우선순위 상속</td><td>• Priority Inheritance • 높은 우선 순위의 프로세스를 블록 시키고 있는 프로세스가 세마포어를 소유하고 실행 중일 때 우선 순위 낮은 프로세스를 세마포어 요청한 우선 순위 높은 프로세스만큼 우선 순위를 일시적으로 높여주는 것</td></tr>
+<tr><td>우선순위 올림</td><td>• Priority Ceiling • 어떤 쓰레드가 뮤텍스를 소유하고 있는 동안은 지정된 우선순위에서 동작</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t97">
+<h2>1. 컴파일러(Compiler)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.311-312)</span></h2>
+<figure class="fig"><img alt="원본 p.311" loading="lazy" src="assets/SA01fig/p311.jpg"/><figcaption>📄 원본 슬라이드 p.311</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.312 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Lexical analysis(어휘분석)</td><td>• Source program을 읽어서 문법의 최소단위인 token(토큰)을 생성하며, 토큰(token)은 키워드, 연산자, 식별자, 상수를 의미함</td></tr>
+<tr><td>Syntax analysis(구문분석)</td><td>• Token을 읽어 오류를 검색하고 올바른 문장에 대한 구문구조를 만듬</td></tr>
+<tr><td>Semantic analysis(의미분석)</td><td>• Type checking(타입검사)가 수행되며 각 연산자가 원시 언어의 정의에 맞는 피연산자를 가지는가를 검사함</td></tr>
+<tr><td>Intermediate code generation(중간코드생성)</td><td>• 구문구조를 이용하여 코드생성 또는 문법규칙에 의해 생성</td></tr>
+<tr><td>Code optimization(코드최적화)</td><td>• 선택적 단계(공간적, 시간적 효율화를 위해 필수적)</td></tr>
+<tr><td>Code generation(코드생성)</td><td>• 목적 코드생성, assemble language, machine code</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t98">
+<h2>1. 프로세스(Process)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.313-316)</span></h2>
+<figure class="fig"><img alt="원본 p.313" loading="lazy" src="assets/SA01fig/p313.jpg"/><figcaption>📄 원본 슬라이드 p.313</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.314 표: BAM</p>
+<table>
+<tr><th>상태</th><th>내용</th></tr>
+<tr><td>New</td><td>• 프로세스가 생성 중</td></tr>
+<tr><td>Running</td><td>• 프로세스가 CPU를 차지하고 실행 중인 상태</td></tr>
+<tr><td>Ready</td><td>• 프로세스가 실행을 준비하고 있는 상태(프로세스가 프로세서에 할당 대기)</td></tr>
+<tr><td>Blocked</td><td>• 프로세스가 어떤 사건(입출력 완료 또는 신호의 수신 같은)이 일어나기를 기다림</td></tr>
+<tr><td>Terminated</td><td>• 프로세스 실행이 종료됨</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.315 표: BAM</p>
+<table>
+<tr><th>기법</th><th>알고리즘</th><th>내용</th></tr>
+<tr><td>비선점</td><td>FCFS (First Come First Service)</td><td>• 선입선출 알고리즘 • 프로세스가 준비완료 큐에 진입하면, 이 프로세스의 PCB를 큐의 맨 끝에 연결</td></tr>
+<tr><td></td><td>SJF (Shortest Job First)</td><td>• 최단 작업 우선 알고리즘 • 준비완료 큐의 프로세스들 중 작업시간이 가장 짧은 순서대로 CPU에 할당(starvation 발생 가능)</td></tr>
+<tr><td></td><td>HRN (Highest Response Ratio Next)</td><td>• 대기 중인 프로세스 중 현재 Response Ratio가 가장 높은 프로세스를 CPU에 할당 • Response Ratio = (대기시간 + 서비스시간) / 서비스시간 • 짧은 작업시간이나 대기시간이 긴 작업은 우선 순위가 높아짐</td></tr>
+<tr><td></td><td>우선순위 (Priority Scheduling)</td><td>• 각 프로세스에게 주어진 우선순위에 따라 CPU 할당 • 우선순위가 낮은 프로세스는 Starvation 발생(Aging 기법으로 해결)</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.316 표: BAM</p>
+<table>
+<tr><th>기법</th><th>알고리즘</th><th>내용</th></tr>
+<tr><td>선점</td><td>Round Robin</td><td>• 대화식 시분할 시스템을 위해 설계 • Ready queue에서 FCFS방식으로 디스패치(dispatch)되며, 각 프로세스에 대한 CPU 사용시간은 time slice 또는 time quantum이라는 작은 시간 단위로 운영됨</td></tr>
+<tr><td></td><td>SRT (Short Remaining Time)</td><td>• 준비큐에서 가장 짧은 시간이 소요되는 프로세스를 먼저 CPU에 할당</td></tr>
+<tr><td></td><td>다단계 큐 (Multi Level Queue)</td><td>• 작업을 여러 개의 그룹으로 나누어 프로세스의 종류별로 이용</td></tr>
+<tr><td></td><td>다단계 피드백 큐 (Multi Level Feedback Queue)</td><td>• 여러 개의 대기큐를 두고 각 큐마다 우선순위와 할당시간을 달리하는 방식 • 최상위 큐는 우선순위 높고 할당시간 적음 • 프로세스가 처음 대기큐에서 CPU에 할당되어 할당시간만큼 CPU 이용, 할당 시간내에 작업이 끝나지 않으면 다음 레벨의 큐에서 대기 • 가장 낮은 대기큐는 FCFS 방식으로 처리</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t99">
+<h2>1. 교착상태(Dead Lock)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.317)</span></h2>
+<figure class="fig"><img alt="원본 p.317" loading="lazy" src="assets/SA01fig/p317.jpg"/><figcaption>📄 원본 슬라이드 p.317</figcaption></figure>
+</section>
+<section class="section" id="sa01-t100">
+<h2>3. 교착상태 발생원인 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.318)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.318 표: BAM</p>
+<table>
+<tr><th>원인</th><th>내용</th></tr>
+<tr><td>상호배제 (Mutual Exclusion)</td><td>• 프로세스들이 자원을 배타적으로 점유하여 다른 프로세스가 그 자원을 사용하지 못함</td></tr>
+<tr><td>점유와 대기 (Block &amp; Wait)</td><td>• 프로세스가 어떤 자원을 할당 받아 점유하고 있으면서 다른 자원을 요구</td></tr>
+<tr><td>비선점 (Non preemption)</td><td>• 프로세스에 할당된 자원은 사용이 끝날 때까지 강제로 빼앗을 수 없으며, 점유하고 있는 프로세스 자신만이 해제 가능</td></tr>
+<tr><td>환형대기 (Circular wait)</td><td>• 프로세스 간 자원요구가 하나의 원형을 구성</td></tr>
+</table>
+<table>
+<tr><th>원인</th><th>내용</th></tr>
+<tr><td>예방(prevention)</td><td>• 상호배제 조건 부정, 점유와 대기 조건 부정, 비선점 조건 부정, 환형대기 조건 부정</td></tr>
+<tr><td>회피(Avoidance)</td><td>• 자원할당 그래프를 바탕으로 프로세스가 일정 기간 내에 안정적으로 종료될 수 있다는 확신이 있을 경우에 자원을 할당, 그 외 요구는 만족될 때까지 계속 거절함</td></tr>
+<tr><td>탐지(Detection)</td><td>• 시스템의 상태를 감시하는 알고리즘을 통해 교착상태를 검사</td></tr>
+<tr><td>회복(Recovery)</td><td>• 교착상태가 없어질 때까지 프로세스를 순차적으로 제거</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t101">
+<h2>1. 세마포어(Semaphore)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.319)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.319 표: 세마포어(Semaphore)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>이진 세마포어(Binary Semaphore)</td><td>• 세마포어 변수가 0과 1의 2개의 값만 가짐</td></tr>
+<tr><td>블럭킹 세마포어 (Blocking Semaphore)</td><td>• 세마포어 변수가 0으로 초기화된 이진 세마포어</td></tr>
+<tr><td>계수 세마포어 (Counting Semaphore)</td><td>• 세마포어 변수가 0이상 정수값을 가질수 있음 • 생산자와 소비자 문제 해결 • S의 초기 값을 N개로 하면, 최대 N개 프로세스가 통과 가능</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t102">
+<h2>1. Event Count/Sequencer의 동작 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.320)</span></h2>
+<figure class="fig"><img alt="원본 p.320" loading="lazy" src="assets/SA01fig/p320.jpg"/><figcaption>📄 원본 슬라이드 p.320</figcaption></figure>
+</section>
+<section class="section" id="sa01-t103">
+<h2>1. 프락시 서버(Proxy Server)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.321)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.321 표: 프락시 서버(Proxy Server)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>방화벽 기능</td><td>• 패킷 필터링, 응용계층 게이트웨이, 스크린 라우터, 베스천 호스트, 이중 네트워크 호스트, 스크린 호스트 게이트웨이, 스크린 서브넷</td></tr>
+<tr><td>캐싱 기능</td><td>• Proxy caching, Transparent caching, Transparent Proxy Caching with Web Cache Redirection</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Forward Proxy</td><td>• 클라이언트 호스트들과 접근하고자 하는 원격 리소스 사이에 서버 위치 • 원격 서버로부터 요청된 리소스를 가져와서 요청한 사용자에게 되돌려 주는 역할</td></tr>
+<tr><td>Reverse Proxy</td><td>• Proxy Server를 인터넷 리소스 또는 인트라넷 리소스 앞에 위치시키는 방식 • 클라이언트들은 프록시 서버에 연결된 것을 인식하지 못하며, 최종 사용자가 직접 접근하는 효과 제공, 부하조절 기능 제공</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t104">
+<h2>3. 프락시 서버 동작방식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.322)</span></h2>
+<figure class="fig"><img alt="원본 p.322" loading="lazy" src="assets/SA01fig/p322.jpg"/><figcaption>📄 원본 슬라이드 p.322</figcaption></figure>
+</section>
+<section class="section" id="sa01-t105">
+<h2>1. 캐쉬 서버(Cache Server)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.323)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.323: 캐쉬 서버(Cache Server)</p>
+<p>1. 캐쉬 서버(Cache Server)의 정의 • 캐쉬 기능을 인터넷에 응용한 기술로서, 사용자들이 자주 요청할 만한 웹 페이지나, FTP 및 기타 다른 파일들을 저장하고 있다가 쉽게 검색하고 조회할 수 있도록 하는 임시 보관 서버</p><p>2. 웹 캐쉬(web cache)</p><ul><li>인터넷 웹 클라이언트 웹 클라이언트 웹 클라이언트 게이트웨이 가속기 웹 서버</li><li>서버를 위한 캐시</li><li>클라이언트 를 위한 캐시</li><li>하나의 사용자를 위한 브라우저 캐시와는 달리 대다수 사용자를 대상으로 함. 사용자가 많은 만큼 같은 사이트를 방문할 가능성이 높으므로 재 사용될 가능성도 브라우저 캐시에 비해 상당히 높음</li><li>가장 큰 특징은 특정 웹 페이지를 요청할 경우 두번째 클라이언트 부터는 멀리 있는 서버(origin server)까지 가지 않고 직접 응답한다는 것임</li></ul>
+</section>
+<section class="section" id="sa01-t106">
+<h2>3. 웹 캐시 종류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.324)</span></h2>
+<figure class="fig"><img alt="원본 p.324" loading="lazy" src="assets/SA01fig/p324.jpg"/><figcaption>📄 원본 슬라이드 p.324</figcaption></figure>
+</section>
+<section class="section" id="sa01-t107">
+<h2>3. 웹 캐시 종류(계속) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.325-326)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.325: BAM</p>
+<p>3. 웹 캐시 종류(계속)</p><p>2) 러비스 캐시(Reverse Cache) : 웹 가속기(Web Accelerator)라고도 함</p><ul><li>위치 : 인터넷을 지나 웹 사이트 앞에 설치, 회선 절감이 아닌 서버 부하를 줄여주는 역할</li><li>다수의 사용자 : 1대의 캐시(N : 1 구조)</li><li>실제 웹 서버의 IP를 가지고 웹 서버의 성능을 높여준다고 해서 가속기(accelerator)라고도 함</li><li>캐시가 다운되면 전체 서비스가 다운됨</li><li>인터넷 웹 클라이언트 웹 클라이언트 웹 클라이언트 웹 캐시 웹 서버</li><li>Reverse cache =</li></ul><p>192.168.10.1 W1=192.168.10.2 W1=192.168.10.3 W1=192.168.10.4</p>
+<figure class="fig"><img alt="원본 p.326" loading="lazy" src="assets/SA01fig/p326.jpg"/><figcaption>📄 원본 슬라이드 p.326</figcaption></figure>
+</section>
+<section class="section" id="sa01-t108">
+<h2>4. 웹 캐쉬 서버 비교 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.327)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.327 표: BAM</p>
+<table>
+<tr><th>구분</th><th>Forward Cache</th><th>Reverse Cache</th></tr>
+<tr><td>적용</td><td>• 이용자 그룹 • WAN 구간에 Front-End로 설치</td><td>• 인터넷 서비스 제공 업체 • WAN 구간과 Web Server 사이에 설치</td></tr>
+<tr><td>서비스 방법</td><td>• 내부 이용자들이 원하는 Web 정보를 보관 후 요청이 있는 경우 실제 서버가 아닌 Local에서 정보 제공</td><td>• 변화가 많지 않은 Image 파일이나 Text 파일을 Cache Server에서 제공하여 Web Server의 부하를 줄임</td></tr>
+<tr><td>특징</td><td>• WAN 구간의 트래픽 감소 • Web 이용자에게 보다 빠른 응답처리 • 저장장치 용량이 클수록 유리함</td><td>• 동일 Web Server로 서비스 성능 향상 • Web Server를 확장하는 것보다 유지 관리면에서 유리함</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t109">
+<h2>1. HA(High Availability)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.329-334)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.329: HA(High Availability)</p>
+<p>1. HA(High Availability)의 정의</p><ul><li>고가용성(High Availability)은 서버와 네트워크, 프로그램 등의 정보 시스템이 상당히 오랜 기간 동안 지속적으로 정상 운영이 가능한 성질</li><li>고가용성은 흔히 가용한 시간의 비율을 99%, 99.9% 등과 같은 퍼센티지로 표현</li><li>고가용성 솔루션(HACMP, High Availability Clustering Multiprocessing)을 이용하면, 각 시스템 간에 공유 디스크를 중심으로 집단화하여 클러스터로 엮어지게 구성 가능</li></ul><p>2. HA 구성방식 </p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>핫 백업 (hot backup)</td><td>• 온라인 백업, 서버의 서비스가 기동 중에 백업을 수행하며, 주 시스템 장애시 데이터 손실 없음</td></tr>
+<tr><td>웜 백업 (warm backup)</td><td>• 서버의 서비스 기동 중에 특정 주기적으로 백업 수행 • 백업 서버는 대기 중으로 장애시 선행 백업 이후 데이터 변경사항 손실 가능</td></tr>
+<tr><td>콜드 백업 (cold backup)</td><td>• 오프라인 백업. 서비스 기동을 중지하고 백업 수행 • 백업 서버는 평소에 shutdown 상태</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t110">
+<h2>1. FT(Fault Tolerant)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.335-348)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.335 표: FT(Fault Tolerant)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Fault Detection (결함검출)</td><td>• 주로 하드웨어로 구성된 비교기(Compare Logic)을 통하여 이루어지며, 시스템 내에서 Fault가 발생되면 해당 모듈 또는 시스템은 Fault 상태가 됨</td></tr>
+<tr><td>Fault Diagnosis (결함진단)</td><td>• Fault가 영구적(Hard Fault)이라면, 그 모듈을 시스템 구성에서 제거하며 Fault가 발생하여 자기 진단을 수행한 결과 아무런 문제가 없다고 판단되면, 시스템은 일단 그 Fault를 Transient Fault로 인식하고 모든 동작을 계속 수행</td></tr>
+<tr><td>Fault Recovery (결함회복)</td><td>• Fault를 유발한 모듈을 시스템에서 제거하여 시스템을 재구성 하면서 이루어지며, Fault Tolerance를 유지할 수 있는 중요한 기능 중 하나는 데이터를 항상 2개 복사하도록 해놓음으로써 Fault Tolerance를 유지</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.336 표: 구분</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>리플리케이션(Replication)</td><td>• 동일한 시스템을 복수로 준비하여 병렬로 실행, 다수 결과를 올바른 결과로 적용</td></tr>
+<tr><td>다중화(Redundancy)</td><td>• 동일한 시스템을 복수로 준비하여 장애가 일어나면 보조 시스템으로 전환</td></tr>
+<tr><td>다양화(Diversity)</td><td>• 같은 사양의 다른 하드웨어 시스템을 복수로 준비/운영, 각 시스템이 동일 장애 미발생</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.339" loading="lazy" src="assets/SA01fig/p339.jpg"/><figcaption>📄 원본 슬라이드 p.339</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.340 표: 구분</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>TPC-C</td><td>• 온라인 트랜잭션 처리 성능(OLTP)<br/>평가기준으로 DB에 대응하는 트랜잭션을 실행하는 완전한 컴퓨팅 환경을 시뮬레이션 • OLTP 시스템의 성능과 확장성을 측정 • 조회, 수정 등 DBMS의 다양한 기능을 테스트하며 5개의 트랜잭션을 이용하여 성능 측정 (New Order, Payment, Order-Status, Delivery, Stock-level) • 성능측정단위는 분당 처리되는 트랜잭션 량(tmpC : transactions per minute C)</td></tr>
+<tr><td>TPC-E</td><td>• OLTP 환경에서 트랜잭션이 수행되는 동안 시스템에 영향을 미치는 다양한 요인들을 고려하여 정보시스템의 성능을 평가 • OLTP 환경에서 트랜잭션에 영향을 미치는 다양한 요인들을 고려하여 성능평가 • 데이터베이스 테이블은 Market, Customer, Broker, Dimension 등 4개 영역을 포괄하는 Brokerage Firm을 모델로 함 • 성능측정단위는 초당 처리되는 트랜잭션 수 (tps : transactions per second)</td></tr>
+<tr><td>TPC-H</td><td>• 의사결정 지원 성능 평가 기준으로 비즈니스 지향의 특별한 질의와 동시 병행의 데이터 변경으로 구성(TPC-D에서 발전) • 복잡한 ad-hoc 쿼리를 사용하여 대량 데이터 처리를 테스트</td></tr>
+<tr><td>TPS-DS</td><td>• TPC-H를 대신할 대량의 데이터를 처리하는 서버인 DW의 성능을 측정하기 위한 지표 • TPC-H 보다 향상된 의사지원시스템 성능을 테스트 하며, DSS, OLAP, Data mining이 대상</td></tr>
+<tr><td>TPC-App</td><td>• 어플리케이션 서버와 웹 서비스 성능 평가 기준으로 어플리케이션 서버의 성능</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.341 표: SPEC(Standard Performance Evaluation Corporation)의 정의</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>SPECjms2007</td><td>• JMS(Java Message Service)<br/>기반의 엔터프라이즈 메시지 미들웨어 서버 성능 측정 벤치마크</td></tr>
+<tr><td>SPECjEnterprise2010</td><td>• 데이터베이스, CPU, 디스크 및 서버를 비롯한 JAVA EE 5.0 서버와 지원 인프라 전체 시스템 벤치 마크</td></tr>
+<tr><td>SPEC OMP2012</td><td>• OpenMP 3.1 표준 기반의 공유 메모리 병렬 처리의 응용 프로그램을 사용한 성능 벤치마킹</td></tr>
+<tr><td>SPEC SFS2014</td><td>• 파일서버 등 스토리지 솔루션 벤더의 플랫폼에서 성능을 비교하기 위해 표준화된 처리량, 응답속도 측정 벤치마킹</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.342 표: SPEC(Standard Performance Evaluation Corporation)의 기능별 벤치</p>
+<table>
+<tr><th>구분</th><th>벤치마킹 종류</th></tr>
+<tr><td>CPU 벤치마킹</td><td>• SPEC CPU2006, SPEC CPUv6 등</td></tr>
+<tr><td>Graphics and Workstation Performance</td><td>• SPECviewperf® 12, SPECwpc 등</td></tr>
+<tr><td>Handheld</td><td>• Handheld 등</td></tr>
+<tr><td>High Performance Computing, OpenMP, MPI, OpenACC, OpenCL</td><td>• SPEC ACCEL, SPEC MPI2007, SPEC OMP2012</td></tr>
+<tr><td>Java Client/Server</td><td>• SPECjEnterprise2010, SPECjvm2008 등</td></tr>
+<tr><td>Solution File Server(SFS)</td><td>• SPEC SFS2014 등</td></tr>
+<tr><td>Power</td><td>• SPECpower ssj2008, Server Efficiency Rating Tool (SERT)<br/>등 _</td></tr>
+<tr><td>SIP</td><td>• SPECsip infrastructure2011 등 _</td></tr>
+<tr><td>Virtualization</td><td>• SPECvirt sc2013 등 _</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>SPECjms2007</td><td>• JMS(Java Message Service)<br/>기반의 엔터프라이즈 메시지 미들웨어 서버 성능 측정 벤치마크</td></tr>
+<tr><td>SPECjEnterprise2010</td><td>• 데이터베이스, CPU, 디스크 및 서버를 비롯한 JAVA EE 5.0 서버와 지원 인프라 전체 시스템 벤치 마크</td></tr>
+<tr><td>SPEC OMP2012</td><td>• OpenMP 3.1 표준 기반의 공유 메모리 병렬 처리의 응용 프로그램을 사용한 성능 벤치마킹</td></tr>
+<tr><td>SPEC SFS2014</td><td>• 파일서버 등 스토리지 솔루션 벤더의 플랫폼에서 성능을 비교하기 위해 표준화된 처리량, 응답속도 측정 벤치마킹</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t111">
+<h2>1. 스케일 아웃(Scale out) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.349-361)</span></h2>
+<figure class="fig"><img alt="원본 p.349" loading="lazy" src="assets/SA01fig/p349.jpg"/><figcaption>📄 원본 슬라이드 p.349</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.350 표: 스케일 아웃(Scale out)과 스케일 업(Scale up) 비교</p>
+<table>
+<tr><th>구분</th><th>스케일 아웃(Scale out)</th><th>스케일 업(Scale up)</th></tr>
+<tr><td>확장성</td><td>• 하나의 장비에서 처리하던 일을 여러 장비에 나누어 처리 하도록 설계를 변경하는 것(수평확장) • 지속적 확장 가능</td><td>• 더 빠른 속도의 CPU로 변경하거나, 더 많은 RAM을 추가하는 등으로 하드웨어 장비의 성능을 높이는 것(수직확장) • 성능확장에 한계가 있음</td></tr>
+<tr><td>서버 비용</td><td>• 비교적 저렴한 서버를 사용하므로 일반적으로 비용 부담이 적음</td><td>• 성능 증가에 따른 비용 증가폭이 크며, 일반적으로 비용부담이 큼</td></tr>
+<tr><td>운영 비용</td><td>• 대수가 늘어날수록 관리 편의성이 떨어지며, 서버의 상면 비용을 포함한 운영 비용이 증가함</td><td>• 관리 편의성이나 운영 비용은 스케일 업에 따라 큰 변화 없음</td></tr>
+<tr><td>장애</td><td>• 읽기/쓰기가 여러 대의 서버에 분산되어 처리됨으로 장애시 전면 장애의 가능성이 적음</td><td>• 한대의 서버에 부하가 집중되므로, 장애시 장애 영향도가 큼</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.352" loading="lazy" src="assets/SA01fig/p352.jpg"/><figcaption>📄 원본 슬라이드 p.352</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.353 표: 용량산정(Capacity Calculation)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Specweb96(CPU)</td><td>• Operations per second • 웹서버 용량산정 = 동시 사용자 X 평균 세션수 X 네트워크 보정 X Perk Time 보정 X 시스템 여유율 X 100/SPECweb96 Class 1,2,3 비율</td></tr>
+<tr><td>Specjbb2000(CPU)</td><td>• Operations per second • 웹응용서버 용량산정 = 동시 사용자 X 사용자 1인당 평균 비즈니스 로직 오퍼레이션 수(ops) X 네트워크 오버헤드 X 어플리케이션 오버헤드 X 시스템 여유율</td></tr>
+<tr><td>TPC-C(CPU)</td><td>• Transactions per minute • DB Server 용량산정 = 트랜잭션 처리수 X 최번시간 트래픽 X 트랜잭션 복잡도 X 트랜잭션 증가율 X 네트워크 보정율 X Peak Time 보정율 X 시스템 부하율 X 시스템 여유율</td></tr>
+<tr><td>메모리</td><td>• 메모리 = {시스템 영역(OS, DBMS, M/W 엔진) + 시스템 관리자 영역 + 사용자당 필요 메모리 X 사용자 수} X 버퍼 캐쉬 X 클러스터 보정 X 여유율</td></tr>
+<tr><td>디스크</td><td>• 시스템 디스크 ={시스템 운영체제 + 응용 프로그램 + SWAP 영역 } X 여유율 • 데이터 디스크 = {데이터영역 + 백업영업} X RAID 영역 X 여유율</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.354" loading="lazy" src="assets/SA01fig/p354.jpg"/><figcaption>📄 원본 슬라이드 p.354</figcaption></figure>
+<figure class="fig"><img alt="원본 p.356" loading="lazy" src="assets/SA01fig/p356.jpg"/><figcaption>📄 원본 슬라이드 p.356</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.357 표: 가용성(Availability)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>MTBF</td><td>• Mean Time Between Failures, 평균 무고장 시간 • 하드웨어 제품이나 구성요소가 고장이 없는 시간</td></tr>
+<tr><td>MTTF</td><td>• Mean Time To Failures, 고장까지의 평균시간</td></tr>
+<tr><td>MTTR</td><td>• Mean Time To Repair, 어떤 하드웨어 제품이나 구성요소의 수리시간 평균치</td></tr>
+<tr><td>MTBF</td><td>• MTTF + MTTR</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.359" loading="lazy" src="assets/SA01fig/p359.jpg"/><figcaption>📄 원본 슬라이드 p.359</figcaption></figure>
+<figure class="fig"><img alt="원본 p.361" loading="lazy" src="assets/SA01fig/p361.jpg"/><figcaption>📄 원본 슬라이드 p.361</figcaption></figure>
+</section>
+<section class="section" id="sa01-t112">
+<h2>1. 암달의 법칙(Amdahl’s law) 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.362)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.362: 암달의 법칙(Amdahl’s law)</p>
+<p>1. 암달의 법칙(Amdahl’s law) 정의</p><ul><li>병렬처리 프로그램에서 차례로 수행되어야 하는 비교적 적은 수의 명령문들이 프로세서의 수를 추가하더라도 그 프로그램의 실행을 더 빠르게 할 수 없도록 속도향상을 저해하는 요소를 갖고 있다는 법칙</li><li>컴퓨터 시스템의 일부를 개선할 때 전체적으로 얼마만큼의 최대 성능 향상이 있는지 계산하는데 사용 P : 개선 부분의 비율, S : 성능 향상 배수</li></ul><p>2. 암달의 법칙 공식 예시) 어떤 작업의 40%에 해당하는 부분의 속도를 2배로 늘릴 수 있다면, 최대 성능향상은 어느 정도인가? P는 0.4, S는 2배이며, 최대 성능 향상은 1.25배 </p>
+</section>
+<section class="section" id="sa01-t113">
+<h2>1. 부하분산(load balancing)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.363)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.363 표: 서버 부하분산 방식</p>
+<table>
+<tr><th>구분</th><th>방식</th><th>내용</th></tr>
+<tr><td>정적</td><td>라운드 로빈(Round Robin)</td><td>• 순서대로 할당하는 방식</td></tr>
+<tr><td></td><td>가중치(Ratio)</td><td>• 가중치가 높은 서버에 할당하는 방식</td></tr>
+<tr><td></td><td>액티브-스탠바이(Priority Group Activation)</td><td>• 액티브 장치에게만 할당하는 방식</td></tr>
+<tr><td>동적</td><td>최소 연결수(Least Connection)</td><td>• 연결 수가 작은 서버에 할당하는 방식</td></tr>
+<tr><td></td><td>최단 응답시간(Fatest)</td><td>• 가장 빠르게 응답하는 서버에 할당하는 방식</td></tr>
+<tr><td></td><td>최소부하(Least Loaded)</td><td>• 가장 부하가 적은 서버에 할당하는 방식</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t114">
+<h2>3. 정적 부하방식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.364)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.364 표: 정적 부하방식</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>라운드 로빈 (Round Robin)</td><td>• 클라이언트로부터 받은 요청을 부하분산 대상 서버에 순서대로 할당하는 방식 • 부하분산 대상 서버의 성능이 동일하고 처리 시간이 짧은 애플리케이션의 경우 균등하게 분산이 이루어지기 때문에 사용</td></tr>
+<tr><td>가중치 (Raio)</td><td>• 서버별로 비율을 설정해 두고, 그 가중치에 따라 요청을 서버에 할당하는 방식 • 부하분산 대상 서버의 성능이 동일하지 않으면, 동일한 처리를 한다고 해도 처리 시간 차이가 발생(성능이 높은 서버를 우선순위 1순위로 지정)</td></tr>
+<tr><td>액티브-스탠바이 (Priority Group Activation)</td><td>• 서버를 액티브와 스탠바이 상태로 나누어 평상시에는 액티브 장치만 사용 • 액티브 장치에 장애가 발생했을 때 스탠바이 장치로 할당 • 부하분산 보다는 서버 이중화를 위한 기능</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t115">
+<h2>4. 동적 부하방식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.365-370)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.365 표: 동적 부하방식</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>최소 연결 수 (Least Connection)</td><td>• 연결이 가장 적은 서버에 요청을 할당하는 방식 • 부하분산 장치는 각 서버에 대한 연결정보를 항상 가지고 있으며, 부하분산 장치가 요청을 받는 시점에서 가장 연결 수가 적은 서버를 선택하여 요청 할당</td></tr>
+<tr><td>최단 응답시간 (fastest)</td><td>• 가장 빨리 응답하는 서버에 요청을 할당하는 방식 • 부하분산 장치는 클라이언트로부터 전달받은 요청과 서버 응답 사이의 시간을 항상 확인하고 있으며, 부하분산 장치가 요청을 받으면 가장 빠르게 응답하는 서버를 선택해 할당</td></tr>
+<tr><td>최소 부하 (Least Loaded)</td><td>• SNMP(Simple Network Management Protocol)에서 취득한 정보를 기준으로 할당할 서버를 결정하는 방식 • 부하분산 장치는 SNMP의 매니저가 되어 CPU 사용율이나 메모리 사용량 등 서버 부하에 관한 정보를 정기적으로 수집 • 부하분산 장치가 요청을 받으면, 취득한 정보를 바탕으로 부하가 가장 적은 서버에 할당</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>라운드 로빈 (Round Robin)</td><td>• 클라이언트로부터 받은 요청을 부하분산 대상 서버에 순서대로 할당하는 방식 • 부하분산 대상 서버의 성능이 동일하고 처리 시간이 짧은 애플리케이션의 경우 균등하게 분산이 이루어지기 때문에 사용</td></tr>
+<tr><td>가중치(Raio)</td><td>• 서버 별로 비율을 설정해 두고, 그 가중치에 따라 요청을 서버에 할당하는 방식 • 부하분산 대상 서버의 성능이 동일하지 않으면, 동일한 처리를 한다고 해도 처리 시간 차이가 발생(성능이 높은 서버를 우선순위 1순위로 지정)</td></tr>
+<tr><td>액티브-스탠바이 (Priority Group Activation)</td><td>• 서버를 액티브와 스탠바이 상태로 나누어 평상시에는 액티브 장치만 사용 • 액티브 장치에 장애가 발생했을 때 스탠바이 장치로 할당 • 부하분산 보다는 서버 이중화를 위한 기능</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.369 표: DAS/NAS/SAN</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>전통적 접속방법</td><td>• DAS(Direct Attached Storage)</td></tr>
+<tr><td>네트워크 접속방법</td><td>• SAN(Storage Area Network), NAS(Network Attached Storage)</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>DAS</td><td>• 서버가 채널(SCSI 또는 Fiber Channel)을 통해 대용량 저장장치에 직접 연결하는 방식</td></tr>
+<tr><td>NAS</td><td>• LAN 또는 WAN과 같은 이더넷 인터페이스(Ethernet Interface)를 통해 연결하는 방식</td></tr>
+<tr><td>SAN</td><td>• SAN Switch인 광채널 스위치(Fiber Channel Switch)를 이용해 서버에 접속하는 방식</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.370 표: 구분</p>
+<table>
+<tr><th>구분</th><th>DAS</th><th>NAS</th><th>SAN</th></tr>
+<tr><td>구성요소</td><td>응용시스템 서버, 스토리지</td><td>응용시스템 서버, 전용 파일 서버, 스토리지</td><td>응용시스템 서버, 스토리지</td></tr>
+<tr><td>접속장치</td><td>없음</td><td>LAN 스위치</td><td>FC 스위치</td></tr>
+<tr><td>스토리지 공유</td><td>가능</td><td>가능</td><td>가능</td></tr>
+<tr><td>파일시스템 공유</td><td>불가능</td><td>가능</td><td>불가능</td></tr>
+<tr><td>파일시스템 관리</td><td>응용시스템 서버</td><td>파일 서버</td><td>응용시스템 서버</td></tr>
+<tr><td>비고</td><td>소규모 독립된 구성에 적합</td><td>안정성과 신뢰성 높음</td><td>유연성, 확장성, 편이성 가장 뛰어난 구성</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t116">
+<h2>2. FCIP(Fibre Channel over IP) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.371-372)</span></h2>
+<figure class="fig"><img alt="원본 p.371" loading="lazy" src="assets/SA01fig/p371.jpg"/><figcaption>📄 원본 슬라이드 p.371</figcaption></figure>
+<figure class="fig"><img alt="원본 p.372" loading="lazy" src="assets/SA01fig/p372.jpg"/><figcaption>📄 원본 슬라이드 p.372</figcaption></figure>
+</section>
+<section class="section" id="sa01-t117">
+<h2>4. iSCSI(internet SCSI) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.373)</span></h2>
+<figure class="fig"><img alt="원본 p.373" loading="lazy" src="assets/SA01fig/p373.jpg"/><figcaption>📄 원본 슬라이드 p.373</figcaption></figure>
+</section>
+<section class="section" id="sa01-t118">
+<h2>RAID(Redundant Array of Inexpensive Disks) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.374)</span></h2>
+<h3>RAID(Redundant Array of Independent Disks)의 정의</h3>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.374: RAID(Redundant Array of Inexpensive Disks)</p>
+<p>1. RAID(Redundant Array of Independent Disks)의 정의</p><ul><li>한 개의 크고 비싼 드라이브로는 얻을 수 없는 성능이나 안정성을 이루기 위하여 여러 개의 작고, 값싼 드라이브를 묶어 하나의 저장장치처럼 사용하는 기술</li><li>여러 개의 물리적인 하드 디스크를 운영체제에서 하나의 논리 디스크로 인식</li></ul><p>2. RAID의 종류 (1) 하드웨어 RAID</p><ul><li>RAID 기능(볼륨 생성, 패리티 계산, write-back 등)을 하드웨어로 구현한 것</li><li>RAID 기능을 수행하는 응용 프로그램이 하드웨어적으로 구현되어 독자적인 프로세서와 메모리 보유</li></ul>
+</section>
+<section class="section" id="sa01-t119">
+<h2>2. RAID의 종류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.375-383)</span></h2>
+<figure class="fig"><img alt="원본 p.375" loading="lazy" src="assets/SA01fig/p375.jpg"/><figcaption>📄 원본 슬라이드 p.375</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.376 표: RAID</p>
+<table>
+<tr><th>RAID</th><th>구성도</th><th>내용</th></tr>
+<tr><td>RAID 0</td><td></td><td>• 2개 이상의 디스크를 사용하여 2개 이상의 볼륨을 구성하는 것으로 단순히 볼륨마다 디스크를 나열해 놓았기 때문에 스트라이핑 모드라 불림</td></tr>
+<tr><td>RAID 1</td><td></td><td>• 동일한 RAID 볼륨을 추가적으로 구성한 것으로 구성한 볼륨이 서로 동일하기 때문에 미러링 모드로 불림 • 읽기 성능은 다중 스레드를 사용할 경우 분할해서 읽기 때문에 성능향상이 있으나, 쓰기는 중복해서 써야 하므로 성능이 저하됨</td></tr>
+<tr><td>RAID 2</td><td></td><td>• 4개의 볼륨을 스트라이핑 모드로 구성하고 추가적으로 3개의 볼륨을 이용해 앞의 4개의 볼륨에 대한 정정코드인 패러티를 저장하게 됨 • 패러티는 일반적으로 해밍코드로 계산함</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.377 표: RAID</p>
+<table>
+<tr><th>RAID</th><th>구성도</th><th>내용</th></tr>
+<tr><td>RAID 3</td><td></td><td>• 하나의 볼률만으로 패러티를 저장하므로 디스크의 추가적인 비용이 절약되며, 바이트 레벨의 패러티를 생성하여 각 볼륨의 바이트를 간단히 XOR 연산을 통해 계산 가능 • 패러티 저장을 위해 최소한 3개의 디스크가 필요함</td></tr>
+<tr><td>RAID 4</td><td></td><td>• RAID 3와 구성에 차이가 없으나 RAID 4는 패러티를 바이트가 아닌 블록단위로 데이터를 생성 • 성능 향상 장점이 있으며, 패러티 저장에 최소 3개의 디스크가 필요함</td></tr>
+<tr><td>RAID 5</td><td></td><td>• 같은 볼륨에 속하는 패러티 디스크로 인한 부하감소를 위해 패러티 디스크들을 각 볼륨에 분할한 방식 • 패러티 디스크는 최소 3개가 필요함</td></tr>
+<tr><td>RAID 6</td><td></td><td>• RAID 5에 신뢰성을 더한 방식. RAID 5에서는 2개의 디스크가 동시에 오류가 발생되면 복구가 어렵지만 RAID 6는 패러티의 디스크를 하나 더 추가해 동시에 오류가 발생해도 복구 가능 • 가로, 세로방향 패러티 생성 가능, 추가 패리터 디스크 4개 필요</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.378 표: BAM</p>
+<table>
+<tr><th></th><th>Data</th><th></th><th>Parity</th><th></th></tr>
+<tr><td></td><td>Stripe</td><td>Redundancy</td><td>Type</td><td>Redundancy</td></tr>
+<tr><td>RAID 0</td><td>◯</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><td>RAID 1</td><td>-</td><td>◯</td><td>-</td><td>-</td></tr>
+<tr><td>RAID 0 + 1</td><td>◯</td><td>◯</td><td>-</td><td>-</td></tr>
+<tr><td>RAID 2</td><td>◯</td><td>-</td><td>ECC Hamming</td><td>별도 N disk</td></tr>
+<tr><td>RAID 3</td><td>◯</td><td>-</td><td>Byte Parity</td><td>별도 1 disk</td></tr>
+<tr><td>RAID 4</td><td>◯</td><td>-</td><td>Block Parity</td><td>별도 1 disk</td></tr>
+<tr><td>RAID 5</td><td>◯</td><td>Parity Chunk</td><td>Parity Chunk</td><td>-</td></tr>
+<tr><td>RAID 6</td><td>◯</td><td>Parity Chunk</td><td>Parity Chunk</td><td>Second Parity</td></tr>
+<tr><td>RAID 7</td><td>◯</td><td>-</td><td>Real Time OS with Parity disk</td><td></td></tr>
+<tr><td>RAID 10</td><td>◯</td><td>◯</td><td>-</td><td>-</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.383" loading="lazy" src="assets/SA01fig/p383.jpg"/><figcaption>📄 원본 슬라이드 p.383</figcaption></figure>
+</section>
+<section class="section" id="sa01-t120">
+<h2>3. 핵심 프로세스 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.384-387)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.384 표: 핵심 프로세스</p>
+<table>
+<tr><th>핵심 프로세스</th><th>주요내용</th><th>활동</th></tr>
+<tr><td>서비스 전략 (Service Strategy)</td><td>• IT 서비스 전략 계획 수립 • IT 서비스 조직 및 관계 정의</td><td>재무관리, 서비스 포트폴리오 관리, 수요관리, 비즈니스 서비스 관리</td></tr>
+<tr><td>서비스 설계 (Service Design)</td><td>• 요구사항 분석을 통한 합의/문서화 • 서비스 솔루션 설계</td><td>서비스 카탈로그 관리, SLM, 용량관리, 가용성 관리, IT 연속성 관리, 정보보안 관리, 공급자 관리</td></tr>
+<tr><td>서비스 전환 (Service Transition)</td><td>• 전환계획 수립 및 준비 • 전환, 적용 및 폐기 • 서비스 전환 검토 및 종료</td><td>변경관리, 서비스 자산 및 형상관리, 지식관리, 전환계획 수립 및 지원, 릴리즈 및 배치관리, 서비스 확인 테스트, 평가</td></tr>
+<tr><td>서비스 운영 (Service Operation)</td><td>• 모니터링 및 통제 • 고객 요청 처리 및 의사소통 관리 • 이벤트, 인시던트, 문제 관리</td><td>이벤트 관리, 인시던트(사건)<br/>관리, 요청 이행 관리, 문제관리, 접근관리, 일상적 서비스 운영활동, 서비스 데스크, 기술적 관리, 애플리케이션 관리, IT 운영관리</td></tr>
+<tr><td>지속적 서비스 개선 (Continual Service Improvement)</td><td>• 서비스 리포트 부석 및 트렌드 파악 • 서비스 개선 프로그램 수행 • 전략/설계/이행 단계로의 피드백</td><td>7단계 개선 프로세스 (1. 측정 대상 정의,<br/>2. 측정 항목 정의,<br/>3. 데이터 수집,<br/>4. 데이터 가공빈도, 포맷, 시스템, 정확도,<br/>5. 데이터 분석관계, 추세, 목표, 교정활동,<br/>6. 평가 요약, 활동 계획 수립,<br/>7. 교정활동 수행)</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.385" loading="lazy" src="assets/SA01fig/p385.jpg"/><figcaption>📄 원본 슬라이드 p.385</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.386 표: ITIL V3.0과 ITIL V2.0 비교</p>
+<table>
+<tr><th>구분</th><th>ITIL V3.0</th><th>ITIL V2.0</th></tr>
+<tr><td>영역</td><td>• 서비스 전략 등 5개 영역</td><td>• Service support 등 7개 영역</td></tr>
+<tr><td>관점</td><td>• 비즈니스 안정의 접근</td><td>• IT 중심관점</td></tr>
+<tr><td>활용범위</td><td>• 대기업에서 중소기업까지 사용</td><td>• 대기업 중심</td></tr>
+<tr><td>구성 F/W</td><td>• 비즈니스 프로세스와 통합을 위한 Life- Cycle 형태</td><td>• 독립적인 프로세스 구조 : 특정 프로젝트 모델 관리</td></tr>
+<tr><td>실무적용</td><td>• How to do</td><td>• What to do</td></tr>
+<tr><td>국제표준</td><td>• ISO/IEC 20000</td><td>• ISO 9000</td></tr>
+<tr><td>ROI 측정</td><td>• ROI 측정방안 제시</td><td>• 제공하지 않음</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.387 표: SLA(Service Level Agreement)</p>
+<table>
+<tr><th>개발 프로세스</th><th>내용</th></tr>
+<tr><td>서비스 범위 및 내용 정의</td><td>• 고객을 정의, 서비스 요구사항 문서화</td></tr>
+<tr><td>서비스 수준 관리 지표 선정</td><td>• 서비스 수준을 표현하기 위한 항목에 대해 기준이나 목표치를 정의해 둔 SLM의 관리 항목 선정</td></tr>
+<tr><td>서비스 목표 수준 설정</td><td>• 서비스 공급자와 사용자 간에 서비스 내용을 어떻게 표기할 것인지를 정의</td></tr>
+<tr><td>패널티/보상 기준 결정</td><td>• Measurement 결과 서비스 수준에 따라 위약금, 보증금, 상여금 등을 결정</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>서비스 내용</td><td>• 서비스 방법과 구간 등 서비스 내용</td></tr>
+<tr><td>SLO</td><td>• 서비스 수준의 측정항목에 대해 기준이나 목표치를 정의로 보상의 대상이 되는 항목</td></tr>
+<tr><td>목표/기준</td><td>• SLO 항목에 대한 목표치, 보고항목에 대한 기준치</td></tr>
+<tr><td>보상체계</td><td>• SLO 항목에 대한 목표치의 미 준수시 보상해야 하는 금액의 산정기준과 방법</td></tr>
+<tr><td>측정방법</td><td>• SLO 항목에 대한 측정 도구와 측3정8 7방 법</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t121">
+<h2>3. SLA와 SLM 상호 흐름도 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.388-391)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.388 표: SLA와 SLM 상호 흐름도</p>
+<table>
+<tr><th>구성요소</th><th>내용</th></tr>
+<tr><td>서비스 수준관리 지표 (Service Level Metrics)</td><td>• 서비스 제공 영역별 서비스 수준을 정량적으로 파악하기 위한 성과지표</td></tr>
+<tr><td>서비스 목표 수준 (Service Level Objectives)</td><td>• 서비스 수준 관리 지표별 목표치 및 최소치를 제시하고 미달시에는 패널티 부과, 초과 달성 시에는 인센티브 부과 등의 기준 마련</td></tr>
+<tr><td>서비스 성과측정 기준 (Service Level Measurements)</td><td>• 정의된 서비스 수준관리지표를 정량적으로 측정하기 위한 방법 (측정구간, 측정주제, 측정주기 등을 포함)</td></tr>
+<tr><td>서비스 수준 보고 (Service Level Reports)</td><td>• 서비스 수준에 대한 의사소통체계로써의 보고형식 및 보고방법</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.389 표: SLM(Service Level Management)</p>
+<table>
+<tr><th>구성요소</th><th>내용</th></tr>
+<tr><td>Service Catalog</td><td>• 서비스 전체 목록을 설명한 메타데이터(문서)</td></tr>
+<tr><td>SLA</td><td>• Service Level Agreement, IT 서비스 수준에 대한 상호 협의한 계약 문서</td></tr>
+<tr><td>SLO</td><td>• Service Level Objectives, SLA에서 체결된 IT 서비스 항목들</td></tr>
+<tr><td>OLA</td><td>• Objectives Level Agreement, 내부 조직 간 의사소통 및 관리를 효율적으로 수행하기 위해 서비스 공급자 내부 부서 간의 교환 합의서</td></tr>
+<tr><td>SQP</td><td>• Service Quality Plan, 합의된 서비스 수준의 보장을 위해 필요한 모든 내용을 기술한 내부 계획서</td></tr>
+<tr><td>Service Report</td><td>• 주기적으로 서비스 수준 위반 여부 검토</td></tr>
+<tr><td>SLM 엔진</td><td>• 서비스 수준을 관리하는 과정에서 서비스 수준 관리 지표별 측정치를 산출하고 보고서 작성 자동화 기능 등과 실시간 정보 서비스 모니터링을 수행하는 자동화 엔진</td></tr>
+</table>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 기출·예상문제 (15문항) — 원문 수록</h2>
+      <p>본 편(운영체제·고가용성·스토리지)에 해당하는 원본 페이지 범위의 기출·예상문제를 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. Linux VFS(Virtual File System)의 핵심 구성요소 중에서 특정 파일에 대한 상태 및 관리 정보를 저장하는 객체는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.304)</span></div><ol class="quiz-options"><li>superblock 객체</li><li>inode 객체</li><li>file 객체</li><li>dentry 객체</li></ol><div class="quiz-explanation"><strong>정답</strong> ② inode 객체</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 실시간시스템에서 우선순위 역전에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.309)</span></div><ol class="quiz-options"><li>우선순위 역전은 우선순위를 기반으로 하는 선점 모드로 동작하는 스케줄링 방식에서 발생한다.</li><li>우선순위 역전에 대한 해결 방안으로는 우선순위 상속(priority inheritance) 방식과 우선순위 올림(priority ceiling) 방식이 있다.</li><li>우선순위 상속 프로토콜은 자원을 대기하는 태스크의 우선순위를 해당 자원을 점유한 태스크의 우선순위로 상속하는 기법이다.</li><li>우선순위 올림 기법은 자원에도 우선순위를 동작으로 할당하여 자원의 우선순위를 이용하는 태크스가 할당받는 기법이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 우선순위 상속 프로토콜은 자원을 대기하는 태스크의 우선순위를 해당 자원을 점유한 태스크의 우선순위로 상속하는 기법이다. 우선순위 역전 해결방법 구분 내용 우선순위 상속 • Priority Inheritance • 높은 우선 순위의 프로세스를 블록 시키고 있는 프로세스가 세마포어를 소유하고 실행 중일 때 우선 순위 낮은 프로세스를 세마포어 요청한 우선 순위 높은 프로세스만큼 우선 순위를 일시적으로 높여주는 것 우선순위 올림</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 서버 감시 기술인 헬스 모니터 또는 헬스 체크 기술에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.331)</span></div><ol class="quiz-options"><li>서버 감시 기능에는 Layer 3 체크, Layer 4 체크, Layer 7 체크가 있다.</li><li>체크 계층이 낮을수록 유연하고 상세한 서버 감시가 가능하다.</li><li>Layer 3 체크는 ICMP를 사용하여 감시한다.</li><li>Layer 4 체크는 포트 번호를 감시한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 체크 계층이 낮을수록 유연하고 상세한 서버 감시가 가능하다. 구분 내용 ICMP Health-Check • ICMP echo/reply를 이용하여 체크 TCP Health-Check • 서비스 포트로 Syn 패킷을 보내 port open 확인 • Half-open 방지를 위해 서버로 RST 전달 UDP Health-Check • Port unreachable을 받은 경우 실패 HTTP Contents Health-Check</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 서버의 가용성을 극대화하기 위한 주백업 모델(primary-backup model)에 대한 설명이다. ㉮와 ㉯에 들어갈 용어로 가장 적절한 것은?<br/><br/>백업서버의 준비정도는 ( ㉮ ) 결정에 가장 주요한 요소로 ( ㉮ )을 감소시켜야 서버의 가용성을 향상 시킬 수 있다. 주서버에 장애가 있을 시, 사실상의 지연시간 없이 항상 이어받을 준비를 갖추도록 하기 위하여 백업서버를 최신 상태로 유지하는 경우에 이것을 ( ㉯ )이라 한다. ㉮ ㉯ <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.333)</span></div><ol class="quiz-options"><li>평균가동시간(MTBF) 핫 백업(hot-backup)</li><li>평균고장시간(MTTR) 핫 백업(hot-backup)</li><li>평균가동시간(MTBF) 웜 백업(warm-backup)</li><li>평균고장시간(MTTR) 웜 백업(warm-backup)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 평균고장시간(MTTR) 핫 백업(hot-backup)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 지역적으로 분산된 IT 자원의 할당과 사용을 향상시키기 위한 클러스터 방식 중 고가용성(high- availability) 클러스터에 대한 설명으로 가장 적절한 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.337)</span></div><ol class="quiz-options"><li>IT 자원의 중앙관리를 유지하면서 IT 자원량을 증가시키기 위하여 작업부하를 분산시키는 방식이다.</li><li>다중 노드의 실패 이벤트에 대해 시스템 가용성을 유지하고 클러스터된 IT 자원의 전부 혹은 일부를 중복 구현한다.</li><li>클러스터 관리 플랫폼 내에 내장 혹은 분리된 IT 자원을 설정하는 특정 메커니즘을 구현한다.</li><li>실패조건을 모니터링하고 실패된 노드로부터 작업부하를 자동으로 변경하는 대체 작동시스템 메커니즘을 구현한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 다중 노드의 실패 이벤트에 대해 시스템 가용성을 유지하고 클러스터된 IT 자원의 전부 혹은 일부를 중복 구현한다. ④ 실패조건을 모니터링하고 실패된 노드로부터 작업부하를 자동으로 변경하는 대체 작동시스템 메커니즘을 구현한다. ① IT 자원의 중앙관리를 유지하면서 IT 자원량을 증가시키기 위하여 작업부하를 분산시키는 방식이다.  클러스터 방식은 IT 자원의 중앙관리가 아닌 노드들 간의 IT 자원 공유를 통해 가용성을 높이는 방식으로, 중앙관리를 유지하면서 작업부하를 분산시키는 방식과는 구분된다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. TPC(Transaction Performance Council)의 성능 벤치마크(Performance Benchmark) 기준을 설명한 것이다. 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.343)</span></div><ol class="quiz-options"><li>TPC-C는 OLTP(on-line transaction processing)를 위한 성능 벤치마크 기준이며, 성능 지표(performance metric)로 tpmC를 사용한다.</li><li>TCP-E는 OLTP(on-line transaction processing)를 위한 성능 벤치마크 기준이며, 성능 지표(performance metric)로 tpmE를 사용한다.</li><li>TCP-H는 의사결정시스템을 위한 성능 벤치마크 기준이며, 성능 지표(performance metric)로 QphDS를 사용한다.</li><li>TPC-DS는 의사결정시스템을 위한 성능 벤치마크 기준이며, 성능 지표(performance metric)로 QphDS@SF를 사용한다</li></ol><div class="quiz-explanation"><strong>정답</strong> ② TPC-E는 OLTP(on-line transaction processing)를 위한 성능 벤치마크 기준이며, 성능 지표(performance metric)로 tpmE를 사용한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 다음은 SPEC(Standard Performance Evaluation Corporation)의 성능 벤치마크(benchmark)에 대한 특징을 설명한 것이다. 가장 적절한 것은?<br/><br/>가. 스토리지 솔루션을 제공 할 수 있는 최대 지속 가능한 처리량을 측정하는 데 사용되는 벤치마크로 서 프로토콜에 독립적임 나. 벤치마크는 응용계층에 파일을 제공하는 저장 솔루션의 성능을 측정하고 워크스테이션 그룹상에 서 동작함 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.345)</span></div><ol class="quiz-options"><li>SPECmjs2007</li><li>SPECjEnterprise2010</li><li>SPEC OMP2012</li><li>SPEC SFS2014</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ SPEC SFS2014</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 트랜잭션 성능을 예측하는 TPC(Transaction Processing Performance Council) 벤치마크(benchmark)인 TPC-C 트랜잭션 유형이 아닌 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.347)</span></div><ol class="quiz-options"><li>신규주문(new-order)</li><li>주문상태(order-status)</li><li>매매결과(trade-result)</li><li>배송(delivery)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 매매결과(trade-result)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 다음은 시스템의 확장성에 대한 설명이다. (a)와 (b)에 가장 적절한 것은?<br/><br/>웹에서는 고가의 빠른 하드웨어를 구매하여 성능을 높이는 ( a ) 전략보다는, 저가이면서 일반적인 성능 의 하드웨어를 많이 나열해서 시스템 전체 성능을 높이는 ( b ) 전략이 사용된다. (a) (b) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.351)</span></div><ol class="quiz-options"><li>scale-up scale-out</li><li>scale-out scale-up</li><li>scale-over scale-many</li><li>scale-out scale-over</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. A 데이터 센터의 전체 전력 사용량은 2,000KWh이고, 1대당 2KWh의 전력을 소모하는 서버 100대와 500KWh의 기타 IT 시설로 구성되어 있다. 이 데이터 센터의 PUE(Power Usage Effectiveness)는? (단, 소수점 이하 셋째자리 반올림) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.355)</span></div><ol class="quiz-options"><li>2.35</li><li>2.50</li><li>2.86</li><li>3.33</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 2.86</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. 온라인 쇼핑몰의 하루 수입이 2억원인 회사가 있다고 가정하자. 이 회사의 온라인 쇼핑몰이 오후 7시에 정지되어 2시간 동안 불가능해졌다. 회사의 일일 거래량이 오후 7시부터 4시간 동안 40%가 이루어진다면, 이 회사의 서비스 정지로 인해 손해는 얼마일까? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.358)</span></div><ol class="quiz-options"><li>10,000,000원</li><li>20,000,000원</li><li>30,000,000원</li><li>40,000,000원</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 40,000,000원</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 시간 온라인 정보서비스를 제공하는 기업의 시스템관리자는 연간시스템의 가용목표를 99.9%로 정했다. 이러한 목표를 달성하려면 1년간 허용할 수 있는 최대 서비스 중지기간(손상된 애플리케이션과 데이터베이스를 수리해 시스템을 유지하고 재가동하는데 사용되는 시간)은 얼마인가?(단, 1년은 365일=8,760시간으로 본다) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.360)</span></div><ol class="quiz-options"><li>4.38시간</li><li>43.8시간</li><li>8.76시간</li><li>87.6시간</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 8.76시간</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 서버 설정을 기준으로 부하를 분산하는 정적 서버 부하분산 방식으로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.366)</span></div><ol class="quiz-options"><li>최단 응답 시간(fastest) 방식</li><li>최소 부하(least loaded) 방식</li><li>최소 연결 수(least connection) 방식</li><li>액티브-스탠바이(priority group Activation) 방식</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 액티브-스탠바이(Priority Group Activation) 방식</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. Hardware RAID와 Software RAID에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.379)</span></div><ol class="quiz-options"><li>패리티를 쓰는 RAID인 경우, 하드웨어 RAID가 소프트웨어 RAID 보다 성능이 좋다.</li><li>하드웨어 RAID는 소프트웨어 RAID 보다 핫 스페어링 기능에 장점이 있다.</li><li>소프트웨어 RAID는 하드웨어 RAID 보다 유연성이 좋다.</li><li>LVM(Logical Volume Management) 기능을 가지는 소프트웨어 RAID는 온라인 재구성을 할 수 있는 장점이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 하드웨어 RAID는 소프트웨어 RAID 보다 핫 스페어링 기능에 장점이 있다. (1) 하드웨어 RAID •RAID 기능(볼륨 생성, 패리티 계산, write-back 등)을 하드웨어로 구현한 것 •RAID 기능을 수행하는 응용 프로그램이 하드웨어적으로 구현, 독자적인 프로세서와 메모리 (2) 소프트웨어 RAID •RAID 기능이 소프트웨어로 구현된 것, RAID 소프트웨어는 OS에 포함, RAID 기능 처리는 CPU 담당</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. “서비스 수준 협약(service level agreement, SLA)에 관한 표준(SLA를 강화한 정보시스템 운영계약 참조 모델, TTAS.KO-10.0254)”을 제정하였다. 이 표준에 따른 서비스 수준 협력에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.390)</span></div><ol class="quiz-options"><li>서비스 제공자와 서비스 사용자가 제공될 서비스 및 그와 연관된 여러 조건들에 대한 서로의 책임과 의무사항을 기술해 놓은 협약서이다.</li><li>계약서에는 계약 사항에 대한 설명과 계약 대상자와 계약 대상자의 서명, 계약의 시작과 종료 일시, 합의 범위, 계약 대상자의 역할과 책임, 계약 내용 등이 명시되어야 한다.</li><li>서비스의 범위 및 항목의 정의는 운영자 중심으로 서버, 네트워크, 어플리케이션으로 정리하여 관리한다.</li><li>서비스 수준과 측정항목, 측정기준, 측정치들이 정의되면 각 항목들을 평가할 수 있는 방안이 마련되어야 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 서비스의 범위 및 항목의 정의는 운영자 중심으로 서버, 네트워크, 어플리케이션으로 정리하여 관리한다. 서비스 범위 및 항목 정의는 사용자 중심으로 이루어져야 한다. ‘서비스 범위 및 항목 정의에 있어서 반드시 유의하여야 할 사항은 이런 구분들이 사용자 중심으로 이루어져야 한다는 점이다. 사용자가 제공받는 특정 정보시스템 서비스는 서버, 네트워크, 어플리케이션 등이 통합적으로 이루어져서 제공이 된다. 만일 측정 지표를 개별</div></div>
+    </section>
+  </main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='\ud83d\udd0d';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

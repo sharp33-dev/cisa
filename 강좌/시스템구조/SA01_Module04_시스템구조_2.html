@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>[SA01] Module 04 · 시스템구조(2)</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+.slide { background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:22px 26px; margin-bottom:18px; scroll-margin-top:120px; }
+.slide-title { font-size:1.15rem; color:var(--primary); font-weight:bold; border-left:5px solid var(--secondary); padding-left:12px; margin-bottom:14px; }
+.slide-num { float:right; font-size:0.75rem; color:#94a3b8; font-weight:normal; }
+.slide p { margin:6px 0; }
+.slide ul { margin:8px 0 8px 22px; }
+.slide li { margin:3px 0; }
+.figs { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
+.figs img { max-width:100%; border:1px solid var(--border-color); border-radius:6px; background:#fff; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SA01] Module 04 · 시스템구조(2)</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/14</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차 <span style="font-weight:400;color:#94a3b8;font-size:0.75rem;">(IP 네트워크·라우팅·SDN/NFV)</span></h3>
+    <ul>
+<li><a href="#sa01-t42">1. IPv4 프로토콜의 정의</a></li><li><a href="#sa01-t43">3. 사설 IP(RFC 1918)</a></li><li><a href="#sa01-t44">1. IPv6 프로토콜의 정의</a></li><li><a href="#sa01-t45">3. IPv6 주소 종류</a></li><li><a href="#sa01-t46">5. IPv6 확장헤더 구조</a></li><li><a href="#sa01-t47">5. IPv6 확장헤더 기능</a></li><li><a href="#sa01-t48">1. IPv4/IPv6 전환기술의 정의</a></li><li><a href="#sa01-t49">3. IPv6 전환기술</a></li><li><a href="#sa01-t50">1. 모바일 IP(Mobile IP)의 정의</a></li><li><a href="#sa01-t51">1. Mobile IPv6의 정의</a></li><li><a href="#sa01-t52">3. Mobile IPv6 동작방식</a></li><li><a href="#sa01-t53">1. 프로토콜 계층구조</a></li><li><a href="#sa01-t54">2. ICMP 계층 위치</a></li><li><a href="#sa01-t55">4. ICMP 질의 메시지</a></li><li><a href="#sa01-t56">6. ICMPv4와 ICMPv6 메시지 비교</a></li><li><a href="#sa01-t57">1. 스위치(Switch)의 정의</a></li><li><a href="#sa01-t58">3. L7 스위치</a></li><li><a href="#sa01-t59">2. SNMP 명령어</a></li><li><a href="#sa01-t60">3. 구성요소</a></li><li><a href="#sa01-t61">3. SDN 개방형 인터페이스 분류</a></li><li><a href="#sa01-t62">5. 인터페이스 후보 기술</a></li><li><a href="#sa01-t63">7. 오픈 플로우(OpenFlow)</a></li><li><a href="#sa01-t64">3. NFV 구성요소</a></li><li><a href="#sa01-t65">3. NFV 구성요소(계속)</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 기출·예상문제 (18)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section class="section" id="sa01-t42">
+<h2>1. IPv4 프로토콜의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.120)</span></h2>
+<figure class="fig"><img alt="원본 p.120" loading="lazy" src="assets/SA01fig/p120.jpg"/><figcaption>📄 원본 슬라이드 p.120</figcaption></figure>
+</section>
+<section class="section" id="sa01-t43">
+<h2>3. 사설 IP(RFC 1918) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.121-122)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.121 표: 사설 IP(RFC 1918)</p>
+<table>
+<tr><th>구분</th><th>IP 주소 범위</th><th>주소 개수</th></tr>
+<tr><td>24비트 블록</td><td>10.0.0.0 ~ 10.255.255.255</td><td>16,777,216(A클래스 1개)</td></tr>
+<tr><td>20비트 블록</td><td>172.16.0.0 ~ 172.31.255.255</td><td>1,048,576(B 클래스 6개)</td></tr>
+<tr><td>16비트 블록</td><td>192.168.0.0 ~ 192.168.255.255</td><td>65,536(C 클래스 256개)</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t44">
+<h2>1. IPv6 프로토콜의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.124)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.124 표: IPv6 프로토콜</p>
+<table>
+<tr><th>필드</th><th>내용</th></tr>
+<tr><td>Version</td><td>• IPv6 임을 식별</td></tr>
+<tr><td>Traffic Class</td><td>• QoS, 패킷별 품질제어에 사용</td></tr>
+<tr><td>Flow Label</td><td>• QoS, 패킷별 품질제어에 사용</td></tr>
+<tr><td>Payload Length</td><td>• Header를 제외한 사용자 데이터 길이 표시</td></tr>
+<tr><td>Next Header</td><td>• 다음 헤더의 종류를 표시</td></tr>
+<tr><td>Hop Limit</td><td>• 패킷의 라우팅 중계 횟수 제한</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t45">
+<h2>3. IPv6 주소 종류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.125)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.125 표: IPv6 주소 종류</p>
+<table>
+<tr><th>중분류</th><th>소분류</th><th>기능</th></tr>
+<tr><td>Unicast</td><td>Link Local</td><td>• 단일 세그먼트 내에서 사용(FE80:…)</td></tr>
+<tr><td></td><td>Global Unicast</td><td>• 인터넷 공인주소</td></tr>
+<tr><td></td><td>Unspecified</td><td>• 시스템 부팅시 임의 주소( : : )</td></tr>
+<tr><td></td><td>Loop Back</td><td>• 루프 백 주소( : : 1 )<br/>또는 ( 0 : 1 )</td></tr>
+<tr><td>Anycast</td><td></td><td>• 인터페이스들의 집합, 패킷은 가장 가까운 인터페이스에 전달</td></tr>
+<tr><td>Multicast</td><td></td><td>• 인터페이스들의 집합, 패킷은 그룹 내 모든 인터페이스에 전달</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t46">
+<h2>5. IPv6 확장헤더 구조 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.126)</span></h2>
+<figure class="fig"><img alt="원본 p.126" loading="lazy" src="assets/SA01fig/p126.jpg"/><figcaption>📄 원본 슬라이드 p.126</figcaption></figure>
+</section>
+<section class="section" id="sa01-t47">
+<h2>5. IPv6 확장헤더 기능 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.127-131)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.127 표: IPv6 확장헤더 기능</p>
+<table>
+<tr><th>확장헤더명</th><th>Next header 값</th><th>내용</th></tr>
+<tr><td>Hop-by-Hop options</td><td></td><td>• 패킷 전송경로상의 모든 노드가 참조하여 처리 • 옵션 타입에 따라 다양한 정보를 포함할 수 있음</td></tr>
+<tr><td>Routing</td><td></td><td>• 발신자가 패킷의 중계 라우터를 지정하는데 사용</td></tr>
+<tr><td>Destination options</td><td></td><td>• 목적지 주소의 노드만 참조하여 처리 • 옵션 타입에 따라 바인딩 업데이트 확인과 같은 다양한 정보를 포함할 수 있음</td></tr>
+<tr><td>Fragment</td><td></td><td>• 패킷 분할 및 조합 정보 표현에 사용</td></tr>
+<tr><td>Authentication</td><td></td><td>• 데이터 무결성 및 송신자 인증 정보 표현에 사용</td></tr>
+<tr><td>Encapsulating Security Payload</td><td></td><td>• 패킷의 페이로드 영역의 암호화 정보 표현에 사용</td></tr>
+</table>
+<table>
+<tr><th>코드</th><th>옵션</th><th>설명</th></tr>
+<tr><td></td><td>End of option</td><td>• 옵션 목록 종료</td></tr>
+<tr><td></td><td>No operation</td><td>• 특별한 동작을 수행하지 않음</td></tr>
+<tr><td></td><td>Loose sourceroute</td><td>• 느슨한 소스라우팅</td></tr>
+<tr><td></td><td>Time stamp</td><td>• 네트워크 지연 모니터링을 위한 시간기록</td></tr>
+<tr><td></td><td>Record route</td><td>• 라우팅 경로 기록</td></tr>
+<tr><td></td><td>Strict source route</td><td>• 엄격한 소스 라우팅</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t48">
+<h2>1. IPv4/IPv6 전환기술의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.132)</span></h2>
+<h3>전환기술</h3>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.132 표: IPv4/IPv6 전환기술</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>듀얼스택 (dual stack)</td><td>• IPv4/IPv6 듀얼스택은 IPv6 노드가 IPv4 전용노드와 호환성을 유지하는 가장 쉬운 방법 • IPv4/IPv6 듀얼스택 노드는 IPv4와 IPv6 패킷을 주고 받을 수 있는 능력이 있어, IPv4 패킷을 사용하여 IPv4 노드와 직접 호환, 또한 IPv6 패킷을 사용하여 IPv6 노드와 직접 호환됨</td></tr>
+<tr><td>터널링 (tunneling)</td><td>• IPv4/IPv6 호스트와 라우터에서 IPv6 데이터그램을 IPv4 패킷에 캡슐화하여 IPv4 라우팅 토폴로지 영역을 통해 전송하는 방법 • 기존의 IPv4 라우팅 인프라를 활용하여 IPv6 트래픽을 전송하는 방법</td></tr>
+<tr><td>변환 (Translation)</td><td>• 기존 네트워크와 호환성을 위해 IPv4 주소를 IPv6 주소로 나타내는 방법</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t49">
+<h2>3. IPv6 전환기술 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.133-152)</span></h2>
+<figure class="fig"><img alt="원본 p.133" loading="lazy" src="assets/SA01fig/p133.jpg"/><figcaption>📄 원본 슬라이드 p.133</figcaption></figure>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>듀얼스택 (dual stack)</td><td>• IPv4/IPv6 듀얼스택은 IPv6 노드가 IPv4 전용노드와 호환성을 유지하는 가장 쉬운 방법 • IPv4/IPv6 듀얼스택 노드는 IPv4와 IPv6 패킷을 주고 받을 수 있는 능력이 있어, IPv4 패킷을 사용하여 IPv4 노드와 직접 호환, 또한 IPv6 패킷을 사용하여 IPv6 노드와 직접 호환됨</td></tr>
+<tr><td>터널링 (tunneling)</td><td>• IPv4/IPv6 호스트와 라우터에서 IPv6 데이터그램을 IPv4 패킷에 캡슐화하여 IPv4 라우팅 토폴로지 영역을 통해 전송하는 방법 • 기존의 IPv4 라우팅 인프라를 활용하여 IPv6 트래픽을 전송하는 방법</td></tr>
+<tr><td>변환 (Translation)</td><td>• 기존 네트워크와 호환성을 위해 IPv4 주소를 IPv6 주소로 나타내는 방법</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.136" loading="lazy" src="assets/SA01fig/p136.jpg"/><figcaption>📄 원본 슬라이드 p.136</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.137 표: 명령어</p>
+<table>
+<tr><th>명령어</th><th>내용</th></tr>
+<tr><td>GetRequest</td><td>• 변수의 값을 읽기 위하여 관리자(클라이언트)가 에이전트(서버)로 보내는 메시지</td></tr>
+<tr><td>GetNextRequest</td><td>• 메시지에 정의된 ObjectID 바로 다음 객체의 값을 읽기 위하여 관리자가 에이전트로 보내는 메시지</td></tr>
+<tr><td>GetBulkRequest</td><td>• 많은 양의 데이터를 읽기 위해 보내는 메시지</td></tr>
+<tr><td>SetRequest</td><td>• 관리자가 변수에 값을 설정하기 위해 전송하는 메시지</td></tr>
+<tr><td>GetResponse</td><td>• GetRequest나 GetNextRequest에 대한 응답</td></tr>
+<tr><td>Trap</td><td>• 에이전트 사건을 관리자에게 보고하기 위해 전송되는 메시지</td></tr>
+<tr><td>Report</td><td>• 오류 유형을 보고하기 위해 사용</td></tr>
+<tr><td>InformRequest</td><td>• 원격 관리자의 제어 하에 있는 에이전트로부터 어떤 변수 값을 얻기 위해 한 관리자가 다른 원격 관리자에게 전송</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.138 표: 구분</p>
+<table>
+<tr><th>구분</th><th>프로토콜</th><th>내용</th></tr>
+<tr><td>정보구조</td><td>SMI</td><td>• Structure of Management Information(관리정보구조) • SNMP 관리 정보의 표현 구문 문법 등을 규정 • ‘변수작명‘, ‘변수유형‘, ‘객체 및 값들을 부호화‘ 등의 규칙 • 장비마다 다르게 표현될 수 있는 MIB 객체의 표현 동질성을 유지하는 표준</td></tr>
+<tr><td></td><td>MIB</td><td>• Management Information Base(관리 대상을 규격화한 정보 모음) • 관리 특성을 묘사하는 변수 객체들의 모음</td></tr>
+<tr><td>정보식별</td><td>OID</td><td>• 트리 형태의 계층 구조(Tree Hierarchy) • 식별된 관리 정보와 관련된 값을 계층화된 데이터베이스 MIB에서 저장/유지/관리</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.139: 라우팅 프로토콜(Routing Protocol)</p>
+<p>1. 라우팅 프로토콜(Routing Protocol)의 정의</p><ul><li>Routing이란 하나의 근원지에서 목적지로 internetwork를 통해 정보를 전달하는 과정</li><li>대비되는 말로는 브리지(Bridge)이라는 용어가 있는데 그 개념은 비슷하나 Routing은 OSI 7 Layer에서 Network Layer(3계층)에서 일어나는 것이고, Bridge은 Datalink Layer(2계층)에서 일어나는 것이 차이점</li><li>라우팅 프로토콜은 라우터 간 통신방식을 규정하는 통신규약</li></ul><p>2. 라우팅 프로토콜 유형 </p>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.140 표: 프로토콜</p>
+<table>
+<tr><th>프로토콜</th><th>링크상태</th></tr>
+<tr><td>RIP</td><td>• Distance Vector 알고리즘을 사용하며, 라우팅 테이블은 매 30초 마다 브로드캐스팅을 통해 상호 정보 전달 • 홉(hop)수 제한(최대 16홉), VLSM(Variable Length Subnet Mask)<br/>지원불가, Load Balancing 불가 • 네트워크 상태(대역폭, 지연시간, 부하량 등)는 고려하지 않음</td></tr>
+<tr><td>IGRP</td><td>• RIP의 문제점을 일부 개선한 방식(미국 시스코 사에서 RIP의 단점 보완을 위해서 개발) • 네트워크의 상태(대역폭, 지연시간, 부하량 등)를 고려 • 홉(hop)수 증가(최대 255홉), VLSM 지원불가, Load Balancing 가능</td></tr>
+<tr><td>OSPF</td><td>• Link State 알고리즘 사용 • 사용자 지정경로, 가장 경제적인 경로, 복수 경로 등 변화의 발생에 관한 정보가 RIP에 비해 빨리 전파 • 토폴로지에 관한 정보가 전체 라우터에서 동일하게 유지, VLSM 및 Load Balancing 가능</td></tr>
+<tr><td>BGP</td><td>• AS 간을 연결하는 EGP 방식, 규모가 큰 네트워크를 상호 연결 • TCP 기법을 사용하여, Path Vector 라우팅에 기반함</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.141 표: 프로토콜</p>
+<table>
+<tr><th>프로토콜</th><th>링크상태</th></tr>
+<tr><td>RIP</td><td>• Hop count(홉 카운트)</td></tr>
+<tr><td>OSPF</td><td>• Link Cost(링크 비용) • 링크 대역폭, 전송속도에 기초하여 계산되고, 16비트 Metric 값(1~65,535)으로 표현</td></tr>
+<tr><td>IGRP, EIGRP</td><td>• Bandwidth, Delay, Load, Reliability, MTU 등 여러 가지를 조합하여 계산한 Cost가 가장 낮은 경로</td></tr>
+<tr><td>BGP</td><td>• 속성(Attribute)이라고 하는 네트워크 도달성(reachability)<br/>정보 • 속성 : Next hop, weight, local preference, as path, origin type, MED 등</td></tr>
+</table>
+<table>
+<tr><th>거리벡터</th><th>링크상태</th></tr>
+<tr><td>• 네트워크 토폴로지는 인접 라우터에서 라우팅 테이블 정보를 받음</td><td>• 다른 모든 라우터에서 LSA를 받음</td></tr>
+<tr><td>• 인접 라우터에서 받은 라우팅 정보를 바탕으로 라우터에서 라우터까지 거리벡터 합</td><td>• 각각의 라우터가 LSA를 모아서 자체적으로 다른 라우터까지 최소 경로 계산</td></tr>
+<tr><td>• 주기적인 업데이트, 수렴속도 느림</td><td>• 이벤트에 의해 변경이 일어나고 수렵속도가 빠름</td></tr>
+<tr><td>• 인접 라우터에 라우팅 테이블을 복사</td><td>• 다른 라우터에 링크상태 변경 정보 전송</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.142 표: 라우팅 방식</p>
+<table>
+<tr><th>라우팅 방식</th><th>내용</th></tr>
+<tr><td>소스 라우팅</td><td>• 송신 호스트가 경로정보를 지정하여 데이터를 전송하는 방식</td></tr>
+<tr><td>분산 라우팅</td><td>• 라우팅 정보를 여러 노드에 분산하여 관리. 호스트 수가 많을수록 효과적임</td></tr>
+<tr><td>중앙 라우팅</td><td>• 라우팅 정보를 관리하는 별도의 호스트를 구성 • 송신자는 코어 라우터(core router)로 부터 경로를 지정 받아 소스 라우팅으로 전송 • 호스트의 개수가 많아 질수록 비효율</td></tr>
+<tr><td>계층 라우팅</td><td>• 분산 라우팅 + 중앙 라우팅 • 네트워크 규모가 커질수록 매우 효과적임</td></tr>
+</table>
+<table>
+<tr><th>라우팅 방식</th><th>내용</th></tr>
+<tr><td>소스 라우팅</td><td>• 송신 호스트가 경로정보를 지정하여 데이터를 전송하는 방식</td></tr>
+<tr><td>분산 라우팅</td><td>• 라우팅 정보를 여러 노드에 분산하여 관리. 호스트 수가 많을수록 효과적임</td></tr>
+<tr><td>중앙 라우팅</td><td>• 라우팅 정보를 관리하는 별도의 호스트를 구성 • 송신자는 코어 라우터(core router)로 부터 경로를 지정 받아 소스 라우팅으로 전송 • 호스트의 개수가 많아 질수록 비효율</td></tr>
+<tr><td>계층 라우팅</td><td>• 분산 라우팅 + 중앙 라우팅 • 네트워크 규모가 커질수록 매우 효과적임</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.146" loading="lazy" src="assets/SA01fig/p146.jpg"/><figcaption>📄 원본 슬라이드 p.146</figcaption></figure>
+<table>
+<tr><th>프로토콜</th><th>메트릭</th></tr>
+<tr><td>RIP</td><td>• Hop Count(홉 카운트)</td></tr>
+<tr><td>OSPF</td><td>• Link Cost(링크 비용) • 링크 대역폭, 전송속도에 기초하여 계산되고, 16비트 Metric 값(1~65,535)으로 표현</td></tr>
+<tr><td>IGRP, EIGRP</td><td>• Bandwidth, Delay, Load, Reliability, MTU 등 여러 가지를 조합하여 계산한 Cost가 가장 낮은 경로</td></tr>
+<tr><td>BGP</td><td>• 속성(Attribute)이라고 하는 네트워크 도달성(reachability)<br/>정보 • 속성 : Next Hop, Weight, Local Preference, AS path, Origin type, MED 등 _ _</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.149" loading="lazy" src="assets/SA01fig/p149.jpg"/><figcaption>📄 원본 슬라이드 p.149</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.150 표: 구분</p>
+<table>
+<tr><th>구분</th><th>요소</th><th>내용</th></tr>
+<tr><td>장비</td><td>LER</td><td>• Label Edge Router, 패킷의 목적지를 분류하여 라벨(Label)<br/>할당 및 제거를 담당하는 라우터</td></tr>
+<tr><td></td><td>LSR</td><td>• Label Switch Router, 라벨(Label)을 붙인 패킷이 들어오면 라벨 스위칭을 통해 패킷을 전달하는 라우터</td></tr>
+<tr><td>프로토콜</td><td>FEC</td><td>• Forwarding Equivalence Class, 동일 경로상에서 라우팅되는 동일 서비스 등급에 속한 패킷들의 집합</td></tr>
+<tr><td></td><td>LSP</td><td>• Label Switched Paths, FEC에 속한 패킷이 전달되는 경로</td></tr>
+<tr><td></td><td>LIB</td><td>• Label Information Base, LSR에서 LDP(Label Distribution Protocol)에 의해 생성 및 전달되어온 레이블 바인딩 정보를 저장하고 있는 데이터베이스</td></tr>
+<tr><td></td><td>LDP</td><td>• Label Distribution Protocol, LSP(Label Switched Paths)<br/>설정을 위해 LSR(Label Switch Router)들이 교환하는 메시지, 절차를 정의한 프로토콜</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.152" loading="lazy" src="assets/SA01fig/p152.jpg"/><figcaption>📄 원본 슬라이드 p.152</figcaption></figure>
+</section>
+<section class="section" id="sa01-t50">
+<h2>1. 모바일 IP(Mobile IP)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.153-156)</span></h2>
+<figure class="fig"><img alt="원본 p.153" loading="lazy" src="assets/SA01fig/p153.jpg"/><figcaption>📄 원본 슬라이드 p.153</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.154 표: 구분</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Mobile Node</td><td>• 다른 네트워크로 이동하여 서비스를 받고자 하는 PC 등 단말장비</td></tr>
+<tr><td>Home Agent</td><td>• Mobile node가 원래 속해 있던 네트워크의 라우터</td></tr>
+<tr><td>Foreign Agent</td><td>• Mobile node가 이동할 네트워크의 라우터</td></tr>
+<tr><td>Home Address</td><td>• Mobile node가 원래 속해 있던 네트워크에서 사용하고 있던 IP 주소</td></tr>
+<tr><td>Care of Address</td><td>• Mobile node가 다른 네트워크로 이동할 경우, Foreign agent로부터 받는 주소</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.156" loading="lazy" src="assets/SA01fig/p156.jpg"/><figcaption>📄 원본 슬라이드 p.156</figcaption></figure>
+</section>
+<section class="section" id="sa01-t51">
+<h2>1. Mobile IPv6의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.157)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.157: Mobile IPv6</p>
+<p>1. Mobile IPv6의 정의</p><ul><li>IPv6 주소를 사용하는 이동단말을 인증하는데 사용되는 IETF 이동 IP 표준(기존 IPv6에 이동성 헤더를 추가, 이를 통한 바인딩 관련 메시지 전송)</li><li>Neighbor Discovery와 Address autoconfiguration 기능을 이용하여 이동 단말이 이동하였을 때 자동으로 자신의 위치정보를 구성할 수 있도록 하였으며, 자신의 변환 위치 정보를 필요한 노드들에게 알릴 수 있도록 destination option을 추가함으로써, IPv4에서는 존재해야만 했던 일부 시그널 메시지들과 에이전트를 제거</li></ul><p>2. Mobile IPv6의 특징</p><ul><li>무한대 주소공간</li><li>보안기능 : 보안기능이 프로토콜 자체 내에 포함</li><li>주소 자동설정 기능 : Easy to use, Always On 서비스 가능</li><li>라우팅 : 효율적으로 이동성 환경 제공</li></ul>
+</section>
+<section class="section" id="sa01-t52">
+<h2>3. Mobile IPv6 동작방식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.158-159)</span></h2>
+<figure class="fig"><img alt="원본 p.158" loading="lazy" src="assets/SA01fig/p158.jpg"/><figcaption>📄 원본 슬라이드 p.158</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.159 표: Mobile IPv4</p>
+<table>
+<tr><th>Mobile IPv4</th><th>Mobile IPv6</th></tr>
+<tr><td>• Triangle 라우팅 문제</td><td>• Route Optimization</td></tr>
+<tr><td>• FA 구축</td><td>• Neighbor Discovery와 Address Auto-Config 이용</td></tr>
+<tr><td>• FA와의 복잡한 등록절차와 라우팅 필요</td><td>• MN은 IP 헤더의 소스 주소에 CoA 주소를 사용하여 Ingress Filtering을 정상적으로 통과</td></tr>
+<tr><td>• 라우터에서 MN으로 오는 패킷에 정방향 확인만을 제공하여, 블랙홀 상태 존재</td><td>• Mobile Discovery Mechanism 사용</td></tr>
+<tr><td>• 패킷은 IP 캡슐화</td><td>• IPv6 라우팅 헤더 사용(상황에 따라 선택)</td></tr>
+<tr><td>• ICMP 제한으로 인하여 터널 소프트 상태를 다루어야 함</td><td>• IPv6에서는 캡슐화 및 라우팅 헤더를 사용하여 터널 소프트 상태를 사용할 필요가 없음</td></tr>
+<tr><td>• 모든 HA에게 브로드캐스트를 사용하여 MN의 홈 링크 상에 있는 HA부터 개별응답을 반환</td><td>• Dynamic Home Agent Discovery Mechanism 사용</td></tr>
+<tr><td>• 모든 제어 메시지에 대해 각각의 개별적인 UDP 패킷이 필요</td><td>• IPv6 Destination 옵션 사용</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t53">
+<h2>1. 프로토콜 계층구조 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.160-168)</span></h2>
+<figure class="fig"><img alt="원본 p.160" loading="lazy" src="assets/SA01fig/p160.jpg"/><figcaption>📄 원본 슬라이드 p.160</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.161 표: 비교항목</p>
+<table>
+<tr><th>비교항목</th><th>TCP</th><th>UDP</th></tr>
+<tr><td>데이터 순서</td><td>• 순서 유지함</td><td>• 순서 유지하지 않음</td></tr>
+<tr><td>데이터 중복</td><td>• 데이터 중복, 손실 없음</td><td>• 데이터 중복, 손실 가능</td></tr>
+<tr><td>에러 제어</td><td>• 헤더 및 데이터에 대한 에러 검사 후 에러시 재전송</td><td>• 헤더 및 데이터에 대한 에러 검사 후 에러시 재전송하지 않음</td></tr>
+<tr><td>흐름제어</td><td>• 슬라이딩 윈도우 사용</td><td>• 흐름제어 없음</td></tr>
+</table>
+<table>
+<tr><th>식별 대상</th><th>식별 정보</th></tr>
+<tr><td>• 프로세스, 응용 어플리케이션 식별</td><td>• Port 번호</td></tr>
+<tr><td>• 동일 네트워크 구간 내부 노드 간 식별</td><td>• MAC 주소</td></tr>
+<tr><td>• 단일 노드(서버, PC 등)<br/>간 식별</td><td>• IP 주소</td></tr>
+<tr><td>• 백본망/라우터 간 영역 식별</td><td>• AS(Autonomous System, 자율시스템)</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.164" loading="lazy" src="assets/SA01fig/p164.jpg"/><figcaption>📄 원본 슬라이드 p.164</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.165 표: 주요기능</p>
+<table>
+<tr><th>주요기능</th><th>내용</th></tr>
+<tr><td>멀티 호밍</td><td>• 1 세션 당 다중 IP, 동적인 Path를 사용하여 연결</td></tr>
+<tr><td>멀티 스트리밍</td><td>• Stream 별 독립적 순서화, 스트림 ID별 데이터 복구, 재전송 기능</td></tr>
+<tr><td>4 way handshaking</td><td>• DOS 공격, TCP SYN 공격 방지 기능, Verification, Cookie 값 사용</td></tr>
+<tr><td>3 way handshaking</td><td>• TCP Half-Open 문제 해결, 데이터 전송경로의 통합적 수행</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.167" loading="lazy" src="assets/SA01fig/p167.jpg"/><figcaption>📄 원본 슬라이드 p.167</figcaption></figure>
+<figure class="fig"><img alt="원본 p.168" loading="lazy" src="assets/SA01fig/p168.jpg"/><figcaption>📄 원본 슬라이드 p.168</figcaption></figure>
+</section>
+<section class="section" id="sa01-t54">
+<h2>2. ICMP 계층 위치 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.169)</span></h2>
+<h3>ICMP(Internet Control Message Protocol)의 정의</h3>
+<figure class="fig"><img alt="원본 p.169" loading="lazy" src="assets/SA01fig/p169.jpg"/><figcaption>📄 원본 슬라이드 p.169</figcaption></figure>
+</section>
+<section class="section" id="sa01-t55">
+<h2>4. ICMP 질의 메시지 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.170)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.170 표: BAM</p>
+<table>
+<tr><th>메시지</th><th>내용</th></tr>
+<tr><td>Destination Unreachable</td><td>• 도달할 수 없는 목적지에 계속하여 패킷을 보내지 않도록 송신측에 주의를 주는 역할</td></tr>
+<tr><td>Source Quench</td><td>• 폭주가 발생한 상황을 송신측에 알려서 송신측이 전송을 잠시 중단하거나 전송률을 줄이는 등의 조치를 취하도록 알리는 역할</td></tr>
+<tr><td>Redirection</td><td>• 송신측으로부터 패킷을 수신 받은 라우터가 특정 목적지로 가는 더 짧은 경로가 있음을 알리고자 할 때 사용</td></tr>
+<tr><td>Time Exceeded</td><td>• Time to Live Exceed in Transit • Fragment Reassembly Time Exceeded</td></tr>
+</table>
+<table>
+<tr><th>메시지</th><th>내용</th></tr>
+<tr><td>Echo Request and reply</td><td>• Ping 명령어는 이 두개를 조합하여 활용</td></tr>
+<tr><td>Neighbor Discovery Message</td><td>• Neighbor Solicitation message : 동일 링크 상에 있는 다른 호스트의 링크 주소 정보 제공 • Neighbor advertisement message : solicitation message에 응답하여 보내지는 메시지</td></tr>
+<tr><td>Address Mask Request and Reply</td><td>• 디스크가 없는 diskless 시스템이 부팅할 때 자신의 서브넷 마스크를 얻기 위해서 사용</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t56">
+<h2>6. ICMPv4와 ICMPv6 메시지 비교 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.171-177)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.171 표: BAM</p>
+<table>
+<tr><th>번호</th><th>메시지</th><th>내용</th></tr>
+<tr><td></td><td>Destination Unreachable Error</td><td>• 패킷이 목적노드에 도달할 수 없는 경우</td></tr>
+<tr><td></td><td>Packet Too Big Error</td><td>• 링크의 MTU보다 패킷이 큰 경우</td></tr>
+<tr><td></td><td>Time Exceed Error</td><td>• Hop limit = 0인 패킷 수신/처리</td></tr>
+<tr><td></td><td>Parameter Problem Error</td><td>• 패킷 헤더 문제 발견</td></tr>
+</table>
+<table>
+<tr><th>메시지</th><th>IPv4</th><th>IPv6</th><th>비고</th></tr>
+<tr><td>Echo request and reply</td><td>○</td><td>○</td><td></td></tr>
+<tr><td>Timestamp request and reply</td><td>○</td><td>X</td><td>• 사용되지 않는 기능으로 삭제</td></tr>
+<tr><td>Address mask request and reply</td><td>○</td><td>X</td><td>• 사용되지 않는 기능으로 삭제</td></tr>
+<tr><td>Router solicitation</td><td>○</td><td>○</td><td></td></tr>
+<tr><td>Neighbor solicitation</td><td>ARP</td><td>○</td><td>• ICMPv6 기능으로 통합</td></tr>
+<tr><td>Group membership</td><td>IGMP</td><td>○</td><td>• ICMPv6 기능으로 통합</td></tr>
+<tr><td>Destination unreachable</td><td>○</td><td>○</td><td></td></tr>
+<tr><td>Source quench(socket buffer full 표시)</td><td>○</td><td>X</td><td>• 사용되지 않는 기능으로 삭제</td></tr>
+<tr><td>Packet too big</td><td>X</td><td>○</td><td>• 링크의 MTU보다 패킷이 큰 경우</td></tr>
+<tr><td>Time exceeded</td><td>○</td><td>○</td><td></td></tr>
+<tr><td>Parameter problem</td><td>○</td><td>○</td><td></td></tr>
+<tr><td>Redirection</td><td>○ 1</td><td>71 ○</td><td></td></tr>
+</table>
+<table>
+<tr><th>번호</th><th>메시지</th><th>내용</th></tr>
+<tr><td></td><td>Destination Unreachable Error</td><td>• 패킷이 목적노드에 도달할 수 없는 경우</td></tr>
+<tr><td></td><td>Packet Too Big Error</td><td>• 링크의 MTU보다 패킷이 큰 경우</td></tr>
+<tr><td></td><td>Time Exceed Error</td><td>• Hop limit = 0인 패킷 수신/처리</td></tr>
+<tr><td></td><td>Parameter Problem Error</td><td>• 패킷 헤더 문제 발견</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.174 표: 인터넷 프로토콜(Internet Protocol)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>RARP</td><td>• RARP는 자료를 전송하려 하는 상대방 혹은 자신의 하드웨어 주소인 MAC Address를 알고 IP를 모를 경우 사용하는 프로토콜임 • 48비트 MAC 주소로부터 그 장비의 32비트 IP주소를 알아내는 프로토콜이며, 역으로 IP로 MAC 주소를 찾는 프로토콜은 ARP임</td></tr>
+<tr><td>BOOTP</td><td>• 하드 디스크가 없는 장치의 설정정보를 자동으로 할당, 관리하기 위해 개발된 통신규약 • TCP/IP 환경의 클라이언트/서버 시스템에서 디스크를 갖지 않는 클라이언트가 시스템의 기동(boot)에 필요한 컴퓨터 IP 주소, 컴퓨터 서브넷 마스크, 라우터 IP 주소, 네임서버 IP주소를 서버로부터 자동적으로 받는 규약임. 클라이언트가 자신의 IP 주소를 모르는 경우 RARP를 통해 IP를 찾아냄</td></tr>
+<tr><td>DHCP</td><td>• IP주소를 동적으로 배포할 서버 및 클라이언트 구성정보를 정의하는 표준 프로토콜 • DHCP 서버는 IP주소, 서브넷 마스크, 기본 게이트웨이 정보를 클라이언트에 제공</td></tr>
+<tr><td>HDLC</td><td>• 비트 중심 프로토콜(문자중심 프로토콜에 비해 더 많은 정보를 고속 전송)의 대표적 통신 프로토콜로 시작플래그, 주소필드, 제어필드, 정보필드, 프레임오류검사 필드, 프레임 종료 플래그로 구성된 프레임으로 구성 174</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.175: VoIP(Voice over Internet Protocol)</p>
+<ul><li>일반 전호번호 또는 e-mail 주소 형태의 식별자를 이용하여 언제, 어디서나, 단말기에 관계없이 양 단말간 VoIP 서비스를 제공하기 위한 호 설정용 인터넷 표준 프로토콜</li><li>텍스트 형태로 구성되어 개발이 쉽고, 웹 프로토콜인 HTTP와 호환되며, 기존 인터넷 서비스를 그대로 수용할 수 있고, 응용 서버(application server)를 위한 일반 응용 서비스의 컴포넌트로 구성될 수 있으므로 모든 새로운 서비스 확장이 용이함 구분 SIP H.323 구조</li><li>구성요소(element)</li><li>스택 표준기구</li><li>IETF</li><li>ITU 회의제어</li><li>표준화 진행 중</li><li>지원 프로토콜</li><li>UDP 기반</li><li>TCP 기반 인코딩</li><li>HTTP 유사</li><li>ASN.1 Q931 주안점</li><li>멀티미디어, 멀티캐스트, 이벤트</li><li>전화 주소</li><li>평면 alias, E.164, 이메일</li><li>SIP URL, E.164 URL</li></ul><p>1. SIP(Session Initiation Protocol)의 정의</p><p>2. SIP vs. H.323 </p>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.177 표: 데이터 통신(Data Communication)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>패킷 교환</td><td>• 패킷이라고 불리는 적은 데이터 단위가 각 패킷에 담긴 목적지 주소를 기반으로 하여 네트워크를 통해 발송되는 네트워크의 한 형태</td></tr>
+<tr><td>데이터 그램방식</td><td>• 패킷 전송방법에 따라 패킷마다 가는 경로가 다를 수 있고, 네트워크 상황에 따라 달라지며, 패킷의 도착순서가 바뀔 수 있어 순서의 재조정이 필요</td></tr>
+<tr><td>가상 회선방식</td><td>• 관련된 패킷을 모두 같은 경로를 통해 전송하는 방법 • 가상 번호를 기반으로 가상 회선을 구현, call setup이 필요함</td></tr>
+<tr><td>회선교환</td><td>• 발신자와 수신자 간에 독립적이며 동시에 폐쇄적인 통신 연결로 구성되어 있으며 이러한 1대 1연결을 회선(circuit)<br/>또는 채널(channel)이라고 함</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t57">
+<h2>1. 스위치(Switch)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.178)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.178 표: 스위치(Switch) 장비</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Server Load Balancing</td><td>• 여러 대의 서버를 하나의 서버처럼 동작시킴, 성능 확장용이, 신뢰성 향상가능</td></tr>
+<tr><td>Cache redirection</td><td>• 내부 망에서 외부 인터넷으로 향하는 웹 트래픽을 가로채어 캐싱 서버에게 전달</td></tr>
+<tr><td>Firewall Load Balancing</td><td>• 하나 이상의 방화벽을 추가하여 가용성 및 성능 향상</td></tr>
+<tr><td>VPN Load balancing</td><td>• VPN의 성능과 안정성을 향상 시키기 위한 기능</td></tr>
+<tr><td>Network Load Balancing</td><td>• 다수의 인터넷 접속 라인을 사용하여 네트워크의 속도와 안정성 개선</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t58">
+<h2>3. L7 스위치 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.179-182)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.179 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>L2</td><td>• Input 포트를 통해 들어온 Frame을 목적지 MAC 주소를 기반으로 output 포트를 통해 전송 • Switching 장비 전체가 “Broadcast Domain”이 됨</td></tr>
+<tr><td>L3</td><td>• Layer 3 switching = Layer 2 switching + Layer 3 routing • Switch 장비 플랫폼에 라우팅 기능 부가</td></tr>
+<tr><td>L4</td><td>• OSI 7 Layer 모델의 4계층 정보인 TCP/UDP 포트 번호를 분석해 포워딩 결정을 내리는 기능 • QoS, SLB, FLB 등의 기능 제공</td></tr>
+<tr><td>L7</td><td>• 기존 Port 뿐만 아니라 실제 데이터 페이로드(Layer 7)를 이용한 다양한 패킷 스위칭을 수행하는 네트워크 장비 • Connection Pooling, Traffic Compression, QoS, 보안기능 제공</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.182" loading="lazy" src="assets/SA01fig/p182.jpg"/><figcaption>📄 원본 슬라이드 p.182</figcaption></figure>
+</section>
+<section class="section" id="sa01-t59">
+<h2>2. SNMP 명령어 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.183-184)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.183 표: SNMP 명령어</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>GET</td><td>• Agent 관리 정보 조회 요청 후 Agent는 이에 응답</td></tr>
+<tr><td>GET-NEXT</td><td>• 정보의 끝을 만날 때까지 변수 값을 Manager가 Agent로 부터 가져오는 서비스</td></tr>
+<tr><td>SET</td><td>• Manager가 Agent 정보를 변경시키는 서비스</td></tr>
+<tr><td>TRAP</td><td>• Agent가 비정상시 이를 Manager에 자동 통보하는 서비스</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>DDNS</td><td>• 유동 IP 주소를 사용하는 컴퓨터들의 경우에도 DNS 정보를 쉽게 유지하는 방법 • 일반적으로 인터넷 서비스 제공사업자에 의해 IP주소가 새로이 부여될 때마다 DNS 데이터베이스를 자동으로 갱신해 주어 특정 도메인 이름에 대응되는 IP주소가 자주 변경되더라도 다른 사용자들이 그 컴퓨터에 접속하기 위해 새로 변경된 IP주소를 알 필요 없이 기존 도메인 이름을 이용해 쉽게 접속</td></tr>
+<tr><td>DHCP</td><td>• 네트워크 관리자들이 조직 내의 네트워크 상에서 IP주소를 중앙에서 관리하고 할당해 줄 수 있도록 해주는 프로토콜, 네트워크 IP 관리 프로토콜인 BOOTP의 대안으로 사용</td></tr>
+<tr><td>NAT</td><td>• Network Address Translation은 1개의 공인 IP 주소에 다량의 가상 사설 IP주소를 교대로 할당 및 매핑하는 주소 변환(Address Translation)<br/>방식 • 주소변환을 통해 내부 사설망 보안 및 Load Balancing 등이 가능</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.184" loading="lazy" src="assets/SA01fig/p184.jpg"/><figcaption>📄 원본 슬라이드 p.184</figcaption></figure>
+</section>
+<section class="section" id="sa01-t60">
+<h2>3. 구성요소 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.185-190)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.185 표: BAM</p>
+<table>
+<tr><th>구성요소</th><th>내용</th></tr>
+<tr><td>캐시 서버</td><td>• 인터넷 서비스 이용자의 요청에 근원 서버로부터 컨텐츠를 받아 서비스를 제공</td></tr>
+<tr><td>웹 스위치</td><td>• 캐시 서버의 상태 정보를 주기적으로 컨텐츠 라우터에 전송하여 컨텐츠 라우터가 캐시 서버의 현 상태를 파악할 수 있도록 도와줌</td></tr>
+<tr><td>컨텐츠 라우터</td><td>• 사용자의 컨텐츠 요청이 있을 경우, 인터넷 사용자들의 물리적 위치와 링크 상태를 고려하여 가장 적당한 캐시 서버에서 컨텐츠를 전송</td></tr>
+</table>
+<table>
+<tr><th>기술요소</th><th>내용</th></tr>
+<tr><td>GLB</td><td>• Global Load Balancing • 여러 곳에 비치된 인터넷 서버들 중에서 이용자에게 최상의 서비스를 제공할 수 있는 서버를 선정해 서비스를 연결하는 기술</td></tr>
+<tr><td>동기화</td><td>• Synchronization • 컨텐츠 변경 시 ISP별로 분산된 서버 Farm에 이를 즉각적으로 반영하여 사용자들이 동시에 같은 내용의 컨텐츠를 전송 받을 수 있도록 하는 기술</td></tr>
+<tr><td>Grid Delivery 분산</td><td>• 컨텐츠를 전송할 때 이용자의 컴퓨터를 각각 작은 서버로 활용, 이용자가 컨텐츠를 다운로드 하면서 다른 이용자에게 컨텐츠를 전송하도록 하여, 이용자가 컨텐츠의 이용자인 동시에 전송자가 됨</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>USN</td><td>• Ubiquitous Sensor Network • 필요한 모든 사물에 전자태크를 부착해 사물과 환경을 인식하고 네트워크를 통해 실시간 정보를 구축, 활용토록하는 통신망</td></tr>
+<tr><td>CDN</td><td>• Content Delivery Network • 원거리에 있는 컨텐츠 사업자의 웹 서버에 저장된 컨텐츠를 이용자 근처 CDN 서버에 미리 저장, 컨텐츠 요구 발생시 컨텐츠 전송에 병목현상을 일으키는 Middle Mile 구간을 거치지 않고 최적의 CDN 서버로부터 컨텐츠를 제공하는 컨텐츠 전송망</td></tr>
+<tr><td>CCN</td><td>• Content Centric Networking • 현 인터넷의 근본적 취약점인 호스트 중심의 구조에서 벗어나 콘텐츠를 중심으로 하는 새로운 네트워킹 아키텍처</td></tr>
+<tr><td>SDN</td><td>• Software Defined Network • 소프트웨어 프로그래밍을 통해 네트워크 경로 설정과 제어 및 복잡한 운용관리를 편리하게 처리할 수 있는 차세대 네트워킹 기술</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.189" loading="lazy" src="assets/SA01fig/p189.jpg"/><figcaption>📄 원본 슬라이드 p.189</figcaption></figure>
+<figure class="fig"><img alt="원본 p.190" loading="lazy" src="assets/SA01fig/p190.jpg"/><figcaption>📄 원본 슬라이드 p.190</figcaption></figure>
+</section>
+<section class="section" id="sa01-t61">
+<h2>3. SDN 개방형 인터페이스 분류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.191)</span></h2>
+<figure class="fig"><img alt="원본 p.191" loading="lazy" src="assets/SA01fig/p191.jpg"/><figcaption>📄 원본 슬라이드 p.191</figcaption></figure>
+</section>
+<section class="section" id="sa01-t62">
+<h2>5. 인터페이스 후보 기술 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.192)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.192 표: 인터페이스 후보 기술</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>사우스 바운드 인터페이스</td><td>• SDN을 구성하는 데이터 전송장치와 제어기에서, 제어부분과 데이터 전송부분 간의 인터페이스</td></tr>
+<tr><td>노스 바운드 인터페이스</td><td>• SDN을 구성하는 제어기와 응용에서의 제어부분과 응용간의 인터페이스로서, 데이터 전송장치로부터 제어기에서 필요한 정보를 수집하기 위한 인터페이스</td></tr>
+<tr><td>이스트 웨스트 바운드 인터페이스</td><td>• SDN 네트워크를 구성하는 다중 제어기 간의 인터페이스</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>사우스 바운드 인터페이스</td><td>• 오픈플로우(ONF 표준), FORCES(Forwarding and Control Element Separation), MPLS(Multiprotocol Label Switching), PCE(Path Computation Element), IPSec, L2/L3 VPN, TRILL(Transparent Interconnection of Lots of Links), SPB(Shortest Path Bridging), Diffserv, NETCONF(Network Configuration), CLI(Command Line Interfaces), SNMP(Simple Network Management Protocol)</td></tr>
+<tr><td>노스 바운드 인터페이스</td><td>• ALTO(Application Layer Traffic Optimization), XMPP(Extensible Messaging and Presence Protocol), CDNI(Content Delivery Network Interconnection), IRS(Interface to the Routing System)</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t63">
+<h2>7. 오픈 플로우(OpenFlow) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.193-198)</span></h2>
+<figure class="fig"><img alt="원본 p.193" loading="lazy" src="assets/SA01fig/p193.jpg"/><figcaption>📄 원본 슬라이드 p.193</figcaption></figure>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>사우스 바운드 인터페이스</td><td>• 오픈플로우(ONF 표준), FORCES(Forwarding and Control Element Separation), MPLS(Multiprotocol Label Switching), PCE(Path Computation Element), IPSec, L2/L3 VPN, TRILL(Transparent Interconnection of Lots of Links), SPB(Shortest Path Bridging), Diffserv, NETCONF(Network Configuration), CLI(Command Line Interfaces), SNMP(Simple Network Management Protocol)</td></tr>
+<tr><td>노스 바운드 인터페이스</td><td>• ALTO(Application Layer Traffic Optimization), XMPP(Extensible Messaging and Presence Protocol), CDNI(Content Delivery Network Interconnection), IRS(Interface to the Routing System)</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.197" loading="lazy" src="assets/SA01fig/p197.jpg"/><figcaption>📄 원본 슬라이드 p.197</figcaption></figure>
+<figure class="fig"><img alt="원본 p.198" loading="lazy" src="assets/SA01fig/p198.jpg"/><figcaption>📄 원본 슬라이드 p.198</figcaption></figure>
+</section>
+<section class="section" id="sa01-t64">
+<h2>3. NFV 구성요소 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.199)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.199 표: NFV 구성요소</p>
+<table>
+<tr><th>구분</th><th>구성</th><th>설명</th></tr>
+<tr><td>핵심 요소 기술</td><td>NFVI (NFV Infrastructure)</td><td>• 가상 네트워크 기능을 수행하는데 필요 • COTS 범용 하드웨어와 가속기능 및 하드웨어 가상화에 필요한 소프트웨어 계층으로 구성됨</td></tr>
+<tr><td></td><td>VNF (Virtual Network Function)</td><td>• NFVI 상에서 실행될 수 있는 네트워크 기능을 구현한 소프트웨어 • EMS(Element Management System)<br/>내포</td></tr>
+<tr><td></td><td>NFV M&amp;I (NFV Management &amp; Orchestration)</td><td>• NFVI의 물리 및 가상 자원과 VNF의 조율 및 라이프 사이클 관리를 담당 • OSS(Operation Support System)/BSS(Business Support System)와 연동하여 기존 환경의 전반적인 관리가 가능</td></tr>
+<tr><td>서비스 활용 기술</td><td>NFVIaaS (NFVI as a Service)</td><td>• 클라우드 컴퓨팅 서비스 모델 중 IaaS(Infrastructure as a Service)와 NaaS(Network as a Service)를 결합한 형태 • NFVI의 컴퓨팅(서버, 저장공간)<br/>자원과 네트워크 자원을 고객의 요구에 맞게 인프라 자원으로 제공</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t65">
+<h2>3. NFV 구성요소(계속) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.200-202)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.200 표: NFV 구성요소(계속)</p>
+<table>
+<tr><th>구분</th><th>구성</th><th>설명</th></tr>
+<tr><td>서비스 활용 기술</td><td>VNFaaS (VNF as a Service)</td><td>• 전용 장비로 제공되던 네트워크 기능을 가상화하여 VNF 형태로 서비스를 제공함으로써 고객의 CAPEX/OPEX를 동시에 절감해 주는 효과 • VNF로 가상화가 가능한 네트워크 기능의 대상으로는 엔터프라이즈 엑세스 라우터, 엔터프라이즈 CPE, PE(Provider Edge Router)<br/>등이 있음</td></tr>
+<tr><td></td><td>VNPaaS(Virtual Network Platform as a Service)</td><td>• VNFaaS는 하나의 특정 VNF를 제공하는데 반해 VNPaaS는 다수개의 VNF를 연결하는 가상 네트워크 전체를 제공</td></tr>
+</table>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 기출·예상문제 (18문항) — 원문 수록</h2>
+      <p>본 편(IP 네트워크·라우팅·SDN/NFV)에 해당하는 원본 페이지 범위의 기출·예상문제를 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 임의의 호스트 A에 할당된 IPv4 주소가 200.45.34.56이고, 그 호스트 A가 위치한 네트워크에서의 서브넷 마스크(subnet mark)가 255.255.240.0일 때, 호스트 A가 위치한 네트워크의 서브넷 주소(subnet address)는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.122)</span></div><ol class="quiz-options"><li>200.45.16.0/21</li><li>200.45.32.0/20</li><li>200.45.64.0/19</li><li>200.45.128.0/18</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 200.45.32.0/20</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 다음 중 ( ㉮ )에 들어갈 용어로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.128)</span></div><ol class="quiz-options"><li>neighbor solicitation message(이웃 간청 메시지)</li><li>neighbor advertisement message(이웃 광고 메시지)</li><li>router solicitation message(라우터 간청 메시지)</li><li>router advertisement message(라우터 광고 메시지) IPv6는 호스트가 직접 IP 주소를 설정할 수 있는 자동설정(autoconfiguration) 기능을 가지고 있다. 이를 위해 호스트는 먼저 링크 로컬 주소를 생성하고, 생성된 링크 로컬 주소가 서브넷 내에서 유일함을 확인하기 위해 ( ㉮ )를 전송한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① neighbor solicitation message(이웃 간청 메시지) Stateless Address Autoconfiguration 절차 1) 동일 이더넷 구간에서 사용 가능한 Link Local 주소 생성 2) 주소 중복 여부 확인을 위해 Neighbor Solicitation message(NS MSG)를 네트워크에 전송 3) 중복된 주소를 가진 호스트가 있을 경우 해당 호스트가 Neighbor Advertisement message(NA MSG)로 응답하여 중복을 알림 4) 응답이 없으면 생성한 링크 로컬 주소를 확정하여 사용한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. IPv6의 확장 헤더(extension header)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.130)</span></div><ol class="quiz-options"><li>Destination 옵션은 발신지가 특정한 목적지에 정보를 전달하고자 할 때 사용된다.</li><li>Timestamp 옵션은 왕복시간(round trip time)을 측정하는데 사용할 수 있다.</li><li>ESP(Encrypted Security Payload) 옵션은 도청에 대한 방지책을 제공할 수 있다.</li><li>Authentication 옵션은 송신자를 확인하고 데이터의 무결성을 증명하는데 사용된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② Timestamp 옵션은 왕복시간(round trip time)을 측정하는데 사용할 수 있다. IPv4 주요 옵션항목 코드 옵션 설명 00000 End of option • 옵션 목록 종료 00001 No operation • 특별한 동작을 수행하지 않음 00011 Loose sourceroute • 느슨한 소스라우팅 00100 Time stamp • 네트워크 지연 모니터링을 위한 시간기록 00111 Record route • 라우팅 경로 기록, 01001 Strict source route • 엄격한 소스 라우팅.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 다음 보기에서 설명하는 기술로 가장 적합한 것은?<br/><br/>이 기술은 서로 다른 네트워크 A와 B의 중간에 위치한 네트워크 C에서, 네트워크 A와 B의 네트워크 계층 프로토콜을 지원하지 않을 경우 각각의 네트워크 A와 B에 있는 두 호스트 간에 서로 데이터를 교 환할 수 있도록 IP 데이터그램 안에 다른 IP 데이터그램을 넣어주는 기술이다. 가령, 두 개의 서로 다른 IPv6 네트워크 사이에 IPv4 네트워크가 존재하더라도 이 기술을 활용하면 IPv4 네트워크를 통해 IPv6 패킷 전송이 가능하므로 각각의 IPv6 네트워크에 존재하는 두 호스트 간에 IPv6 패킷통신이 가능해진 다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.134)</span></div><ol class="quiz-options"><li>IP Tunneling</li><li>Dual Stack</li><li>NAT-PT</li><li>NAT64</li></ol><div class="quiz-explanation"><strong>정답</strong> ① IP Tunneling 전환기술 구분 내용 듀얼스택 (dual stack) • IPv4/IPv6 듀얼스택은 IPv6 노드가 IPv4 전용노드와 호환성을 유지하는 가장 쉬운 방법 • IPv4/IPv6 듀얼스택 노드는 IPv4와 IPv6 패킷을 주고 받을 수 있는 능력이 있어, IPv4 패킷을 사용하여 IPv4 노드와 직접 호환, 또한 IPv6 패킷을 사용하여 IPv6 노드와 직접 호환된다. 터널링(tunneling)은 IPv6 데이터그램을 IPv4 패킷에 캡슐화하여 기존 IPv4 라우팅 인프라를 통해 IPv6 트래픽을 전송하는 방식이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 호스트 개수가 많거나 네트워크 규모가 커질수록 효과적인 라우팅 방식으로 적절한 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.143)</span></div><ol class="quiz-options"><li>패킷을 전송하는 호스트가 목적지 호스트까지의 전달 경로를 스스로 결정하는 소스 라우팅(Source Routing)</li><li>라우팅 정보를 분산하여 가지고 있는 분산 라우팅(Distributed Routing)</li><li>특별한 호스트를 사용하여 경로에 관한 모든 정보를 관리하는 중앙 라우팅(Centeralized Routing)</li><li>네트워크를 계층으로 관리하는 계층 라우팅(Hierarchical Routing)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 라우팅 정보를 분산하여 가지고 있는 분산 라우팅(Distributed Routing), ④ 네트워크를 계층으로 관리하는 계층 라우팅(Hierarchical Routing) 라우팅 방식 라우팅 방식 내용 소스 라우팅 • 송신 호스트가 경로정보를 지정하여 데이터를 전송하는 방식 분산 라우팅 • 라우팅 정보를 여러 노드에 분산하여 관리. 호스트 수가 많을수록 효과적임 중앙 라우팅 • 라우팅 정보를 관리하는 별도의 호스트를 구성</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 라우팅의 경우 동일한 AS(Autonomous System) 내부에서 사용되는 intra-AS 라우팅 알고리즘 기반의 프로토콜과 AS와 AS 간에 사용되는 inter-AS 라우팅 알고리즘 기반의 프로토콜이 있는데 다음 중 inter- AS 라우팅 알고리즘 기반의 프로토콜로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.145)</span></div><ol class="quiz-options"><li>RIP(Routing Information Protocol)</li><li>IGRP(Interior Gateway Routing Protocol)</li><li>OSPF(Open Shortest Path First)</li><li>BGP(Border Gateway Protocol)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ BGP(Border Gateway Protocol) — BGP는 AS(Autonomous System) 간을 연결하는 EGP(Exterior Gateway Protocol) 방식으로 규모가 큰 네트워크를 상호 연결하며, TCP 기반의 Path Vector 라우팅에 기반한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 라우팅 프로토콜이 최적 경로를 선택하는 기준을 메트릭(metric)이라고 한다. 다음 중 라우팅 프로토콜과 그 프로토콜이 사용하는 메트릭 값이 가장 적절하게 연결된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.147)</span></div><ol class="quiz-options"><li>EIGRP : 정책(policy)만을 메트릭으로 이용</li><li>OSPF : 신뢰도(reliability)만을 메트릭으로 이용</li><li>BGP : 지연(delay)만을 메트릭으로 이용</li><li>RIP : 홉 수(hop count)만을 메트릭으로 이용</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ RIP : 홉 수(hop count)만을 메트릭으로 이용 프로토콜별 메트릭(metric) 값 프로토콜 메트릭 RIP • Hop Count(홉 카운트) OSPF • Link Cost(링크 비용) • 링크 대역폭, 전송속도에 기초하여 계산되고, 16비트 Metric 값(1~65,535)으로 표현된다. IGRP·EIGRP는 Bandwidth, Delay, Load, Reliability, MTU 등 여러 요소를 조합하여 계산한 Composite Metric을 사용한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. MPLS(Multi-Protocol Label Switching)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.151)</span></div><ol class="quiz-options"><li>MPLS를 사용하여 VPN(Virtual Private Network)을 구성할 수 있다.</li><li>MPLS는 자체적인 암호화 기능을 제공한다.</li><li>MPLS를 사용하여 TE(Traffic Engineering)이 가능하다.</li><li>하나의 MPLS 패킷에 여러 개의 라벨(label)을 사용할 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② MPLS는 자체적인 암호화 기능을 제공한다. MPLS(Multi-Protocol Label Switching) •MPLS은 자체적인 데이터 암호화 기능을 제공하지 않음 •MPLS에 보안강화를 위한 별도의 암호화 기법을 적용해야 함 •관련표준 : RFC(5920) Security Framework for MPLS and GMPLS Networks</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 그림과 같이 모바일 호스트(mobile host)가 홈 네트워크(home network)에서 외부 네트워크(foreign network)로 이동한 상황에서 모바일 IP에 대한 설명으로 가장 거리가 먼 것은? - <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.155)</span></div><ol class="quiz-options"><li>이동한 모바일 호스트는 홈 주소(home address)와 의탁주소(care-of address)라는 두 개의 주소를 가진다.</li><li>이동한 모바일 호스트는 외부 에이전트(foreign agent)에게 의탁주소(care-of address)를 받기 위해 ICMP의 router solicitation 메시지를 이용한다.</li><li>이동한 모바일 호스트가 외부 에이전트(foreign agent)에 등록하기 위해서 TCP 포트를 이용하여 등록 요청(registration request)을 보낸다.</li><li>이동한 모바일 호스트가 원격지 호스트(remote host)와 패킷을 주고 받을 때 더블 크로싱(double crossing)이 발생할 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 이동한 모바일 호스트가 외부 에이전트(foreign agent)에 등록하기 위해서 TCP 포트를 이용하여 등록 요청(registration request)을 보낸다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 컴퓨터 네트워크에서 서로 다른 두 호스트 간에 메시지를 주고받기 위해서는 송신 호스트 측에서 전달하려는 메시지 내에 수신 호스트 측의 주소와 수신 호스트에서 동작하는 프로세스를 식별할 수 있는 서비스 지점정보를 명시해야 한다. 이 중에서 프로세스를 식별할 수 있는 서비스 지점 정보로서 다음 중 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.162)</span></div><ol class="quiz-options"><li>IP(Internet Protocol) 주소</li><li>MAC(Media Access Control) 주소</li><li>AS(Autonomous System) 번호</li><li>Port 번호</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ Port 번호 식별 대상 식별 정보 • 프로세스, 응용 어플리케이션 식별 • Port 번호 • 동일 네트워크 구간 내부 노드 간 식별 • MAC 주소 • 단일 노드(서버, PC 등) 간 식별 • IP 주소 • 백본망/라우터 간 영역 식별 • AS(Autonomous System, 자율시스템)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. SCTP(stream Control Transport Protocol)에 관한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.166)</span></div><ol class="quiz-options"><li>SCTP 연결(Association)은 다중 스트림을 지원한다.</li><li>SCTP 연결(Association)은 각 단말의 다중 IP 주소들을 허용한다.</li><li>SCTP에서 개별 스트림을 구분하기 위한 SSN(Stream Sequence Number)을 이용한다.</li><li>SCTP에서 제어 정보와 데이터 정보는 각각 다른 청크(chunk)에 실려 전달된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ SCTP에서 개별 스트림을 구분하기 위해 SSN(Stream Sequence Number)을 이용한다. SCTP에서 전송되는 데이터 순서를 정의하기 위해 SSN(Stream Sequence Number)을 이용 SCTP는 데이터 전송을 위한 DATA chunk와 제어 정보를 위한 Control chunk(INIT, HeartBeat 등)를 사용한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 다음 중 ICMPv6에서 사용하고 있는 오류 메시지(error message)로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.172)</span></div><ol class="quiz-options"><li>목적지 도달 불가(destination unreachable)</li><li>너무 큰 패킷(packet too big)</li><li>발신자 억제(source-quench)</li><li>매개변수 문제(parameter problem)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 발신자 억제(source-quench) ICMPv6 에러 메시지 번호 메시지 내용 1 Destination Unreachable Error • 패킷이 목적노드에 도달할 수 없는 경우 2 Packet Too Big Error • 링크의 MTU보다 패킷이 큰 경우 3 Time Exceed Error • Hop limit = 0인 패킷 수신/처리 4 Parameter Problem Error • 패킷 헤더 문제 발견</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 다음과 같은 네트워크 구성에서 충돌 도메인(collision domain)과 브로드캐스트 도메인(broadcast domain)의 수로 가장 적절한 것은?(단, 라우터나 스위치는 고유의 기능만 제공) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.180)</span></div><ol class="quiz-options"><li>Collision Domain : 4개, Broadcast Domain : 3개</li><li>Collision Domain : 7개, Broadcast Domain : 4개</li><li>Collision Domain : 9개, Broadcast Domain : 5개</li><li>Collision Domain : 10개, Broadcast Domain : 7개</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ Collision Domain : 9개, Broadcast Domain : 5개 충돌 도메인(Collision Domain) • 이더넷 방식의 LAN에서 전송매체를 공유하고 있는 여러 단말들이 서로 경쟁하며 충돌(Collision)이 나타나면서, 이 충돌한 프레임이 전파되어 영향을 받게 되는 영역(레이어 2 영역)이다. 브로드캐스트 도메인(Broadcast Domain)은 LAN 상에서 특정 노드가 브로드캐스트(Broadcast) 프레임을 전송했을 때, 그 프레임이 전파되어 영향을 받는 논리적 영역(레이어 3 영역)이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 최근 ISP(Internet Service Provider)들은 자신들이 구축한 네트워크 내에서 멀티미디어 콘텐츠의 효율적인 배분을 위하여 많은 노력을 하고 있다. 이와 관련하여 아래에서 설명하고 있는 최신 네트워크 기술을 나타내는 약어로서 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.186)</span></div><ol class="quiz-options"><li>USN</li><li>CDN</li><li>CCN</li><li>SDN 이 네트워크 기술은 클라이언트가 콘텐츠 근처로 다가올 수 없다면, 콘텐츠가 클라이언트로 다가가야 한다는 철학에 기초한다. 그래서 이 기술을 활용하는 회사는 관련된 수백 개 이상의 콘텐츠 서버를 클 라이언트들과 가까운 곳에 위치시키며 다양한 콘텐츠를 이러한 서버들에게 복사하여 분배한다. 한편, 클라이언트가 콘텐츠를 요청할 때에 가장 빠르게 해당 콘</li></ol><div class="quiz-explanation"><strong>정답</strong> ② CDN 구분 내용 USN • Ubiquitous Sensor Network • 필요한 모든 사물에 전자태크를 부착해 사물과 환경을 인식하고 네트워크를 통해 실시간 정보를 구축, 활용토록하는 통신망 CDN • Content Delivery Network • 원거리에 있는 컨텐츠 사업자의 웹 서버에 저장된 컨텐츠를 이용자 근처 CDN 서버에 미리 저장, 컨텐츠 요구 발생 시 컨텐츠 전송에 병목현상을 일으키는 Middle Mile 구간을 거치지 않고 최적의 CDN 서버로부터 컨텐츠를 제공하는 컨텐츠 전송망이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. CDN(Contents Delivery Network, 컨텐츠 전송망)은 컨텐츠 제공자가 사용자들에게 컨텐츠를 빨리 안정적으로 제공하기 위해 고안된 기술로써 동기화기술과 글로벌 서버 로드 발란스가 핵심기술이다. 다음 중 CDN 서비스 종류로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.188)</span></div><ol class="quiz-options"><li>최적 경로 서비스</li><li>다운로드 서비스</li><li>스트리밍 서비스</li><li>캐싱 서비스</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 최적 경로 서비스 — CDN(Contents Delivery Network)의 대표적 서비스 종류는 다운로드 서비스, 스트리밍 서비스, 캐싱 서비스이며, '최적 경로 서비스'는 CDN 자체의 핵심 기술(GLB·동기화 등)에 해당하는 개념으로 별도의 서비스 종류로 분류되지 않는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. SDN(Software Defined Networking) 기술을 주도하고 있는 그룹 중 하나인 ONF(Open Networking Foundation)에서는 SDN 아키텍처를 애플리케이션 계층(Application Layer), 컨트롤 계층(Control Layer), 인프라스트럭처 계층(Infrastructure Layer)으로 구분했다. 이와 관련된 기술에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.194)</span></div><ol class="quiz-options"><li>SDN에서 컨트롤 계층은 소프트웨어 기반의 컨트롤러에 의해 동작한다.</li><li>ODL(OpenDaylight) 컨트롤러는 대표적인 SDN 컨트롤러 중 하나이다.</li><li>오픈플로우(OpenFlow)는 대표적인 노스바운드 인터페이스 프로토콜 중 하나이다.</li><li>애플리케이션 계층과 컨트롤 계층 간의 통신을 위해 노스바운드(NorthBound) 인터페이스를 사용한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 오픈플로우(OpenFlow)는 대표적인 노스바운드 인터페이스 프로토콜 중 하나이다. 구분 내용 사우스 바운드 인터페이스 • 오픈플로우(ONF 표준), FORCES(Forwarding and Control Element Separation), MPLS(Multiprotocol Label Switching), PCE(Path Computation Element), IPSec, L2/L3 VPN, TRILL(Transparent Interconnection of Lots of Links), SPB(Shortest Path Bridging), Diffserv, NETCONF, CLI, SNMP 등이 있으며, 오픈플로우는 사우스바운드 인터페이스의 대표 프로토콜이다(노스바운드 인터페이스가 아님).</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 다음 보기에서 설명하는 최신 네트워크 기술을 나타내는 약어로 가장 적합한 것은?<br/><br/>라우터, 스위치와 같은 네트워크 장치의 제어부분을 데이터 전송 부분과 분리하고, 네트워크 장치의 기능을 정의할 수 있는 개방형 인터페이스를 외부에 제공하여 이를 통해 다양한 네트워크 경로 설정 및 제어, 관리 등을 할 수 있도록 하는 네트워크 기술로서 이 네트워크 기술의 가장 중요한 특징으로는 제어 평면과 데이터 평면의 분리, 프로그램 가능한 제어 평면을 위한 개방형 인터페이스, 하부 인프라 네트워크 가상화 지원 기능 등이 있다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.196)</span></div><ol class="quiz-options"><li>USN(Ubiquitous Sensor Network)</li><li>CDN(Contents Delivery Network)</li><li>CCN(Contents Centric Network)</li><li>SDN(Software Defined Network)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② SDN(Software Defined Network) — 제어부(Control Plane)와 데이터 전달부(Data Plane)를 분리하고 개방형 인터페이스를 제공하여 네트워크를 소프트웨어로 프로그래밍할 수 있게 하는 기술이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. 다음은 네트워크 인프라에 소프트웨어의 장점을 적용하는 기술에 대한 설명이다. ( ㉮ )와 ( ㉯ )에 들어갈 용어로 가장 적절한 것은?<br/><br/>( ㉮ )는(은) 네트워크의 제어부와 전달부를 분리하고 제어부의 소프트웨어와 전달부 하드웨어 사이에 개방형 인터페이스를 정의하여, 운영자는 제어부를 프로그래밍하여 원하는 방식으로 제어하는 기술이 며, ( ㉯ )는(은) 방화벽(Firewall), 네트워크 주소 변환(NAT), 부하분산기(load balancer) 등의 하드웨 어 장비를 소프트웨어화하여 범용 하드웨어 장비에 설치하는 기술이다. ㉮ ㉯ <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.201)</span></div><ol class="quiz-options"><li>SDN NFV</li><li>OpenFlow SDN</li><li>CDN NFV</li><li>OpenFlow CDN</li></ol><div class="quiz-explanation"><strong>정답</strong> ① SDN NFV</div></div>
+    </section>
+  </main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='\ud83d\udd0d';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

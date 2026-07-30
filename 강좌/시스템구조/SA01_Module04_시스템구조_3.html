@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>[SA01] Module 04 · 시스템구조(3)</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+.slide { background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:22px 26px; margin-bottom:18px; scroll-margin-top:120px; }
+.slide-title { font-size:1.15rem; color:var(--primary); font-weight:bold; border-left:5px solid var(--secondary); padding-left:12px; margin-bottom:14px; }
+.slide-num { float:right; font-size:0.75rem; color:#94a3b8; font-weight:normal; }
+.slide p { margin:6px 0; }
+.slide ul { margin:8px 0 8px 22px; }
+.slide li { margin:3px 0; }
+.figs { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
+.figs img { max-width:100%; border:1px solid var(--border-color); border-radius:6px; background:#fff; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SA01] Module 04 · 시스템구조(3)</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/16</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차 <span style="font-weight:400;color:#94a3b8;font-size:0.75rem;">(전송매체·무선통신·분산시스템)</span></h3>
+    <ul>
+<li><a href="#sa01-t66">1. 부호화(Encoding)</a></li><li><a href="#sa01-t67">3. 부호화 방식</a></li><li><a href="#sa01-t68">1. 샤논(Shannon)의 공식</a></li><li><a href="#sa01-t69">1. 유선통신 방식</a></li><li><a href="#sa01-t70">2. MPLS 네트워크</a></li><li><a href="#sa01-t71">1. 통신방식(변조 및 매체접근 제어방식)</a></li><li><a href="#sa01-t72">4. 광학 네트워크 신호전송 표준</a></li><li><a href="#sa01-t73">1. VLAN(Virtual LAN)의 정의</a></li><li><a href="#sa01-t74">3. VLAN 그룹화 기준</a></li><li><a href="#sa01-t75">1. QoS(Quality of Service)의 정의</a></li><li><a href="#sa01-t76">1. 무선통신 기술 데이터 전송속도와 커버리지</a></li><li><a href="#sa01-t77">2. WPAN의 정의</a></li><li><a href="#sa01-t78">1. 블루투스(Bluetooth)의 정의</a></li><li><a href="#sa01-t79">3. 블루투스 망구성(Topology)</a></li><li><a href="#sa01-t80">5. 블루투스 링크 방식</a></li><li><a href="#sa01-t81">7. 블루투스 버전별 비교</a></li><li><a href="#sa01-t82">1. NFC(Near Field Communication)의 정의</a></li><li><a href="#sa01-t83">3. LTE 기술표준의 진화</a></li><li><a href="#sa01-t84">3. 홈네트워크 요소기술</a></li><li><a href="#sa01-t85">1. 위치정보 측위기술의 종류</a></li><li><a href="#sa01-t86">2. 분산시스템 투명성(계속)</a></li><li><a href="#sa01-t87">3. 비동기 트랜잭션 처리(계속)</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 기출·예상문제 (20)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section class="section" id="sa01-t66">
+<h2>1. 부호화(Encoding) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.205)</span></h2>
+<figure class="fig"><img alt="원본 p.205" loading="lazy" src="assets/SA01fig/p205.jpg"/><figcaption>📄 원본 슬라이드 p.205</figcaption></figure>
+</section>
+<section class="section" id="sa01-t67">
+<h2>3. 부호화 방식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.206-208)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.206 표: 부호화 방식</p>
+<table>
+<tr><th>전송형태</th><th>신호변환방식</th><th>변조방식</th></tr>
+<tr><td>디지털 전송</td><td>• 디지털정보  디지털신호 • 2진수 1과 0비트를 전압 값으로 대응하여 나타냄</td><td>베이스밴드</td></tr>
+<tr><td></td><td>• 아날로그정보  디지털신호 • Pulse Code Modulation • 아날로그 신호를 표본화(sampling), 양자화, 부화화하는 과정을 통해 디지털신호(펄스부호)로 변환하여 전송</td><td>펄스부호 변조 (PCM)</td></tr>
+<tr><td>아날로그 전송</td><td>• 디지털 정보  아날로그 신호 • 진폭 편이 변조(ASK, Amplitude Shift Keying) • 주파수 편이 변조(FSK, Frequency Shift Keying) • 위상 편이 변조(PSK, Phase Shift Keying) • 진폭 위상 편이 변조</td><td>디지털 변조 대역전송</td></tr>
+<tr><td></td><td>• 아날로그 정보  아날로그 신호 • 디지털 변조방식과 기본 원리는 비슷 • 진폭변호(AM), 주파수 변소(FM), 위상변조(PM)</td><td>아날로그 변조</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>아날로그  아날로그</td><td>• AM(Amplitude Modulation), FM(Frequency Modulation) • PM(Phase Modulation)</td></tr>
+<tr><td>아날로그  디지털</td><td>• PCM(Pulse Code Modulation), PAM(Pulse Amplitude Modulation) • PPM(Pulse Position Modulation), PWM(Pulse Width Modulation) • DM(Delta Modulation)</td></tr>
+<tr><td>디지털  아날로그</td><td>• ASK(Amplitude Shift Keying), FSK(Frequency Shift Keying) • PSK(Phase Shift Keying), QAM(Quadrature Amplitude Modulation)</td></tr>
+<tr><td>디지털  디지털</td><td>• Unipolar, Bipolar • NRZ-L(Non Return to Zero Level), NRZ-I(Non Return to Zero Inverted) • CMI(Code Mark Inversion), Manchester</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t68">
+<h2>1. 샤논(Shannon)의 공식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.209)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.209: 샤논(Shannon)의 공식</p>
+<p>1. 샤논(Shannon)의 공식</p><ul><li>채널용량과 대역폭은 선형 비례관계에 있으며, 신호대 잡음은 로그함수에 의해 일차함수로 증가한다고 볼수는 없으나 비례 관계에 있음</li><li>Shannon-Hartley’s law는 채널의 최대 용량을 정의한 법칙</li><li>C는 capacity(용량), B는 bandwidth, S/N은 signal to noise ratio이며, 이상적인 상황에서 채널은 무한대의 용량을 가지고 통신을 할 수 있겠지만, 노이즈가 있기 때문에 실제 채널의 최대 용량은 위 공식이 적용됨</li><li>보내는 신호의 파워가 노이즈의 파워보다 크면 클수록 그리고 채널의 대역폭(bandwidth)이 커야 정해진 시간 내에 많은 정보를 주고 받으며, 컴퓨터 네트워크에서의 적용을 보면 채널의 대역폭이 B Hz일 때 초당 최대 전송 비트수(bps)는 Blog(1+S/N)</li></ul>
+</section>
+<section class="section" id="sa01-t69">
+<h2>1. 유선통신 방식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.210)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.210 표: 유선통신(Wire Communication)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>X.25</td><td>• ITU-T의 X 표준 중 하나로 Frame Relay의 근간을 이루는 전송 프로토콜</td></tr>
+<tr><td>Frame Relay</td><td>• 프레임 릴레이는 근거리 통신망들 사이 또는 광역통신망 내의 단말지점들 간에 간헐적인 트래픽을 위해, 비용대비 효율이 좋은 전송 서비스 • 프레임이라고 불리는 가변적인 크기 단위 내에 데이터를 집어넣고, 꼭 필요한 에러 교정기능은 종단에 맡김으로써, 전체적인 데이터 전송 능률을 올림</td></tr>
+<tr><td>ATM</td><td>• 비동기 전송방식(Asynchronous Transfer Mode, 비동기전송방식교환체계)은 자료를 일정한 크기로 정하여 순서대로 전송하는 자료의 전송방식</td></tr>
+<tr><td>MPLS</td><td>• 주어진 패킷 열에 대하여 특정 경로를 설정하는 것에 관여하는데, 각 패킷 내에는 라벨이 있어서 라우터 입장에서는 그 패킷을 전달해야 할 노드의 주소를 보는데 소요되는 시간을 절약할 수 있음</td></tr>
+<tr><td>DWDM</td><td>• 여러 종류의 데이터를 하나의 광섬유에 함께 싣는 기술로서, 각 신호들은 분리된 고유의 광파장 상에서 전송</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t70">
+<h2>2. MPLS 네트워크 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.211-215)</span></h2>
+<figure class="fig"><img alt="원본 p.211" loading="lazy" src="assets/SA01fig/p211.jpg"/><figcaption>📄 원본 슬라이드 p.211</figcaption></figure>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>LAN 서비스 표준</td><td>• IEEE 802.3</td></tr>
+<tr><td>물리계층</td><td>• 신호와 배선</td></tr>
+<tr><td>데이터 링크</td><td>• MAC(Media Access Control)<br/>패킷과 프로토콜 정의</td></tr>
+<tr><td>전송 대역폭</td><td>• Ethernet : 10Mbps, Fast Ethernet : 100Mbps, Gigabit Ethernet : 1Gbps</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>HomePlug</td><td>• 전력선 통신 참여 기업들이 Homeplug Powerline Alliance를 결성하여 기술 표준을 제정 • 4~20MHz 주파수, OFDM 변조방식, 전송율 10Mbps • HomePlug AV, HomePlug Green PHY 등의 표준 제정</td></tr>
+<tr><td>X-10</td><td>• 가정 내의 옥내전기 배선을 통해 설비간 통신을 원격제어하기 위한 통신 프로토콜로서 주로 건물 자동화에 활용</td></tr>
+<tr><td>LonWorks</td><td>• 전력선을 이용한 분산제어 네트워크 기술로서 홈네트워킹 분야를 겨냥하여 제정 • 홈네트워킹 분야의 표준으로 사용됨</td></tr>
+<tr><td>CEBus</td><td>• EIA(Electronics Industry Association)의 회원들을 중심으로 제안 및 개발된 것으로 CEBus 표준기술을 결합한 제품들은 상호간에 통신 가능</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t71">
+<h2>1. 통신방식(변조 및 매체접근 제어방식) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.216-219)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.216 표: 통신방식</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Slotted ALOHA</td><td>• 각 노드들은 동기화를 통한 시간 단위를 slot으로 인식하고 slot 시작 경계에 데이터를 전송 • 동일한 slot 시간대에 2개 이상의 노드에서 동시에 데이터를 전송하면 충돌이 발생하며 일정시간 후에 재 전송</td></tr>
+<tr><td>CSMA/CD</td><td>• Carrier Sense Multiple Access with Collision Detection • 매체에 데이터 전송시 충돌을 감지하여 충돌이 발생할 경우 랜덤한 시간 이후에 데이터 재전송</td></tr>
+<tr><td>FDMA</td><td>• Frequency Division Multiple Access • 주파수 단위로 분할하여 동기화가 필요 없으며 구현이 간단하지만 전력소모가 크고 스펙트럼 효율 낮음</td></tr>
+<tr><td>TDMA</td><td>• Time Division Multiple Access • Time slot 단위로 전송 단위를 분할. 상호변조가 필요 없고 스펙트럼 효율이 높음. 동기화가 필요</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.218" loading="lazy" src="assets/SA01fig/p218.jpg"/><figcaption>📄 원본 슬라이드 p.218</figcaption></figure>
+<figure class="fig"><img alt="원본 p.219" loading="lazy" src="assets/SA01fig/p219.jpg"/><figcaption>📄 원본 슬라이드 p.219</figcaption></figure>
+</section>
+<section class="section" id="sa01-t72">
+<h2>4. 광학 네트워크 신호전송 표준 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.220-222)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.220 표: SDH(Synchronous Digital Hierarchy)</p>
+<table>
+<tr><th>OC 레벨</th><th>SONET 레벨</th><th>SDH 레벨</th><th>대역폭</th></tr>
+<tr><td>OC-1</td><td>STS-1</td><td>-</td><td>51.84Mbps</td></tr>
+<tr><td>OC-3</td><td>STS-3</td><td>STM-1</td><td>155.52Mbps</td></tr>
+<tr><td>OC-9</td><td>STS-9</td><td>STM-3</td><td>466.56Mbps</td></tr>
+<tr><td>OC-12</td><td>STS-12</td><td>STM-4</td><td>622.08Mbps</td></tr>
+<tr><td>OC-18</td><td>STS-18</td><td>STM-6</td><td>933.15Mbps</td></tr>
+<tr><td>OC-24</td><td>STS-24</td><td>STM-8</td><td>1244.16Mbps</td></tr>
+</table>
+<table>
+<tr><th>OC 레벨</th><th>SONET 레벨</th><th>SDH 레벨</th><th>대역폭</th></tr>
+<tr><td>OC-1</td><td>STS-1</td><td>-</td><td>51.84Mbps</td></tr>
+<tr><td>OC-3</td><td>STS-3</td><td>STM-1</td><td>155.52Mbps</td></tr>
+<tr><td>OC-9</td><td>STS-9</td><td>STM-3</td><td>466.56Mbps</td></tr>
+<tr><td>OC-12</td><td>STS-12</td><td>STM-4</td><td>622.08Mbps</td></tr>
+<tr><td>OC-18</td><td>STS-18</td><td>STM-6</td><td>933.15Mbps</td></tr>
+<tr><td>OC-24</td><td>STS-24</td><td>STM-8</td><td>1244.16Mbps</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t73">
+<h2>1. VLAN(Virtual LAN)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.223)</span></h2>
+<figure class="fig"><img alt="원본 p.223" loading="lazy" src="assets/SA01fig/p223.jpg"/><figcaption>📄 원본 슬라이드 p.223</figcaption></figure>
+</section>
+<section class="section" id="sa01-t74">
+<h2>3. VLAN 그룹화 기준 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.224-226)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.224 표: VLAN 그룹화 기준</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Port</td><td>• 스위치의 물리적인 포트(port)별 구성</td></tr>
+<tr><td>Mac Address</td><td>• NIC(Network Interface Card)<br/>의 MAC 주소 기준으로 구성</td></tr>
+<tr><td>Protocol</td><td>• 프로토콜(TCP, IP 등)<br/>기준으로 그룹 형성</td></tr>
+<tr><td>IP Subnet</td><td>• IP 주소 대역을 기준으로 구성</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Trunk Link</td><td>• Trunk Link로 접속되어 있는 모든 장치(device, workstation)는 VLAN 인식이 가능한 장비이며, Trunk Link 상의 모든 프레임은 별도 헤더 정보를 가짐 • VTP(VLAN Trunk Protocol)<br/>프로토콜 사용</td></tr>
+<tr><td>Access Link</td><td>• VLAN 인식 장비에 접속된 링크(link)로서, 모든 프레임은 태그가 되어 있어야 함</td></tr>
+<tr><td>Hybrid Link</td><td>• Trunk Link + Access Link 혼합형</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Port</td><td>• 스위치의 물리적인 포트(port)별 구성</td></tr>
+<tr><td>Mac Address</td><td>• NIC(Network Interface Card)<br/>의 MAC 주소 기준으로 구성</td></tr>
+<tr><td>Protocol</td><td>• 프로토콜(TCP, IP 등)<br/>기준으로 그룹 형성</td></tr>
+<tr><td>IP Subnet</td><td>• IP 주소 대역을 기준으로 구성</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t75">
+<h2>1. QoS(Quality of Service)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.227-229)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.227 표: QoS(Quality of Service)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>DiffServ</td><td>• 인터넷의 QoS을 보장하려는 방법 중의 하나로써, IntServ의 확장성 문제를 해결 제안 • 차등화된 서비스 품질을 제공하자는 취지에서 개발된 IETF 표준 • 상대적으로 우선순위가 높은 패킷을 명시토록 하여, 이러한 패킷에 대하여는 보다 나은 서비스를 제공하는 모델</td></tr>
+<tr><td>IntServ</td><td>• 사전에 자원을 예약하는 방식에 의하여 QoS를 제공하는 모델 • RSVP와 같은 자원예약 신호제어용 프로토콜에 의해 요구되는 자원을 사전에 예약토록 하는 망으로 유입되는 트래픽에 대하여 수락제어를 하는 방식임</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.228 표: Streaming Protocol</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>RTP</td><td>• Real-Time transport protocol • 실시간 데이터를 전송하는 응용들을 지원하기 위한 사용자간 전송 서비스로 IETF RFC 1889에 표준으로 제시되어 1997년 초에 표준화가 완료 • RTP 서비스는 크게 Payload Type Identification, Sequence Numbering, Time Stamping으로 나누어짐</td></tr>
+<tr><td>RTCP</td><td>• Real-Time transport control protocol는 RTP와 같이 동작하는 제어 프로토콜 • RTP 세션에 참여한 각 참가자들은 주기적으로 다른 모든 참가자들에게 RTCP 제어 패킷을 전송</td></tr>
+<tr><td>RTSP</td><td>• Real-Time Streaming Protocol은 on demand 형식으로 리얼타임 미디어 전송을 위한 어플리케이션 계층 프로토콜 • 실시간으로 음성이나 영상을 송수신하기 위한 통신 규약 • 대규모 그룹들에게 오디오 및 비디오 데이터를 효율적으로 브로드캐스트 하기 위한 목적으로 설계됨</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.229" loading="lazy" src="assets/SA01fig/p229.jpg"/><figcaption>📄 원본 슬라이드 p.229</figcaption></figure>
+</section>
+<section class="section" id="sa01-t76">
+<h2>1. 무선통신 기술 데이터 전송속도와 커버리지 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.230)</span></h2>
+<figure class="fig"><img alt="원본 p.230" loading="lazy" src="assets/SA01fig/p230.jpg"/><figcaption>📄 원본 슬라이드 p.230</figcaption></figure>
+</section>
+<section class="section" id="sa01-t77">
+<h2>2. WPAN의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.231)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.231 표: WPAN의 정의</p>
+<table>
+<tr><th>구분</th><th>WLAN</th><th>Bluetooth</th><th>Zigbee</th><th>UWB</th></tr>
+<tr><td>표준</td><td>802.11</td><td>802.15.1</td><td>802.15.4</td><td>802.15.3a</td></tr>
+<tr><td>주파수</td><td>2.4GHz/5GHz</td><td>2.4GHz</td><td>2.4GHz</td><td>5.1~10.6GHz</td></tr>
+<tr><td>변조</td><td>DSSS</td><td>FHSS</td><td>DSSS</td><td>Baseband</td></tr>
+<tr><td>속도</td><td>11Mbps 이상</td><td>1~10Mbps</td><td>20~250Kbps</td><td>100~500Mbps</td></tr>
+<tr><td>거리</td><td>50~100m</td><td>10m</td><td>10~100m</td><td>20m</td></tr>
+<tr><td>네트워크</td><td>점 대 점</td><td>Ad-Hoc</td><td>Ad-hoc, Mesh, Star</td><td>점 대 점</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t78">
+<h2>1. 블루투스(Bluetooth)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.232)</span></h2>
+<figure class="fig"><img alt="원본 p.232" loading="lazy" src="assets/SA01fig/p232.jpg"/><figcaption>📄 원본 슬라이드 p.232</figcaption></figure>
+</section>
+<section class="section" id="sa01-t79">
+<h2>3. 블루투스 망구성(Topology) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.233)</span></h2>
+<figure class="fig"><img alt="원본 p.233" loading="lazy" src="assets/SA01fig/p233.jpg"/><figcaption>📄 원본 슬라이드 p.233</figcaption></figure>
+</section>
+<section class="section" id="sa01-t80">
+<h2>5. 블루투스 링크 방식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.234-235)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.234 표: 블루투스 링크 방식</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>SCO link</td><td>• 동기식 연결 지향형 링크(synchronized connection oriented link) • 예약된 타임 슬롯(slot)을 통해 데이터 전송(625μs 간격으로 동기화) • Master/Slave 사이의 포인트-투-포인트(Point-To-Point)<br/>연결 • 패킷 재전송(retransmission)<br/>수행 안 함(비신뢰성 통신) • 음성 전송 채널에 주로 사용</td></tr>
+<tr><td>ACL link</td><td>• 비동기식 연결 지향형 링크(asynchronous connectionless link) • 예정된 타임 슬롯이 없음(비동기적 통신) • 포인트-투-멀티포인트(Point-To-Multi point)<br/>연결 가능(하나의 Master/Slave 간 ACL 링크는 반드시 한 개만 존재) • 패킷 재전송(retransmission)을 수행(신뢰성 통신) • 주로 데이터 통신에 이용</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.235: 블루투스 4.0 특징</p>
+<ul><li>블루투스 h2.x+EDR(Enhanced Data Rate), 블루투스 h3.0+HS(High Speed) 등과 호환 구분 내용 저전력 블루투스(Low Energy)</li><li>전력소모를 최소화, 배터리 수명 연장 클래식 블루투스(Classic Bluetooth)</li><li>1.0부터 2.1로 이어져온 기존 블루투스 기술 하이스피드 블루투스(High Speed)</li><li>와이파이를 활용한 HS 고속 전송 기술</li><li>3가지 모드</li><li>싱글모드와 듀얼모드 분리 구분 내용 싱글모드</li><li>비콘, 센서 등과 같은 독립형 제품에 사용 듀얼모드</li><li>기존 블루투스와 저에너지 기술이 적용, 주로 휴대폰에 사용</li><li>스코프 커버리지(Scope of Coverage) : 건물 등 장애물에 따라 일정 범위에서만 사용 가능(10~100)</li><li>자동 주파수 호핑(Frequency Hopping) : 하위버전 식별, 고속 주파수 호핑</li><li>서스펜드(Suspend) : 전송을 수신하기 전까지 저전력을 위해 휴면 모드</li><li>안정성 : AES 128비트, CCM 암호화 알고리즘 적용으로 보안기능 강화</li></ul>
+</section>
+<section class="section" id="sa01-t81">
+<h2>7. 블루투스 버전별 비교 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.236-251)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.236 표: 블루투스 버전별 비교</p>
+<table>
+<tr><th>구분</th><th>블루투스 1.0</th><th>블루투스 2.0</th><th>블루투스 3.0</th><th>블루투스 4.0</th></tr>
+<tr><td>개발시기</td><td>• 1998</td><td>• 2001</td><td>• 2009</td><td>• 2010</td></tr>
+<tr><td>전송속도</td><td>• 500kbps</td><td>• 1~3Mbps</td><td>• 1~3Mbps(최대 24Mbps)</td><td>• 1Mbps</td></tr>
+<tr><td>전력소모</td><td>• 많음</td><td>• 적음</td><td>• 많음</td><td>• 매우적음</td></tr>
+<tr><td>보안</td><td>낮다 높다</td><td></td><td></td><td></td></tr>
+<tr><td>제품</td><td>• 핸드폰, 핸즈프리</td><td>• 헤드셋, 마우스</td><td>• PMP, UMPC</td><td>• 건강, 가전, 비콘, 임베디드 등</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Baseband</td><td>• 물리채널을 정의, Hopping, Link 설정</td></tr>
+<tr><td>Link Manager Protocol</td><td>• 베이스밴드의 H/W를 직접 제어하는 펌웨어 레벨의 SW 호스트에 존재하는 프로토콜</td></tr>
+<tr><td>HCI(호스트 컨트롤러 인터페이스)</td><td>• 호스트와 호스트 컨트롤러 사이에 명령어/수행결과 및 데이터를 전달</td></tr>
+<tr><td>L2CAP(Logical Link Control and Adaptation Protocol)</td><td>• 프로토콜 멀티플렉싱, SAR(Segmentation and Reassembly) • QoS, Group 관리</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>SCO link</td><td>• 동기식 연결 지향형 링크(synchronized connection oriented link) • 예약된 타임 슬롯(slot)을 통해 데이터 전송(625μs 간격으로 동기화) • Master/Slave 사이의 포인트-투-포인트(Point-To-Point)<br/>연결 • 패킷 재전송(retransmission)<br/>수행 안 함(비신뢰성 통신) • 음성 전송 채널에 주로 사용</td></tr>
+<tr><td>ACL link</td><td>• 비동기식 연결 지향형 링크(asynchronous connectionless link) • 예정된 타임 슬롯이 없음(비동기적 통신) • 포인트-투-멀티포인트(Point-To-Multi point)<br/>연결 가능(하나의 Master/Slave 간 ACL 링크는 반드시 한 개만 존재) • 패킷 재전송(retransmission)을 수행(신뢰성 통신) • 주로 데이터 통신에 이용</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.241 표: WLAN(Wireless Local Area Network)</p>
+<table>
+<tr><th>구분</th><th>전송방식</th><th>스펙트럼</th><th>최대전송속도</th><th>비고</th></tr>
+<tr><td>802.11a</td><td>OFDM</td><td>5GHz</td><td>54Mbps</td><td> 802.11b보다 가격 높음  2.4GHz 주파수 대역과 호환 안됨</td></tr>
+<tr><td>802.11b</td><td>DSSS</td><td>2.4GHz</td><td>11Mbps</td><td> QoS와 멀티미디어 지원에 있어서 단점</td></tr>
+<tr><td>802.11g</td><td>DSSS, OFDM</td><td>2.4GHz</td><td>54Mbps</td><td> 보안, 주파수 간섭 QoS 문제</td></tr>
+<tr><td>802.11n</td><td>OFDM</td><td>2.4GHz, 5GHZ</td><td>100Mbps</td><td> 전송속도를 높이기 위해 다중 안테나를 사용하는 MIMO(Multi Input Multi Output)<br/>기술을 기반으로 함</td></tr>
+<tr><td>802.11ac</td><td>ODFM</td><td>5GHz</td><td>1Gbps 이상</td><td> Very High Throughput</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.242 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>포인트 조정함수 (PCF, Point Coordination Function)</td><td>• CSMA/CA(Carrier Sense Multiple Access with Collision Avoidance)<br/>기반의 중앙집중형 폴링기법을 통해 조정 수행 • 선택적으로 RTS/CTS를 사용하여 Station간 매체공유 • 분산조정함수(DCF)보다 높은 우선순위</td></tr>
+<tr><td>분산 조정함수 (DCF, Distributed Coordination Function)</td><td>• 인프라스트럭처(infrastructure)<br/>모드에서만 사용 가능 • 충돌을 방지하기 위해 DIFS(Distributed Inter-Frame Space)<br/>감지 후 랜덤한 Back-off 시간을 할당하여 강제로 전송지연</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>전송방식</th><th>스펙트럼</th><th>최대전송속도</th><th>비고</th></tr>
+<tr><td>802.11a</td><td>OFDM</td><td>5GHz</td><td>54Mbps</td><td>• 802.11b보다 가격 높음 • 2.4GHz 주파수 대역과 호환 안됨</td></tr>
+<tr><td>802.11b</td><td>DSSS</td><td>2.4GHz</td><td>11Mbps</td><td>• QoS와 멀티미디어 지원에 있어서 단점</td></tr>
+<tr><td>802.11g</td><td>DSSS, OFDM</td><td>2.4GHz</td><td>54Mbps</td><td>• 보안, 주파수 간섭 QoS 문제</td></tr>
+<tr><td>802.11n</td><td>OFDM</td><td>2.4GHz, 5GHZ</td><td>100Mbps</td><td>• 전송속도를 높이기 위해 다중 안테나를 사용하는 MIMO(Multi Input Multi Output)<br/>기술을 기반으로 함</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>포인트 조정함수 (PCF, Point Coordination Function)</td><td>• CSMA/CA(Carrier Sense Multiple Access with Collision Avoidance)<br/>기반의 중앙집중형 폴링기법을 통해 조정 수행 • 선택적으로 RTS/CTS를 사용하여 Station간 매체공유 • 분산조정함수(DCF)보다 높은 우선순위</td></tr>
+<tr><td>분산 조정함수 (DCF, Distributed Coordination Function)</td><td>• 인프라스트럭처(infrastructure)<br/>모드에서만 사용 가능 • 충돌을 방지하기 위해 DIFS(Distributed Inter-Frame Space)<br/>감지 후 랜덤한 Back-off 시간을 할당하여 강제로 전송지연</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.247" loading="lazy" src="assets/SA01fig/p247.jpg"/><figcaption>📄 원본 슬라이드 p.247</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.248 표: BAM</p>
+<table>
+<tr><th>RFID Tag 구분</th><th></th><th>주요특징 및 적용분야</th></tr>
+<tr><td>R/W 유무에 따른 분류</td><td>Read Only</td><td>• 제조시 제조사에서 프로그래밍 된 tag • 정보내용은 변경 불가 • 가격이 저렴하고 wirte 과정이 필요없는 공정에 활용</td></tr>
+<tr><td></td><td>OTP (One Time Programming)</td><td>• WORM(Write Only Read Many) • 사용자가 데이터를 1회 Write 가능</td></tr>
+<tr><td></td><td>Read/Write</td><td>• End-user 누구나 write 기능을 이용할 수 있음 • 가장 다양한 응용분야에서 적용이 가능한 Tag</td></tr>
+<tr><td>전원 공급에 따른 분류</td><td>Passive</td><td>• 배터리가 없으며, 보통 수 cm ~ 수 m 인식범위 내 사용 • 가격이 저렴하고 반영구적 수명(약 10년 이상) • 물류관리, 교통, 보안, 전자상거래 등에 적용 가능</td></tr>
+<tr><td></td><td>Active</td><td>• Tag에 배터리가 부착되어 수십 m 인식범위 내 사용 • 고가이며 배터리 수명제한(1~3년) • 환경감시, 군수, 의료, 과학 등에 적용 가능</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.249 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>EPC</td><td>• Electronic Product Code • EPC Network에서 기본이 되는 코드체계 • 오브젝트가 생산되거나 이미 존재하는 오브젝트들에게 주어지는 일련번호</td></tr>
+<tr><td>RFID Reader</td><td>• 무선으로 오브젝트에 붙어 있는 태그의 정보를 읽고 이를 Savant에서 인식할 수 있는 데이터 형식으로 변경</td></tr>
+<tr><td>ONS Server</td><td>• PML Server의 위치정보를 SAVANT에게 리턴 해주는 역할</td></tr>
+<tr><td>PML Server</td><td>• Product에 대한 정보와 Product 관련 기타 정보 등을 XML 형태로 저장</td></tr>
+<tr><td>SAVANT</td><td>• EPC Network에서 모든 구성요소와 연결되어 원활한 데이터 이동과 Auto-ID에서 일어나는 이벤트 처리</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>상호 유도 방식 (Inductively coupled)</td><td>• 코일 안테나를 이용하여 태그의 IC칩을 동작시키기 위한 전력을 리더기로부터 공급되는 수동형, 근거리(1m 이내)<br/>사용</td></tr>
+<tr><td>전자기파 방식 (Electromagnetic wave)</td><td>• 고주파 안테나를 이용해서 서로 무선접속을 하며, IC칩을 구동하기 위한 충분한 전력을 리더기로부터 공급을 받지 못하므로 장거리 인식을 위한 추가적인 전지 내장한 능동형으로 주로 구현, 중장거리(3~10m)<br/>사용</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>상호 유도 방식</td><td>• Inductively coupled 방식 • 코일 안테나를 이용하여 태그의 IC칩을 동작시키기 위한 전력을 리더기로부터 공급되는 수동형, 근거리(1m 이내)<br/>사용</td></tr>
+<tr><td>전자기파 방식</td><td>• Electromagnetic Wave 방식 • 고주파 안테나를 이용해서 서로 무선접속을 하며, IC칩을 구동하기 위한 충분한 전력을 리더기로부터 공급을 받지 못하므로 장거리 인식을 위한 추가적인 전지 내장한 능동형으로 주로 구현, 중장거리(3~10m)<br/>사용</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t82">
+<h2>1. NFC(Near Field Communication)의 정의 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.252-259)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.252 표: NFC(Near Field Communication)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>표준</td><td>• ISO/IEC 18092(NFC)</td></tr>
+<tr><td>주파수 대역</td><td>• 13.56MHz</td></tr>
+<tr><td>인식거리</td><td>• 약 10~20cm 이내</td></tr>
+<tr><td>전송속도</td><td>• 422kbps ~ 1Mbps</td></tr>
+<tr><td>동작모드</td><td>• 능동 및 수동</td></tr>
+<tr><td>비고</td><td>• 리더와 리더 간의 통신 지원, NFC 장치들 변조방식과 코딩, 전송속도 RF 인터페이스의 프레임 포맷, 초기화시의 데이터 충돌 제어를 위한 초기화 방식 및 조건 명시</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.253: BAM</p>
+<p>모드 내용 카드모드</p><ul><li>비접촉식 스마트카드 기술 및 보안으로 교통카드와 할인쿠폰 등 다양한 모바일 결제 방식 제공 RFID 리더 모드</li><li>단말 기기 뿐만 아니라 RFID 태그가 부착되어 있는 스마트포스터 등을 이용한 웹 사이트 연결 및 정보 획득 P2P 모드</li><li>스마트폰과 PC 및 가전제품 기기 간 데이터 송수신 및 파일 공유</li></ul><p>3. NFC 동작모드</p><p>4. NFC 활용분야</p><ul><li>비접촉 근거리 무선 통신 기술임에도 불구하고, 암호화 기술이 적용되어 무선 통신 중에도 정보가 외부로 유출되지 않기 때문에 역/공항, 차량, 사무실, 가게/레스토랑, 극장/경기장 등 다양한 부문에서 활용 가능</li><li>기술발달로 NFC기반 인프라 구축 및 탑재 비용이 하락함에 따라 NFC 기능이 스마트폰에 기본으로 탑재되어 애플리케이션을 이용한 다양한 활용성 증가</li></ul>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.254 표: BAM</p>
+<table>
+<tr><th>구분</th><th>저주파</th><th>고주파</th><th>극초단파(UHF)</th><th></th><th>마이크로파</th></tr>
+<tr><td></td><td>125, 134KHz</td><td>13.56MHz</td><td>433.92MHz</td><td>860~960MHz</td><td>2.45GHz</td></tr>
+<tr><td>인식거리</td><td>&lt; 60cm</td><td>약 60cm</td><td>약 50~100m</td><td>약 3~10m(수동)</td><td>약 1m(수동)</td></tr>
+<tr><td>일반특성</td><td>• 비교적 고가 • 환경에 의한 성능저하 거의 없음</td><td>• 저주파 보다 저가 • 짧은 인식거리, 다중 태그 인식에 적합</td><td>• 긴 인식거리 • 실시간 추적 및 컨테이너 내부 습도, 충격 등 환경 센싱</td><td>• 가장 저가 생산 • 다중 태그 인식거리와 성능이 가장 뛰어남</td><td>• 900MHz 대역 태그와 유사한 특성 • 환경에 대한 영향을 가장 많이 받음</td></tr>
+<tr><td>동작방식</td><td>• 수동형</td><td>• 수동형</td><td>• 능동형</td><td>• 능동/수동형</td><td>• 능동/수동형</td></tr>
+<tr><td>적용분야</td><td>• 공장 자동화 • 출입통제/보안 • 차량잠금장치</td><td>• 수화물관리 • 출입통제/보안 • NFC • 교통카드(수동 형)</td><td>• 항만 컨테이너 관리 • 실시간 위치 추적</td><td>• 공급망 관리 • 자동 통행료 징수(하이패스) • 능동형</td><td>• 신분증 위조 방지 • 여권, ID 카드 • 위치추적</td></tr>
+<tr><td>표준</td><td>• ISO 18000-2</td><td>• ISO 18000-3</td><td>• ISO 18000-7</td><td>• ISO 18000-6</td><td>• ISO 18000-4</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.256 표: NFC 통신기술 표준</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>표준</td><td>ISO/IEC 18092(NFC)</td></tr>
+<tr><td>주파수 대역</td><td>13.56MHz</td></tr>
+<tr><td>인식거리</td><td>약 10~20cm 이내</td></tr>
+<tr><td>전송속도</td><td>422kbps ~ 1Mbps</td></tr>
+<tr><td>동작모드</td><td>능동 및 수동</td></tr>
+<tr><td>비고</td><td>리더와 리더 간의 통신을 지원하며, NFC 장치들의 변조방식과 코딩, 전송속도, RF 인터페이스의 프레임 포맷, 초기화 시의 데이터 충돌 제어를 위한 초기화 방식 및 조건을 명시</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.257" loading="lazy" src="assets/SA01fig/p257.jpg"/><figcaption>📄 원본 슬라이드 p.257</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.258 표: LTE(Long Term Evolution)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>주파수 기술</td><td>• 4세대 이동통신이 사용하게 될 주파수를 효율적으로 송수신 할 수 있는 기술 • 직교 주파수 다중 분할(OFDM)<br/>기술, 다중 입출력(MIMO)<br/>기술, 소프트웨어 기반 이동통신(SDR)<br/>기술, 스마트 안테나(SR)<br/>기술 등</td></tr>
+<tr><td>액세스 네트워크</td><td>• 사용자들이 4세대 이동통신 네트워크에 접속할 수 있는 기술 • 셀 중심의 매시 네트워크, 애드 혹 네트워크 기술</td></tr>
+<tr><td>코어 네트워크</td><td>• 4세대 이동통신의 핵심, All-IP 네트워크</td></tr>
+<tr><td>어플리케이션</td><td>• 4세대 이동통신 단말기를 통해 유비쿼터스 브로드 밴드 서비스를 이용</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.259 표: 구분</p>
+<table>
+<tr><th>구분</th><th>구성요소</th><th>내용</th></tr>
+<tr><td>EPC</td><td>• S-GW (Serving Gateway)</td><td>• 사용자의 업/다운 링크 데이터 전송</td></tr>
+<tr><td></td><td>• P-GW (Packet Gateway)</td><td>• S-GW와 연동되어 패킷 데이터를 처리</td></tr>
+<tr><td></td><td>• MME (Mobility Management Entity)</td><td>• 이동성 관리 및 시그널링 처리</td></tr>
+<tr><td>eNode B</td><td>• DU (Digital Unit)</td><td>• 베이스밴드 신호처리 장치</td></tr>
+<tr><td></td><td>• RU (RF Unit)</td><td>• RF 신호처리 장치</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t83">
+<h2>3. LTE 기술표준의 진화 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.260-276)</span></h2>
+<figure class="fig"><img alt="원본 p.260" loading="lazy" src="assets/SA01fig/p260.jpg"/><figcaption>📄 원본 슬라이드 p.260</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.261 표: LTE-A(Long Term Evolution-Advanced)의 핵심기술</p>
+<table>
+<tr><th>핵심기술</th><th>내용</th></tr>
+<tr><td>무선접속기술</td><td>• 다운링크 : OFDMA(Orthogonal Frequency Division Multiple Access) • 업링크 : SC(Single Carrier)-FDMA</td></tr>
+<tr><td>eICIC</td><td>• Enhanced Inter-Cell Interference Coordination • 전송시간 구간의 일부를 매크로셀이 전송하지 않게 설정하고, 이 구간에서 피코셀들에서 데이터 전송을 수행하여 성능을 개선시킨 기법</td></tr>
+<tr><td>CA</td><td>• Carrier Aggregation • 서로 다른 주파수 대역을 하나의 주파수 대역처럼 묶어 광대역 효과를 만들어주는 기술</td></tr>
+<tr><td>MIMO</td><td>• Multiple-Input Multiple-Output • 다중의 입출력이 가능한 안테나 시스템</td></tr>
+<tr><td>CoMP</td><td>• Coordinated Multi-Point • 이동통신망에서 셀(cell)의 경계에 있는 단말기의 전송품질을 향상시키기 위해 관련 기지국이 협력하여 통신하는 기술</td></tr>
+<tr><td>릴레이 기술 (Relay)</td><td>• 커버리지 확장을 위해 릴레이 노드(RN)<br/>사용</td></tr>
+</table>
+<table>
+<tr><th>LTE-Adv 요소 기술</th><th>LTE 요소 기술</th></tr>
+<tr><td>반송파 집성(Carrier Aggregation)</td><td>Multi Carrier</td></tr>
+<tr><td>8x8 MIMO 멀티 안테나 전송 기술 (DL MIMO, UL MIMO)</td><td>2X2 MIMO 사용</td></tr>
+<tr><td>협력형 다중 전송기술(CoMP : Coorperative Multipoints Tx/Rx)</td><td>Inter-Cell Interference Coordination(ICIC)<br/>인접한 기지국 각 X2 I/F를 통해 셀들의 간섭 정보 교환</td></tr>
+<tr><td>릴레이 기술(Relay) : 커버리지 확장을 위한 릴레이 노드(RN)<br/>사용</td><td></td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.266" loading="lazy" src="assets/SA01fig/p266.jpg"/><figcaption>📄 원본 슬라이드 p.266</figcaption></figure>
+<figure class="fig"><img alt="원본 p.267" loading="lazy" src="assets/SA01fig/p267.jpg"/><figcaption>📄 원본 슬라이드 p.267</figcaption></figure>
+<figure class="fig"><img alt="원본 p.268" loading="lazy" src="assets/SA01fig/p268.jpg"/><figcaption>📄 원본 슬라이드 p.268</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.269 표: 사물 인터넷 참조모델 계층별 기능(TTAK.KO-06.0346)</p>
+<table>
+<tr><th>계층</th><th>내용</th></tr>
+<tr><td>응용계층</td><td>• 사물 인터넷 응용</td></tr>
+<tr><td>서비스 지원 및 응용 지원 계층</td><td>• 공통 지원 기능 • 특정 응용 지원 기능</td></tr>
+<tr><td>네트워크 계층</td><td>• 네트워킹 기능 : 자원제어, 이동성 관리, AAA(Authentication, Authorization, Accounting)<br/>등 네트워크 연결을 위한 제어기능 • 전송 기능 : 데이터, 제어 및 관리 정보 전송</td></tr>
+<tr><td>디바이스 계층</td><td>• 디바이스 계층 기능은 논리적으로 디바이스 기능과 게이트웨이 기능 2개의 기능으로 구분됨 • 디바이스 기능 : 직접/간접 통신, 애드혹, 슬랩 앤 웨이크업 • 게이트웨이 기능 : 인터페이스 지원, 프로토콜 변환</td></tr>
+</table>
+<table>
+<tr><th>계층</th><th>내용</th></tr>
+<tr><td>응용계층</td><td>• 사물 인터넷 응용</td></tr>
+<tr><td>서비스 지원 및 응용 지원 계층</td><td>• 공통 지원 기능 • 특정 응용 지원 기능</td></tr>
+<tr><td>네트워크 계층</td><td>• 네트워킹 기능 : 자원제어, 이동성 관리, AAA(Authentication, Authorization, Accounting)<br/>등 네트워크 연결을 위한 제어기능 • 전송 기능 : 데이터, 제어 및 관리 정보 전송</td></tr>
+<tr><td>디바이스 계층</td><td>• 디바이스 계층 기능은 논리적으로 디바이스 기능과 게이트웨이 기능 2개의 기능으로 구분됨 • 디바이스 기능 : 직접/간접 통신, 애드혹, 슬랩 앤 웨이크업 • 게이트웨이 기능 : 인터페이스 지원, 프로토콜 변환</td></tr>
+</table>
+<table>
+<tr><th>계층</th><th>내용</th></tr>
+<tr><td>응용계층</td><td>• 사물 인터넷 응용</td></tr>
+<tr><td>서비스 지원 및 응용 지원 계층</td><td>• 공통 지원 기능 • 특정 응용 지원 기능</td></tr>
+<tr><td>네트워크 계층</td><td>• 네트워킹 기능 : 자원제어, 이동성 관리, AAA(Authentication, Authorization, Accounting)<br/>등 네트워크 연결을 위한 제어기능 • 전송 기능 : 데이터, 제어 및 관리 정보 전송</td></tr>
+<tr><td>디바이스 계층</td><td>• 디바이스 계층 기능은 논리적으로 디바이스 기능과 게이트웨이 기능 2개의 기능으로 구분됨 • 디바이스 기능 : 직접/간접 통신, 애드혹, 슬랩 앤 웨이크업 • 게이트웨이 기능 : 인터페이스 지원, 프로토콜 변환</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.275" loading="lazy" src="assets/SA01fig/p275.jpg"/><figcaption>📄 원본 슬라이드 p.275</figcaption></figure>
+<figure class="fig"><img alt="원본 p.276" loading="lazy" src="assets/SA01fig/p276.jpg"/><figcaption>📄 원본 슬라이드 p.276</figcaption></figure>
+</section>
+<section class="section" id="sa01-t84">
+<h2>3. 홈네트워크 요소기술 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.277-281)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.277 표: BAM</p>
+<table>
+<tr><th>구분</th><th>요소기술</th><th>주요내용</th></tr>
+<tr><td>유선 통신</td><td>홈PNA</td><td>• 가정에 설치된 전화선을 이용해 적은 추가 비용으로 가정 내 정보통신 장비들을 하나의 네트워크에 연결하는 기술</td></tr>
+<tr><td></td><td>PLC</td><td>• 가정이나 사무실에 설치된 전력선으로 수십 MHz 이상의 고주파 통신신호를 고속으로 통신하는 것</td></tr>
+<tr><td></td><td>IEEE 1394</td><td>• 통신기기와 컴퓨터, 가전 제품을 단일 네트워크로 연결, 멀티미디어 데이터를 100Mbps부터 1Gbps까지 고속으로 주고 받을 수 있는 프로토콜</td></tr>
+<tr><td>무선 통신</td><td>Home RF</td><td>• 2.4GHz 대역으로 50m 거리 내에 있는 최대 127개까지의 기기간 연결을 가능하게 하며, 전송속도는 1~2Mbps이나 접속기기 수에 따라 감소</td></tr>
+<tr><td></td><td>Bluetooth</td><td>• 기존의 데이터 망과 주변 장치들 간의 인터페이스, 고정된 네트워크 하부구조로부터 멀리 떨어진 장치들 간의 근거리 무선통신 규격</td></tr>
+<tr><td></td><td>UWB</td><td>• 고용량 데이터 전송, 높은 전력 소모량</td></tr>
+<tr><td></td><td>IEEE 802.11</td><td>• IEEE 802.11b/g/a/n/ac 등의 무선랜</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.278 표: 홈네트워크 미들웨어(Home Network Middleware)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>UPnP (Universal Plug and Play)</td><td>• 기존 PC에서 디바이스를 제어하던 Plug and Play 개념을 확장하여 사용자에게 어떤 작업도 요구하지 않고 기기를 네트워크에 접속가능하게 함</td></tr>
+<tr><td>Jini</td><td>• 선 마이크로시스템사에서 개발한 미들웨어로서 Java를 기반으로 하며, JVM(Java Virtual Machine)<br/>위에서 동작하기 때문에 운영체제나 기타 하드웨어 플랫폼에 무관함</td></tr>
+<tr><td>HAVi(Home Audio Video interoperability)</td><td>• UPnP나 Jini와 달리 HAVi는 가전회사에서 시작된 홈 네트워크용 미들웨어로 HAVi의 특징은 우선 하부 네트워크 모듈이 IEEE 1394로 제한됨</td></tr>
+<tr><td>OSGi(Open Service Gateway Iniative)</td><td>• OSGi 단체의 역할은 미들웨어와 응용 프로그램 간의 API를 정의를 목적으로 함 • 여러 가지 미들웨어와 응용 프로그램을 분리하는 역할 담당</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.279 표: 구분</p>
+<table>
+<tr><th>구분</th><th>Home PNA</th><th>IEEE 1394</th><th>PLC</th><th>Ethernet</th></tr>
+<tr><td>표준</td><td>V1/V2/V3</td><td>1394a/1394b</td><td>지역별</td><td>IEEE 802.3</td></tr>
+<tr><td>속도</td><td>1/10/100Mbps</td><td>400Mbps/3.2Gbps</td><td>1/100Mbps</td><td>10/100Mbps</td></tr>
+<tr><td>전송거리</td><td>150m</td><td>4.5m/100m</td><td>100m</td><td>100m</td></tr>
+<tr><td>노드수</td><td>25개</td><td>63개</td><td>256개</td><td>1,024개</td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>HomeRF</th><th>WLAN</th><th>Bluetooth</th><th>UWB</th><th>Zigbee</th></tr>
+<tr><td>표준</td><td>V</td><td>IEEE 802.11a/b/g/n/ac</td><td>IEEE 802.15.1</td><td>IEEE 802.15.3a</td><td>IEEE 802.15.4</td></tr>
+<tr><td>주파수대역</td><td>2.4GHz</td><td>5.2GHz, 2.4GHz</td><td>2.4GHz</td><td>3.1~10.6GHz</td><td>2.4GHz</td></tr>
+<tr><td>전송속도</td><td>12Mbps</td><td>54/11/300Mbps</td><td>24Mbps (v3.0 기준)</td><td>480Mbps</td><td>250kbps</td></tr>
+<tr><td>전송거리</td><td>50m</td><td>50/100m</td><td>100m</td><td>10m</td><td>50m</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.280" loading="lazy" src="assets/SA01fig/p280.jpg"/><figcaption>📄 원본 슬라이드 p.280</figcaption></figure>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.281 표: BAM</p>
+<table>
+<tr><th>구분</th><th>ACAP</th><th>DVB-MHP</th><th>OCAP</th></tr>
+<tr><td>표준화 단체</td><td>ATSC</td><td>DVB</td><td>Cablelabs</td></tr>
+<tr><td>지원가능 네트워크</td><td>지상파(위성, 케이블)</td><td>위성(지상파, 케이블)</td><td>케이블</td></tr>
+<tr><td>기술기반</td><td>Java TV, GEM, Havi</td><td></td><td></td></tr>
+</table>
+<table>
+<tr><th>구분</th><th>CAS</th><th>DRM</th></tr>
+<tr><td>개요</td><td>• 인증된 사용자만이 사용할 수 있도록 통제</td><td>• 암호화 기술 이용, 디지털 콘텐츠와 불법 복제 및 유통 방지</td></tr>
+<tr><td>암호화 방식</td><td>• 다단계 키 또는 알고리즘</td><td>• 일반적으로 1개의 License key로 복호화</td></tr>
+<tr><td>장점</td><td>• 다양한 비즈니스 모델 수용 가능 • 하드웨어 및 소프트웨어 방식의 이중 암호화 적용으로 보안성 우수</td><td>• 컨텐츠 접근/배포 권한 제어 우수 • 솔루션 비용 저가</td></tr>
+<tr><td>단점</td><td>• 비용 고가 • 복합한 구조</td><td>• 소프트웨어 방식의 단일 암호화 적용으로 보안성 상대적 취약</td></tr>
+<tr><td>적용</td><td>• Cable, 위성, IPTV</td><td>• VOD 사업자</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t85">
+<h2>1. 위치정보 측위기술의 종류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.282-286)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.282: 위치정보 측정기술</p>
+<p>1. 위치정보 측위기술의 종류 • 위치정보 측위기술은 이동통신망의 기지국 셀 정보인 RF 전파환경 정보를 이용하여 소프트웨어적으로 위치를 계산하는 네트워크 기반 측위(network-signal based) 방식, 이동단말기 내에 장착된 GPS(Global Positioning System) 수신기를 이용한 위성신호 기반 측위(satellite-signal based) 방식, 유비쿼터스 측위방식, 혼합측위 방식으로 구분</p><p>2. 위치정보 측위기술 구분 내용 위성통신 이용</p><ul><li>삼각 측량(D-GPS, A-GSP) 이동통신 이용</li><li>삼각 측량(TOA, AOA, TDOA, Cell-ID) 무선통신 이용</li><li>IrDA, 초음파, RFID, UWB 유비쿼터스 측위</li><li>WiFi, Bluteooth, RFID, RTLS</li></ul>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>위치(Location)</td><td>• CPU, 파일, 입출력 장치, 프로그램, 데이터베이스 시스템 등의 하드웨어와 소프트웨어 자원이 어떤 컴퓨터에 있는지 알 필요가 없이 이용할 수 있음</td></tr>
+<tr><td>이동(Migration)</td><td>• 자원을 어떤 컴퓨터에서 다른 컴퓨터로 이동하더라도 그것을 의식하지 않고, 사용자가 그 자원을 이용할 수 있음</td></tr>
+<tr><td>중복(Replication)</td><td>• 동일한 자원이 다수의 컴퓨터에 존재하고 있더라도 사용자에게는 하나의 자원</td></tr>
+<tr><td>이기종(Heterogeneity)</td><td>• 분산 시스템이 다른 종류의 하드웨어와 소프트웨어로 구성되어 있더라도 사용자는 이들의 상이함을 의식하지 않고 이용할 수 있음</td></tr>
+<tr><td>장애(Failure)</td><td>• 분산시스템 내의 구성요소(하드웨어, 소프트웨어)가 장애를 일으켜도 시스템으로서의 서비스를 제공할 수 있음</td></tr>
+<tr><td>규모(Scale)</td><td>• 분산 시스템 내에 있는 구성요소를 추가하거나 제거하는 등의 규모 변화에 대해서도 사용자는 이것을 의식하지 않28고6 시스템을 이용할 수 있음</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t86">
+<h2>2. 분산시스템 투명성(계속) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.287)</span></h2>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.287 표: 분산시스템 투명성(계속)</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>병행(Concurrency)<br/>투명성</td><td>• 자원의 위치를 모르더라도 사용자들이 자원을 병행하여 처리 및 공유 • 다중의 사용자가 자동적으로 자원을 공유하고 사용자의 인식 없이도 병렬적으로 수행</td></tr>
+<tr><td>성능(Performance)<br/>투명성</td><td>• 여러 부하에 대해 성능을 증가시키기 위하여 시스템을 재구성 • 같은 프로그램을 수행 할 시 단일 기계에서 수행할 때 보다 성능 향상</td></tr>
+</table>
+</section>
+<section class="section" id="sa01-t87">
+<h2>3. 비동기 트랜잭션 처리(계속) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.288-293)</span></h2>
+<figure class="fig"><img alt="원본 p.288" loading="lazy" src="assets/SA01fig/p288.jpg"/><figcaption>📄 원본 슬라이드 p.288</figcaption></figure>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>위치(Location)</td><td>• CPU, 파일, 입출력 장치, 프로그램, 데이터베이스 시스템 등의 하드웨어와 소프트웨어 자원이 어떤 컴퓨터에 있는지 알 필요가 없이 이용할 수 있음</td></tr>
+<tr><td>이동(Migration)</td><td>• 자원을 어떤 컴퓨터에서 다른 컴퓨터로 이동하더라도 그것을 의식하지 않고, 사용자가 그 자원을 이용할 수 있음</td></tr>
+<tr><td>중복(Replication)</td><td>• 동일한 자원이 다수의 컴퓨터에 존재하고 있더라도 사용자에게는 하나의 자원</td></tr>
+<tr><td>장애(Failure)</td><td>• 분산시스템 내의 구성요소(하드웨어, 소프트웨어)가 장애를 일으켜도 시스템으로서의 서비스를 제공할 수 있음</td></tr>
+<tr><td>규모(Scale)</td><td>• 분산 시스템 내에 있는 구성요소를 추가하거나 제거하는 등의 규모 변화에 대해서도 사용자는 이것을 의식하지 않고 시스템을 이용할 수 있음</td></tr>
+<tr><td>병행(Concurrency)<br/>투명성</td><td>• 자원의 위치를 모르더라도 사용자들이 자원을 병행하여 처리 및 공유</td></tr>
+<tr><td>성능 투명성</td><td>• 같은 프로그램을 수행 할 시 단일 기계에서 수행할 때 보다 성능 향상</td></tr>
+</table>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.291: [감리 17번 79번]</p>
+<p>메시지 큐(Message Queue)를 이용한 비동기 패턴에 대한 설명으로 가장 적절한 것은? 메시지 큐를 사용하는 패턴 중에서 가장 일반적인 비동기 호출 패턴으로, 클라이언트가 호출한 후 큐 에 메시지가 제대로 들어갔으면 메시지의 처리 결과에 관계없이 응답을 기다리지 않고 바로 반환한다.</p><p>① Fire &amp; Forget 패턴</p><p>② Publish &amp; Subscribe 패턴</p><p>③ Routing 패턴</p><p>④ Call Back 패턴</p>
+<p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.292 표: BAM</p>
+<table>
+<tr><th>구분</th><th>내용</th></tr>
+<tr><td>Fire &amp; Forget</td><td>• 특정 프로세스를 호출한 경우 호출된 프로세스의 응답을 대기하지 않고 다음 작업을 처리하는 비동기 패턴</td></tr>
+<tr><td>Publish &amp; Subscribe</td><td>• 발행/구독자 모델. 데이터 생성자가 데이터를 발행하면 구독자 프로세스가 데이터를 읽어가는 패턴</td></tr>
+<tr><td>Routing</td><td>• 중앙집중화된 메시지 브로커를 사용하여 HUB &amp; SPOKE 방식의 메시지 분기 처리</td></tr>
+<tr><td>Call Back</td><td>• 특정 프로세스 호출 후 다음 작업을 수행하며, 호출된 프로세스가 완료시 호출한 프로세스에게 요청 전달</td></tr>
+</table>
+<figure class="fig"><img alt="원본 p.293" loading="lazy" src="assets/SA01fig/p293.jpg"/><figcaption>📄 원본 슬라이드 p.293</figcaption></figure>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 기출·예상문제 (20문항) — 원문 수록</h2>
+      <p>본 편(전송매체·무선통신·분산시스템)에 해당하는 원본 페이지 범위의 기출·예상문제를 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 아날로그 정보를 디지털 신호로 바꿔주는 부호화 방법으로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.207)</span></div><ol class="quiz-options"><li>PCM(Pulse Code Modulation)</li><li>FSK(Frequency Shift Keying)</li><li>PM(Phase Modulation)</li><li>NRZ(Non Return to Zero)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① PCM(Pulse Code Modulation)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 이더넷(Ethernet) 기술에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.212)</span></div><ol class="quiz-options"><li>기가비트 이더넷은 고속 이더넷(Fast Ethernet)과 호환된다.</li><li>기가비트 이더넷은 전이중 모드로 동작한다.</li><li>10기가비트 이더넷은 10Mbps 이더넷과 호환되지 않는다.</li><li>10기가비트 이더넷의 링크 길이는 보통 300m에서 40km 거리를 커버하기도 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 10기가비트 이더넷은 10Mbps 이더넷과 호환되지 않는다. 고속의 이더넷은 하위 호환이 가능하며, 더 적은 대역폭 기준으로 데이터 전송이 이루어진다. 구분 내용 LAN 서비스 표준 • IEEE 802.3 물리계층 • 신호와 배선 데이터 링크 • MAC(Media Access Control) 패킷과 프로토콜 정의 전송 대역폭 • Ethernet : 10Mbps, Fast Ethernet : 100Mbps, Gigabit Ethernet : 1Gbps, 10 Gigabit Ethernet : 10Gbps이며, 하위 호환이 가능하지만 10기가비트 이더넷은 10Mbps 이더넷과는 호환되지 않는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 가정 내에 설치된 전력선을 이용한 통신기술로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.214)</span></div><ol class="quiz-options"><li>HomePlug</li><li>CEBus</li><li>LonWorks</li><li>IEEE 1394</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ IEEE 1394 개인용 컴퓨터 및 디지털 오디오, 디지털 비디오용 시리얼 버스 인터페이스 표준 FireWire 혹은 애플사의 i-Link 등 구분 내용 HomePlug • 전력선 통신 참여 기업들이 Homeplug Powerline Alliance를 결성하여 기술 표준을 제정 • 4~20MHz 주파수, OFDM 변조방식, 전송율 10Mbps • HomePlug AV, HomePlug Green PHY 등의 표준을 제정했다. X-10은 가정 내 옥내전기 배선을 통해 설비 간 통신을 원격제어하기 위한 통신 프로토콜로 주로 건물 자동화에 활용되며, IEEE 1394는 전력선 통신 기술이 아니라 개인용 컴퓨터 및 디지털 오디오·비디오용 시리얼 버스 인터페이스 표준(FireWire)이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 다음 보기 중 각 호스트들 사이에 통신량이 적을 때 일반적으로 회선 이용률이 가장 높은 매체 접근 제어 방식으로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.217)</span></div><ol class="quiz-options"><li>Slotted ALOHA</li><li>FDMA(Frequency Division Multiple Access)</li><li>TDMA(Time Division Multiple Access)</li><li>CSMA/CD(Carrier Sense Multiple Access with Collision Detection)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ CSMA/CD(Carrier Sense Multiple Access with Collision Detection) 주파수나 시간을 분할하여 호스트 간 통신을 할 경우 공평하게 매체 리소스를 공유하므로, 사용량이 많을 경우에 효율적이지만, 통신량이 적을 경우에는 자원의 불필요한 대기가 발생하므로 이용률이 저하됨. 충돌을 감지하는 방식을 사용할 경우, 통신량이 적을 때는 충돌이 발생할 확률이 낮아지므로 회선 이용률이 높음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. SONET(Synchronous Optical Network)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.221)</span></div><ol class="quiz-options"><li>STS-1의 데이터 전송률은 103.68Mbps이다.</li><li>STS 다중화기(MUX)는 여러 개의 전기적인 신호를 광신호로 다중화한다..</li><li>STS-3의 전송률은 STS-1의 3배이다.</li><li>SONET 계층은 Photonic Layer, Section Layer, Line Layer, Path Layer로 이루어져 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① STS-1의 데이터 전송률은 103.68Mbps이다. OC 레벨 SONET 레벨 SDH 레벨 대역폭 OC-1 STS-1 - 51.84Mbps OC-3 STS-3 STM-1 155.52Mbps OC-9 STS-9 STM-3 466.56Mbps OC-12 STS-12 STM-4 622.08Mbps OC-18 STS-18 STM-6 933.15Mbps OC-24 STS-24 STM-8 1244.16Mbps로, STS-3의 전송률은 STS-1의 3배(155.52Mbps)이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 가상랜(VLAN, Virtual LAN)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.225)</span></div><ol class="quiz-options"><li>VLAN은 물리적 회선이 아닌 소프트웨어 의해 구성된다.</li><li>VLAN에서 그룹화하는 방법으로 포트주소, MAC 주소, IP주소, IP 멀티캐스트 주소 등을 사용할 수 있다.</li><li>VLAN 단점은 LAN보다 보안상 위험도가 높다는 것이다.</li><li>VLAN에서 스위치 간 통신방법으로는 테이블 유지, 프레임 태깅, 시분할 다중화 방식이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ VLAN 단점은 LAN보다 보안상 위험도가 높다는 것이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 블루투스의 L2CAP(Logical Link Control and Adaption Protocol)의 기능으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.237)</span></div><ol class="quiz-options"><li>다중화</li><li>분할 및 재조립</li><li>변조</li><li>서비스 품질</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 변조 구분 내용 Baseband • 물리채널을 정의, Hopping, Link 설정 Link Manager Protocol • 베이스밴드의 H/W를 직접 제어하는 펌웨어 레벨의 SW 호스트에 존재하는 프로토콜 HCI(호스트 컨트롤러 인터페이스) • 호스트와 호스트 컨트롤러 사이에 명령어/수행결과 및 데이터를 전달 L2CAP(Logical Link Control and Adaptation Protocol) • 프로토콜 멀티플렉싱, SAR(Segmentation and Reassembly), QoS 및 Group 관리 기능을 수행한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 블루투스(Bluetooth)는 짧은 거리에서 전화기, 노트북, 카메라 등 서로 다른 기능을 가진 장치를 연결하기 위해 설계된 무선 LAN 기술이다. 다음 중 블루투스에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.239)</span></div><ol class="quiz-options"><li>블루투스 네트워크의 하나인 피코넷(piconet)은 하나의 주국(primary)과 최대 7개의 종국(secondary)을 가질 수 있다.</li><li>ACL 링크에서 데이터를 교환하기 위해 L2CAP(Logical Link Control and Adaption Protocol)을 사용한다.</li><li>ACL(Asynchronous Connections) 링크는 실시간 오디오 전송과 같이 지연을 피하는 것이 무결성 보다 중요할 때 사용한다.</li><li>간섭을 피하기 위해 물리층에서 FHSS(Frequency-Hopping Spread Spectrum) 방식을 사용한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ ACL(Asynchronous Connections) 링크는 실시간 오디오 전송과 같이 지연을 피하는 것이 무결성 보다 중요할 때 사용한다. 블루투스 링크 방식 • 음성과 데이터가 혼합된 멀티미디어 어플리케이션을 지원하기 위해 물리링크가 정의됨 구분 내용 SCO link • 동기식 연결 지향형 링크(synchronized connection oriented link) • 예약된 타임 슬롯(slot)을 통해 데이터 전송(62</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. IEEE 802.11의 세부 표준기술 중 2.4GHz 주파수 대역을 사용하여 IEEE 802.11b와 호환이 되면서도 최고 전송속도가 54Mbps인 것은 (가) 표준이며, 2009년 표준이 완성된 (나) 표준은 2.4GHz와 5GHz 주파수 대역 모두에서 동작하며 대략 100Mbps 이상, 최고 600Mbps의 전송속도를 지원하여 다른 규격보다 승인 규격이 엄격하고 출력규제가 심하다. 다음 보기 중 (가)와 (나)에 들어갈 알맞은 국제표준 이름으로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.243)</span></div><ol class="quiz-options"><li>가. IEEE 802.11a, 나. IEEE 802.11g</li><li>가. IEEE 802.11a, 나. IEEE 802.11n</li><li>가. IEEE 802.11g, 나. IEEE 802.11n</li><li>가. IEEE 802.11g, 나. IEEE 802.11a</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 가. IEEE 802.11g, 나. IEEE 802.11n</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. IEEE 802.11 무선랜(Wireless LAN)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.245)</span></div><ol class="quiz-options"><li>포인트 조정함수(Point Coordination Function, PCF)는 매체 접근 방식으로 CSMA/CA(Carrier Sense Multiple Access/Collision Avoidance)를 사용한다.</li><li>분산 조정함수(Distributed Coordination Function, DCF)는 중앙집중적이고 충돌없는 폴링 접근방법이다.</li><li>IEEE 802.11n에서는 다중입출력안테나(Multiple-Input Multiple-Output antenna, MIMO) 기술을 사용해 잡음 문제를 해결하였다.</li><li>지국이 분산 조정함수(DCF)를 사용하고, AP(Access Point)가 포인트 조정함수(PCF)를 사용하는 경우 지국이 우선권을 갖는다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 지국이 분산 조정함수(DCF)를 사용하고, AP(Access Point)가 포인트 조정함수(PCF)를 사용하는 경우 지국이 우선권을 갖는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. RFID 시스템은 무선접속 방식에 따라 상호유도(Inductively) 방식과 전자기파(Electromagnetic Wave)으로 구분할 수 있다. 이에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.250)</span></div><ol class="quiz-options"><li>상호유도 방식은 전원 에너지 및 전송이 코일 루프 안테나 전류에 이해 형성되는 자계 에너지에 의해 전송된다.</li><li>상호유도 방식은 감지거리와 데이터 전송거리가 원거리이며, 데이터 전송 속도가 빠르다.</li><li>전자기파 방식은 무선 주파수 전파방식으로 전파통신, 레이더와 같은 전파원리를 적용한다.</li><li>전자기파 방식은 리더에서 전송되는 마이크전자계 신호를 태그가 반사하며, 반사된 신호를 리더가 수신한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 상호유도 방식은 감지거리와 데이터 전송거리가 원거리이며, 데이터 전송 속도가 빠르다. 구분 내용 상호 유도 방식 • Inductively coupled 방식 • 코일 안테나를 이용하여 태그의 IC칩을 동작시키기 위한 전력을 리더기로부터 공급되는 수동형, 근거리(1m 이내) 사용 전자기파 방식 • Electromagnetic Wave 방식 • 고주파 안테나를 이용해서 서로 무선접속을 하며, IC칩을 구동하기 위한 충분한 전력</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. NFC(Near Field Communication)에 대한 설명으로 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.255)</span></div><ol class="quiz-options"><li>다양한 모바일 기기에 포함되어 10cm 이내의 가까운 거리에서 비접촉 통신이 가능하다</li><li>13.56GHz 주파수 대역을 이용하는 RFID(Radio Frequency Identification)의 일종으로 최대 424kbps의 속도로 통신이 가능하다.</li><li>Card Emulation Mode, Peer-to-Peer, Reader/Writer Mode 등 3가지 동작모드를 갖는다.</li><li>능동통신모드(Active Communication Mode)와 수동통신모드(Passive Frequency Identification)를 지원한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 13.56MHz 주파수 대역을 이용하는 RFID(Radio Frequency Identification)의 일종으로 최대 424Kbps의 속도로 통신이 가능하다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. LTE(Long Term Evolution)보다 향상된 성능을 제공하기 위해 LTE-A(LTE-Advanced)가 채택하고 있는 기술과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.262)</span></div><ol class="quiz-options"><li>carrier aggregation</li><li>8X8 MIMO(Multi-Input Multi-Output)</li><li>CoMP(Coordinated Multipoint)</li><li>HR-DSSS(High Rate Direct Sequence Spread Spectrum)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ HR-DSSS(High Rate Direct Sequence Spread Spectrum)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. GPP Release 10을 기반으로 완성된 WCDMA 계열의 4세대 이동통신 규격인 LTE-A(Long Term Evolution-Advanced)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.264)</span></div><ol class="quiz-options"><li>무선접속 기술로 다운링크는 OFDMA(Orthogonal Frequency Division Multiple Access)를, 업링크는 SC(Single Carrier)-FDMA를 사용한다.</li><li>LTE-A의 핵심기술로는 CA, eICIC, MIMO(Multiple-Input Multiple-Output antenna), CoMP(Coordinated Multi-Point) 등이 있다.</li><li>eICIC(Enhanced Inter-Cell Interference Coordination)는 펌토셀 간의 간섭현상을 완화시키기 위한 기술이다.</li><li>CA(Carrier Aggregation)는 서로 다른 주파수 대역을 하나의 주파수 대역처럼 묶어 광대역 효과를 만들어주는 기술이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ eICIC(Enhanced Inter-Cell Interference Coordination)는 펌토셀 간의 간섭현상을 완화시키는 기술이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 정보통신기술협회(TTA)에서는 최근 이슈가 되고 있는 사물인터넷(Internet of Things, IoT)에 관한 표준(사물인터넷 정의 및 참조모델, TTAK.KO-06.0346)을 제정하였다. 본 표준에 따른 IoT 기술 내용 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.270)</span></div><ol class="quiz-options"><li>사물인터넷은 현존하거나 미래에 나타날 ICT(Information and Communication Technologies) 기술들을 기반으로 다양한 사물들을 연결하여 진보된 서비스를 제공하기 위한 글로벌 인프라로 정의할 수 있다.</li><li>사물인터넷에서 사물(thing)은 물리적인 사물(physical thing)과 가상의 사물(virtual thing)로 구분될 수 있으며, 가상의 사물에 대한 대표적인 예로 멀티미디어 콘텐츠 및 소프트웨어 등이 있다.</li><li>사물인터넷 참조모델에 존재하는 4가지 계층 중 이동성 관리 및 AAA(Authentication, Authorization and Accounting) 기능은 서비스 지원 및 응용지원 계층에 속하는 기능이다.</li><li>사물인터넷에서는 물리적인 사물간의 통신뿐만 아니라 정보 세계에 있는 가상의 사물 간의 통신과 물리적인 사물과 가상의 사물 간의 통신도 가능하다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 사물인터넷 참조모델에 속하는 4가지 계층 중 이동성 관리 및 AAA(Authentication, Authorization and Accounting) 기능은 서비스 지원 및 응용지원 계층에 속하는 기능이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. 정보통신기술협회(TTA)는 2013년 12월 “사물 인터넷(internet of things, IoT)에 관한 표준(사물 인터넷 정의 및 참조모델, TTAK.KO-06.0346)”을 제정하였다. 이 표준에 따른 사물 인터넷 참조모델의 계층(layer)들과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.272)</span></div><ol class="quiz-options"><li>응용계층</li><li>서비스 지원 및 응용 지원 계층</li><li>전송계층</li><li>네트워크계층</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 전송계층</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 객체 식별자(Object Identifier) 기반 사물인터넷 디바이스 식별체계(TTAK.KO-06.0365/R1)는 객체 식별자 기반 사물인터넷 디바이스 식별체계를 정의하고 있다. 다음 중 식별체계에 속하지 않는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.274)</span></div><ol class="quiz-options"><li>제조국가 식별 노드</li><li>제조사 식별 노드</li><li>모델 식별 노드</li><li>일련번호 식별 노드</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 제조국가</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. 위치정보 측위기술은 네트워크 기반 측위(network-signal based) 방식, 위성신호 기반 측위(satellite- signal based) 방식, 유비쿼터스 측위방식, 혼합측위 방식으로 구분할 수 있다. 이러한 측위방식에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.283)</span></div><ol class="quiz-options"><li>네트워크 기반 측위 방식은 특별한 장치를 추가로 사용하지 않으나, 무선통신망의 기지국 셀 크기와 측정 방식에 따라 위치정확도의 차이가 많다.</li><li>위성신호 기반 측위 방식은 네트워크 기반 방식에 비해 정확도가 높으나 실내에서 신호수신의 간섭을 받아 위치를 결정하지 못하는 문제가 발생한다.</li><li>유비쿼터스 측위에는 AOA(Angle of Arriva) 기반 위치측위, RF(Radio Frequency) 기반 위치측위, RTLS(Real Time Location System) 기반 위치측위 등의 방법이 있다.</li><li>A-GPS(Assisted GSP)는 혼합방식 위치측위 방식의 대표적인 형태로, 초기 인식시간을 기존의 GPS 방식보다 줄일 수 있다는 장점을 갖는다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 유비쿼터스 측위에는 AOA(Angle of Arriva) 기반 위치 측위, RF(Radio Frequency) 기반 위치측위, RTLS(Real Time Location System) 기반 위치 측위 등의 방법이 있다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 분선처리 시스템의 투명성(Transparency)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.289)</span></div><ol class="quiz-options"><li>위치 투명성(Location Transparency)은 데이터가 어느 위치에 있는지 몰라도 접근할 수 있다는 것</li><li>성능 투명성(Performance Transparency)은 부하가 변동하여 성능을 높이기 위한 재설정을 허용하는 것</li><li>동시수행 투명성(Concurrency Transparency)은 지역(Local) 또는 원격(Remote)에서 동일한 동작으로 접근 할 수 있다는 것</li><li>복사 투명성(Replication Transparency)은 사용자 또는 응용 프로그램이 복제 여부를 몰라도 시스템이 신뢰성 및 성능을 높이기 위하여 여러 개의 복제를 유지하도록 하는 것</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 동시수행 투명성(Concurrency Transparency)은 지역(Local) 또는 원격(Remote)에서 동일한 동작으로 접근 할 수 있다는 것 분산 시스템 투명성 구분 내용 위치(Location) • CPU, 파일, 입출력 장치, 프로그램, 데이터베이스 시스템 등의 하드웨어와 소프트웨어 자원이 어떤 컴퓨터에 있는지 알 필요가 없이 이용할 수 있음 이동(Migration) • 자원을 어떤 컴퓨터에서 다른 컴퓨터로 이동</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. 메시지 큐(Message Queue)를 이용한 비동기 패턴에 대한 설명으로 가장 적절한 것은?<br/><br/>메시지 큐를 사용하는 패턴 중에서 가장 일반적인 비동기 호출 패턴으로, 클라이언트가 호출한 후 큐 에 메시지가 제대로 들어갔으면 메시지의 처리 결과에 관계없이 응답을 기다리지 않고 바로 반환한다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.291)</span></div><ol class="quiz-options"><li>Fire &amp; Forget 패턴</li><li>Publish &amp; Subscribe 패턴</li><li>Routing 패턴</li><li>Call Back 패턴</li></ol><div class="quiz-explanation"><strong>정답</strong> ① Fire &amp; Forget 패턴 메시지 큐 패턴 구분 내용 Fire &amp; Forget • 특정 프로세스를 호출한 경우 호출된 프로세스의 응답을 대기하지 않고 다음 작업을 처리하는 비동기 패턴 Publish &amp; Subscribe • 발행/구독자 모델. 데이터 생성자가 데이터를 발행하면 구독자 프로세스가 데이터를 읽어가는 패턴 Routing • 중앙집중화된 메시지 브로커를 사용하여 HUB &amp; SPOKE 방식의 메시지 분기 처리를 수행하는 패턴이며, Call Back 패턴은 특정 프로세스 호출 후 다음 작업을 수행하다가 호출된 프로세스가 완료되면 호출한 프로세스에게 결과를 전달하는 패턴이다.</div></div>
+    </section>
+  </main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='\ud83d\udd0d';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

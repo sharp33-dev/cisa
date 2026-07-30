@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SA02] 시스템 구조 강의자료</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SA02] 시스템 구조 강의자료</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/120</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul>
+<li><a href="#sa02-s01">1. CRC</a></li>
+<li><a href="#sa02-s02">2. 해밍코드</a></li>
+<li><a href="#sa02-s03">3. ARQ</a></li>
+<li><a href="#sa02-s04">4. IPv6</a></li>
+<li><a href="#sa02-s05">5. ICMPv6</a></li>
+<li><a href="#sa02-s06">6. Subnetting/Supernetting/NAT</a></li>
+<li><a href="#sa02-s07">7. TCP/MPTCP/SCTP</a></li>
+<li><a href="#sa02-s08">8. 성능(TPS·실행시간·벤치마킹)</a></li>
+<li><a href="#sa02-s09">9. CPU 스케줄링</a></li>
+<li><a href="#sa02-s10">10. 실시간 스케줄링</a></li>
+<li><a href="#sa02-s11">11. TLB</a></li>
+<li><a href="#sa02-s12">12. 스레싱</a></li>
+<li><a href="#sa02-s13">13. 파이프라인 해저드</a></li>
+<li><a href="#sa02-s14">14. 상호배제</a></li>
+<li><a href="#sa02-s15">15. FTL</a></li>
+<li><a href="#sa02-s16">16. 분산원장(DLT)</a></li>
+<li><a href="#sa02-s17">17. 블록체인</a></li>
+<li><a href="#sa02-s18">18. 인공지능</a></li>
+<li><a href="#sa02-s19">19. 기계학습</a></li>
+<li><a href="#sa02-s20">20. 딥러닝</a></li>
+<li><a href="#sa02-s21">21. 5G</a></li>
+<li><a href="#sa02-s22">22. 컨테이너 가상화/도커</a></li>
+<li><a href="#sa02-s23">23. 빅데이터 분석 프로세스</a></li>
+<li><a href="#sa02-s24">24. VR/AR</a></li>
+<li><a href="#sa02-s25">25. LPWA</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (20)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+
+<section id="sa02-s01" class="section">
+  <h2>1. CRC(Cyclic Redundancy Check) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.4-6)</span></h2>
+  <p>CRC(Cyclic Redundancy Check)는 다항식 나눗셈(XOR 연산 기반)을 이용해 송신 측이 데이터에 잉여 비트를 붙여 전송하고 수신 측이 동일한 제수로 나누어 나머지가 0인지 확인함으로써 오류 유무를 검사하는 기법이다. 집단 오류(Burst Error) 검출에 가장 우수한 방식으로 꼽힌다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p004.jpg" alt="CRC 개념도. 송신측이 Data에 CRC를 붙여 코드워드를 전송하고, 수신측이 Divisor로 나누어 나머지(Remainder)가 0이면 accept, 0이 아니면 reject하는 3단계 절차"><figcaption>[그림] CRC 개념도 — 송신측 코드워드 생성(Data+CRC) → 전송 → 수신측 Divisor로 나눈 나머지 확인(Zero=accept, Nonzero=reject)</figcaption></figure>
+  <p>CRC 코드워드는 데이터 워드에 제수(divisor)의 비트수보다 1 작은 만큼의 0을 채운 뒤, 제수로 XOR 연산(모듈로-2 나눗셈)을 반복해 나머지(remainder)를 구하고, 이 나머지를 원래 데이터 워드 뒤에 붙여서 만든다. 예를 들어 데이터 워드가 "111111"이고 제수(divisor)가 "1010"이면, XOR 연산으로 몫(quotient) "110011"과 나머지(remainder) "110"을 구해 코드워드는 "111111 110"이 된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p006.jpg" alt="CRC 코드워드 계산 풀이 예시. 데이터 워드 111111, 제수 1010의 XOR 연산 과정을 단계별로 보여주며 전송 코드워드 111111110을 도출"><figcaption>[그림] CRC 코드워드 계산 풀이 예시 — 데이터워드 111111 ÷ 제수 1010의 XOR 연산 과정</figcaption></figure>
+</section>
+
+<section id="sa02-s02" class="section">
+  <h2>2. 해밍코드(Hamming Code) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.7-10)</span></h2>
+  <p>해밍코드는 1비트 오류를 정정할 수 있는 오류 정정 부호로, 2비트 오류가 발생하면 검출은 가능하나 정정은 어렵다는 한계가 있다. 데이터 비트 사이사이에 패리티 비트(Parity Bit)를 삽입하는데, 패리티 비트의 위치는 2<sup>p</sup> ≥ m+p+1 (m: 데이터 비트 수, p: 패리티 비트 수) 관계식을 만족하도록 정해지며 실제 위치는 2<sup>0</sup>, 2<sup>1</sup>, 2<sup>2</sup>, …번째 자리(1, 2, 4, 8…)에 배치된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p007.jpg" alt="해밍코드 패리티 비트 위치 계산식과 4비트 데이터 예시에서 P1 P2 Data1 P3 Data2 Data3 Data4 순서로 배치된 7비트 코드워드 표"><figcaption>[그림] 해밍코드 패리티 비트 위치 계산식 및 7비트 코드워드 구성(P1·P2·Data1·P3·Data2·Data3·Data4)</figcaption></figure>
+  <p>패리티 비트가 담당하는 검사 비트 그룹은 각자의 위치값을 2진수로 표현했을 때 해당 자릿수가 1인 데이터 비트들로 정해진다. 예를 들어 4비트 데이터에 3개의 패리티 비트(P1, P2, P3)가 붙는 7비트 코드워드에서, P1은 1·3·5·7번째 비트, P2는 2·3·6·7번째 비트, P3는 4·5·6·7번째 비트에 대해 짝수 패리티를 검사한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p008.jpg" alt="해밍코드 데이터 비트 4열 패리티 체크표. P1 P2 D1 P3 D2 D3 D4 각 위치와 P1 P2 P3가 검사하는 비트 조합을 v 체크마크로 표시"><figcaption>[그림] 데이터 비트 4열 패리티 체크표 — P1·P2·P3 각각이 검사하는 비트 조합</figcaption></figure>
+  <p>수신 측은 P1P2P3 형태로 검사 결과를 조합해 오류 비트의 위치를 바로 찾아낸다. 예를 들어 P1P2P3 = 010이면 2번째 비트에서 오류가 발생했다는 뜻이며, 000이면 오류가 없다는 뜻이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p009.jpg" alt="[18회 92번] 단일 오류 정정 해밍코드 워드에서 한 비트가 오류일 때 이를 올바르게 교정한 결과를 묻는 문제 슬라이드"><figcaption>[그림] 해밍코드 단일 오류 정정 기출문제(18회 92번)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p010.jpg" alt="해밍코드 오류 정정 풀이표. 데이터 비트 0000101에서 C1 C2 C4 짝수 패리티 체크 결과 P1P2P3=010으로 2번째 비트 오류를 확인, 정답 0100101 도출"><figcaption>[그림] 해밍코드 오류 정정 풀이 — C1(1,3,5,7)·C2(2,3,6,7)·C4(4,5,6,7) 체크로 오류 비트 위치 확정</figcaption></figure>
+</section>
+
+<section id="sa02-s03" class="section">
+  <h2>3. ARQ(Automatic Repeat request) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.11-16)</span></h2>
+  <p>ARQ는 데이터 수신 측이 오류 검출 후 오류 사실을 송신 측에 알리고 재전송을 요청하여 오류를 수정하는 네트워크 오류제어 기법으로, Stop-and-Wait ARQ·Go-back-N ARQ·Selective-Repeat ARQ·Hybrid ARQ·Adaptive ARQ 등이 있다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p011.jpg" alt="Stop-and-Wait ARQ 타임라인 다이어그램. 송신측이 프레임을 1개 전송하고 수신측의 ACK 또는 NAK를 기다리는 과정을 화살표로 표현, 프레임 손실/ACK 손실 시 재전송 Timeout 표시"><figcaption>[그림] Stop-and-Wait ARQ — 송신 측이 프레임 1개를 전송하고 ACK/NAK를 기다린 후 다음 프레임 전송</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p012.jpg" alt="Go-Back-N ARQ 타임라인. 여러 프레임을 연속 전송하다 NACK 수신 시 그 프레임부터 이후 모든 프레임을 재전송하는 과정"><figcaption>[그림] Go-Back-N ARQ — 오류가 발생한(NACK) 프레임 이후의 모든 프레임을 재전송</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p013.jpg" alt="Selective-Repeat ARQ 및 Adaptive/Hybrid ARQ 타임라인. 오류가 발생한 프레임만 재전송하는 SR ARQ와, 채널 효율을 위해 블록 길이를 동적으로 변경하는 Adaptive ARQ, FEC와 ARQ를 결합한 Hybrid ARQ 구조"><figcaption>[그림] Selective-Repeat ARQ(오류 프레임만 재전송) 및 Adaptive ARQ·Hybrid ARQ 구조</figcaption></figure>
+  <table>
+    <tr><th>구분</th><th>Go-Back-N(GBN)</th><th>Selective Repeat(SR)</th></tr>
+    <tr><td>개념</td><td>프레임 손실(Timeout, NAK 등)이 확인된 이후의 프레임을 모두 재전송</td><td>프레임 손실이 확인된 프레임만 재전송</td></tr>
+    <tr><td>송신 윈도우 최대 크기</td><td>2<sup>m</sup> − 1 (m: 순서번호 필드 비트 수)</td><td>2<sup>(m−1)</sup></td></tr>
+    <tr><td>수신 윈도우 최대 크기</td><td>1</td><td>2<sup>(m−1)</sup></td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>Chase Combining(CC)</td><td>송신기는 재전송 시 처음 보냈던 패킷 신호와 동일한 패킷 신호를 전송하며, 수신기는 이전 패킷 신호와 재전송으로 수신된 패킷 신호를 결합(combining)하여 오류를 복구한다.</td></tr>
+    <tr><td>Incremental Redundancy(IR)</td><td>매 재전송 패킷마다 에러 복구에 필요한 Redundancy bit를 증가시키고 Information bit를 감소시켜, 채널 수신단에서 에러를 정정하도록 하는 방식이다.</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip</span>Go-Back-N 프로토콜의 송신 윈도우 크기가 2<sup>m</sup>−1일 때 수신 윈도우 크기는 <strong>항상 1</strong>이다(SR의 수신 윈도우 2<sup>(m−1)</sup>과 혼동 주의).</div>
+</section>
+
+<section id="sa02-s04" class="section">
+  <h2>4. IPv6 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.17-23)</span></h2>
+
+  <h3>가. IPv6 개념과 주소체계</h3>
+  <p>IPv6는 IPv4 주소 고갈 문제의 임시 해결책이었던 CIDR·사설 IP 주소·NAT의 도입에도 불구하고 남아 있는 기존 IP 주소 체계의 단점들을 수정·보완·대체하기 위해 만들어진 새로운 주소 체계다. 사용 가능한 주소 공간의 증대, 주소의 계층화를 통한 할당·관리 용이성, 자동적인 주소 부여 기능(Stateless Auto Configuration), 헤더의 단순화와 확장성, 종단 장비 간 통신으로의 복귀와 보안성 강화, 모바일 IPv6 기술 등이 장점으로 꼽힌다. 주소는 총 128비트를 16비트씩 8자리로 나누어 콜론(:)으로 구분해 표기하며(예: 2001:0DB8:1000:0000:0000:0000:1111:2222), 각 필드 맨 앞의 연속되는 0은 생략할 수 있고 연속되는 0 필드는 "::"로 한 번만 축약해 표현할 수 있다(예: 2001:DB8:1000::1111:2222).</p>
+
+  <h3>나. IPv6 헤더 구조</h3>
+  <p>IPv6 패킷은 기본 헤더, 확장 헤더, 상위계층 데이터의 3부분으로 구성된다. 기본 헤더는 다음 필드로 이루어진다.</p>
+  <table>
+    <tr><th>필드</th><th>설명</th></tr>
+    <tr><td>Version(4비트)</td><td>IPv4이면 4, IPv6이면 6</td></tr>
+    <tr><td>Traffic Class(8비트)</td><td>IPv6 패킷의 클래스나 우선순위를 나타내며 IPv4의 TOS(Type of Service) 필드와 유사한 기능</td></tr>
+    <tr><td>Flow Label(20비트)</td><td>패킷들의 특정한 흐름 특성을 나타내는 필드로, 음성·화상 등 실시간 데이터 트래픽은 0이 아닌 값으로 설정</td></tr>
+    <tr><td>Payload Length(16비트)</td><td>페이로드부의 길이(확장헤더 + 상위계층 데이터)</td></tr>
+    <tr><td>Next Header(8비트)</td><td>기본헤더 다음에 위치하는 확장 헤더의 종류를 표시</td></tr>
+    <tr><td>Hop Limit(8비트)</td><td>IPv4의 TTL(Time To Live)에 대응</td></tr>
+    <tr><td>Source/Destination Address(각 128비트)</td><td>발신지와 목적지 주소</td></tr>
+  </table>
+  <p>확장 헤더는 홉-바이-홉(Hop-by-Hop, 데이터그램이 거쳐 가는 모든 라우터에 소스 정보 전달), 목적지(Destination, 정보를 목적지에만 전달), 소스 라우팅(Source Routing), 단편화(Fragmentation, IPv6는 원 근원지에서만 단편화 가능), AH(발신자 인증·무결성), ESP(기밀성 보장), 이동성(MIPv6) 등으로 구분된다.</p>
+
+  <h3>다. IPv6 통신방식과 전환기술</h3>
+  <table>
+    <tr><th>통신방식</th><th>설명</th></tr>
+    <tr><td>Unicast</td><td>글로벌 주소(IPv4의 공인주소와 유사, 2001::/16 등 001로 시작)와 링크 로컬 주소(FE80::/10 고정 대역 + interface EUI-64 ID 결합, 직접 연결된 동일 링크·서브넷에서 사용)로 구분</td></tr>
+    <tr><td>Multicast</td><td>Solicited Node Multicast(이더넷 환경 Neighbor 탐색, IPv4 ARP와 유사, FF02::1:FF로 고정), All Node Multicast(FF02::1), All Router Multicast(FF02::2)</td></tr>
+    <tr><td>Anycast</td><td>유니캐스트(1:1)와 멀티캐스트(1:N)와 달리 '1:가장 가까운 1'간의 통신방식 — 동일 주소를 가지는 여러 목적지 장비 중 출발지와 가장 가까운 장비가 응답</td></tr>
+  </table>
+  <table>
+    <tr><th>전환기술</th><th>설명</th></tr>
+    <tr><td>듀얼스택(Dual-stack)</td><td>구현이 가장 용이하며, 하나의 물리 장비에서 IPv4·IPv6 패킷을 동시 처리</td></tr>
+    <tr><td>터널링(Tunneling)</td><td>동종 네트워크 간 통신을 위해 이기종 네트워크를 경유할 때 사용. 설정 터널링과 자동 터널링(6to4, DSTM 등)으로 구분</td></tr>
+    <tr><td>주소변환(Address Translation)</td><td>IPv4·IPv6 패킷을 상호 변환. 변환되는 <strong>계층</strong>에 따라 SIIT(헤더변환), TRT(전송계층 릴레이), ALG(응용계층 게이트웨이)로 분류</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>주소변환 기술(SIIT·TRT·ALG)은 처리 <strong>속도</strong>가 아니라 처리되는 <strong>계층</strong>에 따라 분류된다는 점이 자주 오답 선지로 출제된다.</div>
+</section>
+
+<section id="sa02-s05" class="section">
+  <h2>5. ICMPv6 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.24-27)</span></h2>
+  <table>
+    <tr><th>ICMPv6 추가기능</th><th>설명</th></tr>
+    <tr><td>PMTUD(Path MTU Discovery)</td><td>목적지로 가는 경로상의 링크들 중 MTU 값이 가장 적은 링크의 MTU 값을 확인하는 과정</td></tr>
+    <tr><td>MLD(Multicast Listener Discovery)</td><td>IPv4의 IGMP와 유사한 기능. MLQ·MLR·MLD 3개의 메시지 타입을 사용</td></tr>
+    <tr><td>NDP(Neighbor Discovery Protocol)</td><td>IPv4의 ARP와 유사한 역할. NS(Neighbor Solicitation)와 NA(Neighbor Advertisement)를 사용</td></tr>
+  </table>
+  <p>ICMPv6 메시지는 Type 값 0~127번은 <strong>에러 메시지</strong>(Destination Unreachable, Packet Too Big[Type 2], Time Exceed, Parameter Problem), 128~255번은 <strong>정보 메시지</strong>(Echo Request/Reply, MLQ/MLR/MLD, RS/RA, NS/NA, Redirect)로 구분된다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>
+    <ul>
+      <li>에러 메시지가 0~127번, 정보 메시지가 128~255번이다(반대로 서술하면 오답).</li>
+      <li>Packet Too Big 메시지는 Type 2이다(Type 4가 아님).</li>
+      <li>NDP(Neighbor Discovery Protocol)는 IPv4의 <strong>ARP</strong>와 유사한 역할이다(RARP가 아님).</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sa02-s06" class="section">
+  <h2>6. Subnetting/Supernetting/NAT <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.28-34)</span></h2>
+
+  <h3>가. 서브넷팅(Subnetting)</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p028.jpg" alt="서브넷팅 개념도. subnetting 전에는 Network identifier와 Host identifier 2단으로 나뉜 IP address가, subnetting 후에는 Network identifier, Subnet identifier, Host identifier 3단으로 나뉘는 구조를 보여줌"><figcaption>[그림] 서브넷팅 개념도 — Host identifier 영역을 나누어 Subnet identifier를 추가로 확보</figcaption></figure>
+  <table>
+    <tr><th>절차</th><th>설명</th></tr>
+    <tr><td>필요 네트워크 조사</td><td>네트워크 구성에 필요한 네트워크 수 파악</td></tr>
+    <tr><td>서브넷을 위한 Bit 수 결정</td><td>Host ID를 이용해 서브넷 네트워크를 만들기 위한 Bit 수 결정</td></tr>
+    <tr><td>네트워크 ID 값 결정</td><td>각 네트워크를 대표하는 네트워크 ID 결정</td></tr>
+    <tr><td>Subnet Mask 계산</td><td>네트워크 ID를 구분할 수 있도록 Subnet Mask 계산</td></tr>
+    <tr><td>유효 Host 수 계산</td><td>Network ID와 Broadcast address는 제외</td></tr>
+    <tr><td>Broadcast address 결정</td><td>네트워크 전체와 통신을 위한 Broadcast address 도출</td></tr>
+  </table>
+
+  <h3>나. 슈퍼네팅(Supernetting)과 CIDR</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p030.jpg" alt="슈퍼네팅 개념도. 여러 개의 작은 네트워크(168.192.96~103.0/24 8개)를 CIDR 표기로 하나의 큰 네트워크(168.192.96.0/21)로 통합하는 실제 주소 예시"><figcaption>[그림] 슈퍼네팅(Supernetting) — 여러 개의 작은 네트워크를 Class 구분 없이 하나의 큰 네트워크로 통합</figcaption></figure>
+  <p>슈퍼네팅은 다수의 작은 네트워크를 하나의 큰 네트워크로 통합하는 것으로, 네트워크 정보를 요약해 라우터 테이블의 크기를 축소하고 라우터 수를 줄이는 방법이다. CIDR(Classless Inter-Domain Routing)은 IP 주소를 Classful과 같은 규격화된 구분 없이, 비트 단위의 Subnet Mask 정보도 네트워크 정보로 함께 라우팅하는 방식으로, IPv4 주소의 효율적 사용과 접두어를 이용한 계층적 주소 지정으로 광역 라우팅 부담을 줄인다.</p>
+  <p>예를 들어 IPv4 주소 168.199.160.82/27은 서브넷 마스크가 255.255.255.224이며, 호스트 식별자의 크기는 5비트이므로 서브넷은 8(2<sup>3</sup>)개이고 각 서브넷의 호스트 수는 32(2<sup>5</sup>)개다. 각 서브넷의 호스트 주소 범위는 168.199.160.0~31, 32~63, 64~95, 96~127, 128~159, 160~191, 192~223, 224~255로 나뉘며, 82가 속한 서브넷(64~95)의 마지막 IP 주소는 168.199.160.95다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p033.jpg" alt="NAT(Network Address Translation) 개념도. 내부 네트워크의 사설 IP(192.168.1.2~1.4)가 NAT 라우터를 거쳐 외부의 공인 IP(67.210.97.1)로 변환되어 인터넷·서버와 통신하는 구조"><figcaption>[그림] NAT(Network Address Translation) 개념도 — 사설 IP를 공인 IP로 변환해 외부와 통신</figcaption></figure>
+
+  <h3>다. NAT(Network Address Translation) 유형</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th></tr>
+    <tr><td>Static NAT</td><td>IP 매핑 방식(1:1 방식 주소 변환) — 내부 IP 주소 1개에 외부 IP 주소 1개 할당. 외부에서 접근할 때 효과적</td></tr>
+    <tr><td>Dynamic NAT</td><td>IP 매핑 방식(외부 IP:내부 IP ⇒ M:N 방식) — NAT Pool에 있는 내부 IP 주소가 외부 IP 주소에 할당. 외부 IP보다 내부 실제 Host 수가 적을 때 효과적</td></tr>
+    <tr><td>PAT(Port Address Translation)</td><td>IP 매핑 방식(외부 IP:내부 IP ⇒ H:N 방식) — 내부 IP 주소가 Port를 변경해 가며 같은 외부 IP 주소로 변환. 1개 이상의 외부 IP를 여러 내부 IP가 공유할 때 사용</td></tr>
+    <tr><td>LSNAT(Load Sharing NAT)</td><td>IP 매핑 방식(외부 IP:내부 IP ⇒ 1:N 방식) — 1개의 외부 IP를 여러 내부 IP에 매핑(Distributed NAT). 외부망에서 해당 IP를 목적지로 하는 모든 세션을 각 내부 IP로 분산 변환</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s07" class="section">
+  <h2>7. TCP/MPTCP/SCTP <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.35-42)</span></h2>
+
+  <h3>가. TCP(Transmission Control Protocol)</h3>
+  <p>TCP는 신뢰성 있는 통신을 지향하는 전송계층 프로토콜이다. 연결 설정은 3-way 핸드쉐이킹(Sync, Ack)을 사용해 양쪽이 데이터 전송 준비가 되었음을 보장하며, 연결 해제는 4-way 핸드쉐이킹(FIN, Ack)을 사용한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p036.jpg" alt="TCP 혼잡제어 그래프. cwnd(혼잡 윈도우) 값이 Slow Start 구간에서 지수적으로 증가하다 Threshold에 도달 후 Congestion Avoidance 구간에서 선형 증가, 혼잡 감지 시 Multiplicative Decrease로 급감하는 톱니 모양 그래프"><figcaption>[그림] TCP 혼잡제어 — Slow Start(지수 증가) → Congestion Avoidance(선형 증가) → 혼잡 감지 시 급감(Multiplicative Decrease)을 반복하는 톱니파 형태</figcaption></figure>
+  <table>
+    <tr><th>혼잡제어 단계</th><th>설명</th></tr>
+    <tr><td>느린 출발(Slow Start)</td><td>혼잡 윈도우(cwnd) 크기를 한계치(threshold)에 도달할 때까지 1→2→4→8…로 지수적으로 증가</td></tr>
+    <tr><td>혼잡회피(Congestion Avoidance)</td><td>혼잡 상태가 감지될 때까지 혼잡 윈도우를 1씩(1,2,3,4…) 선형 증가</td></tr>
+    <tr><td>Multiplicative Decrease</td><td>재전송 타이머 만료(Time-out) 시 threshold ≤ ½×(윈도우크기), cwnd ≤ 1로 복귀. 3개의 중복 ACK 수신 시 threshold ≤ ½×(윈도우크기), cwnd ≤ threshold로 조정</td></tr>
+    <tr><td>빠른 재전송(Fast Retransmission)</td><td>연속된 3개의 중복 ACK 수신 시 네트워크 혼잡에 의한 손실로 간주하고 빠르게 재전송</td></tr>
+    <tr><td>빠른 회복(Fast Recovery)</td><td>손실 발생 시 혼잡 윈도우를 손실 당시 크기의 절반으로 줄인 뒤 혼잡회피 과정으로 전송을 재개</td></tr>
+  </table>
+  <table>
+    <tr><th>타이머</th><th>내용</th></tr>
+    <tr><td>재전송(Retransmission) 타이머</td><td>세그먼트 전송마다 가동. 정해진 시간(RTO) 내 ACK가 없으면 재전송(RTO는 고정값이 아님)</td></tr>
+    <tr><td>영속(Persistence) 타이머</td><td>윈도우 크기 결정을 위한 타이머. Window Probe 패킷의 송신 주기를 처리</td></tr>
+    <tr><td>시간 대기(Time-waited) 타이머</td><td>연결 종료 후 이 시간 동안만 연결을 유지 — 지연·중복 도착 패킷을 폐기해 방지</td></tr>
+    <tr><td>연결 유지(Keep-alive) 타이머</td><td>연결이 오랫동안 휴지 상태에 있지 않도록 함. 일반적으로 2시간 무응답 시 75초 간격으로 프로브 패킷을 10번 송신 후에도 응답이 없으면 연결 종료</td></tr>
+  </table>
+
+  <h3>나. MPTCP(Multipath TCP)</h3>
+  <p>MPTCP는 단말과 TCP 서버 간에 다수의 TCP 경로를 구성하고 다수의 경로로 동시에 데이터를 송수신하는 TCP 확장형 프로토콜이다. 전송계층을 MPTCP 계층(하나의 논리적 연결로 보이도록 연결 관리)과 서브플로우 계층(논리적 연결을 경로 수만큼 나눠 각각 독립된 단일 경로 TCP처럼 취급)으로 분류한다. 초기 연결 과정은 3-way 핸드쉐이킹에 MP_CAPABLE 옵션을 포함하고, 서브플로우 추가 과정은 4단계로 이루어지며 MP_JOIN 옵션을 포함한다. 연결 해제는 TCP와 달리 <strong>각 서브플로우에서 독립적으로</strong> FIN 패킷을 전송해야 해당 서브플로우만 종료된다(MPTCP 계층에서 한 번에 모든 연결을 해제하는 것이 아님).</p>
+
+  <h3>다. SCTP(Stream Control Transmission Protocol)</h3>
+  <p>SCTP는 UDP의 메시지 지향(message-oriented) 특성과 TCP의 연결형 신뢰성 제공 특성을 조합한 프로토콜로, 멀티스트리밍(multi-streaming) 및 멀티호밍(multi-homing)을 제공한다. 연결 설정은 4-way 핸드쉐이킹을 사용해 양 종단 간 primary IP와 대체 가능 IP 주소 목록을 교환하며, DATA Chunk에는 순서 유지가 필요 없는 경우 지연을 줄이는 U(Unordered) 플래그가 존재한다. 연결 해제는 TCP와 달리 3단계로 구성된다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>MPTCP의 연결 해제는 MPTCP 계층에서 한 번에 모든 연결을 끊는 것이 아니라, <strong>각 서브플로우</strong>에서 개별적으로 FIN 패킷을 전송해 해제한다.</div>
+</section>
+
+<section id="sa02-s08" class="section">
+  <h2>8. 성능(TPS·실행시간·벤치마킹) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.43-51)</span></h2>
+
+  <h3>가. 성능 테스트 용어(TPS, Transaction Per Second)</h3>
+  <table>
+    <tr><th>용어</th><th>설명</th></tr>
+    <tr><td>Response Time</td><td>사용자가 서버에 요청한 시간부터 응답을 받을 때까지의 모든 시간</td></tr>
+    <tr><td>Think Time</td><td>응답을 받은 후 웹 페이지를 보는 등 작업하는 시간</td></tr>
+    <tr><td>Request Interval</td><td>Think Time까지 포함하여 다음 요청이 발생하기까지의 전체 시간</td></tr>
+    <tr><td>Concurrent User</td><td>시스템을 현재 사용하고 있는 사용자</td></tr>
+    <tr><td>Active User</td><td>현재 시스템에 트랜잭션을 실행해 부하를 주고 있는 사용자</td></tr>
+    <tr><td>TPS</td><td>초당 처리할 수 있는 트랜잭션의 양</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p044.jpg" alt="컴퓨터 시스템 성능 공식 요약 카드. 작업처리시간(CPU 처리시간) = 실행 명령어 수 x CPI x 클럭주기, 명령어당 실행 클럭수(CPI, Cycle Per Instruction), 클럭주기 = CPU 클럭 신호의 주기(1/클럭 주파수)"><figcaption>[그림] 컴퓨터 시스템 성능 핵심 공식 — 작업처리시간(CPU 시간) = 실행 명령어 수 × CPI × 클럭주기</figcaption></figure>
+  <p>TPS 관련 핵심 공식은 다음과 같다: TPS = Active User / Average Response Time = Concurrent User / Request Interval. 이를 응용하면 Active User = Concurrent User × Average Response Time / (Average Response Time + Average Think Time)로 구할 수 있다. 예를 들어 10,000명이 동시 로그인해 시간당 180만 개의 비즈니스 기능을 처리한다면 TPS = 1,800,000/3,600 = 500 TPS이고, 평균응답시간 = Active User/TPS = 10,000/500 = 20초가 된다.</p>
+
+  <h3>나. 벤치마크 표준</h3>
+  <table>
+    <tr><th>구분</th><th>측정기준</th><th>특징</th></tr>
+    <tr><td rowspan="2">TPC</td><td>TPC-C(tpmC)</td><td>다양한 크기·복잡도의 상호연관된 DB 테이블에 대해 5개의 트랜잭션 유형을 규정, 분당 트랜잭션으로 성능 측정. OLTP 시스템의 사용자 사고 시간을 고려</td></tr>
+    <tr><td>TPC-E(tpsE)</td><td>더 복잡한 데이터베이스와 전체 실행 구조로 TPC-C보다 복잡. 12가지 동시 트랜잭션 유형을 혼합</td></tr>
+    <tr><td rowspan="4">SPEC</td><td>SPECjEnterprise</td><td>Java EE 5 이상 애플리케이션 서버·DB·인프라의 전체 시스템 성능 측정</td></tr>
+    <tr><td>SPECjbb</td><td>최신 Java 응용 프로그램 기능에 따른 성능 측정</td></tr>
+    <tr><td>SPEC JMS</td><td>JMS 기반 엔터프라이즈 메시지 지향 미들웨어 서버 성능 평가</td></tr>
+    <tr><td>SPECjvm</td><td>JRE 성능 측정을 위한 벤치마크 제품군, 실제 Java 기능 중심</td></tr>
+  </table>
+
+  <h3>다. 컴퓨터 성능 계산 예제</h3>
+  <p>2GHz 클럭 컴퓨터 A에서 실행시간이 10초인 프로그램을, 컴퓨터 A보다 1.2배 많은 클럭 사이클이 필요한 컴퓨터 B에서 8초에 실행시키려 할 때, 클럭주기 = 1/2GHz이므로 명령어 × CPI(A) = 20이고, 컴퓨터 B의 클럭속도 = (명령어 × 1.2×CPI(A)) / 8초 = 24/8 = <strong>3GHz</strong>가 된다.</p>
+  <p>또 다른 예로, 실행시간 100초(CPU 시간 80초 + I/O 시간 20초)인 벤치마크 프로그램에서 CPU 시간이 CPU 개수에 정비례해 감소하고 CPU 개수가 2년마다 2배씩 증가한다면, 6년 후 CPU는 8배 증가해 CPU 시간은 10초로 줄고 I/O 시간 20초는 그대로이므로 실행시간은 30초(CPU 10초+I/O 20초)가 되며, 이때 I/O 시간이 차지하는 비율은 20/30 ≈ <strong>66.6%</strong>다.</p>
+</section>
+
+<section id="sa02-s09" class="section">
+  <h2>9. CPU 스케줄링 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.52-54)</span></h2>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p052.jpg" alt="CPU 스케줄링 기법 분류 트리. 선점형(RR, SRT, MLQ, MLFQ)과 비선점형(Priority, FCFS, SJF, HRN)의 2가지로 분류되는 구조도"><figcaption>[그림] CPU 스케줄링 기법 분류 — 선점형(RR·SRT·MLQ·MLFQ)과 비선점형(Priority·FCFS·SJF·HRN)</figcaption></figure>
+  <table>
+    <tr><th>알고리즘</th><th>특징</th><th>설명</th></tr>
+    <tr><td>RR(Round Robin)</td><td>대화형 시스템에서 주로 사용, 시간 간격(time slice) 크기에 따라 성능 좌우</td><td>작업은 할당된 시간 내 처리, 미완료 작업은 준비 큐로 보내고 CPU는 다음 프로세스에 할당</td></tr>
+    <tr><td>SRT(Shortest Remaining Time First)</td><td>시분할 시스템에 유용, SJF보다 오버헤드 증가</td><td>새로 들어오는 작업 포함, 남은 시간 추정치가 가장 적은 작업에 CPU 할당</td></tr>
+    <tr><td>MLQ(Multi Level Queue)</td><td>작업 유형별로 분류해 우선순위 결정, 프로세스는 다른 큐로 이동 불가</td><td>여러 종류의 큐가 존재하고 각 큐는 자신의 스케줄링 알고리즘 수행</td></tr>
+    <tr><td>MLFQ(Multi Level Feedback Queue)</td><td>낮은 단계 큐일수록 시간 할당량 증가하나 CPU 차지 빈도는 감소</td><td>FIFO 형태로 우선순위 다른 큐가 여러 개 존재, 새 프로세스는 높은 우선순위에서 시작해 시간 내 처리 못 하면 낮은 우선순위 큐로 이동</td></tr>
+    <tr><td>우선순위(Priority)</td><td>기아 현상(Starvation) 발생 가능, 실행 중 Interrupt 미발생, 동일 우선순위는 FCFS로 동작</td><td>각 프로세스에 우선순위를 부여하고 순위가 높은 순서대로 처리</td></tr>
+    <tr><td>FCFS(First Come First Service)</td><td>반환 시간 예측 불가, 짧은 작업이 긴 작업 뒤에 수행될 수 있음</td><td>준비 큐에 도착한 순서대로 디스패칭</td></tr>
+    <tr><td>SJF(Shortest Job First)</td><td>긴 프로세스의 기아 현상 발생 가능, 대화형 시스템에서 사용 곤란</td><td>수행 시간이 가장 짧다고 예상되는 프로세스를 먼저 수행</td></tr>
+    <tr><td>HRN(Highest Response Next)</td><td>가변적 우선순위 = (대기시간+서비스시간)/서비스시간</td><td>SJF의 단점을 극복하기 위해 대기 시간을 함께 고려해 우선순위 결정</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s10" class="section">
+  <h2>10. 실시간 스케줄링 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.55)</span></h2>
+  <table>
+    <tr><th>항목</th><th>RM(Rate Monotonic)</th><th>EDF(Earliest Deadline First)</th></tr>
+    <tr><td>개념</td><td>독립적인 개별 프로세스 주기를 기준으로, 주기가 짧을수록 높은 우선순위를 부여하는 정적 방식 스케줄링</td><td>임의의 실행 시점에서 가장 가까운 마감 시간을 갖는 프로세스에 높은 우선순위를 할당하는 동적 방식 스케줄링</td></tr>
+    <tr><td>정책</td><td>정적 우선순위</td><td>동적 우선순위</td></tr>
+    <tr><td>원리</td><td>태스크 간 선행 관계가 없는 조건 만족 시, 수행 전 주기가 짧은 태스크에 높은 우선순위 부여</td><td>스케줄링 순간마다 프로세스를 검사해 마감시간이 가까운 태스크를 우선 스케줄링</td></tr>
+    <tr><td>장점</td><td>마감시간 정보 없이 이용률 한계 제약이 없다면 최적, 연성 실시간 시스템 요구조건 만족, 사용률 0.69 이하면 항상 스케줄링 가능</td><td>프로세스가 주기적일 필요 없음, 이론적으로 총 이용률 1 이하면 스케줄링 가능</td></tr>
+    <tr><td>단점</td><td>이용률 한계로 마감시간 만족 보장 불가, 주기 긴 태스크는 우선순위가 낮아 장시간 대기</td><td>실행 가능해질 때 자신의 마감시간을 알려주어야 함, 수행시간·마감시간·주기의 정확한 예측이 어려움</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s11" class="section">
+  <h2>11. TLB(Translation Look-aside Buffer) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.56)</span></h2>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>TLB Hit</td><td>가상주소에 해당하는 페이지 테이블 항목이 TLB에 있음 — CPU가 TLB를 통해 즉시 물리주소 생성</td></tr>
+    <tr><td>TLB Miss</td><td>가상주소에 해당하는 페이지 테이블 항목이 TLB에 없음 — 주기억장치의 페이지 테이블 참조 후 TLB 갱신</td></tr>
+    <tr><td>Page Fault</td><td>가상주소에 해당하는 페이지 테이블 항목이 TLB와 주기억장치 모두에 없음 — 디스크로부터 페이지 반입 후 페이지 테이블 갱신</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s12" class="section">
+  <h2>12. 스레싱(Thrashing) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.57)</span></h2>
+  <table>
+    <tr><th>구분</th><th>워킹셋(Working Set)</th><th>PFF(Page-Fault Frequency)</th></tr>
+    <tr><td>개념</td><td>특정 시간에 실행되는 프로그램에 지역성(Locality)이 포함되는 페이지들의 집합을 이용해 스레싱을 감소</td><td>페이지 부재율의 상한과 하한을 설정해 프레임 개수를 변경함으로써 스레싱을 감소</td></tr>
+    <tr><td>특징</td><td>오버헤드 발생, 기억장치 참조 후 페이지 집합 수정</td><td>오버헤드 적음, 페이지 폴트 발생 시 수정</td></tr>
+  </table>
+  <p>스레싱(Thrashing)은 프로세스가 실행에 필요한 최소한의 페이지 프레임을 확보하지 못해, CPU가 실제 작업 처리보다 페이지 교체(스와핑) 작업에 더 많은 시간을 소비하게 되는 현상을 말한다.</p>
+</section>
+
+<section id="sa02-s13" class="section">
+  <h2>13. 파이프라인 해저드 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.58)</span></h2>
+  <table>
+    <tr><th>유형</th><th>원인</th><th>해결방법</th></tr>
+    <tr><td>구조적 해저드</td><td>하드웨어가 여러 명령의 수행을 지원하지 않아 자원 부족 등으로 발생하는 충돌 문제</td><td>하버드 아키텍처, 지연(Stall), HW 자원 추가</td></tr>
+    <tr><td>데이터 해저드</td><td>명령이 파이프라인에서 수행 중인 이전 명령의 결과에 종속되어 발생. RAW(이전 명령 결과를 후속 명령이 읽으려 할 때), WAR(이전 명령이 읽기 전에 후속 명령이 씀), WAW(이전 명령이 쓰기 전에 후속 명령이 씀)</td><td>Forwarding/Bypassing, Register Rename, 지연(stall, bubble), 컴파일러에 의한 명령어 재배치</td></tr>
+    <tr><td>제어 해저드</td><td>분기명령에서 분기가 결정되는 시점에 이미 후속 명령들이 파이프라인에 채워져 있어 발생</td><td>분기예측, 지연, 지연분기</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s14" class="section">
+  <h2>14. 상호배제 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.59)</span></h2>
+  <table>
+    <tr><th>구현 방법</th><th>기법</th><th>설명</th></tr>
+    <tr><td rowspan="3">HW 기법</td><td>Test and Set</td><td>상태를 점검(Test)하고 변경(Set)하는 하드웨어 명령어로, 프로세서에 의해 나눠지지 않고 수행됨(원자적)</td></tr>
+    <tr><td>SWAP</td><td>CPU 명령어로 두 값을 문맥교환 없이 교체</td></tr>
+    <tr><td>interrupt-disable/enable</td><td>Timer interrupt를 강제로 가능/불가능하게 해 Context Switching 방지. 특권명령어로 사용자모드에서는 사용 불가</td></tr>
+    <tr><td rowspan="3">SW 기법</td><td>Dekker</td><td>두 프로세스가 공유변수를 활용, 상호배제의 최초 소프트웨어 해결법</td></tr>
+    <tr><td>Peterson</td><td>두 프로세스가 공유변수를 사용, Dekker를 보완해 상대방에게 진입 기회를 양보</td></tr>
+    <tr><td>Bakery(Lamport)</td><td>분산처리 환경에 유용한 알고리즘(N개 프로세스). 번호를 부여받아 낮은 번호가 먼저 수행. 상호배제·한계대기·진행 조건을 모두 만족</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s15" class="section">
+  <h2>15. FTL(Flash Translation Layer) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.60-64)</span></h2>
+  <p>FTL(Flash Translation Layer)은 디스크를 섹터 기반으로 인식하는 운영체제와 프로그램들이 페이지와 블록으로 구성된 SSD를 인식할 수 있도록 매핑해주는 기술로, 플래시 메모리가 파일시스템 사이에 위치하면서 플래시 메모리를 디스크처럼 사용할 수 있게 해준다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p060.jpg" alt="FTL 계층 구조도. File System과 Block Device Driver 상위에 FTL(STL, BML, LLD 3계층)이 위치하고 하위에 NAND Flash Device가 위치하는 SW/HW 계층 구조. Mapping/Garbage Collection/Wear Leveling과 Bad Block Management/Error Handling이 표시됨"><figcaption>[그림] FTL 계층 구조 — STL(Sector Translation)·BML(Block Management)·LLD(Low Level Driver) 3계층</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p061.jpg" alt="웨어레벨링(Wear Leveling) 개념도. Logical Address와 Mapping Table을 통해 물리적으로 사용 빈도가 낮은 Block/Page로 쓰기를 분산시켜 플래시 메모리 수명을 균등화하는 과정"><figcaption>[그림] 웨어레벨링(Wear Leveling) — 매핑 테이블을 통해 쓰기 작업을 물리 블록에 고르게 분산</figcaption></figure>
+  <table>
+    <tr><th>용어</th><th>설명</th></tr>
+    <tr><td>Garbage Collection</td><td>메모리 사용 중 Invalid 페이지(가비지 페이지)가 어느 정도 쌓이면 적절한 시점에 한꺼번에 삭제하는 기술</td></tr>
+    <tr><td>Over Provisioning</td><td>Wear Leveling·GC 작업을 위한 여유 공간</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>웨어레벨링으로 변경된 기존 물리주소의 페이지는 바로 삭제되는 것이 아니라 <strong>Invalid 상태로 남겨두었다가 Garbage Collection을 통해 삭제</strong>된다.</div>
+</section>
+
+<section id="sa02-s16" class="section">
+  <h2>16. 분산원장(Distributed Ledger Technology) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.65)</span></h2>
+  <table>
+    <tr><th>구분</th><th>Bitcoin</th><th>Ethereum</th><th>Hyperledger Fabric</th><th>R3 Corda</th></tr>
+    <tr><td>가상화폐</td><td>O</td><td>O</td><td>X</td><td>X</td></tr>
+    <tr><td>적용영역</td><td>가상화폐</td><td>가상화폐/범용</td><td>범용</td><td>계약 기록/자동차</td></tr>
+    <tr><td>네트워크 참여</td><td>Anyone</td><td>Anyone</td><td>Permissioned NW</td><td>Permissioned NW</td></tr>
+    <tr><td>거래공유</td><td>전체 참여자에게 전체 공유</td><td>전체 참여자에게 전체 공유</td><td>전체 참여자에게 전체 공유(멀티채널)</td><td>거래 당사자에게만 해당 거래 공유</td></tr>
+    <tr><td>합의 알고리즘</td><td>PoW</td><td>PoW, PoS</td><td>PBFT, Kafka 등</td><td>PBFT, RAFT</td></tr>
+    <tr><td>State(상태값 표현)</td><td>UTXO</td><td>Account Base</td><td>Key-value pair</td><td>UTXO</td></tr>
+    <tr><td>원장 확장성</td><td>글로벌 단일 원장</td><td>글로벌 단일 원장</td><td>채널별 단일 원장</td><td>글로벌 단일 원장</td></tr>
+    <tr><td>DB</td><td>LevelDB</td><td>LevelDB</td><td>CouchDB, LevelDB</td><td>MySQL, H2</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s17" class="section">
+  <h2>17. 블록체인(Block Chain) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.66-73)</span></h2>
+
+  <h3>가. 블록체인 개념과 블록 헤더</h3>
+  <p>블록체인은 P2P 네트워크 기반으로 거래 내역이 담긴 장부를 거래에 참여한 모든 구성원에게 분산 저장하여 거래 기록의 무결성과 신뢰성을 확보하는 기술이다. 여러 건의 거래 내역이 일정 시간마다 하나의 블록(Block)으로 묶여 기존 블록에 체인(Chain)처럼 연결되어 기록이 연속적으로 보관되며, 각 블록은 이전에 생성된 블록들의 모든 내역에 대한 검증 기록을 가지고 있어 한번 등록되면 변경이 불가능한 구조를 갖는다.</p>
+  <table>
+    <tr><th>블록 헤더 구성</th><th>설명</th></tr>
+    <tr><td>Version</td><td>블록 버전</td></tr>
+    <tr><td>Previous Block Hash</td><td>이전 블록헤더를 SHA256으로 2번 해싱(SHA256(SHA256()))</td></tr>
+    <tr><td>Merkle Root</td><td>현재 블록에 포함된 거래정보의 해시를 2진트리로 구성했을 때 루트에 위치하는 해시값</td></tr>
+    <tr><td>Timestamp</td><td>블록 생성시간</td></tr>
+    <tr><td>Bits</td><td>작업증명 알고리즘의 난이도</td></tr>
+    <tr><td>Nonce</td><td>목표값보다 낮은 값을 구하기 위한 카운터</td></tr>
+  </table>
+
+  <h3>나. 블록체인 유형</h3>
+  <table>
+    <tr><th>구분</th><th>퍼블릭 블록체인</th><th>프라이빗 블록체인</th><th>컨소시엄 블록체인</th></tr>
+    <tr><td>관리주체</td><td>모든 거래 참여자(탈중앙화)</td><td>중앙기관이 모든 권한 보유</td><td>컨소시엄에 소속된 참여자</td></tr>
+    <tr><td>거버넌스</td><td>법칙을 바꾸기 매우 어려움</td><td>중앙기관 의사결정에 따라 변경 가능</td><td>참여자 합의로 상대적으로 용이하게 변경</td></tr>
+    <tr><td>데이터 접근</td><td>누구나 접근 가능</td><td>허가받은 사용자만</td><td>허가받은 사용자만</td></tr>
+    <tr><td>거래증명</td><td>PoW·PoS 등 알고리즘으로 결정, 사전에 증명자를 알 수 없음</td><td>중앙기관에 의해 이루어짐</td><td>증명자가 사전에 알려짐, 합의된 규칙에 따라 검증·생성</td></tr>
+    <tr><td>장점</td><td>안전성·신뢰성·익명성·투명성</td><td>높은 효율성과 확장성, 목적별 특화 가능</td><td>높은 효율성과 확장성</td></tr>
+    <tr><td>단점</td><td>확장성 낮음, 거래 속도 느림</td><td>내부 관리·사이버 공격에 대한 보안성 낮음</td><td>컨소시엄 주체 개입 필요, 투명성·보안성 상대적으로 낮음</td></tr>
+    <tr><td>활용사례</td><td>비트코인, 이더리움</td><td>나스닥 Linq</td><td>R3 CEV, 하이퍼레저</td></tr>
+  </table>
+
+  <h3>다. 합의 알고리즘</h3>
+  <table>
+    <tr><th>합의 알고리즘</th><th>설명</th></tr>
+    <tr><td>작업증명(PoW, Proof of Work)</td><td>블록 헤더 해시값을 계산해 난이도(Bits)에 따른 목표값과 비교, 만족하지 못하면 nonce를 바꿔 반복. 높은 연산능력과 물리적 에너지가 필요하며, byzantine fault를 직접 대응하는 방식은 아니고 확률적으로 문제를 완화</td></tr>
+    <tr><td>지분증명(PoS, Proof of Stake)</td><td>토큰 지분량과 보유 시간을 통해 확률적으로 블록 생성자를 선정. 초기 코인 분배 문제와 Nothing at Stake 문제(유효 블록체인이 2개 이상일 때 양쪽에서 블록을 생성해 하나로 수렴을 어렵게 하는 문제) 발생 가능</td></tr>
+    <tr><td>위임된 지분증명(DPoS)</td><td>PoS 기반으로 지분량에 따라 대표자(Delegate)를 선출해 순번대로 블록을 생성, 대표자에게 검증 권한을 위임</td></tr>
+    <tr><td>PBFT(Practical Byzantine Fault Tolerance)</td><td>비동기 시스템에서 악의적 노드가 있어도 합의 가능(N=3F+1일 때 정상 동작 보장, N: 전체노드, F: Fault노드). Pre-Prepare–Prepare–Commit–Reply 단계로 진행되며, 다수결(2/3 이상)로 의사결정 후 블록 생성. 참가자 전원이 서로를 미리 알고 있어야 함</td></tr>
+    <tr><td>팩소스(PAXOS)</td><td>과반수 동의를 얻으면 그 내용이 변경되지 않음. 리더 중심 합의를 형성하지만 Byzantine Fault 모델이 아니라 악의적 참가자가 있는 환경에는 부적합</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>
+    <ul>
+      <li>컨소시엄 블록체인은 퍼블릭 블록체인에 <strong>비해 투명성과 보안성이 낮다</strong>(높다고 서술하면 오답).</li>
+      <li>퍼블릭 블록체인은 프라이빗 블록체인에 <strong>비해 확장성이 낮고 거래 속도가 느리다</strong>(반대로 서술하면 오답).</li>
+      <li>프라이빗 블록체인은 중앙기관이 거래를 증명하므로 PoW·PoS 같은 합의 알고리즘을 반드시 사용할 필요가 없다.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sa02-s18" class="section">
+  <h2>18. 인공지능(AI, Artificial Intelligence) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.74)</span></h2>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>약 인공지능(ANI, Artificial Narrow Intelligence)</td><td>특정 영역에 한정하여 사람의 명령과 지시를 이행. 한정된 문제 해결능력, 규칙을 벗어난 창조 불가</td></tr>
+    <tr><td>강 인공지능(AGI, Artificial General Intelligence)</td><td>인간 수준의 문제해결능력, 범용의 능력 보유. 인간과 같은 마음을 보유해 정해진 규칙을 벗어나 능동적으로 학습</td></tr>
+    <tr><td>초 인공지능(ASI, Artificial Super Intelligence)</td><td>감성지능과 사회성지능 보유. 모든 영역에서 인간을 훨씬 뛰어넘는 인공지능</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s19" class="section">
+  <h2>19. 기계학습(Machine Learning) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.75-78)</span></h2>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>지도학습(Supervised Learning)</td><td>출력 결과값을 알려주는 '교사'가 존재(Label 존재). 인식·분류·진단·예측에 적합. 예: K-NN, 선형회귀, 로지스틱회귀, SVM, 결정트리, 신경망</td></tr>
+    <tr><td>비지도학습(Unsupervised Learning)</td><td>출력 값에 대한 정보 없이(교사 없이) 학습(Label 없음). 군집화·밀도추정·차원축소·특징추출에 적합. 예: 군집(Clustering), K-평균(K-Means), 계층 군집 분석, PCA, 신경망</td></tr>
+    <tr><td>강화학습(Reinforcement Learning)</td><td>상태(State)에서 어떤 행동(Action)이 최적인지를 학습. 행동마다 외부 환경의 보상(Reward)을 최대화하는 방향으로 학습. 예: 컴퓨터 체스, 로봇 제어</td></tr>
+  </table>
+  <p><strong>과적합(Overfitting)</strong>은 학습 데이터를 지나치게 정확히 구분하도록 학습해 모델의 일반화 성능이 떨어지는 문제로, 학습 데이터의 오차는 감소하지만 실제 데이터의 오차는 증가한다. 학습 데이터가 너무 적거나 과도하게 학습되었거나, 전체 데이터 분포를 반영하지 않을 때 주로 발생하며 모델이 복잡할수록 발생 확률이 높다. 지도학습에서는 충분한 학습 데이터 확보와 검증 데이터(validation data) 평가로, 딥러닝에서는 Dropout(연결 가중치가 높은 링크를 확률적으로 제거) 기법으로 해결한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p078.jpg" alt="기계학습 알고리즘 분류 트리 다이어그램. Machine Learning 하위에 지도학습(분류, 회귀), 비지도학습(군집, 밀도추정), 강화학습(Q-Learning, Multi-armed Bandit)이 각각의 대표 알고리즘과 함께 정리됨"><figcaption>[그림] 기계학습 알고리즘 분류 — 지도학습(분류·회귀)/비지도학습(군집·계층화 등)/강화학습(Q-Learning 등)</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>K-Means·PCA는 <strong>비지도학습</strong>, K-NN은 <strong>지도학습</strong> 알고리즘이다 — 지도학습·비지도학습의 대표 알고리즘을 서로 뒤바꿔 서술하는 것이 전형적 오답이다.</div>
+</section>
+
+<section id="sa02-s20" class="section">
+  <h2>20. 딥러닝(Deep Learning) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.79-88)</span></h2>
+
+  <h3>가. 단일 퍼셉트론과 다층 신경망</h3>
+  <p>단일 퍼셉트론은 사람의 생물학적 뉴런 기능을 모방하기 위해 고안된 구조로, 각 뉴런은 N차원 공간에서의 선형방정식을 표현하므로 하나의 단층 퍼셉트론은 여러 선형함수의 집합으로 간주된다. 단일 퍼셉트론으로 logical-OR·logical-AND 같은 이진 논리함수는 표현할 수 있으나, logical-XOR 함수는 표현할 수 없다는 한계가 있다.</p>
+  <table>
+    <tr><th>구성요소</th><th>설명</th></tr>
+    <tr><td>입력층</td><td>신경망 외부로부터 입력을 받아들이는 층 — 뉴런이 아닌 입력값을 보관하는 buffer들로 구성</td></tr>
+    <tr><td>은닉층</td><td>외부에서 보이지 않고(hidden) 신경망 내부에서 값 전달 방식에 영향을 주는 역할</td></tr>
+    <tr><td>출력층</td><td>신경망 외부에 측정값을 출력</td></tr>
+    <tr><td>완전연결(Fully Connected)</td><td>다층 퍼셉트론은 인접 층 사이의 노드 간에 모든 연결선이 존재한다고 가정</td></tr>
+    <tr><td>feed-forward</td><td>값의 전달이 한쪽 방향으로만 진행</td></tr>
+  </table>
+  <p>활성화 함수로는 Linear(y=z), Sign, Sigmoid(y=1/(1+e<sup>−z</sup>)), Tanh(y=(e<sup>z</sup>−e<sup>−z</sup>)/(e<sup>z</sup>+e<sup>−z</sup>)), ReLU(y=max(0,z)), Leaky ReLU(y=max(αz,z)) 등이 사용된다.</p>
+
+  <h3>나. CNN(Convolutional Neural Network)</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p082.jpg" alt="CNN 구조도. Input Data가 여러 개의 Convolution+Pooling 층(Feature Learning)을 거친 뒤 Flatten과 Fully Connected 층(Classification)을 통과해 최종 분류 결과를 출력하는 전체 구조"><figcaption>[그림] CNN(Convolutional Neural Network) 전체 구조 — Feature Learning(Convolution+Pooling) → Classification(Flatten+FC)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p083.jpg" alt="컨볼루션 연산과 풀링(다운샘플링) 연산 예시. 4x4 입력 행렬에 3x3 커널을 적용해 Feature map을 만드는 컨볼루션 계산과, Average/Max Pooling으로 영상 크기를 줄이는 예시"><figcaption>[그림] 컨볼루션 연산(Kernel/Filter 적용)과 풀링 연산(Average pooling, Max pooling) 예시</figcaption></figure>
+  <p>컨볼루션 층(convolution layer)과 풀링층(pooling layer)을 쌍(pair)으로 구성해 fully connected layer 이전에 이미지·영상 등을 압축하는 인공신경망이다. 컨볼루션 층은 입력 이미지에서 국소적인 특징 영역의 특징값들을 종합하는 역할을 하며, 풀링 층은 이전 컨볼루션 층 노드들의 특정 영역 부분적 주요값들을 통합하는 역할을 한다. 풀링 층은 다운샘플링(down-sampling) 방식으로 영상의 크기를 줄인다(Average pooling, Max pooling).</p>
+
+  <h3>다. RNN(Recurrent Neural Network)과 LSTM</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p084.jpg" alt="순환 신경망(RNN) 구조도. 은닉 노드가 자기 자신에게 되먹임(순환) 연결되어 과거 정보를 유지하며 여러 시점(t)의 A 노드가 화살표로 연결된 구조와, 기울기 소실 문제를 설명하는 그래프"><figcaption>[그림] 순환 신경망(RNN) 구조 — 은닉 노드의 재귀적 순환 연결, 시간별 학습 알고리즘(BPTT) 및 기울기 소실 문제</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p085.jpg" alt="LSTM(Long Short-Term Memory) 셀 구조도. Cell State가 가로로 관통하며 Forget Gate, Input Gate, Output Gate가 sigmoid와 tanh 연산으로 정보의 삭제·저장·출력을 제어하는 구조"><figcaption>[그림] LSTM(Long Short-Term Memory) 셀 구조 — Forget Gate·Input Gate·Output Gate와 Cell State</figcaption></figure>
+  <p>RNN(순환 신경망)은 특정 노드의 해당 노드에 다시 연결되는 구조를 갖는 신경망으로, 현재 입력과 과거 입력을 함께 고려해 결과를 도출하는 형태다. 시계열 데이터·순차적 학습 알고리즘에 적합하며, 오랜 역전파 학습 알고리즘을 수정한 BPTT(Back-propagation Through Time) 알고리즘을 사용한다. 다만 학습 과정이 길어질수록 기울기가 소실되는 문제가 있다.</p>
+  <p>LSTM(Long Short-Term Memory)은 RNN의 기울기 소실 문제를 해결하기 위해 메모리 구조(Cell State)를 활용하는 신경망이다. <strong>Forget Gate</strong>(어떤 정보를 버릴지 결정, Sigmoid 활용), <strong>Input Gate</strong>(어떤 새 정보를 저장할지 결정, Sigmoid·tanh 활용), <strong>Output Gate</strong>(최종적으로 어떤 정보를 출력할지 결정)의 3가지 게이트 구조를 가지며, Cell State는 입력값을 거의 그대로 유지하며 전체 체인에 계속 전달된다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>LSTM은 Forget Gate·Input Gate·Output Gate로 구성되며, <strong>Reset Gate는 LSTM이 아니라 GRU(Gated Recurrent Unit)</strong>의 구성 요소다.</div>
+</section>
+
+<section id="sa02-s21" class="section">
+  <h2>21. 5G <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.89-99)</span></h2>
+
+  <h3>가. 5G 개념과 성능지표</h3>
+  <p>5G는 초고속·초연결·초저지연 서비스를 목표로 4G 대비 10~1,000배의 성능향상이 기대되는 차세대 이동통신 기술이다.</p>
+  <table>
+    <tr><th>3대 특성</th><th>설명</th></tr>
+    <tr><td>초고속(eMBB, enhanced Mobile Broadband)</td><td>UHD 기반 AR/VR 및 홀로그램 등 대용량 전송</td></tr>
+    <tr><td>초연결(mMTC, massive Machine-Type Communications)</td><td>스마트시티, 사물인터넷 등 다양한 서비스 제공</td></tr>
+    <tr><td>초저지연(URLLC, Ultra Reliable&amp;Low Latency Communications)</td><td>자율주행차량, 실시간 interactive 게임 등 실시간 반응 속도가 필요한 서비스</td></tr>
+  </table>
+  <table>
+    <tr><th>성능지표</th><th>4G</th><th>5G</th></tr>
+    <tr><td>최대전송속도</td><td>1 Gbps</td><td>20 Gbps</td></tr>
+    <tr><td>이용자체감 전송속도</td><td>10 Mbps</td><td>100~1,000 Mbps</td></tr>
+    <tr><td>주파수 효율성</td><td>-</td><td>4G 대비 3배</td></tr>
+    <tr><td>고속 이동성</td><td>350 Km/h</td><td>500 Km/h</td></tr>
+    <tr><td>전송지연</td><td>10 ms</td><td>1 ms</td></tr>
+    <tr><td>최대기기 연결수</td><td>10<sup>5</sup>개/km²</td><td>10<sup>6</sup>개/km²</td></tr>
+    <tr><td>에너지 효율성</td><td>-</td><td>4G 대비 100배</td></tr>
+    <tr><td>면적당 데이터 처리용량</td><td>0.1 Mbps/m²</td><td>10 Mbps/m²</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>5G의 <strong>주파수 효율성은 4G 대비 3배</strong>, <strong>에너지 효율성은 4G 대비 100배</strong>다 — 두 수치를 뒤바꾸거나(예: 에너지효율 3배) 다른 값으로 제시하는 것이 전형적 오답 패턴이다.</div>
+
+  <h3>나. 5G 핵심 기술</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p091.jpg" alt="비직교 다중접속(NOMA) 개념도. 동일 시간/주파수 자원을 여러 사용자가 공유하며 신호를 동시 송수신하는 구조와 SIC(연속 간섭 제거) 처리 과정"><figcaption>[그림] 비직교 다중접속(NOMA, Non-Orthogonal Multiple Access) — 동일 시간·주파수 자원 공유 다중 접속과 SIC(연속 간섭 제거)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p092.jpg" alt="Massive MIMO 개념도. Massive Transmit Precoder와 Massive Base Station이 다수의 안테나로 여러 사용자(User 1~M)에게 동시에 빔포밍하는 구조"><figcaption>[그림] Massive MIMO — 다수 안테나로 다수 사용자에게 동시 빔포밍해 데이터 전송률 향상</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p093.jpg" alt="전이중 통신(In-Band Full Duplex, IBFD) 개념도. 동일 주파수 대역에서 동시에 송수신이 가능한 기지국과 단말 구조를 기존 FDD/TDD 방식과 비교"><figcaption>[그림] 전이중 통신(In-Band Full Duplex, IBFD) — 동일 주파수 대역에서 동시 송수신으로 주파수 효율 2배 향상</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p094.jpg" alt="네트워크 슬라이싱 개념도. 하나의 물리적 5G 네트워크 인프라 위에 SW 가상화 기술로 자율주행, 스마트팩토리 등 서비스별로 최적화된 논리적 네트워크 슬라이스를 구성하는 구조"><figcaption>[그림] 네트워크 슬라이싱(Network Slicing) — 하나의 물리 인프라를 SW로 가상화해 서비스별 맞춤 네트워크 슬라이스 구성</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p095.jpg" alt="모바일 엣지 컴퓨팅(MEC) 개념도. Air IF-Smart Cell과 Core Network-Internet 사이 MEC Platform이 위치해 응답속도 개선과 신규 서비스 제공을 지원하는 구조"><figcaption>[그림] 모바일 엣지 컴퓨팅(MEC, Mobile Edge Computing) — 네트워크 엣지에서 처리해 응답속도(latency) 개선</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p096.jpg" alt="스몰셀(Small Cell) 개념도. Macro, Micro, Pico, Femto 등 커버리지 반경별 셀 계층 구조와 각 셀의 실내외 전력 및 커버리지 반경 비교표"><figcaption>[그림] 스몰셀(Small Cell) — Macro·Micro·Pico·Femto 등 커버리지 반경별 셀 계층 구조</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p097.jpg" alt="밀리미터파(mmWave) 주파수 대역도. Sub-6GHz 대역과 24~100GHz, 100~300GHz의 5G mmWave 대역을 비교하는 스펙트럼 도표"><figcaption>[그림] 밀리미터파(mmWave) — Sub-6GHz 대비 24GHz 이상의 초고주파 대역을 활용해 초광대역 확보</figcaption></figure>
+  <table>
+    <tr><th>핵심 기술</th><th>요약</th></tr>
+    <tr><td>비직교 다중접속(NOMA)</td><td>모든 사용자가 시간·주파수 자원을 공유하면서 신호를 동시 송수신, 중첩코딩(Superposition Coding)으로 단일 신호를 동일 스펙트럼으로 송신하며 각각 다른 전송 전력을 사용, SIC(Successive Interference Cancellation)로 간섭 최소화</td></tr>
+    <tr><td>Massive MIMO</td><td>수십 개 이상의 안테나·MIMO 기술 적용으로 지연·용량 향상, 공간 다이버시티(다수 안테나로 데이터 반복 전송해 오차 감소), 빔포밍(안테나 위상 조정으로 원하는 방향에 신호 집중)</td></tr>
+    <tr><td>전이중 통신(IBFD)</td><td>동일 주파수 대역에서 동시에 송수신함으로써 주파수 효율을 약 2배 향상</td></tr>
+    <tr><td>네트워크 슬라이싱</td><td>공통의 물리적 네트워크 인프라에 SW 가상화 기술을 적용해 다양한 네트워크 슬라이스를 유연하게 구성, SDN/NFV 등의 가상화 기술 적용</td></tr>
+    <tr><td>모바일 엣지 컴퓨팅(MEC)</td><td>무선 기지국 근접 위치에 컴퓨팅 자원을 배치해 응답 속도를 개선하고, 실시간 네트워크 정보 접근이 가능</td></tr>
+    <tr><td>스몰셀(Small Cell)</td><td>단위 면적당 용량 증대와 QoS 향상, 배터리 소모 감소와 편리한 유지보수를 위한 SON(Self-Configuration·Self-Optimization·Self-Healing) 기술 적용</td></tr>
+    <tr><td>밀리미터파(mmWave)</td><td>Sub-6GHz 이상의 24~100GHz대 주파수를 활용해 초광대역을 확보하지만 도달거리가 짧다는 한계</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s22" class="section">
+  <h2>22. 컨테이너 가상화/도커 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.100-107)</span></h2>
+
+  <h3>가. 컨테이너(Container) 개념</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p100.jpg" alt="VM(Virtual Machine)과 Container 아키텍처 비교도. VM은 Infrastructure-Host OS-Hypervisor 위에 각각의 Guest OS와 App이 있는 구조, Container는 Infrastructure-Host OS-Container Engine 위에 Bins/Libs와 App만 있는 경량 구조"><figcaption>[그림] 가상머신(VM)과 컨테이너(Container) 아키텍처 비교 — 컨테이너는 게스트 OS 없이 Host OS 커널을 공유</figcaption></figure>
+  <table>
+    <tr><th>구분</th><th>가상머신</th><th>컨테이너</th></tr>
+    <tr><td>이식성</td><td>VM당 모놀리딕(Monolithic)한 서비스, VM 단위의 이동·복제·생성</td><td>실행에 필요한 모든 종속성·구성을 함께 배포(실행환경의 일관성), 마이크로서비스(MSA) 구축에 최적</td></tr>
+    <tr><td>효율성</td><td>1VM당 1서비스, 성능 오버헤드 존재</td><td>호스트 OS 커널 공유로 필요한 만큼 자원 사용</td></tr>
+    <tr><td>서비스 신속성</td><td>최소 수 GB 이상의 추가 VM 생성</td><td>게스트 OS 없는 수 MB 단위의 컨테이너 생성</td></tr>
+    <tr><td>라이선스</td><td>VM 개수만큼 지불</td><td>Host 1대의 비용만 지불</td></tr>
+    <tr><td>안정성</td><td>각각 독립된 VM으로 안정적 운영(완전한 분리)</td><td>OS 커널을 공유하므로 장애 발생 시 함께 영향</td></tr>
+    <tr><td>가상화 레벨</td><td>HW 레벨 가상화(게스트 OS+하이퍼바이저)</td><td>운영체제 수준 가상화(OS 레벨), OS 제외한 앱 실행 필요 파일만 패키징</td></tr>
+  </table>
+
+  <h3>나. 가상화 기술 유형과 도커</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>전가상화</td><td>컴퓨팅 시스템의 HW 자원 전체를 가상화. 게스트 OS 수정 없이 도입 쉽지만 반가상화 대비 오버헤드 큼</td></tr>
+    <tr><td>반가상화</td><td>HW 자원 전체가 아닌 필요한 기능만 가상화. 게스트 OS 수정 필요, 하이퍼바이저 개입 최소화로 성능 향상</td></tr>
+    <tr><td>Hypervisor</td><td>호스트 컴퓨터에서 다수의 서로 다른 OS를 동시 실행하는 논리적 플랫폼. Type-1(서버 가상화용, HW에서 직접 실행)과 Type-2(개인 PC용, 호스트 OS에서 실행)로 구분</td></tr>
+    <tr><td>컨테이너</td><td>가상화된 운영체제에 애플리케이션을 올려 운영(프로세스 격리), 경량화·이식성이 뛰어남. Cgroup(자원 할당·제어), Namespaces(독립된 격리 환경 제공)</td></tr>
+    <tr><td>도커(Docker)</td><td>컨테이너 기반 오픈소스 가상화 플랫폼. Registry(이미지 저장), Daemon(컨테이너 관리), Image(실행가능 프로그램·소스가 설치된 파일), Container(Image 실행상태)로 구성</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p105.jpg" alt="가상머신(VM)과 컨테이너의 계층 구조 비교도. VM은 Hypervisor 위에 개별 Guest OS와 App1/App2 Bins/Libs가 있고, Container는 Container Engine 위에 App1/App2/App3의 Bins/Libs만 있는 구조"><figcaption>[그림] 가상머신 vs 컨테이너 계층 구조 비교</figcaption></figure>
+  <p>도커(Docker)는 컨테이너 기반의 가상화 기술을 제공하는 오픈소스 프로젝트이자 컨테이너 관리 플랫폼으로, 기존 리눅스 컨테이너(LXC) 기술에 이식성 향상, 데이터와 코드의 분산된 관리, 프로그램 스택의 간결명료함 등을 더해 이동성과 유연성을 향상시켰다.</p>
+  <p>컨테이너 기반 가상화는 전통적인 하이퍼바이저와 달리 운영체제 수준에서 가상화를 제공하며 특정 응용을 위한 독립된 공간을 제공한다. GuestOS를 설치하지 않고 필요한 라이브러리와 응용만 설치하면 되므로 패키징과 마이그레이션 적용이 쉽다. 또한 컨테이너는 실행에 필요한 모든 종속성 및 구성을 함께 배포하는 특성 덕분에 마이크로서비스(MSA, 애플리케이션을 상호 독립적인 최소 구성요소로 분할해 구축하는 아키텍처) 활용에 오히려 이상적인 배포 유닛이자 독립 실행 환경을 제공한다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>컨테이너는 실행에 필요한 모든 종속성·구성을 함께 배포하기 때문에 마이크로서비스에 <strong>적합하지 않다</strong가 아니라 오히려 <strong>이상적</strong>이라는 점에 유의한다.</div>
+</section>
+
+<section id="sa02-s23" class="section">
+  <h2>23. 빅데이터 분석 프로세스 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.108-112)</span></h2>
+  <table>
+    <tr><th>단계</th><th>내용</th><th>주요기술</th></tr>
+    <tr><td>빅데이터 수집</td><td>조직 내·외부의 분산된 데이터 소스로부터 필요 데이터를 검색해 수동·자동으로 수집. 단순 확보가 아닌 검색/수집/변환을 통한 정제 데이터 확보</td><td>ETL/크롤링 엔진/로그 수집기/센싱, RSS 및 Open API, 스쿱·플럼·척와·카프카</td></tr>
+    <tr><td>빅데이터 저장</td><td>수집 데이터를 분석에 적합하게 안전·영구적으로 보관. 전처리(필터링·유형변환·정제), 후처리(평활화·집계·일반화·정규화)</td><td>병렬 DBMS, 하둡(Hadoop), NoSQL</td></tr>
+    <tr><td>빅데이터 처리</td><td>유용한 정보·숨은 지식을 찾기 위한 가공·분석 지원. 의사결정의 즉시성이 덜 요구되며 장기적·전략적 분석 위주. 통상 분산 처리 기술 필요, 실시간 처리가 보장돼야 하는 분석에는 부적합</td><td>실시간 처리, 분산 병렬처리, 인-메모리, 인-데이터베이스 처리</td></tr>
+    <tr><td>빅데이터 분석</td><td>대량 데이터로부터 숨겨진 패턴과 알려지지 않은 정보 간의 관계를 찾는 과정</td><td>데이터 마이닝, 텍스트 마이닝, 평판분석, SNA</td></tr>
+    <tr><td>빅데이터 시각화</td><td>분석 결과를 시각적 수단으로 쉽게 전달, 데이터 값을 단순화해 그림·그래프로 제공</td><td>편집기술, 정보 시각화 기술, 시각화 도구</td></tr>
+  </table>
+  <p><strong>카프카(Kafka)</strong>는 LinkedIn에서 개발한 Pub-Sub 모델 기반의 분산 메시징 시스템으로, 대용량 실시간 로그처리 및 분산 환경에 특화된 오픈소스 시스템이다. Broker(카프카 서버, 1대 이상의 클러스터), Topic(메시지 집합), Partition(로드밸런싱을 위한 토픽 분할), Replication(Fault Tolerance를 위한 파티션 복제)으로 구성되며, Producer API(스트림 레코드 게시), Consumer API(스트림 레코드 구독), Stream API(토픽 스트림 변환), Connector API(재사용 가능한 Producer·Consumer 연결) 등을 제공한다.</p>
+  <table>
+    <tr><th>구분</th><th>Flume</th><th>Scribe</th><th>Chukwa</th></tr>
+    <tr><td>주체</td><td>아파치</td><td>페이스북</td><td>아파치</td></tr>
+    <tr><td>수집 방법</td><td>다양한 소스로부터 데이터를 수집해 다양한 방식으로 전송, 단순·유연한 확장 가능 모델 제공</td><td>클라이언트-서버 타입에 상관없이 다양한 방식으로 로그 수집</td><td>수집된 로그 파일을 HDFS에 저장</td></tr>
+    <tr><td>특징</td><td>대용량 로그 데이터를 안정성·가용성 바탕으로 효율적으로 수집</td><td>수많은 서버로부터 실시간 스트리밍 로그 수집(Apache Thrift 기반)</td><td>하둡 서브 프로젝트로 분산서버 로그를 수집·저장·분석</td></tr>
+  </table>
+</section>
+
+<section id="sa02-s24" class="section">
+  <h2>24. VR(Virtual Reality)/AR(Augmented Reality) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.113-117)</span></h2>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>VR(Virtual Reality)</td><td>컴퓨터가 만든 가상환경 내에서 사용자의 감각 정보를 확장·공유해 현실에서 경험하기 어려운 상황을 체험. 몰입형 장치로 현실과 단절된 콘텐츠를 체험</td></tr>
+    <tr><td>AR(Augmented Reality)</td><td>현실 세계·실제 사물에 가상의 콘텐츠를 합성해 소통환경·정보를 제공. 실제 세계와 융합된 콘텐츠를 제시</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>기술</th><th>설명</th></tr>
+    <tr><td rowspan="3">가상현실(VR)</td><td>몰입 가시화</td><td>가상현실 몰입환경 제공. HMD·프로젝션 등 가시화 장치, 영상가시화 SW 기술</td></tr>
+    <tr><td>실감 상호작용</td><td>오감 기반 참여자-시스템 입출력 기술. 모션기반 시뮬레이터, 위치추적, 촉각·햅틱·후각·미각 기술</td></tr>
+    <tr><td>환경생성 및 시뮬레이션</td><td>360도 파노라마 이미지 등으로 가상현실 환경 생성, 시나리오 기반 몰입 가시화·상호작용 환경 제공</td></tr>
+    <tr><td rowspan="3">증강현실(AR)</td><td>센싱 및 트래킹</td><td>가상 물체를 실제 공간에 정밀하게 위치. 마커 기반 방법과 비주얼 트래킹 등 다양한 방법</td></tr>
+    <tr><td>영상합성</td><td>가상 물체를 실제 공간 영상과 일치하게 표현, 심리스(seamless) 합성</td></tr>
+    <tr><td>실시간 상호작용</td><td>합성된 가상 물체를 참여자가 실시간 상호작용으로 체험(대표 예: 포켓몬고)</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>MQTT</th><th>XMPP</th><th>CoAP</th></tr>
+    <tr><td>개념</td><td>제한된 환경·모바일에 최적화된 Publish-Subscribe 방식의 경량 메시지 프로토콜</td><td>Publish/Subscribe 구조 기반의 확장성 있는 XML 기반 실시간 메시지 교환 프로토콜</td><td>제한된 환경에 최적화된 REST 기반의 경량 프로토콜</td></tr>
+    <tr><td>특징</td><td>Broker 기반 N:M 통신</td><td>XML 기반 메시지 처리, 강력한 보안, 다수 메신저 적용</td><td>HTTP 기반, RESTful, 저전력, 비동기 전송</td></tr>
+    <tr><td>보안</td><td>TLS(SSL) 기반</td><td>TLS(SSL) 기반</td><td>DTLS(Datagram TLS) 기반 경량화 보안</td></tr>
+    <tr><td>표준</td><td>OASIS</td><td>IETF</td><td>IETF</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>CoAP은 제한된 컴퓨팅 성능을 위한 <strong>비동기</strong> 통신 프로토콜이며, 보안을 위해 TLS가 아니라 <strong>DTLS</strong>(Datagram TLS)를 채택한다.</div>
+</section>
+
+<section id="sa02-s25" class="section">
+  <h2>25. LPWA(Low Power Wide Area) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.118-120)</span></h2>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p118.jpg" alt="LPWA 기술 비교표. NB-IoT, LoRa, Sigfox 각각의 전송반경, 주파수 대역, 통신속도, 표준화 규격, 배터리 수명, 장점을 정리한 표"><figcaption>[그림] LPWA(Low Power Wide Area) 기술 비교표 — NB-IoT / LoRa / Sigfox의 전송반경·주파수·통신속도·배터리 수명 비교</figcaption></figure>
+  <p>LPWA(저전력 광역 통신)는 사물인터넷 분야에서 사용하는 기술 중 하나로, 하나의 기지국이 넓은 지역을 커버하며 저전력·저가·장거리 통신을 지원한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SA02fig/p120.jpg" alt="Wi-SUN(Wireless Smart Utility Network) 프로토콜 스택 구조도. Application 계층 하위에 Network Layer/Transport Layer, Medium Access(MAC), Physical Radio(PHY) 계층이 IEEE802.15.4g 기반으로 구성된 구조"><figcaption>[그림] Wi-SUN(Wireless Smart Utility Network) 프로토콜 스택 — IEEE 802.15.4g 기반 PHY/MAC 계층 구조</figcaption></figure>
+  <p>Wi-SUN(Wireless Smart Utility Network)은 900MHz 비면허 대역을 활용하며 데이터 전송속도는 최고 300kbps를 가지는 저전력 무선통신 규격으로, 물리층은 IEEE 802.15.4g, MAC층은 IEEE 802.15.4e로 규격화되어 있다. 낮은 지연속도와 다중 통신경로를 제공하는 메시 네트워크 기반의 확장성, 펌웨어 업그레이드 용이성 면에서 경쟁 기술보다 우월하며 최대 전파 도달거리는 약 5km다. 통신사 제공 서비스가 아닌 지자체 자가망 구축 형태로 서비스가 가능하다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip</span>짧은 시간에 잦은 데이터 전송이 필요한 검침 분야에는 IEEE 802.15.4g로 표준화되고 900㎒ 비면허 대역에서 최대 300kbps 속도를 내며 통신사업자 없이 자가망으로 구축 가능한 <strong>LoRa</strong>가 주로 사용된다.</div>
+</section>
+
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (20문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다(원문의 띄어쓰기 누락은 가독성을 위해 보완했습니다). 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. [18회 97번] 데이터워드가 "111111"인 경우에 CRC(Cyclic Redundancy Check) 기반의 코드워드를 구하려고 한다. 제수(divisor)가 "1010"이고 몫(quotient)이 "110011", 나머지(remainder)가 "110"이라면 코드워드는 무엇인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.5)</span></div><ol class="quiz-options"><li>1111111010</li><li>111111110011</li><li>111111110</li><li>110011110</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 코드워드 = 데이터워드 + 나머지(remainder) = "111111" + "110" = "111111110"</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. [19회 86번] Go-Back-N 프로토콜에서 송신윈도우의 크기가 2<sup>m</sup>-1일 때, 수신윈도우의 크기로 가장 적절한 것은?(여기서, m은 순서번호 필드의 비트수를 나타낸다.) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.15)</span></div><ol class="quiz-options"><li>1</li><li>2<sup>m</sup>-1</li><li>2<sup>m</sup></li><li>정답없음</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — Go-Back-N 프로토콜의 수신윈도우 크기는 항상 1</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. [예상문제] IPv4와 IPv6 주소체계의 전환기술에 대한 설명으로 가장 옳지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.22)</span></div><ol class="quiz-options"><li>듀얼스택은 전환기술 중에서 가장 구현이 용이하며 하나의 물리적인 장비에서 IPv4와 IPv6 패킷을 동시에 처리할 수 있는 기술이다.</li><li>터널링기법은 크게 설정 터널링(Configured Tunnel) 기법과 자동 터널링(Automatic Tunnel) 기법으로 나누어지며 자동 터널링 기법으로 6to4, DSTM 등이 있다.</li><li>주소변환기술은 IPv4 패킷과 IPv6 패킷을 상호 변환하여 두 프로토콜 간 연동을 가능하도록 해주는 기술로서 NAT-PT, NAT64 등의 기법이 있다.</li><li>주소변환기술은 처리 속도에 따라 SIIT(Stateless IP/ICMP Translation), TRT(Transport Relay Translator), ALG(Application Level Gateway) 등으로 분류된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 주소변환기술은 처리 속도가 아니라 <strong>계층</strong>에 따라 SIIT·TRT·ALG로 분류됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. [예상문제] ICMPv6에서 제공되는 메시지에 대한 설명으로 옳은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.26)</span></div><ol class="quiz-options"><li>ICMPv6에는 다양한 메시지 타입들이 있으며 각 메시지 타입들의 구분은 0부터 255번까지의 번호를 이용하고 있다. 그중에서 0부터 127번까지는 정보메시지이며, 128부터 255번까지는 에러메시지들이다.</li><li>Packet Too Big 메시지는 Type 4이다.</li><li>MLD(Multicast Listener Discovery) 기능을 위하여 MLQ, MLR, MLD의 3개 메시지 타입을 사용한다.</li><li>NDP(Neighbor Discovery Protocol)는 IPv4에서의 RARP와 유사한 역할을 수행하며 NS, NA 메시지 타입 등을 사용한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — ① 에러메시지: 0~127, 정보메시지: 128~255(반대로 서술됨) ② Packet Too Big은 Type 2 ④ NDP는 ARP와 유사한 역할(RARP 아님)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. [19회 83번] 어떤 기관의 호스트에서 사용하는 IPv4 주소가 클래스 없는(classless) 주소지정방식으로 168.199.160.82/27이다. 이 네트워크에 속하는 마지막 IP 주소는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.31)</span></div><ol class="quiz-options"><li>168.199.160.63</li><li>168.199.160.95</li><li>168.199.160.127</li><li>168.199.160.255</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 호스트 식별자 크기 5비트이므로 서브넷은 8개, 82가 속한 서브넷 범위는 64~95이므로 마지막 주소는 168.199.160.95</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. [예상문제] 전송계층(Transport Layer)에서 사용하는 프로토콜에 대한 설명으로 가장 옳지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.41)</span></div><ol class="quiz-options"><li>MPTCP는 서브플로우 계층으로 다수의 TCP 경로를 구성하여 다수의 경로로 동시에 데이터를 송수신하는 방법을 제공한다.</li><li>MPTCP의 초기 연결과정은 TCP같이 3-way 핸드쉐이킹을 이용하지만, 서브플로우 추가과정은 4단계로 이루어지며 각 패킷은 MP_JOIN(multipath join) 옵션을 포함하고 있다.</li><li>MPTCP에서 연결해제는 MPTCP 계층에서 FIN 패킷을 통하여 모든 연결을 해제하게 된다.</li><li>SCTP는 UDP의 메시지 지향 특성과 TCP의 연결형 신뢰성 제공 특성을 모두 가지고 있으며 멀티스트리밍(multi-streaming) 및 멀티호밍(multi-homing) 기능을 제공한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — MPTCP에서 연결해제는 각 서브플로우에서 개별적으로 연결을 해제함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. [19회 79번] 어떤 공공기관의 민원서비스시스템이 다음과 같이 3계층(3-tier)으로 구성되어 있다고 하자. 애플리케이션서버는 웹서버의 비즈니스 기능을 백엔드(back-end)의 메인프레임으로 전송하는 트랜잭션으로 변환한다. 만약 이 민원서비스시스템에 10,000명의 사용자가 동시에 로그인했을 때, 시간당 180만 개의 비즈니스 기능을 처리한다면 각 사용자당 평균 응답시간은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.46)</span></div><ol class="quiz-options"><li>10초</li><li>15초</li><li>20초</li><li>25초</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — TPS = 1,800,000/(60×60) = 500 TPS, 평균응답시간 = Active User/TPS = 10,000/500 = 20초</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. [19회 89번] 2GHz 클럭의 컴퓨터 A에서 실행시간이 10초인 프로그램이 있다. 이 프로그램을 8초에 실행시킬 수 있는 컴퓨터 B를 설계하고자 한다. 클럭속도를 빠르게 하면 CPU의 다른 부분 설계에 영향을 미치게 되어, 이 프로그램을 수행하기 위하여 컴퓨터 A보다 1.2배 많은 클럭 사이클을 필요로 하게 된다. 컴퓨터 B의 클럭속도는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.48)</span></div><ol class="quiz-options"><li>2.4 GHz</li><li>3 GHz</li><li>3.5 GHz</li><li>4 GHz</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 컴퓨터A: 명령어×CPI(A) = 20. 컴퓨터B: 클럭속도 = (명령어×1.2CPI(A))/8초 = 24/8 = 3GHz</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. [18회 100번] 하나의 벤치마크 프로그램의 실행시간이 100초인데 이 중 80초가 CPU 시간이고 나머지가 입출력시간이다. CPU 시간은 CPU의 개수에 정비례하여 감소하고(예: CPU 2개를 사용하면 CPU 시간은 1/2로 감소) 입출력시간은 CPU 개수에 상관없이 동일하다. 개별 CPU의 속도는 동일하고 CPU의 개수가 2년마다 두 배씩 증가한다고 가정할 때, 6년 후에 이 프로그램의 실행시간과 그중 입출력시간이 차지하는 비율을 설명한 것 중 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.50)</span></div><ol class="quiz-options"><li>실행시간: 50초, 입출력시간: 50%</li><li>실행시간: 50초, 입출력시간: 66.6%</li><li>실행시간: 30초, 입출력시간: 50%</li><li>실행시간: 30초, 입출력시간: 66.6%</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 6년 후 CPU 8배 증가로 CPU시간 10초, I/O시간 20초(동일), 실행시간 30초, I/O 비율 20/30=66.6%</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. [예상문제] 디스크를 섹터 기반으로 인식하는 운영체제와 프로그램들이 페이지와 블록으로 구성된 SSD(Solid State Drive)를 인식할 수 있도록 매핑해주는 기술을 플래시변환계층(Flash Translation Layer, FTL)이라고 한다. 다음 중 플래시변환계층에 대한 설명이 가장 잘못된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.63)</span></div><ol class="quiz-options"><li>SSD는 플래시메모리이므로 쓰기 횟수가 제한되어 있으며 웨어레벨링(Wear Leveling) 기술을 통하여 모든 페이지에 골고루 쓰기를 통하여 SSD의 수명을 연장할 수 있다.</li><li>웨어레벨링은 주소매핑테이블을 수정하여 논리주소와 연결된 물리주소를 바꾸어 논리주소가 사용빈도가 낮은 페이지의 물리주소로 연결하여 쓰기 작업을 수행하는 기법이다.</li><li>웨어레벨링으로 변경된 기존 물리주소의 페이지는 바로 삭제하여 웨어레벨링으로 다시 사용될 수 있도록 한다.</li><li>오버프로비저닝(Over Provisioning)은 웨어레벨링과 가비지콜렉션을 위한 여유 공간을 제공한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 변경된 기존 물리주소 페이지는 바로 삭제되지 않고 Invalid 상태로 두었다가 G.C를 통해 삭제됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. [19회 90번] P2P(Peer-to-Peer) 네트워크 기반의 블록체인 네트워크에서 사용되는 기술에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.70)</span></div><ol class="quiz-options"><li>PoW(Proof of Work)는 byzantine fault를 대응하지 않는 방식이다.</li><li>PoS(Proof of Stake)는 화폐량을 더 많이 소유하는 승인자가 우선적으로 블록을 생성하는 방식이다.</li><li>PBFT(Practical Byzantine Fault Tolerance)는 다수결로 의사결정한 뒤 블록을 생성하는 방식이다.</li><li>Paxos는 과반수의 동의를 얻은 경우에 동의 내용이 나중에 변경되지 않도록 하는 방식이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — PoW는 비잔틴 장군 문제의 확률적 해결을 위해 적용된 합의 알고리즘</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. [예상문제] 블록체인(Block Chain)은 신뢰할 수 있는 제3자 없이 네트워크 내의 모든 참여자가 공동으로 거래정보를 검증하고 기록 및 보관함으로써 거래기록의 무결성과 신뢰성을 확보하는 기술이다. 블록체인의 유형에 대한 설명으로 가장 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.72)</span></div><ol class="quiz-options"><li>컨소시엄 블록체인은 참여자들의 합의에 따라 거래내역 검증이 가능하며 허가받은 사용자만 데이터에 접근이 가능한 형태로서 퍼블릭 블록체인에 비해 투명성과 보안성이 높다.</li><li>퍼블릭 블록체인은 누구나 데이터에 접근이 가능하다.</li><li>프라이빗 블록체인은 지정된 중앙기관에서 통제권한을 보유하여 거래를 증명하고 사용자를 통제하는 형태이며 POW, POS와 같은 합의 알고리즘을 사용할 필요가 없다.</li><li>퍼블릭 블록체인에 비하여 프라이빗 블록체인이 확장이 용이하고 거래속도가 빠르다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 컨소시엄 블록체인은 퍼블릭 블록체인에 비해 투명성과 보안성이 낮음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. [예상문제] 기계학습(Machine Learning)에 대한 설명이 가장 잘못된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.77)</span></div><ol class="quiz-options"><li>기계학습은 학습방법에 따라 지도학습(Supervised Learning), 비지도학습(Unsupervised Learning), 강화학습(Reinforcement Learning)으로 구분될 수 있다.</li><li>지도학습과 비지도학습의 차이는 학습데이터에 대한 레이블(Label)의 유무이다.</li><li>지도학습의 대표 알고리즘은 K-Means, SVM, PCA 등이 있으며, 비지도학습의 대표 알고리즘은 K-NN, 군집 등이 있다.</li><li>강화학습을 위한 주요 요소는 상태(state), 행동(action), 보상(Reward)이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — K-Means, PCA는 비지도학습, K-NN은 지도학습 알고리즘(서로 뒤바뀜)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. [예상문제] 딥러닝(Deep Learning) 알고리즘에 대한 설명 중 가장 잘못된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.87)</span></div><ol class="quiz-options"><li>LSTM(Long Short-Term Memory)은 Cell state라는 메모리 구조를 통하여 기울기 소실 문제를 해결하였다.</li><li>RNN(Recursive Neural Networks)은 재귀 과정을 통하여 현재의 정보를 다음 단계에서 계속 활용할 수 있어 음성인식, 언어모델 등에 다양하게 사용되는 신경망 알고리즘이다.</li><li>LSTM은 연결의 강도를 조절하기 위하여 Input gate, Output gate, Reset gate를 구성하고 있다.</li><li>CNN(Convolutional Neural Network)의 주요 구성요소는 컨볼루션(Convolution)과 풀링(Pooling), FC(Fully Connected)이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — LSTM은 Forget, Input, Output Gate로 구성됨(Reset Gate는 GRU의 구성요소)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. [예상문제] 5G를 대표하는 세 가지 서비스 시나리오는 eMBB(Enhanced Mobile Broadband), URLLC(Ultra-Reliable Low Latency Communication), mMTC(Massive Machine Type Communication) 등이 있다. 이러한 서비스를 제공하기 위한 성능지표 중 가장 잘못된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.98)</span></div><ol class="quiz-options"><li>나, 바</li><li>라, 바</li><li>마, 사</li><li>가, 사 — 가) 최대전송속도: 20Gbps 나) 최대기기연결수: 10<sup>6</sup>개/km² 다) 전송지연: 1ms 라) 주파수효율성: 4G 대비 10배 마) 고속이동성: 500km/h 바) 에너지효율성: 4G 대비 3배 사) 데이터처리용량: 10 Mbps/m²</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 주파수효율성은 4G 대비 10배가 아니라 3배, 에너지효율성은 4G 대비 3배가 아니라 100배</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. [19회 85번] 다음에 설명하는 가상화 기술로 가장 적절한 것은? "전통적인 하이퍼바이저와 달리 운영체제 수준에서 가상화를 제공하며, 특정 응용을 위한 독립된 공간을 제공한다. GuestOS를 설치하지 않으며 필요한 라이브러리와 응용만 설치하면 되기 때문에 패키징과 마이그레이션 적용이 쉽다. 대표적인 사례로 도커(docker)가 있다." <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.103)</span></div><ol class="quiz-options"><li>전가상화</li><li>서버가상화</li><li>프로세스가상화</li><li>컨테이너기반가상화</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 컨테이너기반가상화</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. [예상문제] 컨테이너(Container) 가상화에 대한 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.106)</span></div><ol class="quiz-options"><li>가상머신(Virtual Machine)이 HW레벨 가상화 기술을 제공하는 것에 반하여 컨테이너는 OS레벨 가상화 기술을 지원한다.</li><li>컨테이너는 시스템 환경 의존성을 탈피하고 프로세스를 격리하여 '모듈화된 프로그램 패키지'로써 수행된다.</li><li>도커(Docker)는 컨테이너 기반으로 가상화 환경을 제공하는 대표적인 기술이다.</li><li>컨테이너는 실행에 필요한 모든 종속성 및 구성을 함께 배포하기 때문에 마이크로서비스에는 적합하지 않다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 컨테이너 가상화는 오히려 마이크로서비스 활용 가능성을 증대시킴</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. [예상문제] 다음에 설명하는 빅데이터 수집기술로 가장 적절한 것은? "대용량의 로그 데이터를 수집할 뿐만 아니라 분산 메시징 시스템을 통해 전송 데이터를 압축하고 메시지를 일괄적으로 전송하는 기술이다. 발행-구독(publish-subscribe) 모델을 기반으로 동작하며 크게 Producer, Consumer, Broker로 구성된다." <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.111)</span></div><ol class="quiz-options"><li>Flume</li><li>Kafka</li><li>Scribe</li><li>Chukwa</li></ol><div class="quiz-explanation"><strong>정답</strong> ② Kafka</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. [19회 92번] 사물인터넷 서비스를 편리하게 구현할 수 있는 통신기술에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.116)</span></div><ol class="quiz-options"><li>REST(Representation State Transfer)는 분산 하이퍼미디어 시스템을 위한 규격으로 리소스의 CRUD(Create, Read, Update, Delete) 처리를 지원한다.</li><li>MQTT(Message Queuing Telemetry Transport)는 제한된 컴퓨팅 성능과 네트워크 환경에서 메시지를 안정적으로 전달하는 프로토콜로 Publish/Subscribe 형태를 취한다.</li><li>XMPP(eXtensible Messaging and Presence Protocol)는 XML을 기반으로 한 메시지 지향 미들웨어용 통신 프로토콜로 3개 이상의 통신노드 간에 실시간 메시지 교환이 가능하다.</li><li>CoAP(Constrained Environment Application Protocol)은 제한된 컴퓨팅 성능을 갖는 디바이스를 위한 동기 통신 프로토콜로 보안을 위하여 TLS(Transport Layer Security)를 채택한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — CoAP은 동기가 아닌 비동기 통신 프로토콜이며, 보안을 위해 TLS가 아닌 DTLS를 사용함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. [예상문제] 저전력 광역 통신기술(LPWA)은 사물인터넷 분야에서 사용하는 기술 가운데 하나로 저전력, 낮은 구축비용, 광대역 커버리지가 요구되는 기술이다. 다음에서 설명하는 LPWA 기술은 무엇인가? "IEEE802.15.4g로 표준화된 기술로서 900㎒ 비면허 대역에서 최대 300kbps의 속도를 가지는 무선통신 기술이며, 짧은 시간에 잦은 데이터 전송이 필요한 검침 분야에 주로 사용되며 통신사업자 제공 서비스가 아닌 자가망으로 구축 가능함" <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.119)</span></div><ol class="quiz-options"><li>Wi-SUN</li><li>SigFox</li><li>NB-IoT</li><li>LoRA</li></ol><div class="quiz-explanation"><strong>정답</strong> ① Wi-SUN(Wireless Smart Utility Network) — 900㎒ 비면허 대역, 최대 300kbps, 물리층 IEEE 802.15.4g / MAC층 IEEE 802.15.4e, 메시 네트워크 기반 확장성, 최대 전파 도달거리 약 5km, 지자체 자가망 구축 형태</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

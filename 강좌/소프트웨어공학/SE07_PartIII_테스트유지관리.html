@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SE07] Part III · 테스트·유지관리</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+.slide { background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:22px 26px; margin-bottom:18px; scroll-margin-top:120px; }
+.slide-title { font-size:1.15rem; color:var(--primary); font-weight:bold; border-left:5px solid var(--secondary); padding-left:12px; margin-bottom:14px; }
+.slide-num { float:right; font-size:0.75rem; color:#94a3b8; font-weight:normal; }
+.slide p { margin:6px 0; }
+.slide ul { margin:8px 0 8px 22px; }
+.slide li { margin:3px 0; }
+.figs { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
+.figs img { max-width:100%; border:1px solid var(--border-color); border-radius:6px; background:#fff; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SE07] Part III · 테스트·유지관리</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/180</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#se07-t01"><span style="color:#94a3b8">p.4</span> 1. 테스트의 개념과 분류</a></li><li><a href="#se07-t02"><span style="color:#94a3b8">p.78</span> 2. PoC와 기타 테스트 유형</a></li><li><a href="#se07-t03"><span style="color:#94a3b8">p.94</span> 3. 테스트 프로세스와 표준(IEEE 829 / ISO 29119)</a></li><li><a href="#se07-t05"><span style="color:#94a3b8">p.104</span> 4. Test Case 설계와 정적분석</a></li><li><a href="#se07-t06"><span style="color:#94a3b8">p.120</span> 5. 모듈화·결합도·응집도</a></li><li><a href="#se07-t07"><span style="color:#94a3b8">p.144</span> 6. 소프트웨어 3R(재공학)</a></li><li><a href="#se07-t08"><span style="color:#94a3b8">p.146</span> 7. 소프트웨어 유지보수</a></li><li><a href="#se07-t10"><span style="color:#94a3b8">p.159</span> 8. 리팩토링</a></li><li><a href="#se07-t12"><span style="color:#94a3b8">p.174</span> 9. 신뢰도·가용성과 Outsourcing</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (30)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="se07-t01" class="section">
+  <h2>1. 테스트의 개념과 분류 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.4-77)</span></h2>
+
+  <h3>가. 소프트웨어 테스트의 정의와 원리</h3>
+  <p>소프트웨어 테스트란 노출되지 않고 숨어있는 결함(Fault)을 찾기 위해 소프트웨어를 작동시키는 일련의 행위와 절차로, 오류 발견을 목적으로 프로그램을 실행하여 품질을 평가하는 과정이다. 성공적인 테스트란 무결점을 증명하는 것이 아니라 결함을 찾아내는 데 있으며, 테스트 케이스의 선정과 계획 수립의 품질에 따라 결과가 크게 좌우된다. 또한 개발자는 원칙적으로 자신이 작성한 프로그램을 직접 테스트하지 않는다는 원칙(마이어의 법칙)이 널리 통용된다.</p>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>테스트의 목적</td><td>잠재적 오류와 결함의 발견, 요구사항의 준수 여부(기능/성능) 확인, 소프트웨어 신뢰도의 평가와 예측, 고객 요구 만족도 향상</td></tr>
+    <tr><td>테스트의 필요성</td><td>Defect-free 소프트웨어 개발의 어려움, 테스트에 의한 검증 방식의 경제성, 실증에 의한 기능의 확인</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 결함 발견 시점과 수정 비용</span>결함은 발견 시점이 늦어질수록(설계→구현→테스트→운영 단계로 갈수록) 수정 비용이 기하급수적으로 증가한다는 것이 테스트 경제성 논리의 핵심이다. 그래서 테스트는 개발 초기 단계부터 시작해야 전체 품질비용을 줄일 수 있다.</div>
+
+  <h3>나. 테스트 대상 정보와 실행 여부에 따른 분류</h3>
+  <table>
+    <tr><th>구분</th><th>유형</th><th>특징</th></tr>
+    <tr><td rowspan="2">테스트 정보 획득 대상</td><td>화이트박스 테스트</td><td>프로그램 내부 로직을 보면서 하는 구조 테스트. 논리적 복잡도를 측정한 후 수행 경로들의 집합을 정의(구조 테스트)하거나 루프 구조에 국한해 실시(루프 테스트)한다.</td></tr>
+    <tr><td>블랙박스 테스트</td><td>프로그램 외부 명세를 보면서 하는 기능 테스트. 동등분할·경계값 분석·원인-결과 그래프·오류예측기법 등을 활용하는 Data-driven Test이다.</td></tr>
+    <tr><td rowspan="2">프로그램 실행 여부</td><td>동적 테스트</td><td>프로그램 실행을 요구하는 테스트로, 화이트박스·블랙박스 테스트가 모두 해당한다.</td></tr>
+    <tr><td>정적 테스트</td><td>프로그램을 실행하지 않고 구조를 분석해 논리성을 검증한다. 코드검사(체크리스트 기반의 공식적 검사, Fagan Inspection)와 워크스루(체크리스트 없는 비공식적 검사)가 대표적이다.</td></tr>
+    <tr><td rowspan="2">테스트에 대한 시각</td><td>검증(Verification)</td><td>과정을 테스트한다 — "Are we building the product right?" 올바른 방법으로 제품을 생산하고 있는지 검증한다.</td></tr>
+    <tr><td>확인(Validation)</td><td>결과를 테스트한다 — "Are we building the right product?" 만들어진 제품이 사용자 요구를 제대로 충족하는지 확인한다.</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>검증(Verification)</th><th>확인(Validation)</th></tr>
+    <tr><td>정의</td><td>개발자 시각에서 소프트웨어가 명세화된 기능을 올바로 수행하는지 확인(Build the product right)</td><td>사용자 시각에서 올바른 소프트웨어가 개발되었는지 입증(Build the right product)</td></tr>
+    <tr><td>활동 대상</td><td>제품 생산 과정</td><td>생산된 제품 자체</td></tr>
+    <tr><td>활동 기간</td><td>개발의 각 단계</td><td>시작과 종료 단계</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p023.jpg" alt="V&amp;V 모델의 테스트 단계별 검증·확인 대응 관계(요구사항-Acceptance, 설계-System, 상세설계-Component 등 피라미드 구조)"><figcaption>[그림] V&amp;V 모델에서의 테스트 레벨 대응 관계</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p024.jpg" alt="V-모델 다이어그램. 좌측 하향(요구분석-설계-상세설계-구현)과 우측 상향(단위-통합-시스템-인수 테스트)이 V자 형태로 대응"><figcaption>[그림] V-모델(V-Diagram) — 개발 단계와 테스트 단계의 대응</figcaption></figure>
+
+  <h3>다. 테스트 단계·목적별 분류</h3>
+  <table>
+    <tr><th>구분</th><th>유형</th><th>특징</th></tr>
+    <tr><td rowspan="5">테스트 단계</td><td>단위 테스트</td><td>모듈의 독립성 평가, 화이트박스 테스트, 개발자가 수행</td></tr>
+    <tr><td>통합 테스트</td><td>모듈 간 인터페이스 테스트(결함 테스트). Driver·Stub을 통해 수행</td></tr>
+    <tr><td>시스템 테스트</td><td>전체 시스템의 기능 수행 테스트(비기능 - 회복, 안전, 강도, 성능, 구조)★</td></tr>
+    <tr><td>인수 테스트</td><td>사용자 요구사항 만족도 평가(확인, 알파테스트, 베타테스트)★</td></tr>
+    <tr><td>설치 테스트</td><td>사용자 환경에서 수행하는 설치 관련 테스트</td></tr>
+    <tr><td rowspan="7">테스트 목적</td><td>회복 테스트(Recovery)</td><td>고의적 실패를 유도해 복구 능력을 검증</td></tr>
+    <tr><td>안전 테스트(Security)</td><td>불법 소프트웨어 검출·제거, 취약점·악성코드 진단</td></tr>
+    <tr><td>강도 테스트(Stress)</td><td>과다 정보량을 부과해 한계를 검증</td></tr>
+    <tr><td>성능 테스트(Performance)</td><td>응답시간, 처리량, 속도 검증</td></tr>
+    <tr><td>구조 테스트(Structure)</td><td>내부 논리 경로, 복잡도 평가</td></tr>
+    <tr><td>회귀 테스트</td><td>변경·교정이 새로운 오류를 발생시키지 않았는지 확인</td></tr>
+    <tr><td>병행 테스트</td><td>변경 시스템과 기존 시스템에 동일 데이터를 넣어 결과 비교</td></tr>
+  </table>
+  <table>
+    <tr><th>단계</th><th>테스트 방법</th></tr>
+    <tr><td>단위 테스트</td><td>구현 단계에서 개발자가 수행. 개별 모듈의 단독 실행 환경이 필요</td></tr>
+    <tr><td>통합 테스트</td><td>모듈을 결합해 하나의 시스템으로 구성할 때 수행★ — 빅뱅 통합(한꺼번에 결합, 원인 규명 어려움) / 하향식 통합(다수의 스텁 필요) / 상향식 통합(테스트 드라이버 필요) / 샌드위치 통합(상·하향 결합 방식, 권장)</td></tr>
+    <tr><td>시스템 테스트</td><td>통합된 모듈에 대한 비기능적 테스트 — 신뢰성, 견고성, 성능, 안전성 등</td></tr>
+    <tr><td>인수 테스트</td><td>사용자 만족 여부를 확인하는 품질 테스트 — 알파(개발자 환경, 개발자 통제 하 사용자 수행) / 베타(일정 수 사용자가 실사용 환경에서 테스트, 피드백) / 감마(베타 이후 다수 사용자 대상)</td></tr>
+    <tr><td>설치 테스트</td><td>시스템 설치 시 수행, H/W 체계·S/W 연결성 등을 확인</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 테스트 수행 순서 암기</span>단위 → 통합 → 시스템(성능 테스트가 여기 포함) → 인수(알파·베타) → 설치, 순서로 "단-통-시(성능)-인(알파·베타)-설"로 암기하면 "단위 테스팅 - 성능 테스팅 - 베타 테스팅" 순서를 묻는 기출문제에 바로 대응할 수 있다.</div>
+
+  <h3>라. 테스트 기법(방법)에 따른 분류</h3>
+  <table>
+    <tr><th>기법 유형</th><th>설명</th><th>키워드</th></tr>
+    <tr><td>Record and Replay</td><td>타겟 시스템(주로 임베디드 SW)에서 발생하는 사용자 입력·외부 이벤트를 녹화해 테스트 스크립트로 구성하고 재수행하여 결과를 확인하는 이벤트 기반 테스팅</td><td>임베디드 SW</td></tr>
+    <tr><td>테스트 오라클(Test Oracle)</td><td>테스트 수행 결과의 참/거짓을 판단하기 위해 미리 정의된 참 값을 대입·비교하는 기법. 참 오라클(모든 입력에 대한 결과 검출) / 샘플링 오라클(일부 결과만 제공) / 휴리스틱 오라클(특정 입력만 샘플링해 단점 보완)로 구분된다.</td><td>참·샘플링·휴리스틱 오라클</td></tr>
+    <tr><td>리스크 기반 테스트</td><td>비즈니스·기술상의 위험을 정량적으로 측정해 우선순위가 높은 영역에 테스팅 자원을 집중하는 전략</td><td>발생가능성, 영향도</td></tr>
+    <tr><td>Pairwise Testing</td><td>대부분의 결함이 2개 요소의 상호작용에서 발생한다는 전제로, 각 값이 다른 파라미터 값과 최소 한 번씩 조합되는 테스트 케이스를 구성</td><td>2-factor 조합 최소화</td></tr>
+    <tr><td>준거성 테스트(Compliance Test)</td><td>내부 통제가 문서화 자료와 경영자의 의도대로 이행되는지 판단하는 감사 테스트 — 프로세스 준수 여부(과정심사) 확인</td><td>위험 평가, CMMi/SPICE/ITIL</td></tr>
+    <tr><td>실증성 테스트(Substantive Test)</td><td>활동·거래의 완전성·정확성·존재성에 대한 감사 증거를 수집하기 위한 세부 테스트 또는 분석적 조사 — V&amp;V, 성능 감사</td><td>정보보호 감사, 증거 수집</td></tr>
+    <tr><td>뮤테이션 테스트</td><td>정상 프로그램에 의도적으로 소스코드를 변형(뮤턴트 삽입)한 뒤 동일 입력으로 다른 결과가 나오는 테스트케이스를 찾아, 테스트케이스의 적합성과 신뢰성을 평가하는 기법</td><td>Mutant</td></tr>
+    <tr><td>회귀 시험(Regression Test)</td><td>새 결함 발생에 대비해 기존에 실시했던 테스트 사례 일부 또는 전체를 재실시</td><td>변경 영향 확인</td></tr>
+    <tr><td>빅뱅 테스트(Big-Bang Test)</td><td>모듈 간 상호 인터페이스를 고려하지 않고 한꺼번에 결합해 테스트</td><td>원인 규명 어려움</td></tr>
+  </table>
+
+  <h3>마. 명세기반(블랙박스) 테스트 기법</h3>
+  <p>명세기반 테스트는 요구사항 분석서·설계서 등 주어진 명세를 바탕으로 테스트 케이스를 도출하는 기법으로, 기능 위주·데이터 기반·I/O 기반의 테스트를 지향한다.</p>
+  <table>
+    <tr><th>유형</th><th>설명</th><th>특징</th></tr>
+    <tr><td>동등분할(Equivalence Partitioning)</td><td>결과가 동일한 입력값들을 하나의 등가집합으로 묶고, 집합 대표값을 선택해 테스트 케이스를 선정</td><td>상호 독립적 등가집합</td></tr>
+    <tr><td>경계값 분석(Boundary Value Analysis)</td><td>동등분할의 경계에서 결함 발견 확률이 높다는 점에 착안해 유효·비유효 경계값을 함께 고려</td><td>모든 테스트 레벨에 적용, 결함 발견율 높음</td></tr>
+    <tr><td>결정(의사결정) 테이블 테스팅</td><td>입력 조건과 결과를 참/거짓 조합으로 표현한 결정테이블을 만들고 이를 기반으로 테스트 케이스를 작성</td><td>조건·상황 기반 비즈니스 규칙 명세화</td></tr>
+    <tr><td>상태전이 테스팅</td><td>시스템의 이전 상태, 상태 간 전이, 전이를 유발하는 이벤트·입력값을 정의한 전이테이블을 기반으로 설계</td><td>전이트리, 임베디드 시스템에 적합</td></tr>
+    <tr><td>유스케이스 테스팅</td><td>유스케이스·비즈니스 시나리오를 기반으로 액터와 시스템의 상호작용, 기본흐름·대체흐름을 명세화</td><td>전제조건·후속조건, 프로세스 흐름</td></tr>
+    <tr><td>분류 트리 기법(Classification Tree Method)</td><td>소프트웨어 전체 또는 일부를 트리 구조로 분석·표현하여 테스트 케이스를 도출</td><td>복잡도 높은 SW에 적합, 시각화</td></tr>
+    <tr><td>오류 예측 기법(Error Guessing)</td><td>각 시험 기법이 놓치기 쉬운 오류를 감각과 경험으로 찾아내는 기법(예: 입력 없이 Enter, 문법 위반 입력 등)</td><td>경험 기반</td></tr>
+    <tr><td>원인-결과 그래프 기법(Cause-Effect Graphing)</td><td>동등분할·경계값 분석이 입력 조합의 복잡성을 완전히 반영하지 못하는 한계를 보완하기 위해, 입력 데이터 간 관계가 출력에 미치는 영향을 체계적으로 분석해 시험사례를 도출</td><td>입력 조합의 체계적 분석</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 명세기반 테스트 유형 암기</span>동등분할·경계값·결정테이블·상태전이·유스케이스를 묶어 "블동경의상"(불교, 동경에 의상대사 가셨다)으로 암기하면 다섯 가지 기법을 빠짐없이 떠올릴 수 있다.</div>
+
+  <h3>바. 구조기반(화이트박스) 테스트 기법</h3>
+  <p>구조기반 테스트는 소프트웨어의 코드나 설계 등 내부 구조를 보여주는 정보로부터 테스트 케이스를 도출하는 기법으로, White Box Test와 동일한 개념이다.</p>
+  <ul>
+    <li><strong>제어구조 시험(Control Structure Testing)</strong> — McCabe가 제안한 대표적 화이트박스 기법. 프로그램의 논리적 복잡도를 측정한 후 이 척도에 따라 수행시킬 기본 경로들의 집합을 정의한다. 구조적 프로그램은 순차형(SEQUENCE), 선택형(IF-THEN-ELSE), 반복형(DO-WHILE)의 3가지 제어 구조 조합으로 모든 논리가 기술되며, 이를 테스트 대상으로 삼는다.</li>
+    <li><strong>루프 시험(Loop Testing)</strong> — 프로그램의 루프 구조에 국한해 루프의 계속·종료 여부를 결정하는 명령문을 검사하는 기법. 루프 유형은 단순 루프, 중첩 루프, 연결 루프, 비구조적 루프로 구분된다.(암기법: 화제루)</li>
+  </ul>
+
+  <h3>사. 경험기반 테스트 기법과 탐색적 테스팅</h3>
+  <table>
+    <tr><th>기법 유형</th><th>설명</th><th>키워드</th></tr>
+    <tr><td>탐색적 테스트(Exploratory Testing)</td><td>테스트 목표와 테스트 차터(Test Charter)를 기반으로 정해진 시간 내에 테스트 설계·수행·기록·학습을 병행하는 테스트 기법</td><td>Formal 기법의 보완, Heuristic 기반</td></tr>
+    <tr><td>오류 추정(Error Guessing)</td><td>가능한 결함을 목록화하고 이를 발견하기 위한 케이스를 작성. 상식·경험·기존 데이터를 통해 결함을 예상</td><td>기능/시스템 요소 체크리스트</td></tr>
+    <tr><td>체크리스트 기반 테스트</td><td>문서 기반 테스트 케이스 작성 시에도 체크리스트의 경험과 노하우를 반영</td><td>일반적 경험, 노하우</td></tr>
+    <tr><td>분류 트리 기법</td><td>트리 구조로 시각화하여 테스트 케이스를 설계</td><td>복잡도 높은 SW에 적합</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 경험기반 테스트 기법 암기</span>탐색적 테스트·오류 추정·체크리스트 기반·분류 트리를 묶어 "경탐오체분"(경험기반=탐색적, 오류추정, 체크리스트, 분류트리)으로 암기한다.</div>
+  <p>탐색적 테스팅은 제품 정보 습득과 테스트 설계·실행을 동시에 수행하는 경험 기반 테스트 접근법으로, 결함 집중의 원리를 활용하고 프로세스·도구보다 사람(지적 능력, 몰입)을 중심에 둔다. 문서를 최소화하며 정해진 시간(Time-Boxing) 내에 몰입하고, 세션 종료 후 회고(Debriefing)를 통해 경험과 스킬을 공유한다.</p>
+  <table>
+    <tr><th>구성요소</th><th>설명</th></tr>
+    <tr><td>테스트 차터(Test Charter)</td><td>테스트 미션·대상·목적·범위를 명시한 테스트 명령지</td></tr>
+    <tr><td>시간 제한(Time Boxing)</td><td>세션당 몰입 시간을 지정(예: 60분/90분/120분)해 몰입 여건을 조성</td></tr>
+    <tr><td>세션 시트(Session Sheet)</td><td>아이디어·결과·결함을 기록하는 검토 가능한 결과물</td></tr>
+    <tr><td>요약보고(Debriefing)</td><td>테스트 수행 이력과 경험을 주기적으로 공유</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>테스트케이스 기반 테스팅</th><th>탐색적 테스팅</th></tr>
+    <tr><td>정의</td><td>입력값·예상결과·실행조건을 명세화한 문서 기반의 공식적 테스트</td><td>테스터의 경험(Heuristic)에 기반한 직관적 테스팅</td></tr>
+    <tr><td>구성요소</td><td>테스트 계획서, 테스트케이스, 테스트 시나리오, 결과서</td><td>테스트 차터, 타임박싱, 테스트 노트, 요약보고</td></tr>
+    <tr><td>설계와 수행</td><td>먼저 설계·기록되고 다른 테스터도 수행 가능</td><td>설계와 수행이 동시에 진행, 반드시 기록되지는 않음</td></tr>
+    <tr><td>문서화 비중</td><td>공식화·완전한 설계를 위해 문서화 비중이 큼</td><td>문서화를 줄이고 테스터의 지적 능력에 의존해 결함 발견율 편차가 큼</td></tr>
+  </table>
+
+  <h3>아. 테스트 커버리지</h3>
+  <p>커버리지(Coverage)는 테스트가 얼마나 충분한지를 나타내는 지표로, 코드 커버리지·패스 커버리지 등으로 활용된다. 커버리지 기준은 아래와 같이 단계적으로 강화된다.</p>
+  <table>
+    <tr><th>용어</th><th>설명</th></tr>
+    <tr><td>Statement Coverage(구문 커버리지)</td><td>기술된 문장(Statement)이 최소 1회 수행되는지 검증. Boolean 식의 경우 if의 참 조건만 수행해도 만족되므로 가장 약한 커버리지 기준이다.</td></tr>
+    <tr><td>Decision Coverage(결정 커버리지)</td><td>전체 조건식에서 결과 포인트(Decision Point)가 최소 한 번은 참/거짓 각각 나오도록 수행하는 커버리지</td></tr>
+    <tr><td>Condition Coverage(조건 커버리지)</td><td>조건문에서 사용되는 개별 조건이 결과와 상관없이 최소 한 번은 참, 한 번은 거짓이 되도록 수행</td></tr>
+    <tr><td>Condition/Decision Coverage(조건/결정 커버리지)</td><td>전체 조건식의 결과가 참·거짓 각 한 번, 개별 조건식도 참·거짓 각 한 번을 갖도록 조합</td></tr>
+    <tr><td>MC/DC(Modified Condition/Decision Coverage)</td><td>각 개별 조건식이 다른 개별 조건식의 영향을 받지 않고 전체 조건식의 결과에 독립적으로 영향을 주도록 하여 조건/결정 커버리지를 향상시킨 기법. 일반적으로 N개의 입력을 가진 결정에서 최소 N+1개의 테스트 케이스가 필요하다.</td></tr>
+    <tr><td>Multiple Condition Coverage(다중 조건 커버리지)</td><td>결정 포인트 내 모든 개별 조건식의 모든 가능한 논리적 조합을 100% 커버(가장 완전하지만 비용이 큰 방법)</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p068.jpg" alt="커버리지 간 포함관계 다이어그램. 결정 커버리지와 조건 커버리지를 포함하는 조건/결정 커버리지, 이를 포함하는 변경 조건/결정 커버리지(MC/DC), 가장 바깥의 다중 조건 커버리지가 중첩된 벤 다이어그램"><figcaption>[그림] 커버리지 유형 간 포함관계(Statement ⊂ Decision/Condition ⊂ Condition/Decision ⊂ MC/DC ⊂ Multiple Condition)</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 커버리지 계산 예제(if (x&gt;=-2 &amp;&amp; y&lt;4) x=y*5; else x=y-5;, 테스트 데이터 T={(-3,-2),(0,6)})</span>
+    <ul>
+      <li>조건 커버리지: x&gt;=-2가 참·거짓 각 1회, y&lt;4도 참·거짓 각 1회 나오므로 100%</li>
+      <li>결정 커버리지: 전체 식이 거짓 2회만 나오고 참이 없으므로 50%</li>
+      <li>문장 커버리지: if문과 else문(x=y-5) 2개 문장만 수행되고 x=y*5는 수행되지 않아 2/3 ≈ 66%</li>
+    </ul>
+  이처럼 세 지표는 서로 다른 값을 가질 수 있다는 점이 기출의 핵심 포인트다.</div>
+
+  <h3>자. 성능 테스트</h3>
+  <table>
+    <tr><th>성능지표</th><th>설명</th><th>단위</th><th>목표</th></tr>
+    <tr><td>응답 시간(Response Time)</td><td>작업 처리 요청 후 결과를 보여줄 때까지 소요된 시간</td><td>초</td><td>낮춤</td></tr>
+    <tr><td>시간당 처리량(Throughput)</td><td>단위 시간당 성공적으로 처리한 요청(트랜잭션) 건수</td><td>TPS, OPS</td><td>높임</td></tr>
+    <tr><td>자원 사용량(Utilization)</td><td>자원(CPU, 메모리 등) 용량 중 실제 사용 중인 비율</td><td>%</td><td>높임</td></tr>
+    <tr><td>효율성(Efficiency)</td><td>시간당 처리량을 자원사용량 또는 비용으로 나눈 값</td><td>%, tpmC</td><td>높임</td></tr>
+  </table>
+  <p><strong>Little's Law</strong>는 시스템의 처리 용량을 계산하는 수학적 법칙으로, TPS(초당 트랜잭션 처리 건수) = AU(Active User, 트랜잭션을 발생시키는 사용자 수) ÷ MRT(평균 응답시간)로 표현된다. 이를 통해 시스템 성능·용량의 임계치를 파악하고, 과부하가 예상되는 시스템에 대한 사전 장애 예방 및 튜닝 포인트(서버, DBMS, 미들웨어, 네트워크, Client PC) 분석에 활용한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p053.jpg" alt="가상 사용자 수 증가에 따른 TPS와 응답시간의 관계를 보여주는 그래프. TPS는 증가하다 완만해지고 응답시간은 계속 증가하는 두 개의 곡선"><figcaption>[그림] 가상 사용자 증가에 따른 TPS·응답시간 상관관계 — TPS가 완만해지는 지점이 시스템의 임계치</figcaption></figure>
+  <table>
+    <tr><th>성능테스트 유형</th><th>목적</th><th>수행 방식</th></tr>
+    <tr><td>부하(Load) 테스트</td><td>어플리케이션이 정의된 성능 목표를 만족하는지 확인</td><td>평상시 및 최대(peak) 부하량에서 응답시간·처리량·자원사용량 등 성능 지표를 측정</td></tr>
+    <tr><td>과부하(Stress) 테스트</td><td>과부하 상황에서 정상 기능이 수행되는지 확인</td><td>최대치를 초과하는 부하량에서 동기화, 자원 경합, 메모리 누수 문제 발생 여부를 평가</td></tr>
+    <tr><td>용량(Capacity) 테스트</td><td>사용자·데이터 증가 시 필요한 시스템 용량을 확인</td><td>과거 성능 측정치를 기준으로 필요 시스템 자원 산정 및 확장 전략 수립</td></tr>
+  </table>
+  <table>
+    <tr><th>지원 도구 유형</th><th>세부 유형</th><th>주요 역할</th></tr>
+    <tr><td rowspan="4">테스트 관리 지원 도구</td><td>테스트 관리 도구</td><td>테스트 관리 협업 환경 지원</td></tr>
+    <tr><td>Incident 관리 도구</td><td>결함 할당 및 모니터링</td></tr>
+    <tr><td>요구사항 관리 도구</td><td>요구사항 작성 및 추적성 모니터링</td></tr>
+    <tr><td>형상 관리 도구</td><td>테스트웨어 버전 관리</td></tr>
+    <tr><td>테스트 설계 지원 도구</td><td>테스트 설계 도구</td><td>Test Case 설계 지원</td></tr>
+    <tr><td>정적 Testing 지원 도구</td><td>정적 분석 도구</td><td>테스트 매트릭스 정보 제공, 룰 기반 위반 사례 검출</td></tr>
+    <tr><td rowspan="5">동적 Testing 지원 도구</td><td>단위 테스트 도구</td><td>단위 함수 기능 검증</td></tr>
+    <tr><td>테스트 실행 도구</td><td>반복 테스트 자동 수행</td></tr>
+    <tr><td>성능 Testing 도구</td><td>가상 부하 발생을 통한 성능/부하/스트레스 테스트</td></tr>
+    <tr><td>커버리지 측정 도구</td><td>코드 레벨 커버리지 측정</td></tr>
+    <tr><td>모니터링/보안 도구</td><td>메모리 사용량·동시 접속자 등 모니터링, 보안 취약점 검출</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p056.jpg" alt="테스트 자동화 도입 검토 매트릭스. 자동화 비용(세로축)과 테스트 활용도(가로축) 2x2 매트릭스로 수동 테스트, 가능한 자동화, 자동화 고려, 반드시 자동화 4개 영역을 구분"><figcaption>[그림] 테스트 자동화 도입 검토 매트릭스 — 자동화 비용×테스트 활용도에 따른 4분면</figcaption></figure>
+
+  <h3>차. Back-to-back Testing</h3>
+  <p>두 개 이상의 다양한 컴포넌트나 시스템을 동일한 입력값으로 실행하여 동일한 결과가 나오는지 확인하고, 불일치가 발생하면 그 원인을 비교 분석하는 테스트 기법이다. 신뢰성이 절대적으로 요구되는 항공기·자동차 분야에서 설계 명세와 구현 결과의 정확성을 체크하는 데 활용되며, ISO 26262 Functional Safety에서는 Unit/Integration/System Testing 수행 시 주요 검증 방법으로 권고한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p007.jpg" alt="테스트 구성요소 관계도. Test Basis에서 Test Suite/Test Case가 도출되고 Test Target을 Test Harness(Test Driver, Test Stub)로 실행하여 Test Log와 Incident Report가 생성되는 흐름"><figcaption>[그림] 테스트 구성요소 관계도 — Test Basis → Test Case/Suite → Test Harness(Driver·Stub) → Test Log/Report</figcaption></figure>
+</section>
+<section id="se07-t02" class="section">
+  <h2>2. PoC와 기타 테스트 유형 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.78-93)</span></h2>
+
+  <h3>가. PoC(Proof of Concept)의 개념</h3>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>개념</td><td>제품·기술·정보시스템 등이 조직의 특수 문제를 해결할 수 있음을 실현·증명하는 과정. 아직 시장에 나오지 않은 신제품의 사전 검증에 사용</td></tr>
+    <tr><td>목적</td><td>신기술·신제품에 대한 사전 검증, 도입 위험 완화 및 사용자 반응 확인</td></tr>
+    <tr><td>대상/범위</td><td>단일 제품 및 솔루션 평가, 출시되지 않은 신제품, 단일 업체 참여</td></tr>
+    <tr><td>산출물</td><td>솔루션·제품 설명서 및 분석서, PoC 계획서·결과서, 제품 도입 타당성 분석</td></tr>
+  </table>
+
+  <h3>나. 소프트웨어 테스트의 기본 원리</h3>
+  <table>
+    <tr><th>원리</th><th>설명</th></tr>
+    <tr><td>살충제 패러독스(Pesticide Paradox)</td><td>동일한 테스트 케이스로 동일한 테스트를 반복하면 나중에는 더 이상 새로운 결함을 찾아내지 못함</td></tr>
+    <tr><td>오류 부재의 궤변(Absence-errors Fallacy)</td><td>개발된 시스템이 사용자의 필요·기대에 부응하지 못하고 사용성이 낮다면, 결함을 찾아 수정하는 과정 자체가 무의미해짐</td></tr>
+    <tr><td>결함 집중(Defect Clustering)</td><td>파레토 법칙에 따라 결함의 20%가 전체 영향의 80%를 차지</td></tr>
+    <tr><td>테스트의 조기 시작</td><td>개발 초기부터 테스트를 시작해야 품질비용을 줄일 수 있음</td></tr>
+    <tr><td>완벽한 테스트의 불가능성</td><td>자원의 한계로 모든 경로·조합을 테스트할 수는 없음</td></tr>
+  </table>
+
+  <h3>다. 인수·특수 목적 테스트 유형</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th></tr>
+    <tr><td>알파 테스트(Alpha)</td><td>개발업체 내부 직원 또는 회사와 밀접한 관계를 유지하는 일부 사용자만 참여하는 시험. 개발 환경에서 사용자가 참여해 수행</td></tr>
+    <tr><td>베타 테스트(Beta)</td><td>알파테스트를 거친 프로그램을 정식 출시 전에 일정 수의 실사용자가 실제 운영환경에서 테스트</td></tr>
+    <tr><td>감마 테스트(Gamma)</td><td>베타 버전 배포 이후 다수의 사용자를 대상으로 하는 테스트로, 인수 테스트의 일종</td></tr>
+    <tr><td>스트레스 테스트</td><td>서버 수용력, 다수 동시 접속 시의 원활한 동작 여부를 점검</td></tr>
+    <tr><td>복구 테스트(Recovery)</td><td>고장 발생 시 복구 작동 여부를 테스트</td></tr>
+    <tr><td>스모크 테스트(Smoke Testing)</td><td>기본 기능을 점검하는 선행 시험, 정밀검사 전 간편 사전심사</td></tr>
+    <tr><td>민감도 테스트(Sensitivity Testing)</td><td>입력변수의 조합, 불안정한 요소에 대한 영향도를 테스트</td></tr>
+    <tr><td>슬라이싱 테스트</td><td>프로그램을 분해하여 테스트하는 방법</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 인수테스트 vs 회복테스트 구분</span>"개발자 통제 하 개발환경 수행"은 알파, "실제 운영환경에서 사용자가 수행"은 베타, "고장 후 정상 작동 여부 확인"은 복구(Recovery) 테스트로 구분한다. 회귀 테스트(regression)는 "변경이 기존 시스템에 부작용을 일으키는지" 확인하는 것으로 복구 테스트와 혼동하지 않도록 주의한다.</div>
+</section>
+<section id="se07-t03" class="section">
+  <h2>3. 테스트 프로세스와 표준(IEEE 829 / ISO 29119) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.94-103)</span></h2>
+
+  <h3>가. 테스트 문서 표준화 배경</h3>
+  <p>소프트웨어 품질인증 제도 시행과 관련해 S/W 업체의 품질 인식을 고취하고 제품 품질을 높이기 위해, IEEE 829(Standard for Test Documentation)를 수용해 한글화한 표준을 TTA(정보통신기술협회)가 제정하였다. 테스트 계획서는 총 16개 항목으로 목차가 구성되며, 부속 서류로 테스트 설계명세서·테스트 케이스 명세서·테스트 절차 명세서를 갖는다.</p>
+  <table>
+    <tr><th>문서</th><th>주요 내용</th></tr>
+    <tr><td>테스트 설계명세서</td><td>테스트 대상의 특성 식별, 세부 접근방법 명시, 테스트 식별(케이스 식별자 열거), 성공/실패 판정 기준 명시</td></tr>
+    <tr><td>테스트 케이스 명세서</td><td>테스트 항목·입출력 명세·환경 요건 및 절차의 특정 제약사항을 기술. 입력값·예상 출력값뿐 아니라 값을 입력하고 결과를 관찰·비교하는 방법, 테스트 대상이 실행되는 특수 환경까지 명시한다.</td></tr>
+    <tr><td>테스트 절차 명세서</td><td>테스트 수행 단계를 상황기록 → 준비 → 시작 → 진행 → 측정 → 중단 → 재시작 → 중지 → 마감 → 비상 대처상황의 10단계로 정의</td></tr>
+    <tr><td>테스트 항목 전달 보고서</td><td>테스트 대상 시스템의 당초 요구사항·설계에서 벗어난 사항을 기록</td></tr>
+    <tr><td>테스트 상황 기록</td><td>테스트 실행 관련 상세 내용을 시간 순으로 기록</td></tr>
+    <tr><td>테스트 사건보고서(결함보고서)</td><td>테스트 실행 중 발생한 사건을 사고보고서 형태로 기록 — 입력값, 예상결과, 실제결과, 예외사항, 발생일시, 수행자 등을 포함(단, 결함 제거를 위한 해결 방안은 필수 항목이 아니다)</td></tr>
+  </table>
+
+  <h3>나. 테스트 프로세스의 5단계</h3>
+  <table>
+    <tr><th>단계</th><th>세부단계</th><th>설명</th></tr>
+    <tr><td>테스트 계획수립</td><td>1) 요구사항 수집  2) 계획 작성  3) 계획 검토</td><td>테스트 목표·대상·범위 선정, 전략·일정·보고 체계를 담은 계획서를 작성하고 정제·확정</td></tr>
+    <tr><td>테스트 케이스 설계</td><td>1) 설계기법 정의  2) 케이스 도출  3) 원시 데이터 수집</td><td>테스트 종류 및 설계기법을 정의하고 이를 이용해 테스트 케이스를 도출, 원시 데이터를 작성</td></tr>
+    <tr><td>테스트 실행 및 측정</td><td>1) 환경 구축  2) 케이스 실행·측정</td><td>계획서에 정의된 환경·자원을 설정해 테스트를 실행하고 결과를 측정</td></tr>
+    <tr><td>결과분석 및 보고</td><td>1) 측정결과 분석  2) 결과 보고</td><td>측정치를 분석하고 결과 분석서를 기반으로 결과 보고서를 작성</td></tr>
+    <tr><td>오류추적 및 수정</td><td>1) 원인 분석  2) 수정 계획  3) 오류 수정  4) 수정 후 검토</td><td>오류지점을 분석해 우선순위를 정하고 디버깅 도구로 수정한 뒤, 수정 결과의 정합성을 재검토</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p097.jpg" alt="테스트 프로세스 5단계 흐름도. 테스트 계획수립에서 테스트케이스 설계, 테스트 실행 및 측정, 결과분석 및 보고, 오류추적 및 수정까지 순환하는 화살표 다이어그램"><figcaption>[그림] 테스트 프로세스 5단계 흐름도</figcaption></figure>
+
+  <h3>다. ISO/IEC 29119 국제 표준</h3>
+  <p>ISO 29119는 소프트웨어 테스팅 프로세스·산출물을 표준화한 국제표준이다. IEEE 829, IEEE 1008, BS7925-1·2 등 기존 테스팅 표준을 통합해 일관된 기준을 제시하며, 사실상의 표준(De facto standard)이던 ISTQB 체계와 결합해 테스팅 표준 간의 혼잡성을 해소하고 조직의 테스트 수행 수준을 판단하는 객관적 지표(Guarantee Level)를 제공한다.</p>
+  <table>
+    <tr><th>구성(Part)</th><th>내용</th></tr>
+    <tr><td>Part 1</td><td>소프트웨어 테스팅 원리와 프로세스의 개요(Concepts &amp; Definitions)</td></tr>
+    <tr><td>Part 2</td><td>ISO/IEC 12207의 테스트 관련 부분 준용, 테스트 프로세스(Processes)</td></tr>
+    <tr><td>Part 3</td><td>테스트 프로세스 산출물의 문서화 방안(Documentation)</td></tr>
+    <tr><td>Part 4</td><td>테스트 케이스 설계, 명세 등 상세 테스트 기법(Test Techniques)</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p102.jpg" alt="ISO 29119의 구성과 타 표준과의 관계도. Part1 Concepts&Vocabulary, Part2 Processes, Part3 Test Documentation, Part4 Test Techniques가 IEEE 829, IEEE 1008 등과 연결된 다이어그램"><figcaption>[그림] ISO 29119의 구성 체계(Part 1~4)와 산업계 타 표준의 관계</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p103.jpg" alt="ISO 29119와 IEEE 829, IEEE 1008, BS7925-1,2 등 타 표준과의 관계를 보여주는 계층 다이어그램"><figcaption>[그림] ISO 29119와 타 표준(IEEE 829/1008, BS7925 등)과의 관계</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · ISO 29119 관련 용어</span>ISTQB(International Software Testing Qualifications Board)는 국제 소프트웨어 테스팅 자격시험 기관이며, Guarantee Level은 조직의 테스트 수행 수준을 객관적으로 나타내는 지표 개념으로 ISO 29119가 도입한 개념이다.</div>
+</section>
+<section id="se07-t05" class="section">
+  <h2>4. Test Case 설계와 정적분석 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.104-119)</span></h2>
+
+  <h3>가. 테스트 케이스의 정의와 설계의 중요성</h3>
+  <p>테스트 케이스(Test Case)란 특정 프로그램 경로를 실행해 보거나 특정 요구사항의 준수 여부를 확인하기 위해 개발된 입력값, 실행 조건, 예상 결과의 집합이다. 테스트하려는 시스템이 수행해야 할 액션들로 구성된 일련의 단계를 테스트 프로시저 또는 테스트 스크립트라 부른다. 테스트 케이스 설계가 미흡하면 테스트 오류가 발생하기 쉽고, 직관적으로 테스트를 수행하면 인력·시간이 낭비되므로 설계의 경제성이 중요하다.</p>
+
+  <h3>나. 커버리지 기준별 최소 테스트케이스 산정 사례</h3>
+  <p>제어 흐름도를 테스트할 때 커버리지 기준에 따라 필요한 최소 테스트케이스 수가 달라진다.</p>
+  <ul>
+    <li><strong>문장 검증 기준(Statement Coverage)</strong> — 제어 흐름도의 모든 문장을 각각 최소 1회 수행하면 되므로, 대표적인 두 경로만으로도 2개의 테스트케이스로 충분한 경우가 많다.</li>
+    <li><strong>분기 검증 기준(Branch/Decision Coverage)</strong> — 모든 분기(마름모 결정 포인트)가 참·거짓을 각 1회 이상 만족해야 하므로 통상 3개 이상의 테스트케이스가 필요하다.</li>
+    <li><strong>경로 검증 기준(Path Coverage)</strong> — 모든 논리적 경로를 테스트하므로 가장 많은 테스트케이스를 요구한다. 예를 들어 마름모 분기 2개(i&gt;j 여부, k&gt;0 여부)를 모두 조합하면 최소 4개의 테스트케이스가 필요하다.★</li>
+  </ul>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 세 커버리지 기준의 포함 관계</span>일부 경로만으로 분기 커버리지와 문장 커버리지를 모두 만족시켰다고 해서 경로 커버리지까지 만족하는 것은 아니다. 경로 커버리지가 가장 강한 기준이며, 분기 커버리지 ⊃ 문장 커버리지 순으로 요구 테스트케이스 수가 줄어든다.</div>
+
+  <h3>다. IEEE 표준 테스트 산출물</h3>
+  <p>IEEE Standard for Software Test는 계획, 공정, 개발, 운영 및 유지보수 등 모든 소프트웨어 수명주기 프로세스를 지원하기 위한 테스트 프로세스·활동·작업을 정의한다. 테스트 계획 및 절차의 수행 결과 표준 산출물로는 Test Design, Test Case, Test Procedure, Test Log, Level Test Report, Test Report의 작성·사용이 규정된다.</p>
+
+  <h3>라. 정적 분석 도구와 정적/동적 분석</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>정적 분석(Static Analysis)</td><td>프로그램을 실행하지 않고 소스코드 그 자체의 의미를 분석해 결함을 발견하는 기법</td></tr>
+    <tr><td>동적 분석(Dynamic Analysis)</td><td>프로그램을 실행(동작)시켜 그 결과에 수반되는 현상을 분석하는 기법</td></tr>
+  </table>
+  <p>대표적인 정적 코드 분석 도구인 PMD는 사용하지 않는 변수, 비어 있는 catch 블록, 불필요한 객체 생성 등 자바(및 JavaScript, PL/SQL, XML 등)의 잠재적 문제를 검출하는 소스 코드 분석기이다. 정적 분석 도구는 제어 흐름, 데이터 사용, 수행 경로 등을 분석 대상으로 삼으며, 기능 점수(Function Point) 산정과 같은 규모 측정 활동과는 구분된다.</p>
+
+  <h3>마. 관련 서술형 기출문제</h3>
+  <p>1. 소프트웨어 재사용성을 통해 생산성을 향상시키기 위한 방안을 설계·구현 단계별로 구체적으로 설명하시오. (컨설팅 111회 1교시)</p>
+  <p>2. IEEE Standard for Software Test에 정의된 테스트 설계 명세서, 테스트 케이스 명세서, 테스트 절차 명세서 각각의 구성 요소를 설명하시오.</p>
+</section>
+<section id="se07-t06" class="section">
+  <h2>5. 모듈화·결합도·응집도 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.120-143)</span></h2>
+
+  <h3>가. 모듈화(Modularity)의 정의와 원리</h3>
+  <p>모듈화는 프로그램이 효율적으로 관리될 수 있도록 시스템을 분해하고 추상화하여, 소프트웨어의 성능을 향상시키거나 디버깅·시험·통합·수정을 용이하게 하는 설계 방법이다.</p>
+  <ul>
+    <li><strong>비용과 모듈의 관계</strong> — 모듈 수가 증가하면 인터페이스 비용이 증가한다.</li>
+    <li><strong>정보 은폐</strong> — 변경 가능성이 있거나 어려운 모듈은 다른 모듈로부터 은폐한다.</li>
+    <li><strong>자료 추상화</strong> — 자료구조를 액세스·수정하는 함수 내에 표현 내역을 은폐한다.</li>
+    <li><strong>모듈의 독립성</strong> — 낮은 결합도와 높은 응집도를 가져야 한다.</li>
+  </ul>
+  <p>모듈화의 장점으로는 효율적 관리와 성능 향상, 소프트웨어 이해도 증대와 복잡성 감소, 시험·통합·수정의 용이성, 기능 분리와 단순한 인터페이스, 오류 파급효과 감소, 재사용성 증대를 들 수 있다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p120.jpg" alt="전자입찰 시스템의 모듈화 효과 분석 막대그래프. 모듈화 이전과 이후의 개발 공수·유지보수 비용을 비교하는 두 개의 막대 차트"><figcaption>[그림] 모듈화 적용 전·후 효과 비교 사례(전자입찰 시스템)</figcaption></figure>
+
+  <h3>나. 응집도(Cohesion) — 모듈 내부 요소 간의 관련 정도</h3>
+  <p>응집도는 높을수록 좋은 설계로 평가된다. 낮은 응집도에서 높은 응집도 순으로 정리하면 다음과 같다.</p>
+  <table>
+    <tr><th>응집도(낮음→높음)</th><th>설명</th></tr>
+    <tr><td>우연적 응집도</td><td>아무 관련성 없는 작업을 한 모듈에 모아 놓음(제멋대로)</td></tr>
+    <tr><td>논리적 응집도★</td><td>유사한 성격의 작업들을 모음. 모듈의 부분이 그룹핑되며(예: if/else 두 파트가 각각 그룹핑), 결과와 무관하게 논리적으로 유사한 것끼리 묶임</td></tr>
+    <tr><td>시간적 응집도</td><td>같은 시간대에 처리되어야 하는 작업들을 모음</td></tr>
+    <tr><td>절차적 응집도</td><td>모듈의 처리 요소들이 서로 관계되며 순서대로 진행(Procedural Cohesion)</td></tr>
+    <tr><td>통신적 응집도</td><td>동일한 입출력 자료를 이용해 서로 다른 기능을 수행</td></tr>
+    <tr><td>순차적 응집도</td><td>한 작업의 결과가 다른 모듈의 입력 자료로 사용됨(Sequential Cohesion)</td></tr>
+    <tr><td>기능적 응집도</td><td>하나의 기능만 수행하는 모듈(Functional Cohesion, 가장 이상적)</td></tr>
+  </table>
+
+  <h3>다. 결합도(Coupling) — 모듈 간의 의존 정도</h3>
+  <p>결합도는 낮을수록 좋은 설계로 평가된다. 강한 결합에서 약한 결합 순으로 정리하면 다음과 같다.</p>
+  <table>
+    <tr><th>결합도(강함→약함)</th><th>설명</th></tr>
+    <tr><td>내용 결합도</td><td>한 모듈이 다른 모듈의 내부 자료나 제어정보를 직접 사용(Content)</td></tr>
+    <tr><td>공통 결합도</td><td>많은 모듈이 전역변수(글로벌 변수)를 함께 참조할 때 발생(Common)</td></tr>
+    <tr><td>제어 결합도★</td><td>한 모듈이 다른 모듈에 무엇을 해야 하는지에 대한 정보(플래그·제어값)를 넘겨 흐름을 제어(Control Coupling). 정보를 파라미터로 받아 if/else 흐름을 제어하는 경우가 이에 해당하며, 단순 자료 결합도로 오인하지 않도록 주의해야 한다.</td></tr>
+    <tr><td>외부 결합도</td><td>모듈이 소프트웨어의 외부 환경과 연관되는 경우(External)</td></tr>
+    <tr><td>스탬프 결합도</td><td>두 모듈 사이에 자료구조(data structure) 자체를 교환(Stamp Coupling)</td></tr>
+    <tr><td>자료 결합도</td><td>모듈들이 단순 변수를 파라미터로 교환(Data Coupling), 예: 제곱근 계산 함수에 정수 하나를 전달</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 결합도·응집도 암기법</span>결합도 강한 순서는 "내공외제스자"(내용-공통-외부-제어-스탬프-자료), 응집도 낮은 순서는 "우논시절통순기"(우연적-논리적-시간적-절차적-통신적-순차적-기능적)로 암기한다. 특히 if/else로 실행 흐름을 제어하는 파라미터를 받는 코드는 "제어 결합도 + 논리적 응집도"로 짝지어 묻는 기출이 반복 출제된다.</div>
+
+  <h3>라. 응집도·결합도와 비용의 관계</h3>
+  <p>모듈의 수가 증가할수록 각 모듈의 크기는 작아져 개발비용은 감소하는 경향을 보이지만, 모듈 간 인터페이스 비용은 반대로 증가한다. 따라서 응집도를 높이고 결합도를 낮춰 인터페이스 비용의 증가를 완화하는 것이 모듈 개수 결정의 핵심 원리이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p123.jpg" alt="모듈화의 최적화 지점 그래프. 모듈 수 증가에 따라 감소하는 곡선(개발/이해 비용)과 증가하는 곡선(인터페이스 비용)이 교차하는 지점을 보여줌"><figcaption>[그림] 모듈 수 증가에 따른 비용/노력의 상관관계 — 교차점이 최적 모듈 개수</figcaption></figure>
+  <p>결합도·응집도 관련 문제는 코드에서 파라미터로 흐름 제어 여부를 판단하는 사례형 기출이 많이 출제되며, 세부 문항은 하단 전체 기출·예상문제(Q18~Q22)에서 확인할 수 있다.</p>
+</section>
+<section id="se07-t07" class="section">
+  <h2>6. 소프트웨어 3R(재공학) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.144-145)</span></h2>
+
+  <h3>가. 소프트웨어 3R의 정의와 등장 배경</h3>
+  <p>소프트웨어 3R은 레포지토리(Repository)를 기반으로 역공학(Reverse Engineering), 재공학(Reengineering), 재사용(Reuse)을 통해 소프트웨어 생산성을 극대화하는 기법이다. 소프트웨어 위기 극복, 개발 생산성 향상, 유지보수 비용 절감, 변경 요구사항에 대한 신속한 대처의 필요성에서 등장하였다.</p>
+
+  <h3>나. 소프트웨어 3R의 목표</h3>
+  <ul>
+    <li>유지보수 오류 및 비용의 축소</li>
+    <li>시스템의 이해·변경·테스트 용이성 확보</li>
+    <li>CASE 도구를 활용한 기존 시스템의 유지보수·수정 지원</li>
+    <li>기존 시스템 컴포넌트의 재사용을 통한 소프트웨어 위기 극복</li>
+  </ul>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p145.jpg" alt="소프트웨어 3R 구성도. 레포지토리를 중심으로 역공학, 재공학, 재사용이 화살표로 연결된 순환 다이어그램"><figcaption>[그림] 소프트웨어 3R의 구성 — Repository 기반 역공학·재공학·재사용의 순환 관계</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 순공학·역공학·재공학·재사용 용어 구분</span>
+    <ul>
+      <li><strong>순공학(Forward Engineering)</strong> — 요구분석 → 설계 → 구현 순서로 진행되는 일반적인 정방향 개발</li>
+      <li><strong>역공학(Reverse Engineering)</strong> — 기존 코드·시스템을 분석하여 설계 정보나 명세를 역으로 추출</li>
+      <li><strong>재공학(Reengineering)</strong> — 기존 시스템을 분석해 재구성·개선함으로써 유지보수성을 높이는 활동(역공학+순공학의 결합)</li>
+      <li><strong>재사용(Reuse)</strong> — 기존에 개발된 컴포넌트·모듈을 새로운 시스템 개발에 다시 활용</li>
+    </ul>
+  </div>
+
+  <h3>다. 관련 서술형 기출문제</h3>
+  <p>1. 소프트웨어 재사용을 위한 방안(구성요소)에 대하여 설명하시오. (조직 71회 2교시)</p>
+  <p>2. 순공학, 역공학, 순환공학, 동기순환공학, 비동기순환공학에 대해 설명하시오. (조직 77회 1교시)</p>
+</section>
+<section id="se07-t08" class="section">
+  <h2>7. 소프트웨어 유지보수 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.146-173)</span></h2>
+
+  <h3>가. 유지보수의 개념과 중요성</h3>
+  <p>소프트웨어 유지보수는 인도된 소프트웨어 제품을 수정하는 활동으로, ISO/IEC 14764는 교정적·적응적·완전적·예방적 유지보수를 국제 표준으로 정의하고 있다. 유지보수 비용은 소프트웨어 전체 생애주기 비용의 70~80%를 차지할 정도로 비중이 크며, 유지보수 요구가 적체될 경우 업무 지연·요구사항 누락·오류 발생 등의 문제가 뒤따른다.</p>
+
+  <h3>나. Lehman의 소프트웨어 변화 원리</h3>
+  <p>Lehman은 소프트웨어가 요구에 의해 계속 변경되는 특성과 그로 인한 복잡성 증가, 조직·품질 측면의 변화 추세를 8가지 원리로 제시하였다. 이는 유지보수, 변경관리, 형상관리, 품질통제의 중요 모델로 활용된다.</p>
+  <table>
+    <tr><th>원리</th><th>세부 내용</th></tr>
+    <tr><td>계속적 변경(Continuing Change)</td><td>소프트웨어는 계속 진화하며 요구사항에 의해 지속적으로 변경됨. 다시 만드는 것보다 경제적인 한 계속 변화</td></tr>
+    <tr><td>복잡도 증가(Increasing Complexity)</td><td>변경이 가해질수록 구조는 복잡해지며, 별도로 단순화 작업을 하지 않는 한 복잡도는 계속 증가</td></tr>
+    <tr><td>대규모 프로그램 진화(Program Evolution)</td><td>프로그램별로 변경되는 고유한 패턴·추세가 있으며, 복잡성을 낮추려는 인간 의지의 개입이 필요</td></tr>
+    <tr><td>조직의 안정화(Organizational Stability)</td><td>조직의 생산성은 조직 변화에 민감하지 않으며, 개인 생산성 최적화가 팀 생산성 최적화의 필수조건은 아님</td></tr>
+    <tr><td>친근성의 유지(Conservation of Familiarity)</td><td>소프트웨어 각 버전의 변화 정도는 일정하며 규칙적인 추이를 보이므로 계측 가능</td></tr>
+    <tr><td>지속적 성장(Continuing Growth, 1991년 추가)</td><td>소프트웨어의 생애주기 내내 사용자 만족을 유지하기 위해 기능이 계속 증가</td></tr>
+    <tr><td>품질 저하(Declining Quality, 1996년 추가)</td><td>엄격하게 관리·운영되지 않거나 환경 변화에 적응하지 않으면 품질은 저하됨</td></tr>
+    <tr><td>피드백 시스템(Feedback System, 1996년 추가)</td><td>진화 프로세스는 다중레벨·다중루프·Multi-Agent 피드백 시스템으로 구성되어야 제품 개선을 달성</td></tr>
+  </table>
+  <p>이 원리는 조직(People) — 전문화된 유지보수 조직, 1선/2선/3선 체계, 변경통제위원회(CAB)·형상통제위원회(CCB) 구성, 프로세스(Process) — 요구관리·변경관리 프로세스, 변경 영향도 분석, 시스템(System) — Baseline·CMDB·형상관리시스템 구성이라는 세 축의 안정화 방안으로 실무에 적용된다.</p>
+
+  <h3>다. 유지보수의 분류</h3>
+  <table>
+    <tr><th>분류 기준</th><th>종류</th><th>설명</th></tr>
+    <tr><td rowspan="4">시점에 의한 분류</td><td>계획 유지보수</td><td>주기적인 유지보수</td></tr>
+    <tr><td>예방 유지보수</td><td>미리 예방 차원에서 수행</td></tr>
+    <tr><td>응급 유지보수</td><td>긴급한 경우 수행, 사후 승인 필요</td></tr>
+    <tr><td>지연 유지보수</td><td>변경된 부분에 대한 추후 지원</td></tr>
+    <tr><td rowspan="4">대상에 의한 분류</td><td>데이터 유지보수</td><td>데이터 변환(Conversion) 등 처리</td></tr>
+    <tr><td>프로그램 유지보수</td><td>프로그램 변경 및 오류 처리</td></tr>
+    <tr><td>문서 유지보수</td><td>문서 표준 변경 등</td></tr>
+    <tr><td>시스템 유지보수</td><td>시스템 변경 및 장애 처리</td></tr>
+    <tr><td rowspan="4">원인에 의한 분류(수완예적)</td><td>수정 유지보수</td><td>오류·결함의 수정(Corrective)</td></tr>
+    <tr><td>완전 유지보수</td><td>불완전 부분의 표준화 적용(Perfective)</td></tr>
+    <tr><td>예방 유지보수</td><td>정기적인 유지보수(Preventive)</td></tr>
+    <tr><td>적응 유지보수</td><td>변화·갱신의 적용(Adaptive/Porting)</td></tr>
+  </table>
+
+  <h3>라. 유지보수의 4대 유형과 특징</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th><th>특징</th></tr>
+    <tr><td>수정적 유지보수(Corrective)</td><td>프로그램 오류로 인한 SW 오류 수정</td><td>하자 유지보수, 처리·수행·구현 오류</td></tr>
+    <tr><td>적응적 유지보수(Adaptive)</td><td>프로그램 환경 변화에 대한 소프트웨어의 적응</td><td>이식(porting) 개념, H/W 또는 S/W 변화</td></tr>
+    <tr><td>완전적 유지보수(Perfective)</td><td>프로그램 특성 추가·변경 및 유지보수성 향상</td><td>수행력 향상, 신규 기능 추가</td></tr>
+    <tr><td>예방적 유지보수(Preventive)</td><td>예측되는 오류를 선점 처리</td><td>발생 전 수정</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 유지보수 유형 판별 사례</span>기존 시스템에 새 통계 기능을 추가하는 것은 완전적(perfective) 유지보수, 운영체제를 변경해 이식하는 것은 적응적(adaptive) 유지보수로 구분한다. "detective maintenance"라는 용어는 존재하지 않는 오답 선지로 자주 출제된다.</div>
+
+  <h3>마. 유지보수 프로세스의 주요 활동</h3>
+  <table>
+    <tr><th>단계</th><th>주요 활동</th><th>활동 주체</th></tr>
+    <tr><td>요청</td><td>MRF(Modification Request Form) 작성, CR(Change Request) 작성</td><td>사용자</td></tr>
+    <tr><td>분석</td><td>유지보수 유형 분류·심각성 판단, 내용·영향도 분석, 우선순위 결정</td><td>분석가</td></tr>
+    <tr><td>승인</td><td>분석 내용에 따른 유지보수 여부 승인, 실행 승인</td><td>유지보수 관리위원회</td></tr>
+    <tr><td>실행</td><td>유지보수 실행, 소프트웨어 변경 보고서(SCR) 작성, 관련 문서 변경</td><td>유지보수자</td></tr>
+  </table>
+
+  <h3>바. 관련 서술형 기출문제</h3>
+  <p>1. 50주년이 되는 제조업 전산실의 정보관리 담당자로서 'Alien Code'를 유지관리하기 위한 지침을 마련하시오. (관리 75회 4교시)</p>
+  <p>2. Lehman의 소프트웨어 변화에 대한 원리 5가지와 소프트웨어 유지보수의 3가지 형태(수정적·적응적·완전적)를 설명하시오. (조직 75회 2교시)</p>
+  <p>3. 소프트웨어 유지보수의 4가지 유형과 개발 업무와의 차이점에 대하여 설명하시오. (정보관리 102회 1교시)</p>
+</section>
+<section id="se07-t10" class="section">
+  <h2>8. 리팩토링 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.159-173)</span></h2>
+
+  <h3>가. 리팩토링의 목적</h3>
+  <table>
+    <tr><th>목적</th><th>설명</th></tr>
+    <tr><td>소프트웨어 디자인 개선</td><td>설계 의도와 구현 코드의 일관성을 유지해 설계 변경을 용이하게 함</td></tr>
+    <tr><td>소프트웨어 이해도 향상</td><td>이해하기 쉬운 코드로 개발자 작업시간 단축</td></tr>
+    <tr><td>오류 발견 용이성 확보</td><td>소스 구조를 명확히 해 버그 원인을 쉽게 발견</td></tr>
+    <tr><td>전체 개발 생산성 증대</td><td>"좋은 디자인 유지 → 개발자 이해 향상 → 오류 감소"의 선순환으로 개발 가속화</td></tr>
+  </table>
+
+  <h3>나. 리팩토링 적용 시점</h3>
+  <table>
+    <tr><th>시점</th><th>적용 사유</th></tr>
+    <tr><td>삼진 규칙(Rule of Three)</td><td>비슷한 중복이 세 번째 나타날 때 수행하는 기본 가이드</td></tr>
+    <tr><td>기능 추가 시</td><td>기존 코드 구조 개선으로 이해도를 높여 기능 추가를 쉽고 빠르게 수행</td></tr>
+    <tr><td>버그 수정 시</td><td>수정 전 더 깊은 이해를 제공해 버그 수정을 용이하게 함</td></tr>
+    <tr><td>코드 리뷰 중</td><td>코드의 명확성을 유지하고 더 나은 설계 아이디어를 제안, 품질 향상</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p161.jpg" alt="리팩토링 수행절차 흐름도. 문제되는 코드(Bad Smell) 발견 후 리팩토링 실행 여부 판단, 리팩토링 실행, 코드 수정, 새로운 기능 추가 순으로 순환하는 플로우차트"><figcaption>[그림] 리팩토링의 수행 절차와 적용 시점 흐름도</figcaption></figure>
+
+  <h3>다. 코드 냄새(Bad Smell)와 대응 리팩토링 기법</h3>
+  <table>
+    <tr><th>영문</th><th>한글</th><th>설명 및 해결 기법</th></tr>
+    <tr><td>Duplicated Code</td><td>중복된 코드</td><td>동일 클래스의 2개 이상 메소드에 중복 코드 존재 → Extract Method로 해결</td></tr>
+    <tr><td>Long Method</td><td>너무 긴 메소드</td><td>메소드가 지나치게 길다 → Extract Method로 해결</td></tr>
+    <tr><td>Large Class</td><td>거대한 클래스</td><td>클래스의 필드·메소드가 지나치게 많다 → Extract Class로 해결</td></tr>
+    <tr><td>Long Parameter List</td><td>너무 많은 인수</td><td>메소드에 전달하는 파라미터가 지나치게 많다 → Introduce Parameter Object로 해결</td></tr>
+    <tr><td>Divergent Change(확산적 변경)</td><td>변경의 발산</td><td>사양 변경 시 수정할 곳이 여기저기 흩어져 하나의 클래스에 영향을 줌</td></tr>
+    <tr><td>Shotgun Surgery(산탄총 수술)</td><td>변경의 분산</td><td>한 클래스를 수정하면 다른 클래스도 여기저기 수정해야 함</td></tr>
+    <tr><td>Middle Man</td><td>미들 맨</td><td>클래스 인터페이스 대부분이 다른 클래스로의 위임(delegation)을 남용하는 상태</td></tr>
+  </table>
+
+  <h3>라. 주요 리팩토링 기법</h3>
+  <table>
+    <tr><th>기법</th><th>설명</th></tr>
+    <tr><td>Inline Method</td><td>메서드 몸체가 이름만큼 명확할 때 호출하는 곳에 몸체를 삽입하고 메서드를 삭제</td></tr>
+    <tr><td>Extract Method</td><td>목적이 잘 드러나도록 코드 조각을 별도의 메소드로 추출. Duplicated Code에 주로 적용</td></tr>
+    <tr><td>Extract Interface</td><td>여러 클래스가 사용하는 인터페이스의 공통 부분을 추출해 통합</td></tr>
+    <tr><td>Move Method</td><td>메소드가 자신이 정의된 클래스보다 다른 클래스의 기능을 더 많이 사용할 때, 가장 많이 사용하는 클래스로 메소드를 옮기고 원래 메소드는 위임으로 대체하거나 제거</td></tr>
+    <tr><td>Introduce Parameter Object</td><td>여러 파라미터가 항상 함께 사용될 때 이를 객체(Object)로 묶어서 사용</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p165.jpg" alt="Pull Up Method 리팩토링 사례. Employee 상위 클래스와 Salesman, Engineer 하위 클래스가 각각 갖던 동일한 메소드를 상위 클래스로 이동시키는 UML 다이어그램(Before/After)"><figcaption>[그림] Pull Up Method 리팩토링 사례 — 서브클래스의 동일 메소드를 상위 클래스로 이동</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE07fig/p166.jpg" alt="Extract Interface 리팩토링 사례. 여러 클래스가 사용하는 동일한 부분을 별도 인터페이스로 추출하는 UML 다이어그램(Before/After)"><figcaption>[그림] Extract Interface 리팩토링 사례 — 공통 인터페이스 추출</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · Bad Smell ↔ 리팩토링 기법 오답 함정</span>"divergent change(확산적 변경) — inline method"의 짝은 틀린 조합이다. Divergent Change는 하나의 클래스에 여러 변경 이유가 모이는 문제이므로 Extract Class 등으로 책임을 분리해야 하며, Inline Method는 오히려 불필요하게 나뉜 메소드를 합치는 기법이라 방향이 반대다. 또한 Shotgun Surgery(변경이 여러 클래스에 분산)와 Divergent Change(변경 요청이 한 클래스에 집중)를 서로 바꿔 묻는 문제가 자주 출제된다.</div>
+
+  <h3>마. 관련 서술형 기출문제</h3>
+  <p>은행에서 계좌의 당좌대월액을 계산하는 프로그램에 새로운 계좌 타입이 추가될 예정이며, 각 타입별 계산 규칙이 필요해 메소드 overdraftCharge()를 클래스 AccountType으로 옮기려 한다. 리팩토링 기법 중 하나인 Move Method의 개념과 절차를 설명하고, 이를 활용해 리팩토링한 코드를 작성하시오. (정보관리 101회 3교시)</p>
+</section>
+<section id="se07-t12" class="section">
+  <h2>9. 신뢰도·가용성과 Outsourcing <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.174-180)</span></h2>
+
+  <h3>가. 신뢰도 측정 지표</h3>
+  <table>
+    <tr><th>지표</th><th>설명</th><th>예시</th></tr>
+    <tr><td>MTTF(Mean Time To Failure)</td><td>고장 수리 후 다음 고장이 발생하기까지의 평균 시간</td><td>1달</td></tr>
+    <tr><td>MTBF(Mean Time Between Failure)</td><td>한 고장에서 다음 고장까지의 평균 시간(= MTTF + MTTR)</td><td>1달 1일</td></tr>
+    <tr><td>MTTR(Mean Time To Repair)</td><td>고장 발생 후 수리 완료까지의 평균 복구 시간</td><td>1일</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 가용성(Availability) 공식</span>가용성 = MTTF ÷ (MTTF + MTTR) = 정상가동시간 ÷ (정상가동시간 + 고장복구시간)으로 계산한다. 시스템 운영시간이 0~101시간이고 그 중 고장·복구에 4시간이 소요되었다면, 가용성 = (101-4)/101 = 97/101 ≈ 0.96, 즉 약 96%이다.</div>
+
+  <h3>나. 신뢰성 산정 사례</h3>
+  <p>소프트웨어가 평균적으로 2일에 1개의 오류가 발생한다고 할 때, 3일 동안 오류 없이 가동될 신뢰성은 하루 단위 무고장 확률(0.5)을 3일 연속 곱한 값으로 계산한다 — 0.5 × 0.5 × 0.5 = 0.125. 즉 3일 연속 무고장 확률은 12.5%이다.</p>
+
+  <h3>다. Outsourcing 관련 고려사항</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>고장 원인 분석</td><td>고장의 원인을 분석·예측해 해결 방안을 모색</td></tr>
+    <tr><td>가용도 기준</td><td>SLA(Service Level Agreement)의 가용도 측정 기준을 설정</td></tr>
+    <tr><td>설계 품질</td><td>제품 설계 및 개발에 신뢰도 지표를 반영</td></tr>
+    <tr><td>제품 선정</td><td>목표 가용도를 만족하는 제품을 선정</td></tr>
+    <tr><td>FT·HA 관점</td><td>Fault Tolerance, High Availability 구성의 가용성을 점검</td></tr>
+  </table>
+  <p>신뢰도 측정 기준(가용도·SLA 포함)과 제품 선정 기준(정확한 측정을 통한 제품 평가·선정·설계 반영)은 아웃소싱 계약 시 반드시 명문화해야 하는 핵심 항목이다.</p>
+
+  <h3>라. 관련 서술형 기출문제</h3>
+  <p>MTTF(Mean Time To Failure)와 MTBF(Mean Time Between Failure)를 설명하시오. (출제 예상문제)</p>
+</section>
+
+<section id="allquiz" class="section">
+  <h2>📚 전체 기출·예상문제 (30문항) — 원문 수록</h2>
+  <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 다음 중에서 소프트웨어 테스팅에 대한 설명으로서 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.12)</span></div><ol class="quiz-options"><li>테스팅은 시스템이 정해진 요구를 만족하는지, 예상과 실제 결과가 어떤 차이를 보이는지 수동 또는 자동으로 검사하고 평가하는 일련의 과정을 말한다.</li><li>소스코드가 존재해야 테스트케이스를 설계할 수 있으므로 소스코드의 개발이 완료된 후에 테스팅은 시작될 수가 있다.</li><li>발주자가 명시적으로 기술한 것뿐만 아니라 신뢰성이나 완벽성(robustness) 등과 같이 묵시적으로 요구되는 것도 테스트될 필요가 있다.</li><li>유지보수 단계에서는 회귀(regression) 테스팅이 중요한 역할을 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 테스트 결과가 명세와 일치하는지 판단하기 위한 준거로 모든 테스트 케이스를 위한 예상된 결과를 무엇이라 하는가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.15)</span></div><ol class="quiz-options"><li>테스트 하니스(test harness)</li><li>테스트 오라클(test oracle)</li><li>테스트 스터브(test stub)</li><li>테스트 드라이브(test drive)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 테스트 오라클(test oracle)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 아래 의사결정표에서 W, X, Y, Z는 조건을, A1, A2, A3는 행위를 나타낸다. 행위 A2의 조건을 단순화한 것으로 가장 적절한 것은? 행위는 여러 조건식들 (식1~식8)의 OR 합성으로 표현되며, 단위 조건식을 구성하는 각 조건들은 AND 관계를 구성한다.각 조건에서 0은 거짓, 1은 참을 의미하며, 조건식이 참일 경우 행위에서 ‘*’로 표현하였다. 예를 들어, 아래 테이블에서 행위 A1은 ((W and X and Y and (not Z)) or (W and X and Y and Z))으로 표현할 수 있다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.28)</span></div><ol class="quiz-options"><li>not W</li><li>(not W) and X</li><li>(not W) and X and (not Y)</li><li>(not W) and X and Y and Z</li></ol><div class="quiz-explanation"><strong>정답</strong> ① not W, ② (not W) and X 모두 정답 (최초에는 2번만 답이었다.)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 다음은 Excel 프로그램에서 셀의 글꼴을 설정하는 대화상자를 보여준다. 테스터에게 소스코드가 제공되지 않는다고 가정할 때 이 대화 상자를 테스트하기 위해서 적용되는 테스트 방법으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.32)</span></div><ol class="quiz-options"><li>동등 분할 (equivalence partitioning)</li><li>조합(pairwise) 테스팅</li><li>분류 트리(classification tree)</li><li>결정(decision) 테스팅</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 결정(decision) 테스팅</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음 설명의 테스팅 기법으로 가장 적합한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.34)</span></div><ol class="quiz-options"><li>회귀 테스팅 (regression testing)</li><li>결함기반 테스팅 (fault-based testing)</li><li>클러스터 테스팅 (cluster testing)</li><li>시나리오기반 테스팅 (scenario-based testing)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 회귀 테스팅 (regression testing)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 아래의 소스코드에 대해 테스트를 수행하기 위하여 다음과 같이 테스트 데이터를 준비하였다. 조건 커버리지(condition coverage), 결정 커버리지(decision coverage), 문장 커버리지(statement coverage) 기준으로 평가할 때, 다음 중 가장 적절한 것은? (단, short-circuit evaluation은 수행하지 않음-참고거짓이 확정될 때, 추가 테스트 안함) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.72)</span></div><ol class="quiz-options"><li>조건 커버리지: 50%, 결정커버리지: 50%, 문장커버리지: 50%</li><li>조건 커버리지: 50%, 결정커버리지: 100%, 문장커버리지: 66%</li><li>조건 커버리지: 100%, 결정커버리지: 50%, 문장커버리지: 66%</li><li>조건 커버리지: 100%, 결정커버리지:100%, 문장커버리지: 100%</li></ol><div class="quiz-explanation"><strong>정답</strong> 원문 강의자료 해설 참조</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 다음 C 프로그램에 대하여, 조건/결정 커버리지(condition/decision coverage)를 100% 만족하기 위한 테스트 데이터 집합으로 가장 적절한 것은? (단, short-circuit evaluation은 수행하지 않음) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.76)</span></div><ol class="quiz-options"><li>{&lt;x = 0, y = 10&gt;, &lt;x = 5, y = 20&gt;}</li><li>{&lt;x = 0, y = 40&gt;, &lt;x = 5, y = 60&gt;}</li><li>{&lt;x = 60, y = 10&gt;, &lt;x = 5, y = 60&gt;}</li><li>{&lt;x = 60, y = 40&gt;, &lt;x = 5, y = 20&gt;}</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 통합 테스트는모듈 간의 인터페이스에 존재할 수 있는 결함 검출을 목표로한다. 다음 중에서 인터페이스 결함과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.80)</span></div><ol class="quiz-options"><li>전달되는 매개변수들의 형이 잘못된 경우</li><li>정렬되지않은 배열임에도 이진탐색루틴을 호출하는 경우</li><li>데이터 생성자와 소비자의 수행속도 차이에 따른 결함</li><li>주어진 기능에 대한 알고리즘을 부정확하게 구현한경우</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 주어진 기능에 대한 알고리즘을 부정확하게 구현한경우</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 다음은 테스트방법에 관한 설명이다. 각 테스트 방법에 대한 설명과 해당되는 테스트 방법의 이름이 가장 잘 짝지어진 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.84)</span></div><ol class="quiz-options"><li>가: 알파테스트 나: 뮤테이션테스트 다: 베타테스트 라: 복구테스트</li><li>가: 베타테스트 나: 뮤테이션테스트 다: 알파테스트 라: 스트레스테스트</li><li>가: 알파테스트 나: 회귀테스트 다: 베타테스트 라: 스트레스테스트</li><li>가: 베타테스트 나: 회귀테스트 다: 알파테스트 라: 복구테스트</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 가: 베타테스트 나: 회귀테스트 다: 알파테스트 라: 복구테스트</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 다음의 요구사항을 바탕으로 가장 거리가 먼 테스트는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.86)</span></div><ol class="quiz-options"><li>성능 테스트 (performance test)</li><li>호환성 테스트 (compatability test)</li><li>사용성 테스트 (usability test)</li><li>가용성 테스트 (availability test)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 가용성 테스트 (availability test)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. 다음 표에서‘가’, ‘나’, ‘다’와 관련되는 테스팅을 가장 바르게 연결한 것은? (순서: 가-나-다) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.88)</span></div><ol class="quiz-options"><li>regression testing performance testing security testing</li><li>recovery testing regression testing stress testing</li><li>regression testing configuration testing smoke testing</li><li>recovery testing sensitivity testing deployment testing</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ recovery testing- sensitivity testing - deployment testing</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 다음은 소프트웨어 개발 과정에 적용되는 여러 테스팅 기법들을 나열하고 있다. 아래 중 테스팅 기법이 테스트 수행 순서대로 나열된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.90)</span></div><ol class="quiz-options"><li>통합 테스팅 - 알파 테스팅 - 스트레스 테스팅</li><li>단위 테스팅 - 성능 테스팅 - 베타 테스팅</li><li>알파 테스팅 - 기능 테스팅 - 베타 테스팅</li><li>단위 테스팅 - 알파 테스팅 - 성능 테스팅</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 단위 테스팅 - 성능 테스팅 - 베타 테스팅</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 객체지향 소프트웨어 개발 시 클래스 테스팅 기법으로 가장 적절하기 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.92)</span></div><ol class="quiz-options"><li>슬라이싱</li><li>메소드/메시지 경로(MM Path)</li><li>상태 기반 테스팅</li><li>감마 테스트</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 감마 테스트</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 테스트를 수행하여 결함이 발견되면 발견된 결함에 대한 정보가 개발자에게 제공되며, 이러한 문서를 결함보고서(defect report, bug report, anomaly report 등)라고 부른다. 결함 보고서에서 일반적으로 포함되어야 할 항목과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.98)</span></div><ol class="quiz-options"><li>결함을 유발한 입력값</li><li>테스트 케이스의 실행에서 관찰된 실제 수행 결과</li><li>테스트 케이스의 실행에서 기대된 값</li><li>발견된 결함을 제거하기 위한 해결 방안</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 발견된 결함을 제거하기 위한 해결 방안</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 다음의 제어 흐름도를 테스트 하고자 한다. 아래 설명 중 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.106)</span></div><ol class="quiz-options"><li>문장 검증 기준(statement coverage)으로 테스트하기 위해서는 최소 3개의 테스트케이스가 필요하다.</li><li>분기 검증 기준(branch coverage)으로 테스트하기 위해서는 최소 3개의 테스트케이스가 필요하다.</li><li>경로 검증 기준(path coverage)으로 테스트하기 위해서는 최소 4개의 테스트케이스가 필요하다.</li><li>(ⓐ-ⓑ-ⓓ-ⓔ-ⓕ-ⓗ)의 경로만으로 분기 검증 기준(branch coverage)과 문장 검증 기준(statement coverage)을 모두 만족 시킬 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 경로 검증 기준(path coverage)으로 테스트하기 위해서는 최소 4개의 테스트케이스가 필요하다.</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. IEEE Standard for Software Test에는 테스트 설계 명세서, 테스트 케이스 명세서, 테스트 절차 명세서가 정의되어 있다. 이들 중 테스트 케이스 명세서에 대한 설명으로 가장 적절하지 않는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.110)</span></div><ol class="quiz-options"><li>테스트 케이스는 테스트 대상을 실행함으로써 오류를 검출하기 위한 입력 값 및 예상 출력 값을 정의한다.</li><li>테스트 케이스의 입력/예상 출력 값뿐만 아니라, 입력 값을 입력하고 출력 값을 관찰하여 예상 값과 비교하는 방법을 함께 정의한다.</li><li>테스트 케이스의 입력 명세는 특정 값뿐만 아니라 조건이 명시될 수 있으면 값이 입력되는 시점에 대한 명세도 포함된다.</li><li>테스트 케이스 명세서는 입력 값 및 예상 출력 값뿐만 아니라 테스트 대상 및 테스트 대상이 실행되는 특수한 환경을 명시한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 테스트 케이스의 입력/예상 출력 값뿐만 아니라, 입력 값을 입력하고 출력 값을 관찰하여 예상 값과 비교하는 방법을 함께 정의한다.</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 다음 중 코드 정적 분석 도구가 수행하는 분석 대상으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.113)</span></div><ol class="quiz-options"><li>제어 흐름</li><li>데이터 사용</li><li>기능 점수</li><li>경로</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 기능 점수</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. 모듈 사이의 결합은 강한정도(가장 바람직하지 못한 경우)에서부터 약한 정도(가장 바람직한 경우)에 이르기까지 나열할 수 있다. 다음 보기 중 강한 정도에서 약한 정도 순으로 가장 적절하게 나열된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.129)</span></div><ol class="quiz-options"><li>내용결합도-공통결합도-제어결합도-스템프결합도–자료결합도</li><li>내용결합도-제어결합도-공통결합도-스템프결합도–자료결합도</li><li>내용결합도-공통결합도-스템프결합도-제어결합도–자료결합도</li><li>내용결합도-제어결합도-스템프결합도-공통결합도-자료결합도</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 내용결합도-공통결합도-제어결합도-스템프결합도–자료결합도</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 다음의 상단 코드는 하단의 코드로 리팩토링하는 것이 권장된다. 상단의 코드를 응집도와 결합도 측면에서 올바르게 설명한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.131)</span></div><ol class="quiz-options"><li>응집도: 기능적 응집도, 결합도: 데이터 결합도</li><li>응집도: 논리적 응집도, 결합도: 데이터 결합도</li><li>응집도: 논리적 응집도, 결합도: 제어 결합도</li><li>응집도: 기능적 응집도, 결합도: 제어 결합도</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 응집도: 논리적 응집도, 결합도: 제어 결합도</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. 다음에서 함수 get_value()가 가지는 결합도로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.135)</span></div><ol class="quiz-options"><li>자료 결합도(data coupling)</li><li>스탬프 결합도(stamp coupling)</li><li>제어 결합도(control coupling)</li><li>공통 결합도(common coupling)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 제어 결합도(control coupling)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q21. 모듈의 독립성을 측정하는데 있어 응집도(cohesion)는 모듈 안의 요소들이 서로 관련되어 있는 정도를 나타내는데, 다음 설명은 어느 응집도를 나타내는 것인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.137)</span></div><ol class="quiz-options"><li>논리적 응집도(logical cohesion)</li><li>절차적 응집도(procedural cohesion)</li><li>시간적 응집도(temporal cohesion)</li><li>우연적 응집도(coincidental cohesion)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 절차적 응집도(procedural cohesion)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q22. 다음 코드에서 함수의 결합도는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.139)</span></div><ol class="quiz-options"><li>자료(data) 결합도</li><li>스탬프(stamp) 결합도</li><li>제어(control) 결합도</li><li>공통(common) 결합도</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 공통(common) 결합도)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q23. 다음은 유지보수단계에서 진행되는 유지보수 활동의 분포에 대한 일반적인 통계 그래프이다. (가) 영역에서 수행하는 작업에 해당하는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.152)</span></div><ol class="quiz-options"><li>운영중인 소프트웨어에서 발견된 기능 오류를 수정</li><li>비디오대여 관리 시스템에 장르별 대여 통계 기능 추가</li><li>아키텍처문서와 소스 코드 간의 일치하지 않는 내용을 수정</li><li>MS-Windows 환경에서 개발된 소프트웨어를 Linux 환경으로 이식</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 비디오대여 관리 시스템에 장르별 대여 통계 기능 추가</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q24. 도서관 A에서 운영 중인 도서관리 시스템에 대하여 다음과 같은 작업을 수행하였다. 다음의 작업과 소프트웨어 유지보수 활동을 연결한 것 중, 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.154)</span></div><ol class="quiz-options"><li>가: 완전(perfective) 유지보수 나: 적응(adaptive) 유지보수</li><li>가: 수정(corrective) 유지보수 나: 완전(perfective) 유지보수</li><li>가: 수정(corrective) 유지보수 나: 적응(adaptive) 유지보수</li><li>가: 완전(perfective) 유지보수 나: 완전(perfective) 유지보수</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 가: 완전(perfective) 유지보수 나: 적응(adaptive) 유지보수</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q25. 다음 중 소프트웨어 유지보수 유형에 해당되지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.156)</span></div><ol class="quiz-options"><li>corrective maintenance</li><li>detective maintenance</li><li>perfective maintenance</li><li>adaptive maintenance</li></ol><div class="quiz-explanation"><strong>정답</strong> ② detective maintenance</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q26. 소스코드에 나타나는 bad smell과 이를해결하기위한 마틴파울러(M. Fowler)의 리팩토링기법으로 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.167)</span></div><ol class="quiz-options"><li>duplicated code – extract method</li><li>long method – introduce parameter object</li><li>large class – extract class</li><li>divergent change – inline method</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ divergent change – inline method</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q27. 다음의 그림(가)와 (나)는 변경요청과 이에 따른 수정이 필요한 모듈간의 관계를 보여준다. 즉 (가)의 경우 변경요청1에 의해서 시스템을 구성하는 많은 수의 모듈이 변경되고 있으며 (나)의 경우에는 여러 개의 변경요청이 하나의 모듈에 집중되고 있다. 이러한 형태의 bad smell을 부르는 용어로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.169)</span></div><ol class="quiz-options"><li>(가) switch statements, (나) divergent change</li><li>(가) shotgun surgery, (나) divergent change</li><li>(가) switch statements, (나) middle man</li><li>(가) shotgun surgery, (나) middle man</li></ol><div class="quiz-explanation"><strong>정답</strong> ② (가) shotgun surgery, (나) divergent change</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q28. 프로젝트를 수행한 후 현재 소프트웨어가 구동되고 있다. 프로그램 코드 중 읽기 어려운 프로그램, 중복된 로직을 가진 프로그램, 실행중인 코드를 변경해야 하는 특별한 동작을 요구하는 프로그램이 있다. 이러한 프로그램을 찾아내어 성능과 코드의 구조 등을 개선시키는 과정을 무엇이라 하는가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.171)</span></div><ol class="quiz-options"><li>인스펙션(inspection)</li><li>리팩토링(refactoring)</li><li>정보 은닉(information hiding)</li><li>확인(verification)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 리팩토링(refactoring)</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q29. 어떤 시스템의 운영 상황이 다음과 같다고 할 때, 이 시스템의 가용성(availability)에 가장 가까운 값 은? (단, 시스템 운영시간은(0 ~ 101)h로 가정하고 고장 발생시각의 단위는 시[hour] 임) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.177)</span></div><ol class="quiz-options"><li>약 90%</li><li>약 93%</li><li>약 96%</li><li>약 99%</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 약 96%</div></div>
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q30. 소프트웨어는 평균적으로 에러(error)가 2일에 1개씩 발생한다고 한다. 이 소프트웨어가 3일 동안 에러(error) 없이 가동 될 신뢰성은 얼마인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.179)</span></div><ol class="quiz-options"><li>0.5</li><li>0.125</li><li>0.675</li><li>0.25</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 0.125</div></div>
+</section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

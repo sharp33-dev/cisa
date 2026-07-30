@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SE09] SW 공학 개론</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SE09] SW 공학 개론 (총정리)</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/226</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#se09-s01"><span style="color:#94a3b8">p.15</span> 1. 애자일 방법론과 스크럼(Scrum)</a></li><li><a href="#se09-s02"><span style="color:#94a3b8">p.23</span> 2. 객체지향(OOP) 핵심 개념 총정리</a></li><li><a href="#se09-s03"><span style="color:#94a3b8">p.38</span> 3. UML 관계와 디자인 패턴</a></li><li><a href="#se09-s04"><span style="color:#94a3b8">p.54</span> 4. SW 아키텍처와 MSA</a></li><li><a href="#se09-s05"><span style="color:#94a3b8">p.57</span> 5. 전자정부프레임워크와 Spring(IoC/DI/AOP)</a></li><li><a href="#se09-s06"><span style="color:#94a3b8">p.70</span> 6. SW 테스트 종합복습</a></li><li><a href="#se09-s07"><span style="color:#94a3b8">p.100</span> 7. SW 품질표준 종합복습(ISO9126→25010, PMBOK)</a></li><li><a href="#se09-s08"><span style="color:#94a3b8">p.118</span> 8. GS 인증과 CMMI(v2.0)</a></li><li><a href="#se09-s09"><span style="color:#94a3b8">p.142</span> 9. ISO 26262와 기능안전표준(ASIL)</a></li><li><a href="#se09-s10"><span style="color:#94a3b8">p.151</span> 10. ITIL(V2/V3/V4)</a></li><li><a href="#se09-s11"><span style="color:#94a3b8">p.169</span> 11. SW 유지보수·재공학·역공학</a></li><li><a href="#se09-s12"><span style="color:#94a3b8">p.176</span> 12. FOSS 오픈소스 라이선스</a></li><li><a href="#se09-s13"><span style="color:#94a3b8">p.194</span> 13. SW 비용산정과 규모 보정계수(2018년 개정)</a></li><li><a href="#se09-s14"><span style="color:#94a3b8">p.201</span> 14. FP 정규법 종합 실습</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (26)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="se09-s01" class="section">
+  <h2>1. 애자일 방법론과 스크럼(Scrum) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.15-22)</span></h2>
+
+  <p>본 강좌는 CISA 시험 직전 총정리(개론) 성격의 과목으로, SE01~SE08에서 다룬 핵심 주제를 다시 한 번 압축 복습하면서 CMMI 2.0, ISO 26262/ASIL, ITIL, FOSS 라이선스 등 앞서 다루지 않은 최신·심화 주제를 보강한다. 기출·예상문제 중심으로 구성되어 있으므로, 각 소단원은 문제풀이형 해설로 정리한다.</p>
+
+  <h3>가. 애자일(Agile) 개발방식의 전체 흐름</h3>
+  <p>애자일 개발은 요구사항 정의서·User Story·제품 백로그(Product Backlog)를 바탕으로 짧은 반복 주기(Release)를 거듭하며 점증적으로 시스템을 완성해 나가는 개발방식이다. 분석/설계 단계에서 확정된 요구사항 명세서와 테스트 계획서를 바탕으로 개발·통합테스트·수용 단계를 반복하며, CI(Continuous Integration)와 TDD(Test Driven Development)를 결합해 릴리즈 #1, #2, … #N을 지속적으로 배포한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p015.jpg" alt="애자일 개발 전체 프로세스 흐름도. 분석/설계 단계의 전체시스템설계서·요구사항명세서·테스트계획서에서 시작하여 개발과 통합테스트를 반복하고 릴리즈 1, 2, N을 연속적으로 산출하는 반복형 개발 흐름"><figcaption>[그림] 애자일 개발방식의 전체 프로세스 흐름(분석/설계 → 개발 → 릴리즈 반복)</figcaption></figure>
+
+  <h3>나. 스크럼(Scrum)의 구성요소와 역할</h3>
+  <p>스크럼은 애자일 방법론 중 가장 널리 쓰이는 프레임워크로, Product Owner·Scrum Master·Developer·Designer·QA가 하나의 팀을 이루어 스프린트(Sprint) 단위로 개발을 진행한다. Product Owner는 제품 백로그의 우선순위를 결정하는 기획 책임자이며, Scrum Master는 팀이 스크럼 프로세스를 원활히 수행하도록 돕는 조력자(Servant Leader)이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p021.jpg" alt="스크럼 팀 구성도. Product Owner와 Scrum Master가 서로 소통하며 Developer, Designer, QA로 구성된 개발팀과 상호작용하는 관계도"><figcaption>[그림] 스크럼 팀의 구성과 역할 간 상호작용</figcaption></figure>
+
+  <table>
+    <tr><th>역할</th><th>설명</th></tr>
+    <tr><td>애자일 코치</td><td>스크럼의 Product Owner와 개발팀의 코치 역할을 겸하며, 애자일 코치로서 팀의 성숙도를 높이는 역할 수행</td></tr>
+    <tr><td>프로세스 지휘자</td><td>스크럼팀에서 수행해야 하는 프로세스를 정의하고 개선하며, 팀 특화된 스크럼 접근법 개발을 지원</td></tr>
+    <tr><td>변화관리자</td><td>스크럼팀 및 프로젝트 내부 조직의 변화관리를 수행하고 외부 이해관계자와의 변화 이슈를 조율</td></tr>
+    <tr><td>서번트 리더(Servant Leader)</td><td>팀을 지시하기보다 지원·보호하는 리더십 스타일 — 스크럼 마스터에게 가장 적합한 스타일</td></tr>
+    <tr><td>스크럼팀 보호자 / 장애물 제거자</td><td>팀이 외부 간섭 없이 스프린트에 집중할 수 있도록 장애물을 식별하고 제거</td></tr>
+  </table>
+  <p>스크럼 마스터는 Product Backlog Planning Meeting, Sprint Planning Meeting, 회고(Retrospective) 미팅을 리딩하지만, PO의 고유 권한인 <strong>기획에 대한 의사결정 자체는 수행하지 않는다</strong> — 이는 스크럼 마스터와 PO의 역할을 구분하는 핵심 포인트로 자주 출제된다.</p>
+
+  <h3>다. Story Point 산정</h3>
+  <p>Story Point는 User Story별 상대적 난이도·작업량을 피보나치 수열(1, 2, 3, 5, 8, 13, …) 형태의 숫자로 추정하는 산정 기법이다. 무한대(∞) 기호는 현재 시점에서 산정이 어렵거나 불가능한 항목을 표현하는 데 사용하며, 이는 프로젝트 범위·원가 산정 기법이 아니라 팀이 상대적 작업량에 합의하기 위한 커뮤니케이션 도구라는 점에 유의한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · PO와 SM 역할 구분</span>Product Owner(PO)는 "무엇을 만들 것인가"에 대한 기획·의사결정 권한을 가지며, Scrum Master(SM)는 "어떻게 원활히 만들 것인가"를 지원하는 서번트 리더다. 시험에서는 SM이 PO의 기획 의사결정을 대신 수행한다는 식의 오답 선지가 자주 나온다.</div>
+</section>
+<section id="se09-s02" class="section">
+  <h2>2. 객체지향(OOP) 핵심 개념 총정리 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.23-37)</span></h2>
+
+  <h3>가. 객체지향의 5대 특성</h3>
+  <table>
+    <tr><th>특성</th><th>설명</th></tr>
+    <tr><td>캡슐화(Encapsulation)</td><td>서로 관련성이 많은 데이터와 이를 처리하는 함수(메서드)를 하나로 묶어 처리하는 특성. <strong>실제 구현 내용의 일부를 외부에 감추어 은닉하는 것은 캡슐화 자체의 정의가 아니라 정보은닉과 결합되었을 때의 효과</strong>라는 점에 유의(자주 출제되는 함정)</td></tr>
+    <tr><td>추상화(Abstraction)</td><td>복잡한 문제를 다루는 가장 기본적인 메커니즘. 현실 세계의 사물을 객체로 표현하는 개념으로, 기능 추상화·데이터 추상화·제어 추상화로 구분</td></tr>
+    <tr><td>다형성(Polymorphism)</td><td>동일한 이름의 메서드가 객체(클래스)에 따라 다르게 동작하는 특성. 오버로딩·오버라이딩으로 구현</td></tr>
+    <tr><td>상속성(Inheritance)</td><td>상위 클래스의 속성과 메서드를 하위 클래스가 물려받아 재사용하는 특성</td></tr>
+    <tr><td>연관성(Association)</td><td>객체와 객체 사이의 의미 있는 관계를 표현하는 특성</td></tr>
+  </table>
+
+  <h3>나. 오버로딩(Overloading) vs 오버라이딩(Overriding)</h3>
+  <table>
+    <tr><th>구분</th><th>오버로딩(Overloading)</th><th>오버라이딩(Overriding)</th></tr>
+    <tr><td>정의</td><td>같은 이름의 메서드를 매개변수의 개수·타입을 다르게 하여 한 클래스 내에 여러 개 정의</td><td>상위 클래스에 있는 메서드와 똑같은 이름·시그니처의 메서드를 하위 클래스에서 다시 만드는 행위(메서드 재정의)</td></tr>
+    <tr><td>다형성 유형</td><td>컴파일 타임(정적) 다형성</td><td>런타임(동적) 다형성</td></tr>
+    <tr><td>지원 언어</td><td>Ada, C#, C++, Java 등 다양한 언어에서 지원. <strong>C언어는 지원하지 않음</strong></td><td>Java 등 상속을 지원하는 객체지향 언어에서 지원</td></tr>
+    <tr><td>비고</td><td>상위 클래스의 메서드를 하위 클래스에서 다시 만드는 것이 오버라이딩이며, 상위 클래스(부모) 메서드는 무시되고 하위 클래스 메서드가 호출된다</td><td>예) Animal.sayHello() → Baby extends FaFa일 때 Baby b = new Baby(); b.sayHello();는 Baby의 오버라이딩된 sayHello()를 호출</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p031.jpg" alt="오버라이딩 개념도. 상위 클래스 Animal의 move(), eat() 메서드를 하위 클래스 Dog가 상속받아 move()를 오버라이딩하는 구조를 parent class와 subclass, overridden method, inherited method로 표시한 다이어그램"><figcaption>[그림] 상속 관계에서의 메서드 오버라이딩 구조(Animal → Dog)</figcaption></figure>
+
+  <h3>다. 정보은닉과 접근 제어자</h3>
+  <p>정보은닉(Information Hiding)은 객체 내부의 구현 세부사항을 외부로부터 감추어 외부에서는 공개된 인터페이스로만 접근하도록 하는 원리이며, 자바 등에서는 4가지 접근 제어자로 구현한다.</p>
+  <table>
+    <tr><th>접근 제어자</th><th>같은 클래스</th><th>같은 패키지</th><th>자식 클래스</th><th>전체</th></tr>
+    <tr><td>private</td><td>O</td><td>X</td><td>X</td><td>X</td></tr>
+    <tr><td>default(package-private)</td><td>O</td><td>O</td><td>X</td><td>X</td></tr>
+    <tr><td>protected</td><td>O</td><td>O</td><td>O</td><td>X</td></tr>
+    <tr><td>public</td><td>O</td><td>O</td><td>O</td><td>O</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 캡슐화 함정 선지</span>"캡슐화는 실제 구현 내용을 외부에 감추어 은닉하는 특성이다"라는 선지는 <strong>틀린 설명</strong>으로 자주 출제된다. 캡슐화의 본질은 "데이터+메서드를 하나로 묶는 것"이며, 은닉(외부 접근 차단)은 접근 제어자를 통한 정보은닉의 역할이다. 두 개념을 혼동하지 않도록 구분해서 암기한다.</div>
+</section>
+<section id="se09-s03" class="section">
+  <h2>3. UML 관계와 디자인 패턴 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.38-51)</span></h2>
+
+  <h3>가. UML의 4대 관계</h3>
+  <p>UML 클래스 다이어그램에서 클래스 간 관계는 연관(Association)·의존(Dependency)·일반화(Generalization)·실체화(Realization) 4가지로 구분한다. 흔히 <strong>"연의 GR"</strong>(연관·의존·일반화·실체화)로 암기한다.</p>
+  <table>
+    <tr><th>관계</th><th>기호</th><th>의미</th></tr>
+    <tr><td>연관(Association)</td><td>실선</td><td>클래스 간 의미 있는 관계·연결. 멤버 변수로 참조를 갖는 형태</td></tr>
+    <tr><td>의존(Dependency)</td><td>점선 화살표</td><td>한 클래스가 다른 클래스를 일시적으로 사용(파라미터, 지역변수 등)</td></tr>
+    <tr><td>일반화(Generalization)</td><td>실선 + 속이 빈 삼각형 화살표</td><td>상속 관계 — 하위 클래스가 상위 클래스의 속성·메서드를 물려받음</td></tr>
+    <tr><td>실체화(Realization)</td><td>점선 + 속이 빈 삼각형 화살표</td><td>인터페이스와 이를 구현(implements)하는 클래스 간의 관계</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p038.jpg" alt="일반화(Generalization) 관계 클래스 다이어그램 예시. 상위 클래스 Animal이 name 속성과 eat(), sleep() 메서드를 가지고 하위 클래스 Dog가 이를 실선과 속이 빈 삼각형으로 상속받는 구조. Member 변수는 private로 -로 표기"><figcaption>[그림] 일반화(상속) 관계 클래스 다이어그램 예시(Animal → Dog)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p042.jpg" alt="실체화(Realization) 관계 클래스 다이어그램 예시. 인터페이스 Curtain이 status 속성과 draw(), open() 메서드를 정의하고, 점선과 속이 빈 삼각형으로 구현 클래스 blind가 이를 실체화하는 구조"><figcaption>[그림] 실체화(구현) 관계 클래스 다이어그램 예시(&lt;&lt;interface&gt;&gt; Curtain → blind)</figcaption></figure>
+
+  <h3>나. 추상클래스 vs 인터페이스</h3>
+  <table>
+    <tr><th>구분</th><th>추상클래스(Abstract Class)</th><th>인터페이스(Interface)</th></tr>
+    <tr><td>관계</td><td>일반화(상속, extends)</td><td>실체화(구현, implements)</td></tr>
+    <tr><td>메서드</td><td>일반 메서드 + 추상 메서드 혼용 가능</td><td>원칙적으로 추상 메서드(시그니처)만 정의(Java 8+부터 default/static 메서드 허용)</td></tr>
+    <tr><td>다중 상속</td><td>단일 상속만 가능</td><td>다중 구현(implements) 가능</td></tr>
+    <tr><td>목적</td><td>공통 기능을 부분적으로 미리 구현해 코드 재사용</td><td>클래스가 반드시 구현해야 할 규약(Contract)을 정의</td></tr>
+  </table>
+
+  <h3>다. GOF 디자인 패턴의 분류</h3>
+  <p>GOF(Gang of Four) 디자인 패턴은 생성(Creational)·구조(Structural)·행위(Behavioral) 3가지 유형, 총 23가지로 분류된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p048.jpg" alt="GOF 디자인 패턴 분류도. Creational patterns(Abstract factory, Builder, Factory method, Prototype, Singleton), Structural patterns(Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy), Behavioral Patterns(Chain of responsibility, Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy, Template method, Visitor)를 나열한 분류표"><figcaption>[그림] GOF 디자인 패턴의 3대 분류(생성/구조/행위)</figcaption></figure>
+
+  <h3>라. Factory Method 패턴</h3>
+  <p>Factory Method 패턴은 객체 생성 로직을 서브클래스로 위임하는 생성 패턴으로, Creator(추상 생성자)가 FactoryMethod()를 선언하고 ConcreteCreator가 이를 구현하여 ConcreteProduct 객체를 생성한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p051.jpg" alt="Factory Method 패턴 구조도. 제품 클래스(Product 인터페이스와 ConcreteProduct)와 생성자(Creator) 클래스(Creator 인터페이스의 추상 FactoryMethod와 ConcreteCreator의 FactoryMethod 구현)가 의존 관계로 연결된 구조"><figcaption>[그림] Factory Method 패턴 구조(Creator/ConcreteCreator, Product/ConcreteProduct)</figcaption></figure>
+  <p>Java 예시에서는 도형(Shape) 인터페이스를 Circle·Rectangle·Triangle이 구현(implements)하고, ShapeFactory 클래스의 getShape(String)이 문자열 값에 따라 알맞은 ConcreteProduct 객체를 생성해 반환하는 형태로 구현된다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · "연의 GR" 암기법</span>UML 관계를 묻는 문제에서 상속은 반드시 일반화(Generalization)이고, 인터페이스 구현은 반드시 실체화(Realization)이다. "상속은 일반화이다"·"인터페이스는 연의 GR을 기억한다"처럼 소스 문항에 직접 등장하는 표현이므로 관계명과 UML 표기(속이 빈 삼각형 + 실선/점선)를 함께 암기해 둔다.</div>
+</section>
+<section id="se09-s04" class="section">
+  <h2>4. SW 아키텍처와 MSA <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.54-69)</span></h2>
+
+  <h3>가. SW 아키텍처 표준과 평가 방법론</h3>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>IEEE 1471 / ISO 42010</td><td>아키텍처 기술(記述)에 대한 국제 표준. 이해관계자별 관점(View Point)에 따라 아키텍처를 다양한 뷰로 표현하도록 규정</td></tr>
+    <tr><td>4+1 View 모델</td><td>논리(Logical)·프로세스(Process)·개발(Development)·물리(Physical) 4개 뷰와 이를 통합하는 유스케이스(Use Case) 시나리오(+1)로 아키텍처를 표현</td></tr>
+    <tr><td>ATAM(Architecture Tradeoff Analysis Method)</td><td>아키텍처 대안들이 품질속성 요구사항을 어떻게 절충(Trade-off)하는지 분석하는 아키텍처 평가 방법론</td></tr>
+    <tr><td>CBAM(Cost Benefit Analysis Method)</td><td>ATAM에 비용·편익 분석을 결합해 아키텍처 결정의 경제적 타당성까지 평가하는 방법론</td></tr>
+  </table>
+
+  <h3>나. 대표적 아키텍처 스타일</h3>
+  <table>
+    <tr><th>스타일</th><th>설명</th></tr>
+    <tr><td>클라이언트/서버(Client/Server)</td><td>서버가 클라이언트라 불리는 서브시스템에 서비스를 제공. 클라이언트는 사용자 입력을 받아 범위를 체크하고 트랜잭션을 구동, 서버는 트랜잭션을 수행하고 데이터 일관성을 보장(예: 3-tier 클라이언트-서버)</td></tr>
+    <tr><td>계층(Layered) 스타일</td><td>시스템을 계층으로 나누어 각 계층이 바로 아래 계층의 서비스만 이용하도록 구조화</td></tr>
+    <tr><td>MVC(Model-View-Controller) 모델</td><td>데이터(Model)·화면(View)·제어 로직(Controller)을 분리해 유지보수성과 재사용성을 높이는 스타일</td></tr>
+    <tr><td>저장소(Repository) 구조 스타일</td><td>중앙 데이터 저장소를 여러 서브시스템이 공유하며 접근하는 스타일</td></tr>
+  </table>
+
+  <h3>다. MSA(Micro Service Architecture)</h3>
+  <p>MSA는 하나의 애플리케이션을 독립적으로 배포 가능한 작은 서비스 단위로 분할하는 아키텍처 스타일이다. 시스템의 기능 분할, WAS의 복제, 데이터의 분할을 통해 부하를 분산시키며, 서비스 간 통신에는 RESTful 기술과 Observer Pattern 등이 활용된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p069.jpg" alt="MSA 전환을 위한 Scale Cube 모델. X축 기능 복제, Y축 기능 분할, Z축 데이터 분할의 3차원 큐브로 확장성을 표현하고, 오른쪽에는 MSA 전환 시 기존 애플리케이션 배포 시간 소요, 단순한 기능 하나 전체 QA 필요, 단순 버그 수정도 대규모 재배포, 현재의 아키텍처에서 다수 인원이 개발 시 수십 개의 마이크로서비스로 분해 가능함을 정리한 체크리스트"><figcaption>[그림] MSA 전환을 위한 Scale Cube 모델과 전환 검토 사항</figcaption></figure>
+  <p>다만 다수의 개발자·많은 개발 작업·다양한 서비스가 필요한 대규모 조직에서는 MSA가 오히려 관리 복잡도를 높일 수 있어, 상황에 따라 모노리틱(Monolithic) 아키텍처를 유지하는 것이 더 합리적일 수 있다는 점도 출제 포인트다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · MSA vs 모노리틱</span>"서비스가 다양하고 개발 인력이 많을수록 무조건 MSA가 유리하다"는 식의 선지는 함정이다. MSA는 서비스 독립 배포·장애 격리라는 장점이 있지만, 서비스 수가 지나치게 많아지면 운영·모니터링 복잡도가 급증하므로 조직 규모와 서비스 성숙도에 따라 모노리틱 유지가 더 나은 선택일 수 있다.</div>
+</section>
+<section id="se09-s05" class="section">
+  <h2>5. 전자정부프레임워크와 Spring(IoC/DI/AOP) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.57-66)</span></h2>
+
+  <h3>가. 전자정부 표준프레임워크 개요</h3>
+  <p>전자정부 표준프레임워크는 공공 SW사업의 표준 개발환경을 제공하기 위해 마련된 오픈소스 기반 프레임워크로, 실행환경은 <strong>7개 서비스 그룹으로 구성되며 38개 서비스를 제공</strong>한다. 관점지향 프로그래밍(AOP) 사상을 구현·지원하며, 데이터 처리를 위해 ORM과 MyBatis를 제공하고, 의존성 주입(DI) 사상이 반영되어 있다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p059.jpg" alt="Spring 프레임워크 핵심 모듈 구성도. DAO/JDBC, 데이터처리, 전환처리, 트랜잭션처리를 담당하는 데이터처리 계층과 J2EE, EJB, JMX, EMAIL 등 웹처리 계층, ORM, AOP를 포함하는 공통기반 계층, 최하단 IOC 계층으로 구성된 Spring Framework Core 아키텍처"><figcaption>[그림] Spring 프레임워크의 핵심 모듈 구성(IOC 기반 계층 구조)</figcaption></figure>
+
+  <h3>나. Spring 프레임워크의 계층 구조</h3>
+  <table>
+    <tr><th>계층/모듈</th><th>구성 요소</th></tr>
+    <tr><td>업무기능</td><td>화면처리·업무처리·데이터처리 등이 동일연계/배치처리와 공통기반 위에서 동작</td></tr>
+    <tr><td>공통기반(데이터 처리)</td><td>DAO/JDBC — iBatis SQL Map, MyBatis</td></tr>
+    <tr><td>공통기반(연동)</td><td>DataSource — Spring</td></tr>
+    <tr><td>공통기반(영속성)</td><td>ORM — Hibernate, Spring Data JPA</td></tr>
+    <tr><td>공통기반(트랜잭션)</td><td>Transaction — Spring</td></tr>
+    <tr><td>WEB</td><td>STRUTS, JSF, JSP</td></tr>
+    <tr><td>공통 기반(IOC/AOP)</td><td>Core — IoC 컨테이너, AOP</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p061.jpg" alt="경량화된 개발이 가능하게 하는 Spring 프레임워크 구성도. 회원 요청이 화면처리부, 업무처리부, 데이터처리부를 거쳐 DB에 도달하는 흐름과, 이를 지원하는 전자정부 표준프레임워크의 공통기반(DAO/JDBC, ORM, J2EE/EJB/JMX/EMAIL, WEB, AOP, IOC) 구조"><figcaption>[그림] 전자정부 표준프레임워크 기반 Spring 애플리케이션의 처리 흐름</figcaption></figure>
+
+  <h3>다. IoC(제어의 역전)와 DI(의존성 주입)</h3>
+  <p>IoC(Inversion of Control)는 객체의 생성과 생명주기 관리를 개발자가 아닌 프레임워크(컨테이너)가 담당하는 원리로, "Hollywood Principle"(Don't call us, we'll call you)로 비유된다. Spring 컨테이너가 POJO(Plain Old Java Object)를 생성·조립·관리하며, 이때 객체가 필요로 하는 의존 객체를 컨테이너가 대신 주입해 주는 것이 DI(Dependency Injection)이다.</p>
+  <table>
+    <tr><th>DI 유형</th><th>설명</th></tr>
+    <tr><td>Setter Injection</td><td>setter 메서드를 통해 의존 객체를 주입</td></tr>
+    <tr><td>Constructor Injection</td><td>생성자의 파라미터를 통해 의존 객체를 주입 — 불변성 보장에 유리</td></tr>
+    <tr><td>Method Injection</td><td>임의의 메서드를 통해 의존 객체를 주입</td></tr>
+  </table>
+  <p>DL(Dependency Lookup, 의존성 검색)이 객체가 직접 컨테이너에서 필요한 의존 객체를 찾아오는 방식이라면, DI는 컨테이너가 능동적으로 의존 객체를 대상에게 주입해 준다는 점에서 방향이 반대다.</p>
+
+  <h3>라. ORM(Object-Relational Mapping)</h3>
+  <p>ORM은 객체지향 프로그램의 클래스와 관계형 데이터베이스의 테이블 간 매핑(Forward/Backward Mapping)을 자동화하는 기술로, 클래스 다이어그램과 DB 테이블 간 매핑 관계를 설명할 때 iBatis·MyBatis·Hibernate 등이 예시로 함께 출제된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p066.jpg" alt="ORM 매핑 개념도. Application Model Class Attribute와 DB Model Table Column이 Forward Mapping과 Backward Mapping으로 양방향 연결되며, ORM이 XML, SqlMap, SqlConfig, Properties 등으로 Association/Aggregation, Composition/Generalization을 Database에 매핑하는 구조"><figcaption>[그림] ORM(객체-관계 매핑)의 Forward/Backward Mapping 구조</figcaption></figure>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · IoC/DI/AOP 한 줄 정리</span>IoC=객체 생성·관리 권한이 개발자에서 컨테이너로 역전, DI=컨테이너가 의존 객체를 주입하는 IoC의 구현 방식, AOP=로깅·트랜잭션 등 횡단 관심사(Cross-cutting Concern)를 핵심 비즈니스 로직과 분리해 모듈화하는 기법으로 구분해 암기한다.</div>
+</section>
+<section id="se09-s06" class="section">
+  <h2>6. SW 테스트 종합복습 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.70-97)</span></h2>
+
+  <h3>가. 테스트 드라이버와 테스트 스텁</h3>
+  <p>통합 테스트에서 아직 개발되지 않은 하위/상위 모듈을 대신하기 위해 테스트 하네스를 구성하는데, 테스트 드라이버(Test Driver)와 테스트 스텁(Test Stub)이 그 핵심 구성요소다.</p>
+  <table>
+    <tr><th>구분</th><th>정의</th><th>사용 방향</th></tr>
+    <tr><td>테스트 드라이버(Test Driver)</td><td>테스트 대상 하위 모듈을 호출하기 위해 상위 모듈을 대신 만든 것 (예: "상품조회"를 테스트하기 위해 "로그인 모듈"을 임시로 만든 경우)</td><td>상향식(Bottom-Up) 통합 테스트에서 사용</td></tr>
+    <tr><td>테스트 스텁(Test Stub)</td><td>테스트 대상 상위 모듈이 호출하는 하위 모듈을 대신 만든 것 (예: "로그인 모듈"을 테스트하기 위해 "결제 모듈"을 임시로 만든 경우)</td><td>하향식(Top-Down) 통합 테스트에서 사용</td></tr>
+  </table>
+  <p>"로그인 모듈을 테스트하기 위해 결제 모듈을 만든 것은 상향식 테스트이다"라는 선지는 <strong>틀린 설명</strong>이다 — 상위 모듈이 하위 모듈을 대신하는 스텁을 만든 것이므로 이는 하향식 테스트에 해당한다.</p>
+
+  <h3>나. C언어 코드 트레이스(단축 평가) 문제</h3>
+  <p>논리 연산자의 단축 평가(Short-circuit Evaluation) 규칙을 이해하면 코드 트레이스 문제를 빠르게 풀 수 있다. <code>&amp;&amp;</code>(AND)는 좌변이 거짓이면 우변을 평가하지 않고, <code>||</code>(OR)는 좌변이 참이면 우변을 평가하지 않는다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p071.jpg" alt="C언어 코드 트레이스 문제 소스코드 화면. int a=20,b=30,c=20,d=30 변수를 선언하고 if(a++ <= 20 && ++b > 30) b++; 및 if(++c <= 20 || d > 30) d++; 두 조건문의 단축평가 결과를 확인하는 예제 코드"><figcaption>[그림] 단축 평가(Short-circuit) C코드 트레이스 예제 소스</figcaption></figure>
+  <p>풀이: <code>a++ &lt;= 20</code>은 참(20≤20, 이후 a=21)이고 <code>++b &gt; 30</code>은 거짓(b=31, 31&gt;30은 참 — 두 조건 모두 참이므로 b++가 수행되어 최종 a=21, b=32)이다. 두 번째 문장은 <code>++c &lt;= 20</code>이 참(c=21… 실제로는 21≤20이 거짓)이 아니면 OR 뒤의 <code>d&gt;30</code>을 평가하는데, 원 강의자료 해설 기준 최종 결과는 c=21, d=30이다.</p>
+
+  <h3>다. 성능 테스트 지표와 Little's Law</h3>
+  <table>
+    <tr><th>지표</th><th>설명</th></tr>
+    <tr><td>Named User</td><td>시스템에 등록된 전체 사용자 수</td></tr>
+    <tr><td>Concurrent User</td><td>특정 시점에 시스템에 접속(로그인)해 있는 사용자 수</td></tr>
+    <tr><td>Active User</td><td>해당 시점에 실제로 요청을 전달하고 응답을 대기 중인 사용자 수</td></tr>
+    <tr><td>Response Time</td><td>요청 전송부터 응답 수신까지 걸리는 시간</td></tr>
+    <tr><td>Think Time</td><td>사용자가 응답을 받은 후 다음 요청을 보내기까지 생각하는 시간</td></tr>
+    <tr><td>TPS(Transaction Per Second)</td><td>초당 처리 가능한 트랜잭션 수</td></tr>
+  </table>
+  <p>리틀의 법칙(Little's Law)에 따르면 <strong>TPS = Active User(동시 작업 처리 중인 사용자 수) / 평균 응답시간(Mean Response Time)</strong>이다. "TPS = Concurrent User / 평균응답시간"이라는 표현은 Active User와 Concurrent User를 혼동한 오답으로 자주 출제된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p079.jpg" alt="Little's Law 성능테스트 지표 설명 카드. Cycle Time = Work in Progress / Throughput 공식과 WIP(공정 내 작업 수), ACR(평균완료율), AU(Active User), MRT(평균응답시간) 용어 정의를 정리한 팁 카드"><figcaption>[그림] Little's Law와 성능테스트 핵심 지표(WIP·ACR·AU·MRT)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p082.jpg" alt="실제 측정 시 TPS와 성능 지표 상관관계 그래프. 왼쪽은 TPS 증가에 따라 자원 사용량이 일정 수준(임계점)까지 증가하다가 급격히 증가하는 그래프, 오른쪽은 TPS 증가에 따라 응답시간이 임계점 이후 급격히 증가하는 그래프"><figcaption>[그림] TPS 증가에 따른 자원 사용량·응답시간 상관관계 그래프</figcaption></figure>
+  <p>자원 사용량이 급격히 증가하다가 일정 수준(임계점, Saturation Point)에 도달하면 증가폭이 둔화되는 것은 자원 경합(부하 발생, 네트워크 상태, 시스템 내 버스 크기, Caching 등)이 주요 원인이다.</p>
+
+  <h3>라. 성능 테스트 기법과 리스크기반 테스트</h3>
+  <table>
+    <tr><th>성능테스트 기법</th><th>설명</th></tr>
+    <tr><td>루프백 테스트(Loop-back Test)</td><td>한 통신 장비에서 신호를 보내 일정 구간의 회선을 거친 뒤 다시 원점으로 되돌아오도록 하는 시험</td></tr>
+    <tr><td>스파이크 테스트(Spike Test)</td><td>짧은 시간에 사용자·부하가 급증할 때 시스템이 견디는지 검증하는 테스트</td></tr>
+    <tr><td>티어 테스트(Tier Test)</td><td>계층(Tier)별로 나누어 각 계층의 성능 병목을 검증하는 테스트</td></tr>
+    <tr><td>가용성 테스트(Availability Test)</td><td>장애 상황에서도 서비스가 지속 가능한지 검증하는 테스트</td></tr>
+  </table>
+  <p>리스크기반 테스트(Risk Based Testing)는 장애 발생 가능성(기술적 리스크)과 장애로 인한 영향(사업적 리스크) 2가지 축으로 우선순위를 결정해 테스트 자원을 배분하는 기법이다.</p>
+  <table>
+    <tr><th>영역</th><th>의미</th></tr>
+    <tr><td>ITA(Intensive Test Area)</td><td>테스트 필요 영역</td></tr>
+    <tr><td>STA(Severe Test Area)</td><td>반드시 테스트가 필요한 영역(리스크가 가장 높음)</td></tr>
+    <tr><td>FTA(Fundamental Test Area)</td><td>테스트하지 않을 수도 있는 영역(리스크가 가장 낮음)</td></tr>
+    <tr><td>STTA(Strong Test Area)</td><td>테스트가 필요한 영역</td></tr>
+  </table>
+  <p>리스크기반 테스트의 목적은 전체 기능을 중요도와 무관하게 동일한 비중으로 테스트하는 것이 <strong>아니라</strong>, 사업적·기술적 리스크가 높은 영역에 우선순위를 두어 테스트 자원을 효과적·효율적으로 투입하는 것이다.</p>
+
+  <h3>마. 퍼즈 테스팅(Fuzz Testing)</h3>
+  <p>퍼즈 테스팅은 예기치 못한 에러나 충돌을 일으키기 위해 소프트웨어에 무작위(비정상) 데이터를 입력하는 SW 취약점 테스트 기법이다. 프로그램 충돌, 코드 내 오류, 메모리 누수 같은 예외적 상황을 찾을 때 사용하며, 퍼징 데이터 처리 방법으로는 생성 기반(Generation-based)과 변이 기반(Mutation-based)이 있다. "AI의 모호함(Fuzzy)을 다루는 기법이다"는 이름의 유사성을 이용한 오답 함정이므로 주의한다.</p>
+
+  <h3>바. Black Box / White Box 테스트</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p088.jpg" alt="Black Box 테스트와 White Box 테스트 비교 카드. White Box는 Input A,B가 Integer A,B,C, Input A,B, Calculate C=A+B, Display C의 내부 로직을 거쳐 Output C를 출력하는 구조를 보여주고, Black Box는 Input A,B가 검은 상자를 거쳐 바로 Output C가 나오는 구조로 대비해 표현"><figcaption>[그림] White Box(내부 로직 검증) vs Black Box(입출력 검증) 테스트 개념 비교</figcaption></figure>
+  <p>White Box 테스트는 코드 내부 로직·구조(문장/분기/조건 커버리지 등)를 검증하고, Black Box 테스트는 내부 구현과 무관하게 입력에 대한 출력 결과만으로 검증한다. SE07에서 다룬 "블동경의상"(블랙박스: 동등분할·경계값분석·의사결정테이블·상태전이) / "화제루"(화이트박스: 문장커버리지·분기커버리지·조건커버리지 등의 앞글자) 암기법을 그대로 적용한다.</p>
+
+  <h3>사. 커버리지(Coverage) 기준</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p095.jpg" alt="테스트 커버리지 포함관계 벤다이어그램. 가장 바깥쪽 다중 조건 커버리지(Multiple Condition Coverage)가 변경 조건/결정 커버리지(Modified Condition/decision Coverage)를 포함하고, 그 안에 조건/결정 커버리지(Condition/decision Coverage)가 결정 커버리지(Decision)와 구문 커버리지(Statement, 조건 Condition)를 포함하는 중첩 구조"><figcaption>[그림] 구문 커버리지 ~ 다중 조건 커버리지 포함 관계 벤다이어그램</figcaption></figure>
+  <p>구조(White Box) 기반 테스트는 커버리지가 기반이 되며, 가장 엄격한 기준은 다중 조건 커버리지(Multiple Condition Coverage)이다. "테스트 상황에 따라 커버리지 기준을 유연하게 판단한다"는 식의 표현은 오답으로 자주 출제된다 — 커버리지 기준은 테스트 계획 단계에서 명확히 정의되어야 한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 성능테스트 지표 공식 정리</span>TPS = Active User ÷ 평균응답시간(MRT), Cycle Time = WIP(진행 중 작업량) ÷ Throughput(처리량)의 두 공식을 짝지어 암기해 두면 Little's Law 관련 문제를 빠르게 해결할 수 있다.</div>
+</section>
+<section id="se09-s07" class="section">
+  <h2>7. SW 품질표준 종합복습(ISO9126→25010, PMBOK) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.100-117)</span></h2>
+
+  <h3>가. ISO 9126 → ISO 25010 전환</h3>
+  <p>ISO/IEC 9126은 ISO/IEC 25010으로 대체되었으며, 하위 규격들도 SQuaRE(25000번대) 체계로 재편되었다. ISO 25023은 제품 품질(Product Quality) <strong>측정</strong>을 정의하는 표준이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p104.jpg" alt="SW Product Quality 트리 다이어그램. SOFTWARE PRODUCT QUALITY를 뿌리로 Functional Suitability, Performance Efficiency, Compatibility, Usability, Reliability, Security, Maintainability, Portability 8개 특성이 가지로 뻗어나가고 각 특성 아래 세부 부특성이 나열된 구조"><figcaption>[그림] ISO/IEC 25010 소프트웨어 제품 품질 특성 트리(8대 특성)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p106.jpg" alt="ISO/IEC 9126 Quality Model 다이어그램. 품질목표 아래 품질특성과 품질부특성이 배치되고, 기능성(Functionality), 신뢰성(Reliability), 사용성(Usability), 효율성(Efficiency), 유지보수성(Maintainability), 이식성(Portability) 6대 특성 각각의 부특성(적합성/정확성/상호운용성/보안성, 성숙성/고장허용/회복성, 이해성/학습성/운용성, 시간반응성/자원활용성, 분석성/변경성/안정성/시험성, 적응성/설치성/공존성/대체가능성)이 함께 표시된 표"><figcaption>[그림] ISO/IEC 9126 Quality Model — 6대 품질특성과 부특성</figcaption></figure>
+  <p>ISO 25010은 기존 9126의 6대 특성에 <strong>호환성(Compatibility)</strong>과 <strong>보안성(Security)</strong>을 주특성으로 추가해 8대 특성 체계로 확장했다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p108.jpg" alt="ISO/IEC 25010 품질특성 트리 다이어그램에서 호환성(Compatibility)과 보안성(Security)이 추가된 부분을 빨간 사각형으로 강조 표시한 그림. 8개 주특성(Functional Suitability, Performance Efficiency, Compatibility, Usability, Reliability, Security, Maintainability, Portability)과 각각의 부특성을 나열"><figcaption>[그림] ISO/IEC 25010에서 신규 추가된 호환성·보안성 특성(빨간 테두리 강조)</figcaption></figure>
+  <p>보안성(Security)의 부특성은 <strong>기밀성(Confidentiality)·무결성(Integrity)·부인방지(Non-repudiation)·책임추적성(Accountability)·인증성(Authenticity)</strong>으로 구성된다 — 보안의 3대 요소인 CIA(기밀성·무결성·가용성)와는 다르므로 "보안성 부특성에 가용성이 포함된다"는 선지는 오답이다.</p>
+
+  <h3>나. PMBOK 품질관리 3대 프로세스</h3>
+  <table>
+    <tr><th>프로세스</th><th>정의</th></tr>
+    <tr><td>품질관리(Manage Quality, 舊 품질보증)</td><td>프로젝트에서 조직의 품질관리 정책을 반영하는 품질 활동들을 실행하여 품질관리 계획을 적용하는 프로세스</td></tr>
+    <tr><td>감사(Audit)</td><td>프로젝트 활동들이 조직·프로젝트의 정책, 프로세스, 절차를 준수하는지 결정하는 조직적이고 <strong>독립적인</strong> 프로세스. Good/Best Practice 식별, 결점 식별, 팀 생산성 향상을 목적으로 한다</td></tr>
+    <tr><td>품질통제(Control Quality)</td><td>프로젝트 산출물이 완전성·정확성·기대치를 준수하는지 성과를 평가하기 위해 수행한 품질관리 활동의 결과를 감시·기록하는 프로세스</td></tr>
+  </table>
+  <p>PMBOK Manage Quality의 데이터 표현(Data Representation) 도구로는 친화도(Affinity Diagram), 인과관계도(Cause-and-Effect/Fishbone Diagram), 흐름도(Flowchart), 히스토그램(Histogram), 매트릭스 다이어그램(Matrix Diagram), 산점도(Scatter Diagram) 등 7가지 품질 도구가 활용되며, Design for X, 문제해결(Problem Solving), 품질개선방법(PDCA 등)도 대표적 기법이다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 품질관리·감사·품질통제 구분</span>"실행하며 계획을 적용" = 품질관리(舊 품질보증), "조직적·독립적으로 준수 여부 판단" = 감사(Audit), "산출물의 완전성·정확성을 평가" = 품질통제로 3단어를 짝지어 암기한다. PMBOK 6판 이후 "품질보증(Perform Quality Assurance)"이 "품질관리(Manage Quality)"로 명칭이 변경된 점도 함께 기억한다.</div>
+</section>
+<section id="se09-s08" class="section">
+  <h2>8. GS 인증과 CMMI(v2.0) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.118-142)</span></h2>
+
+  <h3>가. GS(Good Software) 인증 개요</h3>
+  <p>GS 인증은 국산 SW 제품의 품질 향상을 통한 국내 SW 산업 활성화 정책으로 국제표준을 기반으로 개발한 한국형 SW 품질 인증제도(제품 품질 인증)다. 한국정보통신기술협회(TTA)가 국내 소프트웨어의 완성도를 평가하고 일정 수준 이상의 기술력·사용성·신뢰성을 갖춘 제품에 지식경제부 장관이 국가인증마크를 부여한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p122.jpg" alt="GS 인증의 목적 다이어그램. GS 인증이 국산 SW 품질향상과 수출경쟁력 향상으로 이어지고, 이것이 우선구매제도와 결합되어 SW 산업 활성화·홍보효과·모집단 확산으로 연결되는 인과관계도"><figcaption>[그림] GS 인증의 목적 — 품질향상·수출경쟁력 강화와 SW 산업 활성화</figcaption></figure>
+
+  <h3>나. GS 인증 SW 품질 평가 프레임워크</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p123.jpg" alt="GS 인증 SW 품질 평가 프레임워크 다이어그램. ISO/IEC 9126, ISO/IEC 12119, ISO/IEC 14598 세 표준이 각각 SW품질특성 평가 메커니즘 표준, 패키지SW 제품 관련 국제표준, SW제품 특성 평가 관련 국제표준 역할을 하며 이들이 Evaluation Model(관련형 평가모델)로 통합되어 SW Quality로 이어지는 구조. 하단에는 기능성, 신뢰성, 사용성, 효율성, 유지보수성, 이식성, 일체화 요구사항 7개 평가 항목이 표시됨"><figcaption>[그림] GS 인증 SW 품질 평가 프레임워크(ISO9126/12119/14598 통합 평가모델)</figcaption></figure>
+  <p>GS 인증은 <strong>ISO/IEC 25050·25040이 아니라 ISO/IEC 25023·25041</strong>을 반영해 평가모델을 개정했다는 점이 자주 출제된다 — 9126-2에서 25023으로, 14598/12119에서 25040·25051로 변경된 것을 GS 인증 표준에 반영한 것이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p125.jpg" alt="GS 인증 SW 품질 평가 프레임워크 최신 개정(2019년) 다이어그램. ISO/IEC 9126-2에서 ISO/IEC 25023으로 변경됨에 따라 표준을 반영하고, 개정된 국제 SW 품질표준(ISO25023 제품 품질 요구, ISO25041 SW 제품 품질 요구 사항 명세) 및 CC인증제품 보안성 시험 면제 내용을 화살표로 연결한 Evaluation Model 구조도"><figcaption>[그림] GS 인증 최신 개정사항(ISO25023/25041 반영, CC인증 보안성 시험 면제)</figcaption></figure>
+  <p>또한 CC(Common Criteria, 국제공통평가기준) 인증을 이미 취득한 제품은 GS 인증에서 <strong>보안성 시험을 면제</strong>받을 수 있도록 최신 개정에 반영되었다.</p>
+
+  <h3>다. CMMI 총정리</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p129.jpg" alt="History of CMMs 계보도. Software CMM v1.1(1993)에서 시작해 SECAM(1995), Systems Engineering CMM v1.1(1995), EIA 731 SECM(1998), Integrated Product Development CMM(1997) 등을 거쳐 CMMI for Acquisition/Development/Services v1.2(2007~2009), v1.3(2010)으로 통합 발전해온 계보를 화살표로 연결한 다이어그램"><figcaption>[그림] CMMI의 발전 계보(History of CMMs) — Software CMM에서 CMMI v1.3까지</figcaption></figure>
+  <p>CMMI 22개 프로세스 영역(PA)은 조직 관리를 지원하는 상위 카테고리로 구성되며, 단계적 표현(Staged)과 연속적 표현(Continuous) 2가지 모델로 성숙도를 평가한다는 점은 SE08에서 다룬 내용과 동일하다. 여기서는 <strong>CMMI v2.0의 변경사항</strong>을 중점적으로 정리한다.</p>
+
+  <h3>라. CMMI v2.0(2018년 개정)의 주요 변경사항</h3>
+  <table>
+    <tr><th>변경 항목</th><th>CMMI v1.3(기존)</th><th>CMMI v2.0(2018.3.28 발표)</th></tr>
+    <tr><td>구조</td><td>22개 프로세스 영역(Process Area)</td><td>4개 카테고리(Category) · 9개 Capability Area · 20개 Practice Area로 재구성</td></tr>
+    <tr><td>카테고리(예시)</td><td>-</td><td>Doing(Ensuring Quality, Engineering &amp; Developing Product 등), Managing, Enabling, Improving</td></tr>
+    <tr><td>애자일 반영</td><td>미반영</td><td>Agile 개발 방식론의 실무 관행을 반영</td></tr>
+    <tr><td>평가 방법론(SCAMPI)</td><td>단일 방식 중심</td><td>여러 평가 방법론(SCAMPI 변형)을 다양하게 적용 가능</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p139.jpg" alt="CMMI V2.0 구조 다이어그램. 왼쪽은 Practice Group을 중심으로 Level 1부터 Level 5까지 5단계 레벨과 각 레벨별 Practice들을 나열한 구조, 오른쪽은 CMMI V1.3(Process Area Category, Maturity Level, Generic Goal/Practices, Specific Goal/Practices 흐름)과 CMMI V2.0(View, Select Category(s), Select CA(s), Select PA(s), Select Practices의 선택형 흐름)을 나란히 비교한 도식"><figcaption>[그림] CMMI V2.0 구조 — Practice Group·Level 체계 및 V1.3과의 모델 구조 비교</figcaption></figure>
+  <p>CMMI v2.0의 정확한 구조는 <strong>"5개 카테고리·10개 Capability Area·25개 Practice Area"가 아니라 "4개 카테고리·9개 Capability Area·20개 Practice Area"</strong>다. 시험에서는 숫자를 살짝 바꾼 오답 선지(5/10/25 등)가 자주 등장하므로 4-9-20이라는 숫자 자체를 정확히 암기해야 한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · CMMI v2.0 숫자 "4-9-20" 암기</span>CMMI v2.0은 <strong>4개 카테고리(Doing/Managing/Enabling/Improving) · 9개 Capability Area · 20개 Practice Area</strong>로 재구성되었다. 기존 v1.3의 "22개 프로세스 영역"이라는 숫자와 헷갈리지 않도록 "4-9-20"으로 끊어서 암기한다.</div>
+</section>
+<section id="se09-s09" class="section">
+  <h2>9. ISO 26262와 기능안전표준(ASIL) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.142-150)</span></h2>
+
+  <h3>가. ISO 26262 개요</h3>
+  <p>ISO 26262는 자동차에 탑재되는 전기·전자 시스템의 SW 오류로 인한 사고를 방지하기 위해 제정된 자동차 기능안전 국제 규격이다. 일반 전기·전자 시스템의 기능안전 표준인 <strong>IEC 61508</strong>에서 자동차 도메인에 특화된 부분을 별도로 도출해 제정한 것으로, AUTOSAR(자동차 소프트웨어 표준 플랫폼)와는 별개의 표준이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p144.jpg" alt="ISO 26262 국제규격 구조도. 1.용어(Vocabulary)부터 시작해 2.기능안전관리(management of functional safety), 3.구상단계(Concept phase), 4.제품개발:시스템 레벨(Product development: System level), 5.제품개발:하드웨어 레벨, 6.제품개발:소프트웨어 레벨, 7.생산 및 운영(Production and operation), 8.지원프로세스(Supporting process), 9.ASIL 지향 및 안전성 분석(ASIL-oriented and safety-oriented analysis), 10.가이드라인(Guideline on ISO 26262)까지 10개 파트로 구성된 전체 규격 체계도"><figcaption>[그림] ISO 26262 국제규격의 전체 구조(Part 1~10)</figcaption></figure>
+
+  <h3>나. ASIL(Automotive Safety Integrity Level)</h3>
+  <p>ASIL은 ISO 26262에서 정의하는 자동차 기능안전 무결성 등급으로, <strong>A~D 4단계</strong>로 구성된다(A~E 5단계라는 선지는 오답). 등급이 높을수록(D에 가까울수록) 더 엄격한 안전 요구사항이 적용된다.</p>
+  <table>
+    <tr><th>결정 요소</th><th>영문</th><th>의미</th></tr>
+    <tr><td>심각도(Severity, S)</td><td>S0~S3</td><td>사고가 발생했을 때 피해의 심각한 정도</td></tr>
+    <tr><td>노출 가능성(Exposure, E)</td><td>E0~E4</td><td>해당 위험 상황에 노출될 확률(빈도)</td></tr>
+    <tr><td>통제 가능성(Controllability, C)</td><td>C0~C3</td><td>운전자가 위험 상황을 통제하여 사고를 회피할 수 있는 정도</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p147.jpg" alt="ASIL 세부 구성 매트릭스. 위험 및 재난상황에 노출될 가능성(E0~E4), 위해상황 심각도(Severity, S0~S3), 통제가능성(Controllability, C0~C3) 세 축의 조합에 따라 QM(Quality Management), A, B, C, D 등급이 결정되는 다단계 매트릭스 표"><figcaption>[그림] ASIL 등급 결정 매트릭스(Severity × Exposure × Controllability → QM/A/B/C/D)</figcaption></figure>
+  <p>세 요소(S·E·C)를 조합해 판정한 결과, 위험도가 낮으면 <strong>QM(Quality Management, 일반 품질관리로 충분)</strong> 등급으로 분류되고, 위험도가 가장 높을 때만 ASIL D가 부여된다.</p>
+
+  <h3>다. 안전 기능 요구사항 도출 절차</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p148.jpg" alt="IEC 61508 안전 기능 도출 절차 6단계 흐름도. 1.개념 정립(Concept), 2.범위 정의(Overall scope definition), 3.해저드 및 위험 분석(Hazard and risk analysis), 4.포괄적 안전 요구사항(Overall safety requirement), 5.안전 기능 요구사항 도출(Safety requirements allocation), 6.안전 기능 요구사항 명세서 작성(Safety functions requirement specification)이 순차적으로 연결된 프로세스 흐름도"><figcaption>[그림] IEC 61508/ISO 26262 안전 기능 요구사항 도출 6단계 절차</figcaption></figure>
+  <p>이 절차는 개념 정립 → 범위 정의 → 해저드/위험 분석 → 포괄적 안전 요구사항 도출 → 안전 기능 요구사항 할당 → 안전 기능 요구사항 명세서(Specification) 작성 순으로 진행되며, 요구사항 도출 단계이므로 WBS·시험·도출 과정이며 SRS(소프트웨어 요구사항 명세서) 수준까지만 작성된다.</p>
+
+  <h3>라. 분야별 기능안전 표준 비교</h3>
+  <table>
+    <tr><th>분야</th><th>표준</th></tr>
+    <tr><td>자동차</td><td>ISO 26262</td></tr>
+    <tr><td>일반 전기·전자·프로그래머블 전자시스템</td><td>IEC 61508(모든 기능안전 표준의 근간)</td></tr>
+    <tr><td>의료기기·소프트웨어</td><td>IEC 60601, IEC 62304, <strong>ISO 14971</strong>(의료기기 위험관리)</td></tr>
+    <tr><td>항공기</td><td>DO-178B/C</td></tr>
+    <tr><td>원자력</td><td>IEC 61226, IEC 60880</td></tr>
+    <tr><td>철도</td><td>IEC 62278/62279</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · ASIL 등급과 SEC 암기</span>ASIL은 A~D(4등급), 판정 요소는 심각도(Severity)·노출가능성(Exposure)·통제가능성(Controllability)의 앞 글자를 따 "SEC"로 암기한다. 의료기기 기능안전은 ISO 26262가 아니라 <strong>ISO 14971</strong>이라는 점, IEC 61508이 모든 기능안전 표준의 뿌리라는 점도 함께 정리해 둔다.</div>
+</section>
+<section id="se09-s10" class="section">
+  <h2>10. ITIL(V2/V3/V4) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.151-168)</span></h2>
+
+  <h3>가. ITIL 프레임워크 개요</h3>
+  <p>ITIL(Information Technology Infrastructure Library)은 IT 서비스 관리의 효과적 방식(Best Practice)을 모은 표준 지침서로, 글로벌 산업 우수 사례(Global Industry Best Practice)를 반영해 지속적으로 개정되고 있다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p163.jpg" alt="ITIL 버전별 초점 변화 다이어그램. ITIL V1(GITIM, IT Infrastructure Management, 기술적 관심사와 예산 중심)에서 ITIL V2(IT Service Management, 서비스 제공자로서의 관점과 프로세스 효율성/품질 중심)를 거쳐 ITIL V3(2007.5, Business/IT Alignment & Integration, 서비스 관리와 IT 통합 운영, 전략과 포트폴리오 거버넌스, 지속적 개선 중심)로 시대에 따라 원의 크기와 초점이 확대되는 다이어그램"><figcaption>[그림] ITIL 버전 진화(V1 GITIM → V2 → V3) — 초점 변화 비교</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p165.jpg" alt="ITIL V3 5대 서비스 라이프사이클 원형 다이어그램. 중앙의 ITIL을 둘러싸고 Service Strategy, Service Design, Service Transition, Service Operation, Continual Service Improvement 5개 단계가 순환 구조로 배치된 다이어그램"><figcaption>[그림] ITIL V3의 5대 서비스 라이프사이클(전략-설계-전환-운영-지속적 개선)</figcaption></figure>
+
+  <h3>나. ITIL V2 — Service Support(쓰데이피씨알씨)와 Service Delivery(AC2FSL)</h3>
+  <p>ITIL V2는 Service Support와 Service Delivery 2대 프로세스 그룹으로 구성된다. 각 그룹의 하위 프로세스는 앞 글자를 따 아래와 같이 암기한다.</p>
+  <table>
+    <tr><th>그룹</th><th>하위 프로세스</th><th>암기 니모닉</th></tr>
+    <tr><td>Service Support(서비스 지원)</td><td>서비스 데스크, 인시던트 관리, 문제 관리, 구성 관리, 릴리즈 관리, 변경 관리</td><td>"쓰(서비스데스크)-데이(인시던트)-피(문제)-씨(구성)-알(릴리즈)-씨(변경)"</td></tr>
+    <tr><td>Service Delivery(서비스 제공)</td><td>서비스 수준 관리, 재정 관리, 용량 관리, 가용성 관리, IT 서비스연속성 관리</td><td>"AC2FSL"(Availability·Capacity·Continuity·Financial·Service Level)</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p157.jpg" alt="Service Support 프로세스 구성도. Business, Customer & User가 인시던트 접수, 서비스 요청 문의, 커뮤니케이션과 함께 Service Desk를 거쳐 Incident Management, Problem Management, Change Management, Release Management, Configuration Management로 이어지는 순환 관계도. CMDB(Configuration Management Database)가 중심에 배치"><figcaption>[그림] ITIL V2 Service Support 프로세스 구성도(Service Desk 중심 순환 구조)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p159.jpg" alt="Service Delivery 구성도(AC2FSL). Business, Customer & User의 요건(needs, expectation)이 Service Level Management를 중심으로 Financial Management, Capacity Management, Availability Management, IT Service Continuity Management와 연결되고 Management tools를 통해 Requirements/Targets/achievements가 순환하는 구조"><figcaption>[그림] ITIL V2 Service Delivery 프로세스 구성도(AC2FSL)</figcaption></figure>
+
+  <h3>다. ITIL V3 → V4로의 변화</h3>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>ITIL V3(2007.5)</td><td>Service Strategy·Design·Transition·Operation·CSI(Continual Service Improvement) 5대 라이프사이클로 구성</td></tr>
+    <tr><td>ITIL V4(2019.2 도입)</td><td>Tailoring 개념과 Agile·DevOps 트렌드를 반영. 서비스 관리 지원을 위해 기존 CMDB(Configuration Management Database)를 <strong>SKMS(Service Knowledge Management System)</strong>로 대체·확장</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p166.jpg" alt="서비스 업무 프로세스 다이어그램. 서비스 전략, 서비스 설계, 서비스 전환, 서비스 운영 4개 대분류 아래 각각 세부 프로세스 박스(수요관리·재무관리·서비스 카탈로그관리, 가용성관리·용량관리·공급자관리, 변경관리·자산 및 구성관리·릴리즈관리, 인시던트관리·문제관리·이벤트관리 등)가 배치된 종합 프로세스 맵"><figcaption>[그림] ITIL 서비스 라이프사이클별 세부 업무 프로세스 종합 맵</figcaption></figure>
+  <p>ITIL V4는 유연한 프레임워크로서 조직이 다양한 프레임워크·접근 방식을 통합할 필요를 반영해 실무 관행(Practice)에 애자일·DevOps를 폭넓게 접목할 수 있도록 개편되었다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · Service Support/Delivery 암기 문구</span>Service Support는 "쓰데이피씨알씨"(서비스데스크·인시던트·문제·구성·릴리즈·변경), Service Delivery는 "AC2FSL"(가용성·용량·연속성·재정·서비스수준)로 암기하되, ITIL V4에서 CMDB가 SKMS로 대체된 사실과 V4가 2019년 2월에 도입되었다는 시점도 함께 기억해 둔다.</div>
+</section>
+<section id="se09-s11" class="section">
+  <h2>11. SW 유지보수·재공학·역공학 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.169-175)</span></h2>
+
+  <h3>가. SW 유지보수의 4가지 분류(시점 기준)</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th></tr>
+    <tr><td>완전적(Perfective) 유지보수</td><td>기능 추가·변경 등 성능 개선을 위한 유지보수. <strong>가장 많은 비중을 차지</strong>(수행 빈도 최다)</td></tr>
+    <tr><td>적응적(Adaptive) 유지보수</td><td>운영체제·하드웨어 등 환경 변화에 SW를 적응시키기 위한 유지보수(예: Windows→Linux 이식)</td></tr>
+    <tr><td>수정적(Corrective) 유지보수</td><td>운영 중 발견된 결함(기능 오류)을 수정하는 유지보수</td></tr>
+    <tr><td>예방적(Preventive) 유지보수</td><td>향후 발생할 수 있는 문제를 사전에 방지하기 위해 문서·코드 일관성 등을 개선하는 유지보수</td></tr>
+  </table>
+  <p>실제 통계상 유지보수 활동 중 가장 큰 비중을 차지하는 것은 결함 수정이 아니라 <strong>완전적 유지보수</strong>(기능 추가·개선)라는 점이 자주 출제된다. 예를 들어 "비디오 대여 관리 시스템에 장르별 대여 통계 기능을 추가"하는 것은 완전적 유지보수의 대표 사례다.</p>
+
+  <h3>나. 재공학(Re-engineering)과 역공학(Reverse Engineering)</h3>
+  <table>
+    <tr><th>구분</th><th>정의</th></tr>
+    <tr><td>재공학(Re-engineering)</td><td>기존 소프트웨어를 분석해 정보를 추출하고, 이를 다시 순공학(Forward Engineering)을 사용해 새로 구현함으로써 유지보수성을 개선한 소프트웨어 부품으로 만들어내는 기술 작업</td></tr>
+    <tr><td>역공학(Reverse Engineering)</td><td>개발 단계를 역으로 거슬러 올라가, 기존에 개발된 시스템의 코드나 데이터로부터 설계명세서·요구분석서 등을 도출해 내는 작업</td></tr>
+  </table>
+  <p>재공학의 5단계 절차는 인벤토리 분석 → 문서 재구성 → 역공학 → 코드 재구성 → 데이터 재구성 → 순공학 순으로 진행되며, 역공학은 재공학의 한 단계에 포함되는 개념이라는 점에서 두 용어를 혼동하지 않도록 주의한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 유지보수 4분류와 최다 수행 유형</span>계획·예방·응급·적응 유지보수로 4가지 분류하는 문항에서 "가장 많이 수행되는 유형"을 물으면 정답은 언제나 <strong>완전적(Perfective) 유지보수</strong>다. SE07에서 학습한 유지보수 통계 그래프(완전적&gt;적응적&gt;수정적&gt;예방적 순)를 함께 복습해 둔다.</div>
+</section>
+<section id="se09-s12" class="section">
+  <h2>12. FOSS 오픈소스 라이선스 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.176-193)</span></h2>
+
+  <h3>가. OSS(FOSS)의 5대 조건</h3>
+  <p>OSI(Open Source Initiative)는 오픈소스로 인정받기 위한 10가지 조건을 정의하고 이에 해당하는지 판단해 인증 마크를 부여한다. 핵심 조건은 다음과 같다.</p>
+  <table>
+    <tr><th>조건</th><th>설명</th></tr>
+    <tr><td>자유배포(Free Redistribution)</td><td>소프트웨어의 일부 또는 전부를 재배포하지 못하도록 제한을 설정할 수 없음</td></tr>
+    <tr><td>소스 코드(Source Code)</td><td>프로그램 저작물에는 반드시 소스 코드가 포함되거나, 무료 다운로드 등을 통해 소스 코드를 제공받을 수 있도록 조치해야 함</td></tr>
+    <tr><td>파생 저작물(Derived Works)</td><td>원저작물의 개작이나 이를 이용한 2차적 창작이 허용되어야 하며, 동일 조건으로 재배포할 수 있어야 함</td></tr>
+    <tr><td>소스코드의 보존</td><td>개작 목적의 소스코드·패치 파일 제공 시, 라이선스에서 소스코드 수정을 제한하는 항목을 추가할 수 있음</td></tr>
+    <tr><td>차별 금지</td><td>개인·단체 및 사용 분야에 대한 차별을 금지</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p192.jpg" alt="FOSS 자유-오픈 소스 소프트웨어 분류 트리 다이어그램. 최상위 FOSS SW 라이선스가 반환의무(Reciprocal)와 반환 불필요(Permissive) 2개로 나뉘고, 반환의무 아래 특허보복과 무저작권, 반환 불필요 아래 제작과 무저작권 항목이 배치되며, 최하단에 GPL, AGPL, LGPL, MIT, QT, MPL, OSL, CPL, OSL, IBM 등 개별 라이선스명이 분류되어 나열된 계층 구조도"><figcaption>[그림] FOSS 라이선스의 분류 체계(반환의무형 vs 반환불필요형)</figcaption></figure>
+
+  <h3>나. 주요 오픈소스 라이선스 비교</h3>
+  <table>
+    <tr><th>라이선스</th><th>정의/핵심 내용</th></tr>
+    <tr><td>GPL(GNU General Public License)</td><td>자유소프트웨어재단(FSF)이 저작권을 확보한 뒤 자유로운 공유·수정을 보장하기 위해 만든 라이선스. 유료 판매는 가능하지만 <strong>전체 소스코드는 반드시 무료로 공개</strong>해야 함. GPL 3.0에서는 DRM 관련 내용 추가, 특허 소송 제기 시 라이선스가 종료됨을 명시</td></tr>
+    <tr><td>LGPL(GNU Lesser GPL)</td><td>GPL보다 완화된 라이선스로, 응용 프로그램에서 LGPL 라이브러리를 링크해 사용할 경우 <strong>응용 프로그램 자신의 소스코드는 공개하지 않아도 됨</strong>. 단, LGPL 라이브러리 자체를 수정한 경우에는 그 수정한 부분을 LGPL로 공개해야 함</td></tr>
+    <tr><td>BSD License</td><td>GPL/LGPL보다 제한이 적은 라이선스. 소스코드를 수정한 후 공개하지 않고 다른(비 BSD) 라이선스로 판매하는 것도 가능</td></tr>
+    <tr><td>MPL(Mozilla Public License)</td><td>소스 코드와 실행 파일을 분리해, 소스코드는 공개하되 실행 파일은 독점 라이선스로 배포 가능하도록 한 라이선스</td></tr>
+    <tr><td>Apache License</td><td>BSD와 유사하게 소스코드 공개 의무가 없는 라이선스. 다만 "Apache"라는 이름에 대한 상표권은 침해할 수 없음</td></tr>
+  </table>
+  <table>
+    <tr><th>라이선스</th><th>무료 이용</th><th>배포 허용</th><th>이용상 제한 없음</th><th>소스코드 취득·수정</th><th>파생물 재공개</th><th>상용SW 연결가능</th></tr>
+    <tr><td>Public Domain</td><td>O</td><td>O</td><td>O</td><td>O</td><td>-</td><td>O</td></tr>
+    <tr><td>Shareware</td><td>O</td><td>O</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+    <tr><td>Freeware</td><td>O</td><td>O</td><td>O</td><td>-</td><td>-</td><td>-</td></tr>
+    <tr><td>GPL</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O</td><td>X</td></tr>
+    <tr><td>LGPL</td><td>O</td><td>O</td><td>O</td><td>O</td><td>O(라이브러리만 재공개)</td><td>O</td></tr>
+    <tr><td>BSD</td><td>O</td><td>O</td><td>O</td><td>O</td><td>X</td><td>O</td></tr>
+  </table>
+
+  <h3>다. 오픈소스 라이선스 양립성(Compatibility)</h3>
+  <p>서로 다른 의무사항을 가진 공개SW 라이선스는 의무사항 충돌로 인해 <strong>양립(Compatibility)이 불가능한 경우</strong>가 발생할 수 있다. 기존에 만들어진 코드를 재사용·결합하는 과정에서 각 코드의 라이선스끼리 상충하면 문제가 되며, 양립이 불가능한 경우 해당 결합물은 배포할 수 없다. 모질라 프로젝트는 결과물을 MPL·GPL·LGPL 3가지 라이선스로 배포하도록 하여 양립성 불확실성을 해소했고, GPL 3.0은 특허보복조항(11조)을 포함해 Apache License 2.0 및 AGPL(Affero GPL) 3.0과도 양립 가능해졌다.</p>
+
+  <h3>라. FOSS의 장단점</h3>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>장점</td><td>Low Entry Cost(초기 비용 저렴), 빠르고 유연한 개발, 개방형 포맷·프로토콜을 통한 상호운용성, 안정적 동작, 강력한 네트워킹 기능</td></tr>
+    <tr><td>단점</td><td>GUI 응용프로그램 부족, 빈약한 문서화, 불확실한 개발 로드맵, 지적재산권(Royalty-free 강제로 인한 제약)</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · GPL vs LGPL vs Apache/MIT 소스공개 의무 구분</span>GPL은 파생물(응용 프로그램 포함) 전체의 소스 공개를 요구하지만, LGPL은 <strong>라이브러리 자체를 수정했을 때만</strong> 그 부분의 소스를 공개하면 되고 이를 "링크"해 쓰는 응용프로그램은 공개 의무가 없다. Apache·MIT·BSD 계열은 소스 공개 의무가 아예 없어 상용 SW에 자유롭게 결합할 수 있다는 점에서 GPL 계열과 대비된다.</div>
+</section>
+<section id="se09-s13" class="section">
+  <h2>13. SW 비용산정과 규모 보정계수(2018년 개정) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.194-213)</span></h2>
+
+  <h3>가. SW 비용산정 방법 총정리</h3>
+  <table>
+    <tr><th>구분</th><th>방법</th><th>내용</th></tr>
+    <tr><td>SW 규모산정(원가산정)</td><td>LOC 방법</td><td>각 기능의 원시 코드 라인 수(LOC)의 낙관치·기대치·비관치를 3점 견적으로 측정하여 예측치를 구하고 이를 비용 산정에 활용</td></tr>
+    <tr><td></td><td>Function Point</td><td>기능점수(FP) 기준 산정. 2019년 기준 1FP당 519,203원, 이윤은 개발원가의 25%를 초과할 수 없으며 소프트웨어 개발비 = 보정후 개발원가 + 이윤 + 직접경비</td></tr>
+    <tr><td></td><td>간이법/정규법</td><td>간이법은 개발요건만 정의되면 예산수립부터 폐기까지 전 단계에서 적용 가능. 정규법(정통법)은 개발요건 및 요건별 상세설계정보가 제공되는 시점(설계공정 이후)부터 적용</td></tr>
+    <tr><td></td><td>COCOMO</td><td>KDSI(단위 K라인 수) 기반의 산정 모델(Constructive Cost Model)</td></tr>
+    <tr><td></td><td>SW사업 대가산정 가이드</td><td>2018년 개정판(SW산업진흥법 제13조에 근거) — 국내 공공 SW사업의 표준 대가산정 절차를 규정</td></tr>
+    <tr><td>하드웨어 규모산정</td><td>3가지 방법</td><td>수식계산법, 참조법, 시뮬레이션법</td></tr>
+  </table>
+
+  <h3>나. SW 대가산정 가이드(2018)의 기능점수 대가산정 적용 대상</h3>
+  <p>기능점수(FP) 대가산정 방법은 모든 SW사업에 적용되는 것이 아니라 <strong>일부 사업 유형에만 적용</strong>된다. ISP 수립·정보보안 컨설팅·SW 운영 사업은 대상이 아니며, <strong>SW 유지관리 사업과 SW 개발 사업(신규 개발) 만이 기능점수 방식이 적용</strong>되는 대표 사례다(전체 6개 보기 중 2개가 해당).</p>
+  <table>
+    <tr><th>SW사업 구분</th><th>대가산정 유형</th><th>대가산정 방법</th></tr>
+    <tr><td>정보화전략계획(ISP) 수립</td><td colspan="2">투입공수(M/M)에 의한 방식</td></tr>
+    <tr><td>ISP/ISMP 수립</td><td colspan="2">투입공수에 의한 방식</td></tr>
+    <tr><td>EA/ITA 수립</td><td colspan="2">투입공수에 의한 방식</td></tr>
+    <tr><td>SW 구현(개발) 사업</td><td>기능점수</td><td><strong>기능점수 방식에 의한 방식</strong></td></tr>
+    <tr><td>SW 유지관리 사업</td><td>기능점수</td><td>성능 개선형 유지관리는 <strong>기능점수 방식에 의한 방식</strong>, 오류 수정형은 투입공수 방식</td></tr>
+    <tr><td>SW 운영 사업</td><td colspan="2">투입공수에 의한 방식</td></tr>
+    <tr><td>SW 재개발 사업</td><td colspan="2">재개발 기능점수 방식에 의한 방식</td></tr>
+  </table>
+  <p>기능점수 방식의 국제표준은 <strong>ISO/IEC 14143</strong>이다. ILF(내부논리파일)는 측정 대상 애플리케이션 내부에서 유지되는(생성·수정·삭제 가능한) 데이터 그룹이며, "오직 참조만 되는 파일"이라는 설명은 ILF가 아니라 EIF(외부연계파일)의 정의이므로 주의한다.</p>
+
+  <h3>다. 2018년 개정 SW사업대가 산정 모델(규모 보정계수)</h3>
+  <p>2018년 개정판에서는 <strong>규모 보정계수 산정식이 변경</strong>되었다. 개발원가 산정에 사용되는 규모 보정계수는 아래와 같이 계산한다.</p>
+  <table>
+    <tr><th>구분</th><th>산정식</th></tr>
+    <tr><td>규모 보정계수(2018년 개정)</td><td>= 0.4057 × (log₁₀규모점수) + 0.9878 (단, 500FP 미만인 경우 1.2800, 3,000FP 초과인 경우 1.1530을 적용)</td></tr>
+    <tr><td>규모 보정계수(2017년 이전, 참고용)</td><td>= 0.108 × Log(e)(FP 값) + 0.229 (단, 규모 300 미만이면 곱하지 않고 별도 값 적용)</td></tr>
+  </table>
+  <p>최종 보정후 개발원가는 <strong>보정전 개발원가 × 규모 보정계수 × 연계복잡성수준 보정계수 × 성능요구수준 보정계수 × 다중사이트운영성 보정계수 × 보안성수준 보정계수</strong>로 계산하며, 소프트웨어 개발비 = 보정후 개발원가 + 이윤 + 직접경비다. 애플리케이션 복잡도 보정계수는 <strong>연계복잡성 수준·성능요구 수준·다중사이트 운영성·보안성 수준</strong> 4가지로 구분되며, "언어"는 애플리케이션 복잡도 보정계수 항목이 아니라 별도의 언어 보정계수 항목이다.</p>
+  <table>
+    <tr><th>보정 항목</th><th>구분</th></tr>
+    <tr><td>애플리케이션 복잡도 보정계수(2018년 신설)</td><td>연계복잡성 수준, 성능요구 수준, 다중사이트 운영성, 보안성 수준</td></tr>
+    <tr><td>언어 보정계수</td><td>Assembly/Basic(1.9), C/JAVA/CHILL/PROLOG/Unix Shell Scripts(1.0), COBOL/FORTRAN/PL·1/PASCAL(1.0), Script default(0.8), 4GL·Powerbuilder·SQL·Visual Basic(0.8), Excel/Spreadsheet(0.6) 등 개발 언어별 계수를 별도 적용</td></tr>
+    <tr><td>품질 및 특성 보정계수</td><td>= (0.025 × 총영향도) + 1 (총영향도 = 분산처리 + 성능 + 신뢰성 + 다중사이트) — 항목 수 4가지로 산정</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 2018년 개정판 핵심 숫자</span>2018년 개정 SW사업대가 산정 가이드에서는 규모 보정계수 공식이 <strong>0.4057 × log(규모점수) + 0.9878</strong>로 바뀌었고, 애플리케이션 복잡도 보정계수 4항목(연계복잡성·성능요구·다중사이트운영성·보안성)이 신설되었다는 점이 최신 출제 포인트다. "언어"는 애플리케이션 복잡도 보정계수가 아니라 별도의 언어 보정계수임을 구분해서 암기한다.</div>
+</section>
+<section id="se09-s14" class="section">
+  <h2>14. FP 정규법 종합 실습 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.201-226)</span></h2>
+
+  <h3>가. FP(Function Point)의 정의와 발전</h3>
+  <p>FP는 소프트웨어의 양과 질을 동시에 고려한 규모 측정 방식으로, 1979년 IBM(Allen Albrecht)이 정보처리 규모와 기능적 복잡도를 사용자 관점에서 측정하기 위해 고안했다. 프로그램 재사용으로 생산성이 향상되면서 소스코드 양(LOC) 중심 산정의 한계를 극복하기 위해 등장했다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p202.jpg" alt="소프트웨어 기능규모 측정 방법의 발전사 타임라인. 1980년대 Allen Albrecht FPA에서 시작해 Mark II FPA, 3D FP's, IFPUG FP's, Feature Points, COSMIC-FFP, NESMA FP 등이 1980년부터 2010년까지 시간순으로 분기하며 ISO/IEC 20968, ISO/IEC 24570, ISO/IEC 19761 등 국제표준(ISO FSM Standard)으로 수렴하는 계보도"><figcaption>[그림] 소프트웨어 기능점수(FP) 측정 방법의 발전 계보(1980~2010, ISO FSM 표준 수렴)</figcaption></figure>
+  <p>FP는 최종 사용자 입장에서 SW 규모를 견적하며(개발자의 소스코드 양과 무관), 개발환경·기술에 무관하게 측정 가능하고 사용자 요구에 따라 설계 시점부터 개발 중에도 측정할 수 있다. 다만 모든 기능과 복잡도가 식별되어야만 정확히 측정 가능하므로, 제안 단계까지는 추정(Estimate)만 가능하고 정식 측정(산정)은 불가능하다.</p>
+
+  <h3>나. FP 산정 절차(정규법 7단계)</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p203.jpg" alt="FP 정규법 절차 흐름도. 1.측정 유형 결정, 2.측정 범위와 어플리케이션 경계 식별, 3.데이터 기능 측정, 4.트랜잭션 기능 측정, 5.미조정 기능점수 결정, 6.조정인자 결정, 7.조정 기능점수 결정이 순환하는 7단계 흐름도"><figcaption>[그림] FP 정규법(정통법) 산정 7단계 절차</figcaption></figure>
+  <table>
+    <tr><th>단계</th><th>내용</th></tr>
+    <tr><td>1. 측정 유형 결정</td><td>개발 프로젝트(SI 종료 후 인도), 개선 프로젝트(추가·수정·삭제), 어플리케이션(설치된 기능점수 측정) 중 선택</td></tr>
+    <tr><td>2. 측정 범위·경계 식별</td><td>개별 변경 SW의 전체 범위 결정 및 각 어플리케이션 경계 분류</td></tr>
+    <tr><td>3. 데이터 기능 측정</td><td>내부논리파일(ILF)·외부연계파일(EIF)의 RET(Record Element Type)·DET(Data Element Type) 수 도출</td></tr>
+    <tr><td>4. 트랜잭션 기능 측정</td><td>외부입력(EI)·외부출력(EO)·외부조회(EQ)의 FTR(File Type Reference)·DET 수 식별</td></tr>
+    <tr><td>5. 미조정 기능점수 결정</td><td>데이터 기능점수 + 트랜잭션 기능점수의 합</td></tr>
+    <tr><td>6. 조정인자 결정</td><td>14개 시스템 특성 항목을 0~5점으로 가중치 부여 후 (합계×0.01)+0.65 공식으로 계산(0.65~1.35 범위)</td></tr>
+    <tr><td>7. 조정 기능점수 결정</td><td>미조정 기능점수 × 조정인자</td></tr>
+  </table>
+  <p>트랜잭션 기능 유형은 다음 3가지로 구분한다. 외부입력(EI)은 어플리케이션 안으로 들어오는 데이터를 처리(입력·수정·삭제·설정·승인)하는 단위 프로세스, 외부출력(EO)은 계산 데이터를 생성하거나 시스템 동작을 변경하며 결과를 밖으로 보여주는 단위 프로세스(예: 환율 적용, 월간 판매실적 집계), 외부조회(EQ)는 DB의 데이터를 계산·가공 없이 그대로 검색해 제공하는 단위 프로세스(예: 게시판 목록 조회)다. <strong>EQ는 계산 데이터를 생성하지 않는다</strong>는 점이 EO와의 핵심 구분 포인트다.</p>
+
+  <h3>다. 정규법 복잡도 매트릭스(ILF/EIF, EI/EO/EQ)</h3>
+  <table>
+    <tr><th>ILF(내부논리파일) 복잡도</th><th>DET 1~19</th><th>DET 20~50</th><th>DET 51 이상</th></tr>
+    <tr><td>RET 1</td><td>낮음(7)</td><td>낮음(7)</td><td>보통(10)</td></tr>
+    <tr><td>RET 2~5</td><td>낮음(7)</td><td>보통(10)</td><td>높음(15)</td></tr>
+    <tr><td>RET 6 이상</td><td>보통(10)</td><td>높음(15)</td><td>높음(15)</td></tr>
+  </table>
+  <table>
+    <tr><th>EIF(외부연계파일) 복잡도</th><th>DET 1~19</th><th>DET 20~50</th><th>DET 51 이상</th></tr>
+    <tr><td>RET 1</td><td>낮음(5)</td><td>낮음(5)</td><td>보통(7)</td></tr>
+    <tr><td>RET 2~5</td><td>낮음(5)</td><td>보통(7)</td><td>높음(10)</td></tr>
+    <tr><td>RET 6 이상</td><td>보통(7)</td><td>높음(10)</td><td>높음(10)</td></tr>
+  </table>
+  <table>
+    <tr><th>EI(외부입력) 복잡도/가중치</th><th>FTR 0~1</th><th>FTR 2</th><th>FTR 3 이상</th></tr>
+    <tr><td>DET 1~4</td><td>낮음(3)</td><td>낮음(3)</td><td>보통(4)</td></tr>
+    <tr><td>DET 5~15</td><td>낮음(3)</td><td>보통(4)</td><td>높음(6)</td></tr>
+    <tr><td>DET 16 이상</td><td>보통(4)</td><td>높음(6)</td><td>높음(6)</td></tr>
+  </table>
+  <table>
+    <tr><th>EO·EQ(외부출력/조회) 복잡도/가중치</th><th>FTR 0~1</th><th>FTR 2~3</th><th>FTR 4 이상</th></tr>
+    <tr><td>DET 1~5</td><td>낮음</td><td>낮음</td><td>보통</td></tr>
+    <tr><td>DET 6~19</td><td>낮음</td><td>보통</td><td>높음</td></tr>
+    <tr><td>DET 20 이상</td><td>보통</td><td>높음</td><td>높음</td></tr>
+  </table>
+
+  <h3>라. 간이법 평균복잡도 가중치(ISBSG 기준)</h3>
+  <table>
+    <tr><th>기능유형</th><th>평균복잡도 가중치</th></tr>
+    <tr><td>EI(외부입력)</td><td>4.3</td></tr>
+    <tr><td>EO(외부출력)</td><td>5.4</td></tr>
+    <tr><td>EQ(외부조회)</td><td>3.8</td></tr>
+    <tr><td>ILF(내부논리파일)</td><td>7.4</td></tr>
+    <tr><td>EIF(외부연계파일)</td><td>5.5</td></tr>
+  </table>
+  <p>"외부연계파일(EIF)의 평균복잡도 가중치는 5.4이다"는 EO(5.4)와 EIF(5.5)를 혼동시킨 오답이며, "외부조회(EQ)의 평균복잡도 가중치는 3.9이다"도 정확한 값(3.8)과 다른 함정 선지로 자주 출제된다.</p>
+
+  <h3>마. 정규법(사례) — 사원-부양가족 데이터 기능 측정</h3>
+  <p>사원정보를 관리하는 개발 프로젝트의 ERD를 설계할 때, 사원 엔티티에 부양가족 서브그룹이 연계되어 있다면 RET는 2개(사원, 부양가족)로 식별된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE09fig/p220.jpg" alt="사원-부양가족 ERD 다이어그램. 사원 엔티티(사원번호, 사원이름, 주소, 성별, 나이, 어학점수)와 부양가족 엔티티(가족번호(FK), 가족주민번호, 가족이름, 관계)가 1:N 관계로 연결된 개체-관계도. 하단 표에는 RET 2개(사원, 부양가족), DET 10개로 산정한 근거가 정리됨"><figcaption>[그림] 사원-부양가족 ERD 및 RET·DET 산정 사례(RET 2개, DET 10개)</figcaption></figure>
+  <p>이 사례에서 아이템 정보를 관리하는 개발 프로젝트의 원가를 산정할 때, ERD를 설계했을 때 데이터 기능 측정 결과 RET 2개(사원, 부양가족), DET 10개(사원번호·사원이름·주소·성별·나이·어학점수·가족주민번호·가족이름·관계·가족번호)로 식별되며, 이는 정규법 복잡도 매트릭스에서 ILF "보통" 등급에 해당한다.</p>
+
+  <h3>바. 간이법 사례 종합 — 사원 DB 기능점수 산정</h3>
+  <p>내부논리파일(ILF) 3개(사원DB·부서DB·급여DB 등)와 외부연계파일(EIF) 1개(외환DB 등)를 갖는 시스템에서, 간이법 평균복잡도 가중치를 적용해 미조정 기능점수를 산정하는 절차는 다음과 같다.</p>
+  <table>
+    <tr><th>단계</th><th>계산</th><th>결과</th></tr>
+    <tr><td>1. 데이터 기능 측정</td><td>ILF 3개×7.4 + EIF 1개×5.5</td><td>22.2 + 5.5 = 27.7</td></tr>
+    <tr><td>2. 트랜잭션 기능 측정</td><td>EO 1개×5.4 + EQ 1개×3.8(조회·출력 위주로 EI 없음)</td><td>5.4 + 3.8 = 9.2</td></tr>
+    <tr><td>3. 미조정 기능점수</td><td>27.7 + 9.2</td><td>36.9</td></tr>
+    <tr><td>4. 조정인자 결정</td><td>14개 항목을 각 3점으로 가정 → ((14×3)×0.01)+0.65</td><td>1.07</td></tr>
+    <tr><td>5. 조정 기능점수</td><td>36.9 × 1.07</td><td>39.48 FP</td></tr>
+  </table>
+  <p>2019년 기준 기능점수당 단가는 519,203원이므로, 위 사례의 개발원가는 약 39.48FP × 519,203원 규모로 환산할 수 있다. 이처럼 간이법은 데이터 기능(ILF·EIF)과 트랜잭션 기능(EI·EO·EQ)에 평균복잡도 가중치를 곱해 합산한 뒤 조정인자를 반영하는 순서로 계산한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 간이법 가중치 숫자 암기</span>간이법 평균복잡도 가중치는 <strong>EI 4.3 · EO 5.4 · EQ 3.8 · ILF 7.4 · EIF 5.5</strong> 순으로 암기한다. ILF가 가장 크고(7.4) EQ가 가장 작다(3.8)는 상대적 크기 순서만 기억해 두어도 오답 함정(EIF=5.4로 바꿔치기 등)을 걸러낼 수 있다.</div>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (26문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 1. 다음 중 성격이 다른 하나는 무엇인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.16)</span></div><ol class="quiz-options"><li>제품 백로그(Product Backlog)</li><li>프로젝트 요구사항</li><li>User Story</li><li>사업 수행 계획서</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 사업 수행 계획서 ① 제품 백로그(Product Backlog) ② 프로젝트 요구사항 ③ User Story 는 모두 요구사항을 기술한 문서이다. ④ 사업 수행 계획서는 프로젝트 관리 계획을 통합한 계획서 이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 2. 다음 그림에 대한 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.18)</span></div><ol class="quiz-options"><li>프로젝트 범위 및 원가 산정 기법이다.</li><li>무한대(∞) 기호는 현재 산정이 어렵거나, 불가능한 상태를 표현한다.</li><li>위 숫자를 Story Point라고 한다.</li><li>피보나치 수열을 사용하는 형태이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 프로젝트 범위 및 원가 산정 기법이다. ① 제품 백로그(Product Backlog) ② 프로젝트 요구사항 ③ Use Story 를 바탕으로 각 요구사항마다 프로젝트 일정을 산정하는 기법이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 3. 스크럼 마스터에 대한 설명으로 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.20)</span></div><ol class="quiz-options"><li>SM으로 가장 맞는 스타일은 ‘Servant leader’ 형이다.</li><li>PO(Product Owner)와 의사소통을 수행하며, 기획에 대한 의사결정을 수행한다.</li><li>스크럼팀의 장애물 제거자 역할을 수행한다.</li><li>Product Backlog Planning Meeting, Sprint Planning Meeting, 회고 미팅을 리딩한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② PO(Product Owner)와 의사소통을 수행하며, 기획에 대한 의사결정을 수행한다. II. 주요 역할 사례 구분 역할 설명 리더로서의 역 할 애자일코치  스크럼의 Project Owner와 개발팀의 코치역할 수행  애자일 코치로서의 역할 수행 프로세스 지휘자  스크럼팀에서 수행해야 하는 프로세스를 정의하고 개선  특화된 스크럼 접근법 개발지원 변화관리자  스크럼팀 및 프로젝트 내부 조직의 변화관리 수행  외</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 4. 다음은 객체지향 프로그래밍에 대한 사례들이다. 가장 먼 것은 무엇인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.23)</span></div><ol class="quiz-options"><li>캡슐화는 서로 관련성이 많은 데이터와 이를 참조하는 함수들을 하나로 묶어 처리하는 객체 지향의 특성으로, 실제 구현 내용 일부를 외부에 감추어 은닉하지는 않는다.</li><li>추상화(Abstraction)는 복잡한 문제를 다루는 가장 기본이 되는 메커니즘으로 현실 세계의 물체를 객체로 표현하는 개념으로, 기능, 데이터, 제어 추상화가 있다.</li><li>정보은닉을 제공하는 접근 제어자는 private, default, protected, public으로, protected는 같은 클래스, 같은 패키지, 자식 클래스에서만 접근이 가능하다.</li><li>함수 오버로드는 다양한 에이다(Ada), C#, C++, 자바((Java)등의 다양한 프로그래밍 언어 에서 사용되는 함수의 특징으로, 같은 함수 이름을 가지고 있으나, C언어는 지원하지 않는다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 캡슐화는 서로 관련성이 많은 데이터와 이를 참조하는 함수들을 하나로 묶어 처리하는 객체 지향의 특성으로, 실제 구현 내용 일부를 외부에 감추어 은닉하지는 않는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 9. 다음은 같은 SW 아키텍처 스타일 이름은 무엇인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.55)</span></div><ol class="quiz-options"><li>계층 (Layered) 스타일</li><li>MVC 모델</li><li>클라이언트-서버 모델</li><li>저장소구조(Repository Architecture) 스타일</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 클라이언트-서버 모델 구 분 내 용 클라이언트/ 서버 (Client/ Server) 스타일 - 서버는 클라이언트라 불리는 서브시스템에 서비스를 제공 - 클라이언트: 사용자로부터 입력을 받아 범위를 체크하고 데이터베이스 트랜잭션을 구동하여 필요한 데이터 수집. - 서버 :트랜잭션을 수행하고 데이터의 일관성을 보장한다. (예) 3-tier 클라이언트-서버 모델</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 10. 전자 정부 프레임워크에 대한 설명으로 맞는 것을 모두 고른 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.57)</span></div><ol class="quiz-options"><li>가, 나, 다, 라</li><li>가, 나, 다</li><li>나, 다, 라</li><li>나 가. 전자정부 표준프레임워크 실행환경은 7개 서비스 그룹으로 구성되며 38개 서비스를 제공한다. 나. 관점지향 프로그래밍(Aspect Oriented Programming AOP) 사상을 구현하고 지원한다. 다. 데이터 처리를 위한 ORM과 MyBatis를 제공한다. 라. 의존성 주입(DI) 사상이 반영되었다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 가, 나, 다, 라 가. 전자정부 표준프레임워크 실행환경은 7개 서비스 그룹으로 구성되며 38개 서비스를 제공한다. (O) 나. 관점지향 프로그래밍(Aspect Oriented Programming AOP) 사상을 구현하고 지원한다. (O) 다. 데이터 처리를 위한 ORM과 MyBatis를 제공한다. (O) 라. 의존성 주입(DI) 사상이 반영되었다. (O)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 11. 다음은 MSA(Micro Service Architecture)로 구축하기 위한 설명으로 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.67)</span></div><ol class="quiz-options"><li>시스템의 기능분할, WAS의 복제, 데이터의 분할을 통해 부하를 분산시킨다.</li><li>RESTful 기술이 사용된다.</li><li>Observe Pattern 이 적용된다.</li><li>다수의 개발자, 많은 개발 작업과 서비스가 다양할 경우는 오히려 모노리틱 아키텍처를 유지한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 다수의 개발자, 많은 개발 작업과 서비스가 다양할 경우는 오히려 모노리틱 아키텍처를 유지한다. ① 시스템의 기능분할, WAS의 복제, 데이터의 분할을 통해 부하를 분산시킨다. (O) ② RESTful 기술이 사용된다. (O) ③ Observe Pattern 이 적용된다. (O) ④ 다수의 개발자, 많은 개발 작업과 서비스가 다양할 경우는 오히려 모노리틱 아키텍처를 유지한다. (X)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. C 언어 12. 다음 코드를 수행할 때, a, b, c, d의 printf() 수행결과로 가장 적절한 것은? #include &lt;stdio.h&gt; #include &lt;stdlib.h&gt; int main() { printf(“C run testing \n"); int a = 20, b=30, c=20, d=30; if ( a++ &lt;= 20 &amp;&amp; ++b &gt; 30) b++; printf("%d %d\n", a, b); if ( ++c &lt;= 20 || d &gt; 30) d++; printf("%d %d\n", c, d); return 0; } <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.70)</span></div><ol class="quiz-options"><li>C run testing 21 32 21 30</li><li>C run testing 21 31 21 31</li><li>C run testing 21 31 21 30</li><li>C run testing 22 31 21 30</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 수행 결과 다음과 같다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 13. 다음 테스트에 대한 설명이다. 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.73)</span></div><ol class="quiz-options"><li>“상품조회” test 하기 위해 “로그인 모듈”을 생성한 것은 Test Driver이다.</li><li>Test Driver, Test Stub으로 테스트 하네스 구성한다.</li><li>“로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다.</li><li>테스트 드라이버와 스텁은 모두 통합 테스트에서 사용한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ “로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다. ① “상품조회” test 하기 위해 “로그인 모듈”을 생성한 것은 Test Driver이다. (O) ② Test Driver, Test Stub으로 테스트 하네스 구성한다. (O) ③ “로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다. (X)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 문제 풀이 (정답) ③ “로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.74)</span></div><ol class="quiz-options"><li>“로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다.</li><li>“상품조회” test 하기 위해 “로그인 모듈”을 생성한 것은 Test Driver이다. (O)</li><li>Test Driver, Test Stub으로 테스트 하네스 구성한다. (O)</li><li>“로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다. (X)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ “로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다. ① “상품조회” test 하기 위해 “로그인 모듈”을 생성한 것은 Test Driver이다. (O) ② Test Driver, Test Stub으로 테스트 하네스 구성한다. (O) ③ “로그인 모듈”을 테스트 하기 위해, “결제 모듈”을 만든 것은 상향식 테스트이다. (X)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. 14. 성능 테스트에 대한 설명으로 모두 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.76)</span></div><ol class="quiz-options"><li>성능테스트 방법으로는 루프백 테스트(Loop back), 스파이크 테스트(Spike Test), 티어 테스트(Tier Test), 가용성 테스트(Availability test)가 있다.</li><li>리틀의 법칙은 TPS(Transaction Per Second) = {Concurrent User / 평균응답시간 (Mean Response Time)}이다.</li><li>사용자가 해당 시점에 요청을 전달하고 대기중인 사용자를 ‘Active User’ 라고 한다.</li><li>루프백테스트는 한 통신 장비에서 신호를 보내 그 신호가 일정 구간의 회선을 거친 뒤 다시 원점으로 되돌아오도록 하는 시험이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 리틀의 법칙은 TPS(Transaction Per Second) = Concurrent User / 평균응답시간 (Mean Response Time)이다. (X) - TPS(Transaction Per Second) : 초당 트랜잭션 횟수. 즉, 초당 몇 개의 트랜잭션을 처리할 수 있는가는 나타냄. - 시스템의 성능(TPS)는 트랜잭션을 발생시키는 사용자(Active User)를 평균응답시간 (Mean Response Ti</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 15. SW 테스트에 대한 설명이다. A와 B에 대한 설명으로 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.93)</span></div><ol class="quiz-options"><li>B는 명세기반 테스트라고도 한다.</li><li>A는 구조기반 테스트라고도 한다.</li><li>B는 동등(클래스) 분할(Equivalence Class Partitioning), 경계값 분석(Boundary Value Analysis), 의사결정(Decision table testing), 상태전이 기법을 사용한다.</li><li>A는 테스트 커버리지가 기반으로, 다중 조건 커버리지(Multiple Condition Coverage)를 수행해야 한다. A B</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ A는 테스트 커버리지가 기반으로, 다중 조건 커버리지(Multiple Condition Coverage)를 수행해야 한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 16. 다음 그림과 같은 테스트 기법에 대한 설명으로 모두 맞는 것을 묶은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.96)</span></div><ol class="quiz-options"><li>가, 다,</li><li>나, 다</li><li>가, 다, 라</li><li>가, 나, 다 ITA(Intensive Test Area) 테스트필요 STA(Severe Test Area) 반드시테스트필요 FTA(Fundamental Test Area) 테스트하지않을수있음 STTA(Strong Test Area) 테스트필요 우선순위 결정 장애로인한영향– 사업적리스크 장 애 발 생 가 능 성 – 기 술 적 리 스 크 인수테스트에집중 </li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 가, 나, 다 라. 이 테스트 주요 목적은 전체 기능과 요소(Feature)를 중요도에 상관없이 테스트를 수행하기 위한 목적이다. (X) -&gt; 우선순위에 집중해서 테스트 자원을 투입하는 효과성과 효율성이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 17. 퍼즈 테스팅(Fuzz testing)에 대한 설명으로 모두 맞는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.100)</span></div><ol class="quiz-options"><li>가, 나, 다, 라</li><li>나, 다, 라, 마</li><li>나, 라, 마, 바</li><li>가, 다, 마, 바 가. AI의 모호함을 다루는 테스트 기법이다. 나. 예기치 못한 에러나 충돌을 일으키기 위해 소프트웨어에 무작위로 데이터를 입력한다. 다. 프로그램 충돌이나 코드 내 오류, 메모리 누수 같은 예외적인 상황을 찾을 때 사용한다. 라. 소프트웨어의 취약점을 테스트하는 방법 중 하나이다. 마. 퍼징 데이터 처리방법으로는 생성기반과 변이 기</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 나, 다, 라, 마 가. AI의 모호함을 다루는 테스트 기법이다. (X) -&gt; 인공지능의 문제점이다. 그래서 다양한 알고리즘이 나오고 있다. Fuzzy (애매한) 나. 예기치 못한 에러나 충돌을 일으키기 위해 소프트웨어에 무작위로 데이터를 입력한다. 다. 프로그램 충돌이나 코드 내 오류, 메모리 누수 같은 예외적인 상황을 찾을 때 사용한다. 라. 소프트웨어의 취약점을 테스트하는 방법 중 하나이다. 마. 퍼징 데이터 처리방법</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 18. SW품질 표준에 대한 설명으로 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.103)</span></div><ol class="quiz-options"><li>ISO/IEC 9126은 ISO/IEC 25010으로 대체되었다.</li><li>ISO 25023은 제품 품질(product quality)을 측정을 정의하는 표준이다.</li><li>ISO/IEC 25010의 주특성으로는 호환성과 보안성을 포함하고 있다.</li><li>보안성은 부특성으로 기밀성, 무결성, 가용성을 포함하고 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 보안성은 부특성으로 기밀성, 무결성, 가용성을 포함하고 있다. 보안의 CIA가 아니다. 항상 주의한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. 19. 다음은 프로젝트와 SW 품질에 대한 대한 설명이다. 가, 나, 다에 대한 설명으로 가장 작 짝지은 것은? (단, PMBOK V 6판 포함됨) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.111)</span></div><ol class="quiz-options"><li>품질 보증, 검사, 감사</li><li>품질 관리, 워크스루(Walkthrough), 품질 통제</li><li>품질 관리, 감사, 품질 통제</li><li>품질 보증, 검사, 품질 통제 가 프로젝트에서 조직의 품질관리 정책을 반영하는 품질 활동들을 실 행하여, 품질 관리 계획을 적용하는 프로세스다. 나 프로젝트 활동들이 조직과 프로젝트 정책, 프로세스, 절차를 준수 하는지, 결정하는 조직적이고 독립적인 프로세스이다. 다 프로젝트의 산출물이 완전, 정확, 기대치 준수를 하고 있는지, 성과를 평가하기 위하여,</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 품질 관리, 감사, 품질 통제 품질관리 Or 품질 보증 프로젝트에서 조직의 품질관리 정책을 반영하는 품질 활동들을 실 행하여, 품질 관리 계획을 적용하는 프로세스다. 감사(Audit) 프로젝트 활동들이 조직과 프로젝트 정책, 프로세스, 절차를 준수 하는지, 결정하는 조직적이고 독립적인 프로세스이다. 품질 통제 프로젝트의 산출물이 완전, 정확, 기대치 준수를 하고 있는지, 성과를 평가하기 위하여, 수행한 품질관리 활동 결과를</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 20. GS 인증에 대한 설명으로 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.118)</span></div><ol class="quiz-options"><li>ISO/IEC 9126-2에서 ISO 25023으로 변경됨에 GS 인증 표준에 반영하였다.</li><li>개정된 국제 SW 품질표준에 따라 보안성 시험 추가한다.</li><li>CC인증제품은 보안성 시험 면제한다.</li><li>GS 인증은 ISO/IEC 25050, ISO/IEC 25040를 표준으로 평가모델에 반영하였다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ GS 인증은 ISO/IEC 25050, ISO/IEC 25040를 표준으로 평가모델에 반영하였다. ① ISO/IEC 9126-2에서 ISO 25023으로 변경됨에 GS 인증 표준에 반영하였다. (O) ② 개정된 국제 SW 품질표준에 따라 보안성 시험 추가한다. (O) ③ CC인증제품은 보안성 시험 면제한다. (O) ④ GS 인증은 ISO/IEC 25050, ISO/IEC 25040를 표준으로 평가모델에 반영하였다. (X)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. 21. CMMI 2.0에 대한 설명이다. 가장 내용이 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.126)</span></div><ol class="quiz-options"><li>CMMI V2.0 모델은 2018년 3월 28일 모델 발표되었다.</li><li>기존 22개 프로세스 영역((Process Area)이 5개의 카테고리, 10개의 Capability Area와 25개의 프랙티스 영역(Practice Area)으로 변경되었다. (CMMI-DEV 기준임)</li><li>Agile 내용을 반영하였다.</li><li>CMMI 평가 방법론(SCAMPI)이 여러 개로 적용되었다.</li></ol><div class="quiz-explanation"><strong>정답</strong> 원문 강의자료 해설 참조</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 23. 자동차에 탑재되는 SW 오류로 인한 사고방지 위해 ISO에서 제정한 자동차 안전 국제규격인 ISO 26262 에 대해 맞는 것을 모두 고른 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.142)</span></div><ol class="quiz-options"><li>가, 나</li><li>다, 라</li><li>가, 나, 다</li><li>가, 다, 라 가. IEC 61508에서 자동차에 들어가는 SW에 대한 부분을 별도로 ISO 26262로 도출하였 다. 나. ASIL 레벨을 포함하며, 등급은 A~E 등급이다. 다. 차량 안정성 보전 등급 결정 요소는 심각도, 노출 가능성, 통제가능성으로 등급이 결정된다. 라. 의료용 기기와 SW에 대한 기능안전은 ISO 14971이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> 원문 강의자료 해설 참조</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. 24. ITIL 에 대한 것을 맞게 설명한 것만 모두 고른 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.151)</span></div><ol class="quiz-options"><li>가, 다</li><li>나, 다, 라</li><li>다, 라</li><li>가, 나, 라 가. V3는 서비스 전략 등 5개의 프로세스로 구성된다. 나. V4는 Tailoring 개념과 Agile 트렌드를 반영하였다. 다. 범위 정의 등의 서비스 관리를 지원하기 위하여, V4에서 기존 CMDB을 SKMS(Service Knowledge Management System)로 대체되었다. 라. ITIL V4는 2019년 2월에 도입되</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 가, 나, 라</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q21. 25. 다음은 SW 유지보수(유지관리)에 대한 설명이다. 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.169)</span></div><ol class="quiz-options"><li>시점에 대한 유지보수를 분류하면 계획 유지보수, 예방 유지보수, 응급 유지보수, 적응 유지보수의 4가지로 분류한다.</li><li>완전적 유지보수가 가장 많은 수행하는 유지보수이다.</li><li>재공학은 소프트웨어를 분석하여 정보를 추출하고, 이를 다시 순공학을 사용하여 새로 구현 함으로써 유지보수성을 개선하는 소프트웨어 부품으로 만들어 내는 기술 작업이다.</li><li>역공학은 개발 단계를 역으로 거슬러 올라가 기존 개발된 시스템의 코드나 데이터로부터 설계명세서와 요구 분석서 등을 도출해 내는 작업</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 시점에 대한 유지보수를 분류하면 계획 유지보수, 예방 유지보수, 응급 유지보수, 적응 유지보수로 4가지로 분류한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q22. 다음은 유지보수단계에서 진행되는 유지보수 활동의 분포에 대한 일반적인 통계 그래프이다. (가) 영역에서 수행하는 작업에 해당하는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.172)</span></div><ol class="quiz-options"><li>운영중인 소프트웨어에서 발견된 기능 오류를 수정</li><li>비디오대여 관리 시스템에 장르별 대여 통계 기능 추가</li><li>아키텍처문서와 소스 코드 간의 일치하지 않는 내용을 수정</li><li>MS-Windows 환경에서 개발된 소프트웨어를 Linux 환경으로 이식</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 비디오대여 관리 시스템에 장르별 대여 통계 기능 추가</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q23. 26. 다음은 자유-오픈 소스 소프트웨어(Free and open-source software)에 대한 설명이다. 모두 맞는 것을 고른 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.176)</span></div><ol class="quiz-options"><li>가, 나, 라</li><li>가, 다, 마</li><li>가, 나, 라, 마</li><li>나, 다, 라 가. FOSS는 자유배포, 소스 코드 오픈, 파생 저작물 창작 허용을 조건으로 한다. 나. FOSS 라이선스 양립성은 서로 다른 의무사항을 가진 공개SW 라이선스는 의무 사항 충돌로 인해 양립이 불가능한 경우가 발생하는 문제이다. 다. FOSS 분류에서 반환 의무는 OSS 라이선스를 획득한 후, 일정 기간 이후 반환하는 것에 대한 의무사항</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 가, 나, 라</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q24. 27. 다음 중 ‘SW 대가산정 가이드(2018)’에서 ‘기능점수 대가 산정 방법’을 적용할 수 있는 것은 전체 몇 개인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.195)</span></div><ol class="quiz-options"><li>0개</li><li>1개</li><li>2개</li><li>3개 가. ISP 수립 나. 정보보안 컨설팅 다. SW 유지관리 사업 라. SW 운영 사업 마. 소프트웨어 개발 바. 소프트웨어 재개발 사업</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 2개</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q25. 28. 다음 중 ‘SW 대가산정 가이드(2018)’에서 ‘기능점수 대가 산정 방법’으로 모두 맞게 짝지은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.197)</span></div><ol class="quiz-options"><li>가, 나</li><li>나, 다, 라</li><li>가, 나, 다</li><li>가, 다, 라 가. 기능 점수 방식의 국제표준은 ISO/IEC 14143 이다. 나. ILF는 사용자가 식별할 수 있는 물리적인 연관의 하나의 데이터 그룹으로서 측정 대상 내부 어플리케이션 내부에서는 오직 참조되는 파일이다. 다. 외부 연계 파일(EIF)의 평균복잡도 가중치는 5.4 이다. 라. 외부 조회(EQ)의 평균복잡도 가중치는 3.9 이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 가, 다, 라</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q26. 29. 다음 중 ‘SW 대가산정 가이드(2018)’의 ‘기능점수 대가 산정 방법’에서 애플리케이션 복잡도 보정 계수에 해당하는 것 중에서 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.199)</span></div><ol class="quiz-options"><li>연계복잡성 수준</li><li>성능 요구수준</li><li>보안성 수준</li><li>언어</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 언어</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

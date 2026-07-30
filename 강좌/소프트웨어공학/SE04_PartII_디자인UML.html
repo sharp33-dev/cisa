@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SE04] Part II · 디자인·UML</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+.slide { background:#fff; border:1px solid var(--border-color); border-radius:8px; padding:22px 26px; margin-bottom:18px; scroll-margin-top:120px; }
+.slide-title { font-size:1.15rem; color:var(--primary); font-weight:bold; border-left:5px solid var(--secondary); padding-left:12px; margin-bottom:14px; }
+.slide-num { float:right; font-size:0.75rem; color:#94a3b8; font-weight:normal; }
+.slide p { margin:6px 0; }
+.slide ul { margin:8px 0 8px 22px; }
+.slide li { margin:3px 0; }
+.figs { display:flex; flex-wrap:wrap; gap:12px; margin-top:14px; }
+.figs img { max-width:100%; border:1px solid var(--border-color); border-radius:6px; background:#fff; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);cursor:zoom-in;}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SE04] Part II · 디자인·UML</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/82</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul>
+      <li><a href="#se04-t01">1. UML 개요와 기본 다이어그램</a></li>
+      <li><a href="#se04-t02">2. 클래스 다이어그램과 그 외 UML 다이어그램</a></li>
+      <li><a href="#se04-t03">3. McCabe 순환 복잡도(Cyclomatic Complexity)</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (15)</a></li>
+    </ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="se04-t01" class="section">
+  <h2>1. UML 개요와 기본 다이어그램</h2>
+
+  <h3>가. UML(Unified Modeling Language)의 정의</h3>
+  <div class="law-box"><strong>UML</strong>이란 객체지향 분석·설계가 소프트웨어공학의 새로운 추세로 자리잡음에 따라, OMG(Object Management Group)가 객체 모델링 기술과 방법론을 표준화한 것이다. 이름과 달리 UML은 하나의 "언어"가 아니라 <strong>모델링을 위한 표기법(Notation)</strong>을 의미한다.</div>
+  <p>기존에는 학자마다 객체지향 모델링을 서로 다른 방식으로 표현해 왔다. 이에 부치(Booch)·럼바(Rumbaugh)·야콥슨(Jacobson) 세 학자가 표기법 통일을 주도(1994년 연구 시작 → 1997년 발표)하여, 개발자와 사용자 간 표준화된 의사소통 수단을 제공하게 되었다.</p>
+
+  <h3>나. UML의 특징</h3>
+  <ul>
+    <li>단순한 표기법이 아니라, 사용하는 형식과 각 표기에 의미를 가진 언어</li>
+    <li>개발자 간 의사소통을 원활히 하며, 반복적·점진적인 객체 개발 프로세스를 지원</li>
+    <li>개발 규모·프로세스·언어에 관계없이 적용 가능(특정 방법론이나 프로세스에 종속되지 않음)</li>
+    <li>객체지향 개발만을 위한 것이 아니라 통합 모델링 언어이므로 다른 모델링에도 활용 가능</li>
+  </ul>
+  <p style="font-size:0.85rem;color:#64748b;">※ 1997년 OMG가 UML 1.1을 표준으로 채택한 이후 1.3~1.5를 거쳐, 2005년 UML 2.0이 승인되었고 현재는 2.2 이상 버전이 사용된다.</p>
+
+  <h3>다. UML의 구성: 5가지 View</h3>
+  <table>
+    <tr><th width="20%">View</th><th>내용</th></tr>
+    <tr><td>Use Case View</td><td>요구분석 단계에서 사용되는 관점으로, 자세한 내부설계에는 사용되지 않음. 시스템을 사용하는 이벤트·기능 위주로 표현</td></tr>
+    <tr><td>Logical View</td><td>객체 모델을 의미하며 클래스 다이어그램으로 나타냄</td></tr>
+    <tr><td>Process View</td><td>동적 모델을 의미하며 Sequence 다이어그램과 Collaboration 다이어그램으로 나타냄</td></tr>
+    <tr><td>Component View</td><td>대규모 시스템을 서브시스템으로 나눌 때 사용</td></tr>
+    <tr><td>Deployment View</td><td>SW 서브시스템이 전체 시스템을 구성하는 HW의 어느 부분에 배치될 것인가를 표현</td></tr>
+  </table>
+
+  <h3>라. UML 다이어그램의 분류(정적·동적 모델링)</h3>
+  <table>
+    <tr><th width="16%">구분</th><th width="20%">다이어그램</th><th>내용</th></tr>
+    <tr><td rowspan="4">정적 모델링<br>(구조 모델링)</td><td>클래스(Class) Diagram</td><td>시스템 내 클래스들의 정적 구조를 표현. 클래스는 객체들의 집합으로 속성(Attribute)과 동작(Behavior)으로 구성</td></tr>
+    <tr><td>객체(Object) Diagram</td><td>클래스의 여러 인스턴스 대신 실제 클래스를 사용해 표현. 클래스 다이어그램과 동일 표기법이나 객체 이름에 밑줄 표시</td></tr>
+    <tr><td>컴포넌트(Component) Diagram</td><td>코드 컴포넌트에 바탕을 둔 코드의 물리적 구조를 표현. 실질적인 프로그래밍 작업에 사용</td></tr>
+    <tr><td>배치(Deployment) Diagram</td><td>시스템 하드웨어·소프트웨어 간의 물리적 구조, 컴퓨터와 디바이스 간 관계를 표현. 컴포넌트 간 종속성도 표현</td></tr>
+    <tr><td rowspan="5">동적 모델링</td><td>유스케이스(Use Case)</td><td>외부 행위자(Actor)와 시스템이 제공하는 여러 유스케이스의 관계를 표현. 유스케이스 뷰를 다룸</td></tr>
+    <tr><td>순차(Sequence)</td><td>여러 객체 사이의 동적 협력을 표현. 객체 간 메시지를 보내는 순서를 시간·순서 중심으로 표현</td></tr>
+    <tr><td>Collaboration</td><td>객체 간의 연관성을 표현하며, 내용(구조적 관계)이 중요한 경우에 이용</td></tr>
+    <tr><td>활동(Activity)</td><td>행위(Activity)의 순서적 흐름을 표시. 수행된 활동 상황을 설명하기 위해 사용</td></tr>
+    <tr><td>상태(State)</td><td>클래스의 객체가 가질 수 있는 모든 가능한 상태를 나타냄</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 구조 vs 행위 다이어그램 구분</span>
+  UML 2.2는 다이어그램을 <strong>구조(Structure)</strong> 다이어그램(클래스·객체·컴포넌트·배치 등, "정적")과 <strong>행위(Behavior)</strong> 다이어그램(유스케이스·순차·활동·상태 등, "동적")으로 크게 나눈다. "컴포넌트·유스케이스·활동·시퀀스 중 유형이 다른 것은?"류 문제는 컴포넌트만 구조 다이어그램이라는 점을 이용한다.
+  </div>
+
+  <h3>마. UML의 관계(Relationship) 개요</h3>
+  <p>UML에서 클래스 간에는 4가지 관계가 존재한다: 의존관계(Dependency), 연관관계(Association), 일반화(Generalization), 실체화(Realization)이다. 일반화는 부모 클래스(Superclass)가 자식 클래스(Subclass)보다 더 일반적인 개념을 나타내는 상속 관계이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p010.jpg" alt="일반화 관계 예시: Shape를 상속하는 Rectangle/Circle/Polygon 클래스 다이어그램"><figcaption>[그림] 일반화(Generalization) 관계 예시 – Shape(Superclass)와 Rectangle/Circle/Polygon(Subclass)</figcaption></figure>
+
+  <h3>바. Use Case Diagram의 구성요소 관계</h3>
+  <table>
+    <tr><th width="16%">관계</th><th>설명</th></tr>
+    <tr><td>연관(Association)</td><td>Use Case와 Actor의 관계를 실선으로 표현(연결되어 있음)</td></tr>
+    <tr><td>확장(Extend)</td><td>기본 Use Case 수행 시 특별한 조건을 만족할 때만 수행하는 Use Case(옵션에 해당)</td></tr>
+    <tr><td>포함(Include)</td><td>시스템의 한 기능이 별도의 기능을 포함(점선). 예) 상품 주문·확인 시 로그인 기능을 포함하는 경우</td></tr>
+    <tr><td>일반화(Generalization)</td><td>하위 Use Case·Actor가 상위 Use Case·Actor의 기능·역할을 상속받는 관계</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p011.jpg" alt="Use Case Diagram 실제 예시: Actor와 유스케이스 타원들의 관계"><figcaption>[그림] Use Case Diagram 예시 – Actor와 Use Case 간 연관·확장·포함 관계</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · Include vs Extend</span>
+  <strong>Include(포함)</strong>는 "반드시 실행"되는 필수 관계(점선 화살표, 기본 유스케이스 → 포함 유스케이스), <strong>Extend(확장)</strong>는 "조건을 만족할 때만 실행"되는 선택적 관계(점선 화살표, 확장 유스케이스 → 기본 유스케이스)로 화살표 방향과 필수 여부를 함께 기억한다.
+  </div>
+
+  <h3>사. Use Case 스테레오타입(Stereotype)</h3>
+  <table>
+    <tr><th width="16%">스테레오타입</th><th width="10%">분류</th><th>설명</th></tr>
+    <tr><td>&lt;&lt;include&gt;&gt;</td><td>관계</td><td>하나의 유스케이스가 특정 시점에 반드시 다른 유스케이스를 실행하는 포함 관계</td></tr>
+    <tr><td>&lt;&lt;extend&gt;&gt;</td><td>관계</td><td>하나의 유스케이스가 특정 시점에 다른 유스케이스를 실행할 수도, 안 할 수도 있는 확장 관계</td></tr>
+    <tr><td>&lt;&lt;interface&gt;&gt;</td><td>클래스</td><td>모든 메소드가 추상메소드이며 바로 인스턴스화할 수 없는 클래스(추상메소드·상수로만 구성)</td></tr>
+    <tr><td>&lt;&lt;entity&gt;&gt;</td><td>클래스</td><td>정보를 저장하는 객체. 유스케이스 처리흐름 중 기억장치에 저장되어야 할 정보를 표현하는 클래스</td></tr>
+    <tr><td>&lt;&lt;boundary&gt;&gt;</td><td>클래스</td><td>시스템과 외부 경계에 걸친 클래스. user interface(사용자 상호작용), system interface(외부 시스템 연동), device interface(디바이스·센서 연동)로 구분</td></tr>
+    <tr><td>&lt;&lt;control&gt;&gt;</td><td>클래스</td><td>특정 객체에 종속되지 않은 기능을 모델링. Entity 클래스의 연산·계산 수행, Boundary 클래스로 결과 반환 등 처리흐름을 제어·조정하는 클래스</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p018.jpg" alt="택배 배송 시나리오 유스케이스 다이어그램 예시"><figcaption>[그림] 스테레오타입 적용 예시 – 택배 배송 시나리오의 화면·인증·결제 흐름</figcaption></figure>
+
+  <h3>아. Use Case Diagram 사례 연습(도서관 시스템)</h3>
+  <p>도서 등록·대출·반납 기능을 중심으로 작성된 유스케이스 다이어그램에서는, 표현하려는 <strong>내용</strong>이 아니라 <strong>표기법</strong> 자체가 올바른지를 묻는 문제가 출제된다. 예를 들어 "사서"와 "사용자"가 일반화(상속) 관계로 그려져 있다면, 이는 두 액터가 로그인 화면을 공유하는 것이 아니라 상속 관계를 표현한 것이므로 표기법 오류가 될 수 있다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p020.jpg" alt="도서관 시스템 유스케이스 다이어그램(로그인/도서열람/대출/반납)"><figcaption>[그림] 도서관 시스템 유스케이스 다이어그램 – 로그인·도서열람·대출·반납 흐름</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p021.jpg" alt="도서관 시스템 유스케이스 다이어그램 해설: 사서/사용자 일반화 관계, include/extend 관계 판별"><figcaption>[그림] 도서관 유스케이스 다이어그램 해설 – 일반화·Include·Extend 관계의 올바른 표기 판별</figcaption></figure>
+
+  <h3>자. 시퀀스 다이어그램(Sequence Diagram)의 구성요소</h3>
+  <table>
+    <tr><th width="20%">구성요소</th><th>설명</th></tr>
+    <tr><td>액터(Actor)</td><td>시스템과 상호작용하는 사용자·외부 시스템</td></tr>
+    <tr><td>활성객체(Object)</td><td>메시지 상호작용에 참여하는 주체. 다이어그램 윗부분에 위치하며 왼쪽→오른쪽으로 배열</td></tr>
+    <tr><td>메시지(Message)</td><td>객체 사이에 송·수신하는 메시지로, 발생 순서에 따라 위→아래로 표현. 객체는 자기 자신에게도 메시지를 전송할 수 있음(실선: 호출메시지, 점선: 답신메시지)</td></tr>
+    <tr><td>제어사각형(Control Rectangle)</td><td>객체가 제어를 가지고 있음, 즉 정보를 처리 중이거나 다른 정보를 기다리고 있음을 표시</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p023.jpg" alt="시퀀스 다이어그램 구성요소 예시: 라이프라인과 메시지 흐름"><figcaption>[그림] 시퀀스 다이어그램 구성요소 예시 – 라이프라인과 메시지 순서</figcaption></figure>
+</section>
+
+<section id="se04-t02" class="section">
+  <h2>2. 클래스 다이어그램과 그 외 UML 다이어그램</h2>
+
+  <h3>가. 클래스 다이어그램(Class Diagram)의 기본 구조</h3>
+  <p>클래스 다이어그램은 Class, Interface, Collaboration 간의 관계를 나타내며, 객체 지향 시스템 모델링에서 가장 공통적으로 쓰이는 다이어그램이다. 클래스는 상단에 클래스명, 중단에 속성(Attribute), 하단에 오퍼레이션(Operation)을 표기하며, +는 Public, -는 Private 멤버를 의미한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p032.jpg" alt="Class Diagram 기본 구조: Class명/Attribute/Operation 개념도"><figcaption>[그림] Class Diagram 기본 구조 – Class명 / Attribute(id, name…) / Operation(add(), search()…)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p031.jpg" alt="Class Diagram 실제 예시: Company, Department, Location, Office 클래스 간 관계"><figcaption>[그림] Class Diagram 실제 예시 – Company/Department/Location/Office 간 관계 표현</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p033.jpg" alt="Class Diagram 작성 예제: 학적관리시스템"><figcaption>[그림] Class Diagram 작성 예제 – 속성(Attribute)과 오퍼레이션(Operation)으로 구성된 클래스 표기</figcaption></figure>
+
+  <h3>나. 클래스 간 관계 유형</h3>
+  <table>
+    <tr><th width="20%">관계 유형</th><th>설명</th></tr>
+    <tr><td>연관관계 (Association)</td><td>두 클래스 간 서로 연관을 가지고 있음을 의미하는 가장 일반적인 "Has a" 관계. 다중성 표기(1:1개, 0..1:0또는1개, *:다수, 1..*:1개 이상)</td></tr>
+    <tr><td>집합연관관계 (Aggregation)</td><td>클래스 간 부분과 전체의 관계(예: 부서–직원). 부분 객체가 전체 없이도 독립적으로 존재 가능(속이 빈 마름모)</td></tr>
+    <tr><td>복합연관관계 (Composition)</td><td>집합연관관계와 같이 부분·전체 관계이나, 전체 클래스가 소멸하면 부분 클래스도 함께 소멸하는 강한 관계(예: 테이블–다리, 속이 찬 마름모)</td></tr>
+    <tr><td>의존관계 (Dependency)</td><td>한 클래스의 변화가 다른 클래스에 영향을 미치는 약한 관계(점선 화살표). 어느 시점에 다른 클래스를 "사용"할 때 발생 — <strong>암기: "정의"</strong></td></tr>
+    <tr><td>상속관계 (Inheritance)</td><td>클래스 간 상속관계("is a" 관계). 일반화(Generalization)를 의미하며 속이 빈 삼각형 화살표(▷)로 표기</td></tr>
+    <tr><td>인터페이스 실체화 (Realization)</td><td>하나의 객체가 다른 객체(인터페이스)에 정의된 오퍼레이션을 실제로 구현하도록 지정하는 관계(예: 타자 기능 – 키보드)</td></tr>
+    <tr><td>직접 연관 (Direct Association)</td><td>Association과 Directed Association의 차이는 화살표가 가리키는 navigability(방향성)로, 참조하는 쪽과 참조당하는 쪽을 구분</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p039.jpg" alt="연관관계 판별 흐름도: 연관/집합연관/복합연관/의존관계를 구분하는 의사결정 트리"><figcaption>[그림] 관계 유형 판별 흐름도 – "전체와 부분의 관계인지", "생명주기가 같은지", "reference를 유지하는지"로 연관/집합연관/복합연관/의존관계를 구분</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · Aggregation vs Composition 구분</span>
+  두 관계 모두 "부분-전체"를 표현하지만, <strong>Aggregation(집합연관)</strong>은 부분이 전체와 독립적으로 존재할 수 있고(속이 빈 마름모 ◇), <strong>Composition(복합연관)</strong>은 전체가 소멸하면 부분도 함께 소멸하는 생명주기 종속 관계(속이 찬 마름모 ◆)다. "집합(composition)"처럼 두 용어를 뒤섞은 보기가 함정으로 자주 출제된다.
+  </div>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p026.jpg" alt="기출문제: UML 시퀀스 다이어그램과 가장 일치하는 클래스 다이어그램을 고르는 4지선다 문제"><figcaption>[그림] 기출 – 시퀀스 다이어그램과 가장 일치하는 클래스 다이어그램 찾기(정답: C1이 C2의 객체를 호출하는 방향·다중성이 정확히 표현된 보기)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p042.jpg" alt="기출문제: '프린터는 출력장치이다'를 표현하는 UML 클래스 다이어그램 4지선다(연관/상속/집합/의존)"><figcaption>[그림] 기출 – "프린터는 출력장치이다"의 관계 표현(정답: ② A◁B, 상속관계 화살표. 프린터는 출력장치의 하위 개념이므로 상속으로 표현)</figcaption></figure>
+
+  <h3>다. 활동 다이어그램(Activity Diagram)</h3>
+  <p>활동 다이어그램은 시스템 내부 활동의 흐름을 나타내는 동적 뷰 다이어그램으로, 객체 간의 제어 흐름에 중점을 둔다. 시작점·활동·전이(화살표)·종료점으로 구성되며, 분기는 마름모(판단)로 표현하고 옆에 조건문을 표기한다. 병행 프로세스를 지원하기 위한 분할(Fork, 동시에 진행 가능한 상태로 분리)과 합류(Join, 분할된 흐름이 반드시 다시 합쳐짐) 개념이 있다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p046.jpg" alt="Activity Diagram 스윔레인(swim lane) 예시: 부서별 역할과 fork/join 노드"><figcaption>[그림] Activity Diagram 예시 – 부서별 역할을 스윔레인(Swim Lane)으로 구분하고 Fork/Join 노드로 병행 흐름을 표현</figcaption></figure>
+
+  <h3>라. 상태 다이어그램(State Diagram)</h3>
+  <p>상태 다이어그램은 객체가 가질 수 있는 모든 상태와 상태 간 전이(Transition)를 표현한다. 이벤트(Event)에 의해 상태가 전이되며, 작성 순서는 다음과 같다: <strong>① 범위 파악 → ② 시작·종료 상태 파악 → ③ 객체가 가질 수 있는 상태 규명 → ④ 상태 변환 이벤트·액션·조건 도출 → ⑤ 최종 검증</strong>.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p028.jpg" alt="State Diagram 실제 예시: 시작/종료 상태와 전이"><figcaption>[그림] State Diagram 예시 – 시작 상태 ● 에서 전이를 거쳐 종료 상태 ◉ 로 이어지는 흐름</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p067.jpg" alt="기출문제: e1~e5 이벤트 순서에 따른 상태 다이어그램 전이 결과"><figcaption>[그림] 기출 – e1→e2→e3→e4→e5 순으로 이벤트가 발생했을 때의 최종 상태(정답: S11, S21 — e2·e3가 안 일어났으므로 S12·S22는 선택되지 않음)</figcaption></figure>
+
+  <h3>마. 시퀀스 다이어그램의 호출(Call) 문제</h3>
+  <p>클래스 다이어그램을 시퀀스 다이어그램으로 표현할 때는 <strong>호출 방향</strong>이 반대로 뒤바뀌지 않도록 주의해야 한다. 예를 들어 "C1의 클래스 객체가 C2 클래스의 객체의 f() 메소드를 호출한다"는 문장은, 클래스 다이어그램에서는 f() 표기 위치가 반대로 보일 수 있어 혼동을 일으키기 쉽다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p027.jpg" alt="시퀀스 다이어그램 호출 문제: C1이 C2의 f() 메소드를 호출하는 예시"><figcaption>[그림] 시퀀스 다이어그램의 호출 표현 – C1 클래스의 객체가 C2 클래스의 객체의 f() 메소드를 호출하는 것을 클래스 다이어그램으로 옮길 때의 표기 위치 주의</figcaption></figure>
+
+  <h3>바. 컴포넌트(Component) 다이어그램과 배치(Deployment) 다이어그램</h3>
+  <table>
+    <tr><th width="22%">다이어그램</th><th>설명</th></tr>
+    <tr><td>컴포넌트(Component) Diagram</td><td>시스템의 물리적 컴포넌트와 그 사이의 의존관계를 나타내는 다이어그램. 인터페이스는 소형 원(간단한 표현법)으로 표기</td></tr>
+    <tr><td>배치(Deployment) Diagram</td><td>시스템이 분할된 서버 시스템의 배치 모습을 도식화. 시스템의 하드웨어와 소프트웨어의 물리적 구성, 실제적인 컴퓨터·디바이스 사이의 종속성을 나타냄(예: Client, Server 노드)</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p051.jpg" alt="Component Diagram 실제 예시: Course, Student, Offering 등 컴포넌트"><figcaption>[그림] Component Diagram 예시 – 컴포넌트 사이의 인터페이스(점선 화살표)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p053.jpg" alt="기출문제: receiving.exe, ui.exe, purchaseorder.dll 등 컴포넌트 다이어그램의 의존관계 화살표 방향"><figcaption>[그림] 기출 – 컴포넌트 다이어그램의 의존관계 방향 판별(매입주문 컴포넌트가 접수 컴포넌트를 참조하므로 화살표는 접수→매입주문 방향)</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p055.jpg" alt="Deployment Diagram 실제 예시: Client, Server 노드 배치"><figcaption>[그림] Deployment Diagram 예시 – 물리적 노드(Client, Server) 간 배치와 통신 관계</figcaption></figure>
+
+  <h3>사. UML 다이어그램 전체 관계 정리</h3>
+  <p>UML의 각 다이어그램은 독립적으로 존재하는 것이 아니라, 유스케이스에서 시작해 클래스·컴포넌트·배치 다이어그램으로 구체화되고, 순차·활동·상태 다이어그램으로 동적 행위가 보완되는 유기적 관계를 갖는다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p056.jpg" alt="UML 다이어그램 전체 관계도: 상태/활동/구현/구조/컴포넌트 다이어그램 간의 연결"><figcaption>[그림] UML 다이어그램 전체 관계도 – BPM 업무흐름부터 요구사항서, 유스케이스, 클래스, 컴포넌트, 배치 다이어그램까지의 연계</figcaption></figure>
+
+  <h3>아. UML 확장 메커니즘과 UML 2.0</h3>
+  <table>
+    <tr><th width="22%">구성요소</th><th>설명</th></tr>
+    <tr><td>스테레오타입(Stereotypes)</td><td>모델링 요소에 추가적인 의미를 부여할 수 있도록 해주는 메커니즘</td></tr>
+    <tr><td>제약사항(Constraints)</td><td>모델링 요소에 제약을 명시함으로써 해당 요소를 더 명확하게 표현하도록 해주는 메커니즘</td></tr>
+    <tr><td>꼬리표 값(Tagged Values)</td><td>UML이 제공하는 속성 외에 추가 속성을 정의하는 메커니즘. <code>{tag=value}</code> 기호 사용</td></tr>
+  </table>
+  <p>UML 2.0은 웹 기반 애플리케이션·SOA 등 신기술 등장으로 높은 자동화를 지원하는 UML 기반 툴의 필요성이 커지면서, 기존 표준(UML 1.x)을 더 정확한 방식으로 재정의한 버전이다.</p>
+  <table>
+    <tr><th width="22%">UML 1.x의 한계</th><th>UML 2.0의 개선</th></tr>
+    <tr><td>컴포넌트 내부 아키텍처 표현 부족</td><td>아키텍처·인터페이스·컴포넌트·클래스의 내부 표현방법 강화(Composite-Structure Diagram의 포트/파트/커넥터)</td></tr>
+    <tr><td>MDA 기능 제한적</td><td>Meta Model 표현 강화(MOF, UML, Profile), 실행속성기법 수용으로 분석·설계와 실제 구현 간 차이 극복</td></tr>
+    <tr><td>임베디드 시스템 표현 부족</td><td>ITU-T SDL 개념 차용(Capsule: 프로토콜을 가진 클래스, Port: 클래스 간 연결 추상화)</td></tr>
+    <tr><td>모델링 표현의 모호성</td><td>MDD에 필요한 고급 자동화 구현 가능, Round-trip Engineering Simulation 지원</td></tr>
+    <tr><td>다이어그램 종류 제한</td><td>시퀀스·Statechart 다이어그램의 표현 방법 개선 및 다이어그램 추가</td></tr>
+  </table>
+
+  <h3>자. 타이밍 다이어그램(Timing Diagram)</h3>
+  <p>타이밍 다이어그램은 UML의 상호작용(Interaction) 다이어그램 중 하나로, 시간에 따른 여러 대상(객체)의 상태 변화를 표현하는 데 주된 목적을 둔다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p061.jpg" alt="Timing Diagram 실제 예시"><figcaption>[그림] Timing Diagram 예시 – 시간 축에 따른 객체 상태 변화 표현</figcaption></figure>
+  <div class="tip-box"><span class="tip-h">💡 Tip · Sequence vs Timing 구분</span>
+  순차(Sequence) 다이어그램은 객체 간 <strong>구조적 관계(연관)</strong>를 중심으로 상호작용을 표현하는 반면, 타이밍(Timing) 다이어그램은 <strong>시간에 따른 상태 변화</strong> 자체를 표현한다는 점이 구분 포인트다.
+  </div>
+
+  <h3>차. OCL(Object Constraint Language)</h3>
+  <p>UML에서 클래스 객체에 대한 불변조건(Invariant), 연산에 대한 선행조건(Precondition)과 후행조건(Postcondition)을 표현하는 데 사용되는 언어가 <strong>OCL(Object Constraint Language)</strong>이다.</p>
+</section>
+
+<section id="se04-t03" class="section">
+  <h2>3. McCabe 순환 복잡도(Cyclomatic Complexity)</h2>
+
+  <h3>가. 정의와 특징</h3>
+  <div class="law-box">Cyclomatic Complexity(순환 복잡도)는 1976년 McCabe가 고안한 소프트웨어 지표로, 하나의 Unit(Method 혹은 Function) 내 코드 복잡도를 정량적으로 나타낸다. 프로그램 논리 흐름을 표현한 제어 흐름 그래프를 기초로 하며, 선택 경로·루프가 많아질수록 값이 증가해 프로그램 이해 난이도가 상승한다.</div>
+
+  <h3>나. 복잡도 계산 공식</h3>
+  <table>
+    <tr><th width="30%">공식</th><th>설명</th></tr>
+    <tr><td>V(G) = e − n + 2</td><td>제어 흐름 그래프 기반. e = 간선(Edge)의 수, n = 노드(Node)의 수</td></tr>
+    <tr><td>V(G) = 의사결정수 + 조건수 + 1</td><td>프로그램 코드 상에서 직접 파악할 때 활용(제어흐름도를 그리기 어려운 경우). 의사결정수: if-then-else·do-while·case(각각 1개로 계산), 조건수: and·or·not 등</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/SE04fig/p071.jpg" alt="McCabe 순환복잡도 계산 예제: 제어흐름 그래프 3개와 V(G) 계산"><figcaption>[그림] McCabe 순환 복잡도 계산 예제 – 그래프의 리전(닫힌 영역) 수를 세어 V(G) 산출</figcaption></figure>
+
+  <h3>다. 복잡도 값의 의미</h3>
+  <table>
+    <tr><th width="30%">복잡도 기준</th><th>분석 내용</th></tr>
+    <tr><td>5 이하</td><td>매우 간단한 프로그램</td></tr>
+    <tr><td>5~10</td><td>매우 구조적이며 안정된 프로그램</td></tr>
+    <tr><td>20 이상</td><td>문제 자체가 매우 복잡하거나, 구조가 필요 이상으로 복잡한 프로그램</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 계산 공식 빠르게 적용하기</span>
+  제어흐름 그래프가 주어지면 "간선 수 − 노드 수 + 2"를, 소스코드가 주어지면 "if/while/case 개수 + and·or 개수 + 1"을 센다. 두 방식 모두 결과가 같아야 하며, 기출에서는 그래프형과 코드형이 번갈아 출제된다.
+  </div>
+</section>
+
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (15문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. UML 2.2에서 UML 다이어그램은 다이어그램에서 표현하고자 하는 기본 개념의 유형에 따라서 구조 다이어그램과 행위 다이어그램으로 분류될 수 있다. 이러한 관점에서 볼 때 다음의 UML 다이어그램 중에서 다른 3가지 다이어그램과 다른 유형의 다이어그램은 어느 것인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8)</span></div><ol class="quiz-options"><li>컴포넌트 다이어그램 (component diagram)</li><li>유스케이스 다이어그램 (use case diagram)</li><li>활동 다이어그램 (activity diagram)</li><li>시퀀스 다이어그램 (sequence diagram)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 컴포넌트 다이어그램 (component diagram)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 사용자는 로그인 화면을 통해서 로그인 정보를 입력한다. 시스템은 외부의 신용정보 시스템을 접근해서 사용자 인증을 수행한다. 그리고 사용자이름, 일시, 인증여부 등 로그인 이력 정보를 데이터베이스에 기록한다.”의 요구사항을 바탕으로 객체지향 분석을 수행한 결과는 다음과 같다. 도출된 클래스의 유형으로서 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.16)</span></div><ol class="quiz-options"><li>로그인화면 클래스</li><li>사용자인증 클래스</li><li>신용정보시스템접근 클래스</li><li>로그인이력정보 클래스</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 로그인이력정보 클래스</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. UML 유스케이스 다이어그램은 시스템의 기능을 액터와 유스케이스로 표현한다. 다음은 도서관의 도서 등록, 도서 대출 그리고 도서 반납 기능을 중심으로 작성된 유스케이스 다이어그램을 보여 준다. 유스케이스 다이어그램이 표현하고자 하는 내용 측면이 아니라 표기법 측면에서 올바르게 표현된 부분은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.19)</span></div><ol class="quiz-options"><li>사서와 사용자 간의 관계</li><li>도서등록과 도서검색 간의 관계</li><li>도서대출과 도서반납 간의 관계</li><li>도서반납과 연체료부과 간의 관계</li></ol><div class="quiz-explanation"><strong>정답</strong> 원문 강의자료 해설 참조</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 상태(state) 다이어그램 작성 방법을 순서대로 가장 적절하게 나열할 것은? 가. 객체가 어떤 상태들을 갖는지 찾아낸다. 나. 표현하려는 대상의 시작, 종료 상태를 파악한다. 다. 상태 머신이 올바로 작성되었는지 검증한다. 라. 상태 다이어그램으로 작성하고자 하는 범위를 파악한다. 마. 상태 변환과 관련된 이벤트, 액션, 조건을 찾는다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.29)</span></div><ol class="quiz-options"><li>라 - 마 - 가 - 다 - 나</li><li>라 - 나 - 가 - 마 - 다</li><li>나 - 라 - 마 - 가 - 다</li><li>나 - 가 - 라 - 다 - 마</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 라 - 나 - 가 - 마 - 다</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음과 같은 Java 코드를 클래스 다이어그램으로 표현하고자 한다. 생성된 클래스 다이어그램에 표현되는 객체 사이의 관계와 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.36)</span></div><ol class="quiz-options"><li>연관(association) 관계</li><li>의존(dependency) 관계</li><li>집합(composition) 관계</li><li>상속(inheritance) 관계</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 집합(composition) 관계</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 다음 클래스 다이어그램은 4개의 클래스(Class1, Class2, Class3, Class4)간의 관계를 보여 준다. 각 관계에 대한 설명으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.40)</span></div><ol class="quiz-options"><li>Class1과 Class2의 관계는 일반화(generalization)이다.</li><li>Class1과 Class3의 관계는 의존(dependency)이다.</li><li>Class3과 Class4의 관계는 전체 부분 관계(또는 포함관계, composition)이다.</li><li>Class2와 Class4의 관계는 사용(use)이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ Class2와 Class4의 관계는 사용(use)이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 다음은 UML 모델링을 위해 사용되는 특정 다이어그램의 활용에 대한 설명이다. 해당 다이어그램으로 가장 적절한 것은 ? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.47)</span></div><ol class="quiz-options"><li>시퀀스다이어그램(sequence diagram)</li><li>액티비티다이어그램(activity diagram)</li><li>상태다이어그램(state diagram)</li><li>협력다이어그램(collaboration diagram)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 액티비티다이어그램(activity diagram)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 다음 그림은 UML 다이어그램의 일부이다. 그림에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.49)</span></div><ol class="quiz-options"><li>여러 부서의 역할을 swim lane으로 표시하고 있다.</li><li>fork와 join 노드가 사용되고 있다.</li><li>객체 흐름이 잘 나타나 있다.</li><li>객체가 가질 수 있는 상태의 변화를 잘 나타내고 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 객체가 가질 수 있는 상태의 변화를 잘 나타내고 있다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. UML은 소프트웨어 시스템의 다양한 측면을 모델링하기 위하여 여러 유형의 다이어그램을 정의하고 있다. 다음 중에서 UML 다이어그램에 대한 설명으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.60)</span></div><ol class="quiz-options"><li>상태(state) 다이어그램은 객체, 컴포넌트, 또는 시스템을 대상으로 동적 행위를 상태(state)와 전이 (transition)로 표현한다.</li><li>순차(sequence) 다이어그램은 복수 개의 대상(예, 객체들)간의 상호작용을 그들 간의 구조적 관계 (예, 연관)를 중심으로 표현한다.</li><li>유스케이스(usecase) 다이어그램은 시스템의 요구사항 중에서 기능적인 개별 요구사항을 표현한다.</li><li>타이밍(timing) 다이어그램은 여러 대상간의 상호작용을 시간에 따른 상태 변화의 형태로서 표현한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 순차(sequence) 다이어그램은 복수 개의 대상(예, 객체들)간의 상호작용을 그들 간의 구조적 관계(예, 연관)를 중심으로 표현한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 다음은 UML 2.0의 상태 다이어그램을 나타내고 있다. 만약 e1, e2, e3, e4, e5 순으로 수행되었을 때 최종 상태로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.66)</span></div><ol class="quiz-options"><li>S12, S22</li><li>S11, S21</li><li>S11, S22</li><li>S12, S21</li></ol><div class="quiz-explanation"><strong>정답</strong> ② S11, S21</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. UML에서 클래스 객체에 대한 불변조건(invariant), 연산에 대한 선행조건 (precondition)과 후행조건(postcondition)을 표현하는데 사용되는 언어는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.68)</span></div><ol class="quiz-options"><li>Object Condition Language</li><li>Class Condition Language</li><li>Class Constraint Language</li><li>Object Constraint Language</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ Object Constraint Language</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 다음의 UML 시퀀스 다이어그램을 통해서 표현된 f0() 함수의 순환 복잡도(Cyclomatic Complexity)로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.74)</span></div><ol class="quiz-options"><li>3</li><li>4</li><li>5</li><li>6</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 4</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 다음은 세 과목의 점수를 입력받아 평균점수가 70점 이상이면 “합격”, 70점 미만이면 “불합격”을 출력하는 프로그램의 일부이다. McCabe의 순환 복잡도(cyclomatic complexity)는 얼마인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.77)</span></div><ol class="quiz-options"><li>3</li><li>4</li><li>5</li><li>6</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 3</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 다음 프로그램에 대한 사이클로매틱 복잡도(cyclomatic complexity)는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.79)</span></div><ol class="quiz-options"><li>3</li><li>4</li><li>5</li><li>6</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 4</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 어떤 프로그램의 제어흐름 그래프(Control Flow Graph)가 다음과 같을 때 McCabe식의 Cyclomatic Complexity를 구하시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.81)</span></div><ol class="quiz-options"><li>2</li><li>3</li><li>4</li><li>5</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 3</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

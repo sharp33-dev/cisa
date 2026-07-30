@@ -18,8 +18,14 @@
         .sidebar-header { padding: 1.25rem 1.25rem 1.25rem 0.9rem; background-color: var(--primary-dark); border-bottom: 1px solid #334155; }
         .sidebar-header-row { display: flex; align-items: center; gap: 0.6rem; }
         .sidebar-header-row > .icon-btn { margin-left: auto; }
-        .sidebar-header h1 { font-size: 1.1rem; font-weight: 800; color: #ffffff; }
+        .sidebar-header h1 { font-size: 1.05rem; font-weight: 800; color: #ffffff; }
         .sidebar-header p { font-size: 0.72rem; color: #94a3b8; margin-top: 0.2rem; }
+
+        /* 상단 탭: 기출 해설 / 강좌 교재 분리 */
+        .view-tabs { display: flex; background-color: #0f172a; border-bottom: 1px solid #334155; }
+        .view-tab { flex: 1; background: none; border: none; padding: 0.7rem 0.5rem; color: #94a3b8; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.35rem; border-bottom: 2px solid transparent; transition: color 0.15s, border-color 0.15s, background-color 0.15s; }
+        .view-tab:hover { color: #e2e8f0; }
+        .view-tab.active { color: #38bdf8; border-bottom-color: #38bdf8; background-color: #1e293b; }
         .icon-btn { background: none; border: none; cursor: pointer; padding: 0.35rem; border-radius: 6px; display: flex; flex-shrink: 0; }
         .icon-btn svg { width: 22px; height: 22px; }
         .sidebar .icon-btn svg { fill: #cbd5e1; }
@@ -30,7 +36,8 @@
         .course-btn::after { content: '▼'; font-size: 0.65rem; transition: transform 0.2s; }
         .course-btn.collapsed::after { transform: rotate(-90deg); }
         .year-list { list-style: none; background-color: #0f172a; }
-        .course-btn.collapsed + .year-list { display: none; }
+        .course-body { background-color: #0f172a; }
+        .course-btn.collapsed + .course-body { display: none; }
         .year-btn { width: 100%; text-align: left; background: none; border: none; padding: 0.6rem 1.75rem; color: #94a3b8; font-size: 0.88rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
         .year-btn:hover { color: #e2e8f0; }
         .year-item.active .year-btn { color: #38bdf8; background-color: #1e293b; font-weight: 700; }
@@ -39,11 +46,61 @@
         .year-btn .tag.soon { background-color: #334155; color: #94a3b8; }
         .empty-note { padding: 0.6rem 1.75rem; color: #64748b; font-size: 0.82rem; font-style: italic; }
 
+        /* 과목 내 그룹(기출 해설집 / 강좌 교재) 라벨 */
+        .group-label { padding: 0.55rem 1.25rem 0.35rem 1.4rem; color: #64748b; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; background-color: #0f172a; display: flex; align-items: center; gap: 0.4rem; }
+        .lecture-list { list-style: none; background-color: #0f172a; }
+        .lecture-btn { width: 100%; text-align: left; background: none; border: none; padding: 0.55rem 1.75rem; color: #94a3b8; font-size: 0.84rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; line-height: 1.35; }
+        .lecture-btn:hover { color: #e2e8f0; }
+        .lecture-btn .l-title { flex: 1; }
+        .lecture-item.active .lecture-btn { color: #38bdf8; background-color: #1e293b; font-weight: 700; }
+        .lecture-btn .tag { font-size: 0.62rem; font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 4px; white-space: nowrap; }
+        .lecture-btn .tag.ready { background-color: #1e40af; color: #93c5fd; }
+        .lecture-btn .tag.soon { background-color: #334155; color: #94a3b8; }
+
         .main-container { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+        /* 전역 상단바: 한 줄 · 브레드크럼 · 강좌 이동 · 스위치 · 전체 강좌 검색 */
+        .global-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.26rem 0.7rem; background-color: #ffffff; border-bottom: 1px solid var(--border-color); flex-shrink: 0; position: relative; z-index: 30; }
+        .gb-crumb { font-size: 0.74rem; color: var(--text-main); white-space: nowrap; display: flex; align-items: center; gap: 0.3rem; max-width: 32%; overflow: hidden; text-overflow: ellipsis; }
+        .gb-crumb .sep { color: #94a3b8; }
+        .gb-crumb .cur { font-weight: 700; color: var(--text-dark); overflow: hidden; text-overflow: ellipsis; }
+        .gb-nav { display: flex; align-items: center; gap: 0.28rem; }
+        .gb-nav button, .gb-nav select { height: 26px; border: 1px solid var(--border-color); background: #fff; border-radius: 6px; font-size: 0.72rem; color: var(--text-main); cursor: pointer; white-space: nowrap; }
+        .gb-nav button { padding: 0 0.5rem; }
+        .gb-nav button:disabled { color: #cbd5e1; cursor: default; }
+        .gb-nav button:not(:disabled):hover { background: #f1f5f9; }
+        .gb-nav select { padding: 0 1.3rem 0 0.35rem; width: 168px; max-width: 168px; box-sizing: border-box; overflow: hidden; text-overflow: ellipsis; }
+        .gb-spacer { flex: 1; }
+        /* 스위치 토글(본문 넓게): 기존 ☰ 토글과 구분되는 슬라이드 스위치 */
+        .gb-switch { display: flex; align-items: center; gap: 0.35rem; flex-shrink: 0; font-size: 0.72rem; color: var(--text-main); white-space: nowrap; cursor: pointer; user-select: none; }
+        .gb-switch .track { width: 34px; height: 18px; border-radius: 999px; background: #cbd5e1; position: relative; transition: background 0.2s; flex-shrink: 0; }
+        .gb-switch .thumb { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform 0.2s; box-shadow: 0 1px 2px rgb(0 0 0 / 0.25); }
+        body.wide-content .gb-switch .track { background: var(--accent-color); }
+        body.wide-content .gb-switch .thumb { transform: translateX(16px); }
+        .gb-search { position: relative; width: 220px; flex-shrink: 0; }
+        .gb-search input { width: 100%; height: 28px; padding: 0 1.8rem; border: 1px solid var(--border-color); border-radius: 7px; font-size: 0.78rem; outline: none; }
+        .gb-search input:focus { border-color: var(--accent-color); box-shadow: 0 0 0 2px rgba(14,165,233,0.15); }
+        .gb-search .ico { position: absolute; left: 0.5rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.85rem; pointer-events: none; }
+        .gb-search .clr { position: absolute; right: 0.45rem; top: 50%; transform: translateY(-50%); border: none; background: none; color: #94a3b8; cursor: pointer; font-size: 1rem; line-height: 1; display: none; }
+        .gb-results { position: absolute; top: 34px; right: 0; width: 380px; max-height: 60vh; overflow-y: auto; background: #fff; border: 1px solid var(--border-color); border-radius: 10px; box-shadow: 0 8px 24px rgb(0 0 0 / 0.12); padding: 0.35rem; display: none; z-index: 40; }
+        .gb-results.show { display: block; }
+        .gb-rhint { font-size: 0.72rem; color: #64748b; padding: 0.4rem 0.5rem; }
+        .gb-ritem { padding: 0.5rem 0.55rem; border-radius: 7px; cursor: pointer; }
+        .gb-ritem:hover, .gb-ritem.active { background-color: #e0f2fe; }
+        .gb-ritem .loc { font-size: 0.7rem; color: var(--accent-color); font-weight: 700; }
+        .gb-ritem .ttl { font-size: 0.85rem; color: var(--text-dark); margin-top: 0.1rem; font-weight: 600; }
+        .gb-ritem .snip { font-size: 0.74rem; color: #64748b; margin-top: 0.15rem; line-height: 1.4; }
+        .gb-ritem mark { background: #fde68a; color: #78350f; padding: 0 1px; border-radius: 2px; }
+
         .content-region { flex: 1; position: relative; overflow: hidden; background-color: var(--bg-main); }
         #content-frame { width: 100%; height: 100%; border: none; background-color: #ffffff; }
 
-        .floating-toggle { position: absolute; top: 0.6rem; left: 0.6rem; z-index: 20; display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.4rem; cursor: pointer; box-shadow: 0 2px 6px rgb(0 0 0 / 0.12); }
+        /* 사이드바가 접히면 왼쪽에 전용 띠(rail)를 확보하고 그 안에 재열기 버튼을 둔다.
+           iframe을 띠만큼 오른쪽으로 밀어, 버튼이 강좌 헤더의 목차/토글과 겹치지 않게 함. */
+        body.sidebar-collapsed .content-region { padding-left: 48px; }
+        body.sidebar-collapsed .content-region::before { content: ""; position: absolute; top: 0; left: 0; width: 48px; height: 100%; background-color: var(--bg-sidebar); border-right: 1px solid #334155; z-index: 10; }
+        .floating-toggle { position: absolute; top: 0.6rem; left: 0.5rem; z-index: 20; display: none; align-items: center; justify-content: center; background: #ffffff; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.35rem; cursor: pointer; box-shadow: 0 2px 6px rgb(0 0 0 / 0.12); }
+        body.sidebar-collapsed .floating-toggle { display: flex; }
         .floating-toggle:hover { background: #f1f5f9; }
         .floating-toggle svg { width: 22px; height: 22px; fill: #475569; }
 
@@ -63,18 +120,48 @@
         <div class="sidebar-header">
             <div class="sidebar-header-row">
                 <div>
-                    <h1>정보시스템 감리사 기출해설</h1>
-                    <p>과목별 · 연도별 기출문제 해설 학습 시스템</p>
+                    <h1>정보시스템 감리사 강좌 및 기출해설</h1>
+                    <p>과목별 강좌 교재 · 연도별 기출 해설 학습 시스템</p>
                 </div>
                 <button class="icon-btn" onclick="toggleSidebar()" title="메뉴 접기">
                     <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
                 </button>
             </div>
         </div>
+        <div class="view-tabs">
+            <button class="view-tab active" id="tab-exam" onclick="setView('exam')">📝 기출 해설</button>
+            <button class="view-tab" id="tab-lecture" onclick="setView('lecture')">📘 강좌 교재</button>
+        </div>
         <div class="menu-container" id="menu-container"></div>
     </div>
 
     <div class="main-container">
+        <div class="global-bar">
+            <div class="gb-crumb">
+                <span class="sep">📘</span>
+                <span id="gb-subject">강좌</span>
+                <span class="sep">›</span>
+                <span class="cur" id="gb-lecture">강좌를 선택하세요</span>
+            </div>
+            <div class="gb-nav">
+                <button id="gb-prev" onclick="stepLecture(-1)" disabled>◀ 이전</button>
+                <select id="gb-jump" onchange="jumpLecture(this.value)" title="강좌 바로가기">
+                    <option value="">강좌 바로가기…</option>
+                </select>
+                <button id="gb-next" onclick="stepLecture(1)" disabled>다음 ▶</button>
+            </div>
+            <div class="gb-spacer"></div>
+            <label class="gb-switch" onclick="toggleWideContent()" title="상단 바를 접어 본문을 넓게 봅니다">
+                <span class="track"><span class="thumb"></span></span>
+                <span>본문 넓게</span>
+            </label>
+            <div class="gb-search">
+                <span class="ico">🔍</span>
+                <input type="text" id="gb-search-input" placeholder="전체 강좌 검색" autocomplete="off" aria-label="전체 강좌 검색">
+                <button class="clr" id="gb-search-clear" title="지우기" aria-label="검색어 지우기">×</button>
+                <div class="gb-results" id="gb-results"></div>
+            </div>
+        </div>
         <div class="content-region">
             <button class="floating-toggle" onclick="toggleSidebar()" title="메뉴 펼치기">
                 <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
@@ -97,15 +184,89 @@
         </div>
     </div>
 
+    <!-- 전체 강좌 검색 색인(_build_search_index.py 로 생성). file://·호스팅 모두 동작 -->
+    <script src="search-index.js"></script>
     <script>
+        // 과목별: years(기출 해설집) + lectures(강좌 교재)
+        // lecture.file 은 "강좌/<slug>/<파일명>" 경로로 로드됨. ready=false 는 준비중(양산 예정).
         const courses = [
-            { name: "감리 및 사업관리", slug: "감리및사업관리", years: [2025, 2024, 2023, 2022, 2021] },
-            { name: "소프트웨어공학",   slug: "소프트웨어공학",   years: [2025, 2024, 2023, 2022, 2021] },
-            { name: "데이터베이스",     slug: "데이터베이스",     years: [2025, 2024, 2023, 2022, 2021] },
-            { name: "시스템구조",       slug: "시스템구조",       years: [2025, 2024, 2023, 2022, 2021] },
-            { name: "보안",             slug: "보안",             years: [2025, 2024, 2023, 2022, 2021] }
+            {
+                name: "감리 및 사업관리", slug: "감리및사업관리",
+                years: [2025, 2024, 2023, 2022, 2021],
+                lectures: [
+                    { title: "M01. 정보화 관련 법·제도 (전자정부법)", file: "M01_정보화법제도_전자정부법.html", ready: true },
+                    { title: "M02. 감리 법·지침", file: "M02_감리법지침.html", ready: true },
+                    { title: "M03. 감리지침 (2장)", file: "M03_감리지침_2장.html", ready: true },
+                    { title: "M04. 감리 점검 해설서", file: "M04_감리점검해설서.html", ready: true },
+                    { title: "M05. 감리총론 (3장)", file: "M05_감리총론_3장.html", ready: true },
+                    { title: "M06. 서브노트 (감리)", file: "M06_서브노트_감리.html", ready: true },
+                    { title: "M07. 통합관리 (1~4장)", file: "M07_통합관리_1_4장.html", ready: true },
+                    { title: "M08. 사업관리 특강·출제예상", file: "M08_사업관리특강.html", ready: true },
+                    { title: "M09. 범위·시간관리 (5~6장)", file: "M09_범위시간관리_5_6장.html", ready: true },
+                    { title: "M10. 원가·품질관리 (7~8장)", file: "M10_원가품질관리_7_8장.html", ready: true },
+                    { title: "M11. 인적자원·위험관리 (9,11장)", file: "M11_인적자원위험관리.html", ready: true },
+                    { title: "M12. 조달·이해관계자관리 (12~13장)", file: "M12_조달이해관계자관리.html", ready: true }
+                ]
+            },
+            {
+                name: "소프트웨어공학", slug: "소프트웨어공학",
+                years: [2025, 2024, 2023, 2022, 2021],
+                lectures: [
+                    { title: "SE01. Part I · SW공학 기초", file: "SE01_PartI_기초.html", ready: true },
+                    { title: "SE02. Part I · 아키텍처(1)", file: "SE02_PartI_아키텍처1.html", ready: true },
+                    { title: "SE03. Part I · 아키텍처(2)", file: "SE03_PartI_아키텍처2.html", ready: true },
+                    { title: "SE04. Part II · 디자인·UML", file: "SE04_PartII_디자인UML.html", ready: true },
+                    { title: "SE05. Part II · 디자인 패턴", file: "SE05_PartII_디자인패턴.html", ready: true },
+                    { title: "SE06. Part II · SW 개발", file: "SE06_PartII_SW개발.html", ready: true },
+                    { title: "SE07. Part III · 테스트·유지관리", file: "SE07_PartIII_테스트유지관리.html", ready: true },
+                    { title: "SE08. Part III · 품질관리·비용산정", file: "SE08_PartIII_품질비용산정.html", ready: true },
+                    { title: "SE09. SW 공학 개론", file: "SE09_SW공학개론.html", ready: true }
+                ]
+            },
+            {
+                name: "데이터베이스", slug: "데이터베이스",
+                years: [2025, 2024, 2023, 2022, 2021],
+                lectures: [
+                    { title: "DB00. 특강·출제예상", file: "DB00_특강출제예상.html", ready: true },
+                    { title: "DB01. Ch1 · 개요", file: "DB01_Ch1_개요.html", ready: true },
+                    { title: "DB02. Ch2 · 트랜잭션", file: "DB02_Ch2_트랜잭션.html", ready: true },
+                    { title: "DB03. Ch3 · 모델링", file: "DB03_Ch3_모델링.html", ready: true },
+                    { title: "DB04. Ch4 · SQL", file: "DB04_Ch4_SQL.html", ready: true },
+                    { title: "DB05. Ch5 · 유형", file: "DB05_Ch5_유형.html", ready: true },
+                    { title: "DB06. Ch6 · 분석", file: "DB06_Ch6_분석.html", ready: true },
+                    { title: "DB07. Ch7 · 빅데이터·기타", file: "DB07_Ch7_빅데이터.html", ready: true }
+                ]
+            },
+            {
+                name: "시스템구조", slug: "시스템구조",
+                years: [2025, 2024, 2023, 2022, 2021],
+                lectures: [
+                    { title: "SA01-1. Module 04 · 정보시스템 아키텍처·미들웨어·클라우드", file: "SA01_Module04_시스템구조_1.html", ready: true },
+                    { title: "SA01-2. Module 04 · IP 네트워크·라우팅·SDN/NFV", file: "SA01_Module04_시스템구조_2.html", ready: true },
+                    { title: "SA01-3. Module 04 · 전송매체·무선통신·분산시스템", file: "SA01_Module04_시스템구조_3.html", ready: true },
+                    { title: "SA01-4. Module 04 · 운영체제·고가용성·스토리지", file: "SA01_Module04_시스템구조_4.html", ready: true },
+                    { title: "SA02. 시스템 구조 강의자료", file: "SA02_시스템구조_강의자료.html", ready: true }
+                ]
+            },
+            {
+                name: "보안", slug: "보안",
+                years: [2025, 2024, 2023, 2022, 2021],
+                lectures: [
+                    { title: "SEC00. 특강·출제예상", file: "SEC00_특강출제예상.html", ready: true },
+                    { title: "SEC01. Chapter I. 암호", file: "SEC01_Ch1.html", ready: true },
+                    { title: "SEC02. Chapter II. 접근통제", file: "SEC02_Ch2.html", ready: true },
+                    { title: "SEC03. Chapter III. 네트워크 보안", file: "SEC03_Ch3_1.html", ready: true },
+                    { title: "SEC04. Chapter 3-2", file: "SEC04_Ch3_2.html", ready: true },
+                    { title: "SEC05. Chapter IV. 시스템 및 어플리케이션 보안", file: "SEC05_Ch4_1.html", ready: true },
+                    { title: "SEC06. Chapter 4-2", file: "SEC06_Ch4_2.html", ready: true },
+                    { title: "SEC07. Chapter 4-3", file: "SEC07_Ch4_3.html", ready: true },
+                    { title: "SEC08. Chapter V. 정책/인증", file: "SEC08_Ch5_1.html", ready: true },
+                    { title: "SEC09. Chapter 5-2", file: "SEC09_Ch5_2.html", ready: true }
+                ]
+            }
         ];
 
+        // 기출 해설집 준비 상태(연도별)
         const built = {
             "감리및사업관리_2025": true, "감리및사업관리_2024": true, "감리및사업관리_2023": true,
             "감리및사업관리_2022": true, "감리및사업관리_2021": true,
@@ -119,7 +280,15 @@
             "보안_2022": true, "보안_2021": true
         };
 
-        let activeYearEl = null;
+        let activeItemEl = null;   // 기출/강좌 공용 활성 항목
+        let viewMode = 'exam';     // 'exam'(기출 해설) | 'lecture'(강좌 교재)
+
+        function setView(mode) {
+            viewMode = mode;
+            document.getElementById('tab-exam').classList.toggle('active', mode === 'exam');
+            document.getElementById('tab-lecture').classList.toggle('active', mode === 'lecture');
+            buildMenu();
+        }
 
         function buildMenu() {
             const container = document.getElementById('menu-container');
@@ -132,15 +301,15 @@
                 btn.textContent = course.name;
                 btn.onclick = () => btn.classList.toggle('collapsed');
                 item.appendChild(btn);
-                const ul = document.createElement('ul');
-                ul.className = 'year-list';
-                if (course.years.length === 0) {
-                    const li = document.createElement('li');
-                    li.className = 'empty-note';
-                    li.textContent = '준비 중';
-                    ul.appendChild(li);
-                } else {
-                    course.years.forEach(year => {
+
+                const body = document.createElement('div');
+                body.className = 'course-body';
+
+                if (viewMode === 'exam') {
+                    // 기출 해설집만 표시
+                    const ulY = document.createElement('ul');
+                    ulY.className = 'year-list';
+                    (course.years || []).forEach(year => {
                         const key = course.slug + '_' + year;
                         const isReady = !!built[key];
                         const li = document.createElement('li');
@@ -149,34 +318,63 @@
                         yb.className = 'year-btn';
                         yb.innerHTML = '<span>' + year + '년도 기출해설집</span>' +
                             '<span class="tag ' + (isReady ? 'ready' : 'soon') + '">' + (isReady ? '열람' : '준비중') + '</span>';
-                        yb.onclick = () => selectYear(li, course, year);
+                        yb.onclick = () => selectContent(li, course.name + ' ' + year + '년도', isReady,
+                            encodeURIComponent(course.slug) + '/' + encodeURIComponent(course.slug + '_' + year + '.html'),
+                            '해당 연도 해설집은 원본 해설 md를 반영하여 개별 페이지로 순차 개방될 예정입니다.');
                         li.appendChild(yb);
-                        ul.appendChild(li);
+                        ulY.appendChild(li);
                     });
+                    body.appendChild(ulY);
+                } else {
+                    // 강좌 교재만 표시
+                    const ulL = document.createElement('ul');
+                    ulL.className = 'lecture-list';
+                    if (!course.lectures || course.lectures.length === 0) {
+                        const li = document.createElement('li');
+                        li.className = 'empty-note';
+                        li.textContent = '준비 중';
+                        ulL.appendChild(li);
+                    } else {
+                        course.lectures.forEach(lec => {
+                            const li = document.createElement('li');
+                            li.className = 'lecture-item';
+                            li.dataset.slug = course.slug;
+                            li.dataset.file = lec.file;
+                            const lb = document.createElement('button');
+                            lb.className = 'lecture-btn';
+                            lb.innerHTML = '<span class="l-title">' + lec.title + '</span>' +
+                                '<span class="tag ' + (lec.ready ? 'ready' : 'soon') + '">' + (lec.ready ? '열람' : '준비중') + '</span>';
+                            lb.onclick = () => openLecture(course.slug, lec.file);
+                            li.appendChild(lb);
+                            ulL.appendChild(li);
+                        });
+                    }
+                    body.appendChild(ulL);
                 }
-                item.appendChild(ul);
+
+                item.appendChild(body);
                 container.appendChild(item);
             });
         }
 
-        function selectYear(li, course, year) {
-            if (activeYearEl) activeYearEl.classList.remove('active');
-            li.classList.add('active');
-            activeYearEl = li;
-            const key = course.slug + '_' + year;
+        // 기출/강좌 공용 콘텐츠 로더
+        function selectContent(el, label, isReady, src, soonMsg) {
+            if (activeItemEl) activeItemEl.classList.remove('active');
+            el.classList.add('active');
+            activeItemEl = el;
             const frame = document.getElementById('content-frame');
             const welcome = document.getElementById('welcome-screen');
             const placeholder = document.getElementById('placeholder-screen');
             welcome.style.display = 'none';
-            if (built[key]) {
+            if (isReady) {
                 placeholder.style.display = 'none';
                 frame.style.display = 'block';
-                frame.src = encodeURIComponent(course.slug) + '/' + encodeURIComponent(course.slug + '_' + year + '.html');
+                frame.src = src;
             } else {
                 frame.style.display = 'none';
                 frame.removeAttribute('src');
-                document.getElementById('placeholder-title').textContent = course.name + ' ' + year + '년도 · 준비 중';
-                document.getElementById('placeholder-msg').textContent = '해당 연도 해설집은 원본 해설 md를 반영하여 개별 페이지로 순차 개방될 예정입니다.';
+                document.getElementById('placeholder-title').textContent = label + ' · 준비 중';
+                document.getElementById('placeholder-msg').textContent = soonMsg;
                 placeholder.style.display = 'flex';
             }
         }
@@ -186,7 +384,210 @@
             document.body.classList.toggle('sidebar-collapsed', hidden);
         }
 
+        // 스위치 토글: 강좌(iframe)의 헤더를 접어 본문 영역을 넓게 확보
+        let wideContent = false;
+        function postChrome() {
+            const f = document.getElementById('content-frame');
+            if (f && f.contentWindow) f.contentWindow.postMessage({ type: 'lecture-chrome', show: !wideContent }, '*');
+        }
+        function toggleWideContent() {
+            wideContent = !wideContent;
+            document.body.classList.toggle('wide-content', wideContent);
+            postChrome();
+        }
+
+        /* ===================== 전역 강좌: 열기 · 이동 · 검색 ===================== */
+        let currentLectureBase = null;   // 현재 iframe에 로드된 강좌 경로(해시 제외)
+        let currentLectureKey = null;    // "slug||file"
+
+        // 열람 가능(ready) 강좌를 과목 순서대로 평탄화 → 이전/다음·바로가기용
+        const readyLectures = [];
+        courses.forEach(c => (c.lectures || []).forEach(l => {
+            if (l.ready) readyLectures.push({ slug: c.slug, file: l.file, subject: c.name, title: l.title });
+        }));
+
+        function lectureMeta(slug, file) {
+            const c = courses.find(c => c.slug === slug);
+            const lec = c && (c.lectures || []).find(l => l.file === file);
+            return { course: c, lec: lec };
+        }
+        function findLectureLi(slug, file) {
+            return Array.prototype.find.call(
+                document.querySelectorAll('.lecture-item'),
+                x => x.dataset.slug === slug && x.dataset.file === file);
+        }
+
+        function populateJump() {
+            const sel = document.getElementById('gb-jump');
+            sel.innerHTML = '<option value="">강좌 바로가기…</option>';
+            let curSubject = null, group = null;
+            readyLectures.forEach(r => {
+                if (r.subject !== curSubject) {
+                    curSubject = r.subject;
+                    group = document.createElement('optgroup');
+                    group.label = r.subject;
+                    sel.appendChild(group);
+                }
+                const opt = document.createElement('option');
+                opt.value = r.slug + '||' + r.file;
+                opt.textContent = r.title;
+                group.appendChild(opt);
+            });
+        }
+
+        function updateCrumb(subject, title, slug, file) {
+            document.getElementById('gb-subject').textContent = subject;
+            document.getElementById('gb-lecture').textContent = title;
+            currentLectureKey = slug + '||' + file;
+            document.getElementById('gb-jump').value = currentLectureKey;
+            const idx = readyLectures.findIndex(r => r.slug === slug && r.file === file);
+            document.getElementById('gb-prev').disabled = !(idx > 0);
+            document.getElementById('gb-next').disabled = !(idx >= 0 && idx < readyLectures.length - 1);
+        }
+
+        function openLecture(slug, file, sectionId, query) {
+            const meta = lectureMeta(slug, file);
+            if (!meta.course || !meta.lec) return;
+            const lec = meta.lec, course = meta.course;
+            if (viewMode !== 'lecture') setView('lecture');
+            const li = findLectureLi(slug, file);
+            if (li) { // 소속 과목 펼치기
+                const body = li.closest('.course-body');
+                const cbtn = body && body.previousElementSibling;
+                if (cbtn && cbtn.classList.contains('collapsed')) cbtn.classList.remove('collapsed');
+            }
+            const welcome = document.getElementById('welcome-screen');
+            const placeholder = document.getElementById('placeholder-screen');
+            const frame = document.getElementById('content-frame');
+            welcome.style.display = 'none';
+            if (activeItemEl) activeItemEl.classList.remove('active');
+            if (li) { li.classList.add('active'); activeItemEl = li; }
+
+            if (!lec.ready) {
+                frame.style.display = 'none';
+                frame.removeAttribute('src');
+                currentLectureBase = null;
+                document.getElementById('placeholder-title').textContent = course.name + ' · ' + lec.title + ' · 준비 중';
+                document.getElementById('placeholder-msg').textContent = '해당 강좌 교재는 원본 PDF를 HTML로 변환하여 순차 개방될 예정입니다.';
+                placeholder.style.display = 'flex';
+                updateCrumb(course.name, lec.title, slug, file);
+                return;
+            }
+
+            placeholder.style.display = 'none';
+            frame.style.display = 'block';
+            const base = '강좌/' + encodeURIComponent(slug) + '/' + encodeURIComponent(file);
+            if (currentLectureBase === base && frame.contentWindow) {
+                frame.contentWindow.postMessage({ type: 'lecture-goto', id: sectionId || '', q: query || '' }, '*');
+            } else {
+                let hash = '';
+                const parts = [];
+                if (sectionId) parts.push('sec=' + encodeURIComponent(sectionId));
+                if (query) parts.push('q=' + encodeURIComponent(query));
+                if (parts.length) hash = '#' + parts.join('&');
+                frame.src = base + hash;
+                currentLectureBase = base;
+            }
+            updateCrumb(course.name, lec.title, slug, file);
+        }
+
+        function stepLecture(dir) {
+            const idx = readyLectures.findIndex(r => (r.slug + '||' + r.file) === currentLectureKey);
+            const ni = idx + dir;
+            if (ni < 0 || ni >= readyLectures.length) return;
+            const r = readyLectures[ni];
+            openLecture(r.slug, r.file);
+        }
+        function jumpLecture(value) {
+            if (!value) return;
+            const [slug, file] = value.split('||');
+            openLecture(slug, file);
+        }
+
+        // ---- 전체 강좌 검색 ----
+        function escapeHtml(s) {
+            return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+        function makeSnippet(text, q) {
+            const low = text.toLowerCase(), pos = low.indexOf(q.toLowerCase());
+            if (pos < 0) return escapeHtml(text.slice(0, 70));
+            const start = Math.max(0, pos - 30), end = Math.min(text.length, pos + q.length + 40);
+            const pre = (start > 0 ? '…' : '') + text.slice(start, pos);
+            const mid = text.slice(pos, pos + q.length);
+            const post = text.slice(pos + q.length, end) + (end < text.length ? '…' : '');
+            return escapeHtml(pre) + '<mark>' + escapeHtml(mid) + '</mark>' + escapeHtml(post);
+        }
+        function gbSearch(q) {
+            const box = document.getElementById('gb-results');
+            q = (q || '').trim();
+            if (q.length < 1) { box.classList.remove('show'); box.innerHTML = ''; return; }
+            const idx = window.SEARCH_INDEX;
+            if (!idx || !idx.docs || !idx.docs.length) {
+                box.innerHTML = '<div class="gb-rhint">검색 색인이 아직 없습니다. 강좌를 추가한 뒤 <b>_build_search_index.py</b>를 실행하세요.</div>';
+                box.classList.add('show'); return;
+            }
+            const ql = q.toLowerCase();
+            const results = [];
+            for (const doc of idx.docs) {
+                const meta = lectureMeta(doc.slug, doc.file);
+                if (!meta.lec || !meta.lec.ready) continue; // 열람 가능 강좌만 검색 대상
+                const subject = meta.course ? meta.course.name : doc.slug;
+                const title = meta.lec ? meta.lec.title : doc.file;
+                for (const sec of doc.sections) {
+                    if ((sec.title + ' ' + sec.text).toLowerCase().indexOf(ql) >= 0) {
+                        results.push({ slug: doc.slug, file: doc.file, subject, title, sectionId: sec.id, sectionTitle: sec.title, snippet: makeSnippet(sec.text, q) });
+                        if (results.length >= 40) break;
+                    }
+                }
+                if (results.length >= 40) break;
+            }
+            renderResults(results, q);
+        }
+        function renderResults(results, q) {
+            const box = document.getElementById('gb-results');
+            if (!results.length) {
+                box.innerHTML = '<div class="gb-rhint">‘' + escapeHtml(q) + '’ 검색 결과가 없습니다.</div>';
+                box.classList.add('show'); return;
+            }
+            box.innerHTML = '<div class="gb-rhint">전체 강좌 검색 결과 · ' + results.length + '건' + (results.length >= 40 ? '+' : '') + '</div>';
+            results.forEach(r => {
+                const div = document.createElement('div');
+                div.className = 'gb-ritem';
+                div.innerHTML = '<div class="loc">' + escapeHtml(r.subject) + ' · ' + escapeHtml(r.title) + '</div>' +
+                    '<div class="ttl">' + escapeHtml(r.sectionTitle) + '</div>' +
+                    '<div class="snip">' + r.snippet + '</div>';
+                div.onclick = () => {
+                    box.classList.remove('show');
+                    openLecture(r.slug, r.file, r.sectionId, q);
+                };
+                box.appendChild(div);
+            });
+            box.classList.add('show');
+        }
+
+        // 검색 입력 이벤트
+        (function wireSearch() {
+            const gsi = document.getElementById('gb-search-input');
+            const gsc = document.getElementById('gb-search-clear');
+            const box = document.getElementById('gb-results');
+            let timer = null;
+            gsi.addEventListener('input', () => {
+                gsc.style.display = gsi.value ? 'block' : 'none';
+                clearTimeout(timer);
+                timer = setTimeout(() => gbSearch(gsi.value), 180);
+            });
+            gsi.addEventListener('focus', () => { if (gsi.value.trim()) gbSearch(gsi.value); });
+            gsi.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') { gsi.value = ''; gsc.style.display = 'none'; box.classList.remove('show'); }
+            });
+            gsc.addEventListener('click', () => { gsi.value = ''; gsc.style.display = 'none'; box.classList.remove('show'); gsi.focus(); });
+            document.addEventListener('click', (e) => { if (!e.target.closest('.gb-search')) box.classList.remove('show'); });
+            // 새 강좌가 로드되면 현재 '본문 넓게' 상태를 다시 알려 헤더 접힘을 유지
+            document.getElementById('content-frame').addEventListener('load', postChrome);
+        })();
+
         buildMenu();
+        populateJump();
     </script>
 </body>
 </html>

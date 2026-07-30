@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SEC04] Chapter 3-2 · 네트워크 보안 프로토콜</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SEC04] Chapter 3-2 · 네트워크 보안 프로토콜</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/26</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul>
+<li><a href="#sec04-s01">1. IPSec</a></li>
+<li><a href="#sec04-s02">2. SSL/TLS</a></li>
+<li><a href="#sec04-s03">3. VPN</a></li>
+<li><a href="#sec04-s04">4. 무선 보안</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (14)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+
+<section id="sec04-s01" class="section">
+  <h2>1. IPSec <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.1-6)</span></h2>
+  <p>IPSec(IP Security)은 네트워크 계층(3계층)에서 IP 패킷을 보호하기 위해 IETF가 정의한 프로토콜 집합으로, IPv4와 IPv6를 모두 지원한다.</p>
+  <table>
+    <tr><th>구분</th><th>구성 요소</th><th>설명</th></tr>
+    <tr><td rowspan="2">헤더</td><td>AH(Authentication Header)</td><td>인증데이터와 순서번호를 통해 <strong>송신자 인증과 메시지 무결성</strong>을 검증(기밀성은 제공하지 않음)</td></tr>
+    <tr><td>ESP(Encapsulating Security Payload)</td><td>IP 페이로드를 암호화하여 <strong>데이터 기밀성</strong>을 제공하며, 인증 옵션을 함께 사용하면 데이터 원본 인증·무결성·재연공격 방지까지 제공</td></tr>
+    <tr><td>키 교환</td><td>IKE(ISAKMP/Oakley)</td><td>두 통신 개체 간의 인증, 키 및 보안 관련 사항(SA)을 자동으로 협상·설정</td></tr>
+    <tr><td rowspan="2">모드</td><td>전송(Transport)</td><td>IP 페이로드만 암호화하여 원래의 IP 헤더로 캡슐화. LAN-to-LAN VPN 등에 사용</td></tr>
+    <tr><td>터널(Tunnel)</td><td>IP 헤더를 포함한 IP 패킷 전체를 암호화하여 새로운 IP 헤더로 캡슐화 — 원래의 목적지 정보가 외부에 노출되지 않음</td></tr>
+    <tr><td>암호/인증 알고리즘</td><td>암호 알고리즘 / 인증 알고리즘</td><td>DES, 3DES, RC5 등 / MD5, SHA-1 등</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>
+    <ul>
+      <li>인증은 <strong>AH</strong>, 암호화(기밀성)는 <strong>ESP</strong>가 담당한다 — 두 헤더의 역할을 바꿔 서술하는 것이 전형적 오답이다.</li>
+      <li>목적지 IP까지 포함한 패킷 전체를 숨겨야 할 때(예: 최종 목적지 노출 방지)는 <strong>ESP 터널 모드</strong>를 사용한다.</li>
+      <li>AH는 순서번호(Sequence Number)를 이용해 <strong>재연(Replay) 공격을 방지</strong>한다.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sec04-s02" class="section">
+  <h2>2. SSL/TLS <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.6-13)</span></h2>
+  <p>SSL(Secure Socket Layer)은 웹 환경에서 브라우저와 웹 서버 간에 안전한 데이터 전송을 위한 업계 표준 프로토콜로, TCP/IP 계층(전송 계층)과 응용 계층(Application) 사이에 위치하여 종단 간(End-to-End) 서비스를 제공하며 서버·클라이언트 상호 인증과 기밀성을 지원한다. SSL은 상위계층의 Handshake Protocol · Change Cipher Spec Protocol · Alert Protocol과, 하위계층의 Record Protocol 4가지로 구성된다.</p>
+  <table>
+    <tr><th>프로토콜</th><th>역할</th></tr>
+    <tr><td>Handshake Protocol</td><td>클라이언트-서버 간 상호 인증 및 보안 속성(암호 규격 등) 협상</td></tr>
+    <tr><td>Change Cipher Spec Protocol</td><td>협상된 암호 규격·키로 이후 메시지를 보호하도록 지시</td></tr>
+    <tr><td>Alert Protocol</td><td>다양한 에러·경고 메시지 전달</td></tr>
+    <tr><td>Record Protocol</td><td>Handshake에서 생성된 세션 정보를 이용해 실제 데이터를 단편화·압축·MAC 계산·암호화하여 보호(하위 계층에서 응용 계층 프로토콜을 캡슐화)</td></tr>
+  </table>
+
+  <h3>가. SSL Handshake 절차</h3>
+  <p>Handshake 단계에서는 SSL 버전 번호, 암호화 방법, 임의의 수(Random), 데이터 압축 방법 등 통신에 필요한 정보를 주고받는다. 대표적인 메시지 흐름은 다음과 같다.</p>
+  <table>
+    <tr><th>단계</th><th>메시지</th><th>설명</th></tr>
+    <tr><td>1</td><td>Client Hello → Server Hello</td><td>클라이언트·서버가 지원 가능한 SSL 버전, 암호 스위트, Random 값을 교환</td></tr>
+    <tr><td>2</td><td>Certificate, Server Key Exchange, Certificate Request, Server Hello Done</td><td>서버가 자신의 인증서와 키 교환 정보를 전달(서버 인증 정보), 필요 시 클라이언트 인증서를 요청</td></tr>
+    <tr><td>3</td><td>Certificate, Client Key Exchange, Certificate Verify</td><td>클라이언트가 자신의 인증서와 키 교환 정보를 전달(클라이언트 인증 정보) — 서버가 클라이언트 인증서를 요구했을 때만 필요</td></tr>
+    <tr><td>4</td><td>Change Cipher Spec, Finished (양방향)</td><td>협상된 암호 규격 적용을 알리고 Handshake 종료를 확인</td></tr>
+  </table>
+  <p>키 교환 알고리즘 종류와 무관하게 <strong>클라이언트 키 교환(Client Key Exchange)</strong> 메시지는 세션키 생성에 필요한 정보를 서버에 전달해야 하므로 반드시 전송되어야 한다. 반면 서버·클라이언트 인증서는 상호 인증이 요구되는 경우에만 전송되는 선택적 메시지다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>
+    <ul>
+      <li>SSL은 <strong>메시지 암호화 + 서버 인증 + 클라이언트 인증(상호 인증)</strong>을 모두 제공한다.</li>
+      <li>세션키는 <strong>Handshake Protocol</strong>에서 생성되며, Record Protocol은 그 세션키로 <strong>암호화를 수행</strong>하는 역할이지 직접 세션키를 생성하지는 않는다.</li>
+      <li>SSL Record Protocol은 <strong>기밀성과 무결성</strong>은 제공하지만 <strong>부인 방지(non-repudiation)는 제공하지 않는다</strong>. 처리 순서는 단편화 → 압축 → MAC 계산 → 암호화 순이다.</li>
+      <li>세션 재개(재시작) 시에는 새 마스터 비밀값을 생성할 필요가 없고, 송신용·수신용 암호키가 반드시 같을 필요도 없으며, 압축이 필요할 때는 <strong>암호화 이전</strong>에 수행한다.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sec04-s03" class="section">
+  <h2>3. VPN <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.14-18)</span></h2>
+
+  <h3>가. VPN(Virtual Private Network)의 정의</h3>
+  <p>VPN은 네트워크와 네트워크 간에 가상의 터널을 생성하여 물리적으로 서로 연결된 것처럼 보이게 하는 기술로, 유연한 확장성·저비용·안전한 통신이라는 장점이 있다. 라우터나 방화벽에 VPN 기능을 내장하거나 전용 VPN 장비로 구현하며, 대표 유형으로 IPSec VPN과 SSL VPN이 있다.</p>
+  <table>
+    <tr><th>구성 기술</th><th>설명</th></tr>
+    <tr><td>Tunneling</td><td>VPN 내의 두 호스트 간에 가상 경로를 설정. PPTP, L2TP, IPSec 등이 사용됨</td></tr>
+    <tr><td>Authentication, Encryption</td><td>가상 경로를 다른 인터넷 사용자로부터 격리하여 안전한 채널을 생성</td></tr>
+    <tr><td>Access Control</td><td>VPN 내부 자원에 대한 접근을 통제</td></tr>
+  </table>
+
+  <h3>나. IPSec VPN vs SSL VPN 비교</h3>
+  <table>
+    <tr><th>비교 항목</th><th>IPSec VPN</th><th>SSL VPN</th></tr>
+    <tr><td>설치</td><td>본사 및 지사 장비 + 클라이언트 소프트웨어 필요</td><td>본사 장비만 설치, 웹 브라우저가 암호화 수행</td></tr>
+    <tr><td>비용</td><td>본사·지사 장비 및 별도 클라이언트 소프트웨어 구매 비용 발생</td><td>본사 장비만 설치하고 웹 브라우저를 사용하므로 상대적으로 저비용</td></tr>
+    <tr><td>보안 접속</td><td>모든 IP 패킷에 대한 보안 지원(OSI 7계층 중 3계층, 네트워크 계층)</td><td>가장 널리 쓰이는 웹 트래픽 보안(OSI 7계층 중 4계층, 전송 계층)</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>VPN 구현 프로토콜에는 SSL·IPSec·L2F(Layer 2 Forwarding) 등이 있으나, <strong>IMAP(메일 수신 프로토콜)은 VPN 구현과 무관</strong>하다.</div>
+</section>
+
+<section id="sec04-s04" class="section">
+  <h2>4. 무선 보안 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.18-26)</span></h2>
+
+  <h3>가. 무선 랜 취약점</h3>
+  <table>
+    <tr><th>취약점</th><th>설명</th></tr>
+    <tr><td>무선 AP DDoS/도청</td><td>가용성·기밀성 침해</td></tr>
+    <tr><td>무선 AP 설정 노출</td><td>관리자 권한 획득, 동일망 내 통신 도청, 악성코드 유포</td></tr>
+    <tr><td>불법 AP</td><td>망에 연결된 단말기의 통신 도청, 악성코드 유포, 정보 유출</td></tr>
+    <tr><td>무선 랜 인증/데이터 암호화 취약</td><td>취약한 암호 알고리즘 사용으로 인한 로그인 우회</td></tr>
+  </table>
+
+  <h3>나. WEP(Wired Equivalent Protocol)의 취약점</h3>
+  <p>WEP은 64비트 키(40비트 WEP 공유 비밀키 + 24비트 초기화 벡터 IV)를 이용한 RC4 스트림 암호화 방식으로 무선 데이터를 보호하는 초기 방식이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SEC04fig/p019.jpg" alt="WEP 암호화 절차 다이어그램. 무선 단말과 무선AP 각각에서 공유키+초기화벡터(IV)로 키를 생성해 RC4알고리즘으로 암호화하고, 평문+CRC를 XOR하여 암호문을 생성하는 흐름도"><figcaption>[그림] WEP 암호화 절차 — 공유키+IV → RC4 알고리즘 → 평문(+CRC)과 XOR하여 암호문 생성</figcaption></figure>
+  <p>WEP은 짧은 길이의 초기화 벡터(IV)를 사용해 재사용 가능성이 높고, 불완전한 RC4 암호 알고리즘과 고정된 키 값으로 인해 암호키가 노출될 가능성이 있으며, 짧은 길이의 암호키로 인해 전송 데이터가 노출될 위험이 있다. 이러한 문제로 WEP은 인증·접근제어 기능은 갖추고 있으나 안전한 프로토콜로 평가받지 못한다.</p>
+
+  <h3>다. WPA/WPA2</h3>
+  <p>WEP보다 보안이 강화된 신뢰성 있는 무선 네트워크를 RSN(Robust Security Network)이라 하며, IEEE 802.11i에서 규정한다. 고정된 PSK(사전 공유키) 값은 유추가 가능하므로 최소 20자 이상의 비밀키를 사용하거나, 별도의 인증 서버(RADIUS)를 운영할 것을 권고한다.</p>
+  <table>
+    <tr><th>구분</th><th>Pre-RSN</th><th>RSN(WPA/WPA2)</th></tr>
+    <tr><td>암호 방식</td><td>WEP-40, WEP-104</td><td>TKIP(WPA1, RC4 알고리즘 기반) / CCMP(WPA2, 블록 사이퍼 알고리즘 기반)</td></tr>
+    <tr><td>인증 방식</td><td>Open, Shared Key</td><td>PSK(WPA-Personal) 또는 802.1X/EAP 계열(EAP-TLS, EAP-TTLS, PEAP, EAP-FAST 등, WPA-Enterprise·RADIUS 인증서버 사용)</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>WPA2 <strong>Enterprise</strong> 모드는 암호화에 <strong>CCMP</strong>, 인증에 <strong>EAP(RADIUS 인증서버)</strong>를 사용한다(PSK는 Personal 모드에서 사용).</div>
+
+  <h3>라. WTLS(Wireless Transport Layer Security)</h3>
+  <p>WTLS는 IETF의 TLS 프로토콜을 기반으로 무선 환경에 적합하도록 개발된 보안 프로토콜로, X.509·WTLS 인증서·X9.68 인증서 등 다양한 인증서 규격을 지원한다. SSL과 유사하게 Handshake Protocol · Change Cipher Spec Protocol · Alert Protocol · Record Protocol로 구성되며, 데이터 무결성 · 프라이버시(기밀성) · 인증 · DoS 프로텍션(재전송되거나 성공적으로 검증되지 않은 데이터의 검출·거부)을 모두 제공한다.</p>
+
+  <h3>마. 블루투스 공격 유형</h3>
+  <table>
+    <tr><th>공격 유형</th><th>설명</th></tr>
+    <tr><td>블루프린팅(Blueprinting)</td><td>공격 대상이 될 블루투스 장치를 검색하는 사전 정보 수집 단계</td></tr>
+    <tr><td>블루재킹(BlueJacking)/블루재밍(BlueJamming)</td><td>무선 신호를 이용해 전파 방해(재밍)를 일으키는 공격</td></tr>
+    <tr><td>블루스나핑(BlueSnarfing)</td><td>블루투스 장치끼리 인증 없이 정보를 교환할 수 있는 OPP(OBEX Push Profile) 기능을 악용해, 소유자 동의 없이 다른 블루투스 장치의 주소록·달력 등 파일에 접근하는 공격</td></tr>
+    <tr><td>블루버깅(BlueBugging)</td><td>블루투스 장치의 통제권을 탈취해 도청하거나 임의로 조작하는 공격</td></tr>
+  </table>
+</section>
+
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (14문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 문항별로 재구성했습니다. 원본에는 한 페이지에 서로 다른 문제가 뒤섞여 추출되어 있던 부분을 분리했으며, 문항별 정답은 원문의 O/X 해설과 대조하여 검증했습니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. [2010년 기출] IPSec(Internet Protocol Security) 내의 프로토콜들에 대한 설명이다. 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-3)</span></div><ol class="quiz-options"><li>IP AH(Authentication Header)는 데이터 기밀성, 데이터 무결성, 재연(Replay) 공격 보호 등을 제공한다.</li><li>IP ESP(Encapsulation Security Payload)는 데이터의 기밀성, 데이터 원본 인증, 데이터 무결성, 재연(Replay) 공격 보호 등을 제공한다.</li><li>IKE(Internet Key Exchange)는 IPSec의 통신개체 사이에서 SA(Security Association)를 설정하기 위해 공유된 비밀키와 인증키를 설정한다.</li><li>ISAKMP(Internet Security Association and Key Management Protocol)은 보안 협상과 그들의 암호화 키들을 관리하기 위해서 자동적으로 설정하는 방법을 제공한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — AH는 데이터 기밀성이 아니라 인증과 메시지 무결성 검증을 위한 인증데이터와 순서번호를 제공한다(기밀성은 ESP의 역할).</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. [2011년 기출] IPSec에 대한 설명으로 잘못된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-3)</span></div><ol class="quiz-options"><li>ESP 프로토콜을 인증과 함께 사용시 AH 프로토콜보다 더 나은 보안성을 보장한다.</li><li>전송모드와 터널모드를 모두 지원한다.</li><li>기본적으로 AH 프로토콜은 암호화를 지원하고, ESP 프로토콜은 인증을 지원한다.</li><li>ESP에서 인증은 옵션이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 설명이 뒤바뀌었다. AH 프로토콜은 인증을, ESP 프로토콜은 암호화(기밀성)를 지원한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. [2013년 기출] 다음 중 조직의 LAN 게이트웨이에 VPN 서버를 설치하고 IP 패킷(고유 IP 데이터그램: IP header와 IP payload 모두)의 최종 목적지가 인터넷 상에서 노출되지 않도록 하기 위한 IPSec의 설정으로 다음 중 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.4-5)</span></div><ol class="quiz-options"><li>AH 트랜스포트 모드</li><li>ESP 트랜스포트 모드</li><li>AH 터널 모드</li><li>ESP 터널 모드</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ ESP 터널 모드 — 전체 IP 패킷(헤더 포함)을 암호화해 목적지 정보까지 은닉하는 것은 터널 모드이며, 데이터 기밀성 자체는 ESP가 제공한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. [2014년 기출] IPSec에 대한 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.4-5)</span></div><ol class="quiz-options"><li>네트워크 계층에서 패킷을 보호하기 위한 목적으로 IETF(Internet Engineering Task Force)가 정의한 프로토콜 집합이다.</li><li>IPv4와 IPv6 둘 다 지원 가능하다.</li><li>AH(Authentication Header) 프로토콜과 ESP(Encapsulation Security Payload) 프로토콜은 모두 메시지 인증 서비스를 제공할 수 있다.</li><li>AH 프로토콜은 재사용 공격 보호를 위한 서비스는 지원하지 않는다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — AH 프로토콜은 순서번호(Sequence Number)를 이용해 재사용(Replay) 공격 보호 서비스를 지원한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. [2010년 기출] SSL(Secure Socket Layer)이 제공하는 기능을 바르게 설명한 것은? (O: 제공, X: 제공하지 않음 — 순서: 클라이언트와 서버 간의 메시지 암호화 / 서버를 인증하기 / 클라이언트를 인증하기) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8-9)</span></div><ol class="quiz-options"><li>X, O, X</li><li>X, O, O</li><li>O, X, O</li><li>O, O, O</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ O, O, O — SSL은 메시지 암호화와 더불어 서버 및 클라이언트에 대한 상호 인증을 모두 제공한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. [2011년 기출] SSL(Secure Socket Layer)은 2개의 계층(Application, Transport) 사이에서 4가지의 프로토콜로 구성된다. 다음 중 레코드 프로토콜을 틀리게 설명한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.10-11)</span></div><ol class="quiz-options"><li>Handshake Protocol에서 생성된 세션 정보를 이용하여 보안 서비스를 제공하는 프로토콜</li><li>레코드 프로토콜은 서버와 클라이언트 양쪽 모두 세션키를 생성</li><li>응용 계층에 보안서비스 제공, 상위레벨의 프로토콜을 캡슐화(Encapsulation)</li><li>암호화, 다이제스트, 데이터 압축, MAC 생성을 통해 실제 암호문 생성</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 세션키는 Handshake Protocol에서 생성되며, Record Protocol은 이미 협의된 암호 규격·키로 암호화를 수행하는 역할이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. [2012년 기출] 다음 중 SSL의 핸드쉐이크 프로토콜을 수행하는 과정에서 키 교환 알고리즘의 종류와 관계없이 반드시 전송되어야 하는 메시지는? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.10-11)</span></div><ol class="quiz-options"><li>서버 인증서(server certificate)</li><li>서버 키 교환(server key exchange)</li><li>클라이언트 인증서(client certificate)</li><li>클라이언트 키 교환(client key exchange)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 클라이언트 키 교환 — 세션키 생성에 필요한 정보를 서버에 전달하는 필수 메시지이며, 나머지는 상호 인증이 요구될 때만 선택적으로 전송된다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. [2013년 기출] 다음 중 SSL 프로토콜의 동작에 대한 설명으로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.12-13)</span></div><ol class="quiz-options"><li>일시 중지한 세션을 재시작하려면 반드시 마스터 비밀값(master secret)을 생성해야 한다.</li><li>클라이언트의 데이터 송신용(write) 암호키와 수신용(read) 암호키가 반드시 동일해야 한다.</li><li>핸드쉐이크(handshake) 과정에서 서버는 반드시 클라이언트의 인증서를 요구해야 한다.</li><li>전송 데이터에 대한 압축이 필요한 경우는 반드시 암호화 이전에 압축을 수행해야 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 압축은 암호화 이전에 수행해야 한다. 세션 재개 시 마스터 비밀값 재생성은 불필요하고, 송수신 암호키가 같을 필요도 없으며, 클라이언트 인증서 요구는 선택 사항이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. [2015년 기출] SSL(Secure Socket Layer)에 관한 설명 중 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.12-13)</span></div><ol class="quiz-options"><li>SSL 레코드 프로토콜은 기밀성과 메시지 무결성, 부인 방지 서비스를 제공한다.</li><li>SSL 레코드 프로토콜은 단편화, 압축, 메시지 인증 코드 계산, 암호화의 순서로 수행된다.</li><li>SSL은 TCP를 이용하여 신뢰할 수 있는 종단-대-종단 보안 서비스를 제공하기 위해 설계되었다.</li><li>경고(Alert) 프로토콜은 SSL 관련 경고를 전달하기 위해 사용된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — SSL 레코드 프로토콜은 기밀성과 메시지 무결성은 제공하지만 부인 방지(non-repudiation) 서비스는 제공하지 않는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. [2014년 기출] VPN 구현을 위해 사용하는 프로토콜과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.16-17)</span></div><ol class="quiz-options"><li>SSL(Secure Socket Layer)</li><li>IMAP(Internet Message Access Protocol)</li><li>IPSec(IP Security Protocol)</li><li>L2F(Layer 2 Forwarding)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — IMAP은 메일 수신을 위한 프로토콜로, VPN 구현 프로토콜과는 무관하다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. [2010년 기출] 무선 보안에 사용되는 WEP에 대한 설명으로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.23-24)</span></div><ol class="quiz-options"><li>"Wireless Ethernet Privacy"의 축약어이다.</li><li>무선 환경에서 매우 안전한 프로토콜로 평가받고 있다.</li><li>기본적으로 RC4 스트림 암호를 이용한다.</li><li>암호화를 통한 기밀성을 제공하고 있지만 인증이나 접근 제어 기능은 없다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — WEP는 Wired Equivalent Protocol의 약자이며, RC4 스트림 암호를 이용한다. 여러 취약점으로 인해 안전한 프로토콜로 평가받지 못하며, 인증·접근제어 기능도 갖추고 있다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. [2012년 기출] 무선랜의 보안이 WPA-2이고 Enterprise 모드로 동작하고 있을 때, 암호화와 인증이 가장 적절하게 짝지어진 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.23-24)</span></div><ol class="quiz-options"><li>TKIP와 PSK 인증</li><li>TKIP와 EAP 인증</li><li>CCMP와 PSK 인증</li><li>CCMP와 EAP 인증</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ CCMP와 EAP 인증 — WPA2는 CCMP(블록 사이퍼) 암호화를 사용하며, Enterprise 모드는 RADIUS 서버를 통한 EAP 인증을 사용한다(PSK는 Personal 모드).</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. [2014년 기출] 무선 전송계층 보안 프로토콜인 WTLS에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.25-26)</span></div><ol class="quiz-options"><li>TLS(Transport Layer Security)에 기반한 무선 보안 프로토콜이다.</li><li>프라이버시, 인증은 제공하지만 무결성 및 부인방지 서비스는 제공하지 않는다.</li><li>서비스 제공을 위하여 Handshake Protocol, Alert Protocol, Change Cipher Spec Protocol, Record Protocol을 포함한다.</li><li>인증을 위하여 WTLS 인증서와, X9.68 인증서, X.509 인증서를 지원한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — WTLS는 데이터 무결성·프라이버시·인증·DoS 프로텍션을 모두 제공한다(무결성을 제공하지 않는다는 서술이 틀림).</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. [2014년 기출] 블루투스 장치끼리 인증 없이 정보를 교환할 수 있는 OPP(OBEX Push Profile) 기능을 이용하여 다른 블루투스 장치의 주소록, 달력 등의 내용을 열람하거나 파일에 접근하는 공격은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.25-26)</span></div><ol class="quiz-options"><li>블루프린팅(Blueprinting)</li><li>블루재밍(BlueJamming)</li><li>블루스나핑(BlueSnarfing)</li><li>블루버깅(BlueBugging)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 블루스나핑 — OPP 기능을 악용해 소유자 동의 없이 파일·개인정보에 접근하는 공격이다. 블루프린팅은 사전 정보수집, 블루재밍은 전파방해, 블루버깅은 장치 통제권 탈취(도청)를 의미한다.</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

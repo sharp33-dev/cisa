@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SEC08] Chapter V. 정책/인증</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);display:block;}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.zoom-btn{position:absolute;top:8px;right:8px;background:rgba(15,23,42,0.65);color:#fff;border:none;border-radius:6px;padding:6px 9px;font-size:0.85rem;cursor:pointer;line-height:1;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+#img-lightbox{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.88);z-index:2000;align-items:center;justify-content:center;padding:30px;flex-direction:column;}
+#img-lightbox.open{display:flex;}
+#img-lightbox img{max-width:92vw;max-height:82vh;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,0.4);}
+.lightbox-caption{color:#e2e8f0;margin-top:14px;font-size:0.9rem;text-align:center;}
+.lightbox-close{position:absolute;top:22px;right:30px;color:#fff;font-size:2rem;background:none;border:none;cursor:pointer;line-height:1;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SEC08] Chapter V. 정책/인증</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/54</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#sec08-t01"><span style="color:#94a3b8">p.2</span> 위험관리</a></li><li><a href="#sec08-t02"><span style="color:#94a3b8">p.17</span> 업무연속성 계획</a></li><li><a href="#sec08-t03"><span style="color:#94a3b8">p.27</span> CC인증</a></li><li><a href="#sec08-t04"><span style="color:#94a3b8">p.34</span> ISO 27000</a></li><li><a href="#sec08-t05"><span style="color:#94a3b8">p.42</span> ISMS</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (24)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="sec08-t01" class="section">
+  <h2>위험관리 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-16)</span></h2>
+  <h3>가. 위험관리(Risk Management)의 개요</h3>
+  <p>위험관리는 정보자산에 내재된 위험을 식별·분석·평가하고, 이를 조직이 수용 가능한 수준으로 낮추기 위한 대책을 선정·시행하는 일련의 활동이다.</p>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.2 표: 위험관리</p>
+<table>
+  <tr><th>용어</th><th>설명</th></tr>
+  <tr><td>위험(Risk)</td><td>예상되는 위협에 의해 자산에 발생할 가능성이 있는 손실 기대치</td></tr>
+  <tr><td>위협(Threat)</td><td>취약점을 이용하여 보안에 침해와 위해를 가할 수 있는 환경</td></tr>
+  <tr><td>취약점(Vulnerability)</td><td>관리적, 기술적, 물리적 약점</td></tr>
+</table>
+  <h3>나. 위험 분석 방법(정성적 vs 정량적)</h3>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.3 표: 위험관리</p>
+<table>
+  <tr><th>구분</th><th>설명</th></tr>
+  <tr><td>정성적</td><td>위험이 발생할 확률과 영향을 단계(높음/중간/낮음 등)나 가중치 등으로 평가하는 방법 - 델파이법, 시나리오법, 순위결정법 등</td></tr>
+  <tr><td>정량적</td><td>위험의 영향을 구체적인 수치로 나타내는 방법 - ALE(연간 예상 손실), 과거자료 분석, 수학공식, 확률 분포 등</td></tr>
+</table>
+  <h3>다. 위험관리 계획 수립 및 위험처리 전략</h3>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.4 표: 위험관리</p>
+<table>
+  <tr><th>대책</th><th>설명</th></tr>
+  <tr><td>완화(Mitigation)</td><td>위험을 허용 가능한 수준 이하로 낮추도록 통제</td></tr>
+  <tr><td>전가(Transference)</td><td>보험 또는 외부기관을 통해 위험이 발생하는 경우 대응 주체를 이전 - 발생 가능성은 낮지만 피해가 큰 경우</td></tr>
+  <tr><td>회피(Avoidance)</td><td>위험이 너무 커서 계획을 변경하여 발생 가능성을 차단</td></tr>
+  <tr><td>수용(Acceptance)</td><td>모든 위험을 제거할 수 없으므로 대책을 별도로 마련하지 않음</td></tr>
+</table>
+  <h3>[참고] 취약성·위협·위험의 관계</h3>
+  <div class="fig"><div class="fig-imgwrap"><img loading="lazy" src="assets/SEC08fig/p005.jpg" alt="위협은 취약성을 공격하고, 자산은 취약성에 노출되며, 위협·취약성·자산 증가는 모두 위험 증가로 이어진다. 위험은 보안요구사항으로 현시되고, 보안대책은 보안요구사항을 충족시켜 위협을 방어한다는 관계도"><button type="button" class="zoom-btn" title="확대보기">🔍</button></div><figcaption>📄 원본 슬라이드 p.5 — 위협은 취약성을 공격(공격)하고, 취약성은 자산에 노출(노출)되며, 위협·취약성·자산의 증가는 모두 위험의 증가(증가)로 이어진다. 위험은 보안 요구사항으로 현시(현시)되고, 보안대책은 그 요구사항을 충족(충족)시켜 위협을 방어(방어대상)한다.</figcaption></div>
+</section>
+<section id="sec08-t02" class="section">
+  <h2>업무연속성 계획 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.17-26)</span></h2>
+  <h3>가. 업무연속성계획(BCP) 5단계 방법론</h3>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.16 표: 업무연속성 계획</p>
+<table>
+  <tr><th>단계</th><th>설명</th></tr>
+  <tr><td>범위 설정, 기획</td><td>프로젝트 계획 수립 단계</td></tr>
+  <tr><td>사업영향평가</td><td>Business Impact Analysis, 사업단위가 비상 상태에 받게 될 재정적 손실의 영향도 파악</td></tr>
+  <tr><td>복구전략개발</td><td>Time-critical한 사업기능을 지원하는 데 필요한 복구자원 추정</td></tr>
+  <tr><td>복구계획수립</td><td>효과적인 복구 수행을 위한 계획 수립</td></tr>
+  <tr><td>수행테스트, 유지보수</td><td>향후에 수행할 엄격한 테스트 및 유지보수 관리 절차 수립</td></tr>
+</table>
+  <h3>나. 재난복구계획(DRP)과 백업 사이트 유형</h3>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.17 표: 업무연속성 계획</p>
+<table>
+  <tr><th>종류</th><th>설명</th></tr>
+  <tr><td>미러 사이트(Mirror Site)</td><td>전산센터와 동일한 시스템을 하나 더 설치하고 운영 - 복구 속도 가장 빠름</td></tr>
+  <tr><td>핫 사이트(Hot Site)</td><td>핵심 업무는 재난 시 즉시 복구할 수 있도록 전산 센터와 동일한 설비와 자원 보유</td></tr>
+  <tr><td>웜 사이트(Warm Site)</td><td>전산센터 대비 부분적으로 설비 보유</td></tr>
+  <tr><td>콜드 사이트(Cold Site)</td><td>전산센터의 공간만 미리 준비, 장비는 보유하지 않음 - 다른 백업 설비 대비 비용이 가장 적게 듦</td></tr>
+</table>
+  <p>복구 속도 순서: <strong>Mirror &gt; Hot &gt; Warm &gt; Cold</strong></p>
+  <h3>다. DRP 테스트 범위·강도 5단계</h3>
+  <p>재난복구계획(DRP) 테스트는 범위와 강도에 따라 5단계로 구분되며, 강도가 낮은 순서는 다음과 같다.</p>
+  <p><strong>Checklist &gt; Structured Walk-through &gt; Simulation(모의테스트) &gt; Parallel test(실제 백업 장소 이용) &gt; Full-interruption test(운영시스템 전면 중단 테스트)</strong></p>
+</section>
+<section id="sec08-t03" class="section">
+  <h2>CC인증 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.27-33)</span></h2>
+  <h3>가. CC인증(Common Criteria)의 개요</h3>
+  <p>CC(Common Criteria for Information Technology Security Evaluation)는 IT 제품이나 특정 사이트의 정보시스템에 대해 정보보안 평가를 수행하기 위한 국제 표준 평가 기준으로, ISO/IEC 15408로 표준화되어 있다.</p>
+  <h3>나. CC인증의 구성요소</h3>
+  <ul>
+    <li><strong>PP(보호프로파일, Protection Profile)</strong> : 사용자의 보안요구를 표현하기 위해 CC를 준용하여 작성된 것으로, 보안기능을 포함한 IT제품이 갖추어야 할 "보안요구사항 집합"</li>
+    <li><strong>ST(보안목표명세서, Security Target)</strong> : 개발자가 특정 IT제품(TOE)의 보안기능을 표현하기 위해 CC를 준용하여 작성한 것으로, 제품 평가를 위한 기초자료로 사용</li>
+    <li><strong>TOE(Target of Evaluation, 평가대상)</strong> : 설명서가 수반되는 SW, 펌웨어, HW의 집합</li>
+    <li><strong>패키지</strong> : 유용한 요구사항의 모음</li>
+  </ul>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.28 표: CC인증 문서 3부 구성</p>
+<table>
+  <tr><th>구성</th><th>설명</th></tr>
+  <tr><td>1부 - 소개 및 일반모델</td><td>용어정의, 보안성 평가개념 정의, PP(보호프로파일)/ST(보안목표명세서) 구조정의</td></tr>
+  <tr><td>2부 - 보안기능 요구사항(SFR)</td><td>보안기능 요구사항 정의 및 해석</td></tr>
+  <tr><td>3부 - 보증요구사항(SAR)</td><td>보증요구사항 및 평가등급 정의</td></tr>
+</table>
+  <h3>다. 평가 보증 등급(EAL, Evaluation Assurance Level)</h3>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.29 표: CC인증</p>
+<table>
+  <tr><th>등급</th><th>설명</th><th>등급</th><th>설명</th></tr>
+  <tr><td>EAL 0</td><td>부적절한 보증</td><td>EAL 4</td><td>방법론적 설계, 시험, 검토</td></tr>
+  <tr><td>EAL 1</td><td>기능 시험</td><td>EAL 5</td><td>준정형적 설계 및 시험</td></tr>
+  <tr><td>EAL 2</td><td>구조 시험</td><td>EAL 6</td><td>준정형적 검증된 설계 및 시험</td></tr>
+  <tr><td>EAL 3</td><td>방법론적 시험과 점검</td><td>EAL 7</td><td>정형적 검증</td></tr>
+</table>
+</section>
+<section id="sec08-t04" class="section">
+  <h2>ISO 27000 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.34-41)</span></h2>
+  <h3>가. ISO 27000 Family Standard 체계</h3>
+  <div class="fig"><div class="fig-imgwrap"><img loading="lazy" src="assets/SEC08fig/p034.jpg" alt="ISO 27000 Family Standard 체계도: 최상위 개념용어 27000, 일반적 요구사항 27001(27006으로부터 심사인증기관 요구사항을 받음), 일반적 지침 27002(Best Practice, 27001에 요구사항 제공)·27003(개선가이드)·27004(측정)·27005(위험관리), 특정분야 지침 27011·27033·27799"><button type="button" class="zoom-btn" title="확대보기">🔍</button></div><figcaption>📄 원본 슬라이드 p.34 — 27000(개념·용어) 아래 27001(일반적 요구사항)이 있고, 27001은 27006(심사인증기관 요구사항)으로부터 요구사항을 받는다. 그 아래 일반적 지침 계층에는 27002(Best Practice), 27003(개선가이드), 27004(측정), 27005(위험관리)가 있으며, 최하위 특정분야 지침 계층에는 27011, 27033, 27799가 있다.</figcaption></div>
+  <h3>나. ISO 27001 통제분야(Annex A)</h3>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.35-37 표: ISO 27000 (3개 표 통합)</p>
+<table>
+  <tr><th>통제분야</th><th>설명</th></tr>
+  <tr><td>정보보안정책</td><td>정보보호에 대한 경영방침과 지원사항을 제공</td></tr>
+  <tr><td>정보보안조직</td><td>정보보호에 대한 책임배정</td></tr>
+  <tr><td>인력자원보안</td><td>고용전/중/만료로 분류하여 사람에 대한 보안 실시</td></tr>
+  <tr><td>자산관리</td><td>조직 자산에 대한 적절한 보호책 유지</td></tr>
+  <tr><td>접근통제</td><td>정보에 대한 접근통제 실시</td></tr>
+  <tr><td>암호화</td><td>기밀성, 인증, 정보 무결성 보장을 위해 암호화의 적절하고 효과적인 사용 보장</td></tr>
+  <tr><td>물리적·환경적 보안</td><td>비인가된 접근, 손상과 사업장 및 정보에 대한 영향 방지</td></tr>
+  <tr><td>운영보안</td><td>정보처리설비의 정확하고 안전한 운영 보장</td></tr>
+  <tr><td>통신보안</td><td>네트워크 및 지원 정보처리시설의 안전한 통신 보장</td></tr>
+  <tr><td>시스템 취득, 개발, 유지보수</td><td>정보시스템에 보안이 수립됨을 보장</td></tr>
+  <tr><td>협력업체(공급자) 관리</td><td>협력업체가 접근 가능한 조직 내 정보보호 부문, 협력업체와의 계약에 따라 정보보안 및 서비스 제공에 합의된 수준 유지</td></tr>
+  <tr><td>보안사고관리</td><td>정보시스템 관련 보안사건에 대해 적절히 의사소통되고 대응책을 신속하게 수립</td></tr>
+  <tr><td>사업연속성관리</td><td>사업활동에 방해요소 완화, 주요 실패 및 재해 영향으로부터 주요 사업활동 보호</td></tr>
+  <tr><td>준거성</td><td>조직의 정보보호 정책이나 지침 준수</td></tr>
+</table>
+  <h3>다. ISO/IEC 27004 측정 프레임워크와 ISMS 구현 요구사항</h3>
+  <p>ISO/IEC 27004는 ISO/IEC 27001에서 요구하는 ISMS의 효과성을 평가하기 위한 측정 프레임워크를 다루는 표준이다. 한편 2013년 개정된 ISO/IEC 27001은 ISMS 구현을 위해 조직의 보안환경 분석, 최고경영층의 리더십, 위험관리 등 일곱 가지 사항을 요구하며, 컴플라이언스(준거성) 관리 자체는 이 일곱 가지 요구사항 항목으로 별도 명시되어 있지 않다.</p>
+  <p>정보보호 계획수립은 위험분석을 종료한 후 그 결과를 토대로 수립해야 하며, 정보보호 정책은 조직의 IT 정책 등과 일관성을 가져야 한다. 또한 정보보호 인식제고(Awareness) 활동은 정보보호 인력만이 아니라 <strong>조직 구성원 전체</strong>를 대상으로 수행해야 한다.</p>
+</section>
+<section id="sec08-t05" class="section">
+  <h2>ISMS <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.42-54)</span></h2>
+  <h3>가. 정보보호관리체계(ISMS)의 개요</h3>
+  <p><strong>정의</strong> - 정보통신망의 안전성 확보를 위하여 수립·운영하고 있는 기술적·물리적 보호조치 등 종합적인 관리체계에 대한 인증제도</p>
+  <p><strong>인증 대상</strong> - 매출액 또는 세입이 1,500억원 이상인 업체, 정보통신서비스부문 전년도 매출액 100억원 이상 또는 3개월간 일평균 100만명 이용자 이상인 사업자, 상급종합병원, 재학생수 1만명 이상인 학교(대학교, 산업대학, 교육대학 등)</p>
+  <p><strong>심사 기준</strong> - 총 104개 항목, 253개 세부 통제항목 준수 필요 - 관리과정 5단계 12개 통제항목 + 보호대책 13개 분야 92개 통제항목</p>
+  <h3>나. 세부 심사기준(인증 분야별 인증 기준)</h3>
+  <p style="font-size:0.8rem;color:#64748b;margin:10px 0 6px;">▸ 원본 p.43-44 표: ISMS (2개 표 통합)</p>
+<table>
+  <tr><th>인증 분야</th><th>인증 기준</th></tr>
+  <tr><td rowspan="5">1. 관리과정</td><td>① 정보보호정책 수립 및 범위설정</td></tr>
+  <tr><td>② 경영진 책임 및 조직 구성</td></tr>
+  <tr><td>③ 위험관리</td></tr>
+  <tr><td>④ 정보보호대책 구현</td></tr>
+  <tr><td>⑤ 사후관리</td></tr>
+  <tr><td rowspan="13">2. 정보보호대책</td><td>① 정보보호정책</td></tr>
+  <tr><td>② 정보보호조직</td></tr>
+  <tr><td>③ 외부자 보안</td></tr>
+  <tr><td>④ 정보자산 분류</td></tr>
+  <tr><td>⑤ 정보보호 교육</td></tr>
+  <tr><td>⑥ 인적 보안</td></tr>
+  <tr><td>⑦ 물리적 보안</td></tr>
+  <tr><td>⑧ 시스템개발 보안</td></tr>
+  <tr><td>⑨ 암호 통제</td></tr>
+  <tr><td>⑩ 접근 통제</td></tr>
+  <tr><td>⑪ 운영보안</td></tr>
+  <tr><td>⑫ 침해사고 관리</td></tr>
+  <tr><td>⑬ IT재해복구</td></tr>
+</table>
+  <p>심사 기준(통제분야 대분류)은 "정보보호 관리과정"과 "정보보호 대책" 두 축으로 구성되며, "문서화"는 관리과정 전반에 요구되는 성격이지만 "정보보호 예산 규모"는 통제분야 대분류에 포함되지 않는다.</p>
+  <h3>다. 사후관리 세부 관리과정</h3>
+  <p>"사후관리" 과정에는 <strong>법적요구사항 준수검토, 정보보호관리체계 운영현황관리, 내부감사</strong>가 세부 관리과정으로 포함된다. 관리체계를 운영하는 과정에서 상시적인 모니터링을 수행하고, 정기적인 내부감사를 통해 정책 준수 상황을 확인하며, 관리체계를 재검토하여 개선하는 것이 이 단계의 핵심이다.</p>
+  <h3>라. ISMS와 위험관리의 관계</h3>
+  <p>취약성은 자산의 잠재적 속성으로서 위협의 이용 대상으로 정의된다. 정보보호대책이란 위험에 대응하여 자산을 보호하기 위한 관리적, 물리적, 기술적 대책을 의미한다. 관리체계 인증기준과 기업 내 현재 보호대책 적용 현황과의 수준 차이를 파악하는 활동은 위협분석이 아니라 <strong>갭(Gap) 분석</strong>이다. 정보보호관리체계 구축을 위한 수행조직은 프로젝트팀으로 구성될 수 있으며, 우선적으로 관리체계 도입 배경과 경영진을 이해시키고 설득할 수 있는 자료 등을 준비한다.</p>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (24문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 문항별로 재구성했습니다. 원본에는 한 페이지에 서로 다른 문제가 뒤섞여 추출되어 있던 부분을 분리했으며, 문항별 정답은 원문의 O/X 해설과 대조하여 검증했습니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. [2010년 기출] 다음 중 위험 관리(Risk Management) 관련 용어에 대한 설명으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.6-7)</span></div><ol class="quiz-options"><li>취약점(vulnerability) : 정보 시스템이 가지고 있는 취약한 위험요소</li><li>보안대책(safeguard) : 위협을 경감시키기 위한 통제나 대응책</li><li>위협(threat) : 시스템에 손상을 줄 수 있는 모든 사건들</li><li>위험의 수용(risk acceptance) : 적절한 보안대책으로 경감된 위험의 수용</li><li>위험의 전이(risk transfer) : 보험 가입 등을 통해 잠재적 손실을 제3자에게 전이</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 위험수용은 별도의 위험 감소 노력 없이 위험을 그대로 받아들이는 것을 의미하며, "적절한 보안대책으로 경감된 위험의 수용"이라는 설명은 옳지 않다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. [2010년 기출] 위험관리(Risk Management)에서 자산가치가 100억원, 노출계수가 60%, 연간 발생율이 3/10이라고 하면 연간예상손실(ALE)을 계산하면 얼마인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.6-7)</span></div><ol class="quiz-options"><li>1.8억원</li><li>3억원</li><li>6억원</li><li>18억원</li><li>180억원</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 18억원 — 단일예상손실(SLE) = 자산가치 × 노출계수 = 100억 × 60% = 60억원, 연간예상손실(ALE) = SLE × 연간발생율 = 60억 × 3/10 = 18억원.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. [2011년 기출] 다음은 위험분석의 의미와 특징에 대한 설명이다. 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8-9)</span></div><ol class="quiz-options"><li>위험분석은 정보보호 대책 구현에 선행되어 수행되어야 한다.</li><li>정량적 위험분석 접근 방법에는 델파이법, 시나리오법 등이 있다.</li><li>자산식별, 위험분석, 취약성평가, 영향평가, 대책선정, 권고안 작성 순으로 진행된다.</li><li>조직의 특수 상황을 고려한 정보보호 대책을 선정할 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 델파이법, 시나리오법은 정량적이 아니라 정성적 위험분석 접근 방법이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. [2012년 기출] 다음 중 위험처리 전략에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8-9)</span></div><ol class="quiz-options"><li>위험수용(risk acceptance)은 위험을 받아들이고 비용을 감수하는 것을 의미한다.</li><li>위험감소(risk reduction/mitigation)는 위험을 감소시킬 수 있는 대책을 채택하여 구현하는 것을 의미한다.</li><li>위험회피(risk avoidance)는 수용 가능한 위험 수준 경계의 위험을 모니터링하는 것을 의미한다.</li><li>위험전가(risk transfer)는 잠재적 손실 비용을 제3자에게 이전하거나 할당하는 것을 의미한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 위험회피는 위험이 너무 커서 계획을 변경하여 발생 가능성 자체를 사전에 차단하는 것이며, 위험 수준을 모니터링하는 것은 회피가 아니다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. [2012년 기출] 다음 중 위험관리의 순서로 가장 적절한 것은? — 가. 위험분석 나. 정보보호대책 수립 다. 위험평가 라. 정보보호계획 수립 마. 위험관리 전략 및 계획 수립 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.10-11)</span></div><ol class="quiz-options"><li>가-나-다-라-마</li><li>가-다-나-라-마</li><li>마-가-나-라-다</li><li>마-가-다-나-라</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 마-가-다-나-라</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. [2013년 기출, 2개 선택] 정보보호 위험관리에서 정량적 위험분석이 갖는 특징으로 가장 적절한 것을 모두 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.12-13)</span></div><ol class="quiz-options"><li>위험의 가능성을 객관적으로 수치화할 수 있다.</li><li>새로 등장하는 위험이나 취약점을 다루기 쉽다.</li><li>기존의 이력 데이터가 많은 경우에 효과적이다.</li><li>조직의 모든 인력이 쉽게 이해할 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ①, ③ — 정량적 분석은 과거 자료에 기반하므로 새로 등장하는 위험을 다루기 어렵고(②는 틀림), 계산이 복잡해 모든 인력이 쉽게 이해하기도 어렵다(④는 틀림).</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. [2014년 기출] 다음 중 위험관리에 관련된 용어와 그 의미의 연결이 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.12-13)</span></div><ol class="quiz-options"><li>통제 – 위험을 변경시키기 위한 대책</li><li>위험 수준 – 결과와 가능성의 조합으로 표현되는 위험의 크기</li><li>잔여 위험 – 위험 처리를 수행하기 이전에 잔여하는 위험</li><li>위험 분석 – 위험의 본질을 이해하고 위험 수준을 결정하는 과정</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 잔여위험은 위험 처리를 수행하기 이전이 아니라, <strong>수행한 이후에도 남아있는 위험</strong>을 의미한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. [2015년 기출] 위험분석 방법 중 정성적 분석방법이 아닌 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.14-15)</span></div><ol class="quiz-options"><li>델파이법</li><li>시나리오법</li><li>확률분포법</li><li>순위결정법</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 확률분포법 — 확률분포법은 정량적 분석방법에 해당한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. [2016년 기출] 정보보호 위험관리에서 정성적 위험분석이 갖는 특징으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.14-15)</span></div><ol class="quiz-options"><li>손실크기를 화폐가치로 측정할 수 없어 위험을 기술변수로 표현하는 경우 주관적이며, 근거가 제공되지 않지만 시간·노력·비용이 적게 든다.</li><li>델파이법, 시나리오법, 순위결정법, 질문서법 등이 해당된다.</li><li>위험의 우선순위 파악이 용이하다는 장점이 있다.</li><li>많은 데이터의 입력과 복잡한 계산이 필요하다는 단점이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 많은 데이터의 입력과 복잡한 계산이 필요한 것은 정성적 분석이 아니라 정량적 분석의 특징이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. [2010년 기출] 업무연속성의 5단계 접근 방법론을 순서대로 나열한 것은? — 가. 프로젝트의 범위 설정 및 기획 나. 프로젝트의 수행테스트 및 유지보수 다. 복구전략개발 라. 복구계획수립 마. 사업영향평가 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.19-20)</span></div><ol class="quiz-options"><li>가-마-다-라-나</li><li>가-다-마-라-나</li><li>가-마-라-다-나</li><li>가-다-라-마-나</li><li>가-라-다-마-나</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 가-마-다-라-나</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. [2011년 기출] 업무연속성의 5단계 접근 방법론의 순서로서 가장 적절한 것은? — 가. 복구전략 개발 나. 프로젝트의 수행 테스트 및 유지보수 다. 사업영향평가 라. 프로젝트의 범위설정 및 기획 마. 복구계획 수립 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.21-22)</span></div><ol class="quiz-options"><li>라-다-가-마-나</li><li>라-가-다-마-나</li><li>라-가-마-다-나</li><li>가-라-다-마-나</li><li>가-라-마-나-다</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 라-다-가-마-나</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. [2010년 기출] 재난복구계획(DRP) 테스트는 테스트의 범위와 강도에 따라 5단계로 나뉜다. 다음 보기 중 가장 강도가 낮은 단계는 무엇인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.23-24)</span></div><ol class="quiz-options"><li>Simulation</li><li>Structured Walk-Through</li><li>Full-Interruption Test</li><li>Parallel Test</li></ol><div class="quiz-explanation"><strong>정답</strong> ② Structured Walk-Through — 강도가 낮은 순: Checklist &gt; Structured Walk-through &gt; Simulation(모의테스트) &gt; Parallel test(실제 백업 장소) &gt; Full-interruption test(운영시스템)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. [2011년 기출] 업무연속성을 위한 백업처리능력 대안으로서 Hot site, Mirror site, Warm site가 있는데 이중 가장 빠르게 복구를 제공하는 순서대로 기술한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.25-26)</span></div><ol class="quiz-options"><li>Hot site, Warm site, Mirror site</li><li>Hot site, Mirror site, Warm site</li><li>Mirror site, Warm site, Hot site</li><li>Warm site, Hot site, Mirror site</li><li>Mirror site, Hot site, Warm site</li></ol><div class="quiz-explanation"><strong>정답</strong> ⑤ Mirror site, Hot site, Warm site — 복구속도 순서: Mirror &gt; Hot &gt; Warm &gt; Cold</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. [2014년 기출] 다음 설명과 가장 관련 있는 것은? — 기업의 물리적 설비, 전력, 난방, 통풍 및 온도 조절기 등을 제공하는 백업 설비로 조직이 이를 이용할 경우 다른 백업 설비보다 비용이 적게 드는 장점을 가진다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.25-26)</span></div><ol class="quiz-options"><li>콜드 사이트(Cold site)</li><li>IDC(Internet Data Center)</li><li>핫 사이트(Hot site)</li><li>기업 간 사이트 공유</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 콜드 사이트</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. [2010년 기출] 공통평가기준(Common Criteria)에서 정보보호 제품에 필요한 보안 기능 및 보증요구사항을 서술한 문서를 무엇이라 부르는가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.30-31)</span></div><ol class="quiz-options"><li>보호프로파일(Protection Profile)</li><li>보안목표명세서(Security Target)</li><li>TOE(Target of Evaluation)</li><li>패키지</li></ol><div class="quiz-explanation"><strong>정답</strong> ② 보안목표명세서(ST) <em>— 원문 강의자료에는 ①(PP)·②(ST) 두 보기 모두 O로 표시되어 단일 정답이 명확히 표기되어 있지 않다. 다만 PP는 제품군 전반에 공통 적용되는 일반적 보안요구사항 집합인 반면, ST는 "특정 IT 제품(TOE)"에 필요한 보안기능·보증요구사항을 구체적으로 서술한 문서라는 점에서 문항의 "정보보호 제품에 필요한"이라는 표현에 더 부합하므로 ②를 정답으로 채택했다(원문 자료의 표기 불명확 부분에 대한 편집자 보완).</em></div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. [2012년 기출, 2개 선택] IT 보안성 평가를 위한 공통평가기준(Common Criteria)에서 보안기능을 포함한 IT제품이 갖추어야 하는 보안 요구사항의 집합을 의미하는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.32-33)</span></div><ol class="quiz-options"><li>TOE(Target of Evaluation)</li><li>PP(Protection Profile)</li><li>ST(Security Target)</li><li>EAL(Evaluation Assurance Level)</li></ol><div class="quiz-explanation"><strong>정답</strong> ②, ③ PP, ST — TOE는 평가대상(SW·펌웨어·HW 집합) 자체이고, EAL은 평가 결과 부여되는 신뢰도 수준이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. [2013년 기출] 다음 중 ISO/IEC 27001에서 요구하는 정보보호관리체계(ISMS)의 효과성을 평가하기 위한 측정 프레임워크를 다루고 있는 표준은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.38-39)</span></div><ol class="quiz-options"><li>ISO/IEC 27002</li><li>ISO/IEC 27003</li><li>ISO/IEC 27004</li><li>ISO/IEC 27005</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ ISO/IEC 27004 — ①은 Best Practice, ②는 개선가이드, ④는 위험관리를 다루는 표준이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. [2015년 기출] 2013년에 개정된 국제표준 ISO/IEC 27001에서 ISMS 구현을 위해 요구하는 일곱 가지 사항과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.38-39)</span></div><ol class="quiz-options"><li>조직의 보안환경 분석</li><li>최고경영층의 리더십</li><li>컴플라이언스 관리</li><li>위험관리</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 컴플라이언스 관리</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. [2011년 기출] 다음은 ISO 국제표준문서(27002) 또는 해외 선진국의 지침에서 언급하고 있는 정보보호관리 활동을 설명한 것이다. 이 중 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.40-41)</span></div><ol class="quiz-options"><li>정보보호 계획수립은 위험분석을 종료한 후에 수행해야 한다.</li><li>정보보호 정책은 조직의 IT 정책 등과 일관성을 가져야 한다.</li><li>위험관리의 목적은 궁극적으로 조직에 적절한 정보보호 대책을 선택하기 위함이다.</li><li>정보보호 인식제고(Awareness) 활동은 주로 조직 구성원보다는 정보보호 인력을 대상으로 수행한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 정보보호 인식제고 활동은 정보보호 인력이 아니라 <strong>조직 구성원 전체</strong>를 대상으로 수행해야 한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. [2010년 기출] 다음 중 정보보호관리체계 인증(ISMS)에서 심사 기준(통제분야 대분류)에 포함되지 않는 항목은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.45-46)</span></div><ol class="quiz-options"><li>정보보호 관리과정</li><li>문서화</li><li>정보보호 대책</li><li>정보보호 예산 규모</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 통제분야 대분류는 정보보호 관리과정과 정보보호 대책(정보보호정책, 정보보호조직, 외부자 보안, 정보자산 분류, 정보보호 교육, 인적 보안, 물리적 보안, 시스템개발 보안, 암호 통제, 접근 통제, 운영보안, 침해사고 관리, IT재해복구)으로 구성되며, "정보보호 예산 규모"는 대분류 항목이 아니다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q21. [2014년 기출, 2개 선택] 한국인터넷진흥원(KISA) 정보보호관리체계의 정보보호 관리과정에 대한 인증 기준의 "사후관리" 과정에 포함되는 세부 관리과정은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.47-48)</span></div><ol class="quiz-options"><li>내부감사</li><li>내부 공유 및 교육</li><li>경영진 참여</li><li>법적요구사항 준수검토</li></ol><div class="quiz-explanation"><strong>정답</strong> ①, ④ — 사후관리 세부 관리과정은 법적요구사항 준수검토, 정보보호관리체계 운영현황관리, 내부감사이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q22. [2015년 기출] 국내 정보보호관리체계(ISMS) 인증기준 중 정보보호 대책에 해당되지 않는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.49-50)</span></div><ol class="quiz-options"><li>정보보호 조직</li><li>정보보호 교육</li><li>침해사고 관리</li><li>법적 요구사항 준수 검토</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 법적 요구사항 준수 검토는 정보보호 대책이 아니라 관리과정의 사후관리에 속한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q23. [2015년 기출] 정보보호관리체계에 대한 설명 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.51-52)</span></div><ol class="quiz-options"><li>취약성은 자산의 잠재적 속성으로서 위협의 이용 대상으로 정의된다.</li><li>관리체계 인증기준과 기업 내 현재의 보호대책 적용 현황과의 수준 차이를 파악하기 위해 위협분석을 수행한다.</li><li>정보보호관리체계 구축을 위한 수행조직은 프로젝트팀으로 구성될 수 있으며 우선적으로 관리체계 도입 배경과 경영진을 이해시키고 설득할 수 있는 자료 등을 준비한다.</li><li>정보보호대책이란 위험에 대응하여 자산을 보호하기 위한 관리적, 물리적, 기술적 대책으로 정의된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 인증기준과 현재 보호대책 적용 현황 간의 수준 차이를 파악하는 활동은 위협분석이 아니라 <strong>갭(Gap) 분석</strong>이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q24. [2016년 기출] 정보보호 관리과정 중 다음과 같은 요구사항에 해당하는 것은? — 정보보호 관리체계를 운영하는 과정에서 상시적인 모니터링을 수행, 정기적인 내부감사를 통해 정책 준수 상황을 확인, 정보보호 관리체계를 재검토, 관리체계 개선 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.53-54)</span></div><ol class="quiz-options"><li>정보보호 정책 수립 및 범위설정</li><li>경영진 책임 및 조직구성</li><li>정보보호대책 구현</li><li>사후관리</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 사후관리</div></div>
+    </section>
+
+  </main>
+</div>
+<div id="img-lightbox"><button type="button" class="lightbox-close" title="닫기">&times;</button><img src="" alt=""><div class="lightbox-caption"></div></div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  var lightbox=document.getElementById('img-lightbox'), lbImg=lightbox.querySelector('img'), lbCap=lightbox.querySelector('.lightbox-caption'), lbClose=lightbox.querySelector('.lightbox-close');
+  document.querySelectorAll('.fig-imgwrap').forEach(function(wrap){
+    var img=wrap.querySelector('img'), btn=wrap.querySelector('.zoom-btn');
+    function openLb(){ lbImg.src=img.src; lbImg.alt=img.alt||''; var cap=wrap.parentElement.querySelector('figcaption'); lbCap.textContent=cap?cap.textContent:''; lightbox.classList.add('open'); }
+    if(btn) btn.addEventListener('click',openLb);
+    img.style.cursor='zoom-in'; img.addEventListener('click',openLb);
+  });
+  lbClose.addEventListener('click',function(){ lightbox.classList.remove('open'); });
+  lightbox.addEventListener('click',function(e){ if(e.target===lightbox) lightbox.classList.remove('open'); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') lightbox.classList.remove('open'); });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

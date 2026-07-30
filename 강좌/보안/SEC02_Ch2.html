@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SEC02] Chapter II. 접근통제</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SEC02] Chapter II. 접근통제</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/23</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul>
+<li><a href="#sec02-s01">1. 접근통제 개념 및 인증</a></li>
+<li><a href="#sec02-s02">2. 접근통제 정책 및 모델</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (12)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+
+<section id="sec02-s01" class="section">
+  <h2>1. 접근통제 개념 및 인증 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-12)</span></h2>
+
+  <h3>가. 접근통제의 개념</h3>
+  <p>접근통제(Access Control)는 비인가자가 정보시스템의 자원에 접근하는 것을 제한하는 보안 활동으로, 사용자를 식별(Identification)하고 인증(Authentication)한 뒤 그에 맞는 권한을 부여(Authorization)하는 3단계로 구성된다. 식별은 사용자가 자신의 신원정보를 밝히는 단계, 인증은 그 신원정보의 유효성을 확립하는 단계, 인가는 식별·인증된 사용자에게 자원에 대한 적절한 접근 권한을 허용하는 단계다. 접근통제의 기본 원리로는 최소권한(Least Privilege) 원칙과 직무분리(Separation of Duty) 원칙이 있으며, 대표 정책으로 MAC·DAC·RBAC이, 대표 정책 모델로 Bell-LaPadula·Biba·Clark-Wilson이 있다.</p>
+
+  <h3>나. 인증 방식(Type 1~4)</h3>
+  <table>
+    <tr><th>유형</th><th>내용</th></tr>
+    <tr><td>Type 1 (지식 기반, Something you know)</td><td>사용자가 알고 있는 정보를 통해 인증 — 패스워드(Password)</td></tr>
+    <tr><td>Type 2 (소유 기반, Something you have)</td><td>사용자가 보유하고 있는 물건을 통해 인증 — OTP(One Time Password), 키(Key) 등</td></tr>
+    <tr><td>Type 3 (생체 기반, Something you are)</td><td>사용자의 생체 정보를 통해 인증 — 망막, 홍채, 지문 등</td></tr>
+    <tr><td>Type 4 (행동 기반, Something you do)</td><td>사용자의 행동적 특성에 따른 인증 — 발걸음, 말투, 서명 등</td></tr>
+  </table>
+
+  <h3>다. OTP(Type 2)</h3>
+  <p>OTP(One Time Password)는 서버와 클라이언트가 사전에 약속한 방식으로 인증할 때마다 무작위로 변경되는 일회용 암호로, OTP 값이 유출되더라도 재사용이 불가능하여 보안성이 우수하다. 동작 방식은 사용자와 서버 간에 사전 공유된 비밀키(Seed)와 임의의 난수를 조합하여 각자 OTP 값을 생성한 뒤, 사용자 측 OTP 값과 인증 서버 측 OTP 값을 서로 비교하여 일치 여부로 인증을 수행한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SEC02fig/p004.jpg" alt="OTP 동작방식 개념도. 사용자와 인증서버가 각각 사용자 비밀키+SEED로 OTP 값을 독립 생성한 뒤 로그인 서버에서 두 OTP 값을 비교하는 흐름도"><figcaption>[그림] OTP 동작 방식 — 사용자·인증서버가 공유 비밀키+SEED로 각자 OTP 값을 생성해 상호 비교</figcaption></figure>
+  <table>
+    <tr><th>유형</th><th>내용</th></tr>
+    <tr><td>시간 기반(Time Synchronization)</td><td>서버와 OTP 장치 간에 동기화된 시간 정보를 기준으로 비밀번호 생성</td></tr>
+    <tr><td>이벤트 기반(Event Synchronization)</td><td>서버와 OTP 장치가 동일한 카운트 값을 기준으로 비밀번호 생성</td></tr>
+    <tr><td>하이브리드(Hybrid)</td><td>시간 동기화 방식 + 이벤트 동기화 방식을 결합. 특정 시간 간격마다 비밀번호를 생성하되, 같은 시간 내 재시도는 카운트 값을 증가시켜 비밀번호를 변경</td></tr>
+    <tr><td>질의응답(Challenge-Response)</td><td>사용자가 요청할 때마다 서버가 제시하는 질의(challenge)에 따라 비밀번호 생성</td></tr>
+  </table>
+
+  <h3>라. 생체인증(Type 3)</h3>
+  <p>생체인증(Biometrics)이 갖춰야 할 요건은 다음과 같다.</p>
+  <table>
+    <tr><th>특징</th><th>설명</th></tr>
+    <tr><td>보편성(Universality)</td><td>모든 사람들이 지니고 있어야 함</td></tr>
+    <tr><td>유일성(Uniqueness)</td><td>동일한 특징을 가진 사람이 없어야 함</td></tr>
+    <tr><td>지속성(Permanence)</td><td>시간이 지나도 특징이 지속되어야 함</td></tr>
+    <tr><td>획득성(Collectability)</td><td>측정이 가능해야 함</td></tr>
+    <tr><td>성능(Performance)</td><td>높은 정확성을 얻을 수 있어야 함</td></tr>
+    <tr><td>수용성(Acceptability)</td><td>사용자가 인증받는 데 거부감이 없어야 함</td></tr>
+    <tr><td>기민성(Circumvention)</td><td>고의적인 부정사용으로부터 안전해야 함</td></tr>
+  </table>
+  <p>생체인증의 정확도는 다음 지표로 측정한다.</p>
+  <table>
+    <tr><th>지표</th><th>설명</th></tr>
+    <tr><td>FRR(False Rejection Rate)</td><td>정당한 사용자가 잘못 거절될 확률(1종 오류)</td></tr>
+    <tr><td>FAR(False Acceptance Rate)</td><td>인식되어서는 안 될 사람이 잘못 허용될 확률(2종 오류) — 기밀성 측면에서 더 치명적</td></tr>
+    <tr><td>EER, CER(Equal/Crossover Error Rate)</td><td>FAR과 FRR이 서로 교차하는 지점의 오류율. 이 값이 낮을수록 인증 시스템의 성능이 우수</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>FAR(부정허용율)은 <strong>인식되면 안 될 사람이 인식되는</strong> 2종 오류이고, FRR(부정거부율)은 <strong>정당한 사용자가 거부되는</strong> 1종 오류다 — 문제에서 "인식되어서는 안 될 사람이 인식되는 비율"을 물으면 FAR이 정답이다.</div>
+
+  <h3>마. 접근통제 정책(MAC · DAC · RBAC)</h3>
+  <table>
+    <tr><th>정책</th><th>설명</th></tr>
+    <tr><td>MAC(Mandatory Access Control, 강제적 접근통제)</td><td>사용자나 자원 모두 보안 레벨(등급)을 부여받아 접근 허용 여부를 결정. 객체의 소유자가 임의로 변경할 수 없는, 주체와 객체 간의 관계를 정의</td></tr>
+    <tr><td>DAC(Discretionary Access Control, 임의적 접근통제)</td><td>주체나 그룹의 신분에 근거하여 객체에 대한 접근을 제한. 허가된 주체(객체 소유자)에 의해 변경 가능한 객체 간의 관계를 정의</td></tr>
+    <tr><td>RBAC(Role Based Access Control, 역할기반 접근통제)</td><td>조직 내에서 맡은 역할(Role)을 기반으로 자원에 대한 접근 허용 여부를 결정</td></tr>
+  </table>
+</section>
+
+<section id="sec02-s02" class="section">
+  <h2>2. 접근통제 정책 및 모델 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.13-23)</span></h2>
+
+  <h3>가. 접근통제 정책 모델</h3>
+  <figure class="fig"><img loading="lazy" src="assets/SEC02fig/p013.jpg" alt="Bell-LaPadula 모델과 Biba 모델의 Read/Write 규칙 비교도. BLP는 No Read Up·No Write Down, Biba는 No Read Down·No Write Up을 화살표와 X표로 표시"><figcaption>[그림] Bell-LaPadula(No Read Up·No Write Down) vs Biba(No Read Down·No Write Up) 규칙 비교</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/SEC02fig/p014.jpg" alt="Clark-Wilson 모델 개념도. 주체(2개)가 응용 프로그램을 거쳐서만 객체(2개)에 접근할 수 있는 구조를 화살표로 표현"><figcaption>[그림] Clark-Wilson 모델 — 주체는 응용 프로그램을 통해서만 객체에 접근 가능</figcaption></figure>
+  <table>
+    <tr><th>모델</th><th>설명</th></tr>
+    <tr><td>Bell-LaPadula(BLP)</td><td>군사용 보안구조와 요구사항을 충족하기 위해 설계된 <strong>기밀성 중심</strong> 모델. 등급이 낮은 주체가 높은 등급의 객체를 읽을 수 없고(No Read Up), 상위 등급 주체가 하위 등급 객체에 쓸 수 없다(No Write Down)</td></tr>
+    <tr><td>Biba</td><td><strong>무결성 통제</strong>를 위해 개발된 모델. 높은 등급의 문서는 읽을 수 있으나 쓸 수 없다 — 등급이 낮은 주체가 높은 등급 객체를 쓸 수 없고(No Write Up), 높은 등급 주체가 낮은 등급 객체를 읽을 수 없다(No Read Down)</td></tr>
+    <tr><td>Clark-Wilson</td><td>Biba 모델에서 발전한 <strong>무결성 중심의 상업용</strong> 모델로, 사용자(주체)가 데이터(객체)에 직접 접근하지 못하고 반드시 응용 프로그램(Well-formed Transaction)을 통해서만 접근하도록 설계</td></tr>
+    <tr><td>Take-Grant</td><td>주체가 가진 권리가 다른 주체·객체로 전달(take, grant)될 수 있는 경로를 방향 그래프로 표현하는 모델</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>
+    <ul>
+      <li>BLP는 <strong>기밀성</strong>(No Read Up·No Write Down), Biba는 <strong>무결성</strong>(No Read Down·No Write Up) — 두 모델의 Read/Write 방향을 서로 뒤바꿔 서술하는 것이 전형적 오답이다.</li>
+      <li>"프로그램을 통해서만 객체에 접근"은 Clark-Wilson, "권리 전달을 방향 그래프로 표현"은 Take-Grant다.</li>
+    </ul>
+  </div>
+
+  <h3>나. 커버로스(Kerberos)</h3>
+  <p>커버로스는 대칭키를 사용하는 티켓 기반의 중앙집중형 사용자 인증 메커니즘으로, MIT에서 개발한 Needham-Schroeder 프로토콜을 기반으로 한다. 키 분배 서버인 KDC(Key Distribution Center)는 인증을 수행하는 AS(Authentication Server)와 티켓을 발급하는 TGS(Ticket Granting Service)로 구성된다.</p>
+  <table>
+    <tr><th>단계</th><th>내용</th></tr>
+    <tr><td>① 클라이언트 → AS</td><td>사용자 패스워드 기반 인증 요청</td></tr>
+    <tr><td>② AS → 클라이언트</td><td>TGS 접근을 위한 인증값(TGT, Ticket Granting Ticket) 발급</td></tr>
+    <tr><td>③ 클라이언트 → TGS</td><td>발급받은 인증값(TGT)을 제시하며 서비스 이용을 요청</td></tr>
+    <tr><td>④ TGS → 클라이언트</td><td>목적 서버 접근을 위한 서비스 티켓 발급</td></tr>
+    <tr><td>⑤ 클라이언트 → 서버</td><td>서비스 티켓을 제시</td></tr>
+    <tr><td>⑥ 서버 → 클라이언트</td><td>티켓 검증 후 접근 허용</td></tr>
+  </table>
+  <p>커버로스는 타임스탬프를 이용해 재전송(Replay) 공격을 방지하며, RFC 표준으로 키 분배뿐 아니라 사용자 인증 기능도 함께 제공한다. 다만 대칭키 암호 방식을 사용하므로, 공개키 인증서 발급이나 상대방의 공개키를 안전하게 배포하는 기능은 제공하지 않는다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>커버로스는 <strong>대칭키</strong> 암호 시스템을 사용한다 — "공개키에 대한 공인인증 기능을 제공한다"거나 "상대방의 공개키를 안전하게 수신한다"는 서술은 오답이다.</div>
+</section>
+
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (12문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 문항별로 재구성했습니다. 원본에는 한 페이지에 서로 다른 두 문제가 뒤섞여 추출되어 있던 부분을 분리했으며, 문항별 정답은 원문의 O/X 해설과 대조하여 검증했습니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. [2010년 기출] One Time Password에 대한 설명 중 옳은 것을 모두 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8-9)</span></div><ol class="quiz-options"><li>a, b</li><li>a, d</li><li>b, c</li><li>c, d</li></ol><div class="quiz-explanation"><strong>정답</strong> ② a, d — a. 일회용 패스워드이다(O). b. 재연(Replay) 공격에 취약하다(X, 재사용이 불가능하므로 취약하지 않음). c. 암호가 도청될 시 문제가 된다(X, 도청되어도 재사용이 불가능하므로 문제되지 않음). d. 인증하는 두 호스트가 같은 패스워드 목록(비밀키)을 공유해야 한다(O). <em style="color:#94a3b8;">※ 원본 자료에는 정답이 ③으로 표기되어 있으나, 함께 제시된 각 보기의 O/X 해설과 OTP의 특성(재사용 불가·도청 안전)에 근거하면 정답은 ②(a, d)가 되어야 하므로 바로잡았습니다.</em></div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. [2010년 기출] 다음에서 서술하고 있는 보안 프로토콜은 무엇인가? — 클라이언트가 서버를 신뢰할 수 없는 상황에서 사용할 수 있는 프로토콜이다. 사용자는 비밀 정보를 서버에게 노출하지 않으면서 비밀 정보를 알고 있다는 사실을 서버에게 확신시킴으로써 인증받는 방식이다. 임의의 높은 확률로 비밀을 알고 있다는 사실을 입증하는 확률적인 과정이 존재한다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8-9)</span></div><ol class="quiz-options"><li>영 지식(Zero-Knowledge) 증명</li><li>시도-응답(Challenge-Response) 방식</li><li>일회용 패스워드 방식</li><li>PFS(Perfect Forward Secrecy)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 영 지식(Zero-Knowledge) 증명 — 비밀 정보 자체를 노출하지 않으면서 그것을 알고 있다는 사실만 확률적으로 입증하는 방식이 핵심 특징이다. 참고로 PFS(완전 순방향 비밀성)는 비밀키가 노출되어도 이후 세션키의 안전성에는 영향을 주지 않는 성질을 말한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. [2015년 기출] 스마트카드를 이용하여 동적 데이터 인증 과정을 수행하기 위해 스마트카드 단말기에 배포되어야 하는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.10-11)</span></div><ol class="quiz-options"><li>인증기관(CA)의 공개키</li><li>스마트카드의 개인키</li><li>응용 프로그램 데이터와 스마트카드 공개키에 대해 발행자의 개인키를 이용하여 서명한 값</li><li>발행자의 공개키에 대해 인증기관(CA)의 개인키를 이용하여 서명한 값</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 인증기관(CA)의 공개키 — 단말기는 카드가 제시하는 서명값을 검증해야 하므로 CA의 공개키를 미리 갖고 있어야 한다. 개인키(②)는 본인만 알아야 하는 정보이므로 단말기에 배포될 수 없다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. [2014년 기출] 다음 생체인식(biometrics)의 정확도를 측정하는 매개변수 중 인식되어서는 안 될 사람이 얼마나 자주 시스템에 의해서 인식되는지를 나타내는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.10-11)</span></div><ol class="quiz-options"><li>정상 거부율(TRR: True Rejection Rate)</li><li>부정 거부율(FRR: False Rejection Rate)</li><li>정상 허용율(TAR: True Acceptance Rate)</li><li>부정 허용율(FAR: False Acceptance Rate)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 부정 허용율(FAR) — 인식되어서는 안 될 사람이 인식되는 것은 2종 오류(FAR)이며, 이는 기밀성 침해로 이어질 수 있어 보안상 더 치명적으로 간주된다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. [2010년 기출] 다음은 보안 정책의 원리 중 하나에 대한 설명이다. 서로 상충되는 두 가지 업무를 한 사람이 겸임하여 수행하지 못하도록 직무를 분산시키는 원리에 해당하는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.15-16)</span></div><ol class="quiz-options"><li>최소권한 정책</li><li>권한 분산</li><li>임무분리(직무분리)</li><li>권한 위임</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 임무분리(직무분리) — 보안 정책의 대표 원리는 최소권한 정책과 임무분리(직무분리) 원칙이며, 서로 상충되는 두 업무(예: 세금 고지 업무와 세금 수납 업무)를 한 사람에게 맡기지 않는 것이 대표적인 직무분리 사례다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. [2013년 기출] 기존의 접근통제에서는 모든 사용자 개개인의 접근통제 규칙을 보유하였지만, 이것이 효율적이지 못할 뿐만 아니라 때로 보안 사고의 원인이 되었다. 따라서 보안 관리자는 시스템에 접근하는 사용자들을 직책 및 보직을 기반으로 통제하고자 한다(예: 세금 고지 업무와 세금 수납 업무를 같은 사람에게 맡기지 않는다). 다음 설명에 가장 적절한 접근 통제 방법은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.15-16)</span></div><ol class="quiz-options"><li>임의적 접근통제</li><li>강제적 접근통제</li><li>역할기반 접근통제</li><li>다계층 접근통제</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 역할기반 접근통제(RBAC) — 직책 및 보직(역할)을 기반으로 접근을 통제하는 방식이 RBAC의 정의에 해당한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. [2011년 기출] 다음 역할기반 접근제어 모델(RBAC)에 관한 설명 중 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.17-18)</span></div><ol class="quiz-options"><li>권한을 역할과 연관시키고 사용자들이 적절한 역할을 할당받도록 하여 권한의 관리를 용이하게 한다.</li><li>권한은 사용자집합과 역할집합의 매개체 역할을 한다.</li><li>사용자는 조직의 구성원이나 프로세스 등 조직의 자원에 대한 접근을 요청하는 모든 개체이다.</li><li>권한은 조직의 자원에 대한 오퍼레이션의 관계를 추상화시킨 개체이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — RBAC 구조에서 사용자와 역할 사이의 매개체는 "권한"이 아니라 "역할(Role)" 그 자체이며, 권한(Permission)은 역할에 부여되는 오퍼레이션-자원 관계를 의미하므로 ②의 서술이 부적절하다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. [2012년 기출] 임의적 접근통제(DAC)와 강제적 접근통제(MAC)에 관한 설명 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.17-18)</span></div><ol class="quiz-options"><li>DAC는 객체 소유자에게 그 객체에의 접근권한을 제어하는 능력을 제공해주는 방법으로 구현된다.</li><li>MAC은 높은 보안을 요하는 정보가 낮은 보안수준의 주체에게 노출되지 않도록 접근을 제한한다.</li><li>DAC은 특정한 사용자 그룹이나 사용자에 한해서 액세스를 부여 또는 제한하는 방법이다.</li><li>MAC은 다른 사람에게 나의 권한을 나누어 주거나 막을 수 있도록 옵션(revoke, grant)을 주어서 행한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 권한을 다른 사람에게 나누어 주거나 회수(revoke·grant)할 수 있는 것은 객체 소유자가 권한을 통제하는 DAC의 특징이며, 보안관리자가 일괄 지정하는 MAC에는 해당하지 않는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. [2010년 기출] 사용자가 직접 객체에 접근할 수 없고 프로그램을 통해서만 객체에 접근할 수 있게 하는 보안 모델은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.19-20)</span></div><ol class="quiz-options"><li>Clark-Wilson 모델</li><li>Biba 모델</li><li>Bell-LaPadula 모델</li><li>모두 정답</li></ol><div class="quiz-explanation"><strong>정답</strong> ① Clark-Wilson 모델 — 무결성 중심의 상업용 모델로, 주체가 응용 프로그램(Well-formed Transaction)을 통해서만 객체에 접근하도록 한다. Biba는 No Write Up, Bell-LaPadula는 No Read Up·No Write Down 속성을 가진 모델이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. [2012년 기출] 다음 중 상위 등급의 주체가 하위 등급의 객체에 정보의 쓰기를 수행할 수 없도록 하는 속성(no write-down 속성)을 가진 보안 모델은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.19-20)</span></div><ol class="quiz-options"><li>Take-Grant 모델</li><li>Biba 모델</li><li>Clark-Wilson 모델</li><li>Bell-LaPadula 모델</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ Bell-LaPadula 모델 — No Write Down(상위 등급 주체가 하위 등급 객체에 쓰기 금지)과 No Read Up 속성을 가진 기밀성 중심 모델이다. Take-Grant는 권리 전달을 방향 그래프로 표현하는 모델, Biba는 No Write Up 속성을 가진 모델, Clark-Wilson은 프로그램을 통해서만 객체에 접근하는 모델이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. [2013년 기출] 다음 중 Kerberos 시스템에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.22-23)</span></div><ol class="quiz-options"><li>공개키 암호 시스템에서 사용되는 공개키에 대한 공인인증 기능을 제공한다.</li><li>Needham-Schroeder 프로토콜을 기반으로 개발되었으며 키 분배 기능을 제공한다.</li><li>키 분배센터(KDC)는 인증 서버(AS)와 티켓 발급 서버(TGS)로 구성된다.</li><li>키 분배센터(KDC)를 중심으로 인증 기능과 세션키를 발급하는 기능을 제공한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 커버로스는 공개키가 아니라 <strong>대칭키</strong> 암호 시스템을 사용하므로, 공인인증 기능을 제공한다는 서술은 옳지 않다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. [2016년 기출] 다음 중 커버로스에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.22-23)</span></div><ol class="quiz-options"><li>커버로스는 키분배센터(KDC: Key Distribution Center) 기반의 키 관리를 수행한다.</li><li>커버로스는 타임스탬프를 이용하여 재전송 공격을 방지한다.</li><li>커버로스는 RFC 표준으로 키분배뿐만 아니라 사용자 인증을 제공한다.</li><li>커버로스를 이용하여 사용자는 키분배 센터로부터 상대방의 공개키를 안전하게 수신한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 커버로스는 대칭키 암호 방식을 사용하므로 "상대방의 공개키를 안전하게 수신"하는 기능은 제공하지 않는다.</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SEC07] Chapter 4-3 · 메일·DB·컨텐츠·포렌식 보안</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SEC07] Chapter 4-3 · 메일·DB·컨텐츠·포렌식 보안</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/32</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul>
+<li><a href="#sec07-s01">1. 메일 보안</a></li>
+<li><a href="#sec07-s02">2. 데이터베이스 보안</a></li>
+<li><a href="#sec07-s03">3. 컨텐츠 보안</a></li>
+<li><a href="#sec07-s04">4. 포렌식</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (15)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+
+<section id="sec07-s01" class="section">
+  <h2>1. 메일 보안 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.1-6)</span></h2>
+  <p>메일 서비스란 인터넷 등의 통신망을 통해 주고받는 우편 방식으로, 전자우편·이메일(e-mail)이라고도 한다. 메일 보안 위협은 크게 비인가자가 주고받는 메일 내용을 가로채거나 조작하는 <strong>이메일 도청·변조</strong>와, 악의적인 사이트 접근을 유도하거나 악성 파일을 첨부해 전송하는 <strong>악성코드 감염 메일(사회공학적 공격)</strong>로 구분된다. 이러한 위협에 대응하기 위한 대표적인 메일 암호화 프로토콜이 PGP와 S/MIME이다.</p>
+
+  <h3>가. PGP(Pretty Good Privacy)</h3>
+  <p>1991년 Phil Zimmermann이 개발한 대표적 전자우편 보안 도구로, 별도의 인증기관(CA) 없이 사용자 간 신뢰(Web of Trust)를 기반으로 동작하는 것이 특징이다.</p>
+
+  <h3>나. S/MIME(Secure/Multipurpose Internet Mail Extension)</h3>
+  <p>인증서를 통해 인증, 메시지 무결성, 부인방지, 데이터 기밀성 등 메일 보안 서비스를 제공하는 프로토콜로, 어플리케이션 계층에서 동작하며 X.509 인증서를 사용한다.</p>
+  <table>
+    <tr><th>항목</th><th>PGP</th><th>S/MIME</th></tr>
+    <tr><td>표준 형식</td><td>자체 정의</td><td>X.509, PKCS#7</td></tr>
+    <tr><td>제공 서비스</td><td>기밀성, 메시지인증, 사용자인증, 송신부인방지</td><td>기밀성, 무결성, 인증, 부인방지</td></tr>
+    <tr><td>암호 알고리즘</td><td>공개키: RSA, Diffie-Hellman, DSA<br>대칭키: CAST, IDEA, 3DES</td><td>공개키: RSA, Diffie-Hellman<br>대칭키: RC2, 3DES</td></tr>
+    <tr><td>공인인증서 필요 여부</td><td>불필요</td><td>필요</td></tr>
+  </table>
+  <p>PGP는 전자우편 메시지의 비밀성을 위해 전자서명 된 메시지에 대칭키 암호화를 수행할 때 세션키를 사용하며, 인증 기능을 위해서는 메시지의 해시 값을 생성한 뒤 송신자의 개인키로 전자서명을 생성한다. 다만 세션키 자체는 <strong>수신자의 공개키</strong>로 암호화하여 전송해야 하며, 송신자의 개인키로 세션키를 서명·전송한다는 서술은 잘못된 설명이다.</p>
+  <p>S/MIME은 <strong>어플리케이션 계층</strong>에서의 보안을 제공하며(네트워크 계층이 아님), 평문 메시지에 공개키 암호방식을 적용해 보안성을 제공하고, 이진값으로 암호화된 본문·서명 부분은 모두 MIME 형식으로 변환되어 전송된다. 세션키 분배에는 Diffie-Hellman 방식과 RSA 공개키 방식이 사용된다.</p>
+  <p>S/MIME은 암호처리 외에도 부가적인 보안 서비스로 <strong>서명된 수령증(Signed Receipts)</strong>, <strong>보안 레이블(Security Labels)</strong>, <strong>안전한 메일링리스트(Secure Mailing Lists)</strong> 등을 제공한다. 신뢰망(Web of Trust)은 PGP의 인증 방식이며, S/MIME은 이와 달리 공인 인증기관을 통한 <strong>공개망(계층적 신뢰구조)</strong> 방식을 사용한다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · PGP vs S/MIME</span>PGP = 사용자 간 신뢰망(Web of Trust) 기반, 공인인증서 불필요. S/MIME = 공인 인증기관(CA) 기반 X.509 인증서 필요, Signed Receipts·Security Labels·Secure Mailing Lists 같은 부가 서비스 제공.</div>
+</section>
+
+<section id="sec07-s02" class="section">
+  <h2>2. 데이터베이스 보안 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.7-12)</span></h2>
+
+  <h3>가. 데이터베이스 보안 요구사항</h3>
+  <table>
+    <tr><th>보안 요구사항</th><th>설명</th><th>보안 통제</th></tr>
+    <tr><td>추론 방지</td><td>간접적으로 노출된 데이터를 통해 다른 데이터를 추론하여 공개되는 것을 방지</td><td>추론 통제</td></tr>
+    <tr><td>데이터 무결성</td><td>데이터베이스 내 자료가 잘못된 갱신 또는 비인가된 변조로부터 보호됨</td><td>접근 통제</td></tr>
+    <tr><td>사용자 인증</td><td>접근한 사용자가 정당한 사용자인지 확인 및 허가</td><td>-</td></tr>
+    <tr><td>감사(Audit)</td><td>데이터베이스에서 일어나는 행위를 기록하여 정당한 사용자가 정당한 작업을 수행했는지 파악</td><td>흐름 통제</td></tr>
+  </table>
+  <p>데이터베이스 보안 통제는 크게 <strong>추론 통제(Inference Control)</strong>, <strong>접근 통제(Access Control)</strong>, <strong>흐름 통제(Flow Control)</strong>로 구분되며, 일반적인 위험 관리(Risk Control)는 DB 보안 통제의 고유 분류 항목이 아니다.</p>
+
+  <h3>나. 데이터베이스 암호화 방법</h3>
+  <table>
+    <tr><th>방법</th><th>API 방식</th><th>플러그인(Plug-In) 방식</th></tr>
+    <tr><td>설명</td><td>외부 어플리케이션 영역에서 암·복호화 수행</td><td>DBMS 자체에 암·복호화 모듈 설치</td></tr>
+    <tr><td>장점</td><td>데이터베이스 서버에 부하 없음</td><td>그래픽 기반 인터페이스로 관리 편의성이 높고 검색 용이</td></tr>
+    <tr><td>단점</td><td>데이터베이스 내부 레벨에서는 별도 API 모듈이 필요하며, 애플리케이션 전체 수정이 필요</td><td>데이터베이스 서버에 부하 발생</td></tr>
+  </table>
+  <p>즉 API 방식은 DB 성능 저하가 없다는 장점이 있으나 애플리케이션의 전체적인 수정이 필요하다는 특징이 있으며, 반대로 Plug-In(Kernel) 방식은 DBMS 자체에 보안 모듈을 두므로 DB 성능이 저하될 수 있다.</p>
+
+  <h3>다. 데이터베이스 감사(Audit)</h3>
+  <p>데이터베이스 감사는 서버의 설정·운영과 관련된 정보 변경, 객체 생성 및 변경 내역, 주요 데이터의 조회·이동 내역 등을 수집·기록하여 정당한 사용자의 정당한 작업 여부를 추적한다. 다만 <strong>데이터베이스 암호화 키</strong> 자체는 감사에서 수집하는 대상 정보가 아니라 별도로 안전하게 관리되어야 할 보안 자산이다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>DB 보안 통제 3요소(추론·접근·흐름 통제)에 "Risk Control"은 포함되지 않는다. 감사 수집 대상에 "암호화 키" 자체는 포함되지 않는다(암호화 키는 보호 대상이지 감사 로그 항목이 아님).</div>
+</section>
+
+<section id="sec07-s03" class="section">
+  <h2>3. 컨텐츠 보안 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.13-22)</span></h2>
+  <p>컨텐츠 보안이란 불법 복제 등의 저작권 침해로부터 디지털 컨텐츠(이미지, 영상, 출판물 등)를 보호하는 것으로, 대표적인 보호 기술로는 워터마킹, 핑거프린팅, DRM이 있다.</p>
+
+  <h3>가. 워터마킹 vs 핑거프린팅</h3>
+  <table>
+    <tr><th>항목</th><th>워터마킹(Watermarking)</th><th>핑거프린팅(Fingerprinting)</th></tr>
+    <tr><td>목적</td><td>불법 복제 방지</td><td>불법 유통 방지</td></tr>
+    <tr><td>삽입 정보</td><td>저작권 정보</td><td>저작권 정보 + 구매자 정보</td></tr>
+    <tr><td>컨텐츠 변환 시점</td><td>최초 저작 시점</td><td>구매 시점마다</td></tr>
+    <tr><td>장점</td><td>많은 정보 삽입 가능, 공모공격이 어려움</td><td>변조·변형·손실압축에 강함, 품질 저하가 거의 없음</td></tr>
+    <tr><td>취약점</td><td>불법 유통에는 취약</td><td>공모공격에는 취약</td></tr>
+  </table>
+  <p>디지털 워터마킹은 사진·오디오·동영상 등 디지털 미디어에 저작권 정보와 같은 비밀 정보를 삽입해 관리하는 기술로, 저작권 보호·위조 및 변조 여부 판별·불법 복제 추적 등에 사용된다. 전자 코드북(ECB)은 블록암호 운영모드의 하나이고, 풋프린트(footprint)는 디지털 흔적을 의미할 뿐 저작권 삽입 기술이 아니므로 워터마킹과 혼동하지 않도록 주의한다.</p>
+
+  <h3>나. DRM(Digital Rights Management)</h3>
+  <p>DRM은 음악 등의 콘텐츠를 구매한 사용자가 PC나 모바일 등의 기기에서 다운로드하거나 재생할 수 있도록 통제하는 기술이다. 콘텐츠(음악·출판물·영화)는 디지털 파일로 변환되며 이 과정에서 식별번호 부여 및 워터마킹이 적용되고, 사용자가 지불을 완료하면 PC·모바일 등 시스템으로 내려받기가 가능해진다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SEC07fig/p015.jpg" alt="DRM 동작 구조도. 콘텐츠(음악·출판물·영화)가 디지털 파일로 변환되며 식별번호 부여와 워터마킹이 적용되고, 사용자가 지불하면 PC·모바일 시스템으로 다운로드되는 흐름을 나타낸 도식"><figcaption>[그림] DRM(Data Right Management) 동작 구조 — 콘텐츠 → 디지털 파일(식별번호·워터마킹) → 지불 → PC/모바일 다운로드</figcaption></figure>
+  <p>DRM의 요소 기술에는 메타데이터(저자·저작권자·발행일 등 저작권 관리에 필요한 데이터 구조와 정보), 패키징(시큐어 콘테이너를 구성하는 과정), 사용자 인증·디바이스 인증(또는 이 둘을 결합한 인증) 등이 있다. 권리 표현 언어(REL)로는 <strong>XrML, ODRL, SRDL, XMCL</strong> 등이 사용되며, DOI·MPEG-21·D11은 권리 표현 언어가 아니라 각각 식별자·표준·기타 규격에 해당하므로 구분해야 한다.</p>
+
+  <h3>다. 모바일 보안</h3>
+  <table>
+    <tr><th>방안</th><th>설명</th></tr>
+    <tr><td>AP 관리</td><td>사전에 등록한 기기만 접근을 허용하며 PC 영역과 분리</td></tr>
+    <tr><td>네트워크 접근제어(NAC)</td><td>허가된 기기가 일정 수준 이상의 보안 정책을 만족해야 내부망 접근을 허가</td></tr>
+    <tr><td>디바이스 관리(MDM)</td><td>Mobile Device Management — 모바일 기기의 설정·정책·원격 제어를 통합 관리</td></tr>
+    <tr><td>디바이스 가상화</td><td>개인 사용 영역과 업무용 영역을 구분</td></tr>
+    <tr><td>PC 연결 제어</td><td>모바일-PC 간의 연결을 통제</td></tr>
+    <tr><td>사용자 교육</td><td>모바일 기기를 통한 정보 유출·악성코드 확산 사례 및 준수사항 교육</td></tr>
+  </table>
+  <p>모바일 오피스 환경에서 BYOD(Bring Your Own Device) 서비스 제공을 위한 대표적인 보안 강화 기술은 <strong>NAC</strong>(허가된 기기가 일정 보안수준을 만족할 때만 접근 허용)와 <strong>MDM</strong>(모바일 기기 통제)이다. 또한 마켓에서 유통되는 애플리케이션의 보안성 검증과 개발자 신원 확인·인증을 강화하기 위한 기술로 <strong>코드 서명(Code Signing)</strong>이 사용된다.</p>
+  <p>PC 사용자를 가짜 사이트로 유도해 개인정보를 불법 수집하는 공격은 <strong>파밍(Pharming)</strong>이다. 피싱(Phishing)이 이메일 등으로 사용자를 속여 가짜 사이트로 유인하는 것과 달리, 파밍은 DNS 조작 등으로 정상 URL 입력 시에도 자동으로 가짜 사이트에 접속되도록 하는 것이 특징이다.</p>
+</section>
+
+<section id="sec07-s04" class="section">
+  <h2>4. 포렌식 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.23-32)</span></h2>
+  <p>포렌식(Forensics)이란 법정 제출을 위해 디지털 증거 자료를 수집·분석하는 기술로, 효력을 인정받기 위해서는 원칙과 절차를 준수하여 증거를 취급하는 것이 무엇보다 중요하다.</p>
+
+  <h3>가. 포렌식의 5대 원칙</h3>
+  <table>
+    <tr><th>원칙</th><th>설명</th></tr>
+    <tr><td>정당성</td><td>정당한 도구를 사용해 적법한 절차에 따라 증거를 획득해야 함</td></tr>
+    <tr><td>재현</td><td>동일한 환경에서 동일한 결과를 낼 수 있도록 재현 가능해야 함</td></tr>
+    <tr><td>신속성</td><td>증거 훼손을 최소화하기 위해 최대한 빠른 시간 내에 수집</td></tr>
+    <tr><td>연계보관성(Chain of Custody)</td><td>수집된 증거가 이송·분석·보관되어 법정에 제출되기까지의 전 과정이 추적 가능해야 함</td></tr>
+    <tr><td>무결성</td><td>증거가 법정에 제출되는 과정에서 위·변조되어서는 안 됨</td></tr>
+  </table>
+  <p>증거는 조사용 컴퓨터에 원본 하드디스크를 직접 마운트하는 것이 아니라 <strong>복제본을 마운트</strong>하여 조사해야 한다. CAAT(Computer Aided Audit Technique)는 감사 자동화 도구이고 MRTG(Multi Router Traffic Grapher)는 네트워크 관리 도구로, 둘 다 포렌식 증거 수집의 적절한 방법은 아니다. 법적 효력을 갖는 증거를 수집하는 가장 적절한 방법은 피의자의 PC를 수거해 송수신 이메일 등을 직접 분석하는 것이다.</p>
+
+  <h3>나. 포렌식 절차</h3>
+  <p>① 수사준비(팀 구성, 도구 준비, 수사 계획) → ② 증거수집(현장에서 휘발성·비휘발성 증거 획득) → ③ 보관 및 이동(훼손되지 않도록 증거물 포장·운반) → ④ 분석(수집한 증거를 상세히 조사) → ⑤ 보고서 작성 순으로 진행한다.</p>
+
+  <h3>다. 휘발성 데이터와 비휘발성 데이터</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>휘발성 증거</td><td>실시간으로 변화하거나 시스템 종료 시 사라지는 데이터. 예: 시간정보, 로그온 사용자 정보, 클립보드 데이터, 프로세스 정보 등</td></tr>
+    <tr><td>비휘발성 증거</td><td>전원이 종료되어도 보존되는 데이터. 예: 파일, 로그</td></tr>
+  </table>
+  <p>휘발성 증거의 수집은 소실 가능성이 높은 순서대로 우선순위를 두며, <strong>레지스터와 캐시 → 시스템 메모리의 내용 → 임시 파일시스템 → 디스크의 데이터</strong> 순으로 수집한다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 원칙 서술 바꿔치기 주의</span>"이송·분석·보관·법정 제출 과정의 추적 가능성"은 <strong>연계보관성</strong>의 정의이며, 이를 무결성의 원칙으로 서술하는 것이 전형적인 오답 패턴이다. 무결성은 "위·변조되지 않아야 함" 자체를 의미한다.</div>
+</section>
+
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (15문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 문항별로 재구성했습니다. 원본에는 한 페이지에 서로 다른 문제가 뒤섞여 추출되어 있던 부분을 분리했으며, 문항별 정답은 원문의 O/X 해설과 대조하여 검증했습니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. [2013년 기출] 다음 중 PGP에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.3-4)</span></div><ol class="quiz-options"><li>전자우편 메시지에 대해 IDEA 대칭키 암호 알고리즘과 RSA 공개키 암호 알고리즘을 사용한다.</li><li>전자우편 메시지에 대한 비밀성을 제공하기 위해 전자서명 된 메시지에 대한 대칭키 암호화 과정을 수행할 때 세션키를 사용한다.</li><li>전자우편 메시지에 대한 인증 기능을 제공하기 위해 메시지에 대한 해쉬 값을 생성한 후에 이를 송신자의 개인키로 전자서명을 생성한다.</li><li>전자우편 메시지에 대한 암호화 과정에서 사용된 세션키를 안전하게 전송하기 위해 송신자의 개인키로 세션키에 대한 전자서명을 생성하고 이를 압축한 후에 전송한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 세션키는 송신자의 개인키가 아니라 <strong>수신자의 공개키</strong>로 암호화하여 전송해야 한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. [2015년 기출] S/MIME(Secure/Multipurpose Internet Mail Extension)에 대한 설명 중 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.3-4)</span></div><ol class="quiz-options"><li>네트워크계층에서의 보안을 제공한다.</li><li>평문메시지에 공개키 암호방식을 적용하여 보안성을 제공한다.</li><li>이진값으로 암호화된 본문이나 서명 부분은 모두 MIME으로 변환되어 전송한다.</li><li>세션키를 분배하기 위하여 Diffie-Hellman 방식과 RSA 공개키 방식을 사용한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — S/MIME은 네트워크 계층이 아니라 <strong>어플리케이션 계층</strong>에서 보안을 제공한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. [2016년 기출] S/MIME에서는 암호처리 외에도 부가적인 전자우편 보안 서비스들을 제공한다. 다음 중 S/MIME 보안 서비스와 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.5-6)</span></div><ol class="quiz-options"><li>신뢰망(Web of Trust)</li><li>서명된 수령증(Signed Receipts)</li><li>보안 레이블(Security Labels)</li><li>안전한 메일링리스트(Secure Mailing Lists)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 신뢰망(Web of Trust)은 PGP의 인증 방식이며, S/MIME은 공인 인증기관(CA) 기반의 공개망 방식을 사용한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. [2012년 기출] 다음 중 DB 성능을 저하시키지 않는 장점이 있으나 애플리케이션의 전체적인 수정이 필요한 DB 암호화 방식은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.9-10)</span></div><ol class="quiz-options"><li>Plug-In 방식</li><li>API 방식</li><li>Kernel 방식</li><li>Appliance 방식</li></ol><div class="quiz-explanation"><strong>정답</strong> ② API 방식 — 외부 애플리케이션 영역에서 암복호화하므로 DB 서버 부하는 없으나, 애플리케이션 전체 수정이 필요하다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. [2013년 기출] 다음 중 데이터베이스 보안 통제에 해당하지 않는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.9-10)</span></div><ol class="quiz-options"><li>Inference Control</li><li>Risk Control</li><li>Access Control</li><li>Flow Control</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — DB 보안 통제의 3요소는 추론(Inference)·접근(Access)·흐름(Flow) 통제이며, Risk Control은 포함되지 않는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. [2016년 기출] 데이터베이스에 대한 감사에서 수집하는 정보로 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.11-12)</span></div><ol class="quiz-options"><li>데이터베이스 서버의 설정 및 운영과 관련된 정보 변경</li><li>데이터베이스 암호화 키</li><li>객체 생성 및 변경 내역</li><li>주요 데이터의 조회 및 이동 내역</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 데이터베이스 암호화 키는 감사 수집 대상 정보가 아니라 그 자체로 별도 보호되어야 할 보안 자산이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. [2016년 기출] DRM의 요소 기술에 관한 설명 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.16-17)</span></div><ol class="quiz-options"><li>메타데이터는 저자, 저작권자, 발행일 등 저작권 관리를 위해 필요한 데이터 구조 및 정보이다.</li><li>권리 표현 언어는 DOI, MPEG-21, D11 등이 있다.</li><li>패키징은 시큐어 콘테이너를 구성하는 과정을 의미한다.</li><li>DRM에서 인증은 사용자 인증, 디바이스 인증 그리고 이 둘을 결합한 방식으로 나뉜다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 권리 표현 언어(REL)는 XrML, ODRL, SRDL, XMCL 등이며, DOI·MPEG-21·D11은 REL이 아니다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. [2010년 기출] 다음에서 설명하는 기술은 무엇인가? — 사진, 오디오, 동영상과 같은 디지털 미디어에 저작권 정보와 같은 비밀 정보를 삽입하여 관리하는 기술을 의미한다. 저작권 보호, 위조 및 변조 여부 판별, 불법 복제 추적 등을 위해 사용된다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.16-17)</span></div><ol class="quiz-options"><li>디지털 워터마킹(Watermarking)</li><li>전자 코드북(ECB)</li><li>디지털 서명</li><li>풋프린트(Footprint)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 디지털 워터마킹 — 전자 코드북(ECB)은 블록암호 운영모드, 디지털 서명은 인증 기술, 풋프린트는 디지털 흔적을 의미할 뿐이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. [2015년 기출] 모바일 단말기를 통해 외부에서 업무를 처리하는 모바일 오피스 환경에서 BYOD(Bring Your Own Device) 서비스 제공을 위한 보안 강화 기술과 가장 관련된 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.19-20)</span></div><ol class="quiz-options"><li>NAC(Network Access Control)</li><li>proof carrying code</li><li>MDM(Mobile Device Management)</li><li>SecureMSM(Mobile Station Modem)</li></ol><div class="quiz-explanation"><strong>정답</strong> ①, ③ — NAC는 허가된 기기의 보안 정책 준수 여부를 검증해 접근을 허가하고, MDM은 모바일 기기 자체를 통제하는 기술이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. [2015년 기출] 스마트폰 애플리케이션과 관련하여 악성 애플리케이션이 유통되지 않도록 마켓에서 판매되는 애플리케이션에 대한 보안성 검증을 강화하면서 애플리케이션 개발자의 신원 확인·인증을 강화하기 위해 사용된 기술은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.19-20)</span></div><ol class="quiz-options"><li>repackaging</li><li>decompile</li><li>code signing</li><li>mobile trusted module</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ code signing — 애플리케이션 개발자의 신원 확인·인증을 강화하는 기술이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. [2014년 기출] 다음에 가장 적합한 해킹 기법은? — AA 은행에 접근하려고 하였던 K씨는 자신의 PC가 해킹되어 정상적으로 AA은행에 접속하려 해도 해커의 가짜은행 사이트로 접속되는 것을 알게 되었다. 또한 해커가 구축해 놓은 가짜 은행 웹사이트에서는 개인정보를 불법적으로 수집하고 있었다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.21-22)</span></div><ol class="quiz-options"><li>Pharming</li><li>Phishing</li><li>SQL Injection</li><li>Smishing</li></ol><div class="quiz-explanation"><strong>정답</strong> ① Pharming — 정상 URL 입력에도 DNS 조작 등으로 가짜 사이트로 접속되게 하는 공격이다. Smishing은 SMS를 이용한 피싱이며, SQL Injection은 웹 애플리케이션 취약점 공격 기법이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. [2013년 기출] 포렌식에서는 법적 효력을 갖는 증거를 수집하는 것이 무엇보다 중요하다. 포렌식 과정에서 증거를 수집하는 방법으로 다음 중 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.27-28)</span></div><ol class="quiz-options"><li>파일 시스템에서 증거를 수집하기 위하여 조사용 컴퓨터에 증거 하드디스크를 직접 마운트하여 조사한다.</li><li>CAAT(Computer Aided Audit Technique) 분석 방법을 통하여 네트워크 패킷 트래픽을 모니터링 한다.</li><li>각 피의자의 PC를 수거하여 피의자의 송수신 이메일을 분석한다.</li><li>MRTG(Multi Router Traffic Grapher) 툴을 사용하여 시스템(PC)에서 활성데이터를 수집한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 원본 하드디스크는 복제본을 마운트해 조사해야 하며, CAAT는 감사 자동화 도구, MRTG는 네트워크 관리 도구로 증거 수집 방법이 아니다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. [2015년 기출] 포렌식을 통해 획득한 증거는 법적인 효력을 가져야할 필요가 있다. 포렌식의 기본원칙에 대한 설명 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.29-30)</span></div><ol class="quiz-options"><li>재현의 원칙: 증거를 복구하는 과정에서 똑같은 환경에서 같은 결과가 나오도록 재현할 수 있어야 함.</li><li>신속성의 원칙: 시스템 안의 디스크 또는 메모리 정보가 휘발되기 전에 빠르게 획득하여야 함.</li><li>정당성의 원칙: 모든 증거는 적법한 절차를 거쳐서 획득하여야 함.</li><li>무결성의 원칙: 증거의 이송·분석·보관·법정 제출이라는 일련의 과정에 대한 추적이 가능해야 함.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 해당 서술은 연계보관성(Chain of Custody)의 정의이며, 무결성의 원칙은 "제출 과정에서 위·변조되어서는 안 됨"을 의미한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. [2016년 기출] 디지털 포렌식 과정에서 수집된 디지털 증거가 법적 효력을 가지고 증거 능력을 인정받기 위한 원칙 중 "증거는 획득되고 난 뒤 이송·분석·보관·법정 제출이라는 일련의 과정이 명확해야 하고 이러한 과정에 대한 추적이 가능해야 한다"는 설명에 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.31-32)</span></div><ol class="quiz-options"><li>정당성의 원칙</li><li>무결성의 원칙</li><li>재현의 원칙</li><li>연계 보관성의 원칙(Chain of Custody)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 연계 보관성의 원칙</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. [보안기사 8회 기출] 휘발성 증거들의 수집 순서를 우선순위가 높은 것부터 올바르게 배열한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.31-32)</span></div><ol class="quiz-options"><li>레지스터와 캐시, 시스템 메모리의 내용, 임시파일시스템, 디스크의 데이터</li><li>시스템 메모리의 내용, 레지스터와 캐시, 임시파일시스템, 디스크의 데이터</li><li>레지스터와 캐시, 임시파일시스템, 시스템 메모리의 내용, 디스크의 데이터</li><li>레지스터와 캐시, 디스크의 데이터, 시스템 메모리의 내용, 임시파일시스템</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 레지스터와 캐시 → 시스템 메모리의 내용 → 임시파일시스템 → 디스크의 데이터 — 소실 가능성이 높은(휘발성이 강한) 순서대로 수집한다.</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

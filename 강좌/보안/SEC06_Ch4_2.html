@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[SEC06] Chapter 4-2 · 개발 보안(시큐어 코딩)</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[SEC06] Chapter 4-2 · 개발 보안(시큐어 코딩)</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/36</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul>
+<li><a href="#sec06-s01">1. 개발보안 개요와 방법론</a></li>
+<li><a href="#sec06-s02">2. 분석·설계 단계의 보안 요구 항목</a></li>
+<li><a href="#sec06-s03">3. 구현 단계의 소프트웨어 보안 약점</a></li>
+<li><a href="#sec06-s04">4. 보안요구항목·보안약점 매핑 및 탐지 판정</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (6)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+
+<section id="sec06-s01" class="section">
+  <h2>1. 개발보안 개요와 방법론 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.1-4)</span></h2>
+  <p>개발 단계에서 보안을 적용하면 유지보수 비용을 크게 줄일 수 있다. Microsoft社가 Secure SDLC를 적용한 결과 Windows(45%), SQL Server(91%)의 취약점 공개 건수가 대폭 감소했으며, 보안패치 등 유지보수 비용도 확연히 줄어든 것으로 발표되었다. 또한 NIST(National Institute of Standards and Technology)에 따르면, 결함을 제품 출시 이후 단계에서 발견해 수정할 경우 요구사항·아키텍처 단계에서 수정하는 것보다 약 <strong>30배</strong>의 비용이 요구된다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/SEC06fig/p001.jpg" alt="개발 단계별 보안 적용 효과 그래프. 왼쪽은 Microsoft의 Windows XP→Vista(45% 취약점 감소), SQL Server 2000→2005(91% 취약점 감소) 사례를, 오른쪽은 NIST의 결함 수정 시점별 상대 비용 그래프로 요구사항/아키텍처 단계 1배에서 출시 이후 단계 30배까지 비용이 증가함을 보여줌"><figcaption>[그림] 개발 단계별 보안 적용 효과 — Microsoft SDL 적용 전후 취약점 비교(좌), NIST 결함 수정 시점별 상대 비용(우, 출시 이후 최대 30배)</figcaption></figure>
+
+  <h3>가. 소프트웨어 개발보안 방법론 — 개발 단계별 보안 활동</h3>
+  <table>
+    <tr><th>단계</th><th>주요 보안 활동</th></tr>
+    <tr><td>요구사항분석</td><td>요구사항 중 보안항목 식별, 요구사항 명세서 작성</td></tr>
+    <tr><td>설계</td><td>위험원 도출을 위한 위험모델링, 보안설계 검토 및 보안설계서 작성, 보안 통제 수립</td></tr>
+    <tr><td>구현</td><td>표준 코딩 정의서 및 SW개발보안 가이드를 준수해 개발, 소스코드 보안약점 진단 및 개선</td></tr>
+    <tr><td>테스트</td><td>모의침투 테스트 또는 동적분석을 통한 보안취약점 진단 및 개선</td></tr>
+    <tr><td>유지보수</td><td>지속적인 개선, 보안패치</td></tr>
+  </table>
+
+  <h3>나. 프로젝트 참여자별 역할</h3>
+  <table>
+    <tr><th>역할</th><th>주요 책임</th></tr>
+    <tr><td>프로젝트 관리자(Project Manager)</td><td>응용프로그램 보안전략 공지, 조직 상태 모니터링, 프로젝트 일정 및 응용프로그램 보안영향 이해시킴</td></tr>
+    <tr><td>요구사항 분석가(Requirement Specifier)</td><td>보안관련 비즈니스 요구사항 상세 설명 역량 보유, 구조 정의·자원 보안요구사항 결정, 유즈케이스 보안고려사항 기반 오용사례 정의</td></tr>
+    <tr><td>아키텍트(Architect)</td><td>보안기술 문제 이해, 시스템이 사용하는 모든 리소스 상세 정의</td></tr>
+    <tr><td>설계자(Designer)</td><td>특정 기술의 보안요구사항 만족 여부 확인, 수정에 따른 위험 최소화 로드맵 제공, 통합 시 위험 이해 및 식별된 보안위협 대응</td></tr>
+    <tr><td>구현개발자(Implementer)</td><td>시큐어 코딩을 준수하여 개발·문서화</td></tr>
+    <tr><td>테스트 분석가(Test Analyst)</td><td>요구사항과 구현결과를 반복적으로 확인</td></tr>
+    <tr><td>보안감사자(Security Auditor)</td><td>프로젝트 전체 단계에서 보안 요구사항 및 이슈 확인</td></tr>
+  </table>
+</section>
+
+<section id="sec06-s02" class="section">
+  <h2>2. 분석·설계 단계의 보안 요구 항목 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.4-11)</span></h2>
+  <p>「소프트웨어 개발 보안 가이드」는 분석·설계 단계의 보안 요구 항목을 <strong>입력데이터 검증 및 표현(10)</strong>, <strong>보안기능(8)</strong>, <strong>에러처리(1)</strong>, <strong>세션통제(1)</strong>의 4개 유형(항목 수는 세부 요구항목 개수)으로 분류한다. 이는 구현 단계의 보안약점 7개 유형(입력데이터 검증 및 표현·보안기능·시간 및 상태·에러처리·코드 오류·캡슐화·API 오용)과 대응 관계를 가진다.</p>
+
+  <h3>가. 입력데이터 검증 및 표현 — 세부 요구 항목</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th><th>비고</th></tr>
+    <tr><td>DBMS 조회 및 결과 검증</td><td>DBMS 조회 질의문 생성 시 사용되는 입력값과 조회 결과에 대한 검증(필터링 등) 및 유효하지 않은 값의 처리방법 설계</td><td>입·출력값 검증</td></tr>
+    <tr><td>XML 조회 및 결과 검증</td><td>XML 조회 질의문(Xpath, Xquery 등) 생성 시 입력값과 조회결과에 대한 검증방법 설계</td><td></td></tr>
+    <tr><td>디렉터리 서비스 조회 및 결과 검증</td><td>디렉터리 서비스 조회(LDAP 등) 시 사용되는 입력값과 결과에 대한 검증방법 설계</td><td></td></tr>
+    <tr><td>시스템 자원 접근 및 명령어 수행 입력값 검증</td><td>시스템 자원 접근·명령어 수행에 사용되는 입력값의 유효성 검증 및 처리방법 설계</td><td></td></tr>
+    <tr><td>웹 서비스 요청 및 결과 검증</td><td>웹 서비스(게시판 등) 요청·응답결과에 대한 검증방법과 부적절한 데이터 처리방법 설계</td><td></td></tr>
+    <tr><td>웹 기반 중요기능 수행 요청 유효성 검증</td><td>사용자 권한확인이 필요한 중요기능(결제 등) 요청의 유효성 검증 및 처리방법 설계</td><td>입·출력값 검증</td></tr>
+    <tr><td>HTTP 프로토콜 유효성 검증</td><td>비정상 HTTP 헤더·자동연결 URL 링크 등에 대한 유효성 검증 및 처리방법 설계</td><td></td></tr>
+    <tr><td>허용된 범위 내 메모리 접근</td><td>허용된 메모리 버퍼 범위 내에서만 저장·읽기가 수행되어 버퍼오버플로우가 발생하지 않도록 처리방법 설계</td><td></td></tr>
+    <tr><td>보안기능 동작에 사용되는 입력값 검증</td><td>보안기능(인증·인가·권한부여 등) 동작에 사용되는 입력값·수행결과에 대한 처리방법 설계</td><td></td></tr>
+    <tr><td>업로드·다운로드 파일 검증</td><td>업로드·다운로드 파일의 무결성·실행권한 등에 대한 유효성 검사 방법 설계 및 실패 시 대응방안</td><td>파일관리</td></tr>
+  </table>
+
+  <h3>나. 보안기능 — 세부 요구 항목</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th><th>비고</th></tr>
+    <tr><td>인증 대상 및 방식</td><td>중요정보·기능과 인증방식을 정의하고, 인증 기능이 우회되지 않도록 설계</td><td>인증관리</td></tr>
+    <tr><td>인증 수행 제한</td><td>인증 반복시도 제한 및 인증실패 등에 대한 인증제한 기능 설계</td><td></td></tr>
+    <tr><td>비밀번호 관리</td><td>안전한 비밀번호 조합규칙, 안전한 저장·재설정·변경 정책, 패스워드 관리 규칙(주기적 변경 등) 설계</td><td></td></tr>
+    <tr><td>중요자원 접근통제</td><td>중요자원을 정의하고 접근을 통제하는 신뢰할 수 있는 방법(권한관리 포함) 및 실패 시 대응방안 설계</td><td>권한관리</td></tr>
+    <tr><td>암호키 관리</td><td>암호키 생성·분배·접근·파기 등 생명주기를 안전하게 관리하는 방법 설계</td><td>암호화</td></tr>
+    <tr><td>암호연산</td><td>국제표준·검증필 프로토콜의 안전한 암호 알고리즘을 선정하여 충분한 키 길이·솔트·난수값 기반 연산 설계</td><td></td></tr>
+    <tr><td>중요정보 저장</td><td>중요정보(비밀번호, 개인정보 등) 저장 시 안전한 저장·관리 방법 설계</td><td>중요정보 처리</td></tr>
+    <tr><td>중요정보 전송</td><td>중요정보 전송 시 안전한 전송방법 설계</td><td></td></tr>
+  </table>
+
+  <h3>다. 에러처리 및 세션통제</h3>
+  <p><strong>에러처리</strong>는 오류메시지에 중요정보(개인정보·시스템정보 등)가 포함되어 출력되거나 오류가 부적절하게 처리되어 의도치 않은 상황이 발생하지 않도록 하는 안전한 예외처리 설계를 요구한다. <strong>세션통제</strong>는 다른 세션 간 데이터 공유 금지, 세션 ID 노출 금지, (재)로그인 시 세션 ID 변경, 세션 종료(비활성화·유효기간) 처리 등 세션을 안전하게 관리하는 방안 설계를 요구한다.</p>
+</section>
+
+<section id="sec06-s03" class="section">
+  <h2>3. 구현 단계의 소프트웨어 보안 약점 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.12-21)</span></h2>
+  <p>구현 단계의 소프트웨어 보안 약점은 7개 유형(입력데이터 검증 및 표현·보안기능·시간 및 상태·에러처리·코드 오류·캡슐화·API 오용)으로 분류된다.</p>
+
+  <h3>가. 입력데이터 검증 및 표현 관련 보안약점</h3>
+  <table>
+    <tr><th>보안 약점</th><th>설명</th></tr>
+    <tr><td>SQL 삽입</td><td>검증되지 않은 외부 입력값이 SQL 쿼리문 생성에 사용되어 악의적인 쿼리가 실행될 수 있는 보안약점</td></tr>
+    <tr><td>경로 조작 및 자원 삽입</td><td>검증되지 않은 외부 입력값이 시스템 자원 접근경로·자원제어에 사용되어 공격자가 조작할 수 있는 보안약점</td></tr>
+    <tr><td>크로스사이트 스크립트</td><td>검증되지 않은 외부 입력값에 의해 사용자 브라우저에서 악의적인 스크립트가 실행될 수 있는 보안약점</td></tr>
+    <tr><td>운영체제 명령어 삽입</td><td>검증되지 않은 외부 입력값이 운영체제 명령문 생성에 사용되어 악의적인 명령어가 실행될 수 있는 보안약점</td></tr>
+    <tr><td>위험한 형식 파일 업로드</td><td>파일 확장자 등 형식 검증 없이 업로드를 허용하여 발생하는 보안약점</td></tr>
+    <tr><td>신뢰되지 않는 URL 주소로 자동 접속 연결</td><td>검증되지 않은 외부 입력값이 URL 링크 생성에 사용되어 악의적인 페이지로 연결될 수 있는 보안약점</td></tr>
+    <tr><td>Xquery/Xpath/LDAP 삽입</td><td>검증되지 않은 외부 입력값이 각 질의문·명령문 생성에 사용되어 악의적인 쿼리·명령어가 실행될 수 있는 보안약점</td></tr>
+    <tr><td>크로스사이트 요청 위조(CSRF)</td><td>검증되지 않은 외부 입력값에 의해 브라우저에서 악의적인 스크립트가 실행되어, 공격자가 원하는 요청이 다른 사용자(관리자 등) 권한으로 서버에 전송되는 보안약점</td></tr>
+    <tr><td>HTTP 응답분할</td><td>검증되지 않은 외부 입력값이 HTTP 응답헤더에 삽입되어 악의적인 코드가 실행될 수 있는 보안약점</td></tr>
+    <tr><td>정수형 오버플로우</td><td>정수 연산 결과가 정수값 범위를 넘어서 프로그램이 예기치 않게 동작하는 보안약점</td></tr>
+    <tr><td>보안기능 결정에 사용되는 부적절한 입력값</td><td>검증되지 않은 입력값이 인증·인가·권한부여 등 보안 결정에 사용되어 보안 메커니즘 우회를 야기하는 보안약점</td></tr>
+    <tr><td>메모리 버퍼오버플로우</td><td>메모리 버퍼의 경계값을 넘어 값을 읽거나 저장해 예기치 않은 결과를 발생시키는 보안약점</td></tr>
+    <tr><td>포맷 스트링 삽입</td><td>printf 등 외부 입력값으로 포맷 스트링을 제어할 수 있는 함수 사용으로 발생하는 보안약점</td></tr>
+  </table>
+
+  <h3>나. 보안기능 관련 보안약점</h3>
+  <table>
+    <tr><th>보안 약점</th><th>설명</th></tr>
+    <tr><td>적절한 인증없는 중요 기능 허용</td><td>적절한 인증 없이 중요정보를 열람·변경할 수 있게 하는 보안약점</td></tr>
+    <tr><td>부적절한 인가</td><td>적절한 접근제어 없이 외부 입력값을 포함한 문자열로 중요자원에 접근할 수 있는 보안약점</td></tr>
+    <tr><td>중요한 자원에 대한 잘못된 권한설정</td><td>중요자원에 적절한 접근권한을 부여하지 않아 비인가자에 의해 정보가 노출·수정되는 보안약점</td></tr>
+    <tr><td>취약한 암호화 알고리즘 사용</td><td>기밀성을 보장할 수 없는 취약한 암호화 알고리즘 사용으로 정보가 노출되는 보안약점</td></tr>
+    <tr><td>중요정보 평문저장·평문전송</td><td>중요정보를 암호화하지 않고 저장·전송하여 노출되는 보안약점</td></tr>
+    <tr><td>하드코드된 비밀번호·암호화 키</td><td>소스코드 내 하드코딩으로 유출 시 노출 우려 및 변경이 용이하지 않은 보안약점</td></tr>
+    <tr><td>충분하지 않은 키 길이 사용 / 적절하지 않은 난수값 사용</td><td>암호키 길이 부족 또는 예측 가능한 난수 사용으로 인한 보안약점</td></tr>
+    <tr><td>취약한 비밀번호 사용</td><td>비밀번호 조합규칙 미흡·길이 부족으로 노출될 수 있는 보안약점</td></tr>
+    <tr><td>사용자 하드디스크에 저장되는 쿠키를 통한 정보노출</td><td>세션 ID·사용자 권한정보 등 중요정보를 쿠키로 하드디스크에 저장해 노출되는 보안약점</td></tr>
+    <tr><td>주석문 안에 포함된 시스템 주요정보</td><td>소스코드 주석문에 인증정보 등이 포함되어 소스코드 유출 시 노출되는 보안약점</td></tr>
+    <tr><td>솔트 없이 일방향 해시함수 사용</td><td>솔트 없이 생성된 해시값을 레인보우 테이블로 원문 추적당할 수 있는 보안약점</td></tr>
+    <tr><td>무결성 검사없는 코드 다운로드</td><td>원격 코드·실행파일을 무결성 검사 없이 다운로드·실행해 악성코드가 실행될 수 있는 보안약점</td></tr>
+    <tr><td>반복된 인증시도 제한 기능 부재</td><td>인증시도 횟수를 제한하지 않아 무작위 대입 공격이 가능한 보안약점</td></tr>
+    <tr><td>DNS lookup에 의존한 보안결정</td><td>DNS 스푸핑 공격이 가능하므로 DNS 이름에 의존한 보안결정이 노출되는 보안약점</td></tr>
+    <tr><td>취약한 API 사용</td><td>취약하다고 알려진 함수 사용으로 예기치 않은 보안위협에 노출되는 보안약점</td></tr>
+  </table>
+
+  <h3>다. 시간 및 상태 / 에러처리 / 코드 오류 관련 보안약점</h3>
+  <table>
+    <tr><th>보안 약점</th><th>설명</th></tr>
+    <tr><td>경쟁조건: 검사시점과 사용시점(TOCTOU)</td><td>멀티 프로세스에서 자원을 검사하는 시점과 사용하는 시점이 달라서 발생하는 보안약점</td></tr>
+    <tr><td>종료되지 않는 반복문 또는 재귀함수</td><td>종료조건 없는 제어문 사용으로 반복문·재귀함수가 무한히 반복되는 보안약점</td></tr>
+    <tr><td>오류메시지를 통한 정보노출</td><td>오류 메시지에 시스템 내부구조 등 민감정보가 노출되는 보안약점</td></tr>
+    <tr><td>오류상황 대응 부재 / 부적절한 예외 처리</td><td>오류·예외를 처리하지 않거나 부적절하게 처리하여 의도치 않은 상황이 발생하는 보안약점</td></tr>
+    <tr><td>Null Pointer 역참조</td><td>Null로 설정된 변수의 주소값을 참조했을 때 발생하는 보안약점</td></tr>
+    <tr><td>부적절한 자원 해제 / 해제된 자원 사용</td><td>사용된 자원을 적절히 해제하지 않아 자원 누수 등이 발생하는 보안약점</td></tr>
+    <tr><td>초기화되지 않은 변수 사용</td><td>변수를 초기화하지 않고 사용해 예기치 않은 오류가 발생하는 보안약점</td></tr>
+  </table>
+
+  <h3>라. 캡슐화 관련 보안약점</h3>
+  <table>
+    <tr><th>보안 약점</th><th>설명</th></tr>
+    <tr><td>잘못된 세션에 의한 데이터 정보 노출</td><td>잘못된 세션에 의해 비인가 사용자에게 중요정보가 노출되는 보안약점</td></tr>
+    <tr><td>제거되지 않고 남은 디버그 코드</td><td>디버깅용 코드를 통해 비인가 사용자에게 중요정보가 노출되는 보안약점</td></tr>
+    <tr><td>시스템 데이터 정보노출</td><td>오류메시지·스택 정보에 시스템 내부 데이터가 공개되는 보안약점</td></tr>
+    <tr><td>Public 메소드로부터 반환된 Private 배열</td><td>Private 배열을 Public 메소드로 반환하면 배열 레퍼런스가 외부에 공개되어 수정 가능해지는 보안약점</td></tr>
+    <tr><td>Private 배열에 Public 데이터 할당</td><td>Public 데이터·파라미터를 Private 배열에 저장하면 외부에서 그 배열에 접근 가능해지는 보안약점</td></tr>
+  </table>
+</section>
+
+<section id="sec06-s04" class="section">
+  <h2>4. 보안요구항목·보안약점 매핑 및 탐지 판정 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.22-36)</span></h2>
+  <p>분석·설계 단계의 보안 요구 항목과 구현 단계의 보안약점은 서로 대응 관계를 갖는다.</p>
+  <table>
+    <tr><th>구분</th><th>분석/설계 단계 보안요구항목</th><th>구현 단계 보안약점</th></tr>
+    <tr><td rowspan="6">입력 데이터 검증 및 표현</td><td>DBMS 조회 및 결과 검증</td><td>SQL 삽입</td></tr>
+    <tr><td>XML 조회 및 결과 검증</td><td>Xquery 삽입, Xpath 삽입</td></tr>
+    <tr><td>디렉터리 서비스 조회 및 결과 검증</td><td>LDAP 삽입</td></tr>
+    <tr><td>시스템 자원 접근 및 명령어 수행 입력값 검증</td><td>경로조작 및 자원삽입, 운영체제 명령어 삽입</td></tr>
+    <tr><td>웹 서비스 요청 및 결과 검증</td><td>크로스사이트 스크립트</td></tr>
+    <tr><td>웹 기반 중요기능 수행 요청 유효성 검증</td><td>크로스사이트 요청 위조</td></tr>
+    <tr><td rowspan="4">입력 데이터 검증 및 표현</td><td>HTTP 프로토콜 유효성 검증</td><td>신뢰되지 않은 URL 자동접속 연결, HTTP 응답분할</td></tr>
+    <tr><td>허용된 범위내 메모리 접근</td><td>포맷스트링 삽입, 메모리 버퍼 오버플로우</td></tr>
+    <tr><td>보안기능 동작에 사용되는 입력값 검증</td><td>보안기능 결정에 사용되는 부적절한 입력값, 정수형 오버플로우, Null Pointer 역참조</td></tr>
+    <tr><td>업로드, 다운로드 파일 검증</td><td>위험한 형식 파일 업로드, 무결성 검사 없는 코드 다운로드</td></tr>
+    <tr><td rowspan="6">보안기능</td><td>인증대상 및 방식</td><td>적절한 인증 없는 중요기능 허용, DNS Lookup에 의존한 보안결정</td></tr>
+    <tr><td>인증수행 제한</td><td>반복된 인증시도 제한기능 부재</td></tr>
+    <tr><td>비밀번호 관리</td><td>하드코드된 비밀번호, 취약한 비밀번호 허용</td></tr>
+    <tr><td>중요자원 접근통제</td><td>부적절한 인가, 중요한 자원에 대한 잘못된 권한 설정</td></tr>
+    <tr><td>암호키 관리</td><td>하드코드된 암호화 키, 주석문 안에 포함된 시스템 주요 정보</td></tr>
+    <tr><td>암호연산</td><td>취약한 암호화 알고리즘 사용, 충분하지 않은 키 길이, 적절하지 않은 난수값, 솔트없이 일방향 해시함수 사용</td></tr>
+    <tr><td>보안기능</td><td>중요정보 저장 / 중요정보전송</td><td>중요정보 평문저장·쿠키정보노출 / 중요정보 평문전송</td></tr>
+    <tr><td>에러처리</td><td>예외처리</td><td>오류메시지를 통한 정보노출, 시스템 데이터 정보 노출</td></tr>
+    <tr><td>세션통제</td><td>세션통제</td><td>잘못된 세션에 의한 데이터 정보노출</td></tr>
+  </table>
+
+  <h3>가. 안전한 코딩 기법 사례</h3>
+  <p>악성 스크립트 파일 업로드 공격을 예방하려면 업로드 파일의 타입·크기를 제한하고 <strong>업로드 디렉토리를 웹 서버 도큐먼트 외부</strong>에 두어야 하며(내부에 두는 것은 오답), 화이트리스트 방식으로 허용된 확장자만(대소문자 구분 없이) 업로드를 허용하고, 공격자의 직접 접근을 차단하며 실행 속성을 제거해야 한다. PreparedStatement 클래스 사용은 SQL Injection 방지 기법이며 파일 업로드 방어와는 무관하다.</p>
+  <p>&lt;, &gt;, &amp;, ", ', / 등의 특수문자를 필터링하는 코드는 <strong>크로스사이트 스크립트(XSS)</strong> 방지 대책이다. 외부 입력을 자원 식별자로 사용할 때 검증하는 것, HTML 게시판에서 허용 태그 화이트리스트를 적용하는 것, 자동연결 URL 검증은 모두 '입력데이터 검증 및 표현' 유형의 대책이지만, <strong>쿠키의 만료시간·세션ID 미포함 설정</strong>은 '보안기능' 유형의 대책으로 분류된다.</p>
+  <p>환경변수(getenv)로 받은 포트 값을 검증 없이 그대로 소켓 연결에 사용하는 C 코드는 <strong>경로 조작 및 자원 삽입</strong> 보안약점에 해당한다. '입력데이터 검증 및 표현' 유형에 속하는 보안약점은 경로 조작 및 자원 삽입·Xpath 삽입·정수형 오버플로우 등이며, <strong>부적절한 인가</strong>는 '보안기능' 유형으로 분류되어 이 유형에 속하지 않는다.</p>
+
+  <h3>나. 시큐어코딩 점검 시 탐지 판정</h3>
+  <table>
+    <tr><th>판정</th><th>의미</th></tr>
+    <tr><td>True Positive</td><td>보안약점이 내포된 Bad 코드에서 취약한 함수의 위치를 정확하게 탐지한 경우</td></tr>
+    <tr><td>False Negative(미탐)</td><td>보안약점이 내포된 Bad 코드에서 취약한 함수의 위치를 탐지하지 <strong>못한</strong> 경우</td></tr>
+    <tr><td>False Positive(오탐)</td><td>보안약점이 <strong>존재하지 않는</strong> Good 코드에서 보안약점 위치를 잘못 탐지한 경우</td></tr>
+    <tr><td>True Negative</td><td>보안약점이 존재하지 않는 Good 코드에서 보안약점 위치를 탐지하지 않은(정확히 판정한) 경우</td></tr>
+  </table>
+  <p>"Good 코드에서 보안약점의 위치를 탐지하지 못한 경우"는 오탐(False Positive)이 아니라 정확한 판정인 <strong>True Negative</strong>에 해당한다. False Positive에 대한 관리가 미흡하면 실제로는 안전한 Good 코드를 계속 재분석하게 되어 점검 효율이 떨어진다.</p>
+</section>
+
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (6문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 문항별로 재구성했습니다. 원본에는 한 페이지에 서로 다른 문제가 뒤섞여 추출되어 있던 부분을 분리했으며, 문항별 정답은 원문의 O/X 해설과 대조하여 검증했습니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. [2013년 기출] 악성 스크립트 파일을 업로드하여 공격하는 것을 예방하기 위한 Java 상에서 안전한 코딩 기법과 거리가 먼 것을 모두 고르시오. (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.25-26)</span></div><ol class="quiz-options"><li>업로드하는 파일 타입과 크기를 제한하고 업로드 디렉토리를 웹 서버 도큐먼트 내부에 설정</li><li>preparedStatement 클래스를 사용하여 파일이 실행 가능한 명령어로 변경되는 것을 방지</li><li>화이트리스트 방식으로 허용된 확장자만 업로드를 허용하고 확장자는 대소문자 구분 없이 처리</li><li>공격자의 웹을 통한 직접 접근을 차단하고 파일 실행 여부를 설정할 수 있는 경우에 실행 속성을 제거</li></ol><div class="quiz-explanation"><strong>정답</strong> ①, ② — 업로드 디렉토리는 웹 서버 도큐먼트 <strong>외부</strong>에 두어야 하며(①), preparedStatement는 SQL Injection 방지 기법으로 파일 업로드 공격과는 무관하다(②).</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. [2014년 기출] 아래의 코드는 어떤 소프트웨어 보안약점 유형에 대한 보안대책으로 작성된 것인가? — &lt;%...input.replaceAll("&lt;","&amp;lt;"); input.replaceAll("&gt;","&amp;gt;"); input.replaceAll("&amp;","&amp;amp;"); input.replaceAll("\"","&amp;quot;"); input.replaceAll("'","&amp;#x27;"); input.replaceAll("/","&amp;#x2F;");...%&gt; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.27-28)</span></div><ol class="quiz-options"><li>SQL 삽입</li><li>경로 조작 및 자원 삽입</li><li>크로스사이트 스크립트</li><li>위험한 형식 파일 업로드</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 크로스사이트 스크립트 — &lt;, &gt;, &amp;, ", ', / 등 스크립트 실행에 사용되는 특수문자열을 필터링하는 코드다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. [2015년 기출] "소프트웨어 개발 보안 가이드(2013.11)"에서 제시한 안전한 코딩 기법 중, 프로그램 입력값에 대한 검증 누락 또는 부적절한 검증, 데이터의 잘못된 형식지정으로 인해 발생할 수 있는 공격을 예방하기 위한 기법과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.29-30)</span></div><ol class="quiz-options"><li>외부의 입력을 자원(파일, 소켓 등) 식별자로 사용하는 경우, 적절한 검증을 거치도록 한다.</li><li>쿠키의 만료시간은 세션이 지속되는 시간과 관련하여 최소한으로 설정하고 영속적인 쿠키에는 사용자 권한 등급, 세션 ID가 포함되지 않도록 한다.</li><li>HTML 태그를 허용하는 게시판에서는 지원가능한 태그리스트를 선정한 후 해당 태그만 허용한다.</li><li>사용자 입력값을 자동 연결할 사이트 주소로 사용하는 경우에는 입력된 값이 화이트 리스트에 존재하는지 확인하도록 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 쿠키 만료시간·세션ID 관련 대책은 '입력데이터 검증 및 표현'이 아니라 '보안기능' 유형의 대책이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. [2015년 기출] 다음은 C 프로그램의 일부분이다. 진하게 표시된 부분에는 어떤 보안 약점이 존재하는가? — char* rPort = getenv("rPort"); ... serv_addr.sin_port = htons(atoi(rPort)); if (connect(sockfd, &amp;serv_addr, sizeof(serv_addr)) &lt; 0) { exit(1); } <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.31-32)</span></div><ol class="quiz-options"><li>부적절한 인가</li><li>포맷 스트링 삽입</li><li>경로 조작 및 자원 삽입</li><li>시스템 데이터 정보 노출</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ 경로 조작 및 자원 삽입 — 환경변수 rPort 값에 대한 입력 검증이 누락되어 있다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. [2016년 기출] 소프트웨어 개발 보안 가이드(2013.11)에서 보안 약점은 7개의 유형으로 분류하여 정의하고 있다. 다음 중 '입력데이터 검증 및 표현' 유형에 해당하는 보안약점과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.33-34)</span></div><ol class="quiz-options"><li>부적절한 인가</li><li>경로 조작 및 자원 삽입</li><li>Xpath 삽입</li><li>정수형 오버플로우</li></ol><div class="quiz-explanation"><strong>정답</strong> ① 부적절한 인가 — '입력데이터 검증 및 표현'이 아니라 '보안기능' 유형의 보안약점이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. [2016년 기출] 시큐어코딩 점검 시 보안약점 탐지에 관한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.35-36)</span></div><ol class="quiz-options"><li>보안약점이 내포된 Bad 코드에서 취약한 함수의 위치를 정확하게 탐지한 경우 True Positive로 판정한다.</li><li>보안약점이 존재하지 않는 Good 코드에서 보안약점의 위치를 탐지하지 못한 경우 False Positive로 판정한다.</li><li>보안약점이 내포된 Bad 코드에서 취약한 함수의 위치를 탐지하지 못한 경우 False Negative로 판정한다.</li><li>시큐어코딩 점검 시 False Positive에 대해 효과적으로 관리하지 못하면 Good 코드에 대해서 계속적인 분석을 하게 되어 점검효율이 떨어진다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — Good 코드에서 보안약점을 탐지하지 않은(정확히 판정한) 경우는 True Negative이며, False Positive는 Good 코드에서 보안약점이 있다고 잘못 탐지한 경우를 말한다.</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

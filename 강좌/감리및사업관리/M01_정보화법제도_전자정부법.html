@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Module 01] 감리 및 사업관리(I) - 정보화 관련 법/제도</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;       /* 진한 블루 */
+            --secondary: #3b82f6;     /* 밝은 블루 */
+            --accent: #ef4444;        /* 레드 (강조) */
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --border-color: #cbd5e1;
+            --table-header: #e2e8f0;
+            --quiz-bg: #f0fdf4;       /* 연한 그린 */
+            --quiz-border: #22c55e;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            line-height: 1.7;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        /* GitHub Pages 연동 내비게이션 */
+        .top-nav {
+            background-color: #0f172a;
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .top-nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .top-nav a:hover { color: #93c5fd; }
+
+        /* 헤더 영역 */
+        .header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 45px;
+            z-index: 999;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .toggle-btn {
+            background-color: #ffffff;
+            color: var(--primary);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+        .toggle-btn:hover {
+            background-color: var(--table-header);
+        }
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .header-controls {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .control-group span {
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
+        .control-group input {
+            padding: 5px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .control-group input[type="number"] { width: 80px; }
+        .control-group input[type="text"] { width: 140px; }
+        .control-group button {
+            padding: 5px 12px;
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .control-group button:hover { background-color: #2563eb; }
+
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+
+        /* 좌측 고정 목차 */
+        .sidebar {
+            flex: 0 0 300px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 130px;
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+            transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease, padding 0.3s ease;
+        }
+        .sidebar.hidden {
+            width: 0;
+            padding: 0;
+            border: none;
+            opacity: 0;
+            overflow: hidden;
+            transform: translateX(-20px);
+            flex: 0 0 0px;
+            margin: 0;
+        }
+        .sidebar h3 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        .sidebar ul { list-style: none; padding: 0; margin: 0; }
+        .sidebar li { margin-bottom: 8px; font-size: 0.95rem; }
+        .sidebar a {
+            text-decoration: none;
+            color: var(--text-main);
+            display: block;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+        .sidebar a:hover { color: var(--secondary); font-weight: bold; }
+        .sidebar .sub-menu { padding-left: 15px; font-size: 0.85rem; }
+
+        /* 본문 내용 */
+        .content { 
+            flex: 1; 
+            min-width: 0; 
+            transition: all 0.3s ease;
+        }
+        
+        .section {
+            background: #ffffff;
+            padding: 40px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .section h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+        .section h3 {
+            color: var(--primary);
+            margin-top: 40px;
+            border-left: 5px solid var(--secondary);
+            padding-left: 12px;
+            font-size: 1.3rem;
+            background-color: #f1f5f9;
+            padding: 8px 12px;
+        }
+        .section h4 {
+            color: var(--text-main);
+            margin-top: 25px;
+            font-size: 1.1rem;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        /* 법령 및 지침 인용구 스타일 */
+        .law-box {
+            background-color: #f8fafc;
+            border-left: 4px solid var(--primary);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #334155;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.02);
+        }
+        
+        /* 테이블 공통 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            vertical-align: top;
+        }
+        th {
+            background-color: var(--table-header);
+            color: var(--primary);
+            font-weight: bold;
+            text-align: center;
+        }
+        td ul { margin: 0; padding-left: 20px; }
+
+        /* 기출문제 블록 */
+        .quiz-container {
+            background-color: #ffffff;
+            border: 2px solid var(--quiz-border);
+            border-radius: 8px;
+            margin: 40px 0;
+            overflow: hidden;
+        }
+        .quiz-header {
+            background-color: var(--quiz-bg);
+            padding: 15px 20px;
+            font-weight: bold;
+            color: #166534;
+            border-bottom: 1px solid var(--quiz-border);
+            display: flex;
+            align-items: center;
+        }
+        .quiz-header::before { content: "📝 핵심 기출 & 예상문제"; margin-right: 8px; }
+        .quiz-question { padding: 20px; font-weight: bold; }
+        .quiz-options { padding: 0 20px 20px 20px; list-style-type: decimal; }
+        .quiz-options li { margin-bottom: 8px; }
+        .quiz-explanation {
+            background-color: #f1f5f9;
+            padding: 20px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 0.95rem;
+        }
+        .quiz-explanation strong { color: var(--accent); font-size: 1.05rem; }
+
+        .star { color: var(--accent); font-weight: bold; }
+        
+        /* 검색 하이라이트 */
+        mark.search-highlight {
+            background-color: #fef08a;
+            color: #b91c1c;
+            font-weight: bold;
+            padding: 2px;
+            border-radius: 2px;
+            box-shadow: 0 0 3px rgba(0,0,0,0.2);
+        }
+        mark.search-highlight.active {
+            background-color: #f97316;
+            color: white;
+        }
+
+        /* 이미지/기타 영역 박스 */
+        .info-box {
+            background-color: #fffbeb;
+            border: 1px solid #fde047;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 992px) {
+            .container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; max-height: none; margin-bottom: 20px; }
+            .section { padding: 25px; }
+            .header { justify-content: center; text-align: center; }
+            .header-controls { justify-content: center; }
+        }
+
+        /* === 임베드(iframe) 대응: 랜딩페이지 안에서 열릴 때 === */
+        html.embedded { font-size: 14.5px; }                 /* 기출 해설집과 본문 크기 통일 */
+        html.embedded .top-nav { display: none !important; }
+        html.embedded .header { top: 0 !important; }
+        /* 사이드바 sticky 오프셋은 헤더 실측 높이로 JS가 동적 설정(--embed-hdr) */
+        html.embedded .sidebar { top: var(--embed-hdr, 92px); max-height: calc(100vh - var(--embed-hdr, 92px) - 20px); }
+
+        /* 임베드: 헤더를 한 줄로 컴팩트하게 — 타이틀·버튼 축소 */
+        html.embedded .header { padding: 5px 12px; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+        html.embedded .header-left { gap: 8px; }
+        html.embedded .header-title { font-size: 0.92rem; }
+        html.embedded .toggle-btn { padding: 3px 8px; font-size: 0.78rem; }
+        html.embedded .header-controls { gap: 8px; }
+        html.embedded .control-group { padding: 3px 8px; font-size: 0.78rem; gap: 5px; }
+        html.embedded .control-group span { min-width: auto; }
+        html.embedded .control-group input { padding: 2px 6px; font-size: 0.76rem; }
+        html.embedded .control-group input[type="number"] { width: 58px; }
+        html.embedded .control-group input[type="text"] { width: 108px; }
+        html.embedded .control-group button { padding: 2px 8px; }
+
+        /* 임베드: 목차를 본문 좌측에 고정(상단 적층 방지). 좁아도 좌측 유지 */
+        html.embedded .container { flex-direction: row; gap: 20px; margin: 16px auto; padding: 0 16px; }
+        html.embedded .sidebar { position: sticky; margin-bottom: 0; }
+        /* 폭·flex 는 '접히지 않은' 경우에만 지정(접으면 .sidebar.hidden 규칙이 0으로 접어 본문이 넓어짐) */
+        html.embedded .sidebar:not(.hidden) { width: auto; flex: 0 0 210px; }
+
+        /* 임베드 + 스위치 ON('본문 넓게'): 헤더 숨겨 본문 극대화 */
+        html.embedded.chrome-hidden .header { display: none !important; }
+
+        /* 매우 좁을 때(≤640px)만 목차를 상단으로 내림 */
+        @media (max-width: 640px) {
+            html.embedded .container { flex-direction: column; }
+            html.embedded .sidebar:not(.hidden) { position: static; width: 100%; flex: none; max-height: none; margin-bottom: 16px; }
+        }
+    .fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+</style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <a href="https://sharp33-dev.github.io/cisa/">← CISA 감리 및 사업관리 메인으로 이동</a>
+    </div>
+
+    <!-- 헤더 영역 -->
+    <div class="header">
+        <div class="header-left">
+            <button id="toggle-sidebar-btn" class="toggle-btn">
+                <span>☰</span> 목차
+            </button>
+            <div class="header-title">[Module 01] 감리 및 사업관리(I) - 정보화 관련 법/제도</div>
+        </div>
+        
+        <div class="header-controls">
+            <div class="control-group">
+                <span id="page-display">1/1</span>
+                <input type="number" id="page-input" placeholder="페이지" min="1">
+                <button type="button" id="page-move-btn">이동</button>
+            </div>
+            <div class="control-group">
+                <input type="text" id="search-input" placeholder="본문 검색">
+                <button type="button" id="search-btn">검색</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 목차 -->
+        <aside class="sidebar" id="sidebar">
+            <h3>📑 학습 목차</h3>
+            <ul>
+                <li><a href="#intro">1. 과목 및 시험 소개</a></li>
+                <li><a href="#ch1-1">2. 전자정부법 및 시행령</a>
+                    <ul class="sub-menu">
+                        <li><a href="#ch1-1-1">용어설명</a></li>
+                    </ul>
+                </li>
+                <li><a href="#ch1-2">3. 전자정부지원사업 관리지침</a>
+                    <ul class="sub-menu">
+                        <li><a href="#ch1-2-1">추진체계 역할</a></li>
+                    </ul>
+                </li>
+                <li><a href="#ch1-3">4. 전자정부사업관리 위탁 규정</a></li>
+                <li><a href="#ch1-4">5. 사전협의 지침</a>
+                    <ul class="sub-menu">
+                        <li><a href="#ch1-4-1">대상사업 및 제외사업</a></li>
+                        <li><a href="#ch1-4-2">사전협의 결과 유형</a></li>
+                    </ul>
+                </li>
+                <li><a href="#ch1-5">6. 정보기술아키텍처(ITA) 지침</a>
+                    <ul class="sub-menu">
+                        <li><a href="#ch1-5-1">단계별 활용 검토 사항</a></li>
+                        <li><a href="#ch1-5-2">범정부 참조모형</a></li>
+                    </ul>
+                </li>
+                <li><a href="#ch1-6">7. 정보시스템 운영 성과관리 지침</a>
+                    <ul class="sub-menu">
+                        <li><a href="#ch1-6-1">운영성과 측정지표</a></li>
+                        <li><a href="#ch1-6-2">유지관리유형 분류</a></li>
+                    </ul>
+                </li>
+                <li><a href="#ch1-7">8. 전자정부서비스 호환성 준수지침</a></li>
+                <li><a href="#ch1-8">9. 웹 접근성 및 KWCAG 2.0</a>
+                    <ul class="sub-menu">
+                        <li><a href="#ch1-8-1">웹 접근성 개요 및 필요성</a></li>
+                        <li><a href="#ch1-8-2">웹 콘텐츠 접근성 지침</a></li>
+                    </ul>
+                </li>
+                <li><a href="#ch1-9">10. 모바일 애플리케이션 접근성 지침</a></li>
+                <li><a href="#ch1-10">11. 모바일 전자정부 서비스 관리지침</a></li>
+            </ul>
+        </aside>
+
+        <!-- 본문 -->
+        <main class="content" id="content-area">
+
+            <!-- 1. 과목 소개 -->
+            <section id="intro" class="section">
+                <h2>1. 정보시스템감리사 시험 로드맵 및 소개</h2>
+                
+                <h3>합격 단계 - 3단계 분류</h3>
+                <ul>
+                    <li><strong>6개월 (집중):</strong> 정보화 법/제도, 지침, 가이드 (I, II 단원)</li>
+                    <li><strong>1~2년 (평균):</strong> 심화 학습</li>
+                    <li><strong>2년 이상 (인내):</strong> 전체 과목 완성</li>
+                </ul>
+
+                <h3>시험범위 (총 120문제, 객관식 120분, 40명 분 / 85점 합격기준)</h3>
+                <table>
+                    <tr>
+                        <th>출제 분야</th>
+                        <th>문항 수</th>
+                    </tr>
+                    <tr>
+                        <td><strong>법/지침/감리 + 사업관리</strong></td>
+                        <td>12문제 + 13문제 = 25문제</td>
+                    </tr>
+                    <tr>
+                        <td>소프트웨어공학</td>
+                        <td>25문제</td>
+                    </tr>
+                    <tr>
+                        <td>데이터베이스론</td>
+                        <td>25문제</td>
+                    </tr>
+                    <tr>
+                        <td>시스템 구조</td>
+                        <td>25문제</td>
+                    </tr>
+                    <tr>
+                        <td>보안</td>
+                        <td>20문제</td>
+                    </tr>
+                </table>
+                <p>※ 필기전형 총점의 동일 점수 취득자가 다수인 경우 위 과목 순으로 순위 부여 / 생년월일 연소자 순위 부여<br>
+                ※ 시험 주기: 년 1회 (보통 7월 경 시행)</p>
+
+                <h3>감리 및 사업관리 출제 내용 (세부내용)</h3>
+                <table>
+                    <tr>
+                        <th width="8%">No</th>
+                        <th width="25%">출제분야</th>
+                        <th>세부 출제 내용</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>정보화 관련 법/제도 및 국내외 지침, 가이드 (I, II 단원)</strong></td>
+                        <td>
+                            <ul>
+                                <li>국가정보화기본법, 전자정부법, 소프트웨어산업진흥법 등 각종 법령</li>
+                                <li>계약예규, 중앙행정기관 전자정부사업 사전협의 지침 등 각종 예규</li>
+                                <li>정보시스템 구축운영 지침, 공공기관의 데이터베이스 품질관리 지침, 행정정보 데이터베이스 표준화 지침, 전자정부서비스 호환성 준수지침, 소프트웨어사업 하도급계약의 적정성 판단기준 등 각종 고시</li>
+                                <li>행정기관을 위한 정보화사업 단계별관리·점검가이드, CBD SW개발 표준 산출물관리 가이드, 소프트웨어 사업대가 산정가이드 등 각종 가이드</li>
+                                <li>IT 거버넌스, COBIT 등 국외 관련 지침</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>감리 관련 법제도 및 관련 기술 (III 단원)</strong></td>
+                        <td>
+                            <ul>
+                                <li>전자정부법 및 동법 시행령, 정보시스템감리기준 등 감리 법제도</li>
+                                <li>정보시스템감리 발주관리가이드 및 감리수행가이드, 정보시스템감리점검가이드(구 감리지침), 정보시스템 감리원 윤리 가이드 등</li>
+                                <li>감리 방법론, 감리기법 및 도구</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>조직 관리론</strong></td>
+                        <td>조직구조, 조직이론, 조직설계, 인적 자원관리, 의사소통관리</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>프로젝트관리</strong> (통합함)</td>
+                        <td>ISO 21500 등 프로젝트관리 관련 표준 (범위/일정/품질/위험/형상/비용/통합 관리 등)</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- 2. 전자정부법 및 시행령 -->
+            <section id="ch1-1" class="section">
+                <h2>2. 전자정부법 및 시행령</h2>
+                <div class="law-box">
+                    <strong>전자정부법 제1조(목적)</strong><br> 이 법은 행정업무의 전자적 처리를 위한 기본원칙, 절차 및 추진방법 등을 규정함으로써 전자정부를 효율적으로 구현하고, 행정의 생산성, 투명성 및 민주성을 높여 국민의 삶의 질을 향상시키는 것을 목적으로 한다.
+                </div>
+
+                <h3 id="ch1-1-1">주요 용어 설명 핵심 요약정리</h3>
+                <table>
+                    <tr>
+                        <th width="20%">용어</th>
+                        <th>정의</th>
+                    </tr>
+                    <tr>
+                        <td><strong>전자정부</strong></td>
+                        <td>정보기술을 활용하여 행정기관 및 공공기관(이하 "행정기관등"이라 한다)의 업무를 전자화하여 행정기관등의 상호 간의 행정업무 및 국민에 대한 행정업무를 효율적으로 수행하는 정부를 말한다.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>정보시스템 감리기준</strong></td>
+                        <td>제1조(목적) 이 기준은 「전자정부법」제57조제5항에 따른 정보시스템 감리의 업무범위, 절차 및 준수사항 등 감리를 하기 위하여 필요한 사항과 같은 법 시행령 제73조제7항, 제74조, 제75조제3항에서 위임한 감리법인 등록, 감리원의 자격 및 교육, 감리원증 발급신청 등에 관한 사항을 정함을 목적으로 한다.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>정보시스템</strong></td>
+                        <td>정보의 수집, 가공, 저장, 검색, 송신, 수신 및 그 활용과 관련되는 기기와 소프트웨어의 조직화된 체계</td>
+                    </tr>
+                    <tr>
+                        <td><strong>정보시스템 감리 <span class="star">★</span></strong></td>
+                        <td>감리 발주기관 및 피감리인의 이해관계로부터 독립된 자가 정보시스템의 효율성을 향상시키고 안전성을 확보하기 위하여 제3자적 관점에서 정보시스템의 구축 및 운영에 관한 사항을 종합적으로 점검하고 문제점을 개선하도록 하는 것</td>
+                    </tr>
+                    <tr>
+                        <td><strong>공공기관 (발주기관)</strong></td>
+                        <td>국가기관, 지방자치단체, 정부투자기관관리기본법 제2조에 따른 정부투자기관, 지방공기업법에 따른 지방공사 및 지방공단, 특별법에 따라 설립된 법인, 정부산하기관관리기본법 제3조 제1항의 적용을 받는 기관, 고등교육법 제2조에 따른 학교</td>
+                    </tr>
+                    <tr>
+                        <td><strong>감리법인 <span class="star">★</span></strong></td>
+                        <td>법 제12조제1항에 따라 시행령이 정하는 <strong>기술능력(감리원 5인 이상, 그 중 1인 이상은 수석감리원)</strong> 및 <strong>재정능력(자본금 1억원 이상)</strong>을 갖추어 등록한 법인</td>
+                    </tr>
+                    <tr>
+                        <td><strong>감리원</strong></td>
+                        <td>법 제14조제1항의 규정에 따른 요건(자격 및 교육이수 등)을 갖추고, 감리원증을 교부받아 정보시스템 감리의 업무를 수행하는 자</td>
+                    </tr>
+                    <tr>
+                        <td><strong>상근감리원</strong></td>
+                        <td>감리원증을 발급받은 자 중 동시에 2개 이상의 감리법인에 소속되지 아니하며, 해당 감리법인에 상시 근무하는 자</td>
+                    </tr>
+                    <tr>
+                        <td><strong>총괄감리원</strong></td>
+                        <td>상근감리원 중 수석감리원으로서 당해 감리에 투입되는 감리원의 의견 조정 등 감리업무를 지휘하는 자</td>
+                    </tr>
+                    <tr>
+                        <td><strong>피감리인(사업자)</strong></td>
+                        <td>발주기관의 요청에 의해 감리의 대상이 되는 정보시스템을 계획, 구축, 운영하는 자</td>
+                    </tr>
+                    <tr>
+                        <td><strong>종전감리인</strong></td>
+                        <td>법 시행 이전에 정보화촉진기본법 제15조의2에 따라 감리인의 요건을 갖추어 감리업무를 수행한 자</td>
+                    </tr>
+                    <tr>
+                        <td><strong>교육기관</strong></td>
+                        <td>영 제15조에 의해 정보시스템 감리원 교육을 수행하는 기관</td>
+                    </tr>
+                    <tr>
+                        <td><strong>감리기본점검표</strong></td>
+                        <td>감리기준 별표2에 규정된 사항으로 사업유형별, 감리시점별, 감리영역별로 점검해야 할 항목을 규정한 사항. 감리계획 수립할 때 점검항목 구성시 참조함.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>감리점검해설서</strong></td>
+                        <td>감리기준 별표2의 감리기본점검표를 상세화 하여 설명하는 해설서. 각 항목에 대한 점검 목적, 필요성, 감리관점/점검기준을 제시.</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- 3. 전자정부지원사업 관리지침 -->
+            <section id="ch1-2" class="section">
+                <h2>3. 전자정부지원사업 관리지침</h2>
+                <div class="law-box">
+                    <strong>전자정부지원사업:</strong> 전자정부의 효율적인 추진을 위하여 국가, 지방자치단체, 공공기관 등이 추진하는 정보화사업을 지원사업 추진계획에 따라 지원하는 사업.<br>
+                    가. 여러 부처 연계 및 정보의 공동활용 등을 통해 정보화의 효과 극대화<br>
+                    나. 행정업무의 효율화와 대국민서비스의 개선 등 공공부문의 업무 혁신 촉진<br>
+                    다. 정보화의 우선순위 및 파급효과가 크나 추진여건 등이 마련되지 않아 지원이 필요한 사업
+                </div>
+
+                <h3>지침 용어 정의</h3>
+                <ul>
+                    <li><strong>공공기관:</strong> 개별법에 의한 특수법인으로서 국가로부터 위임·위탁받은 업무를 수행하는 기관 (예: 한국고용정보원). 실질적 영리 추구 기관 제외.</li>
+                    <li><strong>전문기관:</strong> 지원사업의 효율적인 추진과 관리를 위하여 안전행정부장관이 지정한 기관 (예: NIA 한국정보화진흥원).</li>
+                    <li><strong>주관기관:</strong> 장관이 확정한 지원사업을 수행하는 기관 (예: 해양수산부, 소속기관). 다수인 경우 '대표주관기관' 지정.</li>
+                    <li><strong>사업자:</strong> 지원사업의 수행을 위한 업무재설계(BPR)/정보화전략계획수립(ISP), 시스템 구축 및 서비스 개발 등을 책임지고 수행하는 자 ('을' 업체).</li>
+                    <li><strong>집행잔액:</strong> 사업대상 및 범위 조정으로 인한 예산절감액, 사업 발주를 통해 발생하는 낙찰차액.</li>
+                </ul>
+
+                <h3 id="ch1-2-1">추진체계 - 역할 분담</h3>
+                <table>
+                    <tr>
+                        <th width="33%">안전행정부의 역할</th>
+                        <th width="33%">전문기관의 역할 (예: NIA)</th>
+                        <th width="33%">주관기관의 역할</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            1. 지원사업 추진계획의 수립<br>
+                            2. 지원사업 성과관리에 관한 정책의 수립<br>
+                            3. 사업계획 및 지원예산의 검토·확정<br>
+                            4. 전문기관의 지정 및 감독<br>
+                            5. 예산의 확보 및 출연<br>
+                            6. 그 밖에 정책 수립 등
+                        </td>
+                        <td>
+                            1. 신규 지원사업 발굴 및 사전타당성 조사<br>
+                            2. 사업계획 및 운영계획 검토·조정<br>
+                            3. 사업자 선정 및 계약체결 지원<br>
+                            4. 사업관리<br>
+                            5. 감리 및 검사참여<br>
+                            <strong>6. 인수 및 운영평가</strong><br>
+                            7. 서비스 보급·확산 지원<br>
+                            8. 사업비 집행 및 회계처리<br>
+                            9. 사업의 성과분석
+                        </td>
+                        <td>
+                            <strong>[사업수행 시]</strong><br>
+                            <strong>1. 사업계획 수립</strong><br>
+                            <strong>2. 제안요청서 작성</strong><br>
+                            <strong>3. 사업관리 및 검사</strong><br>
+                            4. 개발 서비스 보급 확대 및 사후관리<br>
+                            5. 법/제도 정비 등 정보화여건 조성<br>
+                            6. 자부담 사업비 집행 및 관리<br>
+                            <br>
+                            <strong>[사업종료 후] <span class="star">★</span></strong><br>
+                            1. 운영계획 수립<br>
+                            2. 시스템 관리·운영 및 서비스 제공<br>
+                            3. 운영요원 및 제반 운영비 확보
+                        </td>
+                    </tr>
+                </table>
+                <p>※ 사업자의 역할: 계약 이행, 운영교육/기술전수, 시험운영 및 그 기간 동안 안전성 보장.</p>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "전자정부지원사업 관리지침"에 규정된 주관기관의 역할 중 가장 거리가 먼 것은? (2016 기출)</div>
+                    <ul class="quiz-options">
+                        <li>사업계획 수립</li>
+                        <li>제안요청서 작성</li>
+                        <li>사업관리 및 검사</li>
+                        <li>인수 및 운영평가</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 4번</strong><br>
+                        해설: 주관기관은 사업수행 시 '사업계획 수립, 제안요청서 작성, 사업관리 및 검사'를 수행합니다. '인수 및 운영평가'는 전문기관(NIA 등)의 역할입니다.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 전자정부사업관리 위탁 -->
+            <section id="ch1-3" class="section">
+                <h2>4. 전자정부사업관리 위탁에 관한 규정</h2>
+                <div class="law-box">
+                    <strong>목적:</strong> 이 규정은 전자정부법 제64조의2, 같은 법 시행령 제78조의 2부터 4까지의 규정에서 위임한 사항과 전자정부사업관리의 위탁에 필요한 사항을 정함을 목적으로 한다. (예: 정부통합전산센터 NCIA 등)
+                </div>
+
+                <h3>용어 정의</h3>
+                <ul>
+                    <li><strong>전자정부사업관리:</strong> 관리·감독하는 업무</li>
+                    <li><strong>전자정부사업관리자:</strong> 자격요건을 갖춘 자로서 업무를 위탁받아 수행하는 자 (예: NCIA)</li>
+                    <li><strong>발주기관:</strong> 위탁용역을 발주하려는 기관</li>
+                    <li><strong>위탁대상사업:</strong> 관리·감독 대상이 되는 전자정부사업(분리발주 포함). 이를 수행하는 자를 위탁대상사업수행자(을)라 함.</li>
+                </ul>
+
+                <h3>전자정부사업관리자의 단계별 업무</h3>
+                <ul>
+                    <li><strong>1. 기획단계:</strong> 사업계획 수립 등 사업기획 지원, 성과목표 설정 등 성과관리 지원 등</li>
+                    <li><strong>2. 집행단계:</strong> 
+                        <ul>
+                            <li>위탁대상사업의 관리·감독</li>
+                            <li>공정단계별 계획검토, 조정 및 이행현황 점검</li>
+                            <li><strong>쟁점 및 위험 등의 식별·분석·보고 및 대안제시</strong></li>
+                            <li>전자정부사업관리와 관련된 보고 및 의사결정 지원</li>
+                            <li>의사결정 사항 지시·관리 및 이행상황 점검 등</li>
+                        </ul>
+                    </li>
+                    <li><strong>3. 사후관리단계:</strong> <strong>하자보수 등 정보시스템 안정화 지원</strong>, 교육홍보 등 정보시스템 이용활성화 지원 등</li>
+                </ul>
+
+                <h3>제15조(발주기관의 업무) <span class="star">★★</span></h3>
+                <p>발주기관의 장은 전자정부사업관리 업무를 위탁할 경우에 다음 각 호의 업무를 수행하여야 한다.</p>
+                <ol>
+                    <li>위탁대상사업 및 위탁용역에 대한 관리·감독</li>
+                    <li>위탁대상사업 및 위탁용역에 관한 의사결정 및 보고체계 정립</li>
+                    <li>위탁대상사업 수행자와 전자정부사업관리자간의 역할 조정</li>
+                    <li><strong>현업부서 등의 의견수렴 및 이해관계 조정</strong></li>
+                    <li>전자정부사업관리 위탁업무에 필요한 행정사항 지원</li>
+                </ol>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. 고시 "전자정부사업관리 위탁에 관한 규정"에 따라 업무를 위탁받아 수행하는 전자정부사업관리자의 '집행단계' 업무로 맞는 것을 모두 고른 것은? (2016 기출)</div>
+                    <p style="padding-left: 20px;">
+                        가. 현업부서 등의 의견수렴 및 이해관계 조정<br>
+                        나. 쟁점 및 위험 등의 식별·분석·보고 및 대안제시<br>
+                        다. 의사결정 사항 지시·관리 및 이행상황 점검<br>
+                        라. 위탁대상사업의 관리·감독<br>
+                        마. 성과목표 설정 등 성과관리 지원
+                    </p>
+                    <ul class="quiz-options">
+                        <li>가, 나, 다</li>
+                        <li>나, 다, 라</li>
+                        <li>다, 라, 마</li>
+                        <li>나, 라, 마</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 2번 (나, 다, 라)</strong><br>
+                        해설: '가'는 발주기관의 업무이며, '마'는 기획단계의 업무입니다. 집행단계는 '나, 다, 라'에 해당합니다.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. 전자정부사업관리자의 업무 중 가장 거리가 먼 것은? (2015 기출)</div>
+                    <ul class="quiz-options">
+                        <li>현업부서 등의 의견수렴 및 이해관계 조정</li>
+                        <li>사업계획수립 등 사업기획 지원</li>
+                        <li>쟁점 및 위험 등의 식별·분석·보고 및 대안 제시</li>
+                        <li>하자보수 등 정보시스템 안정화 지원</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 1번</strong><br>
+                        해설: 현업부서 등의 의견수렴 및 이해관계 조정은 위탁을 대행해주는 전자정부사업관리자가 아닌 실제 현업인 <strong>'발주기관'</strong>의 업무입니다.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. 사전협의 지침 -->
+            <section id="ch1-4" class="section">
+                <h2>5. 사전협의 지침 (전자정부법 및 지자체 지침)</h2>
+                <div class="law-box">
+                    <strong>전자정부법 제67조(사전협의)</strong> ① 행정기관등의 장은 다른 행정기관등과의 상호연계 또는 공동이용과 관련한 전자정부사업 및 지역정보화사업을 추진할 때에는 중복투자 방지 등을 위하여 중앙사무관장기관의 장과 사전에 협의하여야 한다.
+                </div>
+
+                <h3 id="ch1-4-1">제82조(사전협의 대상사업 및 제외사업) <span class="star">★★</span></h3>
+                <p>사전협의 대상사업은 상호연계 하거나 공동이용과 관련하여 추진하는 사업으로 한다. <strong>다만, 다음 각 호의 어느 하나에 해당하는 사업은 제외한다.</strong></p>
+                <ol>
+                    <li>「국가재정법」 제38조에 따른 <strong>예비타당성 조사를 실시한 사업</strong></li>
+                    <li><strong>전자정부지원사업</strong></li>
+                    <li>다른 법령에 따라 중복성 사전검토를 완료한 사업</li>
+                    <li>그 밖에 사업금액 등을 고려하여 행정자치부장관이 정하는 사업</li>
+                </ol>
+
+                <h4>※ 지방자치단체 정보화사업 사전협의 지침 (제4조 대상사업의 제외사업)</h4>
+                <ul>
+                    <li>광역지방자치단체 사업금액 5,000만원 미만 / 기초지방자치단체 2,000만원 미만 사업</li>
+                    <li>노후장비 교체, 기존 단순 하드웨어 구매 또는 회선 증설 등 통신 기반 구축사업</li>
+                    <li>정보시스템 운영·관리를 위한 <strong>상용 소프트웨어 구매 사업</strong></li>
+                    <li>중앙행정기관장이 보급할 목적의 표준행정정보시스템 구매·설치 사업</li>
+                    <li><strong>신규 개발을 하지 않는 단순 유지보수·운영사업</strong></li>
+                    <li>정보화 발전을 위한 정책연구용역 사업</li>
+                    <li>자체 인력 활용 소프트웨어 직접 개발 또는 외부 서비스 임대 (개발/구매비용 미포함시)</li>
+                    <li>내용 변동 없이 계속 추진하는 사업 (최초 추진시 사전협의 완료)</li>
+                    <li>단순 홍보용 홈페이지 구축 (단, 포털 및 민원처리기능 등 구현시 사전협의 필요)</li>
+                    <li>웹 표준 준수 또는 웹사이트 접근성 향상을 위한 소프트웨어 보완개발 사업</li>
+                    <li>개인정보보호 및 정보시스템 보안 강화 사업</li>
+                    <li>천재지변 등 재난복구 시급 추진 사업</li>
+                </ul>
+
+                <h3 id="ch1-4-2">제10조(사전협의 결과의 유형)</h3>
+                <table>
+                    <tr>
+                        <th width="20%">유형</th>
+                        <th>상세 내용</th>
+                    </tr>
+                    <tr>
+                        <td><strong>추진허용</strong> <span class="star">★★</span></td>
+                        <td>
+                            1. 타 행정기관 개발 정보시스템과 중복성이 없는 경우<br>
+                            2. 중복성이 있으나 기술적 제약 등으로 공동활용이 불가하거나 예산절감 효과가 없는 경우<br>
+                            3. 해당 지방자치단체의 특수성이 반영되어야 하는 경우<br>
+                            4. 조건부허용이나 추진보류에 해당되지 않는 경우
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>조건부허용</strong></td>
+                        <td>
+                            1. <strong>표준행정정보시스템과 일부내용이 중복되는 경우</strong><br>
+                            2. 관련 표준행정정보시스템 개발 예정이나 완료 시점 예측불가 또는 긴급성이 인정되는 경우<br>
+                            3. 타 지자체 시스템과 중복되고 공동활용이 가능하여 비용절감이 기대되는 경우<br>
+                            4. 타 행정기관 개발 콘텐츠/데이터베이스 공동활용 가능하여 비용절감 기대되는 경우<br>
+                            5. 타 행정정보시스템과의 연계 또는 관련 표준 준수가 필요한 경우<br>
+                            6. 기타 비용절감 또는 상호운용성 확보 위해 일정 조건 준수 필요한 경우
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="law-box">
+                    <strong>제83조(사전협의 방법 및 절차 등)</strong><br>
+                    - 사업계획 수립 후 <strong>지체 없이</strong> 사업계획서 등 제출하여 협의 요청<br>
+                    - 행정자치부장관은 종합 검토하여 신청받은 날부터 <strong>30일 이내</strong> 통보<br>
+                    - 이의가 있는 경우 통보받은 날부터 <strong>15일 이내</strong> 이의 제기 가능, 접수 후 15일 이내 통보
+                </div>
+
+                <h4>제8조(사전협의시스템)</h4>
+                <p>사전협의시스템이란 사전협의 업무를 지원하고 관련 자료를 저장/활용하기 위해 구축 운영하는 시스템. 사용자 인증은 '행정전자서명'으로 한다.</p>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. 전자정부사업 사전협의에 대한 설명 중 거리가 먼 것은? (2012 기출)</div>
+                    <ul class="quiz-options">
+                        <li>「국가재정법」에 따른 예비타당성 조사 실시사업은 우선적으로 사전 협의를 수행해야 한다.</li>
+                        <li>「전자정부서비스 호환성 준수지침」에 따른 서비스 호환성 확보를 위한 소프트웨어 보완개발 사업은 사전 협의에서 제외할 수 있다.</li>
+                        <li>중앙행정기관의 장이 개발하여 전 지방자치단체에서 사용하여야 하는 표준행정 정보시스템과 일부내용이 중복되는 경우는 조건부 허용으로 분류된다.</li>
+                        <li>중앙행정기관은 전자정부사업이 종료된 때에는 지체없이 사전협의 검토결과를 반영한 전자정부사업의 결과를 통보하여야 한다.</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 1번</strong><br>
+                        해설: 예비타당성 조사를 실시한 사업은 사전협의 대상에서 <strong>제외</strong>됩니다.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. 정보기술아키텍처 (ITA) -->
+            <section id="ch1-5" class="section">
+                <h2>6. 정보기술아키텍처(ITA) 도입·운영 지침</h2>
+                <div class="law-box">
+                    <strong>개념:</strong> "정보기술아키텍처"라 함은 일정한 기준과 절차에 따라 업무, 응용, 데이터, 기술, 보안 등 조직 전체의 구성요소들을 통합적으로 분석한 뒤 이들 간의 관계를 구조적으로 정리한 체제 및 최적화 방법.<br>
+                    <strong>프레임워크:</strong> 핵심요소들을 정의하고 구조화 한 것으로서 기본체계.
+                </div>
+
+                <h3 id="ch1-5-1">단계별 활용 검토 사항 (제19조 ~ 제21조)</h3>
+                <table>
+                    <tr>
+                        <th width="50%">제19조 정보화 기획에서의 활용 (기획단계) <span class="star">★★</span></th>
+                        <th width="50%">제20조 정보화사업 추진에서의 활용 (사업계획/사전협의) <span class="star">★</span></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            국가정보화기본계획, 예산편성 등 기획 수립 시 활용:<br>
+                            1. 국가 및 기관 정보화 방향과의 부합성<br>
+                            2. <strong>정보화사업 중복성 및 연계·통합성</strong><br>
+                            3. 공유자원(공유서비스, 공통컴포넌트 등) 활용 여부<br>
+                            4. 정보자원 공동활용성 및 재활용성
+                        </td>
+                        <td>
+                            사업계획 수립, <strong>사전협의 시</strong> 활용:<br>
+                            1. 제19조 기획단계의 2~4호 사항<br>
+                            2. <strong>정보시스템 상호운용성</strong><br>
+                            3. <strong>기술표준 준수 여부</strong><br>
+                            4. <strong>변경 영향도 분석</strong><br>
+                            5. 정보파일 구축의 사전통보 관련 사항
+                        </td>
+                    </tr>
+                </table>
+                <p>※ 제20조 2항~4항: 제안요청서 작성, 사업 수행, 완료/검수 시에도 ITA 원칙과 요구사항을 반영하여야 한다.<br>
+                ※ 제21조(운영 활용): 정보자원관리(IRM), 정보시스템 운영·유지보수, 서비스수준협약(SLA), 정보화교육 등에 활용</p>
+
+                <h4>제15조(정보기술아키텍처 현행화)</h4>
+                <p>다음 상황 발생 시 즉시적/정기적으로 현행화 실시: 1. 조직구조 변경, 2. 업무기능/절차 변경, 3. 정보화 계획 수립/변경, 4. 기관메타모델 변경, 5. 구축/고도화에 따른 인프라 변경.</p>
+
+                <h4>제16조(정보기술아키텍처 품질관리)</h4>
+                <p>계획 수립(목표/주기/대상) 및 범정부 성숙도 모델을 기준으로 분석하여 지속 고도화.</p>
+                <p><strong>[별표5] 범정부 성숙도 모델:</strong> 수립영역, 관리영역, 활용영역으로 구성.</p>
+
+                <h3 id="ch1-5-2">제22조 및 [별표3] 범정부 참조모형의 종류와 정의</h3>
+                <p>자체평가 수행 시 정보화사업 부분에 대해 성과참조모형을 활용하여 <strong>성과지표를 관리</strong>하고 성과를 측정.</p>
+                <ul>
+                    <li><strong>성과참조모형(PRM):</strong> 정보화 성과 제고 및 품질향상을 위한 <strong>성과요소 분류 및 정의.</strong></li>
+                    <li><strong>업무참조모형(BRM):</strong> 업무와 그에 관련된 정보를 분류하고 정의. (정부기능연계모델 활용)</li>
+                    <li><strong>데이터참조모형(DRM):</strong> 데이터 표준화 및 재사용, 데이터 관리를 지원하기 위한 표준 데이터구조 분류.</li>
+                    <li><strong>서비스참조모형(SRM):</strong> 응용서비스 재활용 및 효율적 관리를 위해 조직 독립적 응용컴포넌트 기반으로 분류.</li>
+                    <li><strong>기술참조모형(TRM):</strong> 응용기능 구현을 위해 필요한 정보기술 및 표준들을 분류.</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "정보기술아키텍처 도입·운영 지침"에 제시된 활용체계와 가장 거리가 먼 것은? (2014 기출)</div>
+                    <ul class="quiz-options">
+                        <li>정보화계획수립시 정보화사업 중복성 및 연계·통합성 검토</li>
+                        <li>보유 자원의 감가상각비 산정 및 관제 대상 서버 사양 등 자원관리에 활용</li>
+                        <li>사전협의시 변경 영향도 분석 및 기술 표준준수 여부 검토</li>
+                        <li>정보시스템 운영·유지보수, 서비스 수준 협약, 정보화 교육 등에 활용</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 2번</strong><br>
+                        해설: ITA를 자원관리에 활용하긴 하나, '보유 자원의 감가상각비 산정 및 관제 대상 서버 사양' 등 아주 세부적인 물리적/회계적 자산 내용까지 지침에 규정되어 있지 않습니다.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "정보기술아키텍처 도입·운영 지침"의 내용으로 가장 거리가 먼 것은? (2013 기출)</div>
+                    <ul class="quiz-options">
+                        <li>예산 편성 등 정보화기획 단계에서 상호운용성, 기술표준준수 등을 검토</li>
+                        <li>업무기능 또는 절차 변경시 정보기술아키텍처를 현행화</li>
+                        <li>자체평가 계획 수립 및 평가 수행시 성과참조모형을 활용하여 성과지표를 관리</li>
+                        <li>정보기술아키텍처의 수립, 관리, 활용 실태 및 성숙도 수준을 "성숙도 모델"을 기준으로 분석</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 1번</strong><br>
+                        해설: 정보화기획 단계(제19조)에서는 중복성, 연계, 공유자원을 봅니다. '상호운용성 및 기술표준준수' 검토는 기획단계가 아니라 <strong>'사업 추진단계(제20조)'</strong>에서 수행합니다.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 7. 정보시스템 운영 성과관리 -->
+            <section id="ch1-6" class="section">
+                <h2>7. 정보시스템 운영 성과관리 지침</h2>
+                <div class="law-box">
+                    <strong>개념:</strong> 운영타당성 판단 기준에 따라 성과측정 후 유지관리유형을 결정하여 업무/비용적 성과를 높이는 활동.<br>
+                    <strong>제5조(성과측정 대상):</strong> 성과측정은 개발 및 구축이 완료되어 <strong>서비스 운영이 개시된 시점으로부터 5년이 경과한 정보시스템</strong>을 그 대상으로 한다. (5년 미만도 협의 하에 가능. 모바일 앱은 별도 지침 따름.)
+                </div>
+
+                <h3 id="ch1-6-1">제6조 성과측정 절차 및 지표 (암기: 비운유비, 업사 <span class="star">★★</span>)</h3>
+                <p>매년 성과측정 계획을 수립하고, <strong>비용 측면</strong>과 <strong>업무 측면</strong>으로 구분하여 시행한다.</p>
+                <table>
+                    <tr>
+                        <th width="15%">구분</th>
+                        <th width="18%">측정항목</th>
+                        <th width="22%">측정지표</th>
+                        <th>산식 및 정의</th>
+                    </tr>
+                    <tr>
+                        <td rowspan="3" style="text-align:center; vertical-align:middle;"><strong>비용 측면</strong><br>(비·운·유·비)</td>
+                        <td>운영의 적정성</td>
+                        <td><strong>누적 유지보수비 비율</strong></td>
+                        <td>(연간 정보시스템 유지보수비 누계 / 시스템 개발비) × 100<br>누적 유지보수비 초과시 비용개선(재개발 등) 필요성 파악</td>
+                    </tr>
+                    <tr>
+                        <td>유지의 용이성</td>
+                        <td><strong>투입 운영유지비용 증감률</strong></td>
+                        <td>((최근 3년 평균 - 초기 3년 평균) / 초기 3년 평균) × 100<br>투입비 증감 수준을 분석하여 유지의 용이성 평가</td>
+                    </tr>
+                    <tr>
+                        <td>비용의 효율성</td>
+                        <td><strong>평균 운영유지비용 증감률</strong></td>
+                        <td>((최근 3년 평균 활용규모 당 비용 - 초기 3년 평균) / 초기) × 100</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3" style="text-align:center; vertical-align:middle;"><strong>업무 측면</strong><br>(업·사)</td>
+                        <td>업무수행 영향도</td>
+                        <td><strong>기능 활용도</strong></td>
+                        <td>((전체 기능 수 - (미활용 + 저활용×0.2)) / 전체 기능 수) × 100<br>기능 개선 및 고도화 필요성 파악</td>
+                    </tr>
+                    <tr>
+                        <td>사용상의 편의성</td>
+                        <td><strong>사용 편의성</strong></td>
+                        <td>(사용 편의성 측정 점수 / 만점) × 100</td>
+                    </tr>
+                    <tr>
+                        <td>업무성과 달성도</td>
+                        <td><strong>목표대비 성과 달성도</strong> 또는 <strong>업무성과 증감률</strong></td>
+                        <td>(직전년도 업무성과 / 직전년도 목표) × 100<br>최근 3년 평균 업무성과 증감률</td>
+                    </tr>
+                </table>
+
+                <h3 id="ch1-6-2">제7조 유지관리 유형표 및 재분류 <span class="star">★</span></h3>
+                <p>환산기준 점수의 <strong>중간값(3점)</strong>을 기준값으로 정함. (기관 특성에 따라 평균값으로 조정 가능)</p>
+                <table>
+                    <tr>
+                        <th width="20%">유형 구분</th>
+                        <th>정의 및 기준조건</th>
+                    </tr>
+                    <tr>
+                        <td><strong>유지</strong></td>
+                        <td>비용 측면과 업무 측면 모두 <strong>기준값 이상</strong> (비용 투입 적정, 업무지원 양호)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>기능고도화</strong></td>
+                        <td><strong>업무 측면</strong>의 측정결과가 기준값 미만 (활용 수준 및 편의성이 낮아 기능 개선 필요)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>재개발</strong></td>
+                        <td><strong>비용 측면</strong>의 측정결과가 기준값 미만 (신기술 도입 통해 비용 측면 개선 필요)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>폐기검토</strong></td>
+                        <td>비용 및 업무 모두 미만이거나, 업무 측면 측정결과가 <strong>1점 이하</strong>인 경우</td>
+                    </tr>
+                </table>
+
+                <h4>제8조 폐기검토 유형 재분류표</h4>
+                <ul>
+                    <li><strong>통폐합:</strong> 내외부 유사 시스템이 있어 기능 대체 가능시 현행 폐기 후 통합</li>
+                    <li><strong>재개발:</strong> 1차 폐기검토이나 법적/업무파급 영향도가 높아 폐기가 어려워 전면 개편</li>
+                    <li><strong>폐기:</strong> 1차 성과측정 결과대로 폐기</li>
+                </ul>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "정보시스템 운영 성과관리 지침"에 관한 설명으로 가장 거리가 먼 것은? (2014 기출)</div>
+                    <ul class="quiz-options">
+                        <li>성과측정은 개발 및 구축이 완료되어 서비스 운영이 개시된 시점으로부터 5년이 경과한 정보시스템을 대상으로 한다.</li>
+                        <li>정보시스템의 운영타당성 판단을 위해 정보시스템의 비용 측면의 성과와 업무 측면의 성과를 측정한다.</li>
+                        <li>업무 측면의 성과는 업무수행 영향도, 사용상의 편의성, 업무 성과 달성도에 관하여 측정한다.</li>
+                        <li>비용 측면의 측정결과가 기준값 이상이고 업무 측면의 측정 결과가 기준값 미만인 경우에는 재개발을 해야 한다.</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 4번</strong><br>
+                        해설: 업무 측면이 기준값 미만인 경우는 재개발이 아니라 <strong>'기능고도화'</strong> 대상입니다. 재개발은 비용 측면이 미만일 때입니다.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "정보시스템 운영성과관리 지침"의 내용으로 가장 거리가 먼 것은? (2013 기출)</div>
+                    <ul class="quiz-options">
+                        <li>성과측정은 개발 및 구축이 완료되어 서비스 운영이 개시된 시점으로부터 5년이 경과한 정보시스템을 대상으로 한다.</li>
+                        <li>업무효율성 측면의 성과는 운영의 적정성, 유지의 용이성, 비용의 효율성에 관하여 측정한다.</li>
+                        <li>정보시스템 분류 기준값에 의거 유지, 기능고도화, 재개발, 폐기 등으로 유지관리 유형을 구분한다.</li>
+                        <li>폐기로 분류된 정보시스템 중 업무 파급 영향도가 높은 것으로 판단된 경우 통폐합 또는 전면 재개발로 분류한다.</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 2번</strong><br>
+                        해설: '운영의 적정성, 유지의 용이성, 비용의 효율성'은 업무 측면이 아니라 <strong>'비용 측면'</strong>의 지표입니다 (비운유비).
+                    </div>
+                </div>
+            </section>
+
+            <!-- 8. 웹 호환성 -->
+            <section id="ch1-7" class="section">
+                <h2>8. 전자정부서비스 호환성 준수지침</h2>
+                <div class="law-box">
+                    <strong>목적:</strong> 행정/공공기관이 전자정부서비스의 호환성 확보를 위해 지켜야 할 사항 규정.<br>
+                    <strong>호환성:</strong> 서비스 이용자 단말기의 하드웨어 및 소프트웨어 환경이 다른 경우에도 동등한 서비스를 제공하는 것.
+                </div>
+
+                <h3>전자정부서비스 웹 호환성 진단표 <span class="star">★★★</span></h3>
+                <table>
+                    <tr>
+                        <th>진단지표</th>
+                        <th>진단기준</th>
+                        <th>진단방법</th>
+                    </tr>
+                    <tr>
+                        <td><strong>1. 웹표준 문법 준수</strong></td>
+                        <td>
+                            1-1 표준 (X)HTML 문법 준수 여부<br>
+                            1-2 표준 CSS 문법 준수 여부
+                        </td>
+                        <td>
+                            W3C Markup Validator (HTML5는 Nu Html Checker)<br>
+                            W3C CSS Validator (Level 3 진단)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. 웹호환성 확보</strong></td>
+                        <td>
+                            2-1 <strong>동작 호환성</strong> 확보 여부 (Javascript 오류 및 DOM 점검)<br>
+                            2-2 <strong>레이아웃 호환성</strong> 확보 여부 (브라우저별 폰트/픽셀 차이는 예외)
+                        </td>
+                        <td>브라우저 부가 기능, <strong>크로스 브라우징 테스트</strong> 준용</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. 비표준 기술제거</strong></td>
+                        <td>
+                            3-1 비표준 기술제거 여부 (ActiveX, 플래시, 실버라이트 등 파일 송수신 점검)<br>
+                            3-2 최신 웹 표준기술(HTML5) 사용 여부
+                        </td>
+                        <td>수동평가</td>
+                    </tr>
+                </table>
+                <p>※ 플러그인(plug-in) 호환성 확보 여부 조항(2-3)은 현재 폐지되었음.</p>
+
+                <h3>제4조(웹사이트 호환성 확보) & 제7조(모바일웹)</h3>
+                <ul>
+                    <li>(2012 구 버전): 상이한 3종 이상의 웹브라우저에서 제공. (현재 폐지)</li>
+                    <li>(2016 현 버전): 신규 구축/개선/운영 시 특정 개수 제한 없이 <strong>"다양한 웹브라우저"</strong>에서 동등하게 서비스를 제공. 종류는 기관장이 정함. 모바일웹도 동일함.</li>
+                </ul>
+
+                <h3>제5조(웹페이지 표준)</h3>
+                <ol>
+                    <li>문법 선언 및 올바른 방식 구현</li>
+                    <li>웹페이지 문자를 부호화하는 방식은 <strong>UTF-8</strong>을 사용하는 것을 원칙으로 한다. <span class="star">★</span></li>
+                    <li>크기, 색채 등 시각적 속성은 <strong>CSS표준</strong> 구현</li>
+                    <li>동적으로 제어하는 기능은 <strong>DOM표준과 ECMA-262표준</strong> 구현</li>
+                    <li>HTML5 신기술 사용 시 호환성 확보</li>
+                </ol>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "전자정부서비스 호환성 준수지침"에서 '동작 호환성 확보 여부'를 진단하는 방법으로 가장 적절한 것은? (2015 기출)</div>
+                    <ul class="quiz-options">
+                        <li>W3C Markup Validator</li>
+                        <li>W3C CSS Validator</li>
+                        <li>크로스 브라우징 테스트</li>
+                        <li>플러그인 동작 테스트</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 3번 (크로스 브라우징 테스트)</strong><br>
+                        해설: 동작 호환성은 '크로스 브라우징 테스트'로 진단합니다. W3C Validator는 문법 준수를 검사합니다.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "전자정부 서비스 호환성 지침"에 대한 설명으로 가장 거리가 먼 것은? (2014 기출)</div>
+                    <ul class="quiz-options">
+                        <li>전자정부 서비스 호환성이란 단말기 환경이 달라도 동등한 서비스를 제공하는 것이다.</li>
+                        <li>웹사이트 신규 구축 시, 시장점유율이 가장 높은 3종 이상의 웹브라우저에서 제공하여야 한다.</li>
+                        <li>모바일 전자정부 서비스 제공시 보편적 접근성을 위해 모바일 웹방식으로 제공해야 한다.</li>
+                        <li>문자 부호화 방식은 UTF-8을 원칙으로 하며 HTML5 등 신기술을 사용할 수 있다.</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 2번</strong><br>
+                        해설: '시장점유율이 가장 높은 3종'이라는 제약은 없으며, 현재 지침은 '다양한 웹브라우저'에서 제공하도록 하고 있습니다.
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. 현행 규정상 내용 설명으로 가장 적절하지 않은 것은? (2011 기출)</div>
+                    <ul class="quiz-options">
+                        <li>신규 구축 시 기술적 제약이 없는 한 3종 이상의 브라우저에서 동등하게 제공 (당시 기준 O)</li>
+                        <li>웹사이트 구축 시 웹 페이지의 문자를 부호화 하는 방식은 W3C CSS 표준을 적용한다.</li>
+                        <li>모바일 웹 구축시 단말정보저장소(DDR) 기술을 활용할 수 있다.</li>
+                        <li>웹페이지가 어떤 종류의 문법을 사용하고 있는지 선언하여야 한다.</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 2번</strong><br>
+                        해설: 웹페이지의 문자를 부호화하는 방식은 CSS 표준이 아니라 <strong>UTF-8</strong>을 원칙으로 합니다. CSS는 시각적 속성(색채, 배치 등)에 적용됩니다.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 9. 웹 접근성 (WCAG) -->
+            <section id="ch1-8" class="section">
+                <h2>9. 웹 접근성 및 한국형 웹 콘텐츠 접근성 지침 (KWCAG 2.0)</h2>
+                
+                <h3 id="ch1-8-1">웹 접근성(Web Accessibility) 개요 및 필요성</h3>
+                <div class="law-box">
+                    장애를 가진 사람들도 웹을 이용할 수 있도록 보장하는 것으로, 장애를 가진 사람들이 웹 콘텐츠를 인지하고(Perceivable), 운영하고(Operable), 이해하고(Understandable), 기술에 상관없이 이용할 수 있도록 견고(Robust)하게 만드는 약속.<br>
+                    <strong>필요성:</strong> 계층간 정보 격차(Digital Divide) 해소, 장애인 차별 금지법 시행 대응. 
+                </div>
+
+                <div class="info-box">
+                    <strong>웹 접근성의 구성요소:</strong><br>
+                    - 콘텐츠(Contents): 텍스트, 이미지, 코드<br>
+                    - User Agent: 웹 브라우저, 미디어 플레이어 등 사용자 도구<br>
+                    - 보조기술(Assistive Tech): 화면낭독 프로그램(Screen reader), 화면확대기 등<br>
+                    - 사용자, 개발자, 저작도구(Authoring Tools), 평가도구(Evaluation Tools)
+                </div>
+
+                <p><strong>WCAG 변화:</strong> WCAG 1.0(HTML 중심, 14개 가이드라인/65개 검사항목) → WCAG 2.0(유연성/검증가능성 제고, HTML/RIA 등 다양한 기술 반영, 4대 원칙 12개 지침 61개 성공기준).</p>
+
+                <h3 id="ch1-8-2">한국형 웹 콘텐츠 접근성 지침 2.0 (KWCAG 2.0) - 4대 원칙 13개 지침</h3>
+                <table>
+                    <tr>
+                        <th width="15%">원칙 (4개)</th>
+                        <th width="30%">지침 (13개)</th>
+                        <th>검사 항목 (22개) 주요 내용</th>
+                    </tr>
+                    <tr>
+                        <td rowspan="3"><strong>1. 인식의 용이성</strong><br>(Perceivable)</td>
+                        <td>1.1 대체 텍스트</td>
+                        <td><strong>적절한 대체 텍스트 제공</strong>: 텍스트 아닌 콘텐츠에는 용도를 이해할 수 있도록 대체 텍스트 제공</td>
+                    </tr>
+                    <tr>
+                        <td>1.2 멀티미디어 대체 수단</td>
+                        <td><strong>자막 제공</strong>: 동영상, 음성에 자막, 원고, 수화 제공</td>
+                    </tr>
+                    <tr>
+                        <td>1.3 명료성</td>
+                        <td>
+                            - <strong>색에 무관한 콘텐츠 인식</strong><br>
+                            - <strong>명확한 지시사항 제공</strong><br>
+                            - <strong>텍스트 콘텐츠의 명도 대비:</strong> 전경/배경 간 명도 대비 <strong>4.5대 1 이상</strong><br>
+                            - <strong>배경음 사용 금지:</strong> 자동재생 배경음 금지
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="4"><strong>2. 운용의 용이성</strong><br>(Operable)</td>
+                        <td>2.1 키보드 접근성</td>
+                        <td><strong>키보드 사용 보장</strong>(모든 기능 키보드만으로 수행), <strong>초점 이동</strong>(시각적 구별/논리적 이동)</td>
+                    </tr>
+                    <tr>
+                        <td>2.2 충분한 시간 제공</td>
+                        <td>응답시간 조절, 정지 기능 제공(자동 변경 콘텐츠 제어)</td>
+                    </tr>
+                    <tr>
+                        <td>2.3 광과민성 발작 예방</td>
+                        <td><strong>깜빡임과 번쩍임 사용 제한: 초당 3~50회</strong> 주기 깜빡임 배제</td>
+                    </tr>
+                    <tr>
+                        <td>2.4 쉬운 내비게이션</td>
+                        <td>반복 영역 건너뛰기(skip), 제목 제공, 적절한 링크 텍스트</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3"><strong>3. 이해의 용이성</strong><br>(Understandable)</td>
+                        <td>3.2 예측 가능성</td>
+                        <td>사용자 요구에 따른 실행 (의도치 않은 새창, 초점변화 등 금지)</td>
+                    </tr>
+                    <tr>
+                        <td>3.3 콘텐츠의 논리성</td>
+                        <td><strong>콘텐츠 선형화</strong>(논리적 순서 제공), <strong>표의 구성</strong></td>
+                    </tr>
+                    <tr>
+                        <td>3.4 입력 도움</td>
+                        <td><strong>레이블 제공</strong>(입력서식에 대응), <strong>오류 정정</strong> 방법 제공</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>4. 견고성</strong><br>(Robust)</td>
+                        <td>4.1 문법 준수</td>
+                        <td><strong>마크업 오류 방지</strong> (열고 닫음, 중첩, 속성 선언 오류 없어야 함)</td>
+                    </tr>
+                    <tr>
+                        <td>4.2 웹 애플리케이션 접근성</td>
+                        <td>포함된 웹 애플리케이션 자체가 접근성 가져야 함</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- 10. 모바일 앱 접근성 -->
+            <section id="ch1-9" class="section">
+                <h2>10. 모바일 애플리케이션 접근성 지침</h2>
+                <div class="law-box">
+                    <strong>목적:</strong> 모바일 앱 서비스 제공자가 장애인과 고령자 등의 접근성을 보장하기 위해 제작 시 준수해야 할 사항 규정.<br>
+                    <strong>모바일 애플리케이션:</strong> 특정한 목적을 달성하기 위해 모바일 기기 상에서 실행되는 소프트웨어.
+                </div>
+
+                <h3>제2장 접근성 준수사항 (제6조 ~ 제12조)</h3>
+                <ul>
+                    <li><strong>제6조(대체 텍스트):</strong> 텍스트 아닌 콘텐츠는 그림, 동영상 의미 파악 가능하게 대체 텍스트 함께 제공.</li>
+                    <li><strong>제7조(초점):</strong> 모든 객체에 초점(Focus) 적용 및 순차적(논리적) 이동, 테두리/하이라이트로 시각적 표시.</li>
+                    <li><strong>제8조(운영체제 접근성 기능 지원):</strong> OS 지원 접근성(고대비, 폰트확대, 음성명령) 지원 및 활용, 애플리케이션 종료 시 이전 상태 복원.</li>
+                    <li><strong>제9조(누르기 동작 지원):</strong> 다중 누르기(Multi-touch)나 슬라이드, 끌기(Drag) 등 복잡한 동작은 <strong>단순한 누르기(Tap) 동작으로 대체할 수 있는 방법</strong>이 제공되어야 함.</li>
+                    <li><strong>제10조(색에 무관한 인식):</strong> 색상 사용 의미 전달이 흑백 화면에서도 동등하게 이루어지도록.</li>
+                    <li><strong>제11조(명도 대비):</strong> 전경색/배경색 최소 <strong>3:1 이상</strong> 제공 (고령자/저시력인 실효성을 위해 <strong>4.5:1 권장</strong>). 단, 사진/동영상 예외. 고대비 불가능 시 앱 내 조절기능 제공.</li>
+                    <li><strong>제12조(자막, 수화 제공):</strong> 멀티미디어는 동기화된 자막/수화 제공.</li>
+                </ul>
+
+                <h3>제3장 권고사항 (제13조 ~ 제20조)</h3>
+                <p>제13조(기본 사용자 인터페이스 컴포넌트), 제14조(컨트롤간 충분한 간격), <strong>제15조(알림 기능)</strong>, 제16조(범용 폰트 이용), 제17조(사용자 인터페이스의 일관성), 제18조(깜빡거림의 사용 제한), <strong>제19조(배경음 사용 금지)</strong>, <strong>제20조(장애인 등 사용자 평가)</strong>.</p>
+                <p>※ 시험에서 '준수사항'과 '권고사항'을 묻는 문제가 주로 출제됩니다.</p>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. "모바일 애플리케이션 접근성 지침"의 내용 중 접근성 '준수사항'에 해당되는 것은? (2013 기출)</div>
+                    <ul class="quiz-options">
+                        <li>알림 기능</li>
+                        <li>배경음 사용 금지</li>
+                        <li>장애인 등 사용자 평가</li>
+                        <li>자막, 수화 등의 제공</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 4번</strong><br>
+                        해설: 제12조 자막/수화 제공은 반드시 지켜야할 <strong>준수사항</strong>입니다. 알림기능, 배경음 금지, 사용자 평가는 모두 '권고사항'에 해당합니다.
+                    </div>
+                </div>
+            </section>
+
+            <!-- 11. 모바일 서비스 관리지침 -->
+            <section id="ch1-10" class="section">
+                <h2>11. 모바일 전자정부 서비스 관리지침</h2>
+                <div class="law-box">
+                    <strong>목적:</strong> 행정기관 등이 모바일 전자정부 서비스를 구축/관리하는 경우 준수사항 규정.<br>
+                    <strong>모바일 앱(App):</strong> 모바일 OS에 최적화되어 단독 실행되는 애플리케이션.<br>
+                    <strong>하이브리드 앱(Hybrid App):</strong> 모바일 앱과 웹이 결합된 형태로 외부형태는 앱이나 실제운영은 HTML 등 웹 리소스를 이용함.
+                </div>
+
+                <h3>상세 내용 요약</h3>
+                <ul>
+                    <li><strong>제5조(계획 수립 시):</strong> 가이드라인 5종을 참조, 중복성등을 검토하고 사전협의 요청. 행정업무용은 '지원센터'의 장에게 중복성 검토 요청 가능.</li>
+                    <li><strong>제7조(등록):</strong> 모바일 서비스를 구축한 경우 <strong>서비스 개시 전에 등록신청서 작성하여 지원센터(모바일 전자정부 지원센터)에 제출.</strong></li>
+                    <li><strong>제11조(행정업무 모바일 앱의 배포):</strong> 지원센터의 장 승인 후, <strong>'행정업무 모바일 공통기반 시스템 등'을 통해 즉시 배포 (민간 앱스토어 아님).</strong> 주관기관장 별도 일시 요청 가능.</li>
+                    <li><strong>제12조(등록 변경):</strong> 변경 발생 시 모바일 서비스 변경신청서 지원센터 제출.</li>
+                    <li><strong>제14조(지원센터의 역할):</strong> 중복성 검토 지원, 등록/현황관리, 행정용 앱 스토어 운영 등.</li>
+                    <li><strong>제18조(대민서비스 등록·배포):</strong> <strong>모바일 대민서비스(대국민)</strong>의 경우 민간 앱스토어 등록 시 해당 행정기관 명의로 등록. 기능 검증을 실시하는 통신사/제조사 앱스토어 <strong>1곳 이상 반드시 포함.</strong></li>
+                </ul>
+
+                <div class="quiz-container">
+                    <div class="quiz-header"></div>
+                    <div class="quiz-question">Q. 모바일 전자정부 서비스를 구축하고 서비스해야 할 경우 준수해야 할 사항에 해당하지 않는 것은? (2012 기출)</div>
+                    <ul class="quiz-options">
+                        <li>모바일 서비스를 구축한 경우 서비스 개시 전에 모바일전자정부지원센터에 등록한다.</li>
+                        <li>행정업무용과 대국민 서비스용 모바일 서비스는 민간 모바일 애플리케이션 스토어에 등록한다.</li>
+                        <li>모바일 웹의 경우 기술적 제약이 없는 한 3개 이상의 브라우저에서 동등한 서비스를 제공하도록 설계한다.</li>
+                        <li>모바일 서비스는 모바일 웹 방식을 적용하고 다양한 화면 크기에 대응하도록 노력하여야 한다.</li>
+                    </ul>
+                    <div class="quiz-explanation">
+                        <strong>정답: 2번</strong><br>
+                        해설: <strong>행정업무용</strong> 모바일 앱은 민간 앱스토어에 등록하지 않고, 별도의 내부 보안 시스템인 <strong>'행정업무 모바일 공통기반 시스템'</strong>을 통해 배포합니다.
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- 기능 동작을 위한 JavaScript -->
+    <div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    if(!lb) return;
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img, .origpg img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='\ud83d\udd0d';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+            // 1. 목차 토글 기능
+            const toggleBtn = document.getElementById('toggle-sidebar-btn');
+            const sidebar = document.getElementById('sidebar');
+            
+            toggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // 2. 가상 페이지 기능 (전체 스크롤 길이를 바탕으로 가상 페이지 번호 부여)
+            const pageDisplay = document.getElementById('page-display');
+            const pageInput = document.getElementById('page-input');
+            const pageMoveBtn = document.getElementById('page-move-btn');
+            
+            function calculatePages() {
+                const pageHeight = window.innerHeight; // 화면 높이를 1페이지로 산정
+                const totalHeight = document.documentElement.scrollHeight;
+                const totalPages = Math.max(1, Math.ceil(totalHeight / pageHeight));
+                const currentPage = Math.min(totalPages, Math.floor(window.scrollY / pageHeight) + 1);
+                
+                pageDisplay.textContent = currentPage + '/' + totalPages;
+                pageInput.max = totalPages;
+                return { pageHeight, totalPages };
+            }
+
+            // 스크롤 시 페이지 번호 업데이트
+            window.addEventListener('scroll', () => {
+                requestAnimationFrame(calculatePages);
+            });
+            window.addEventListener('resize', calculatePages);
+            calculatePages(); // 초기화
+
+            // 이동 버튼 클릭 시
+            pageMoveBtn.addEventListener('click', () => {
+                const targetPage = parseInt(pageInput.value, 10);
+                const { pageHeight, totalPages } = calculatePages();
+                
+                if (targetPage > 0 && targetPage <= totalPages) {
+                    window.scrollTo({
+                        top: (targetPage - 1) * pageHeight,
+                        behavior: 'smooth'
+                    });
+                } else if (targetPage > totalPages) {
+                    window.scrollTo({
+                        top: document.documentElement.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+
+            pageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    pageMoveBtn.click();
+                }
+            });
+
+            // 3. 본문 검색 및 하이라이트 기능
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = document.getElementById('search-btn');
+            const contentArea = document.getElementById('content-area');
+            let searchMatches = [];
+            let currentMatchIndex = -1;
+
+            function clearHighlights() {
+                const marks = contentArea.querySelectorAll('mark.search-highlight');
+                marks.forEach(mark => {
+                    const parent = mark.parentNode;
+                    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                    parent.normalize(); // 인접 텍스트 노드 병합
+                });
+                searchMatches = [];
+                currentMatchIndex = -1;
+            }
+
+            // 검색어를 본문에 하이라이트(스크롤 없음). 매칭 개수를 반환.
+            function doHighlight(term) {
+                clearHighlights();
+                if (!term) { searchInput.dataset.lastSearch = ""; return 0; }
+                searchInput.dataset.lastSearch = term;
+                const esc = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // 정규식 특수문자 이스케이프
+                const walker = document.createTreeWalker(contentArea, NodeFilter.SHOW_TEXT, null, false);
+                const textNodes = [];
+                let node;
+                while (node = walker.nextNode()) {
+                    if (node.parentElement.tagName !== 'SCRIPT' && node.parentElement.tagName !== 'STYLE') {
+                        if (node.nodeValue.toLowerCase().includes(term.toLowerCase())) textNodes.push(node);
+                    }
+                }
+                textNodes.forEach(textNode => {
+                    const regex = new RegExp('(' + esc + ')', 'gi');
+                    const fragment = document.createDocumentFragment();
+                    let lastIdx = 0;
+                    textNode.nodeValue.replace(regex, (match, p1, offset) => {
+                        fragment.appendChild(document.createTextNode(textNode.nodeValue.slice(lastIdx, offset)));
+                        const mark = document.createElement('mark');
+                        mark.className = 'search-highlight';
+                        mark.textContent = match;
+                        fragment.appendChild(mark);
+                        lastIdx = offset + match.length;
+                    });
+                    fragment.appendChild(document.createTextNode(textNode.nodeValue.slice(lastIdx)));
+                    textNode.parentNode.replaceChild(fragment, textNode);
+                });
+                searchMatches = contentArea.querySelectorAll('mark.search-highlight');
+                return searchMatches.length;
+            }
+
+            function scrollToEl(el, offset) {
+                if (!el) return;
+                const rect = el.getBoundingClientRect();
+                window.scrollTo({ top: window.pageYOffset + rect.top - (offset || 150), behavior: 'smooth' });
+            }
+
+            function performSearch() {
+                const term = searchInput.value.trim();
+                // 같은 검색어면 다음 매칭으로 순환 이동
+                if (term && term === searchInput.dataset.lastSearch && searchMatches.length > 0) {
+                    searchMatches[currentMatchIndex].classList.remove('active');
+                    currentMatchIndex = (currentMatchIndex + 1) % searchMatches.length;
+                    searchMatches[currentMatchIndex].classList.add('active');
+                    scrollToEl(searchMatches[currentMatchIndex]);
+                    return;
+                }
+                const n = doHighlight(term);
+                if (!term) return;
+                if (n === 0) { alert('검색 결과가 없습니다.'); return; }
+                currentMatchIndex = 0;
+                searchMatches[0].classList.add('active');
+                scrollToEl(searchMatches[0]);
+            }
+
+            // 4. 랜딩페이지(전역 검색)에서 특정 섹션/검색어로 진입
+            function externalGoto(id, term) {
+                if (term) {
+                    const n = doHighlight(term);
+                    if (n > 0) { currentMatchIndex = 0; searchMatches[0].classList.add('active'); }
+                }
+                const el = id ? document.getElementById(id) : null;
+                const target = el || (searchMatches && searchMatches[0]) || null;
+                // 임베드 시엔 헤더가 작으므로 오프셋을 줄임
+                const off = document.documentElement.classList.contains('embedded') ? 70 : 150;
+                if (target) setTimeout(() => scrollToEl(target, off), 40);
+            }
+            function parseNavHash() {
+                const h = (location.hash || '').replace(/^#/, '');
+                if (!h) return null;
+                const p = new URLSearchParams(h);
+                if (p.has('sec') || p.has('q')) return { id: p.get('sec') || '', q: p.get('q') || '' };
+                return { id: h, q: '' }; // 단순 #id 형태도 지원
+            }
+            const navOnLoad = parseNavHash();
+            if (navOnLoad) setTimeout(() => externalGoto(navOnLoad.id, navOnLoad.q), 80);
+            window.addEventListener('hashchange', () => { const n = parseNavHash(); if (n) externalGoto(n.id, n.q); });
+            window.addEventListener('message', (e) => {
+                const d = e.data || {};
+                if (d && d.type === 'lecture-goto') externalGoto(d.id || '', d.q || '');
+            });
+
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // 검색어 입력 지웠을 때 리셋
+            searchInput.addEventListener('input', (e) => {
+                if (e.target.value.trim() === '') {
+                    clearHighlights();
+                    searchInput.dataset.lastSearch = "";
+                }
+            });
+
+        });
+    </script>
+    <script>
+        // 랜딩페이지 iframe 내부에서 열리면 자체 상단바를 숨겨 중복 내비게이션 제거
+        if (window.self !== window.top) {
+            document.documentElement.classList.add('embedded');
+            // 헤더가 좁은 iframe 폭에서 줄바꿈되면 높이가 달라지므로,
+            // 실제 헤더 높이를 측정해 사이드바 sticky 오프셋을 동적으로 맞춘다(목차·헤더 겹침 방지).
+            var syncHeaderOffset = function () {
+                var hdr = document.querySelector('.header');
+                if (!hdr) return;
+                var h = Math.ceil(hdr.getBoundingClientRect().height);
+                document.documentElement.style.setProperty('--embed-hdr', (h + 8) + 'px');
+            };
+            window.addEventListener('load', syncHeaderOffset);
+            window.addEventListener('resize', syncHeaderOffset);
+            syncHeaderOffset();
+
+            // 랜딩페이지의 '본문 넓게' 스위치 → 헤더 접기/펴기
+            window.addEventListener('message', function (e) {
+                var d = e.data || {};
+                if (d && d.type === 'lecture-chrome') {
+                    document.documentElement.classList.toggle('chrome-hidden', d.show === false);
+                    setTimeout(syncHeaderOffset, 40); // 헤더 높이 변화 반영(목차 오프셋 재계산)
+                }
+            });
+        }
+    </script>
+</body>
+</html>

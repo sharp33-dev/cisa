@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB02] Ch2 · 트랜잭션</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB02] Ch2 · 트랜잭션</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/69</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#db02-s01">1. 트랜잭션의 개념과 ACID 특성</a></li><li><a href="#db02-s02">2. 트랜잭션 직렬화와 격리 수준</a></li><li><a href="#db02-s03">3. 동시성 제어</a></li><li><a href="#db02-s04">4. 회복 기법</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (20)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="db02-s01" class="section">
+  <h2>1. 트랜잭션의 개념과 ACID 특성 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-7)</span></h2>
+
+  <h3>가. 트랜잭션의 ACID 특성</h3>
+  <p>트랜잭션(Transaction)은 데이터베이스의 상태를 변화시키는 하나의 논리적 작업 단위로, 아래 4가지 특성(ACID)을 보장해야 한다.</p>
+  <table>
+    <tr><th>특성</th><th>주요 개념</th></tr>
+    <tr><td>원자성(Atomicity)</td><td>트랜잭션의 처리가 완전히 끝나지 않았을 경우에는 전혀 이루어지지 않은 것과 같아야 함(All or Nothing). 관련 연산: Commit / Rollback</td></tr>
+    <tr><td>일관성(Consistency)</td><td>트랜잭션이 실행을 성공적으로 완료하면 데이터베이스는 모순이 없어 일관성이 보존된 상태여야 함</td></tr>
+    <tr><td>고립성(Isolation)</td><td>어떤 트랜잭션도 다른 트랜잭션의 부분적 실행 결과를 볼 수 없음</td></tr>
+    <tr><td>지속성(Durability)</td><td>트랜잭션이 일단 성공적으로 완료되면 그 결과는 영구적으로 보장되어야 함</td></tr>
+  </table>
+  <p>ACID 4대 특성 중 <strong>원자성과 지속성은 회복 관리자(Recovery Manager)</strong>가 책임지고 보장하는 특성이다. 일관성은 무결성 관리자와 동시성 제어 관리자가, 고립성은 동시성 제어 관리자가 함께 관여한다는 점에서, "회복 관리자가 보장하는 특성은?"이라는 질문에는 원자성·지속성만 해당된다.</p>
+
+  <h3>나. 트랜잭션의 상태 전이</h3>
+  <table>
+    <tr><th>상태</th><th>내용</th></tr>
+    <tr><td>실행(Active)</td><td>Begin Trans로부터 실행을 시작했거나 실행 중인 상태</td></tr>
+    <tr><td>부분 완료(Partially Committed)</td><td>트랜잭션이 마지막 명령을 실행한 후의 상태</td></tr>
+    <tr><td>실패(Failed)</td><td>정상적 실행을 더 이상 행할 수 없음이 발견된 후의 상태</td></tr>
+    <tr><td>철회(Abort)</td><td>트랜잭션이 복원되어 트랜잭션 수행 이전 상태로 환원된 후의 상태</td></tr>
+    <tr><td>완료(Committed)</td><td>트랜잭션이 성공적으로 완료된 상태</td></tr>
+  </table>
+  <p>여러 트랜잭션이 동시에 수행되더라도 각기 개별로 수행되는 것과 동일해야 한다는 성질은 <strong>고립성(Isolation)</strong>이며, 트랜잭션 내의 모든 데이터베이스 연산이 수행 완료되거나 아무 연산도 수행되지 않음을 보장하는 특성은 <strong>원자성(Atomicity)</strong>이다. "독립성(Independency)"이라는 용어는 ACID 4대 특성의 정식 명칭이 아니라 "고립성(Isolation)"과 혼동을 유발하기 위한 함정 표현으로 자주 등장한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · ACID와 담당 관리자 매칭</span>원자성(Atomicity)·지속성(Durability) → 회복 관리자(Recovery Manager), 고립성(Isolation) → 동시성 제어 관리자(Concurrency Control Manager), 일관성(Consistency) → 무결성 관리자+ 동시성 제어 관리자가 공동으로 책임진다는 매칭 구조를 암기해 두면 "OO 관리자가 보장하는 특성" 유형의 문제에 빠르게 대응할 수 있다.</div>
+</section>
+<section id="db02-s02" class="section">
+  <h2>2. 트랜잭션 직렬화와 격리 수준 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8-25)</span></h2>
+
+  <h3>가. 병행 수행 시 발생하는 이상현상(Read 이상)</h3>
+  <table>
+    <tr><th>유형</th><th>내용</th></tr>
+    <tr><td>Dirty Read(오손 데이터 읽기)</td><td>Commit되지 않은(다른 트랜잭션이 아직 완료하지 않은) 데이터를 읽을 수 있음</td></tr>
+    <tr><td>Non-Repeatable Read(반복불가능 읽기)</td><td>Commit된 데이터만 읽지만, 최초 읽은 값과 다시 읽었을 때의 값이 다를 수 있음</td></tr>
+    <tr><td>Phantom Read(팬텀 읽기)</td><td>특정 범위 값을 읽고 나서 다시 읽었을 때, 처음에는 없었던 새로운 행을 읽을 수 있음</td></tr>
+  </table>
+
+  <h3>나. SQL-92의 4단계 격리 수준(Isolation Level)</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th></tr>
+    <tr><td>Read Uncommitted(Level 0)</td><td>SELECT 수행 시 해당 데이터에 Shared Lock이 걸리지 않는 수준. 다른 사용자가 아직 완료(Commit)하지 않은(Dirty) 데이터도 읽을 수 있음</td></tr>
+    <tr><td>Read Committed(Level 1)</td><td>대부분 DBMS의 Default 수준. 다른 사용자가 완료(Committed)한 데이터만 읽음(DBMS별로 Shared Lock 여부는 다를 수 있음)</td></tr>
+    <tr><td>Repeatable Read(Level 2)</td><td>트랜잭션이 완료될 때까지 SELECT가 사용하는 모든 데이터에 Shared Lock이 걸려, 같은 범위를 다시 읽어도 값이 유지됨(수정 불가). 다만 범위 밖에 새 값이 INSERT되는 것은 막지 못해 <strong>Phantom Read는 가능</strong></td></tr>
+    <tr><td>Serializable(Level 3)</td><td>Repeatable Read 수준에서 범위(Range)에 대한 Shared Lock까지 추가해, 범위 내 INSERT도 허용하지 않음 → Phantom Read까지 방지</td></tr>
+  </table>
+  <table>
+    <tr><th>격리 수준</th><th>Dirty Read</th><th>Non-Repeatable Read</th><th>Phantom Read</th></tr>
+    <tr><td>Read Uncommitted(Level 0)</td><td>가능</td><td>가능</td><td>가능</td></tr>
+    <tr><td>Read Committed(Level 1)</td><td>불가능</td><td>가능</td><td>가능</td></tr>
+    <tr><td>Repeatable Read(Level 2)</td><td>불가능</td><td>불가능</td><td>가능</td></tr>
+    <tr><td>Serializable(Level 3)</td><td>불가능</td><td>불가능</td><td>불가능</td></tr>
+  </table>
+  <p>격리 수준이 낮을수록(Read Uncommitted에 가까울수록) 고립 수준은 낮고 동시성 수준(성능)은 높으며, 격리 수준이 높을수록(Serializable에 가까울수록) 고립 수준은 높고 동시성 수준은 낮아지는 트레이드오프 관계다. "LOCKING 기법을 사용할 경우 가장 낮은 수준(Read Uncommitted)에서도 발생하지 않는 현상"을 묻는다면, 표에서 Read Uncommitted 행에 유일하게 "불가능"이 없다는 점에 착안하기보다, LOCKING 자체를 사용하는 이상 <strong>갱신 손실(Lost Update)</strong>은 방지된다는 것이 정답 논리다.</p>
+
+  <h3>다. 트랜잭션 스케줄과 직렬 가능성</h3>
+  <p>직렬성을 가진 트랜잭션 스케줄이란, 각 트랜잭션이 동시에 수행되더라도 그 결과가 순차적으로 트랜잭션이 수행된 결과와 같은 경우(스케줄 동치)를 말한다. 충돌 직렬 스케줄이 더 엄격한 기준이므로 <strong>모든 충돌 직렬 스케줄은 뷰 직렬 스케줄에 포함</strong>되지만 그 역은 성립하지 않는다(충돌 직렬 ⊂ 뷰 직렬).</p>
+  <table>
+    <tr><th>구분</th><th>판단 기준</th></tr>
+    <tr><td>충돌 직렬 가능성(Conflict Serializability)</td><td>동일 데이터 Q에 대해 서로 다른 트랜잭션의 연속 연산 Ii, Ij 중 read-read를 제외한(즉 read-write, write-read, write-write) 조합이 하나라도 있으면 "충돌"이며, 이 충돌들이 순환(Cycle)을 이루면 충돌 직렬 불가능</td></tr>
+    <tr><td>뷰 직렬 가능성(View Serializability)</td><td>스케줄 S와 순차 스케줄 S′를 비교해 동일 데이터 Q에 대한 '초기값 읽기', '쓰기 후 읽기', '마지막 쓰기' 순서가 서로 같다면 뷰 직렬 가능</td></tr>
+  </table>
+  <p>예를 들어 T1의 read(A)와 T2의 read(A)처럼 <strong>read-read 조합은 순서를 바꿔도 결과에 영향이 없어 충돌이 아니지만</strong>, T1의 write(A)와 T2의 read(A)처럼 하나라도 write가 섞이면 순서를 바꿀 수 없는 충돌 관계가 된다. 서로 다른 데이터 항목(A와 B)에 대한 연산은 애초에 충돌 대상이 아니므로 순서를 자유롭게 바꿀 수 있다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 3대 Read 이상현상과 4단계 격리수준 표를 통으로 암기</span>Dirty Read(커밋 전 데이터 읽기) → Non-Repeatable Read(재조회 시 값 변경) → Phantom Read(재조회 시 새 행 등장) 순으로 문제의 심각도가 낮아지며, Read Uncommitted(0)~Serializable(3) 순으로 격리 수준이 높아질수록 왼쪽부터 하나씩 "불가능"으로 막힌다는 계단식 표 구조를 그림으로 암기해 두면 격리수준 관련 문제 대부분을 해결할 수 있다.</div>
+</section>
+<section id="db02-s03" class="section">
+  <h2>3. 동시성 제어 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.26-50)</span></h2>
+
+  <h3>가. 동시성 제어의 정의와 목적, 이상현상</h3>
+  <p>동시성 제어(Concurrency Control)는 다중 사용자 환경을 지원하는 데이터베이스 시스템에서 여러 트랜잭션이 성공적으로 동시에 실행될 수 있도록 지원하는 기능으로, 직렬 가능 스케줄(Serializable Schedule)의 생성 또는 트랜잭션들의 직렬 가능성 보장, 공유도 최대·응답시간 최소화, 데이터 무결성·일관성 보장을 목적으로 한다.</p>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>갱신 손실(Lost Update)</td><td>동일 데이터를 동시에 갱신할 때, 이전 트랜잭션이 갱신 후 종료하기 전에 나중 트랜잭션이 갱신 값을 덮어쓰는 경우</td></tr>
+    <tr><td>오손 데이터 읽기(Dirty Read)</td><td>트랜잭션의 중간(미완료) 수행 결과를 다른 트랜잭션이 참조함으로써 발생하는 오류</td></tr>
+    <tr><td>모순성(Inconsistency)</td><td>두 트랜잭션이 동시에 실행할 때 데이터베이스가 일관성이 없는 상태로 남는 문제</td></tr>
+    <tr><td>연쇄 복귀(Cascading Rollback)</td><td>복수 트랜잭션이 데이터 공유 시 특정 트랜잭션이 처리를 취소하면 이미 그 값을 읽은 다른 트랜잭션도 연쇄적으로 취소해야 하는 문제</td></tr>
+    <tr><td>반복할 수 없는 읽기(Unrepeatable Read)</td><td>한 트랜잭션 내에서 같은 질의를 두 번 수행했는데 그 사이 다른 트랜잭션이 값을 수정·삭제해 결과가 다르게 나타나는 현상</td></tr>
+  </table>
+
+  <h3>나. 동시성 제어 기법 3가지</h3>
+  <table>
+    <tr><th>구분</th><th>2PL(2 Phase Locking)</th><th>Timestamp Ordering</th><th>낙관적 검증기법</th></tr>
+    <tr><td>작동 방식</td><td>확장단계에서는 Lock만, 수축단계에서는 Unlock만 수행 가능</td><td>시스템 시계 또는 논리적 계수기로 트랜잭션 발생 시마다 타임스탬프 부여</td><td>트랜잭션 수행 중에는 데이터의 지역 사본에만 갱신하고, 종료 시 직렬화 검증 후 일시에 DB에 반영</td></tr>
+    <tr><td>장점</td><td>직렬가능성 보장을 위해 가장 많이 사용됨</td><td>트랜잭션이 결코 기다리지 않아 교착상태(Deadlock) 방지 가능</td><td>종료 시 동시성 검증만 하면 되어 동작이 비교적 단순</td></tr>
+    <tr><td>단점</td><td>교착상태 발생 가능(예방·탐지로 해결)</td><td>연쇄복귀(Cascading Rollback)를 초래할 수 있음</td><td>트랜잭션이 몰릴 경우 동시성 검증으로 인한 성능저하 가능</td></tr>
+    <tr><td>응용</td><td>휴대용 단말용 플래시 메모리 2PL</td><td>웹시스템 OLTP 제어용</td><td>업무 구분이 명확해 중복이 없는 트랜잭션</td></tr>
+  </table>
+  <p>낙관적 동시성 제어(Optimistic Concurrency Control)는 <strong>읽기 단계(Read Phase) → 검증 단계(Validation Phase) → 쓰기 단계(Write Phase)</strong> 순으로 진행된다. 읽기 단계는 지역 변수만 이용해 읽기·갱신을 수행하고, 검증 단계는 실제 DB 반영 전 충돌 직렬 가능성을 검사하며, 쓰기 단계는 검증을 통과하면 실제 반영하고 그렇지 않으면 트랜잭션을 취소·재시작한다.</p>
+
+  <h3>다. 2단계 로킹(2PL)과 잠금(Lock)의 종류</h3>
+  <p>2단계 로킹 규약(Two-Phase Locking)은 1단계(확장, Growing Phase)에서 Lock만 수행하고 Unlock은 할 수 없으며, 2단계(수축, Shrinking Phase)에서는 Unlock만 수행하고 Lock은 할 수 없다는 규약으로, 이를 준수하면 직렬 가능성이 보장된다.</p>
+  <table>
+    <tr><th>2PL 변형</th><th>설명</th></tr>
+    <tr><td>Strict(엄격한) 2PL</td><td>배타적 Lock에 대해 트랜잭션이 완료·철회될 때까지 Unlock하지 않는 방식. 교착상태(Deadlock) 발생 가능</td></tr>
+    <tr><td>Rigorous(엄중한) 2PL</td><td>배타적 Lock뿐 아니라 공유 Lock까지 트랜잭션 완료·철회 시까지 Unlock하지 않는 방식. 모든 트랜잭션을 완료 순서로 직렬화 가능하지만 Strict 2PL보다 덜 제한적</td></tr>
+    <tr><td>Static(고정된/보수적) 2PL</td><td>트랜잭션 수행 전부터 read set·write set을 미리 선언해 수행 전 모든 항목을 Lock — 교착상태를 방지할 수 있으나 <strong>보수적 2PL이 "교착상태가 발생하지 않는다"는 설명은 오답</strong>이며, 실제로는 현실 적용에 한계가 있고 교착상태가 발생할 수 있다</td></tr>
+  </table>
+  <p>로크 전환(변환)에서 <strong>read_lock(공유 로크)에서 write_lock(배타적 로크)으로 바꾸는 것이 "상승(Upgrade)"</strong>이고, 그 반대로 배타적 로크에서 공유 로크로 바꾸는 것이 "하강(Downgrade)"이다. 로킹의 단위(Granularity)가 커질수록 잠금·해제 오버헤드는 줄지만 동시성 수준은 낮아지고 제어는 오히려 단순해진다(동시성 수준이 "높아진다"는 설명은 오답).</p>
+  <table>
+    <tr><th>잠금 종류</th><th>설명</th></tr>
+    <tr><td>공유 잠금(Shared Lock)</td><td>가장 낮은 강도의 잠금. 일반적으로 SELECT 시 발생하며 완료 즉시 해제. 다른 공유 잠금과는 호환되나 배타적 잠금과는 비호환</td></tr>
+    <tr><td>배타적 잠금(Exclusive Lock)</td><td>가장 높은 잠금. UPDATE가 행해진 시점부터 트랜잭션이 Commit될 때까지 유지</td></tr>
+    <tr><td>업데이트 잠금(Update Lock)</td><td>공유·배타적 잠금의 중간 — 공유 잠금과는 호환되나 다른 업데이트·배타적 잠금과는 비호환</td></tr>
+    <tr><td>의도 잠금(IS/IX/SIX)</td><td>계층적(다중 단위) 로킹에서 하위 노드에 걸 잠금의 의도를 상위 노드에 미리 표시(IS=의도-공유, IX=의도-배타적, SIX=공유-의도-배타적)</td></tr>
+  </table>
+
+  <h3>라. 타임스탬프 순서(Timestamp Ordering) 기법</h3>
+  <p>타임스탬프 기법은 트랜잭션 Ti가 read(x)·write(x)를 수행할 때 read_TS(x)·write_TS(x)(각각 해당 연산을 성공 수행한 트랜잭션들의 타임스탬프 중 최댓값)와 TS(Ti)를 비교해 연산의 허용·거부·무시 여부를 결정한다.</p>
+  <table>
+    <tr><th>연산</th><th>조건</th><th>처리</th></tr>
+    <tr><td>Ti가 Read(x) 수행</td><td>TS(Ti) &lt; write_TS(x)</td><td>read(x) 거부, Ti는 복귀(철회)</td></tr>
+    <tr><td></td><td>TS(Ti) ≥ write_TS(x)</td><td>read(x) 허용, read_TS(x) ← max(read_TS(x), TS(Ti))</td></tr>
+    <tr><td>Ti가 Write(x) 수행</td><td>TS(Ti) &lt; read_TS(x)</td><td>write(x) 거부, Ti는 복귀</td></tr>
+    <tr><td></td><td>TS(Ti) ≥ read_TS(x)이고 TS(Ti) &lt; write_TS(x)</td><td>토마스(Thomas)의 기록 규칙 적용 시 write(x)를 <strong>단순히 무시</strong>(Ignore)</td></tr>
+    <tr><td></td><td>그 외의 경우</td><td>write(x) 허용, write_TS(x) ← TS(Ti)</td></tr>
+  </table>
+  <p>토마스(Thomas)의 기록 규칙은 "이미 더 최신 타임스탬프의 트랜잭션이 값을 읽었지만, 아직 그보다 더 최신 값을 write한 트랜잭션은 없는" 특수한 경우에 오래된 write를 거부하지 않고 그냥 무시함으로써 불필요한 트랜잭션 철회를 줄이는 최적화 기법이다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 로크 상승/하강과 2PL 변형 정리</span>"read_lock → write_lock"은 상승(Upgrade), "write_lock → read_lock"은 하강(Downgrade)으로 방향을 명확히 암기한다. Strict 2PL은 배타적 로크만, Rigorous 2PL은 배타적+공유 로크 모두를 트랜잭션 종료까지 유지한다는 차이, Static(보수적) 2PL은 사전 선언으로 교착상태를 막을 수 있지만 현실적 한계가 있다는 3가지 포인트를 구분해 암기한다.</div>
+</section>
+<section id="db02-s04" class="section">
+  <h2>4. 회복 기법 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.51-69)</span></h2>
+
+  <h3>가. 장애(Failure)의 유형</h3>
+  <table>
+    <tr><th>유형</th><th>주요 내용</th></tr>
+    <tr><td>트랜잭션 장애</td><td>논리적 오류(내부 오류로 완료 불가) 또는 시스템 오류(Deadlock 등으로 활성 트랜잭션 강제 종료)</td></tr>
+    <tr><td>시스템 장애</td><td>전원·하드웨어·소프트웨어 등의 고장. 저장 내용이 영향받지 않도록 무결성 체크 필요</td></tr>
+    <tr><td>디스크 장애</td><td>디스크 스토리지 일부 또는 전체 붕괴. 가장 최근 덤프와 로그를 이용해 덤프 이후 완결된 트랜잭션을 재실행</td></tr>
+  </table>
+
+  <h3>나. REDO와 UNDO</h3>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>REDO(재수행)</td><td>아카이브 사본 + 로그(Log) → 완료(Commit) 후 상태. DB 내용 자체가 손상된 경우 최근 복사본을 적재한 후 로그를 재실행해 복원. <strong>장애 발생 시점에 이미 완료된 트랜잭션</strong>에 대해 수행하며, 쓰기 연산을 재실행해 값을 디스크에 저장(Forward Recovery)</td></tr>
+    <tr><td>UNDO(취소)</td><td>로그(Log) + 후방향(Backward) 취소 연산 → 시작 상태. DB 내용은 손상되지 않았지만 변경 중이거나 신뢰성을 잃은 경우 로그로 변경을 모두 취소. <strong>장애 발생 시점에 진행 중이던(미완료) 트랜잭션</strong>에 대해 수행하며, 쓰기 연산을 취소해 이전 값으로 되돌림(Backward Recovery)</td></tr>
+  </table>
+
+  <h3>다. 회복 기법의 종류</h3>
+  <table>
+    <tr><th>구분</th><th>개념</th><th>특징</th><th>복구속도</th></tr>
+    <tr><td>로그 기반 기법</td><td>로그파일을 이용</td><td>REDO·UNDO 결정을 위해 로그 전체를 조사해야 하므로 시간 지연 발생</td><td>느림</td></tr>
+    <tr><td>검사점(Checkpoint) 기법</td><td>로그파일과 검사점 이용</td><td>로그 기반 대비 상대적으로 속도가 빠름</td><td>로그 기반보다 빠름</td></tr>
+    <tr><td>그림자 페이징(Shadow Paging) 기법</td><td>그림자 테이블을 이용한 복구</td><td>UNDO 간단, REDO 불필요해 수행 속도가 빠르고 간편하지만 여러 트랜잭션이 병행 수행되면 단독 사용이 어렵고 그림자 페이지 테이블 복사·기록 오버헤드 발생</td><td>복사·백업본에서 복구하므로 빠름</td></tr>
+  </table>
+  <p>즉시 갱신(Immediate Update) 회복 기법은 트랜잭션 수행 중 갱신 결과를 DB에 즉시 반영하고 로그를 기록하며, 트랜잭션 실패 시 로그 기반 UNDO로 회복한다. 반면 지연 갱신(Deferred Update) 회복 기법은 트랜잭션이 부분 완료될 때까지 DB의 실제 갱신을 지연시키며, <strong>UNDO가 아니라 REDO 알고리즘만으로</strong> 회복한다(트랜잭션이 종료된 상태면 UNDO 없이 REDO만 실행, 종료가 안 된 상태였다면 로그 정보 자체를 무시). 그림자 페이지 회복 기법은 REDO 연산이 필요 없어 장애로부터의 회복 작업이 신속하다는 장점이 있다.</p>
+
+  <h3>라. 검사점(Checkpoint) 회복 기법</h3>
+  <p>검사점 회복 기법은 로그 기반 기법의 "로그 전체를 처음부터 조사해야 하는" 비효율을 개선하기 위해, 일정 시점(Checkpoint)마다 현재 상태를 기록해 두고 장애 발생 시 가장 최근 검사점 이후의 트랜잭션만 회복 대상으로 삼는 기법이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB02fig/p057.jpg" alt="그림자 페이징 기법 개념도. Current Page Table과 트랜잭션 시작 시점의 트랜잭션 시작 Page Table이 주기억 장치에 있고, 하드디스크의 Shadow Page Table 및 트랜잭션 완료 페이지와 연결되어 Rollback 시 복사/저장, Commit 시 트랜잭션 완료 흐름으로 이어지는 구조도"><figcaption>[그림] 그림자 페이징(Shadow Paging) 회복 기법의 개념도</figcaption></figure>
+  <ol>
+    <li>트랜잭션 수행 중 문제가 발생하면 로그파일의 정보를 검사해 Redo·Undo를 실행할 트랜잭션과 체크포인트를 선정</li>
+    <li>검사점의 로그 파일 기록을 이용해 실행</li>
+    <li>장애 발생 시 검사점 이전에 이미 처리(완료)된 트랜잭션은 회복 대상에서 제외</li>
+    <li>검사점 이후에 처리된 트랜잭션만 회복 작업 수행 — <strong>검사점 이후 시작해 장애 이전 완료된 트랜잭션은 REDO 대상</strong>, <strong>검사점 이전/이후 시작했지만 장애 시점까지 미완료인 트랜잭션은 UNDO 대상</strong></li>
+  </ol>
+  <figure class="fig"><img loading="lazy" src="assets/DB02fig/p063.jpg" alt="체크포인트 회복 기법 타임라인 다이어그램. 체크포인트 C1과 C2 사이, 그리고 C2 이후 장애 발생 시점까지 T1~T5 트랜잭션의 시작·종료 구간이 화살표로 표시되고, 복구제외=T1, REDO=T2·T4, UNDO=T3·T5로 분류된 예시"><figcaption>[그림] 체크포인트(C1, C2) 기준 트랜잭션별 REDO/UNDO 판정 사례(복구제외 T1, REDO T2·T4, UNDO T3·T5)</figcaption></figure>
+  <p>예를 들어 체크포인트 C1이 정상 수행되고 C2 수행 중 장애가 발생했을 때, C1 이전에 시작해 C1 이전에 완료된 트랜잭션(T1)은 회복 작업과 무관하고, C1 이전(또는 이후)에 시작해 C2 이전에 완료된 트랜잭션(T2, T4)은 <strong>REDO</strong> 대상, C2 시점까지 수행 중이던 트랜잭션(T3, T5)은 <strong>UNDO</strong> 대상이 된다. UNDO 대상 트랜잭션은 로그에 기록된 순서의 <strong>역순으로</strong> Undo 연산을 수행해야 한다는 점에도 유의한다(기록된 순서 그대로 수행한다는 설명은 오답).</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · REDO=완료(장애 전 커밋), UNDO=미완료 트랜잭션</span>REDO는 "장애 발생 시점까지 이미 Commit을 완료한" 트랜잭션에 대해 로그를 앞 방향으로 재실행하는 것이고, UNDO는 "장애 발생 시점까지 아직 진행 중(미완료)이던" 트랜잭션에 대해 로그를 뒤 방향(역순)으로 되돌리는 것이다. "완료=REDO, 미완료=UNDO"라는 대응 관계 하나만 정확히 기억하면 체크포인트 문제의 절반은 풀린다.</div>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (20문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 데이터베이스 장애에 대해 책임을 지는 DBMS의 서브 시스템인 회복 관리자(recovery manager)가 보장해 주는 트랜잭션 특성을 고르시오.(2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.4)</span></div><ol class="quiz-options"><li>원자성(atomicity)</li><li>일관성(consistency)</li><li>격리성(isolation)</li><li>영속성(durability)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① ④</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 다음은 트랜잭션의 특성에 관한 설명이다. ( )안에 들어갈 트랜잭션 특성을 바르게 나열한 것은? 여러 트랜잭션이 동시에 수행되더라도 각기 개별로 수행되는 것과 동일해야 한다는 성질을 ( )이라 하며, 트랜잭션 내의 모든 데이터베이스 연산들이 수행 완료되거나, 아니면 아무 연산도 수행되지 않음을 보장해야 하는 특성을 ( )이라 한다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.6)</span></div><ol class="quiz-options"><li>독립성(independency), 일관성(consistency)</li><li>독립성(independency), 원자성(atomicity)</li><li>고립성(isolation), 원자성(atomicity)</li><li>고립성(isolation), 일관성(consistency)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 다음은 2개의 트랜잭션이 테이블 users에 대하여 질의를 수행할 때 트랜잭션 T1의 첫 번째 SQL 문의 결과가 20이고 두 번째 SQL 문의 결과는 21이었다. 이렇게 트랜잭션 T1 내의 같은 질의에 대해 결과가 다른 현상을 무엇이라고 하는가? T1: SELECT AVG(age) FROM users; / T2: UPDATE users SET age=21 WHERE id=1; COMMIT; / T1: SELECT AVG(age) FROM users; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.13)</span></div><ol class="quiz-options"><li>오손데이터 읽기(Dirty read)</li><li>팬텀 읽기(Phantom read)</li><li>반복불가능 읽기(Non repeatable read)</li><li>갱신 손실(Lost update)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. SQL 1992(SQL2)의 4가지 격리 수준(isolation level) 중에서 한 트랜잭션 내에서 동일한 데이터를 두 번 읽을 때, 서로 다른 값을 읽는 경우가 발생할 수 있는 격리수준을 모두 고르시오. (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.15)</span></div><ol class="quiz-options"><li>read committed</li><li>serializable</li><li>repeatable read</li><li>read uncommitted</li></ol><div class="quiz-explanation"><strong>정답</strong> ① ④</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음은 트랜잭션 T1과 T2에 들어있는 두 개의 연속적인 명령어 I1과 I2로 구성된 스케줄의 예들이다. 이 때 A와 B는 서로 다른 데이터 항목이다. 이들 중 충돌 직렬성(conflict serializability)을 유지하면서 이 스케줄의 실행 순서를 바꿀 수 있는 경우로 바르지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.17)</span></div><ol class="quiz-options"><li>T1의 I1=read(A)와 T2의 I2=read(A)는 순서를 바꿀 수 있다.</li><li>T1의 I1=write(A)와 T2의 I2=read(A)는 순서를 바꿀 수 있다.</li><li>T1의 I1=write(B)와 T2의 I2=write(A)는 순서를 바꿀 수 있다.</li><li>T1의 I1=write(B)와 T2의 I2=read(A)는 순서를 바꿀 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — write(A)와 read(A)는 같은 데이터에 대한 write가 섞인 충돌 연산이므로 순서를 바꿀 수 없다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 다음 스케줄에 대한 설명으로 옳은 것은? (트랜잭션 연산 앞의 표기는 시간을 시:분:초로 표시한 것임) 01:00:01 T1 read(x) / 01:00:02 T2 write(x) / 01:00:03 T1 write(x) / 01:00:04 T3 write(x) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.21)</span></div><ol class="quiz-options"><li>충돌 직렬가능과 뷰 직렬가능을 모두 만족하는 스케줄이다.</li><li>충돌 직렬가능은 만족하고 뷰 직렬가능은 만족하지 않는 스케줄이다.</li><li>충돌 직렬가능은 만족하지 않고 뷰 직렬가능은 만족하는 스케줄이다.</li><li>충돌 직렬가능과 뷰 직렬가능을 모두 만족하지 않는 스케줄이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 은행의 데이터베이스 시스템에서 트랜잭션1은 계좌1에서 계좌2로 100원을 이체한다. 트랜잭션1과 트랜잭션2가 계좌1에 대해 동시에 lock-X를 시도하는 스케줄이 아래와 같이 주어질 때, ㉮와 ㉯에 들어갈 계좌1·계좌2의 최종 값은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.25)</span></div><ol class="quiz-options"><li>10000 10000</li><li>10000 10100</li><li>10100 10000</li><li>10100 10100</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 트랜잭션 T1은 Repeatable Read이므로 T2의 Update 결과가 반영되지 않은 최초 값 10000을 읽고, 트랜잭션 T2는 T1이 완료된 이후 Update가 반영되어 최종 값은 10100이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 다음중 트랜잭션에 LOCKING 기법을 사용할 경우 적절한 고립 수준을 설정하지 않으면 여러 가지 문제가 발생한다. LOCKING 기법을 사용할 경우 가장 낮은 수준에서도 발생하지 않는 현상은 어떤 것인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.31)</span></div><ol class="quiz-options"><li>갱신 손실(Lost update)</li><li>오손데이터 읽기(Dirty read)</li><li>반복불가능 읽기(Non repeatable read)</li><li>팬텀 읽기(Phantom read)</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 동시성(concurrency)제어에 있어서 자원에 대한 로킹(locking)은 필수적이다. 로킹의 단위가 큰 경우에 대한 설명으로 가장 거리가 먼 것은?(2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.33)</span></div><ol class="quiz-options"><li>충돌이 많이 발생한다.</li><li>동시성 수준이 높아진다.</li><li>동시성 제어가 복잡하다.</li><li>잠금 및 잠금 해제의 오버헤드가 줄어든다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② ③ — 로킹 단위가 커지면 동시성 수준은 낮아지고 제어는 단순해진다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 다음 중 2단계 로킹(2PL: two-phase locking)과 그 변형에 대한 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.35)</span></div><ol class="quiz-options"><li>트랜잭션 내에서 모든 로킹 연산이 최초의 로크 해제 연산보다 앞에 나오는 경우 그 트랜잭션은 2단계 로킹 프로토콜을 준수한다고 한다. 2단계 로킹 프로토콜은 직렬 가능성을 보장한다.</li><li>보수적 또는 정적(static) 2PL은 트랜잭션이 수행을 시작하기 전에 트랜잭션의 읽기 집합과 쓰기 집합을 미리 선언하여 트랜잭션이 접근하려는 모든 항목에 로크를 획득한다. 보수적 2PL은 교착상태가 발생하지 않는다.</li><li>엄격한(strict) 2PL에서는 트랜잭션 T가 완료되거나 철회될 때까지 T가 보유한 배타(쓰기) 로크들 중 어떠한 로크도 해제하지 않는다. 엄격한 2PL은 교착상태가 발생하지 않는다.</li><li>엄중한(rigorous) 2PL에서는 트랜잭션이 완료하거나 철회될 때까지 그 트랜잭션의 어떠한 로크(배타 로크나 공유 로크)도 해제하지 않는다. 이 경우 트랜잭션은 종료할 때까지 확장 단계에 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 보수적(Static) 2PL도 교착상태가 발생할 수 있다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. account(cust_name, branch_name, balance) 릴레이션에 대해 트랜잭션 T1, T2가 동시성제어 (concurrency control)를 하지 않고 동시에 수행될 때, 어떤 문제가 발생되는가? T1: UPDATE account SET balance=balance-1000 WHERE cust_name='Gildong'; ROLLBACK; / T2: SELECT AVG(balance) FROM account; COMMIT; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.38)</span></div><ol class="quiz-options"><li>오손 데이터 읽기(dirty read)</li><li>갱신 손실(lost update)</li><li>모순성(inconsistency)</li><li>반복할 수 없는 읽기(unrepeatable read)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 트랜잭션 처리가 완료되지 않은(이후 Rollback된) 데이터를 T2가 읽었기 때문에 Dirty Read가 발생한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 2단계 로킹 규약(2 phase locking protocol)의 로크 전환(혹은 로크 변환)에 대한 다음 설명 중 옳은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.40)</span></div><ol class="quiz-options"><li>항목 X에 read_lock(X)를 수행하여 공유 로크를 획득한 후 나중에 write_lock(X)를 수행하여 배타적 로크로 로크를 상승(upgrade)시킬 수 있다.</li><li>항목 X에 write_lock(X)를 수행하여 배타적 로크를 획득한 후 나중에 read_lock(X)를 수행하여 공유 로크로 로크를 상승시킬 수 있다.</li><li>항목 X에 read_lock(X)를 수행하여 공유 로크를 획득한 후 나중에 write_lock(X)를 수행하여 배타적 로크로 로크를 하강(downgrade)시킬 수 있다.</li><li>항목 X에 read_lock(X)를 수행하여 배타적 로크를 획득한 후 나중에 write_lock(X)를 수행하여 공유 로크로 로크를 하강시킬 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 다음 스케줄에 대해 타임스탬프 순서 기법을 적용 하였을 때 설명이 올바른 것은? (TS(Ti)는 트랜잭션 Ti의 타임스탬프. read_TS(x)와 write_TS(x)의 초기값은 모두 1) 2시: T1 read(x) / 3시: T2 write(x) / 4시: T1 write(x) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.42)</span></div><ol class="quiz-options"><li>T1은 read(x)를 실행하고 read_TS(x)를 그대로 둔다.</li><li>T2의 write(x)는 TS(T2) ≥ write_TS(x)이므로 거부된다.</li><li>타임스탬프 순서 기법을 적용하면, 위에 주어진 스케줄은 직렬 가능하다.</li><li>토마스(Thomas)의 기록 규칙을 적용하면, T1의 write(x)는 무시된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — TS(T1)=read_TS(x)이고 TS(T1) &lt; write_TS(x)이므로 T1의 write(x)는 무시된다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 다음의 스케줄대로 트랜잭션을 실행했을 때 발생하는 문제는? 00:00:00 T1 read(x) / 00:00:01 T1 x=x-N / 00:00:02 T1 write(x) / 00:00:03 T2 read(x) / 00:00:04 T2 x=x+M / 00:00:05 T2 write(x) / 00:00:06 T1 read(y) / 00:00:07 T1 fail <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.45)</span></div><ol class="quiz-options"><li>갱신 손실(lost update) 문제</li><li>부정확한 요약(incorrect summary) 문제</li><li>반복할 수 없는 읽기(unrepeatable read) 문제</li><li>오손 읽기(dirty read) 문제</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — T2가 T1의 변경된 x를 read했으나 T1이 이후 실패(fail)로 철회되므로, T2는 무효가 된 데이터를 읽은 Dirty Read가 발생한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 낙관적 동시성 제어(optimistic concurrency control)에서 각 트랜잭션은 세 가지 단계로 실행되는데, 그 단계를 순서대로 바르게 나열한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.47)</span></div><ol class="quiz-options"><li>읽기 단계(read phase) - 검증 단계(validation phase) - 쓰기 단계(write phase)</li><li>갱신 단계(update phase) - 검증 단계(validation phase) - 종료 단계(commit phase)</li><li>갱신 단계(update phase) - 종료 단계(commit phase) - 검증 단계(validation phase)</li><li>읽기 단계(read phase) - 쓰기 단계(write phase) - 검증 단계(validation phase)</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. 다음 표는 다중 단위 크기 로킹(multiple granularity locking)을 위한 로크 호환성 행렬을 나타낸다. 표의 ➊과 ➋에 들어갈 내용으로 바른 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.49)</span></div><ol class="quiz-options"><li>➊ = Yes, ➋ = Yes</li><li>➊ = Yes, ➋ = No</li><li>➊ = No, ➋ = Yes</li><li>➊ = No, ➋ = No</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 트랜잭션 관리의 회복 기법에서 체크포인트(checkpoint)를 사용한다고 가정하자. 체크포인트 C1이 정상적으로 수행되었고 체크포인트 C2가 수행 중에 시스템 고장이 발생했다. 트랜잭션 T1은 C1 이전에 시작해서 C1 이전에 완료되었고, T2는 C1 이전에 시작해서 C2 이전에 완료되었다. T3은 C1 이전에 시작해서 C2 일 때 수행 중이었고 T4는 C1 이후에 시작해서 C2 이전에 완료되었다. T5는 C1 이후에 시작해서 C2 일 때 수행 중이었다. 시스템 회복을 위해 REDO 연산을 수행해야 하는 트랜잭션에 해당하는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.62)</span></div><ol class="quiz-options"><li>T1</li><li>T2, T4</li><li>T3, T5</li><li>T2, T3, T4, T5</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. 회복 기법에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.64)</span></div><ol class="quiz-options"><li>지연 갱신(deferred update) 회복 기법은 트랜잭션이 부분 완료될 때까지 데이터베이스의 실제적인 갱신을 지연시킨다.</li><li>지연 갱신 회복 기법은 undo/redo 회복 알고리즘을 이용하여 회복한다.</li><li>즉시 갱신(immediate update) 회복 기법은 트랜잭션이 갱신 명령을 내리면 트랜잭션이 완료되기 전에 데이터베이스를 즉시 갱신한다.</li><li>그림자 페이지(shadow page) 회복 기법은 redo연산이 필요 없기 때문에 장애로 부터 회복 작업이 신속하다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 지연 갱신 회복 기법은 REDO 알고리즘만 이용해 회복한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 다음 그림은 트랜잭션들을 병행 수행시킨 후 로그의 기록이다. 즉시 변경(immediate update) 방법을 사용한다. 로그의 &lt;T,DI,v1,v2&gt;는 &lt;트랜잭션 이름, 데이터 항목, 변경전 값, 변경후 값&gt;을 나타낸다. &lt;start,T1&gt; &lt;T1,D,20,30&gt; &lt;commit,T1&gt; &lt;checkpoint&gt; &lt;start,T2&gt; &lt;T2,C,12,13&gt; &lt;start,T4&gt; &lt;T4,B,15,16&gt; &lt;start,T3&gt; &lt;T3,D,30,31&gt; &lt;T4,A,20,21&gt; &lt;commit,T4&gt; *system crash* 트랜잭션들의 복구 후 데이터 값에 대한 내용 중 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.66)</span></div><ol class="quiz-options"><li>A: 21</li><li>B: 16</li><li>C: 12</li><li>D: 31</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — T1이 Commit되었으므로 D는 30이며(T3은 미완료이므로 31 반영 안 됨), T4가 Commit되었으므로 A는 21, B는 16, T2·T3은 미완료이므로 C는 최초 값 12로 복구된다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. 트랜잭션 관리의 회복 기법에서 체크포인트(checkpoint)를 사용한다고 가정하자. 체크포인트 c가 정상적으로 수행되고 체크포인트 f가 수행될 때 시스템이 다운되었다. 트랜잭션 T1은 c 이전에 시작해서 c 이전에 완료되었고, T2는 c 이전에 시작해서 f 이전에 완료되었다. T3는 c 이전에 시작해서 f일 때 수행 중이었고 T4는 c 이후에 시작해서 f 이전에 완료되었다. T5는 c 이후에 시작해서 f일 때 수행 중이었다. 시스템이 다운된 후 회복관리자가 수행하는 연산으로 틀린 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.68)</span></div><ol class="quiz-options"><li>Undo-list에 있는 모든 트랜잭션들에 대해 로그에 기록된 순서대로 Undo 연산을 수행한다.</li><li>T1은 회복 작업에 관련될 필요가 없다.</li><li>T2는 c 이후에 일어난 변경 부분에 대해서만 Redo 연산을 수행한다.</li><li>T3는 c 이후에 일어난 변경 부분에 대해서만 Undo 연산을 수행한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① ④ — Undo는 로그의 역순으로 수행해야 하며(①), T3는 c 이전 시작분까지 포함해 전체를 Undo해야 한다(④).</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

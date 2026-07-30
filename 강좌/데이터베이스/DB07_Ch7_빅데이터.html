@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB07] Ch7 · 빅데이터·기타</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB07] Ch7 · 빅데이터·기타</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/19</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#db07-s01">1. 빅데이터</a></li><li><a href="#db07-s02">2. NoSQL</a></li><li><a href="#db07-s03">3. 공공데이터</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (5)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="db07-s01" class="section">
+  <h2>1. 빅데이터 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-5)</span></h2>
+
+  <h3>가. 빅데이터의 3대 요소(3V)</h3>
+  <table>
+    <tr><th>요소</th><th>설명</th></tr>
+    <tr><td>크기(Volume)</td><td>데이터의 수집·저장·처리에 있어 통상적인 SW의 처리 한계를 넘어서는 수십 테라바이트(TB) 또는 수십 페타바이트(PB) 이상의 데이터</td></tr>
+    <tr><td>속도(Velocity)</td><td>매우 빠른 속도로 생성되는 데이터를 수집·처리·저장·분석까지 실시간으로 처리해야 하는 특성</td></tr>
+    <tr><td>다양성(Variety)</td><td>정형(Structured)·반정형(Semi-Structured)·비정형(Unstructured) 등 다양한 종류의 데이터로 구성</td></tr>
+  </table>
+
+  <h3>나. 데이터 형태 및 처리 기법</h3>
+  <table>
+    <tr><th>데이터 형태</th><th>설명</th></tr>
+    <tr><td>정형(Structured)</td><td>고정된 필드에 저장되는 데이터</td></tr>
+    <tr><td>반정형(Semi-Structured)</td><td>고정된 필드로 저장되지는 않지만 XML·HTML처럼 메타데이터나 스키마를 포함하는 데이터. XML, CSV, XMLS, RDF 등</td></tr>
+    <tr><td>비정형(Unstructured)</td><td>고정된 필드에 저장되어 있지 않은 데이터. 문서, 그림, 동영상, 오디오, 비디오 등</td></tr>
+  </table>
+  <table>
+    <tr><th>단계</th><th>내용</th><th>사례</th></tr>
+    <tr><td>수집</td><td>모든 디바이스·시스템에서 나오는 데이터를 수집할 수 있는 기술</td><td>크롤링(웹 로봇), ETL, CEP 등</td></tr>
+    <tr><td>저장/처리</td><td>수집된 대용량 데이터를 저장하고 분산처리 시스템으로 처리하는 기술</td><td>분산파일시스템, NoSQL, MapReduce 등</td></tr>
+    <tr><td>분석</td><td>빅데이터를 이용해 기업과 생활에 도움이 되는 결과를 도출하는 분석 방법</td><td>자연어 처리, 머신러닝, 데이터마이닝 알고리즘 등</td></tr>
+    <tr><td>표현</td><td>분석 결과를 효과적으로 표현하는 기술</td><td>R, 그래프, 도면 등 Visualization</td></tr>
+  </table>
+</section>
+<section id="db07-s02" class="section">
+  <h2>2. NoSQL <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.6-13)</span></h2>
+
+  <h3>가. NoSQL의 특징</h3>
+  <table>
+    <tr><th>특징</th><th>설명</th></tr>
+    <tr><td>대용량 데이터 처리</td><td>페타바이트 수준의 데이터 처리를 수용 가능한 느슨한 데이터 구조 제공</td></tr>
+    <tr><td>유연한 스키마 사용</td><td>기 정의된 스키마 없이 상대적으로 자유롭게 저장 — Key-Value, Graph, Document 구조의 단순화된 형태로 저장</td></tr>
+    <tr><td>저렴한 클러스터 구성</td><td>PC 수준의 HW를 활용해 다수 서버로 수평적 확장 및 데이터 복제·분산 저장 가능</td></tr>
+    <tr><td>단순한 CLI 제공</td><td>관계형 데이터베이스의 SQL 같은 질의 언어를 제공하지 않고, 간단한 API Call 또는 HTTP를 통한 단순 접근 인터페이스 제공</td></tr>
+    <tr><td>높은 가용성 제공</td><td>데이터 항목을 클러스터 환경에 자동으로 분할하여 적재</td></tr>
+    <tr><td>필요한 만큼의 무결성</td><td>관계형 DBMS가 논리적 구조 및 ACID 보장에 초점을 맞추는 반면, 무결성을 일부 응용에서만 처리</td></tr>
+  </table>
+
+  <h3>나. BASE 특성과 ACID 비교</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>Basically Available</td><td>가용성을 중시. Optimistic Locking 및 큐 사용 — 다수의 실패에도 가용성을 보장하며, 다수의 스토리지에 복사본을 저장</td></tr>
+    <tr><td>Soft-State</td><td>노드의 상태는 외부에서 전송된 정보를 통해 결정 — 분산 노드 간 업데이트는 데이터가 노드에 도달한 시점에 갱신</td></tr>
+    <tr><td>Eventually Consistent</td><td>일시적으로 비일관적인 상태가 되어도 최종적으로는 일관성이 있는 상태가 되는 성질</td></tr>
+  </table>
+  <table>
+    <tr><th>속성</th><th>BASE</th><th>ACID</th></tr>
+    <tr><td>적용 분야</td><td>NoSQL</td><td>RDBMS</td></tr>
+    <tr><td>범위</td><td>시스템 전체에 대한 특성</td><td>트랜잭션에 한정</td></tr>
+    <tr><td>일관성 측면</td><td>약한 일관성</td><td>강한 일관성</td></tr>
+    <tr><td>중점 사항</td><td>Availability에 집중</td><td>Commit에 집중</td></tr>
+    <tr><td>시스템 측면</td><td>성능에 초점</td><td>엄격한 데이터 관리에 초점</td></tr>
+    <tr><td>효율성</td><td>쿼리 디자인이 중요</td><td>테이블 디자인이 중요</td></tr>
+  </table>
+
+  <h3>다. CAP 이론</h3>
+  <table>
+    <tr><th>CAP</th><th>설명</th></tr>
+    <tr><td>Consistency(일관성)</td><td>모든 사용자는 동시에 항상 같은 데이터를 조회</td></tr>
+    <tr><td>Availability(가용성)</td><td>모든 사용자는 항상 read/write 할 수 있음 — 몇몇 노드 장애 시에도 다른 노드들은 정상 작동해야 함</td></tr>
+    <tr><td>Partition Tolerance(부분 결함허용)</td><td>물리적 네트워크 분할(Partition)이 발생해도 시스템은 정상 동작해야 함</td></tr>
+  </table>
+  <table>
+    <tr><th>DBMS</th><th>선택</th><th>적용 사례</th></tr>
+    <tr><td>RDB</td><td>Consistency + Availability 선택</td><td>금융 서비스 등 미션 크리티컬한 트랜잭션 보장</td></tr>
+    <tr><td>NoSQL DB</td><td>Consistency 또는 Availability를 일부 포기하고 분산 확장성을 보장, 트랜잭션 ACID를 느슨하게 유지</td><td>C+P형(성능 보장형): BigTable, Hypertable, Hbase / A+P형(비동기 서비스·SNS): Dynamo(Amazon), Cassandra(Twitter)</td></tr>
+  </table>
+  <p>버클리 대학의 Eric Brewer 교수가 발표한 CAP 이론에 따르면 분산 컴퓨팅 환경에서는 Consistency·Availability·Partition Tolerance 세 가지를 동시에 모두 만족시킬 수 없으며, NoSQL은 이 중 한두 가지를 포기하는 대신 고성능·확장성 등의 지원에 초점을 맞춘다. 즉 NoSQL은 관계형 데이터베이스보다 <strong>일관성을 강화한 개념이 아니라, 가용성과 병렬성을 높이기 위해 오히려 일관성을 완화</strong>한 개념이라는 점이 시험에서 자주 오답으로 다뤄진다.</p>
+
+  <h3>라. NoSQL의 자료구조 유형</h3>
+  <table>
+    <tr><th>유형</th><th>설명</th></tr>
+    <tr><td>Key-Value 기반</td><td>Key-Value 기반의 단순하고 빠른 Get, Put, Delete 기능을 제공하는 가장 기초적인 NoSQL DB. Dynamo, Redis, MemcacheDB 등</td></tr>
+    <tr><td>Column Family 기반</td><td>관계형 DB의 테이블에 대응되는 컬럼 패밀리에 행으로 데이터를 저장하는 NoSQL DB. Cassandra, Hbase, SimpleDB 등</td></tr>
+    <tr><td>Document 기반</td><td>XML, JSON, BSON 등 문서를 Key-Value 데이터베이스의 Value 부분에 저장하는 NoSQL DB. MongoDB, CouchDB 등</td></tr>
+    <tr><td>Graph 기반</td><td>관계형 데이터베이스에서 엔트리 속성을 노드로, 관계를 노드 간 엣지로 표현하는 NoSQL DB. Neo4J 등</td></tr>
+  </table>
+</section>
+<section id="db07-s03" class="section">
+  <h2>3. 공공데이터 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.14-19)</span></h2>
+
+  <h3>가. 공공데이터의 개념 및 개방 목적</h3>
+  <p>공공데이터란 데이터베이스, 전자화된 파일 등 공공기관이 법령 등에서 정하는 목적을 위하여 생성 또는 취득하여 관리하고 있는 광(光) 또는 전자적 방식으로 처리된 자료 또는 정보를 말하며, 공공기관이 이용자로 하여금 기계 판독이 가능한 형태의 공공데이터에 접근할 수 있게 하거나 이를 다양한 방식으로 전달하는 것을 개방이라 한다. 개방의 목적은 공공기관이 공공 정보를 효율적으로 개방·제공하여 민간 활용을 촉진하는 데 있다.</p>
+
+  <h3>나. 공공데이터 제공·이용의 기본원칙</h3>
+  <table>
+    <tr><th>구분</th><th>기본원칙</th><th>설명</th></tr>
+    <tr><td rowspan="4">데이터 제공 측면</td><td>이용권의 보편적 확대</td><td>공공기관은 누구든지 공공데이터를 편리하게 이용할 수 있도록 노력하여야 하며, 이용권의 보편적 확대를 위해 필요한 조치를 하여야 한다</td></tr>
+    <tr><td>이용에 대한 평등의 원칙</td><td>공공기관은 공공데이터에 관한 국민의 접근과 이용에 있어서 평등의 원칙을 보장하여야 한다</td></tr>
+    <tr><td>이용권 보장</td><td>일반에 공개된 공공데이터에 관하여 이용자의 접근제한이나 차단 등 이용 저해 행위를 하여서는 아니 됨(단, 본래의 업무수행에 지장을 초래하거나 제3자의 권리 침해·불법 행위에 악용되는 경우 등은 제외)</td></tr>
+    <tr><td>영리적 활용 보장</td><td>공공데이터의 영리적 이용인 경우에도 이를 금지 또는 제한하여서는 아니 됨(단, 업무수행 지장·제3자 권리 침해·불법 행위 악용 등은 제외)</td></tr>
+    <tr><td>데이터 이용 측면</td><td>이용자의 의무 준수 원칙</td><td>이용자는 공공데이터를 이용하는 경우 국가안전보장 등 공익이나 타인의 권리를 침해하지 않도록 법령이나 이용조건에 따른 의무를 준수하며, 신의에 따라 성실하게 이용하여야 한다</td></tr>
+  </table>
+  <p>공공데이터는 국가안보·개인정보 등 예외적인 경우를 제외하고는 개방 및 자유로운 활용이 보장되어야 하며, 미제공 데이터라도 일반 사용자가 공개를 신청할 수 있다. Open API를 활용하려면 정보제공자에게 활용신청을 하여 승인을 받은 후 인증키를 받아 사용하며, 공공데이터 또는 Open API로 제공되는 데이터는 특별한 사유가 없는 한 상업적 이용도 가능하다. 공공데이터 서비스 유형에는 SOAP, REST, RSS, LINK 등이 있다.</p>
+
+  <h3>다. 웹 2.0의 특징</h3>
+  <p>웹 2.0은 플랫폼(platform)으로서의 웹, 집단 지성(collective intelligence)의 활용, 오픈 API를 사용한 매쉬업(mashup) 등을 특징으로 한다. 반면 <strong>이동성(mobility)과 시멘틱의 결합</strong>은 웹 2.0이 아니라 웹 3.0의 특징에 해당한다는 점에 유의한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 시험 빈출 오답 포인트</span>
+    <ul>
+      <li>NoSQL은 관계형 DB보다 일관성을 <strong>강화</strong>한 것이 아니라 <strong>완화</strong>하여 가용성·병렬성을 높인 개념이다.</li>
+      <li>CAP 이론의 세 요소는 Consistency, Availability, Partition Tolerance — Atomicity·Concurrency·Persistency와 혼동하지 않는다.</li>
+      <li>공공데이터는 미제공 데이터도 일반 사용자가 공개를 신청할 수 있다(신청 자체가 불허되는 것이 아님).</li>
+      <li>이동성(mobility)과 시멘틱의 결합은 웹 3.0의 특징이며, 웹 2.0의 특징(플랫폼으로서의 웹·집단지성·매쉬업)과 구분한다.</li>
+    </ul>
+  </div>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (5문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 현재 가장 널리 사용되는 빅데이터의 속성을 3V라고 정의할 때, 3V의 세 가지 속성이 바르게 짝지어진 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.4)</span></div><ol class="quiz-options"><li>규모(Volume), 다양성(Variety), 속도(Velocity)</li><li>규모(Volume), 다변성(Verbosity), 가시성(Visibility)</li><li>가시성(Visibility), 다변성(Verbosity), 변동성(Variability)</li><li>변동성(Variability), 다양성(Variety), 속도(Velocity)</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. NoSQL을 관계형 데이터베이스와 비교하여 설명한 내용 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.10)</span></div><ol class="quiz-options"><li>NoSQL은 가용성과 병렬성을 높이기 위하여 일관성을 관계형 데이터베이스보다 강하게 한 개념이다.</li><li>NoSQL은 관계 데이터베이스보다 트랜잭션 ACID의 유지를 중요시 하지 않는다.</li><li>NoSQL은 컬럼 기반, Document 기반, key-value 기반, 그래프 기반 자료구조 등을 사용한다.</li><li>NoSQL은 빅데이터와 실시간 웹 응용에 많이 사용되고 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — NoSQL은 일관성을 강화한 것이 아니라 가용성 측면을 강화한 개념</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 버클리 대학의 Eric Brewer 교수가 발표한 CAP이론은 분산 컴퓨팅 환경의 세 가지 특징을 정의하고 있는데, NoSQL은 이중 한 두 가지 특징을 포기하는 대신 고성능, 확장성 등의 지원에 초점을 맞추고 있다. 여기서 CAP 이론의 세 가지 특징을 바르게 기술한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.12)</span></div><ol class="quiz-options"><li>C-Consistency, A-Atomicity, P-Persistency</li><li>C-Concurrency, A-Atomicity, P-Partition Tolerance</li><li>C-Consistency, A-Availability, P-Partition Tolerance</li><li>C-Concurrency, A-Availability, P-Persistency</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 공공데이터에 대한 다음 설명 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.16)</span></div><ol class="quiz-options"><li>Open API를 활용하려면 정보제공자에게 활용신청을 해야하며, 승인을 받은 후 인증키를 받아 사용한다.</li><li>공공데이터 또는 Open API로 제공되는 데이터는 특별한 사유가 존재하지 않는 한 상업적으로 이용이 가능하다.</li><li>공공데이터는 공공기관 등에서 데이터의 공개 여부를 판단하여 제공하며, 미제공 데이터에 대해 일반 사용자가 공개를 신청하는 것은 허용되지 않는다.</li><li>공공데이터 서비스 유형은 SOAP, REST, RSS, LINK 등이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 국가안보·개인정보 등 예외를 제외하고는 공공데이터의 개방 및 자유로운 활용을 보장하며, 미제공 데이터도 공개 신청이 가능함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음 중 웹 2.0의 특징과 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.18)</span></div><ol class="quiz-options"><li>이동성(mobility)과 시멘틱의 결합</li><li>플랫폼(platform)으로서의 웹</li><li>집단 지성(collective intelligence)의 활용</li><li>오픈 API를 사용한 매쉬업(mashup)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 이동성과 시멘틱의 결합은 웹 3.0의 특징</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

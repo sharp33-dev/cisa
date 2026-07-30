@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB01] Ch1 · 개요</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB01] Ch1 · 개요</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/36</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#db01-s01">1. 데이터베이스 개요</a></li><li><a href="#db01-s02">2. DBMS</a></li><li><a href="#db01-s03">3. 데이터베이스 언어</a></li><li><a href="#db01-s04">4. 시스템 구조</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (8)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="db01-s01" class="section">
+  <h2>1. 데이터베이스 개요 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.5-16)</span></h2>
+
+  <h3>가. 데이터베이스의 정의</h3>
+  <p>데이터베이스(Database)는 한 조직의 여러 응용시스템이 공유(Shared)하기 위해 최소의 중복으로 통합·저장·운영된 데이터의 집합이다. 체계화된 데이터의 모임, 즉 작성된 목록으로서 여러 응용 시스템들의 통합된 정보를 저장·운영할 수 있는 공용 데이터들의 묶음이라고도 정의한다.</p>
+  <table>
+    <tr><th>특성</th><th>내용</th></tr>
+    <tr><td>저장된 데이터(Stored Data)</td><td>컴퓨터가 인식 가능한 저장소에 위치</td></tr>
+    <tr><td>통합된 데이터(Integrated Data)</td><td>최소의 중복, 통제된 중복으로 데이터를 통합</td></tr>
+    <tr><td>운영 데이터(Operational Data)</td><td>조직의 목적에 부합하여 필수적으로 관리되는 데이터</td></tr>
+    <tr><td>공유 데이터(Shared Data)</td><td>여러 프로그램이나 도구를 이용해 실시간으로 이용</td></tr>
+  </table>
+  <p>데이터베이스는 백업·회복 용이, 표준화 용이, 응용 프로그램 개발 시간 단축, 융통성, 최신 정보의 가용성, 규모의 경제성이라는 장점을 갖지만, 운영비 오버헤드·복잡한 자료 처리 방법·백업 및 회복의 오버헤드라는 비용도 함께 수반한다.</p>
+
+  <h3>나. 파일시스템의 문제점</h3>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>데이터 종속성</td><td>응용 프로그램과 데이터 간의 상호 의존 관계가 높아, 데이터의 구성·접근 방법을 변경하면 응용 프로그램도 함께 변경해야 함</td></tr>
+    <tr><td>데이터 중복성</td><td>내용이 같은 데이터가 여러 곳에 저장·관리되어 데이터의 일관성·무결성·경제성을 만족시키지 못함</td></tr>
+  </table>
+  <p>데이터베이스는 이러한 파일시스템의 데이터 종속성·중복성 문제를 최소한의 통제된 중복과 데이터-프로그램 간 독립성 확보로 해결하기 위해 등장했다.</p>
+
+  <h3>다. 데이터베이스 시스템의 구성요소</h3>
+  <table>
+    <tr><th>구성요소</th><th>내용</th></tr>
+    <tr><td>Database</td><td>여러 응용 시스템이 공유하기 위해 최소 중복으로 통합·저장된 운영 데이터의 집합</td></tr>
+    <tr><td>Database Language</td><td>사람과 시스템의 인터페이스를 제공하는 도구(DML/DDL/DCL)</td></tr>
+    <tr><td>Database User</td><td>데이터베이스 관리자(DBA), 응용 프로그래머(Developer), 사용자(User)</td></tr>
+    <tr><td>DBMS</td><td>데이터베이스를 구축하고 이용하는 기능을 제공하는 시스템 소프트웨어</td></tr>
+  </table>
+
+  <h3>라. ANSI/SPARC 3단계 데이터베이스 아키텍처</h3>
+  <p>ANSI/SPARC 3-Level 아키텍처는 데이터베이스를 외부(External)·개념(Conceptual)·내부(Internal) 3단계로 나누어 사용자 관점, 통합 관점, 물리적 저장 관점을 분리한다.</p>
+  <table>
+    <tr><th>구분</th><th>내용</th><th>비고</th></tr>
+    <tr><td>외부 스키마(External Schema)</td><td>View 단계 — 여러 개의 사용자 관점으로 구성된 개별 사용자의 개인적 DB 스키마. 개개 사용자나 응용프로그래머가 접근하는 DB 정의</td><td>사용자 관점에 따른 스키마 구성</td></tr>
+    <tr><td>개념 스키마(Conceptual Schema)</td><td>모든 사용자 관점을 통합한 조직 전체의 DB 기술 — 저장되는 데이터와 그들 간의 관계를 표현</td><td>통합 관점</td></tr>
+    <tr><td>내부 스키마(Internal Schema)</td><td>내부 단계의 스키마로 구성 — DB가 물리적으로 저장된 형식, 실제 저장 방법을 표현</td><td>물리적 저장구조</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/DB01fig/p008.jpg" alt="ANSI/SPARC 3 Level Database Architecture 구조도. 사용자 A1·A2가 host lang+DSL을 통해 외부 뷰 B1을, 사용자 B1이 외부 뷰 B2를 각각 통해 데이터베이스 관리 시스템에 접근하며, 개념/내부 스키마 사상을 거쳐 저장된 데이터베이스(내부 뷰)의 물리적 저장구조로 이어지는 3단계 구조"><figcaption>[그림] ANSI/SPARC 3단계 데이터베이스 아키텍처(외부·개념·내부 스키마)</figcaption></figure>
+
+  <h3>마. 데이터 독립성과 사상(Mapping)</h3>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>외부/개념 사상(External/Conceptual)</td><td>특정 외부 스키마와 개념 스키마 간의 대응 관계 정의. 개념 스키마에 개체 삽입·속성 첨가 등 변화가 생겨도 이 사상만 적절히 변경하면 외부 스키마(응용 프로그램·사용자 뷰)에는 영향이 없음 → <strong>논리적 데이터 독립성(Logical Data Independence)</strong></td></tr>
+    <tr><td>개념/내부 사상(Conceptual/Internal)</td><td>개념 스키마와 내부 스키마 간의 대응 관계 정의. 내부 스키마(디스크 내 저장 필드)의 변경에 대해 개념 스키마·외부 스키마가 영향받지 않음 → <strong>물리적 데이터 독립성(Physical Data Independence)</strong></td></tr>
+  </table>
+  <p>기출문제에서는 세 스키마의 역할을 서로 뒤바꾸어 놓거나(예: "외부스키마=물리적 저장구조"), 논리적/물리적 데이터 독립성의 정의를 맞바꾸는 형태의 오답이 반복 출제된다. 3단계 스키마 구조의 궁극적 목표는 <strong>사용자 응용 프로그램을 물리적 데이터베이스로부터 분리</strong>시키는 데 있다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 3단계 스키마와 독립성 짝짓기</span>"외부-사용자 관점", "개념-통합 관점(전체)", "내부-물리적 저장"으로 스키마 3단계를 위치와 짝지어 암기하고, "외부/개념 사상 → 논리적 독립성", "개념/내부 사상 → 물리적 독립성"으로 사상(Mapping) 종류와 독립성 종류를 1:1로 연결해 암기하면 혼동을 방지할 수 있다.</div>
+</section>
+<section id="db01-s02" class="section">
+  <h2>2. DBMS <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.17-26)</span></h2>
+
+  <h3>가. DBMS의 정의와 특징</h3>
+  <p>DBMS(Database Management System)는 다수의 사용자들이 데이터베이스 내의 데이터를 접근할 수 있도록 해주는 소프트웨어 도구의 집합으로, 사용자 또는 다른 프로그램의 요구를 처리하고 적절히 응답하여 데이터를 사용할 수 있도록 지원한다.</p>
+  <table>
+    <tr><th>특징</th><th>내용</th></tr>
+    <tr><td>실시간 접근</td><td>사용자의 요구에 대한 즉각적인 응답(Response)</td></tr>
+    <tr><td>지속적 변화</td><td>삽입·삭제·갱신 작업이 수시로 발생</td></tr>
+    <tr><td>내용 참조</td><td>물리적 주소가 아닌, 데이터에 대한 조건으로 원하는 결과를 검출</td></tr>
+    <tr><td>동시 공유</td><td>여러 사용자가 동시에 자신이 원하는 데이터에 접근 가능</td></tr>
+  </table>
+
+  <h3>나. DBMS의 주요 기능</h3>
+  <table>
+    <tr><th>기능</th><th>내용</th></tr>
+    <tr><td>정의</td><td>데이터에 대한 형식·구조·제약조건을 명세하는 기능(카탈로그·사전 형태로 저장)</td></tr>
+    <tr><td>구축</td><td>DBMS가 관리하는 기억 장치에 데이터를 저장하는 기능</td></tr>
+    <tr><td>조작</td><td>특정 데이터를 검색하기 위한 질의, 데이터베이스 갱신, 보고서 생성 기능 등</td></tr>
+    <tr><td>공유</td><td>여러 사용자와 프로그램이 데이터베이스에 동시 접근하도록 하는 기능</td></tr>
+    <tr><td>보호</td><td>하드웨어·소프트웨어 오작동 또는 권한 없는 악의적 접근으로부터 시스템 보호</td></tr>
+    <tr><td>유지보수</td><td>시간이 지남에 따라 변화하는 요구사항을 반영할 수 있도록 하는 기능</td></tr>
+  </table>
+
+  <h3>다. DBMS의 내부 구조(질의 처리 경로)</h3>
+  <p>사용자의 질의는 입출력 처리기 → 파서 → 권한 제어 → 질의 처리기 → 최적화기 → 실행 코드 생성 등의 순서를 거쳐 실제 데이터에 접근하며, 이 과정에서 트랜잭션 관리기·회복 관리기·사전 관리기 등이 함께 동작한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB01fig/p019.jpg" alt="DBMS의 구조 및 구성요소 다이어그램. 사용자의 질의가 입력받기(1.질의 접수)에서 시작해 2.파싱, 3.선행 컴파일, 4.권한 확인, 5.무결성 검사, 6.갱신 처리, 7.질의 처리, 8.최적화, 9.실행 코드 생성, 10.트랜잭션 관리, 11.회복 관리, 12.데이터 관리, 13.사전 관리를 거쳐 출력 생성으로 이어지는 12개 구성요소 순환 흐름도. 하단에는 데이터 사전 카탈로그와 데이터베이스가 연결됨"><figcaption>[그림] DBMS 내부 구조 — 질의 접수부터 출력 생성까지의 처리 흐름(13개 구성요소)</figcaption></figure>
+  <table>
+    <tr><th>구성요소</th><th>내용</th></tr>
+    <tr><td>① 입출력 처리기(I/O processor)</td><td>사용자와 직접 연관된 처리기로, 입력 명령어의 성공/실패 실행 여부를 사용자에게 응답</td></tr>
+    <tr><td>② 파서(Parser)</td><td>처리 요구된 DDL 혹은 DML 명령에 대해 구문 분석 실행</td></tr>
+    <tr><td>③ 선행 컴파일러(Precompiler)</td><td>내장 명령(embedded command)에 대해 호스트 언어 컴파일 전 컴파일 실행</td></tr>
+    <tr><td>④ 권한 제어(Authorization control)</td><td>처리 요구된 내장 명령에 대해 사용자가 요청한 데이터를 이용할 수 있는지 사용 권한을 검사</td></tr>
+    <tr><td>⑤ 무결성 검사기(Integrity checker)</td><td>데이터베이스의 의미상 정확성(일관성)을 통제하는 무결성 제약조건 위배 여부 검사</td></tr>
+    <tr><td>⑥ 갱신 처리기(Update processor)</td><td>갱신 수행 시 무결성 검사기를 참조하여 갱신의 중간 형태를 증가</td></tr>
+    <tr><td>⑦ 질의 처리기(Query processor)</td><td>사용자의 질의를 받아들여 하이 레벨 명령어로 동등하게, 효율적인 형태로 변환</td></tr>
+    <tr><td>⑧ 최적화기(Optimizer)</td><td>최종 결과에 영향을 주지 않으면서 SQL 조작문을 구현하기 위한 효율적 액세스 전략 선정</td></tr>
+    <tr><td>⑨ 실행 코드 생성(Generation exe code)</td><td>실행 가능한 프로그램, 즉 사용자 명령어에 대한 기계어 생성</td></tr>
+    <tr><td>⑩ 트랜잭션 관리기(Transaction manager)</td><td>복수 사용자 환경에서 병행·동시 트랜잭션 문제를 없애고, 사용자가 자원을 배타적으로 이용하도록 함</td></tr>
+    <tr><td>⑪ 회복 관리기(Recovery manager)</td><td>시스템 고장에 관계없이 데이터베이스가 일관된(올바른) 상태가 되도록 보장</td></tr>
+    <tr><td>⑫ 데이터 관리기(Data manager)</td><td>장치 및 저장 관리기 — 하드웨어 자원 관리, 트랜잭션·회복 관리기 통제하에 물리적 액세스 수행</td></tr>
+    <tr><td>⑬ 사전 관리기(Dictionary manager)</td><td>데이터베이스 구조 정보를 저장하는 데이터 사전과 외부·내부·개념 스키마 정의 액세스 수행</td></tr>
+  </table>
+
+  <h3>라. 데이터베이스 카탈로그(Catalog)</h3>
+  <p>카탈로그(=데이터 사전)는 인덱스·뷰·통계·사용자 등 데이터베이스 자체를 기술하는 메타데이터(self-describing data)를 저장한다.</p>
+  <table>
+    <tr><th>정보</th><th>내용</th></tr>
+    <tr><td>인덱스 관련 정보</td><td>인덱스의 이름·구조, 인덱스가 정의된 속성 정보, 키에 대한 정보</td></tr>
+    <tr><td>뷰 관련 정보</td><td>뷰의 이름·정의</td></tr>
+    <tr><td>통계 정보</td><td>릴레이션 카디널리티(튜플 수)·크기(페이지 수), 인덱스 카디널리티·높이·범위</td></tr>
+    <tr><td>사용자 정보</td><td>사용자 계정 정보(패스워드 포함), 사용자 권한 정보</td></tr>
+    <tr><td>기타</td><td>기본키·외래키 등 제약 조건 명세, 저장 구조 명세, 보안·권한 정보</td></tr>
+  </table>
+  <p>카탈로그에는 테이블 크기, 속성 접근 권한, 참조 제약조건, 사용자 정의 타입 등이 포함되지만, <strong>후보키(Candidate Key)는 카탈로그에 저장되는 개체가 아니라</strong> 속성 값이 유일성을 갖도록 하는 애트리뷰트들의 부분집합 개념 자체이므로 카탈로그 저장 정보를 묻는 문제의 오답으로 자주 출제된다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 인덱스·트리거·메타데이터 구분</span>"데이터를 신속히 정렬·탐색하게 해주는 구조"는 인덱스, "정확성·일관성 유지 및 제약 준수에 사용"되는 것은 트리거, "데이터베이스 스스로를 기술하는 자기기술적(self-describing) 데이터"는 메타데이터로 3개념을 정확히 구분해 암기한다.</div>
+</section>
+<section id="db01-s03" class="section">
+  <h2>3. 데이터베이스 언어 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.27-30)</span></h2>
+
+  <h3>가. 데이터베이스 언어의 분류</h3>
+  <table>
+    <tr><th>구분</th><th>상세</th><th>내용</th></tr>
+    <tr><td rowspan="3">스키마 정의 언어</td><td>데이터 정의 언어(DDL)</td><td>개념 스키마를 정의하기 위해 사용되는 언어</td></tr>
+    <tr><td>기억장소 정의 언어(SDL)</td><td>내부 스키마를 기술하기 위한 언어</td></tr>
+    <tr><td>뷰 정의 언어(VDL)</td><td>뷰 단계를 정의하기 위해 사용되는 언어</td></tr>
+    <tr><td rowspan="2">데이터 조작 언어(DML)</td><td>절차식 데이터 조작 언어</td><td>사용자가 어떤 데이터가 필요하며 어떻게 구하는지를 명시해야 하는 조작 언어</td></tr>
+    <tr><td>비절차식 데이터 조작 언어</td><td>사용자가 어떤(What) 데이터가 필요한지만 명시하고 어떻게(How) 구하는지는 명시하지 않는 조작 언어</td></tr>
+    <tr><td rowspan="2">기타 언어</td><td>호스트 언어와 데이터 부속어</td><td>데이터 조작 질의를 포함한 언어를 호스트 언어, 그 안의 데이터 조작 언어를 데이터 부속어라 함</td></tr>
+    <tr><td>질의어</td><td>고수준 데이터 조작 언어 자체가 대화식으로 사용되는 언어</td></tr>
+  </table>
+
+  <h3>나. SQL 언어의 종류별 명령어</h3>
+  <table>
+    <tr><th>종류</th><th>명령어</th><th>설명</th></tr>
+    <tr><td>데이터 조작어(DML)</td><td>SELECT</td><td>데이터베이스에 들어 있는 데이터를 조회·검색(Retrieve라고도 함)</td></tr>
+    <tr><td></td><td>INSERT / UPDATE / DELETE</td><td>테이블의 데이터에 변형을 가하는 명령어 — 새 행 삽입, 원하지 않는 데이터 삭제·수정</td></tr>
+    <tr><td>데이터 정의어(DDL)</td><td>CREATE / ALTER / DROP / RENAME</td><td>테이블과 같은 데이터 구조를 생성·변경·삭제·이름변경</td></tr>
+    <tr><td>데이터 제어어(DCL)</td><td>GRANT / REVOKE</td><td>데이터베이스 접근 및 객체 사용 권한을 부여·회수</td></tr>
+    <tr><td>트랜잭션 제어어(TCL)</td><td>COMMIT / ROLLBACK</td><td>논리적 작업 단위를 묶어 DML 조작 결과를 트랜잭션 단위로 제어</td></tr>
+  </table>
+  <p><strong>UPDATE는 DCL이 아니라 DML</strong>이다 — 데이터를 실제로 수정하는 명령어이기 때문이다. DCL에는 권한을 부여·회수하는 GRANT/REVOKE, 트랜잭션을 처리하는 COMMIT/ROLLBACK이 속한다는 식으로 DCL의 범위를 넓게 오해하는 오답 선지가 자주 출제된다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · DDL·DML·DCL·TCL 앞글자 암기</span>DDL(정의: CREATE·ALTER·DROP·RENAME) - DML(조작: SELECT·INSERT·UPDATE·DELETE) - DCL(제어: GRANT·REVOKE) - TCL(트랜잭션: COMMIT·ROLLBACK)으로 4종 언어와 대표 명령어를 묶어서 암기해 두면 "OO는 어느 언어에 속하는가"를 묻는 단순 매칭형 문제를 빠르게 해결할 수 있다.</div>
+</section>
+<section id="db01-s04" class="section">
+  <h2>4. 시스템 구조 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.31-36)</span></h2>
+
+  <h3>가. 2계층 클라이언트-서버 구조(2-tier Architecture)</h3>
+  <p>클라이언트-서버 구조는 다수의 PC·워크스테이션·파일 서버·프린터·데이터베이스 서버 등이 네트워크를 통해 서로 연결되어 있는 컴퓨팅 환경이다. 대부분 중앙집중식으로 시작했던 관계형 데이터베이스 관리 시스템에서 사용자 인터페이스와 응용 프로그램이 클라이언트 쪽으로 이동하고, ODBC·JDBC 등을 통해 서버와의 연결을 설정해 데이터베이스에 접근하는 구조다(클라이언트 ↔ DBMS 서버).</p>
+
+  <h3>나. 3계층 클라이언트-서버 구조(3-tier Architecture)</h3>
+  <p>3계층 구조는 클라이언트와 데이터베이스 서버 사이에 중간 단계(Middle Tier)인 <strong>응용 서버(Application Server)</strong>를 두고, 이 계층이 비즈니스 규칙(프로시저 또는 제약조건, 즉 <strong>비즈니스 로직</strong>)을 저장한 후 데이터베이스 서버의 데이터에 접근하는 구조다. 3개 계층의 역할은 각각 사용자 인터페이스(클라이언트), 응용 규칙 처리(응용/웹 서버), 데이터 접근(데이터베이스 서버)으로 요약된다.</p>
+  <table>
+    <tr><th>계층</th><th>역할</th></tr>
+    <tr><td>클라이언트</td><td>GUI·웹 인터페이스 — 사용자 인터페이스 제공</td></tr>
+    <tr><td>응용 서버(또는 웹 서버)</td><td>응용 프로그램·웹 페이지 — 비즈니스 로직(규칙) 처리</td></tr>
+    <tr><td>데이터베이스 서버</td><td>DBMS — 데이터 저장·접근 처리</td></tr>
+  </table>
+  <p>2-tier 구조를 구성하는 클라이언트와 데이터베이스 서버 사이에 중간 단계를 하나 더 추가한 것이 3-tier 구조이며, 이 중간 단계는 일반적으로 <strong>응용(Application) 서버</strong>라 부르며 <strong>비즈니스 로직</strong>을 처리한다.</p>
+
+  <h3>다. JDBC(Java Database Connectivity)</h3>
+  <p>JDBC는 자바 프로그램이 데이터베이스에 접속해 SQL을 실행할 수 있도록 지원하는 표준 API로, 아래와 같은 클래스·인터페이스와 메소드로 구성된다.</p>
+  <table>
+    <tr><th>패키지</th><th>클래스(인터페이스)</th><th>클래스 용도</th><th>메소드</th></tr>
+    <tr><td>java.lang</td><td>Class(c)</td><td>지정된 JDBC 드라이버를 런타임 시 메모리에 로드</td><td>forName()</td></tr>
+    <tr><td>java.sql</td><td>DriverManager(c)</td><td>여러 JDBC 드라이버를 관리하는 클래스 — DB 접속, 연결객체 반환</td><td>getConnection()</td></tr>
+    <tr><td>java.sql</td><td>Connection(I)</td><td>특정 DB 연결상태를 표현하는 클래스 — 질의할 문장 객체 반환</td><td>createStatement()</td></tr>
+    <tr><td>java.sql</td><td>Statement(I)</td><td>DB에 SQL 질의 문장을 질의하여 결과집합 객체 반환</td><td>executeUpdate(), executeQuery()</td></tr>
+    <tr><td>java.sql</td><td>ResultSet(I)</td><td>질의 결과의 자료 저장</td><td>next(), getString(), getInt()</td></tr>
+  </table>
+  <p><strong>executeUpdate()는 SQL 질의문을 실행해 튜플을 결과로 반환하는 메소드가 아니라</strong>, INSERT/UPDATE/DELETE와 같이 결과 집합이 아닌 갱신된 행의 수를 반환하는 메소드다. 튜플들을 결과로 반환받는 조회는 <strong>executeQuery()</strong>를 사용한다는 점에서 이 둘을 혼동시키는 선지가 자주 출제된다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · executeUpdate() vs executeQuery()</span>executeQuery()는 SELECT문 실행 후 ResultSet(튜플 집합)을 반환하고, executeUpdate()는 INSERT/UPDATE/DELETE문 실행 후 영향받은 행의 개수(int)를 반환한다는 차이를 "Query=조회결과 반환, Update=변경건수 반환"으로 짝지어 암기한다.</div>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (8문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 다음 중 데이터베이스의 3-레벨 아키텍처에 대한 설명으로 가장 적절하지 않은 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.11)</span></div><ol class="quiz-options"><li>외부(External) 레벨은 사용자의 필요에 따라 정의된다</li><li>개념(Conceptual) 레벨은 모든 사용자에 의해 공유된다</li><li>개념(Conceptual) 레벨은 하드웨어에 종속적이다</li><li>내부(Internal) 레벨은 응용프로그램 개발자가 구현한다</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ ④ — 하드웨어 종속적인 레벨은 내부 레벨이며, 응용프로그램 개발자는 외부 레벨에 접근한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 3단계 스키마 구조와 데이터 독립성에 대한 설명으로 적절하게 기술한 것을 모두 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.13)</span></div><ol class="quiz-options"><li>특정 사용자 그룹이 관심을 가지고 있는 데이터베이스의 일부분을 기술하는 스키마를 외부 스키마(external schema) 또는 사용자 뷰(user view)라고 한다.</li><li>전체 사용자 커뮤니티를 위한 데이터베이스 구조를 기술하는 스키마를 개념 스키마(conceptual schema)라고 한다.</li><li>외부 스키마나 응용 프로그램을 변경할 필요가 없이 개념 스키마를 변경할 수 있는 능력을 물리적 데이터 독립성(physical data independence)이라고 한다.</li><li>3단계 스키마 구조의 목표는 사용자 응용 프로그램을 물리적 데이터베이스로부터 분리시키는데 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① ② ④ — ③은 논리적 데이터 독립성에 대한 설명이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 데이터베이스 시스템의 데이터 독립성에 대한 설명 중 옳지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.15)</span></div><ol class="quiz-options"><li>ANSI 3단계 스키마 아키텍쳐는 내부단계(내부스키마), 개념단계(개념스키마), 외부단계(외부스키마)로 나눈다. 3단계 스키마의 목적은 물리적 데이터베이스로부터 사용자의 응용을 분리시키는 것이다.</li><li>외부스키마는 데이터베이스의 물리적 저장구조를, 개념스키마는 특정 사용자 그룹이 관심을 갖는 데이터베이스 부분을, 내부스키마는 모든 사용자를 위한 전체 데이터베이스 구조를 기술한다.</li><li>물리적 데이터 독립성은 개념스키마를 변경하지 않으면서 내부스키마를 변경할 수 있음을 말한다. 내부스키마의 접근 구조 변경이나, 파일 재구성이 개념스키마에 가능한 한 영향을 주지 않도록 한다.</li><li>논리적 데이터 독립성은 외부스키마를 변경하지 않으면서 개념스키마를 변경하는 것을 말한다. 개념스키마의 데이터베이스 확장, 제약조건 갱신 등 변경이 외부스키마에 가능한 한 영향을 주지 않도록 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 외부 스키마는 특정 사용자 그룹이 관심을 갖는 데이터베이스 부분, 개념 스키마는 전체 데이터베이스 구조를, 내부 스키마는 데이터베이스의 물리적 저장 구조를 기술한다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 다음 중 데이터베이스 카탈로그(Catalog)에 포함되는 정보로서 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.23)</span></div><ol class="quiz-options"><li>테이블 크기</li><li>속성 접근 권한</li><li>참조 제약조건(Referential Constraints)</li><li>후보키(Candidate Key)</li><li>사용자 정의 타입(User Defined Type)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 후보키는 카탈로그에 저장되는 개체가 아니라 속성 값이 유일성을 갖도록 하는 애트리뷰트들의 부분집합 중 최소 구성 속성을 지칭하는 개념이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음은 데이터베이스의 구성 요소들을 설명한 것이다. 각 설명에 해당하는 구성 요소를 가장 적절하게 나열한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.25)</span></div><ol class="quiz-options"><li>인덱스 - 트리거 - 메타 데이터</li><li>저장된 절차 - 보안 데이터 - 사용자 데이터 테이블</li><li>인덱스 - 메타 데이터 - 저장된 절차</li><li>저장된 절차 - 백업 데이터 - 인덱스</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 가. 데이터베이스 내의 데이터를 신속하게 정렬하고 탐색하게 해주는 구조=인덱스, 나. 정확성 및 일관성 유지·데이터 제약 준수에 사용=트리거, 다. 데이터베이스 스스로를 기술하는(self-describing) 데이터=메타데이터.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 데이터베이스 시스템 언어의 종류와 해당되는 명령어를 연결한 것이다. 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.29)</span></div><ol class="quiz-options"><li>DDL - DROP</li><li>DML - SELECT</li><li>DCL - UPDATE</li><li>DML - INSERT</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — UPDATE는 DCL이 아니라 DML이다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 다음은 데이터베이스 시스템의 3-층 구조(3-tier architecture)에 대한 설명이다. ㉮와 ㉯에 들어갈 용어로 가장 적합한 것은? 3-층 구조는 2-층 구조(2-tier architecture)를 구성하는 클라이언트와 데이터베이스 서버 사이에 중간 단계를 하나 더 추가한 것이다. 중간단계는 일반적으로 (㉮)라 부르며 (㉯)을 처리한다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.33)</span></div><ol class="quiz-options"><li>응용(프로그램) 서버 - 함수형 프로그램</li><li>응용(프로그램) 서버 - 비즈니스 로직</li><li>클라우드(프로그램) 서버 - 함수형 프로그램</li><li>클라우드(프로그램) 서버 - 비즈니스 로직</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. JDBC를 사용하는 API에 대한 설명이다. 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.35)</span></div><ol class="quiz-options"><li>getConnection() - URL, 접속 인자 등을 주어 데이터베이스 연결 객체를 생성한다.</li><li>createStatement() - 연결을 위한 Statement 객체를 생성한다.</li><li>executeUpdate() - SQL 질의문을 실행하여 투플들을 결과로 반환한다.</li><li>next() - 커서를 다음 투플로 이동한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — executeUpdate()는 튜플 결과가 아니라 갱신된 행의 수를 반환한다. 투플을 결과로 반환하는 것은 executeQuery()다.</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB03] Ch3 · 모델링</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB03] Ch3 · 모델링</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/98</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#db03-s01">1. 데이터 모델링</a></li><li><a href="#db03-s02">2. E-R 모델</a></li><li><a href="#db03-s03">3. 관계형 모델</a></li><li><a href="#db03-s04">4. 관계 연산</a></li><li><a href="#db03-s05">5. 정규화</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (35)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="db03-s01" class="section">
+  <h2>1. 데이터 모델링 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-8)</span></h2>
+
+  <h3>가. 데이터 모델링의 개요</h3>
+  <p>데이터 모델링은 현실세계의 업무를 개념세계(추상화된 개념적 데이터 모델링)를 거쳐 컴퓨터 저장 데이터베이스로 표현하기 위한 논리적 데이터 모델링, 물리적 데이터 모델링의 과정을 거친다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB03fig/p002.jpg" alt="데이터 모델링의 3단계(현실세계-개념세계-정보세계)와 개념적/논리적/물리적 데이터 모델링 절차를 보여주는 개념도"><figcaption>[그림] 데이터 모델링 3단계 구조 — 현실세계 → 개념적 데이터 모델링 → 논리적 데이터 모델링 → 물리적 데이터 모델링(저장 데이터베이스)</figcaption></figure>
+
+  <h3>나. 정보요구사항 수집·분석 4단계</h3>
+  <table>
+    <tr><th>단계</th><th>내용</th></tr>
+    <tr><td>정보 요구 사항 수집</td><td>사용자의 정보 요구 사항을 수집하는 단계로, 사용자 인터뷰·설문지·워크숍·현행 시스템 분석 등을 통해 수집</td></tr>
+    <tr><td>정보 요구 사항 분석 및 정의</td><td>수집된 정보 요구 사항을 정리하고 방법론에서 제시하는 다양한 기법으로 분석해 정의</td></tr>
+    <tr><td>정보 요구 사항 상세화</td><td>확정된 정보 요구 사항의 개별 사항에 대해 세밀하게 분석하고 기록</td></tr>
+    <tr><td>정보 요구 사항 검증</td><td>사용자의 정보 요구 사항이 비즈니스·조직·애플리케이션 관점과 상관분석을 통해 누락 없이 반영되었는지 검증</td></tr>
+  </table>
+
+  <h3>다. 논리 데이터 모델링 절차</h3>
+  <figure class="fig"><img loading="lazy" src="assets/DB03fig/p004.jpg" alt="논리 데이터 모델링 절차 흐름도. 주제영역 도출, 핵심 엔터티/관계 도출, 핵심 속성 도출, 식별자 도출의 4단계가 순서대로 이어져 논리 모델링 완료로 연결되는 구조"><figcaption>[그림] 논리 데이터 모델링 절차 — 주제영역 도출 → 핵심 엔터티·관계 도출 → 핵심 속성 도출 → 식별자 도출</figcaption></figure>
+
+  <h3>라. 물리 데이터 모델링 절차와 검증</h3>
+  <table>
+    <tr><th>단계</th><th>내용</th></tr>
+    <tr><td>물리 요소 조사 및 분석</td><td>시스템 구축 관련 명명 규칙 파악, 하드웨어 자원 및 운영체제·DBMS 버전 파악, DBMS 파라미터 정보 및 DB 운영 관리 요소 파악</td></tr>
+    <tr><td>논리-물리 모델 변환</td><td>분석 단계의 ER-Model을 설계 단계의 Physical Model로 변환</td></tr>
+    <tr><td>반정규화</td><td>중복성의 원리를 활용해 데이터 조회 시 성능을 향상시키는 기법 — 테이블의 중복성, 컬럼의 중복성, 관계의 중복성</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/DB03fig/p005.jpg" alt="물리 데이터 모델링 검증 체크리스트 다이어그램. 속성 정의/반정규화/사용자 데이터 작성/데이터 모델 보완/주요 속성 점검, 이력관리 대상 선정/이력관리 형태 결정, 데이터 모델 검증(정규화/캡슐화/관계 정의 확인/제1·2·3정규화/M:N 관계 해소) 세 그룹으로 구분된 구조"><figcaption>[그림] 물리 데이터 모델링 검증 체크리스트 — 속성 정의·반정규화 항목, 이력관리 결정 항목, 데이터 모델 검증(정규화·M:N 관계 해소) 항목</figcaption></figure>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 개념적 설계 단계 vs 논리적 설계 단계</span>개념적 설계 단계는 집단화(Aggregation)·일반화(Generalization) 등 추상화 기법으로 개념적 스키마를 유도하고, 개체 간 연관성(관계성)을 식별하며, 하향식(Top-down)으로 부문별 뷰를 통합해 나가는 단계다. 반면 <strong>트랜잭션의 전체적 골격 개발과 인터페이스 정의, 트랜잭션별 데이터 접근 방법의 절차적 명세는 논리적 설계 단계(트랜잭션 인터페이스 설계)</strong>에 해당한다는 점이 자주 출제되는 함정이다.</div>
+</section>
+<section id="db03-s02" class="section">
+  <h2>2. E-R 모델 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.9-34)</span></h2>
+
+  <h3>가. E-R 모델의 기본 개념과 용어</h3>
+  <table>
+    <tr><th>개념</th><th>복수/집합 개념(타입/클래스)</th><th>개별/단수 개념(어커런스/인스턴스)</th></tr>
+    <tr><td>어떤 것(Thing)</td><td>엔티티 타입(Entity type)</td><td>엔티티(Entity)</td></tr>
+    <tr><td></td><td>엔티티(Entity)</td><td>인스턴스(Instance) / 어커런스(Occurrence)</td></tr>
+    <tr><td>어떤 것 간의 연관(Association between Things)</td><td>관계(Relationship)</td><td>페어링(Pairing)</td></tr>
+    <tr><td>어떤 것의 성격(Characteristic of a Thing)</td><td>속성(Attribute)</td><td>속성값(Attribute Value)</td></tr>
+  </table>
+
+  <h3>나. E-R 다이어그램 표기법</h3>
+  <table>
+    <tr><th>구성 요소</th><th>내용</th></tr>
+    <tr><td>사각형</td><td>개체 타입을 나타냄</td></tr>
+    <tr><td>타원</td><td>속성을 나타냄</td></tr>
+    <tr><td>마름모</td><td>관계 타입을 나타냄</td></tr>
+    <tr><td>선</td><td>속성과 개체 집합, 개체 집합과 관계 집합을 연결</td></tr>
+    <tr><td>이중 타원</td><td>다중값 속성을 나타냄</td></tr>
+    <tr><td>점 타원</td><td>유도 속성을 나타냄</td></tr>
+    <tr><td>이중 선</td><td>관계 집합 내에 개체의 전체 참여를 나타냄</td></tr>
+  </table>
+
+  <h3>다. 확장 E-R 모델 — 일반화/특수화와 집단화</h3>
+  <p>확장 E-R 모델(EER 모델)은 기본 E-R 모델에 유용한 개념을 추가한 모델이다. 일반화(Generalization)와 특수화(Specialization)는 서로 역(逆)의 관계에 있으며 IS-A 관계·상속 개념이 적용된다. 일반화는 다수의 하위 레벨 엔티티 타입(Sub-Type)을 하나의 상위 레벨 엔티티 타입(Super-Type)으로 통합하는 것이고, 특수화는 반대로 하나의 Super-Type을 다수의 Sub-Type으로 분리하는 것이다(예: 학생 → 남학생/여학생).</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB03fig/p012.jpg" alt="확장 E-R 모델의 집단화(Aggregation) 예시. 컴퓨터라는 상위 개체가 CPU, Memory, I/O의 하위 부분 요소로 구성되는 부분-전체 관계를 나타내는 다이어그램"><figcaption>[그림] 확장 E-R 모델의 집단화(Aggregation) 예시 — 컴퓨터(전체) = CPU + Memory + I/O(부분)의 부분-전체 관계</figcaption></figure>
+  <p>집단화(Aggregation)는 여러 엔티티의 집합으로 새로운 엔티티를 정의하는 것으로, 부분과 전체 사이에 특정 개념이 적용되지 않는(즉, IS-A가 아닌 PART-OF 관계의) 구조다.</p>
+
+  <h3>라. 세분화(Specialization)의 분리 제약조건·완전 제약조건</h3>
+  <table>
+    <tr><th>구분</th><th>상세</th><th>설명</th></tr>
+    <tr><td>분리 제약조건</td><td>disjoint</td><td>하나의 개체는 세분화의 어느 한 서브클래스의 멤버만 될 수 있다는 의미. 멤버십 프레디킷으로 사용한 애트리뷰트가 단일 값일 때는 분할 제약조건이 적용됨</td></tr>
+    <tr><td></td><td>overlap</td><td>둘 중 어느 하나로 분리하지 못하고, 둘 다 어디에도 속할 수 있음</td></tr>
+    <tr><td>완전 제약조건</td><td>total</td><td>수퍼 클래스에 있는 모든 개체는 반드시 세분화된 서브 클래스의 한 멤버가 되어야 함을 명세</td></tr>
+    <tr><td></td><td>partial</td><td>하나의 선으로 연결된 부분 세분화로, 수퍼 클래스의 개체는 서브 클래스에 속하지 않아도 됨(예: 학생이 대학원생·학부생 서브 클래스에 속하지 않을 수 있음)</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · E-R 다이어그램 → 관계형 스키마 매핑 규칙</span>일반 엔터티는 하나의 테이블로 변환되고, <strong>1:N 관계는 'N'쪽(다(多) 쪽) 테이블의 외래키 속성으로</strong> 변환되며(반대로 '1'쪽에 속성으로 변환된다는 설명은 오답), <strong>M:N 관계는 별도의 연결(WORKS_ON류) 테이블</strong>로 변환되어 양쪽 기본키를 합성한 기본키를 갖는다. 서브타입은 수퍼타입의 키를 외래키로 사용하며, <strong>약한 엔티티(Weak Entity)는 소유(Owner) 엔티티의 기본키와 자신의 부분키(Partial Key)를 함께 기본키</strong>로 구성해 하나의 스키마로 변환한다. 관계 타입 자체도 애트리뷰트(관계 타입의 키 등)를 가질 수 있다는 점도 함께 기억해 둔다.</div>
+</section>
+<section id="db03-s03" class="section">
+  <h2>3. 관계형 모델 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.35-55)</span></h2>
+
+  <h3>가. E-R 모델·관계형 모델·관계형 DB 용어 대응</h3>
+  <table>
+    <tr><th>E-R(관계-개체) 모델</th><th>관계형 모델</th><th>관계 DB</th></tr>
+    <tr><td>실체유형(Entity Type)</td><td>릴레이션(Relation)</td><td>테이블(Table)</td></tr>
+    <tr><td>실체(Entity)</td><td>튜플(Tuple)</td><td>로우(Row)</td></tr>
+    <tr><td>속성(Attribute)</td><td>애트리뷰트(Attribute)</td><td>컬럼(Column)</td></tr>
+  </table>
+  <p>릴레이션에 포함된 애트리뷰트의 수를 <strong>차수(Degree)</strong>라 하며, 튜플의 수를 <strong>카디널리티(Cardinality)</strong>라 한다. "튜플의 수를 차수라 한다"는 설명은 차수와 카디널리티를 뒤바꾼 전형적인 오답 패턴이다.</p>
+
+  <h3>나. 관계형 모델의 제약조건</h3>
+  <table>
+    <tr><th>제약조건</th><th>설명</th></tr>
+    <tr><td>영역 제약조건</td><td>각 속성 A의 값이 반드시 A의 영역 dom(A)에 속하는 원자값이어야 함</td></tr>
+    <tr><td>키 제약조건</td><td>어떠한 두 튜플도 릴레이션의 모든 속성에 대해 같은 속성값의 조합을 가질 수 없음</td></tr>
+    <tr><td>개체 무결성 제약조건</td><td>어떠한 기본키 값도 널(Null) 값이 될 수 없음</td></tr>
+    <tr><td>참조 무결성 제약조건</td><td>한 릴레이션의 튜플이 다른 릴레이션의 튜플을 참조하려면 반드시 참조되는 튜플이 그 릴레이션 내에 존재해야 함</td></tr>
+  </table>
+
+  <h3>다. 키의 종류</h3>
+  <table>
+    <tr><th>키</th><th>설명</th></tr>
+    <tr><td>수퍼키(Super Key)</td><td>테이블 내의 레코드를 유일하게 식별해 낼 수 있는 속성 또는 속성 집합(유일성만 만족)</td></tr>
+    <tr><td>후보키(Candidate Key)</td><td>최소성을 갖는 수퍼키로, 어떤 한 속성이라도 제거하면 수퍼키 성질을 상실</td></tr>
+    <tr><td>기본키(Primary Key)</td><td>후보키 중 설계자가 선택한 대표성을 가진 키</td></tr>
+    <tr><td>외래키(Foreign Key)</td><td>테이블 B의 기본키를 참조하는 테이블 A의 속성 — 한 테이블에 관계 맺은 테이블 수만큼 여러 개 존재 가능하며, 비식별 관계인 경우 Null 값도 허용될 수 있음</td></tr>
+  </table>
+  <p>널(Null) 값은 '알 수 없는 값', '적용할 수 없는 값(비과세 대상자의 세금납부 항목 등)', '아직 할당되지 않은 값(비공개 휴대전화번호 등)'을 표현할 때 사용하는 것이지, 실제로 <strong>값이 확정된 0(예: 성장률이 멈춘 국가의 경제성장률 0%)을 표현하는 데는 사용하지 않는다</strong>는 점이 자주 출제된다.</p>
+
+  <h3>라. 팬 트랩(Fan Trap)과 캐즘 트랩(Chasm Trap)</h3>
+  <p>연결 함정(Connection Trap)은 E-R 모델링 과정에서 실제로 가지고 있던 정보를 잃어버리는 현상으로, 3항 관계를 2항 관계로 잘못 분리하거나 관계성 경로에 필수 개체가 누락될 때 발생한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB03fig/p051.jpg" alt="부채꼴 함정(Fan Trap) 개선 전후 비교 다이어그램. 단과대학-학과-교수가 모두 1:N 관계로 중첩되어 특정 교수가 어느 단과대학 소속인지 알 수 없는 잘못된 관계와, 개선된 관계 구조를 나란히 보여주는 그림"><figcaption>[그림] 부채꼴 함정(Fan Trap) — 개체 간 1:N 관계가 중첩되어 있으나 관계성이 모호한 경우("잘못된 관계") 및 개선 구조</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/DB03fig/p052.jpg" alt="캐즘 함정(Chasm Trap) 개선 전후 비교 다이어그램. 학과-교수-학생 관계 경로 중 일부 개체 간 관계가 존재하지 않는 경우 발생하는 관계성 누락 문제와 개선된 구조를 나란히 보여주는 그림"><figcaption>[그림] 캐즘 함정(Chasm Trap) — 관계성이 존재하지 않는 일부 개체 간 경로로 인해 관계성이 누락되는 경우 및 개선 구조</figcaption></figure>
+  <table>
+    <tr><th>구분</th><th>발생 원인</th></tr>
+    <tr><td>팬 트랩(Fan Trap)</td><td>한 개체 집합이 둘 이상의 1:N 관계성 집합을 가질 때, 특정 인스턴스가 어느 쪽에 속하는지 알 수 없게 되는 문제</td></tr>
+    <tr><td>캐즘 트랩(Chasm Trap)</td><td>일부 엔티티 간 관계성이 존재하지 않는 경우가 발생하여 정보가 누락되는 문제</td></tr>
+  </table>
+
+  <h3>마. 3항 관계의 정규화 — 이항 관계로의 분리</h3>
+  <figure class="fig"><img loading="lazy" src="assets/DB03fig/p050.jpg" alt="3항 관계를 2개의 이항 관계로 분리하는 정규화 예시 다이어그램. 공급자-부품-프로젝트의 3항 관계를 공급자-부품 관계와 부품-프로젝트 관계의 2개 이항 관계로 분해하는 과정을 화살표로 보여주는 그림"><figcaption>[그림] 3항 관계 분해 예시 — 공급자·부품·프로젝트의 3항 관계를 2개의 이항 관계(공급자-부품, 부품-프로젝트)로 정규화</figcaption></figure>
+  <p>기존 엔티티와 1:M 관계가 되도록 새로운 엔티티를 추가해 3항 관계를 M:N 관계 2개로 모델링하면, 정규화의 어려움(3항 관계 자체는 정규화가 까다로움)을 예방할 수 있다. 이 개선안은 기존 3항 관계를 그대로 유지한 채 정규화하는 것보다, 처음부터 1:M 관계가 되도록 새 엔티티를 추가하는 예방적 접근이 핵심이다.</p>
+</section>
+<section id="db03-s04" class="section">
+  <h2>4. 관계 연산 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.58-74)</span></h2>
+
+  <h3>가. 일반 집합 연산자</h3>
+  <table>
+    <tr><th>연산자</th><th>기호</th><th>설명</th></tr>
+    <tr><td>합집합(Union)</td><td>∪</td><td>합병 가능한 두 릴레이션 중 하나 이상에 속하는 튜플로 구성된 릴레이션을 만드는 이항 연산</td></tr>
+    <tr><td>교집합(Intersect)</td><td>∩</td><td>합병 가능한 두 릴레이션에 모두 속하는 튜플로 구성된 릴레이션을 만드는 이항 연산</td></tr>
+    <tr><td>차집합(Difference)</td><td>−</td><td>하나의 릴레이션에는 있지만 다른 릴레이션에는 없는 튜플로 구성된 릴레이션을 만드는 이항 연산</td></tr>
+    <tr><td>카티션 프로덕트(Cartesian Product)</td><td>×</td><td>두 릴레이션의 튜플로 구성 가능한 모든 조합의 튜플 집합으로 구성된 릴레이션을 만드는 이항 연산</td></tr>
+  </table>
+
+  <h3>나. 순수 관계 연산자</h3>
+  <table>
+    <tr><th>연산자</th><th>기호</th><th>설명</th></tr>
+    <tr><td>셀렉트(Select)</td><td>σ</td><td>릴레이션에서 조건에 맞는 특정 튜플을 분리하는 단항 연산(수평적 부분 집합)</td></tr>
+    <tr><td>프로젝트(Project)</td><td>π</td><td>릴레이션에서 특정 속성을 선택하여 분리하는 단항 연산(수직적 부분 집합)</td></tr>
+    <tr><td>조인(Join)</td><td>⋈</td><td>둘 이상의 릴레이션에서 조인 조건에 맞는 튜플을 조합해 새 릴레이션을 생성 — <strong>세타조인</strong>(=,&lt;,≤,&gt;,≥,≠ 등 일반 조건), <strong>동등조인</strong>(동등(=) 조건만 사용, 공통 속성이 중복 표시), <strong>자연조인</strong>(동등 조건만 사용하되 공통 속성을 중복 없이 한 번만 표시)</td></tr>
+    <tr><td>디비전(Division)</td><td>÷</td><td>릴레이션 R, S가 있을 때, S의 모든 튜플이 대응하는 R의 튜플을 분리해 프로젝션하는 연산</td></tr>
+  </table>
+
+  <h3>다. 확장 관계 연산자</h3>
+  <table>
+    <tr><th>연산자</th><th>기호</th><th>설명</th></tr>
+    <tr><td>세미 조인(Semi Join)</td><td>⋉ / ⋊</td><td>조인 속성으로 연산자 뒤 릴레이션을 프로젝트한 결과를 연산자 앞 릴레이션에 자연 조인시키는 연산. 두 릴레이션을 자연 조인한 결과를 앞 릴레이션 속성으로 프로젝트하는 것과 동일</td></tr>
+    <tr><td>외부 조인(Outer Join)</td><td>+</td><td>한 릴레이션의 튜플에 대응 튜플이 상대 릴레이션에 없어도 제외하지 않고 Null 튜플로 채워 결과에 포함시키는 연산. 두 조인 릴레이션의 모든 튜플이 결과에 포함됨</td></tr>
+    <tr><td>외부 합집합(Outer Union)</td><td>∪+</td><td>완전하게 합병 가능하지 않은 두 릴레이션의 차수를 확장시켜 합집합을 만드는 연산</td></tr>
+  </table>
+  <p>복합 연산(기본 연산의 조합으로 대체 가능한 연산)인 디비전(Division)은 R(Z, Y) ÷ S(Y) = R[Z] − ((R[Z] × S) − R)[Z]로 대체할 수 있으며, 이 식에는 프로젝션·카티션 프로덕트·차집합 3가지 기본 연산만 사용되고 <strong>셀렉션(Selection)은 사용되지 않는다</strong>는 점이 출제 포인트다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 조인 종류별 카디널리티 계산</span>속성 B를 조인 속성으로 왼쪽 R, 오른쪽 S를 자연 조인(natural join)하면 양쪽에 공통으로 대응되는 튜플만 남아 카디널리티가 가장 작고, 왼쪽 외부 조인(left outer join)은 R의 모든 튜플을 보존하며 대응이 없는 자리는 Null로 채워 자연 조인보다 카디널리티가 크거나 같고, 전체 외부 조인(full outer join)은 R·S 양쪽의 모든 튜플을 보존해 일반적으로 가장 큰 카디널리티를 갖는다는 순서(자연조인 ≤ 편측 외부조인 ≤ 전체 외부조인)를 기억해 둔다.</div>
+</section>
+<section id="db03-s05" class="section">
+  <h2>5. 정규화 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.75-98)</span></h2>
+
+  <h3>가. 정규화의 정의와 원칙</h3>
+  <p>정규화(Normalization)는 논리적 데이터 모델을 일관성 있고 중복을 제거해 안정성을 갖는 바람직한 자료구조로 만들어 이상 현상을 제거하는 무손실 분해 과정이다.</p>
+  <table>
+    <tr><th>원칙</th><th>내용</th></tr>
+    <tr><td>정보의 무손실</td><td>분해된 릴레이션이 표현하는 정보는 분해되기 전의 정보를 모두 포함해야 하며, 더 바람직한 구조여야 함</td></tr>
+    <tr><td>데이터 중복성 감소</td><td>중복으로 인한 이상현상(Anomaly)의 제거</td></tr>
+    <tr><td>분리의 원칙</td><td>하나의 독립된 관계성은 하나의 독립된 릴레이션으로 분리하여 표현</td></tr>
+  </table>
+
+  <h3>나. 이상 현상(Anomaly)의 종류</h3>
+  <table>
+    <tr><th>구분</th><th>종류</th><th>내용</th></tr>
+    <tr><td>데이터 종속</td><td>삽입 이상(Insertion Anomaly)</td><td>특정 튜플을 삽입하려 할 때 원하지 않는 불필요한 데이터도 함께 삽입해야 하는 현상</td></tr>
+    <tr><td></td><td>삭제 이상(Deletion Anomaly)</td><td>특정 튜플을 삭제할 경우 유지되어야 하는 정보까지 함께 삭제되는 연쇄 삭제 현상</td></tr>
+    <tr><td>데이터 중복</td><td>갱신 이상(Update Anomaly)</td><td>특정 속성값 갱신 시 중복 저장된 값 중 일부만 갱신되어 발생하는 데이터 불일치 현상</td></tr>
+  </table>
+
+  <h3>다. 함수 종속성의 종류와 대응 정규형</h3>
+  <table>
+    <tr><th>종류</th><th>설명</th><th>관련 정규화</th></tr>
+    <tr><td>완전함수종속성</td><td>X'⊂X이고 X'→Y를 만족하는 애트리뷰트 X'이 존재하지 않음</td><td>-</td></tr>
+    <tr><td>부분함수종속성</td><td>X'⊂X이고 X'→Y를 만족하는 애트리뷰트 X'이 존재함</td><td>2NF(위배 시 2NF 미달)</td></tr>
+    <tr><td>이행함수종속성</td><td>X→Y이고 Y→Z일 때 X→Z가 성립</td><td>3NF(위배 시 3NF 미달)</td></tr>
+    <tr><td>결정자함수종속성</td><td>함수적으로 종속되는 결정자가 후보키가 아닌 경우(즉 X→Y일 때 X가 후보키가 아님)</td><td>BCNF(위배 시 BCNF 미달)</td></tr>
+  </table>
+
+  <h3>라. 함수 종속성 추론 규칙(암스트롱의 공리)</h3>
+  <table>
+    <tr><th>구분</th><th>추론 규칙</th><th>내용</th></tr>
+    <tr><td>기본 규칙(건전성)</td><td>재귀성 규칙(Subset Property)</td><td>Y⊆X이면 X→Y</td></tr>
+    <tr><td></td><td>부가성 규칙(Augmentation)</td><td>X→Y이면 XZ→YZ</td></tr>
+    <tr><td></td><td>이행성 규칙(Transitivity)</td><td>X→Y이고 Y→Z이면 X→Z</td></tr>
+    <tr><td>부가 규칙(완전성)</td><td>분해 규칙(Decomposition)</td><td>X→YZ이면 X→Y이고 X→Z</td></tr>
+    <tr><td></td><td>합집합 규칙(Union)</td><td>X→Y이고 X→Z이면 X→YZ</td></tr>
+    <tr><td></td><td>의사이행성 규칙(Pseudotransitivity)</td><td>X→Y이고 WY→Z이면 WX→Z</td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 정규형 판단 3단계 흐름</span>① 부분함수종속(기본키 일부 속성이 다른 속성을 결정)이 있으면 <strong>2NF 미달</strong>, ② 이행함수종속(비키 속성이 다른 비키 속성을 결정)이 있으면 <strong>3NF 미달</strong>, ③ 결정자가 후보키가 아닌 함수종속이 있으면 <strong>BCNF 미달</strong>이라는 순서로 점검한다. 릴레이션을 BCNF로 분해할 때는 <strong>결정자가 되는 모든 속성이 후보키가 되도록</strong> 릴레이션을 나누는 것이 핵심이며, 분해 후에도 원래 릴레이션의 함수 종속성이 보존되고 무손실 조인이 가능해야 한다.</div>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (35문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 데이터베이스 설계 단계는 사용자의 요구조건에서부터 데이터베이스 구조를 도출해 내는 과정을 의미한다. 데이터베이스 설계에서 일반적으로 요구조건 분석 단계가 끝나면 개념적 설계(Conceptual Design) 단계가 시작된다. 이러한 개념적 설계 단계에 대한 설명 중 가장 적절하지 않은 것은 ? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.7)</span></div><ol class="quiz-options"><li>집단화(Aggregation)와 일반화(Generalization)의 추상화(Abstraction) 방법을 사용하여 개념적 스키마(Schema)를 유도한다.</li><li>개체(Entity)들 간의 연관성(Association), 즉 의미(Semantics)를 정의하는 관계성(Relationship)을 식별해서 결정한다.</li><li>개념적 스키마를 설계하는 방법 중 하나인 하향식(Top-down) 방법으로 각 부문별 뷰(View)를 식별하고 모델링한 후에 완성된 부문별 뷰들을 하나로 통합한다.</li><li>트랜잭션(Transaction)의 전체적 골격(Skeleton)을 개발하고 인터페이스를 정의한다. 또 각 트랜잭션에 대해 데이터 접근 방법과 인터페이스를 절차적으로 명세한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 논리적 설계 단계의 트랜잭션 인터페이스 설계 시 처리 내용</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. Entity/Relationship 모델을 이용하여 관계형 데이터베이스를 설계하는 방법으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.13)</span></div><ol class="quiz-options"><li>일반 엔터티(Entity)는 데이터베이스의 테이블로 변환된다.</li><li>다대다 관계는 데이터베이스의 테이블로 변환된다.</li><li>일대다 관계는 '일'쪽 테이블의 속성으로 변환된다.</li><li>서브타입은 수퍼타입의 키를 외래키(Foreign Key)로 사용한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 1:M 관계는 M쪽 속성으로 변환됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 다음은 어느 회사 데이터베이스의 일부를 ER 다이어그램으로 표현한 것이다. 이 ER 다이어그램을 관계 데이터베이스 스키마로 가장 적절하게 매핑한 것은?(ER 다이어그램에서 이중선은 전체 참여, 이중원은 다치 속성, 밑줄친 속성명은 키속성을 표현한다. 아래 답 문항에서 밑줄은 기본키를, 이탤릭체는 외래키를 표현한다.) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.15)</span></div><ol class="quiz-options"><li>EMPLOYEE(ENO, Name), DEPARTMENT(DNO, Dname, Tel)</li><li>EMPLOYEE(ENO, Name), DEPARTMENT(DNO, Dname, Tel), WORKS_FOR(ENO, DNO), SUPERVISION(Supervisor_ENO, Supervisee_ENO)</li><li>EMPLOYEE(ENO, Name, Supervisor_ENO, DNO), DEPARTMENT (DNO, Dname, Tel)</li><li>EMPLOYEE(ENO, Name, Supervisor_ENO, DNO), DEPARTMENT(DNO, Dname), TELEPHONE(DNO, Tel)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — EMPLOYEE와 DEPARTMENT는 릴레이션이므로 데이터베이스 스키마로 변경되며, 다치값을 해결하기 위해 분해하여 매핑</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 다음과 같은 ER 다이어그램을 관계 데이터베이스 스키마로 변환하였을 때 가장 적절한 것은? (단, 밑줄은 기본키이고, 점선 밑줄은 부분키이다. 또한 관계 타입에 이중 실선으로 연결된 엔티티 타입은 전체 참여 엔티티 타입이다) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.17)</span></div><ol class="quiz-options"><li>부서(부서번호, 예산), 직원(직원번호, 연봉), 가족(이름, 나이)</li><li>부서(부서번호, 예산, 직원번호), 직원(직원번호, 연봉, 부서번호), 가족(이름, 나이, 직원번호)</li><li>부서(부서번호, 예산, 직원번호), 직원(직원번호, 연봉, 부서번호), 가족(직원번호, 이름, 나이)</li><li>부서(부서번호, 직원번호, 예산), 직원(직원번호, 연봉, 부서번호), 가족(이름, 나이, 직원번호)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 가족은 약한 엔티티로 소유 엔티티인 직원의 기본키(직원번호)와 이름을 기본키로 하고 나이 속성을 가짐</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 두 개의 릴레이션 사원, 피부양자에서 사원은 (사원번호, 이름, 주소)를 애트리뷰트로 갖고, 피부양자는 (이름, 나이)를 애트리뷰트로 갖는다고 가정하자. 모든 사원의 사원번호는 서로 다른 값을 갖고, 한 사원의 부양가족 중에는 같은 이름을 가진 사람이 없다. 그러나 서로 다른 사원의 부양가족의 이름이 같을 수는 있다. 사원들이 그들의 부양가족들을 위해 보험증권을 구매한다고 가정하자. 각 보험증권에 의해 누가 보호되는가를 포함하여 보험증권에 관한 정보를 기록하고자 한다. 만약 한 사원이 회사를 그만두면, 그 사원이 소유한 어떠한 보험증권도 종료되고 모든 관련된 보험증권 정보와 피부양자 정보를 데이터베이스로부터 삭제한다. 이와 같은 상황을 ER 다이어그램으로 올바르게 나타낼 때, 이 다이어그램에 포함시킬 필요성이 가장 낮은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.19)</span></div><ol class="quiz-options"><li>약한 엔티티 집합(weak entity set)</li><li>관계 타입의 키(key of relationship type)</li><li>일-대-다 관계 집합(1:N relationship set)</li><li>부분 키(partial key)</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 확장 ER 모델(Enhanced ER model)에서 EMPLOYEE 엔티티 타입이 SECRETARY, TECHNICIAN, ENGINEER 등 3개의 서브클래스 엔티티 타입으로 세분화(specialization)된다고 하자. EMPLOYEE의 한 인스턴스(instance)는 이 세분화에서 최대 1개의 서브클래스에만 속할 수 있고, 어느 서브클래스에도 속하지 않는 EMPLOYEE 인스턴스도 존재할 수 있다고 하자. 이 세분화에 대한 제약사항을 분리 제약(disjointness constraint)과 완전 제약(completeness constraint)으로 가장 적절하게 설계한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.21)</span></div><ol class="quiz-options"><li>분리 제약: disjoint, 완전 제약: total</li><li>분리 제약: disjoint, 완전 제약: partial</li><li>분리 제약: overlap, 완전 제약: total</li><li>분리 제약: overlap, 완전 제약: partial</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 다음은 회사 데이터베이스의 일부를 ER 다이어그램으로 표현한 것이다. 이 ER 다이어그램을 관계 데이터베이스 스키마로 변환한 것 중 가장 적절한것은? (ER 다이어그램에서 이중선은 전체 참여, 밑줄 친 애트리뷰트명은 기본키 애트리뷰트를 표현한다. 아래 답 문항에서 밑줄은 기본키를, 이탤릭체는 외래키(foreign key)를 표현한다) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.23)</span></div><ol class="quiz-options"><li>EMPLOYEE (ENO, Name, PNO, Hours), PROJECT(PNO, Pname, Location)</li><li>EMPLOYEE (ENO, Name), PROJECT(PNO, Pname, Location, ENO, Hours)</li><li>EMPLOYEE (ENO, Name), PROJECT(PNO, Pname, Location), WORKS_ON(Hours)</li><li>EMPLOYEE (ENO, Name), PROJECT(PNO, Pname, Location), WORKS_ON(ENO, PNO, Hours)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — EMPLOYEE와 PROJECT가 M:N 관계이므로 WORKS_ON 관계가 데이터베이스 스키마로 변환되며, 양 측의 기본키를 결합한 기본키에 Hours 속성을 갖게 됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 다음의 ER 다이어그램은 Employees(사원)와 Dependents(부양가족)의 관계를 나타낸 것이다. 이 ER 다이어그램은 한 명의 사원에 대해 여러 명의 부양가족이 존재할 수 있는 1:N 관계이고, 사원은 주 개체이고 부양가족은 종속 개체이다. 사원의 기본 키는 ssn이고 특정 사원에 대해 부양가족을 구별하는 애트리뷰트는 pname이다. 이 ER 다이어그램을 관계 데이터베이스 스키마로 매핑한 것 중 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.25)</span></div><ol class="quiz-options"><li>Employees(ssn, name, lot), Dependents(pname, age), Policy(ssn, cost)</li><li>Employees(ssn, name, lot), Dependents(pname, age), Policy(pname, cost)</li><li>Employees(ssn, name, lot, pname, cost), Dependents(pname, age)</li><li>Employees(ssn, name, lot), Dependents(pname, age, cost, ssn)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — Dependents는 약한 개체이므로 식별 관계 타입인 Policy를 포함하여 하나의 스키마로 변환</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 다음은 회사 데이터베이스의 일부를 표현한 E-R 다이어그램이다. 밑줄 친 속성은 키 속성을 의미 한다. 이 E-R 다이어그램을 BCNF에 속하는 릴레이션으로 변환하는 과정을 기술한 설명으로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.29)</span></div><ol class="quiz-options"><li>EMPLOYEE(ENO, Name) 릴레이션에 Supervisee의 ENO 속성을 외래키로 추가한다.</li><li>EMPLOYEE(ENO, Name) 릴레이션에 Supervisor의 ENO 속성을 외래키로 추가한다.</li><li>EMPLOYEE(ENO, Name) 릴레이션에 Hours 속성을 추가한다.</li><li>PROJECT(PNO, Budget) 릴레이션에 Hours 속성을 추가한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — EMPLOYEE에서 1명의 Supervisor를 가지므로 재귀참조로서 외래키로 추가</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 다음은 회사 데이터베이스를 표현한 E-R 다이어그램의 일부를 보이고 있다. 속성 이름에 밑줄 친 것은 키 속성을 의미한다. 이 E-R 다이어그램과 관련된 설명으로 적절한 것을 모두 고르시오. (2개 선택) (단, 이 E-R 다이어그램은 DEPARTMENT와 EMPLOYEE 릴레이션으로만 변환된다고 가정한다.) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.31)</span></div><ol class="quiz-options"><li>특정부서에 배치되지 않은 직원이 존재할 수 있다.</li><li>직원이 없는 부서가 존재할 수 있다.</li><li>DEPARTMENT 개체를 릴레이션으로 변환하면 DEPARTMENT(DNO, DName)이 된다.</li><li>EMPLOYEE 개체를 릴레이션으로 변환하면 EMPLOYEE(ENO, Name)이 된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② ③ — 이중선은 전체 참여이므로 ①은 오답, EMPLOYEE는 DEPARTMENT와의 관계를 위한 외래키 DNO가 누락되어 ④도 오답</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. 다음은 대학 데이터베이스의 일부를 E-R 다이어그램으로 표현한 것이다. 이 다이어그램에 대한 설명으로 옳지 않은 것은? (단, 수퍼타입과 서브타입을 연결하는 중간 원안의 표시 'd'는 disjoint를, PERSON 개체 쪽의 단일선은 partial을 표현한다고 하자.) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.33)</span></div><ol class="quiz-options"><li>이 E-R 다이어그램은 세분화(specialization) 관계를 표현한 것이다.</li><li>PERSON이 수퍼클래스에 해당하는 개체이다.</li><li>FACULTY나 STUDENT가 아닌 PERSON 개체는 없다.</li><li>FACULTY 개체이면서 동시에 STUDENT 개체일 수는 없다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 단일선은 부분(partial) 세분화이므로 수퍼 클래스의 개체는 서브 클래스에 속하지 않아도 됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 관계 데이터 모델(Relational data model)은 외적으로는 단순한 테이블(Table) 형태의 구조로 모든 데이터를 표현하지만 이론적으로는 수학적인 릴레이션(Relation)을 기초로 하고 있다. 이러한 관계 데이터 모델에 대한 설명 중 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.38)</span></div><ol class="quiz-options"><li>릴레이션 R은 릴레이션 스키마(Schema)와 릴레이션 인스턴스(Instance)로 구성된다.</li><li>기본 키(Primary Key)에 속해 있는 애트리뷰트(Attribute)는 언제 어느 때나 널(Null) 값을 가질 수 없다는 것을 개체 무결성(Entity integrity) 제약이라 한다.</li><li>릴레이션은 참조할 수 없는 외래 키(Foreign Key) 값을 가져서는 안 된다는 것을 참조 무결성(Referential integrity) 제약이라 한다.</li><li>릴레이션 R의 정의에서 보면 릴레이션에 포함되어 있는 투플(Tuple)의 수를 그 릴레이션의 차수(Degree)라 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 애트리뷰트의 수를 차수(Degree)라 함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 릴레이션 '사원'에서 사원번호와 주민번호가 모든 사원에 대해서 다르고, 이름도 동명이인이 없이 모두 다른 경우, 이 들 세 개의 애트리뷰트(Attribute)로 구성된 복합 애트리뷰트는 어떤 키(Key)에 해당 하는가? 사원 (사원번호, 주민번호, 이름, 부서, 호봉, 직급) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.40)</span></div><ol class="quiz-options"><li>슈퍼키</li><li>외래키</li><li>대체키</li><li>기본키</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 세 속성 모두 레코드를 유일하게 식별하므로 유일성은 만족하나 최소성은 만족하지 못함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 외래키에 대한 설명으로 적절하지 않은 것을 모두 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.42)</span></div><ol class="quiz-options"><li>테이블 생성시 설정할 수 있다.</li><li>외래키 값은 널 값을 가질 수 없다.</li><li>한 테이블에 하나만 존재해야 한다.</li><li>외래키 값은 참조 무결성 제약을 받을 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② ③ — 비식별 관계인 경우 널 값 허용 가능, 관계 맺은 테이블 수만큼 존재</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 다음 중 SQL로 명시되는 제약조건(constraint)에 속하는 것을 모두 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.44)</span></div><ol class="quiz-options"><li>도메인(domain) 제약조건</li><li>속성(attribute) 제약조건</li><li>참조 무결성(referential integrity)</li><li>정규화(normalization)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 정규화는 설계 기법이지 SQL로 명시하는 제약조건이 아님</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. 데이터베이스에서 널(null) 값의 적용 예로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.46)</span></div><ol class="quiz-options"><li>비과세 대상자 A의 경우, '세금납부' 항목</li><li>휴대전화번호를 공개하고 싶지 않은 B의 경우, '휴대전화번호' 항목</li><li>생년월일을 알 수 없는 C의 경우, '생년월일' 항목</li><li>경제성장률이 멈춘 D 국가의 경우, '경제성장률' 항목</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 경제성장률이 멈춘 경우 값은 0으로 결정될 수 있으므로 Null이 아님</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 다음은 관계 데이터 모델에서의 주요 제약조건 네 가지를 나타낸다. 릴레이션에 대해 투플 삽입 연산이 발생한다면, 다음 중 어떤 제약조건들이 위배될 수 있는지 바르게 나열한 것은? 가. 도메인 제약조건(domain constraint) 나. 키 제약조건(key constraint) 다. 엔티티 무결성 제약조건(entity integrity constraint) 라. 참조 무결성 제약조건(referential integrity constraint) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.56)</span></div><ol class="quiz-options"><li>가, 나, 라</li><li>가, 다, 라</li><li>나, 다, 라</li><li>가, 나, 다, 라</li></ol><div class="quiz-explanation"><strong>정답</strong> ④</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. 관계 대수(relational algebra)에서 기본 연산은 하나의 논리적 기능을 수행하는 연산으로서 다른 연산을 이용하여 대체할 수 없는 연산이고, 복합 연산은 기본 연산을 이용하여 그 연산의 기능을 대체할 수 있다. 복합 연산인 디비전(division)을 기본 연산으로 대체할 때 사용할 필요가 없는 기본 연산은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.61)</span></div><ol class="quiz-options"><li>프로젝션(projection)</li><li>실렉션(selection)</li><li>차집합(difference)</li><li>카티션 프로덕트(Cartesian product)</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — Division : R(Z, Y) ÷ S(Y) = R[Z] − ((R[Z]×S) − R)[Z]는 프로젝션·카티션 프로덕트·차집합만으로 구성됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 다음의 릴레이션 A와 B에 대해 어떤 연산을 했을 때, 그 결과로 릴레이션 C가 얻어진다. 이 때 C가 얻어지도록 하는 어떤 연산은 무엇인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.63)</span></div><ol class="quiz-options"><li>A와 B의 왼쪽 외부조인(left outer join)</li><li>A와 B의 오른쪽 외부조인(right outer join)</li><li>A에 대해 B의 세미조인(semijoin)</li><li>B에 대해 A의 세미조인(semijoin)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — B에 대해 A의 세미조인은 A와 B를 자연 조인한 결과를 B의 애트리뷰트로 프로젝트</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. 다음 두 릴레이션 R과 S에 대해 R을 왼쪽, S를 오른쪽 릴레이션으로 하고 속성 B를 조인 속성으로 하여 자연 조인(natural join), 왼쪽 외부 조인(left outer join), 전체 외부 조인(full outer join)을 수행하였을 때 결과 릴레이션의 카디널리티(cardinality)는 각각 얼마인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.65)</span></div><ol class="quiz-options"><li>3, 4, 3</li><li>4, 5, 4</li><li>3, 4, 5</li><li>3, 5, 4</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q21. 다음은 두 릴레이션 R, S에 대해 어떤 관계 대수 연산을 적용한 결과 릴레이션을 보이고 있다. R과 S에 대해 적용된 관계 대수 연산은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.69)</span></div><ol class="quiz-options"><li>R⋈<sub>N</sub>S</li><li>R⋈<sub>B=B</sub>S</li><li>R⋈<sub>B&lt;B</sub>S</li><li>R×S</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 릴레이션 R의 속성 B 값보다 S의 속성 B 값이 큰 튜플들의 세타 조인 연산</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q22. 릴레이션 E, W가 아래와 같을 때, 완전외부조인(full outer join) E ⟗ W의 실행결과 중 옳은 것은? E(Member, City, Country) = {Kim/Seoul/Korea, Susan/London/England, Smith/Austin/USA, Nakamura/Tokyo/Japan}, W(Member, Gender, Age) = {Kim/Female/39, Susan/Female/32, Gates/Male/53, Nakamura/Male/39} <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.71)</span></div><ol class="quiz-options"><li>Kim·Susan·Nakamura 3건만 매칭되는 결과(City/Country/Gender/Age 모두 채움)</li><li>①에 Smith(City/Country만 있고 Gender/Age는 null)를 추가한 결과</li><li>①에 Gates(Gender/Age만 있고 City/Country는 null)를 추가한 결과</li><li>①에 Smith(Gender/Age null)와 Gates(City/Country null)를 모두 추가한 결과</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 전체 외부 조인은 양쪽 릴레이션의 모든 튜플을 보존하므로 대응 없는 Smith·Gates도 Null로 채워 포함됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q23. 릴레이션 STUDENT가 다음과 같을 때, 관계 대수 π<sub>Sex,GPA</sub>(STUDENT)와 동일한 결과를 얻는 SQL 문장을 바르게 나타낸 것은? (STUDENT는 Fname, Lname, StudID, Sex, GPA, DeptNo 속성을 가짐) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.73)</span></div><ol class="quiz-options"><li>SELECT ALL Sex, GPA FROM STUDENT;</li><li>ALL SELECT Sex, GPA FROM STUDENT;</li><li>DISTINCT SELECT Sex, GPA FROM STUDENT;</li><li>SELECT DISTINCT Sex, GPA FROM STUDENT;</li></ol><div class="quiz-explanation"><strong>정답</strong> ④</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q24. 스포츠 클럽에서 스포츠 활동을 수강할 때 활동에 따라 수강료를 별도로 내야 한다. 아래와 같은 릴레이션(회원번호, 활동, 수강료)이 만족하는 가장 높은 정규형은? (예: 회원 1은 골프·스키, 회원 3·4는 활동이 다르지만 같은 활동명은 수강료가 동일) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.79)</span></div><ol class="quiz-options"><li>제 1 정규형</li><li>제 2 정규형</li><li>제 3 정규형</li><li>BCNF 정규형</li><li>제 4 정규형</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 모든 속성 값이 원자값이므로 1차 정규화이며, 활동 속성이 수강료 속성을 결정하는 부분함수 종속성이 존재하여 제2정규형은 만족하지 못함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q25. 다음과 같은 함수 종속을 갖는 릴레이션 R(A, B, C, D, E)을 BCNF로 가장 적절하게 분해한 결과는?(아래 답 문항에서 밑줄은 기본키를 표현한다.) A → (B, C, D, E), B → (A, C, D, E), E → (C, D), C → D <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.81)</span></div><ol class="quiz-options"><li>R1(A, B, E), R2(E, C, D)</li><li>R1(A, B, C, E), R2(C, D)</li><li>R1(A, B, E), R2(E, C), R3(C, D)</li><li>R1(A, B, E), R2(E, C, D), R3(C, D)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — E, C는 모두 단독으로 결정자이자 키가 되어야 하고, A와 B는 기본키·대체키 관계이므로 A, E, C를 기본키로 하는 3개 릴레이션으로 분해</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q26. 다음은 보험상품 릴레이션과 함수 종속 집합에 대한 내용이다. 이에 대한 설명으로 가장 적절한 것만을 &lt;보기&gt;에서 모두 고른 것은? 함수 종속 집합 = {(고객번호, 상품유형)→담당보험원, 담당보험원→상품유형} &lt;보기&gt; 가. 삽입 이상, 삭제 이상, 갱신 이상이 발생한다. 나. 제3정규형이다. 다. 이행적 함수 종속이 없다. 라. 후보키는 합성키인 (고객번호, 상품유형)과 (담당보험원, 고객번호)이다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.83)</span></div><ol class="quiz-options"><li>가, 나, 다</li><li>가, 나, 라</li><li>나, 다, 라</li><li>가, 나, 다, 라</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 부분 함수 종속은 없으나 이행적 함수 종속이 없어 3정규형이며, 결정자 종속성(담당보험원→상품유형)이 존재해 이상현상 발생 가능</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q27. 다음과 같이 애트리뷰트 X, Y, Z를 포함하는 릴레이션 스키마 R과 이 스키마에 포함되어 있는 함수적 종속성(functional dependency)이 있다고 가정하자. 릴레이션 R은 어떤 정규형에 위배되는가? 그리고 그 정규형을 만족하도록 릴레이션 R을 정규화 하려면 릴레이션 R을 어떻게 분할해야 하는가? (단, 분해된 릴레이션들을 조인하면 원래의 릴레이션 R이 되어야 한다) R(X, Y, Z), {X, Y}→Z, Z→Y <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.85)</span></div><ol class="quiz-options"><li>3 정규형, (X, Y)와 (Y, Z)</li><li>3 정규형, (X, Z)와 (Y, Z)</li><li>보이스-코드(Boyce-Codd) 정규형, (X, Y)와 (Y, Z)</li><li>보이스-코드(Boyce-Codd) 정규형, (X, Z)와 (Y, Z)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — Z→Y라는 결정자 종속성이 존재하여 BCNF에 위배됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q28. 릴레이션 스키마 R(A, B, C, D, E)에 대한 함수종속 집합이 다음과 같을 때 R의 후보키로 옳지 않은 것은? A → BC, CD → E, B → D, E → A <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.87)</span></div><ol class="quiz-options"><li>A</li><li>B</li><li>BC</li><li>E</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q29. 다음은 아래 [수강] 릴레이션에 대한 설명이다. A와 B에 들어갈 설명 중 가장 적절한 것은? 수강 릴레이션은 A를 위배하기 때문에 B에 속한다. 단, 수강 릴레이션의 기본 키는 (학번, 과목명)이고, 수강 릴레이션에 아래의 함수 종속성도 존재한다. 학번 → 이름, 학번 → 지도교수 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.89)</span></div><ol class="quiz-options"><li>A : 이행 함수 종속, B : 1 정규형</li><li>A : 완전 함수 종속, B : 1 정규형</li><li>A : 이행 함수 종속, B : 2 정규형</li><li>A : 완전 함수 종속, B : 2 정규형</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 기본키의 부분 속성인 학번이 이름·지도교수를 결정지어 부분함수 종속성이 존재하므로, 완전함수종속을 위배하여 제1정규형에 해당</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q30. 다음의 릴레이션 R과 함수 종속을 고려해 보자. 이 릴레이션을 BCNF로 올바르게 분해한 것은? (다음 답항에서 밑줄은 후보키를 의미함.) R(A, B, C) 후보키: (A, B), 함수종속: (A, B)→C, C→B <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.91)</span></div><ol class="quiz-options"><li>R1(A, C), R2(A, B)</li><li>R1(B, C), R2(B, A)</li><li>R1(C, B), R2(C, A)</li><li>R1(A, B, C), R2(C, B)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q31. 어떤 릴레이션 R(A, B, C, D, E, F, G)에서 다음과 같은 함수 종속성이 존재한다고 가정하자. 이 때 릴레이션 R에서 후보키가 아닌 것은? CE → A, A → ABCDEFG, BD → E <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.93)</span></div><ol class="quiz-options"><li>CE</li><li>A</li><li>BD</li><li>BCD</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — A는 분해 규칙에 따라 나머지 모든 속성을 결정하므로 후보키, CE는 CE→A이므로 후보키, BCD는 BD→E에서 부가성 규칙으로 BCD→CE, 이행성 규칙으로 BCD→A이므로 후보키(BD만으로도 충분하므로 최소성 위배)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q32. 상품(상품번호, 상품명, 담당부서, 구매자) 릴레이션에서 상품번호와 상품명은 각각 후보키이고 구매자는 하나의 부서(담당부서)에 속한다고 하자. 이 릴레이션의 정규형과 관련된 설명 중 옳은 것을 모두 고르시오. (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.95)</span></div><ol class="quiz-options"><li>이 릴레이션이 속한 최고차 정규형은 1NF이다.</li><li>이 릴레이션은 현재 담당부서→구매자의 함수종속이 성립한다.</li><li>이 릴레이션은 현재 상품명→(상품번호, 담당부서, 구매자)의 함수 종속이 성립한다.</li><li>R1(구매자, 담당부서), R2(상품번호, 상품명, 구매자)로 분해하면 두 릴레이션은 BCNF에 속하게 된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ ④ — 함수종속성은 상품명→(상품번호, 담당부서, 구매자), 상품번호→(상품명, 담당부서, 구매자), 구매자→담당부서이며, 모든 후보키를 결정자로 분해하면 BCNF가 됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q33. 다음의 릴레이션과 함수 종속을 고려해 보자. 이 릴레이션의 현재 속한 정규형과 BCNF로 분해 후 릴레이션의 수를 올바르게 나타낸 것은? R(A,B,C,D,E), 후보키: (A,C), 함수종속: A→B, C→D, (A,C)→E <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.97)</span></div><ol class="quiz-options"><li>1NF, 3</li><li>2NF, 2</li><li>2NF, 3</li><li>3NF, 2</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 복합 키 (A, C)의 부분 속성인 A와 C에서 A→B, C→D인 부분함수 종속성이 존재하므로 현재 1정규형이며, BCNF 정규화를 수행하면 R1(A, C, E), R2(A, B), R3(C, D)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q34. 은행의 데이터베이스 시스템에서 릴레이션 R = (accno, bal), S = (accno, telno, zip)이 있다. 릴레이션 R과 S에서, accno는 계좌번호, bal은 잔액, telno는 전화번호, zip은 우편번호를 각각 나타낸다. 그리고 accno는 R과 S 각각의 키(key)이다. 이 두 릴레이션을 사용하여 "잔액이 $100 이상인 계좌의 전화번호를 알아내라"를 관계 대수(relational algebra)로 표현할 때 적합하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.67)</span></div><ol class="quiz-options"><li>π<sub>telno ∧ R.accno=S.accno</sub>(σ<sub>bal≥100</sub>(R×S))</li><li>π<sub>telno</sub>(σ<sub>bal≥100</sub>(σ<sub>R.accno=S.accno</sub>(R×S)))</li><li>π<sub>telno</sub>(σ<sub>R.accno=S.accno ∧ bal≥100</sub>(R×S))</li><li>π<sub>telno</sub>(σ<sub>R.accno=S.accno</sub>(σ<sub>bal≥100</sub>(R×S)))</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 프로젝트(Project, π) 연산은 주어진 릴레이션에서 속성 리스트에 제시된 애트리뷰트만 추출하는 연산으로, 표기 형식은 π(속성리스트)(R)이다. ①은 π 연산의 첨자에 조인 조건(R.accno=S.accno)이 잘못 포함되어 있어 올바른 관계대수 표기가 아니다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q35. 관계형 모델에서 릴레이션의 애트리뷰트(속성) 수를 가리키는 용어와, 튜플(행)의 수를 가리키는 용어를 각각 바르게 짝지은 것은? (예상문제)</div><ol class="quiz-options"><li>차수(Degree) - 카디널리티(Cardinality)</li><li>카디널리티(Cardinality) - 차수(Degree)</li><li>도메인(Domain) - 차수(Degree)</li><li>차수(Degree) - 도메인(Domain)</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 애트리뷰트의 수는 차수(Degree), 튜플의 수는 카디널리티(Cardinality)이며, 이 둘을 뒤바꿔 서술하는 것이 반복 출제되는 오답 패턴이다.</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

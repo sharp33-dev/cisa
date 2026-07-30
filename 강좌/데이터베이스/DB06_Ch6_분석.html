@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB06] Ch6 · 분석</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB06] Ch6 · 분석</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/55</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#db06-s01">1. 데이터웨어하우스</a></li><li><a href="#db06-s02">2. OLAP</a></li><li><a href="#db06-s03">3. 데이터마이닝</a></li><li><a href="#db06-s04">4. 정보검색</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (19)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="db06-s01" class="section">
+  <h2>1. 데이터웨어하우스 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-7)</span></h2>
+
+  <h3>가. 데이터웨어하우스의 4대 특성</h3>
+  <table>
+    <tr><th>특성</th><th>설명</th></tr>
+    <tr><td>주제 지향적(Subject Oriented)</td><td>업무기능별로 관리되는 다수의 운영계 데이터 중 전사 관점의 의사결정에 필요한 특정 주제의 데이터만 저장</td></tr>
+    <tr><td>통합적(Integrated)</td><td>전사적 데이터 표준화를 통해 정합성과 물리적 통일성을 갖춘 구조. 운영계 데이터 획득 시 통합을 위한 변환 작업 수행</td></tr>
+    <tr><td>시계열적(Time Variant)</td><td>과거·현재 경향 분석 및 미래 예측을 위해 데이터를 Snapshot 형태로 오랜 기간 보유해 시간 경과에 따른 변화를 파악 가능</td></tr>
+    <tr><td>비휘발성(Nonvolatile)</td><td>한번 적재되면 삭제·수정이 불가능한 조회 전용 DB로, 각 시점의 데이터 이력을 모두 저장</td></tr>
+  </table>
+  <p>데이터 웨어하우스는 운영 중인 DB의 성능에 영향을 주지 않고 별도로 데이터를 보존하며, 이관 과정에서 데이터 불일치를 찾아내어 제거하는 정제(Cleansing) 기능도 수행한다. 다만 <strong>스타 스키마 모델링 시에는 빠른 조회 성능을 위해 차원 테이블을 정규화하지 않으므로</strong>, "정규화된 테이블을 사용해 효과적으로 관리한다"는 설명은 데이터 웨어하우스의 장점으로 옳지 않다.</p>
+
+  <h3>나. 팩트 테이블과 차원 테이블</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>팩트(Fact) 테이블</td><td>중심 테이블로서 관련성이 높은 Measure(정보 분석 목표를 관찰할 수 있는 측정 데이터: 금액·건수·시간 등)들의 집합</td></tr>
+    <tr><td>차원(Dimension) 테이블</td><td>부속 테이블로서 각 팩트를 분석하는 관점. 복수의 속성을 가져 다양한 관점의 데이터 분석이 가능</td></tr>
+  </table>
+
+  <h3>다. 스타 스키마와 스노우플레이크 스키마</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>스타 스키마(Star Schema)</td><td>팩트 테이블과 차원 테이블로 분리해 설계하는 모델링 기법. 차원 테이블이 정규화되어 있지 않아 데이터 중복이 발생하지만, 조인 수가 적어 이해하기 쉽고 질의 성능이 좋음(단, 데이터 중복으로 인한 일관성 문제 우려)</td></tr>
+    <tr><td>스노우플레이크 스키마(Snowflake Schema)</td><td>스타 스키마의 차원 테이블을 완전 정규화하는 모델링 기법. 데이터 중복이 적어 적재 공간을 절약할 수 있으나, 조인 횟수가 늘어나 성능 저하 우려 존재</td></tr>
+  </table>
+  <p>데이터베이스는 트랜잭션 중심의 응용을 위한 것이고, 데이터 웨어하우스는 의사결정 지원을 위한 것으로, 과거 데이터를 더 많이 요구하는 시계열·동향 분석 작업에 더 적합한 <strong>읽기 전용(read-only)이자 비휘발성(nonvolatile)</strong> 데이터베이스다. "실시간으로 갱신되므로 소멸성이다"라는 설명은 비휘발성 특성과 반대되는 오답이다.</p>
+</section>
+<section id="db06-s02" class="section">
+  <h2>2. OLAP <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.8-12)</span></h2>
+
+  <h3>가. OLAP 주요 탐색 기법</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>Drill Down</td><td>특정 분석 주제에 대해 높은 요약 수준에서 낮은 요약 수준으로 단계적으로 접근하는 탐색 기법(큰 단위→작은 단위 집계)</td></tr>
+    <tr><td>Roll Up</td><td>특정 분석 주제에 대해 낮은 요약 수준에서 높은 요약 수준으로 단계적으로 접근하는 탐색 기법(작은 단위→큰 단위 집계)</td></tr>
+    <tr><td>Drill Across</td><td>하나의 분석 주제에 대한 특정 분석 과정을 이용해 다른 분석 주제로 접근하는 탐색 기법</td></tr>
+    <tr><td>Pivot(Rotate)</td><td>특정 분석 주제에 대해 분석 관점의 축을 바꾸는 탐색 기법</td></tr>
+    <tr><td>Slicing(슬라이싱)</td><td>하나 혹은 그 이상의 축을 중심으로 셀들을 선택하는 탐색 기법</td></tr>
+    <tr><td>Dicing(다이싱)</td><td>속성 값의 범위를 명시해 셀들의 부분집합(부분큐브)을 선택하는 탐색 기법 — 두 개 이상의 차원을 Slice하여 부분집합을 만드는 것으로도 설명됨</td></tr>
+  </table>
+  <p>Translate(문자열 대체) 연산은 OLTP에서 사용하는 문자형 함수로, <strong>데이터 웨어하우스의 기본적인 OLAP 연산에 해당하지 않는다</strong>는 점이 자주 출제된다.</p>
+</section>
+<section id="db06-s03" class="section">
+  <h2>3. 데이터마이닝 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.13-42)</span></h2>
+
+  <h3>가. 데이터마이닝의 특징과 기법 분류</h3>
+  <table>
+    <tr><th>주요 특징</th><th>내용</th></tr>
+    <tr><td>대용량의 관측 가능한 자료</td><td>시간 흐름에 따라 축적</td></tr>
+    <tr><td>컴퓨터 집약적 기법</td><td>컴퓨터의 처리 속도·능력을 활용해 기존 분석 방법의 한계를 극복</td></tr>
+    <tr><td>경험적 기법(adhockery method)</td><td>경험에 기초해 개발되어 수리적 특징이 규명되지 않은 기법도 존재</td></tr>
+    <tr><td>일반화(generalization)</td><td>새로운 데이터에 얼마나 잘 적용되는가를 의미</td></tr>
+    <tr><td>업무 활용</td><td>경쟁력 확보를 위한 의사결정 지원</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>분류(Classification)</td><td>이미 알려진 속성을 활용해 그룹의 특징을 부여</td></tr>
+    <tr><td>예측(Forecasting)</td><td>미래 발생할 사건을 확률로 분석</td></tr>
+    <tr><td>군집(Clustering)</td><td>유사한 특성을 지닌 데이터의 그룹을 분류해 패턴을 분석</td></tr>
+    <tr><td>일반화(Generalization)</td><td>관련성이 강한 데이터 조합을 통해 패턴을 발견</td></tr>
+  </table>
+  <p>데이터마이닝 기법은 신용카드 이상거래 탐지(Fraud Detection), DNA 구조적 패턴 분석, 장바구니 분석(Market Basket Analysis) 등에 활용되며, <strong>단순한 온라인 주문시스템(Order Entry System) 구축은 OLTP 영역</strong>이라 데이터마이닝 응용과는 거리가 멀다.</p>
+
+  <h3>나. 데이터마이닝 주요 기법</h3>
+  <table>
+    <tr><th>기법</th><th>내용</th><th>사례</th></tr>
+    <tr><td>의사결정나무(Decision Tree)</td><td>과거 수집된 레코드를 분석해 존재하는 패턴(분류별 특성)을 속성 조합으로 나타내는 나무 형태의 분류 모형. 분석의 정확도보다 분석 과정의 설명이 필요한 경우 유용</td><td>우수 고객 분류, 대출 심사, 질병 예측</td></tr>
+    <tr><td>신경망(Neural Network)</td><td>인간 두뇌 세포를 모방한 개념으로 반복적 학습 과정을 통해 모형을 만들어가는 기법. 입력-출력 관계·비선형 모델 학습이 가능하나 결과 해석(설명)이 어려움</td><td>우수 고객 분석, 연체자 예측, 카드 오용 방지</td></tr>
+    <tr><td>연관성 분석(Association)</td><td>데이터 안에 존재하는 항목 간 종속 관계를 찾아내는 작업. 상품 거래기록(Historical) 데이터로부터 상품 간 연관성을 측정</td><td>장바구니 분석(맥주와 기저귀)</td></tr>
+    <tr><td>연속 규칙(Sequence)</td><td>연관 규칙에 시간 관련 정보가 포함되는 형태로 고객의 구매 이력 정보가 필요</td><td>신차 구입 후 캠핑 장비 구매</td></tr>
+    <tr><td>군집화(Clustering)</td><td>거리에 기반해 가까운 곳에 있는 데이터끼리 같은 군집으로 묶는 방법. N개 속성을 가진 레코드를 N차원 공간의 벡터로 표시했을 때 유사한 레코드는 서로 근접한다는 가정에 근거</td><td>K-Means 알고리즘, 고객 세분화, 대리점 위치 결정</td></tr>
+  </table>
+  <p>K-Means 군집화는 ① K개의 Seed를 임의로 결정 → ② 거리가 가장 가까운 점들을 하나의 군집으로 결정 → ③ 군집의 중심값을 재설정해 Seed 변경 → ④ 중심값이 변경되지 않을 때까지 반복하는 절차로 수행되며, 사전에 군집의 수(K)를 정해야 하고 속성이 다양할 경우 적용이 어렵다는 한계가 있다.</p>
+
+  <h3>다. 연관규칙 — 지지도·신뢰도·리프트</h3>
+  <table>
+    <tr><th>지표</th><th>정의</th><th>공식</th></tr>
+    <tr><td>지지도(Support)</td><td>전체 거래 항목 중 X와 Y를 동시에 포함하는 거래의 비율 — 전체적 구매 경향 파악</td><td>S = P(X∩Y) = (X와 Y를 포함하는 거래 수) / (전체 거래 수)</td></tr>
+    <tr><td>신뢰도(Confidence)</td><td>항목 X를 포함하는 거래 중 항목 Y가 포함될 확률 — 연관성의 정도 파악</td><td>C = P(Y|X) = P(X∩Y)/P(X) = (X와 Y를 포함하는 거래 수) / (X를 포함한 거래 수)</td></tr>
+    <tr><td>리프트(Lift/Improvement)</td><td>항목 X를 구매했을 때 그 거래가 Y를 포함하는 경우와 Y가 임의로 구매되는 경우의 비</td><td>L = P(X|Y)/P(Y) = P(X∩Y) / (P(X)·P(Y))</td></tr>
+  </table>
+  <table>
+    <tr><th>Lift 값</th><th>의미</th><th>예</th></tr>
+    <tr><td>= 1</td><td>두 품목이 서로 독립적인 관계</td><td>과자와 후추</td></tr>
+    <tr><td>&gt; 1</td><td>두 품목이 서로 양(+)의 상관 관계</td><td>빵과 버터</td></tr>
+    <tr><td>&lt; 1</td><td>두 품목이 서로 음(-)의 상관 관계</td><td>지사제와 변비약</td></tr>
+  </table>
+  <p>Apriori 원리에 따르면 항목집합 {A,B}가 빈발하지 않으면 항목집합 {A,B,C}도 빈발하지 않으며(항목 개수가 늘어날수록 발생 확률은 작아짐), 따라서 항목집합 {A,B}의 지지도는 {A,B,C}의 지지도보다 항상 크거나 같다. 신뢰도도 마찬가지 논리로, 규칙 {A,B}→{C,D}의 신뢰도는 P(A∩B∩C∩D)/P(A∩B)이고 {A,B,C}→D의 신뢰도는 P(A∩B∩C∩D)/P(A∩B∩C)이므로, 분모가 더 작은(항목 수가 적은) {A,B}→{C,D} 쪽의 신뢰도가 <strong>더 크거나 같다</strong>(반대로 서술하면 오답).</p>
+
+  <h3>라. 거리 척도와 예측 모델링</h3>
+  <p>데이터마이닝에서 군집 간 거리를 계산할 때 유클리드 거리(Euclid Distance)는 두 점 간 항목 차이 값의 제곱의 총합의 제곱근으로, 맨하탄 거리(Manhattan Distance)는 차이 값의 절대값의 총합으로 계산한다. 예를 들어 X=(5,4,2,6,1), Y=(4,5,5,4,2)일 때 유클리드 거리는 √(1²+1²+3²+2²+1²)=√16=4, 맨하탄 거리는 |1|+|1|+|3|+|2|+|1|=8이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB06fig/p042.jpg" alt="데이터마이닝 기법 분류 트리 다이어그램. 최상위 Data Mining이 예측 모델링(Predictive: Classification, Regression, Time Series Analysis, Prediction)과 서술 모델링(Descriptive: Clustering, Summarization, Association Rules, Sequence Discovery)의 2개 가지로 분화되는 구조"><figcaption>[그림] 데이터마이닝 기법 분류 — 예측 모델링(Predictive: 분류·회귀·시계열분석·예측)과 서술 모델링(Descriptive: 군집화·요약·연관규칙·순차패턴발견)</figcaption></figure>
+  <p>예측 모델링(Predictive Modeling)은 목표 변수를 설명 변수의 함수 모델로 생성하는 작업으로, <strong>이산형(범주형) 목표 변수에는 분류(Classification)</strong>, <strong>연속형 목표 변수에는 회귀(Regression)</strong>가 사용된다. 서술 모델링(Descriptive Modeling)에는 연관규칙, 순차 패턴, 군집화 분석 등이 포함된다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 분류(Classification) vs 군집화(Clustering) 혼동 주의</span>이미 알려진 클래스 레이블로 데이터를 분류하는 모델을 찾는 것은 <strong>분류(Classification)</strong>이고(if-then 규칙·결정 트리·뉴럴 네트워크 등 활용), 클래스 내 유사도는 최대화하고 클래스 간 유사도는 최소화하도록 새로운 객체 그룹을 생성하는 것은 <strong>군집화(Clustering)</strong>다. 두 정의를 서로 바꿔 서술하는 것이 전형적인 오답 패턴이다. 또한 OLTP 시스템은 구매·제조·창고·은행·급여·회계 등 <strong>업무 처리</strong>를 지원하고, 데이터 웨어하우스가 <strong>분석·의사결정 지원</strong>을 담당한다는 역할 구분도 함께 기억해 둔다.</div>
+</section>
+<section id="db06-s04" class="section">
+  <h2>4. 정보검색 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.43-55)</span></h2>
+
+  <h3>가. 정보검색의 3대 요소</h3>
+  <table>
+    <tr><th>요소</th><th>설명</th></tr>
+    <tr><td>데이터 집합</td><td>검색 대상 데이터로, 일정한 스키마를 가진 DB형 데이터와 제목·본문·생성날짜 등으로 구성된 문서형 데이터(정형·비정형)로 구분</td></tr>
+    <tr><td>색인</td><td>문서형 데이터 집합에 대해 각 단어별 문서 리스트를 생성. 일괄색인(batch indexing)과 점증색인(incremental indexing)으로 구분</td></tr>
+    <tr><td>랭킹</td><td>입력된 질의에 가장 적합한 순으로 문서를 나열 — 질의와 문서의 유사성, 최신성, 문서 품질, 사용자 검색로그 등을 종합해 판단</td></tr>
+    <tr><td>표현</td><td>검색 결과를 단순 리스트, 유사 결과 그룹화, 데이터 종류별 구분(이미지·블로그·웹문서) 등으로 제시</td></tr>
+    <tr><td>사용자 피드백</td><td>검색 품질 개선에 활용 — 사용자가 직접 제공하는 명시적 피드백과 검색로그 기반의 암묵적 피드백으로 구분</td></tr>
+  </table>
+
+  <h3>나. 정밀도(Precision)와 재현율(Recall)</h3>
+  <table>
+    <tr><th></th><th>실제 정답 Positive</th><th>실제 정답 Negative</th></tr>
+    <tr><td>검색 결과 Positive</td><td>True Positive(TP)</td><td>False Positive(FP, Type Ⅰ error)</td></tr>
+    <tr><td>검색 결과 Negative</td><td>False Negative(FN, Type Ⅱ error)</td><td>True Negative(TN)</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>정의</th><th>공식</th></tr>
+    <tr><td>정밀도(Precision)</td><td>검색된 문서들 중 관련 있는 문서들의 비율</td><td>TP / (TP+FP)</td></tr>
+    <tr><td>재현율(Recall)</td><td>관련 있는 문서들 중 실제로 검색된 문서들의 비율</td><td>TP / (TP+FN)</td></tr>
+  </table>
+  <p>예를 들어 검색된 문서 중 적합 문서가 75건(TP)·부적합 50건(FP), 검색되지 않은 문서 중 적합 문서가 45건(FN)·부적합 30건(TN)이라면, 재현율 = 75/(75+45) = 0.625, 정밀도 = 75/(75+50) = 0.6이 된다.</p>
+
+  <h3>다. TF-IDF</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>TF(Term Frequency)</td><td>문서에서 해당 단어가 얼마나 나왔는지를 나타내는 값. 여러 번 나와도 1로 정의하거나, 값을 줄이기 위해 log 처리하기도 함</td></tr>
+    <tr><td>DF(Document Frequency)</td><td>전체 문서들 중 해당 단어가 몇 개의 문서에 나타나는지의 비율(해당 단어가 나타난 문서 수/전체 문서 수)</td></tr>
+    <tr><td>IDF(Inverse Document Frequency)</td><td>DF의 역수(전체 문서 수 / 해당 단어가 나타난 문서 수). 분모가 0이 되는 것을 막기 위해 보통 분모에 1을 더함</td></tr>
+  </table>
+  <p>TF-IDF는 단어 빈도(TF)와 역문서 빈도(IDF)의 곱(TF × IDF)으로 계산한다. 예를 들어 문서 d에서 단어의 TF가 3이고 IDF가 0.3010이라면 TF-IDF = 3 × 0.3010 = 0.9030이다.</p>
+
+  <h3>라. 규칙 기반 분류기(참고)</h3>
+  <p>규칙 기반 분류기는 "if ~ then …" 규칙들의 집합을 사용해 항목들을 분류하는 방법으로, 둘 이상의 클래스를 포함하는 데이터 집합에서 한 번에 한 클래스씩 규칙을 획득한다. 분류 규칙의 품질은 <strong>적용범위(Coverage)</strong>—데이터 집합 D와 규칙 r: A→y가 주어질 때 규칙 r이 적용되는 D에 속한 항목들의 비율—와 <strong>정확성(Accuracy)</strong>—규칙 r이 적용되는 항목들 중 클래스 레이블이 y와 같은 비율—로 평가한다.</p>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (19문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 다음 중 데이터 웨어하우스(Data Warehouse)의 장점으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.4)</span></div><ol class="quiz-options"><li>운영중인 DB의 성능에 영향을 주지 않는다.</li><li>운영중인 DB와는 별도로 데이터를 보존한다.</li><li>정규화된 테이블을 사용하여 효과적으로 데이터를 관리한다.</li><li>데이터를 이관하는 과정에서 데이터 불일치를 찾아내어 제거한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 스타 스키마 모델링 시에는 빠른 조회를 위해 정규화를 수행하지 않음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 전통적인 데이터베이스와 데이터 웨어하우스(data warehouse)에 대한 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.6)</span></div><ol class="quiz-options"><li>데이터 웨어하우스에 있는 정보는 실시간으로 갱신되므로 소멸성(volatile)이다.</li><li>데이터베이스는 트랜잭션 중심의 응용을 위한 것이고, 데이터 웨어하우스는 의사결정 지원을 위한 것이다.</li><li>데이터베이스에 비해 데이터 웨어하우스는 과거의 데이터를 더 많이 요구하는 시계열(time-series)이나 동향 분석(trend analysis) 작업에 더 적합하다.</li><li>데이터 웨어하우스는 데이터 분석과 질의 처리를 위해 최적화된 읽기-전용(read-only) 데이터베이스이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 데이터 웨어하우스는 비휘발성(nonvolatile)임</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 다음 중 데이터 웨어하우스(data warehouse)의 기본적인 OLAP(on-line analytical processing) 연산이 아닌 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.9)</span></div><ol class="quiz-options"><li>translate 연산</li><li>roll-up과 drill-down 연산</li><li>dice 연산</li><li>pivot(rotate) 연산</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — translate는 OLTP에서 사용하는 문자열 대체 함수</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 다음 표는 다차원 데이터 모델에서의 OLAP 연산들을 설명한 것이다. 표의 ㉮, ㉯에 들어갈 연산들이 바르게 짝지어진 것은? ㉮: 하나 혹은 그 이상의 축을 중심으로 셀들을 선택 / ㉯: 속성 값의 범위를 명시하여 셀들의 부분집합(부분큐브)을 선택 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.11)</span></div><ol class="quiz-options"><li>다이싱(dicing), 슬라이싱(slicing)</li><li>슬라이싱, 다이싱</li><li>피벗팅(pivoting), 다이싱</li><li>다이싱, 피벗팅</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음 중 데이터마이닝 기법을 사용하는 응용과 거리가 가장 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.19)</span></div><ol class="quiz-options"><li>이상 거래 패턴을 탐지하여 신용카드 사기(Fraud) 발견</li><li>구조적 패턴 발견을 통한 DNA 분석</li><li>소매 판매 분석을 위한 장바구니 분석(Market basket analysis)</li><li>온라인 주문시스템 구축(Order entry system)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — OLTP 영역</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 연관 규칙 마이닝(association rule mining)의 응용에 가장 적합한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.21)</span></div><ol class="quiz-options"><li>시계열 분석(time series analysis)</li><li>장바구니 분석(market basket analysis)</li><li>의사 결정 분석(decision analysis)</li><li>뉴럴 넷 분석(neural nets analysis)</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 다음은 장바구니 데이터를 이진 형식으로 표현한 것이다(TID 1~5, Bread·Milk·Diapers·Beer·Eggs·Cola). 데이터 마이닝 규칙 {Milk, Diapers} → {Beer}에 대한 지지도(support)와 신뢰도(confidence)는 각각 얼마인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.23)</span></div><ol class="quiz-options"><li>지지도 0.67, 신뢰도 0.4</li><li>지지도 0.6, 신뢰도 0.6</li><li>지지도 0.4, 신뢰도 0.67</li><li>지지도 0.6, 신뢰도 0.67</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 지지도 = Milk·Diapers·Beer 동시 포함 거래 수/전체 거래 수 = 2/5 = 0.4, 신뢰도 = 동시 포함 거래 수/Milk·Diapers 포함 거래 수 = 2/3 = 0.67</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 데이터 마이닝에서 연관(association)이란 데이터베이스에 있는 어떤 값들 사이에 존재하는 상관관계이다. 연관 규칙 A→B는 전제조건 A가 참이 되면 결론부 B도 참이 된다는 것을 의미한다. 다음과 같은 고객들의 구매 상품 리스트(ID1~10)에서 연관 규칙 '라면→계란'에 대한 지지도(support)와 신뢰도(confidence)는 각각 얼마인가? (라면 포함 거래 8건, 라면·계란 동시 포함 거래 6건, 전체 거래 10건) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.33-34)</span></div><ol class="quiz-options"><li>지지도 87.5%, 신뢰도 60%</li><li>지지도 87.5%, 신뢰도 75%</li><li>지지도 60%, 신뢰도 75%</li><li>지지도 75%, 신뢰도 60%</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 지지도 = 라면·계란 포함 거래 수/전체 거래 수 = 6/10 = 60%, 신뢰도 = 라면·계란 포함 거래 수/라면 포함 거래 수 = 6/8 = 75%</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 데이터 웨어하우스(data warehouse)와 데이터 마이닝(data mining)의 관련 기본 개념에 대한 다음 설명 중 옳은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.25)</span></div><ol class="quiz-options"><li>특이점 분석(outlier analysis)은 데이터들의 일반적인 행위나 모델에 순응하지 않는 데이터 객체들을 탐사하는 과정으로서 통계적 검사, 거리 측정, 편차기반 방법(deviation-based method) 등이 사용된다.</li><li>온라인 트랜잭션 처리(OLTP) 시스템은 주로 사용자나 지식 작업자들에게 데이터 분석과 의사결정을 지원하는 반면, 데이터 웨어하우스 시스템은 구매, 제조, 창고, 은행, 급여, 회계 등의 업무를 지원한다.</li><li>분류(classification)는 어떤 미지의 데이터 객체들을 클래스 내의 유사도는 최대화하고 클래스 간의 유사도는 최소화하도록 객체 그룹들을 생성함으로써 새로운 데이터 객체들의 분석 모델 생성에 유용하다.</li><li>클러스터링(clustering)은 입력되는 데이터 객체들을 이미 알려진 클래스 레이블로 분류하는 모델을 찾는 과정으로서 if-then 규칙, 결정 트리, 수학 공식, 뉴럴 네트워크 등의 방법이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — ②는 OLTP·DW의 역할이 뒤바뀜, ③은 분류가 아닌 클러스터링의 정의, ④는 클러스터링이 아닌 분류의 정의</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 다음은 고객들의 구매 상품 리스트를 나타낸다. 데이터 마이닝에서 연관 규칙(association rule) '우유 → 빵'에 대한 지지도(support)와 신뢰도(confidence)는 각각 얼마인가? (구매 ID 1~6: 주스·우유·빵/주스·우유·콜라/주스·과자/우유·빵/주스·우유·빵·콜라/주스·과자) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.27)</span></div><ol class="quiz-options"><li>지지도 50%, 신뢰도 75%</li><li>지지도 67%, 신뢰도 50%</li><li>지지도 67%, 신뢰도 75%</li><li>지지도 75%, 신뢰도 50%</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 지지도 = 우유·빵 포함 거래 수/전체 거래 수 = 3/6 = 50%, 신뢰도 = 우유·빵 포함 거래 수/우유 포함 거래 수 = 3/4 = 75%</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. 데이터 마이닝에서는 두 점 혹은 두 시퀀스에 대한 다양한 거리 척도가 사용된다. 5-차원 공간의 두 점 X=(5,4,2,6,1), Y=(4,5,5,4,2)에 대해, X와 Y의 유클리드 거리(Euclid distance) d_E(X,Y)와 맨하탄 거리(Manhattan distance) d_M(X,Y)의 값으로 바른 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.29)</span></div><ol class="quiz-options"><li>d_E=8, d_M=4</li><li>d_E=4, d_M=16</li><li>d_E=8, d_M=16</li><li>d_E=4, d_M=8</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 유클리드 거리 = √[(5-4)²+(4-5)²+(2-5)²+(6-4)²+(1-2)²] = √16 = 4, 맨하탄 거리 = |5-4|+|4-5|+|2-5|+|6-4|+|1-2| = 8</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 다음은 고객이 상품 X와 상품 Y를 구매한 빈도를 나타내는 다이어그램이다. 전체 거래 건수는 t, n1과 n2는 X, Y 각각에 대한 거래 수를 나타내며, m은 X와 Y를 같이 구매한 거래 수를 나타낸다. 연관 규칙을 찾기 위한 지지도(support)({상품 X, 상품 Y})에 해당되는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.31)</span></div><ol class="quiz-options"><li>((n1+n2)-m)/t</li><li>(n1+n2)/t</li><li>m/t</li><li>m/(n1+n2-m)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 지지도 = X와 Y를 같이 구매한 거래 수/전체 거래 건수 = m/t</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 연관규칙 탐사와 Apriori 원리에 관련된 설명 중 잘못된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.35)</span></div><ol class="quiz-options"><li>지지도란 해당 항목집합을 포함하는 트랜잭션의 비율을 말한다.</li><li>항목집합 {A,B}가 빈발하지 않다면 항목집합 {A,B,C}도 빈발하지 않다.</li><li>항목집합 {A,B}의 지지도는 항목집합 {A,B,C}의 지지도 보다 크거나 같다.</li><li>규칙 {A,B}→{C,D}의 신뢰도가 {A,B,C}→D의 신뢰도보다 크거나 같다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 신뢰도는 X→Y일 때 P(X∩Y)/P(X)이므로 분모가 P(A∩B)와 P(A∩B∩C)가 되며, 항목 개수가 작은 P(A∩B)가 같거나 더 크므로 {A,B}→{C,D}의 신뢰도는 오히려 작거나 같음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 다음은 데이터 마이닝 기법 중에서 무엇에 대한 설명인가? 연속성을 갖는 변수의 미래 값을 (다른 변수 값들을 활용하여) 예측하는 방법으로, 일반적으로 변수에 대해 선형 혹은 비선형 모델을 가정한다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.37)</span></div><ol class="quiz-options"><li>회귀분석(regression analysis)</li><li>연속변수분석(continuous variable analysis)</li><li>상관관계분석(correlation analysis)</li><li>다변량분석(multivariate analysis)</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 다음과 같은 상품 구매 트랜잭션에 대해 연관규칙 탐사를 수행했다고 하자. 이 때 계산된 지지도(support)와 신뢰도(confidence)로 옳지 않은 것은? T1={milk,coke,beer} T2={milk,pepsi,juice} T3={milk,beer} T4={coke,juice} T5={milk,pepsi,beer} <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.39)</span></div><ol class="quiz-options"><li>항목집합 {beer, milk}의 지지도는 3/5이다.</li><li>{milk} → beer의 지지도는 4/5이다.</li><li>{milk} → beer의 신뢰도는 3/4이다.</li><li>{juice} → milk의 신뢰도는 1/2이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — {milk}→beer의 지지도는 milk·beer 동시 포함 거래 수/전체 거래 수 = 3/5(4/5가 아님)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. 다음 문장에서 빈칸 ㉮와 ㉯에 들어갈 용어로 적절한 것은? 예측 모델링(Predictive Modeling)은 목표 변수를 설명 변수의 함수 모델로 생성하는 작업을 말한다. 예측 모델링은 이산형 목표 변수에 사용되는 ( ㉮ )과(와) 연속형 목표 변수에 사용하는 ( ㉯ )의 두 가지 유형이 있다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.41)</span></div><ol class="quiz-options"><li>군집(clustering), 서술(descriptive)</li><li>군집(clustering), 분류(classification)</li><li>분류(classification), 회귀(regression)</li><li>회귀(regression), 서술(descriptive)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 문서 d에서 단어 "감리사"의 TF(term frequency) 값이 3이라 하고, 문서집합 D에서 단어 "감리사"의 IDF(inverse document frequency) 값이 0.3010이라 하자. 그렇다면, 문서집합 D와 문서 d에서 단어 "감리사"의 TF-IDF 값을 바르게 계산한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.47)</span></div><ol class="quiz-options"><li>0.1003 (= 0.3010 / 3)</li><li>9.9668 (= 3 / 0.3010)</li><li>0.9030 (= 3 × 0.3010)</li><li>1.6459 (= 3 × √0.3010)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — TF-IDF = TF × IDF = 3 × 0.3010 = 0.9030</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. 정보검색에 있어서 재현률(recall)을 다음의 정보검색 결과표를 이용하여 기술하였을 때 올바른 것은? TP(True Positive): 검색된 결과 중 실제 정답인 정보의 수, FP(False Positive): 검색된 결과 중 실제 정답이 아닌 정보의 수, FN(False Negative): 검색되지 않은 정보 중 실제 정답인 정보의 수, TN(True Negative): 검색되지 않은 정보 중 실제 정답이 아닌 정보의 수 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.52)</span></div><ol class="quiz-options"><li>TP/(TN+FP)</li><li>TP/(TP+TN)</li><li>TP/(TP+FN)</li><li>TP/(FP+FN)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 정밀도(Precision)=TP/(TP+FP), 재현율(Recall)=TP/(TP+FN)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 다음 표는 문서들에 대한 검색을 수행한 결과, 검색된(retrieved) 문서와 적합한(relevant) 문서의 수를 각각 나타낸다(검색됨·적합 75건(TP), 검색됨·부적합 50건(FP), 검색안됨·적합 45건(FN), 검색안됨·부적합 30건(TN)). 재현율(recall)과 정확률(precision)을 각각 바르게 계산한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.54)</span></div><ol class="quiz-options"><li>재현율 0.375, 정확률 0.150</li><li>재현율 0.375, 정확률 0.400</li><li>재현율 0.525, 정확률 0.475</li><li>재현율 0.625, 정확률 0.600</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 재현율 = 75/(75+45) = 0.625, 정확률 = 75/(75+50) = 0.6</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

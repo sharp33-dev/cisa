@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB00] 특강·출제예상</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB00] 특강·출제예상</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/75</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul>
+<li><a href="#db00-s01">1. DIKW 피라미드</a></li>
+<li><a href="#db00-s02">2. 데이터베이스의 특성</a></li>
+<li><a href="#db00-s03">3. DBMS 구성요소</a></li>
+<li><a href="#db00-s04">4. 트랜잭션 특성(ACID)</a></li>
+<li><a href="#db00-s05">5. Isolation Level</a></li>
+<li><a href="#db00-s06">6. 교착상태</a></li>
+<li><a href="#db00-s07">7. 다중버전 병행제어(MVCC)</a></li>
+<li><a href="#db00-s08">8. 그림자 페이지 기법</a></li>
+<li><a href="#db00-s09">9. 데이터 모델링 3요소</a></li>
+<li><a href="#db00-s10">10. 데이터베이스 카디널리티</a></li>
+<li><a href="#db00-s11">11. 식별관계 Vs 비식별관계</a></li>
+<li><a href="#db00-s12">12. 정보 요구사항 수명주기</a></li>
+<li><a href="#db00-s13">13. 데이터 모델링 단계</a></li>
+<li><a href="#db00-s14">14. 이상 현상</a></li>
+<li><a href="#db00-s15">15. 반정규화</a></li>
+<li><a href="#db00-s16">16. 집계함수</a></li>
+<li><a href="#db00-s17">17. 비용 기반 옵티마이저(CBO)</a></li>
+<li><a href="#db00-s18">18. SQL Blind Injection</a></li>
+<li><a href="#db00-s19">19. CRISP-DM</a></li>
+<li><a href="#db00-s20">20. 빅데이터 분석 기법</a></li>
+      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (20)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+
+<section id="db00-s01" class="section">
+  <h2>1. DIKW 피라미드 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.4-6)</span></h2>
+  <p>DIKW 피라미드는 데이터가 정보·지식·지혜로 위계적으로 승화되는 과정을 표현한 모형이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p004.jpg" alt="DIKW 피라미드 다이어그램. 하단부터 데이터(수집/저장/처리), 정보(가공/분석 후 의미부여), 지식(정보를 구조화하여 예측 가능하게 함), 지혜(근본 원리에 대한 깊은 이해로 도출하는 창의적 아이디어) 순으로 쌓아 올린 피라미드"><figcaption>[그림] DIKW 피라미드 — 데이터(Data) → 정보(Information) → 지식(Knowledge) → 지혜(Wisdom)</figcaption></figure>
+  <table>
+    <tr><th>단계</th><th>정의</th></tr>
+    <tr><td>데이터(Data)</td><td>존재 형식을 불문하고, 타 데이터와의 상관관계가 없는 가공하기 전의 순수한 수치나 기호</td></tr>
+    <tr><td>정보(Information)</td><td>데이터의 가공 및 상관관계간 이해를 통해 패턴을 인식하고 그 의미를 부여한 데이터</td></tr>
+    <tr><td>지식(Knowledge)</td><td>상호 연결된 정보 패턴을 이해하여 이를 토대로 예측한 결과물</td></tr>
+    <tr><td>지혜(Wisdom)</td><td>근본 원리에 대한 깊은 이해를 바탕으로 도출하는 창의적 아이디어</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip</span>기존 인공지능의 한계는 지식까지 창출 가능한 수준이었으나, 현재는 인공지능의 발전으로 새로운 아이디어를 창출하는 <strong>지혜(Wisdom)</strong> 단계까지 가능해지고 있다는 점이 시험에 자주 출제된다.</div>
+</section>
+
+<section id="db00-s02" class="section">
+  <h2>2. 데이터베이스의 특성 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.7-11)</span></h2>
+
+  <h3>가. 데이터베이스의 정의</h3>
+  <p>데이터베이스란 한 조직의 여러 응용시스템이 공용(Shared)할 수 있도록 통합(Integrated)·저장(Stored)된 운영(Operational) 데이터의 집합이다. 정보통신용어사전(TTA)에서는 동시에 복수의 적용 업무를 지원할 수 있도록 복수 이용자의 요구에 대응해 데이터를 받아들이고 저장·공급하기 위해 일정한 구조에 따라 편성된 데이터의 집합으로 정의하며, 저작권법에서는 소재를 체계적으로 배열 또는 구성한 편집물로서 개별적으로 그 소재에 접근하거나 검색할 수 있도록 한 것으로 정의한다.</p>
+  <table>
+    <tr><th>구성 개념</th><th>설명</th></tr>
+    <tr><td>통합된 데이터(Integrated data)</td><td>최소의 중복 또는 통제된 중복</td></tr>
+    <tr><td>저장된 데이터(Stored data)</td><td>컴퓨터가 접근할 수 있는 저장매체에 저장된 데이터</td></tr>
+    <tr><td>운영 데이터(Operational data)</td><td>조직 고유의 기능을 수행하기 위해 반드시 유지되어야 하는 데이터</td></tr>
+    <tr><td>공용 데이터(Shared data)</td><td>조직의 여러 응용시스템들이 공동으로 소유하고 유지·이용하는 데이터</td></tr>
+  </table>
+
+  <h3>나. 데이터베이스의 4대 특성</h3>
+  <table>
+    <tr><th>특성</th><th>설명</th></tr>
+    <tr><td>실시간 접근성(Real-Time Accessibility)</td><td>수시적이고 비정형적인 질의(Query)에 대하여 실시간 처리로 응답</td></tr>
+    <tr><td>계속적인 변화(Continuous Evolution)</td><td>항상 변하는 현실 세계를 반영</td></tr>
+    <tr><td>동시 공용(Concurrent Sharing)</td><td>여러 사용자가 동시에 자기가 원하는 데이터에 접근·이용</td></tr>
+    <tr><td>내용에 의한 참조(Content Reference)</td><td>사용자가 요구하는 데이터의 내용, 즉 데이터가 가지고 있는 값에 따라 참조</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"데이터 종속성으로 데이터 변경(구성·접근방법 등) 시 응용프로그램 변경을 초래한다"는 설명은 <strong>파일 시스템</strong>의 특성이며, 오히려 데이터베이스는 응용프로그램과 데이터 간의 독립성(데이터 독립성)을 지향한다는 점에서 자주 오답 선지로 출제된다.</div>
+</section>
+
+<section id="db00-s03" class="section">
+  <h2>3. DBMS 구성요소 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.12-14)</span></h2>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p012.jpg" alt="DBMS 구성요소 아키텍처 다이어그램. 예비컴파일러, 질의처리기, DML/DDL 컴파일러, 런타임 DB처리기, 저장 데이터 관리자가 응용프로그램과 디스크의 데이터베이스·데이터 사전 사이에서 상호작용하는 구조"><figcaption>[그림] DBMS의 구성요소 — 예비컴파일러·질의처리기·DDL/DML 컴파일러·런타임 DB처리기·저장 데이터 관리자</figcaption></figure>
+  <table>
+    <tr><th>구성요소</th><th>역할</th></tr>
+    <tr><td>예비 컴파일러(Precompiler)</td><td>응용 프로그램 속에 삽입된 DML 명령어를 추출</td></tr>
+    <tr><td>DML 컴파일러</td><td>추출된 DML 명령어를 목적 코드로 변환</td></tr>
+    <tr><td>DDL 컴파일러</td><td>DDL로 명세한 스키마를 내부 형태로 처리하여 데이터 사전에 저장</td></tr>
+    <tr><td>런타임 DB 처리기</td><td>검색이나 갱신과 같은 DB 연산을 저장 데이터 관리자를 통해 디스크에 저장된 DB에 실행</td></tr>
+    <tr><td>저장 데이터 관리자</td><td>디스크에 있는 데이터베이스나 카탈로그(데이터 사전) 접근을 책임</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"저장 데이터 관리자는 일반 사용자가 입력한 데이터 값만을 저장하여 데이터를 보호한다"는 설명은 옳지 않다. 저장 데이터 관리자는 <strong>디스크에 있는 데이터베이스나 카탈로그(데이터 사전) 접근 전반</strong>을 책임지는 구성요소다.</div>
+</section>
+
+<section id="db00-s04" class="section">
+  <h2>4. 트랜잭션 특성(ACID) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.15-17)</span></h2>
+  <table>
+    <tr><th>특성(ACID)</th><th>설명</th></tr>
+    <tr><td>Atomicity(원자성)</td><td>트랜잭션은 완전히 수행되거나 전혀 수행되지 않는 상태로 회복되어야 함(All or Nothing) — Commit/Rollback 연산으로 보장</td></tr>
+    <tr><td>Consistency(일관성)</td><td>트랜잭션이 실행을 성공적으로 완료하면 언제나 모순 없는 일관성 있는 데이터베이스 상태를 보존</td></tr>
+    <tr><td>Isolation(고립성)</td><td>트랜잭션이 실행 중에 생성하는 연산의 중간 결과를 다른 트랜잭션이 접근할 수 없음</td></tr>
+    <tr><td>Durability(영속성)</td><td>성공적으로 완료된 트랜잭션의 결과는 데이터베이스에 지속적으로 보존됨</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p017.jpg" alt="ACID 특성과 DBMS 기능을 연결하는 매칭 다이어그램. 원자성·일관성은 무결성 제약조건, 고립성은 동시성 제어, 영속성은 회복 기능과 선으로 연결된 구조"><figcaption>[그림] ACID 특성 ↔ DBMS 보장 기능 매칭 — 원자성·영속성은 회복(Recovery), 일관성은 무결성 제약조건, 고립성은 동시성 제어와 연결</figcaption></figure>
+  <p>트랜잭션의 각 특성은 DBMS의 특정 기능에 의해 보장된다. <strong>원자성(Atomicity)과 영속성(Durability)은 회복(Recovery)</strong> 기능으로, <strong>일관성(Consistency)은 무결성 제약조건</strong>으로, <strong>고립성(Isolation)은 동시성 제어</strong> 기능으로 보장되며, 이 대응 관계를 서로 뒤바꿔 서술하는 것이 전형적인 오답 패턴이다.</p>
+</section>
+
+<section id="db00-s05" class="section">
+  <h2>5. Isolation Level <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.18-20)</span></h2>
+  <table>
+    <tr><th>고립 수준</th><th>설명</th></tr>
+    <tr><td>Read Uncommitted(레벨0)</td><td>트랜잭션에서 처리 중인, 아직 commit하지 않은 데이터를 다른 트랜잭션에서 읽는 것을 허용</td></tr>
+    <tr><td>Read Committed(레벨1)</td><td>대부분의 DBMS가 기본 모드로 채택하는 일관성 모드. 트랜잭션이 commit되어 확정된 데이터만 읽는 것을 허용</td></tr>
+    <tr><td>Repeatable Read(레벨2)</td><td>선행 트랜잭션이 읽은 데이터를 후행 트랜잭션이 갱신·삭제하지 못하도록 제한</td></tr>
+    <tr><td>Serializable Read(레벨3)</td><td>선행 트랜잭션이 읽은 데이터를 종료할 때까지 후행 트랜잭션의 갱신·삭제를 제한하고, 중간에 새로운 레코드의 삽입도 제한해 완벽한 읽기 일관성을 제공</td></tr>
+  </table>
+  <table>
+    <tr><th>고립 수준</th><th>Dirty Read</th><th>Non-Repeatable Read</th><th>Phantom Read</th></tr>
+    <tr><td>Read Uncommitted(Level 0)</td><td>가능</td><td>가능</td><td>가능</td></tr>
+    <tr><td>Read Committed(Level 1)</td><td>불가능</td><td>가능</td><td>가능</td></tr>
+    <tr><td>Repeatable Read(Level 2)</td><td>불가능</td><td>불가능</td><td>가능</td></tr>
+    <tr><td>Serializable(Level 3)</td><td>불가능</td><td>불가능</td><td>불가능</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip</span>고립 수준이 Read Uncommitted → Serializable로 높아질수록 이상 현상(Dirty Read → Non-Repeatable Read → Phantom Read 순으로) 발생 가능성이 순차적으로 사라지지만, 동시성(성능)은 낮아진다. <strong>Serializable Read에서는 세 가지 이상 현상이 모두 불가능</strong>하다.</div>
+</section>
+
+<section id="db00-s06" class="section">
+  <h2>6. 교착상태 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.21-23)</span></h2>
+  <p>교착상태(Deadlock)란 모든 트랜잭션들이 실행을 전혀 진전시키지 못하고 무한정 기다리고 있는 상태를 말한다.</p>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>발생 조건(4가지 모두 충족 시 발생)</td><td>상호배제, 점유와 대기, 비선점(선취금지), 순환대기</td></tr>
+    <tr><td>해결책</td><td>회피(Avoidance), 예방(Prevention), 탐지(Detection), 회복(Rollback)</td></tr>
+  </table>
+  <table>
+    <tr><th>교착상태 방지 프로토콜</th><th>설명</th></tr>
+    <tr><td>Wait-Die 기법</td><td>요청자가 기득권자보다 고참(선행)이면 기득권자가 종료될 때까지 기다림(Wait). 요청자가 신참(후행)이면 죽고(Die-Rollback) 다시 시작함 — 불필요한 복귀가 자주 발생할 소지가 있음</td></tr>
+    <tr><td>Wound-Wait 기법</td><td>요청자가 기득권자보다 고참이면 기득권자를 종료(Wound-Rollback)시킴. 요청자가 신참이면 기득권자가 종료될 때까지 기다림(Wait)</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>
+    <ul>
+      <li>교착상태 발생 조건은 상호배제·점유와 대기·비선점·순환대기 <strong>4가지를 모두</strong> 만족해야 하며, "하나만 만족하면 발생"이라는 서술은 틀렸다.</li>
+      <li>자원할당 그래프와 은행원 알고리즘은 예방(Prevention)이 아니라 <strong>탐지(Detection)</strong>·회피(Avoidance) 기법에 해당한다.</li>
+      <li>Wait-Die 기법에서 요청자가 기득권자보다 고참이면 <strong>기다린다(Wait)</strong>. 반대로 "종료(Die)된다"는 설명은 Wound-Wait 기법과 혼동한 오답이다.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="db00-s07" class="section">
+  <h2>7. 다중버전 병행제어(MVCC) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.24-27)</span></h2>
+  <p>다중버전 병행제어 기법(Multi-Version Concurrency Control)은 공유 Lock의 한계를 극복하기 위해 변경 전 데이터를 UNDO 영역(롤백 세그먼트)에 저장하고, 시간별 버전 관리로 읽기와 쓰기의 충돌을 최소화하려는 동시성 제어 기법이다.</p>
+  <table>
+    <tr><th>MVCC 유형</th><th>설명</th></tr>
+    <tr><td>MV Timestamp Ordering</td><td>Timestamp를 시간 순서에 따라 부여하여 동시성 제어 기준으로 사용</td></tr>
+    <tr><td>MV 2-Phase Locking</td><td>데이터 항목에 R(읽기), W(쓰기), C(보증)의 세 가지 잠금 모드를 사용</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p025.jpg" alt="MVCC 구성도. Start SCN 100을 기준으로 하나의 데이터 블록에 대해 시간 순서대로 여러 버전이 UNDO 세그먼트 체인으로 연결된 구조를 보여줌"><figcaption>[그림] MVCC 구성도 — Start SCN 기준으로 UNDO 세그먼트 체인을 통해 트랜잭션 시작 이전 시점의 데이터 값을 재구성</figcaption></figure>
+  <p>MVCC의 동작 절차는 ① 데이터 변경 시마다 변경분을 Undo 영역에 저장 → ② 트랜잭션 시작 시점(SCN) 이후에 변경되었거나 아직 커밋되지 않은 데이터를 발견하면 Undo 영역에서 값을 가져오는 방식으로 읽음(일관성 읽기) → ③ 위처럼 동일 시점 이후의 Lock이 걸린 데이터를 읽어야 하는 트랜잭션은 Undo 영역의 이전 버전을 참조해 진행하는 순서로 이루어진다.</p>
+</section>
+
+<section id="db00-s08" class="section">
+  <h2>8. 그림자 페이지 기법 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.28-30)</span></h2>
+  <p>그림자 페이지 기법(Shadow Paging)은 트랜잭션 실행 동안 현재의 페이지 테이블(Current Table)과 그림자 페이지 테이블(Shadow Page Table)의 2개 테이블을 유지하는 회복 기법이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p028.jpg" alt="그림자 페이지 기법 구성도. Current Page Table과 Shadow Page Table이 각각 디스크 상의 페이지들을 가리키며, 커밋 시 Shadow Table이 Current Table로 교체되는 구조"><figcaption>[그림] 그림자 페이지 기법(Shadow Paging) 구성도 — 현재 페이지 테이블과 그림자 페이지 테이블의 이중 구조</figcaption></figure>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>절차</td><td>현재 페이지 테이블은 주기억 장치에, 그림자 페이지 테이블은 하드디스크(비휘발성)에 저장. Undo가 간단하고 Redo가 불필요하여 수행속도가 빠름</td></tr>
+    <tr><td>한계</td><td>여러 트랜잭션 수행 시 단독 사용이 어렵고, 데이터 단편화가 발생하며 그림자 페이지 저장에 따른 오버헤드가 존재함</td></tr>
+  </table>
+</section>
+
+<section id="db00-s09" class="section">
+  <h2>9. 데이터 모델링 3요소 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.31-33)</span></h2>
+  <table>
+    <tr><th>요소</th><th>설명</th></tr>
+    <tr><td>엔티티(Entity)</td><td>업무가 다루는 사물(대상). 하나로 묶을 수 있는 공통 성격을 갖는, 관리하고 있거나 관리하고자 하는 데이터 집합. 어떻게 정의하느냐에 따라 집합의 성격이 달라짐</td></tr>
+    <tr><td>속성(Attribute)</td><td>특정 엔티티의 본질을 이루는 고유한 특성이나 성질로, 엔티티 내에서 관리하고자 하는 정보 항목들. 모든 속성은 사전에 정해진 규칙에 따라 나타내는 정보와 사용 목적을 정확히 기술해야 하며, 지나친 반정규화는 고비용과 성격 변질의 원인이 됨</td></tr>
+    <tr><td>관계(Relationship)</td><td>엔티티 간의 업무적 연관성 표현. 관계명, 기수성(Cardinality), 선택성(Optionality)으로 업무적 연관성을 표현하며, 데이터의 참조무결성을 보장하기 위한 중요한 업무 규칙</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>데이터 모델링의 3요소는 Entity, Attribute, Relationship이며, <strong>Identifier(식별자)는 3요소에 포함되지 않는다</strong>는 점이 시험에 자주 출제된다.</div>
+</section>
+
+<section id="db00-s10" class="section">
+  <h2>10. 데이터베이스 카디널리티(Cardinality) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.34-38)</span></h2>
+  <p>카디널리티(Cardinality)란 두 개의 엔티티 타입 사이의 논리적인 관계, 즉 엔티티 타입이 존재하는 형태로써 최종 행태로써 서로에게 영향을 줄 수 있는 상태를 말한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p034.jpg" alt="카디널리티 표기법 표. One, Many, Zero or one, One or Many, Zero or Many 각 표기법에 대응하는 최소·최대 값과 ERD 크로우풋 표기 기호를 정리한 표"><figcaption>[그림] 카디널리티의 표기법 — One / Many / Zero or One / One or Many / Zero or Many의 최소·최대 값 및 ERD 표기 기호</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p035.jpg" alt="데이터베이스의 카디널리티 주요 유형 및 표기법 표. 1:1 관계(구매신청-구매주문), 1:M 관계(부서-사원), M:N 관계(주문-제품)를 각각 크로우풋 표기법 ERD 예시와 함께 설명"><figcaption>[그림] 카디널리티 주요 유형 예시 — 1:1(구매신청↔구매주문), 1:M(부서↔사원), M:N(주문↔제품) 관계의 크로우풋 표기</figcaption></figure>
+  <table>
+    <tr><th>참여 방법</th><th>내용</th></tr>
+    <tr><td>필수 관계</td><td>참여하는 모든 참여자가 반드시 관계를 가지는, 타 엔티티 타입의 참여자와 연결되어야 하는 관계</td></tr>
+    <tr><td>선택 관계</td><td>ER-D에서 관계를 나타내는 선에서 선택 참여하는 엔티티 타입 쪽을 원(circle)으로 표시</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>사례</th><th>설명</th></tr>
+    <tr><td>High Cardinality</td><td>주민번호, 사원번호</td><td>대한민국 전체가 서로 다른 값을 보유하는 등 유일성이 매우 높은 데이터</td></tr>
+    <tr><td>Normal Cardinality</td><td>이름의 성 컬럼</td><td>비교적 유니크한 데이터 값</td></tr>
+    <tr><td>Low Cardinality</td><td>성별, 부서, 지역</td><td>성별 속성처럼 남자·여자 등 소수의 값만 존재</td></tr>
+  </table>
+  <p>1:1 관계는 각 엔티티의 어느 입장에서든 반드시 하나씩만 관계를 가질 때 성립하며, 1:M 관계는 부모와 자식의 관계처럼 계층적인 구조를 가진다. M:N 관계는 관계형 데이터베이스에서 직접 표현할 수 없으므로 별도의 교차 엔티티(연결 테이블)를 통해 반드시 해소하여야 한다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"필수 관계는 ERD에서 선택 참여하는 엔티티 타입 쪽을 원으로 표시한다"는 서술은 필수 관계가 아니라 <strong>선택 관계</strong>에 대한 설명이므로 옳지 않다.</div>
+</section>
+
+<section id="db00-s11" class="section">
+  <h2>11. 식별관계 Vs 비식별 관계 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.39-41)</span></h2>
+  <table>
+    <tr><th>구분</th><th>식별 관계</th><th>비식별 관계</th></tr>
+    <tr><td>목적</td><td>강한 연결관계 표현</td><td>약한 연결관계 표현</td></tr>
+    <tr><td>자식 주식별자 영향</td><td>자식 주식별자의 구성에 포함됨</td><td>자식의 일반 속성에 포함됨</td></tr>
+    <tr><td>표기법</td><td>실선 표현</td><td>점선 표현</td></tr>
+    <tr><td>연결 고려사항</td><td>반드시 부모 엔티티에 종속 — 자식 주식별자 구성에 부모 주식별자 포함 필요, 상속받은 주식별자 속성을 타 엔티티에 이전 필요</td><td>약한 종속관계 — 자식 주식별자 구성을 독립적으로 구성, 부모 주식별자는 일반 속성으로만 포함, 상속받은 주식별자 속성을 타 엔티티에 차단 필요, 부모 쪽 관계 참여가 선택관계</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip</span>식별관계는 <strong>실선</strong>·강한 연결관계·자식 주식별자에 포함, 비식별관계는 <strong>점선</strong>·약한 연결관계·자식의 일반 속성에 포함으로 대응해 암기한다. "식별관계는 점선, 비식별관계는 실선"으로 뒤바꿔 서술하는 것이 전형적 오답이다.</div>
+</section>
+
+<section id="db00-s12" class="section">
+  <h2>12. 정보 요구사항 수명주기 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.42-44)</span></h2>
+  <table>
+    <tr><th>단계</th><th>내용</th></tr>
+    <tr><td>정보 요구사항 수집</td><td>사용자의 정보 요구사항을 수집하는 단계로서, 사용자 인터뷰·설문지·워크숍·현행 시스템 분석 등을 통해 수집</td></tr>
+    <tr><td>정보 요구사항 분석 및 정의</td><td>사용자로부터 수집된 정보 요구사항을 정리하고, 방법론에서 제시하는 다양한 기법으로 분석하여 정의</td></tr>
+    <tr><td>정보 요구사항 상세화</td><td>확정된 정보 요구사항의 개별 사항에 대하여 세밀하게 분석하고 기록하는 단계</td></tr>
+    <tr><td>정보 요구사항 검증</td><td>사용자의 정보 요구사항을 비즈니스 관점·조직 관점·애플리케이션 관점과 상관분석을 통해 누락 없이 반영되었는지 검증하는 단계</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"확정된 요구사항의 추적성을 확보하기 위한 매트릭스를 작성하는 단계"는 상세화 단계의 설명이 아니라 <strong>요구사항 추적성 관리</strong> 활동에 해당한다.</div>
+</section>
+
+<section id="db00-s13" class="section">
+  <h2>13. 데이터 모델링 단계 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.45-48)</span></h2>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p045.jpg" alt="데이터 모델링 단계 다이어그램. 개념적 데이터 모델링에서 일치검토를 거쳐 논리적 데이터 모델링(개체관계 구조)으로, 다시 물리적 데이터 모델링(저장 데이터베이스 구조)으로 이어지는 흐름"><figcaption>[그림] 데이터 모델링 단계 — 개념적 → 논리적 → 물리적 데이터 모델링 흐름</figcaption></figure>
+  <p>데이터베이스 설계는 데이터 모델링을 핵심 기법으로 사용하여 사용자 요구사항을 분석하고, 사용자가 요구하는 정보를 제공할 수 있도록 데이터베이스 구조와 접근 방법 등을 정의하는 것이다. 데이터 모델링은 이 과정에서의 핵심 기법으로, 사용자 요구사항을 분석하고 필요한 데이터 요소를 도출하여 적절한 데이터 구조를 정의하는 도구이며, 개체-관계 모델링(Entity-Relationship Modeling) 기법이 대표적이다.</p>
+  <table>
+    <tr><th>단계</th><th>주요 내용</th></tr>
+    <tr><td>개념적 모델링</td><td>핵심 엔티티를 먼저 추출하고 그들 간의 관계를 생성하여 전체 데이터 모델의 골격을 생성하는 과정. 기업이 사용하는 데이터의 최상위 집합인 주제영역을 정의</td></tr>
+    <tr><td>논리적 모델링</td><td>데이터의 구조와 무결성을 함께 고려하여 상세한 속성·정규화를 진행하는 단계</td></tr>
+    <tr><td>물리적 모델링</td><td>각 DBMS의 특성을 고려하여 데이터베이스 저장 구조를 변환하는 모델링</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"논리적 모델링에서는 구조만, 물리적 모델링에서는 무결성만 고려한다"는 서술은 옳지 않다. <strong>논리적 모델링 단계에서 데이터의 구조와 무결성을 함께 고려</strong>한다.</div>
+</section>
+
+<section id="db00-s14" class="section">
+  <h2>14. 이상 현상 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.49-52)</span></h2>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>정의</td><td>잘못 설계된 데이터베이스 릴레이션에 관계연산을 적용할 때, 데이터 불일치·데이터 중복·데이터 손실 등 원치 않는 결과가 도출되는 현상. 릴레이션 조작 시(입력·수정·삭제) 속성 간 중복 및 종속 관계로 인해 발생하는 비합리적인 현상</td></tr>
+    <tr><td>발생 원인</td><td>여러 가지 종류의 사실들을 하나의 릴레이션으로 표현하려 하기 때문에 발생하며, Attribute 간에 존재하는 여러 종속 관계를 하나의 릴레이션으로 표현할 때 발생. 즉 속성 간 존재하는 여러 종속 관계에 대해 정규화가 실행되지 않았기 때문</td></tr>
+  </table>
+  <table>
+    <tr><th>유형</th><th>내용</th></tr>
+    <tr><td>삽입 이상(Insertion Anomaly)</td><td>특정 tuple을 삽입하려 할 때 원하지 않는 불필요한 데이터도 함께 삽입해야 하는 현상. 예: 새 학생을 추가할 때 불필요한 성적을 함께 입력해야 함</td></tr>
+    <tr><td>삭제 이상(Deletion Anomaly)</td><td>특정 tuple을 삭제할 경우 유지되어야 하는 정보까지도 함께 삭제되는 연쇄 삭제 현상. 예: 특정 학생 정보를 삭제할 경우 해당 학생만 수강한 과목 정보도 함께 삭제됨</td></tr>
+    <tr><td>갱신 이상(Update Anomaly)</td><td>특정 속성값 갱신 시 중복 저장된 속성값 중 일부만 갱신하고 나머지는 갱신하지 않아 발생하는 데이터 불일치 현상. 예: 학생이 이사하여 주소가 변경되었을 때 중복된 행 중 일부만 수정하면 불일치 발생</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>정규화는 데이터 중복을 제거하여 이상 현상을 없애는 무손실 분해 과정이므로, "무리한 정규화로 인해 과다한 조인으로 이상 현상이 발생한다"는 서술은 이상 현상의 발생 원인으로 옳지 않다.</div>
+</section>
+
+<section id="db00-s15" class="section">
+  <h2>15. 반정규화 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.53-57)</span></h2>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p053.jpg" alt="반정규화 절차 3단계 흐름도. 1.반정규화 대상 조사 → 2.대안 검토 → 3.반정규화 적용 순서로 화살표로 연결된 구조"><figcaption>[그림] 반정규화 절차 — ① 반정규화 대상 조사 → ② 대안 검토 → ③ 반정규화 적용</figcaption></figure>
+  <table>
+    <tr><th>절차</th><th>방법</th><th>설명</th></tr>
+    <tr><td rowspan="4">1. 반정규화 대상 조사</td><td>범위 처리 빈도수 조사</td><td>자주 사용되는 테이블에 접근하는 프로세스 수가 많고, 항상 일정한 범위만을 조회하는 경우</td></tr>
+    <tr><td>대량의 범위처리 조사</td><td>테이블에 대량의 데이터가 있고 대량의 데이터 범위를 자주 처리하는 경우, 처리 범위를 일정하게 줄이지 않으면 성능을 보장할 수 없는 경우</td></tr>
+    <tr><td>통계성 프로세스 조사</td><td>통계성 프로세스로 통계 정보를 산출할 때 별도의 통계 테이블(반정규화 테이블)을 생성</td></tr>
+    <tr><td>테이블 조인 개수 조사</td><td>테이블에 지나치게 많은 조인(Join)이 걸려 데이터 조회 작업이 기술적으로 어려운 경우 뷰(View)를 사용</td></tr>
+    <tr><td rowspan="4">2. 대안 검토</td><td>뷰(View) 테이블</td><td>지나치게 많은 조인이 걸려 조회가 어려운 경우 뷰(View)를 사용</td></tr>
+    <tr><td>클러스터링 적용</td><td>대량의 데이터를 특정 클러스터링 팩터에 의해 저장 방식을 다르게 하는 방법(조회 중심 테이블에만 적용 가능)</td></tr>
+    <tr><td>인덱스 적용</td><td>인덱스를 통해 성능을 충분히 확보할 수 있다면 인덱스 조정으로 반정규화를 회피</td></tr>
+    <tr><td>응용 애플리케이션</td><td>응용 애플리케이션의 로직을 변경함으로써 성능을 향상</td></tr>
+    <tr><td>3. 반정규화 적용</td><td colspan="2">테이블, 속성, 관계의 반정규화 기법을 적용</td></tr>
+  </table>
+  <table>
+    <tr><th>구분</th><th>기법</th><th>설명</th></tr>
+    <tr><td rowspan="3">테이블</td><td>테이블 병합</td><td>조인되는 경우가 많아 테이블을 합치는 것이 성능 향상에 효율적일 경우 적용(1:1, 1:M, Super/Sub Type 관계 테이블 병합)</td></tr>
+    <tr><td>테이블 분할</td><td>특정 속성들만 집중적으로 접근할 경우 수직분할(특정 속성만 접근이 잦을 때 컬럼 분리) 또는 수평분할(연도별 이력 조회 등 Row별 구분)을 적용. 접근 빈도·잠김 현상·경합 현상은 감소하지만 전체 조회 시 UNION이 필요해 성능이 느려질 수 있음</td></tr>
+    <tr><td>테이블 추가</td><td>중복테이블(원격조인 제거), 통계테이블(SUM·AVG 등 사전 계산), 이력테이블, 부분테이블(자주 이용하는 컬럼만 모은 별도 테이블) 등</td></tr>
+    <tr><td rowspan="4">컬럼</td><td>중복컬럼 추가</td><td>조인을 감소시키기 위해 중복된 컬럼을 추가</td></tr>
+    <tr><td>파생컬럼 추가</td><td>트랜잭션 처리 시점에 계산하면 성능이 저하되는 값을 미리 계산해 컬럼으로 추가</td></tr>
+    <tr><td>이력 테이블 컬럼 추가</td><td>대량 데이터에서 특정 시점·최근 값 조회 시 성능저하 예방을 위해 이력테이블에 기능성 컬럼 추가</td></tr>
+    <tr><td>PK에 의한 컬럼 추가</td><td>복합 의미를 갖는 PK를 단일 속성으로 구성하였을 경우 발생</td></tr>
+    <tr><td>관계</td><td>중복관계 추가</td><td>여러 경로의 조인으로 인한 성능저하를 예방하기 위해 추가적인 관계를 맺는 방법</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>반정규화의 절차는 <strong>① 대상 조사 → ② 대안 검토 → ③ 반정규화 적용</strong> 순이다. "대안검토 → 대상조사 → 반정규화 적용"으로 순서를 뒤바꾸는 것이 전형적인 오답이며, 반정규화의 대상은 테이블·속성·관계 3가지다.</div>
+</section>
+
+<section id="db00-s16" class="section">
+  <h2>16. 집계함수 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.58-61)</span></h2>
+  <table>
+    <tr><th>집계함수</th><th>사용 목적</th></tr>
+    <tr><td>COUNT(*)</td><td>NULL 값을 포함한 행의 수를 출력</td></tr>
+    <tr><td>COUNT(표현식)</td><td>표현식의 값이 NULL이 아닌 행의 수를 출력</td></tr>
+    <tr><td>SUM([DISTINCT|ALL] 표현식)</td><td>표현식의 값이 NULL이 아닌 합계를 출력</td></tr>
+    <tr><td>AVG([DISTINCT|ALL] 표현식)</td><td>표현식의 값이 NULL이 아닌 평균을 출력</td></tr>
+    <tr><td>MAX / MIN([DISTINCT|ALL] 표현식)</td><td>표현식의 최댓값 / 최솟값을 출력</td></tr>
+    <tr><td>STDDEV([DISTINCT|ALL] 표현식)</td><td>표현식의 표준편차를 출력</td></tr>
+    <tr><td>VARIANCE([DISTINCT|ALL] 표현식)</td><td>표현식의 분산을 출력</td></tr>
+  </table>
+  <p>GROUP BY 절은 SQL문에서 FROM절과 WHERE절 뒤에 오며, 데이터들을 작은 그룹으로 분류해 소그룹에 대한 항목별 통계 정보를 얻을 때 사용한다. 집계 함수의 통계 정보는 <strong>NULL 값을 가진 행을 제외</strong>하고 수행되며, GROUP BY 절에서는 ALIAS를 사용할 수 없다. 집계함수는 WHERE절에는 사용할 수 없고, HAVING절·SELECT절·ORDER BY절에서 사용 가능하다. HAVING절은 GROUP BY 절의 기준 항목이나 소그룹의 집계 함수를 이용한 조건을 표시할 수 있으며, GROUP BY 절로 만들어진 소그룹별 집계 데이터 중 HAVING절 조건을 만족하는 내용만 출력한다.</p>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>집계함수의 통계 정보는 NULL 값을 가진 행을 <strong>제외</strong>하고 수행되며, "NULL 값을 가진 행을 포함하고 수행한다"는 서술은 옳지 않다.</div>
+</section>
+
+<section id="db00-s17" class="section">
+  <h2>17. 비용 기반 옵티마이저(CBO) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.62-64)</span></h2>
+  <p>CBO(Cost Based Optimizer)는 SQL문을 처리하는 데 필요한 비용이 가장 적은 실행계획을 선택하는 방식이다. 비용이란 SQL문을 처리하기 위해 예상되는 소요시간 또는 자원 사용량을 의미하며, 비용을 예측하기 위해 테이블·인덱스·컬럼 등의 객체 통계정보와 시스템 통계정보를 이용한다. 통계정보가 없으면 CBO는 정확한 비용 예측이 불가능해져 비효율적인 실행계획을 생성하므로, 정확한 통계정보를 유지하는 것이 비용 기반 최적화의 핵심이다.</p>
+  <table>
+    <tr><th>구성요소</th><th>설명</th></tr>
+    <tr><td>질의 변환기</td><td>사용자가 작성한 SQL문을 처리하기에 보다 용이한 형태로 변환하는 모듈</td></tr>
+    <tr><td>대안계획 생성기</td><td>동일한 결과를 생성하는 다양한 대안 계획을 생성하는 모듈. 연산의 적용 순서 변경, 연산 방법 변경, 조인 순서 변경 등을 통해 생성</td></tr>
+    <tr><td>비용 예측기</td><td>대안계획 생성기가 생성한 대안 계획의 비용을 예측하는 모듈. 연산의 중간 집합 크기 및 결과 집합의 크기·분포 등의 예측이 정확해야 함</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"실행계획을 생성하는 규칙을 이해하면 누구나 실행계획을 비교적 쉽게 예측할 수 있다"는 설명은 CBO가 아니라 규칙 기반의 <strong>RBO(Rule Based Optimizer)</strong>의 특징이다.</div>
+</section>
+
+<section id="db00-s18" class="section">
+  <h2>18. SQL Blind Injection <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.65-68)</span></h2>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p065.jpg" alt="SQL Blind Injection 공격 흐름도. 로그인 화면에 조작된 쿼리를 삽입하여 참(TRUE)/거짓(FALSE) 반응 차이로 정보를 알아내는 공격 방식 다이어그램"><figcaption>[그림] SQL Blind Injection 공격 방식 — 조작된 쿼리 삽입 후 화면의 참/거짓 반응 차이를 이용해 정보를 추출</figcaption></figure>
+  <p>SQL Blind Injection은 SQL Injection 공격 중 화면에 에러 메시지 등 직접적인 정보가 노출되지 않는 경우, 쿼리를 삽입했을 때 나타나는 참(TRUE)과 거짓(FALSE)에 대한 반응 차이를 이용해 정보를 알아내는 공격 기법이다.</p>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>공격 기법</td><td>추론 기법(Boolean-based Blind), 외부 대역 채널(Out-of-band) 기법 등</td></tr>
+    <tr><td>사용 조건</td><td>쿼리를 삽입하였을 때 쿼리의 참·거짓에 대한 반응을 구분할 수 있을 때 사용</td></tr>
+    <tr><td>대응 방법</td><td>Secure Coding, 최소한의 권한 부여, Static SQL(정적 SQL) 사용 등</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"화면에 노출된 DB 에러 메시지를 이용한 공격 방식"은 <strong>Error-based SQL Injection</strong>(일반 SQL Injection)의 특징이며, 에러 메시지 없이 참/거짓 반응만으로 추론하는 <strong>Blind Injection</strong>과는 구분된다.</div>
+</section>
+
+<section id="db00-s19" class="section">
+  <h2>19. CRISP-DM <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.69-72)</span></h2>
+  <p>데이터를 수집해서 바로 활용하기는 어려우며, 수집 후 원하는 형태로 정제한 다음 분석하는 작업이 필요하다. 빅데이터 분석의 일반적인 흐름은 <strong>데이터 수집 → 데이터 정제 → 데이터 분석 → 데이터 정보화 → 정보 활용</strong>의 순서로 진행된다.</p>
+  <p>CRISP-DM(Cross Industry Standard Process for Data Mining)은 이러한 분석 과정을 6단계의 순환적 방법론으로 구체화한 빅데이터 분석 표준 방법론이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB00fig/p070.jpg" alt="CRISP-DM 방법론 원형 순환 다이어그램. 비즈니스 이해, 데이터 이해, 데이터 준비, 모델링, 평가, 전개(적용) 6단계가 중앙의 데이터를 중심으로 원형으로 순환하는 구조"><figcaption>[그림] CRISP-DM 6단계 순환 다이어그램 — 비즈니스 이해 → 데이터 이해 → 데이터 준비 → 모델링 → 평가 → 전개(적용)</figcaption></figure>
+  <table>
+    <tr><th>단계</th><th>설명</th></tr>
+    <tr><td>비즈니스 이해(Business Understanding)</td><td>비즈니스 목표를 이해하고 이를 데이터 수집의 목표로 정의</td></tr>
+    <tr><td>데이터 이해(Data Understanding)</td><td>초기 데이터를 수집하고, 데이터의 속성을 이해하기 위한 활동을 수행</td></tr>
+    <tr><td>데이터 준비(Data Preparation)</td><td>분석 모델링에 필요한 데이터를 수집된 빅데이터에서 추출·가공</td></tr>
+    <tr><td>모델링(Modeling)</td><td>다양한 모델링 기법을 선택하고 적용해 분석 모델을 구축</td></tr>
+    <tr><td>평가(Evaluation)</td><td>분석 모델에 대해 평가하고, 비즈니스 목표를 달성할 분석 모델을 선정</td></tr>
+    <tr><td>전개/적용(Deployment)</td><td>보고서 작성 및 시각화 수행 등 분석 결과를 실무에 적용</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>"모형 단계(Modeling)에서 분석 모델링에 필요한 데이터를 수집된 빅데이터에서 추출한다"는 설명은 모델링 단계가 아니라 <strong>데이터 준비(Data Preparation)</strong> 단계에 해당한다.</div>
+</section>
+
+<section id="db00-s20" class="section">
+  <h2>20. 빅데이터 분석 기법 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.73-75)</span></h2>
+  <p>데이터 분석을 위해서는 수집한 데이터를 가장 잘 아는 전문가의 경험에 의해 다양하게 분석될 수 있으며, 아래의 기본 방법을 주로 사용한다.</p>
+  <table>
+    <tr><th>기법</th><th>내용</th></tr>
+    <tr><td>연관규칙학습(Association Rule Learning)</td><td>상품이나 서비스 간의 관계를 살펴봄</td></tr>
+    <tr><td>유전 알고리즘(Genetic Algorithms)</td><td>다윈의 적자생존 이론을 기본으로 살펴봄</td></tr>
+    <tr><td>회귀분석(Regression Analysis)</td><td>변수 간의 상호 관련성을 규명하고 변화를 예측하며 살펴봄</td></tr>
+    <tr><td>유형분석(Classification Tree Analysis)</td><td>데이터의 유형을 분류하여 범주를 찾아내는 통계적 분류로 살펴봄</td></tr>
+    <tr><td>기계학습(Machine Learning)</td><td>훈련 데이터를 기초로 새롭게 입력되는 값의 예측 결과를 살펴봄</td></tr>
+    <tr><td>소셜네트워크 분석(Social Network Analysis)</td><td>특정한 부분과 다른 부분과의 관계를 파악하여 살펴봄</td></tr>
+    <tr><td>감정분석(Sentiment Analysis)</td><td>특정 주제나 사람의 감정을 분석하여 살펴봄</td></tr>
+  </table>
+  <div class="tip-box"><span class="tip-h">💡 Tip · 오답 포인트</span>
+    <ul>
+      <li>다윈의 적자생존 이론을 기본으로 하는 기법은 기계학습이 아니라 <strong>유전 알고리즘(Genetic Algorithms)</strong>이다.</li>
+      <li>변수 간 상호 관련성을 규명하고 변화를 예측하는 기법은 연관규칙학습이 아니라 <strong>회귀분석(Regression Analysis)</strong>이다.</li>
+      <li>특정 부분과 다른 부분과의 관계를 파악하는 기법은 감정분석이 아니라 <strong>소셜네트워크 분석(Social Network Analysis)</strong>이다.</li>
+    </ul>
+  </div>
+</section>
+
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (20문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF는 각 토픽마다 문제 슬라이드와 정답 공개 슬라이드가 별도로 반복 수록되어 있습니다. 아래는 <strong>중복을 제거하고 문항별로 1개씩 정리</strong>한 것으로, 문제·선택지·정답·해설은 원문 내용을 빠짐없이 반영했습니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 인공지능이 연구하는 영역으로 "근본 원리에 대한 깊은 이해를 바탕으로 도출하는 창의적 아이디어"를 뜻하는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.5)</span></div><ol class="quiz-options"><li>데이터(Data)</li><li>정보(Information)</li><li>지식(Knowledge)</li><li>지혜(Wisdom)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ 지혜(Wisdom)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 데이터베이스의 특성을 설명한 것 중 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.10)</span></div><ol class="quiz-options"><li>데이터 종속성으로 데이터 변경(구성, 접근방법 등) 시 응용프로그램 변경 초래</li><li>수시적이고 비정형적인 질의(Query)에 대하여 실시간 처리로 응답</li><li>여러 사용자가 동시에 자기가 원하는 데이터에 접근 이용 가능</li><li>사용자가 요구하는 데이터의 내용, 즉 데이터가 가지고 있는 값에 따라 참조</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 데이터 종속성으로 인한 응용프로그램 변경은 파일 시스템의 특성이며, 데이터베이스의 특성이 아님. ②는 실시간 접근성, ③은 동시 공용, ④는 내용에 의한 참조에 해당</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 데이터베이스관리시스템(DBMS)의 구성요소에 대한 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.13-14)</span></div><ol class="quiz-options"><li>예비컴파일러는 응용 프로그램 속에 삽입시킨 DML 명령어를 추출한다.</li><li>저장 데이터 관리자는 일반 사용자가 입력한 데이터 값만을 저장하여 데이터를 보호한다.</li><li>런타임 DB처리기는 검색이나 갱신과 같은 DB연산을 저장 데이터 관리자를 통해 디스크에 저장된 DB에 실행한다.</li><li>DDL 컴파일러는 DDL로 명세한 스키마를 내부 형태로 처리하여 데이터 사전에 저장한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 저장 데이터 관리자는 디스크에 있는 데이터베이스나 카탈로그 접근을 책임지는 구성요소이며, "사용자가 입력한 데이터 값만을 저장"한다는 설명은 옳지 않음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 트랜잭션 특성을 보장해주는 DBMS의 기능 연결이 틀린 것을 2개 선택하시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.16)</span></div><ol class="quiz-options"><li>원자성(Atomicity) — 동시성 제어</li><li>일관성(Consistency) — 무결성 제약조건</li><li>고립성(Isolation) — 회복</li><li>영속성(Durability) — 동시성 제어</li></ol><div class="quiz-explanation"><strong>정답</strong> ①, ③ — 올바른 대응은 원자성→회복, 일관성→무결성 제약조건, 고립성→동시성 제어, 영속성→회복</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 고립 수준인 Serializable Read에서 발생 가능한 현상으로 맞는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.19)</span></div><ol class="quiz-options"><li>없음</li><li>Dirty Read</li><li>Dirty Read, Non-Repeatable Read</li><li>Phantom Read</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — Serializable(Level 3)에서는 Dirty Read, Non-Repeatable Read, Phantom Read 모두 불가능</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 교착상태(Dead Lock)를 설명한 것으로 맞는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.22-23)</span></div><ol class="quiz-options"><li>발생 조건은 상호배제, 점유와 대기, 순환대기 중 하나를 만족하면 발생한다.</li><li>해결책으로 회피, 예방, 탐지, 회복이 있다.</li><li>예방의 방법으로는 자원할당 그래프와 은행원 알고리즘이 있다.</li><li>Wait-Die 기법은 요청자가 기득권자보다 고참이면 종료될 때까지 기다린다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — ①은 4가지 조건(상호배제·점유와대기·비선점·순환대기)을 모두 만족해야 발생, ③ 자원할당 그래프·은행원 알고리즘은 탐지 기법, ④ Wait-Die가 아니라 Wound-Wait 기법의 설명</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 아래 설명한 동시성 제어기법을 선택하시오. "공유 Lock의 한계를 극복하기 위해 변경전 데이터를 UNDO 영역(롤백세그먼트)에 저장, 시간별 버전관리로 읽기와 쓰기의 충돌을 최소화하려는 동시성 제어기법" <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.26-27)</span></div><ol class="quiz-options"><li>2Phase Locking</li><li>Timestamp Ordering</li><li>Validation</li><li>Multi-Version Concurrency Control</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ Multi-Version Concurrency Control(MVCC)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 그림자 페이지 회복 기법의 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.29-30)</span></div><ol class="quiz-options"><li>현재 페이징 테이블은 주기억 장치, 그림자 페이지는 하드디스크(비휘발성)에 저장</li><li>Undo가 간단하고 Redo가 불필요, 수행속도 빠름</li><li>여러 트랜잭션 수행 시 단독 사용 용이</li><li>데이터 단편화 발생, 그림자 페이지 저장에 따른 오버헤드</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 그림자 페이지 기법은 여러 트랜잭션 수행 시 단독 사용이 <strong>어렵다</strong></div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 데이터 모델링의 3요소가 아닌 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.32-33)</span></div><ol class="quiz-options"><li>Entity</li><li>Attribute</li><li>Identifier</li><li>Relationship</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 데이터 모델링의 3요소는 Entity, Attribute, Relationship이며 Identifier(식별자)는 포함되지 않음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 관계 카디널리티의 설명으로 부적절한 것을 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.37, 40-41)</span></div><ol class="quiz-options"><li>필수 관계는 ERD에서 관계를 나타내는 선에서 선택 참여하는 엔티티 타입 쪽을 원으로 표시</li><li>1:1 관계는 각 엔티티의 어느 입장에서 반드시 하나씩 관계를 가질 때 성립</li><li>1:M 관계는 부모와 자식의 관계처럼 계층적인 구조</li><li>M:N관계는 반드시 해소하여야 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — ①은 필수 관계가 아니라 <strong>선택 관계</strong>에 대한 설명이므로 부적절함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. 식별관계와 비식별관계를 가장 잘 표현한 것을 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.38)</span></div><ol class="quiz-options"><li>식별관계는 점선으로 표현하고, 비식별관계는 실선으로 표현한다.</li><li>식별관계는 약한 연결관계를 표현한다.</li><li>식별관계는 강한 연결관계를 표현한다.</li><li>식별관계는 자식 주식별자의 구성에 포함된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 식별관계는 실선·강한 연결관계이며, 자식 주식별자의 구성에 포함됨(②·③은 식별관계와 비식별관계 설명이 뒤바뀌었거나 일부만 맞는 선지, ①은 실선·점선이 반대)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 정보 요구사항 수명 주기 단계 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.43-44)</span></div><ol class="quiz-options"><li>수집 단계에서는 사용자 인터뷰, 설문지, 워크숍, 현행 시스템 분석 등을 통해 수집하는 단계</li><li>분석은 요구사항을 정리하고 방법론에서 제시하는 다양한 기법으로 분석, 정의하는 단계</li><li>상세화 단계는 확정된 요구사항의 추적성을 확보하기 위한 매트릭스를 작성하는 단계</li><li>사용자 요구사항을 비즈니스 관점, 조직 관점, 애플리케이션 관점과 상관 분석을 통해 누락 없이 반영되었는지 검증하는 단계</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 요구사항 추적성 확보를 위한 매트릭스 작성은 상세화 단계가 아니라 <strong>요구사항 추적성 관리</strong> 활동</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 데이터 모델링 단계에 대한 설명으로 맞는 것을 2가지 고르시오. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.47-48)</span></div><ol class="quiz-options"><li>논리적 모델에서 기업이 사용하는 데이터의 최상위 집합인 주제영역을 정의한다.</li><li>개념적 모델링은 핵심 엔티티를 먼저 추출하고 그들 간의 관계를 생성하여 전체 데이터 모델의 골격을 생성하는 과정이다.</li><li>논리적 모델링에서는 데이터의 구조를 고려하고, 물리적 모델링에서는 무결성을 고려한다.</li><li>물리적 모델링에서는 각 DBMS의 특성을 고려하여 데이터베이스 저장 구조를 변환하는 모델링이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ②, ④ — ①의 주제영역 정의는 논리적 모델링이 아니라 <strong>개념적 모델링</strong>의 활동, ③은 논리적 모델링 단계에서 구조와 무결성을 함께 고려하므로 틀림</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 데이터 이상 현상 발생원인으로 바르지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.51-52)</span></div><ol class="quiz-options"><li>여러가지 종류의 사실들을 하나의 릴레이션으로 표현하려고 하기 때문에 발생</li><li>Attribute 간에 존재하는 여러 가지 종속 관계를 하나의 릴레이션으로 표현 시 발생</li><li>속성간에 존재하는 여러가지 종속 관계에 대해 정규화가 실행되지 않은 이유</li><li>무리한 정규화로 인해 과다한 조인으로 이상 현상이 발생</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 정규화는 데이터 중복을 제거하여 이상현상을 제거하는 무손실 분해 과정이므로, 무리한 정규화가 이상 현상의 발생 원인이라는 서술은 옳지 않음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 반정규화의 설명으로 옳은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.56-57)</span></div><ol class="quiz-options"><li>반정규화 단계는 대안검토 → 대상 조사 → 반정규화 적용이다</li><li>대안 검토 방안으로는 범위처리 빈도 조사, 대량의 범위처리 조사, 통계성 조사 등이 있다.</li><li>반정규화 대상은 테이블과 속성, 관계이다.</li><li>테이블 반정규화 기법으로는 테이블 분할, 중복관계 추가 등이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — ① 반정규화 단계는 대상조사 → 대안검토 → 적용 순, ② 범위처리 빈도 조사 등은 대안검토가 아닌 대상 조사 방안, ④ 중복관계 추가는 테이블이 아닌 관계 반정규화 기법</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. 그룹 함수에 대하여 틀린 설명은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.60-61)</span></div><ol class="quiz-options"><li>VARIANCE([DISTINCT | ALL] 표현식)은 표현식의 분산을 출력하는 함수이다.</li><li>MAX([DISTINCT | ALL] 표현식), MIN([DISTINCT | ALL] 표현식)은 최대, 최소 값을 출력</li><li>SELECT절, HAVING절, ORDER BY 절에 사용 가능</li><li>집계 함수의 통계 정보는 NULL 값을 가진 행을 포함하고 수행</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 집계 함수의 통계 정보는 NULL 값을 가진 행을 <strong>제외</strong>하고 수행됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 비용 기반 옵티마이저에 대한 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.63-64)</span></div><ol class="quiz-options"><li>비용이 가장 적은 실행계획을 선택하는 방식</li><li>다양한 객체 통계정보와 시스템 통계정보 등을 이용</li><li>구성요소로는 질의 변환기, 대안계획 생성기, 비용 예측기</li><li>실행계획을 생성하는 규칙을 이해하면 누구나 실행계획을 비교적 쉽게 예측</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 규칙을 이해하면 실행계획을 예측할 수 있다는 것은 CBO가 아니라 RBO(Rule Based Optimizer)의 특징</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. SQL Blind Injection에 대한 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.67-68)</span></div><ol class="quiz-options"><li>공격 기법으로 추론기법, 외부 대역 채널 기법 등이 있다.</li><li>쿼리를 삽입하였을 때, 쿼리의 참과 거짓에 대한 반응을 구분할 수 있을 때에 사용</li><li>Error-based Injection으로 화면에 노출된 DB 에러 메시지를 이용한 공격 방식</li><li>대응 방법으로는 Secure Coding, 최소한의 권한 부여, Static SQL 사용 등이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 화면에 노출된 DB 에러 메시지를 이용하는 것은 (Blind가 아닌) 일반 SQL Injection(Error-based Injection)의 공격 방식</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 빅데이터 분석 방법론인 CRISP-DM 단계의 설명으로 틀린 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.71-72)</span></div><ol class="quiz-options"><li>모형 단계에서는 분석 모델링에 필요한 데이터를 수집된 빅데이터에서 추출</li><li>비즈니스의 이해 단계에서는 이를 데이터 수집의 목표로 정의</li><li>평가 단계에서는 분석 모델에 대해 평가하고, 비즈니스 목표를 달성할 분석 모델을 선정</li><li>적용 단계에서는 보고서 작성 및 시각화 수행</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 분석 모델링에 필요한 데이터를 수집된 빅데이터에서 추출하는 것은 모형(Modeling) 단계가 아니라 <strong>데이터 준비(Data Preparation)</strong> 단계</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. 빅데이터 분석 기법 설명으로 맞는 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.74-75)</span></div><ol class="quiz-options"><li>기계 학습은 다윈의 적자 생존 이론이 기본</li><li>연관 규칙 학습은 변수 간의 상호 관련성을 규명하고 변화를 예측</li><li>감정 분석은 특정한 부분과 다른 부분과의 관계를 파악</li><li>유형 분석은 데이터의 유형을 분류하여 범주를 찾아내는 통계적 분류</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — ① 다윈의 적자생존 이론 기반은 유전 알고리즘, ② 변수 간 상호관련성 규명·변화 예측은 회귀분석, ③ 부분 간 관계 파악은 소셜네트워크 분석의 설명</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

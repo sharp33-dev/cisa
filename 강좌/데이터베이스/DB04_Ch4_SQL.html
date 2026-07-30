@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB04] Ch4 · SQL</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB04] Ch4 · SQL</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/134</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#db04-s01">1. SQL</a></li><li><a href="#db04-s02">2. VIEW</a></li><li><a href="#db04-s03">3. 인덱스</a></li><li><a href="#db04-s04">4. 튜닝</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (34)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="db04-s01" class="section">
+  <h2>1. SQL <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-80)</span></h2>
+
+  <h3>가. SQL 표준화와 데이터 타입</h3>
+  <table>
+    <tr><th>연도</th><th>내용</th></tr>
+    <tr><td>1970년</td><td>Dr. E. F. Codd 관계형 DBMS(Relation DB) 논문 발표</td></tr>
+    <tr><td>1974년</td><td>IBM SQL 개발</td></tr>
+    <tr><td>1979년</td><td>Oracle 상용 DBMS 발표</td></tr>
+    <tr><td>1986년</td><td>ANSI/ISO SQL 표준 최초 제정(SQL-86, SQL1)</td></tr>
+    <tr><td>1992년</td><td>ANSI/ISO SQL 표준 개정(SQL-92, SQL2)</td></tr>
+    <tr><td>1999년</td><td>ANSI/ISO SQL 표준 개정(SQL-99, SQL3)</td></tr>
+  </table>
+  <table>
+    <tr><th>Data Type</th><th>설명</th></tr>
+    <tr><td>CHARACTER(s)</td><td>고정 길이 문자열(Oracle·SQL Server 모두 CHAR). 할당된 값의 길이가 s보다 작으면 남는 공간을 공백으로 채움</td></tr>
+    <tr><td>VARCHAR(s)</td><td>CHARACTER VARYING의 약자로 가변 길이 문자열(Oracle은 VARCHAR2, SQL Server는 VARCHAR). 할당된 값의 바이트만 적용</td></tr>
+    <tr><td>NUMERIC</td><td>정수·실수 등 숫자 정보(Oracle은 NUMBER). 예: 정수부 6자리·소수부 2자리인 경우 NUMBER(8,2)</td></tr>
+    <tr><td>DATETIME</td><td>날짜와 시각 정보(Oracle은 DATE, SQL Server는 DATETIME). Oracle은 1초 단위, SQL Server는 3.33ms 단위로 관리</td></tr>
+  </table>
+
+  <h3>나. 제약조건과 DDL(CREATE/ALTER/DROP/TRUNCATE)</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>PRIMARY KEY(기본키)</td><td>행 데이터를 고유하게 식별. 정의 시 DBMS가 자동으로 UNIQUE 인덱스 생성, NULL 입력 불가(기본키 제약 = 고유키 제약 + NOT NULL 제약)</td></tr>
+    <tr><td>UNIQUE KEY(고유키)</td><td>행 데이터를 고유하게 식별하되, NULL은 고유키 제약 대상이 아니므로 NULL 값을 가진 행이 여러 개 있어도 위반이 아님</td></tr>
+    <tr><td>NOT NULL</td><td>NULL 값의 입력을 금지해 해당 컬럼을 입력 필수로 지정</td></tr>
+    <tr><td>CHECK</td><td>입력 가능한 값의 범위 등을 제한, TRUE/FALSE로 평가되는 논리식을 지정</td></tr>
+    <tr><td>FOREIGN KEY(외래키)</td><td>다른 테이블의 기본키를 참조. 지정 시 참조 무결성 제약 옵션(CASCADE/NULL/DEFAULT/RESTRICT/NO ACTION) 선택 가능</td></tr>
+  </table>
+  <p>CREATE TABLE 구문은 컬럼을 괄호로 묶고 콤마로 구분하며 세미콜론으로 끝나야 한다. 테이블명·컬럼명은 문자로 시작해야 하며, 벤더가 정의한 예약어는 사용할 수 없다.</p>
+  <table>
+    <tr><th>명령</th><th>구문 요지</th></tr>
+    <tr><td>ADD COLUMN</td><td>ALTER TABLE 테이블명 ADD 추가할 컬럼명 데이터유형;</td></tr>
+    <tr><td>DROP COLUMN</td><td>ALTER TABLE 테이블명 DROP COLUMN 삭제할 컬럼명;</td></tr>
+    <tr><td>MODIFY COLUMN</td><td>ALTER TABLE 테이블명 MODIFY (컬럼명 데이터유형 [DEFAULT 식] [NOT NULL]);</td></tr>
+    <tr><td>RENAME COLUMN</td><td>ALTER TABLE 테이블명 RENAME COLUMN 변경 전 컬럼명 TO 변경 후 컬럼명;</td></tr>
+    <tr><td>ADD/DROP CONSTRAINT</td><td>ALTER TABLE 테이블명 ADD/DROP CONSTRAINT 제약조건명 ...;</td></tr>
+    <tr><td>RENAME TABLE</td><td>RENAME 변경 전 테이블명 TO 변경 후 테이블명;</td></tr>
+    <tr><td>DROP TABLE</td><td>DROP TABLE 테이블명 [CASCADE CONSTRAINT]; — CASCADE CONSTRAINT는 참조하던 제약조건도 함께 삭제</td></tr>
+    <tr><td>TRUNCATE TABLE</td><td>TRUNCATE TABLE 테이블명; — 모든 행을 제거하고 저장 공간을 재사용 가능하도록 해제(DDL, 롤백 불가)</td></tr>
+  </table>
+
+  <h3>다. DML — INSERT/UPDATE/DELETE/SELECT와 WHERE절 연산자</h3>
+  <table>
+    <tr><th>명령</th><th>설명</th></tr>
+    <tr><td>INSERT(삽입)</td><td>INSERT INTO 테이블명(컬럼리스트) VALUES (값리스트);</td></tr>
+    <tr><td>UPDATE(수정)</td><td>UPDATE 테이블명 SET 수정할 컬럼명 = 값 [WHERE 조건];</td></tr>
+    <tr><td>DELETE(삭제)</td><td>DELETE FROM 테이블명 [WHERE 조건];</td></tr>
+    <tr><td>SELECT(조회)</td><td>SELECT [ALL/DISTINCT] 컬럼리스트 FROM 테이블명; — ALL은 기본값(중복 출력), DISTINCT는 중복 데이터를 1건으로 처리</td></tr>
+  </table>
+  <p>WHERE절은 <strong>컬럼명 → 연산자 → 문자/숫자/표현식(또는 JOIN 시 비교 컬럼명)</strong> 구조로 구성되며, 연산자 우선순위는 ① 괄호() ② NOT 연산자 ③ 비교 연산자·SQL 비교 연산자 ④ AND ⑤ OR 순이다.</p>
+  <table>
+    <tr><th>구분</th><th>연산자</th><th>의미</th></tr>
+    <tr><td>비교 연산자</td><td>=, &gt;, &gt;=, &lt;, &lt;=</td><td>일반 대소 비교</td></tr>
+    <tr><td>SQL 연산자</td><td>BETWEEN a AND b / IN (list) / LIKE '문자열' / IS NULL</td><td>범위·목록·패턴(%)·NULL 여부 비교</td></tr>
+    <tr><td>논리 연산자</td><td>AND / OR / NOT</td><td>AND는 동시 만족, OR는 하나만 만족, NOT은 반대 결과 반환</td></tr>
+    <tr><td>부정 비교 연산자</td><td>!=, ^=, &lt;&gt;(ISO 표준)</td><td>같지 않다</td></tr>
+    <tr><td>부정 SQL 연산자</td><td>NOT BETWEEN / NOT IN / IS NOT NULL</td><td>범위·목록·NULL 여부의 부정</td></tr>
+  </table>
+
+  <h3>라. 집계함수·GROUP BY·HAVING·ORDER BY</h3>
+  <table>
+    <tr><th>집계함수</th><th>사용 목적</th></tr>
+    <tr><td>COUNT(*)</td><td>NULL 값을 포함한 행의 수 출력</td></tr>
+    <tr><td>COUNT(표현식)</td><td>표현식 값이 NULL이 아닌 행의 수 출력</td></tr>
+    <tr><td>SUM / AVG / MAX / MIN</td><td>NULL을 제외한 합계·평균·최댓값·최솟값 출력</td></tr>
+    <tr><td>STDDEV / VARIAN</td><td>표준편차·분산 출력</td></tr>
+  </table>
+  <p>GROUP BY절은 FROM·WHERE절 뒤에 오며 데이터를 소그룹으로 분류한다. <strong>집계함수는 WHERE절에 올 수 없고, GROUP BY절에서는 ALIAS를 사용할 수 없다.</strong> HAVING절은 GROUP BY로 만들어진 소그룹의 집계 결과에 조건을 부여할 때 사용한다. ORDER BY절은 조회 결과를 정렬하며 SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY 순으로 배치된다. 기본 정렬은 오름차순(ASC)이며, <strong>Oracle은 NULL을 가장 큰 값으로, SQL Server는 가장 작은 값으로 간주</strong>한다는 벤더 차이가 자주 출제된다.</p>
+
+  <h3>마. JOIN — EQUI/NON-EQUI</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>EQUI JOIN</td><td>두 테이블의 컬럼 값이 정확히 일치하는 경우 사용. WHERE 테이블1.컬럼 = 테이블2.컬럼 또는 INNER JOIN ... ON 구문 사용</td></tr>
+    <tr><td>Non EQUI JOIN</td><td>두 테이블 간 컬럼 값이 정확히 일치하지 않을 때 사용. WHERE 테이블1.컬럼 BETWEEN 테이블2.컬럼1 AND 테이블2.컬럼2 형태</td></tr>
+  </table>
+
+  <h3>바. 사용자 생성과 권한 관리(GRANT/REVOKE)</h3>
+  <p>Oracle은 DBA 권한을 가진 SYSTEM 유저로 접속해 유저 생성 권한을 부여한 뒤 사용자를 생성하고, MS SQL Server는 로그인을 먼저 생성한 후 대상 DB로 이동해 사용자를 생성한다는 절차 차이가 있다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB04fig/p016.jpg" alt="역할 기반 접근 제어(RBAC) 개념도. 여러 사용자 원이 Role이라는 마름모에 연결되고, Role은 다시 권한(Privileges) 그룹 두 개에 연결되어 있는 다대다 매핑 구조"><figcaption>[그림] 역할(Role) 기반 권한 부여 구조 — 다수의 사용자를 Role에 매핑하고, Role에 권한(Privileges)을 부여</figcaption></figure>
+  <table>
+    <tr><th>구분</th><th>구문</th></tr>
+    <tr><td>GRANT(권한부여)</td><td>시스템 권한: GRANT [권한명|롤|ALL] TO [유저명|롤|PUBLIC] [WITH ADMIN/GRANT OPTION]; / 오브젝트 권한: GRANT [권한명|ALL] ON [객체명] TO [유저명];</td></tr>
+    <tr><td>REVOKE(권한해제)</td><td>REVOKE [권한명|ALL] ON [객체명] FROM [유저명|롤|PUBLIC] [CASCADE CONSTRAINTS];</td></tr>
+  </table>
+  <p>GRANT로 부여 가능한 권한은 SELECT·UPDATE·DELETE·INSERT 등 오브젝트 권한이며, <strong>CHECK는 제약조건(Constraint)이지 GRANT 대상 권한이 아니다.</strong></p>
+  <table>
+    <tr><th>Object Privilege</th><th>Table</th><th>View</th><th>Sequence</th><th>Procedure</th></tr>
+    <tr><td>ALTER</td><td>✓</td><td></td><td>✓</td><td></td></tr>
+    <tr><td>DELETE</td><td>✓</td><td>✓</td><td></td><td></td></tr>
+    <tr><td>EXECUTE</td><td></td><td></td><td></td><td>✓</td></tr>
+    <tr><td>INDEX</td><td>✓</td><td></td><td></td><td></td></tr>
+    <tr><td>INSERT</td><td>✓</td><td>✓</td><td></td><td></td></tr>
+    <tr><td>REFERENCES</td><td>✓</td><td></td><td></td><td></td></tr>
+    <tr><td>SELECT</td><td>✓</td><td>✓</td><td>✓</td><td></td></tr>
+    <tr><td>UPDATE</td><td>✓</td><td>✓</td><td></td><td></td></tr>
+  </table>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 자주 헷갈리는 SQL 함정 포인트</span>참조 무결성 삭제/수정 옵션은 CASCADE(연쇄 삭제/수정)·NULL·DEFAULT·RESTRICT(자식에 FK가 없을 때만 허용)·NO ACTION(액션을 취하지 않음)으로 구분한다. 내장 SQL(Embedded SQL)에서는 호스트 언어로 선언된 변수를 SQL문에서 콜론(:)을 붙여 참조할 수 있으며 "참조할 수 없다"는 설명은 오답이다. 저장 프로시저는 DBMS 내부에서 동작해 접근 제어·권한 관리 면에서 오히려 Adhoc SQL보다 안전하다는 점도 함정으로 자주 출제된다.</div>
+</section>
+<section id="db04-s02" class="section">
+  <h2>2. VIEW <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.81-91)</span></h2>
+
+  <h3>가. 뷰(View)의 정의와 특징</h3>
+  <p>뷰(View)는 하나 이상의 기본 테이블로부터 유도된 이름을 가진 가상 테이블이다. 하나 또는 그 이상의 테이블에서 원하는 데이터만 모아 가상적으로 만들며, 자주 사용되는 질의를 정의해 두어 반복되는 데이터 조작을 효율적으로 수행하고, 사용자가 관심을 가지는 데이터에만 초점을 맞춘다. 계산된 정보나 파생된 정보 제공이 가능하며, 사용자가 볼 수 있는 데이터를 제한하는 보안 기능도 수행한다. 단, <strong>뷰는 저장 공간(별도의 데이터 복사본)을 가지지 않으므로</strong> 데이터의 일부를 복사해 백업하는 용도로는 사용할 수 없다.</p>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>CREATE VIEW</td><td>CREATE VIEW 뷰이름 [(컬럼명 [,컬럼명…])] [WITH ENCRYPTION] AS select문 [WITH CHECK OPTION]</td></tr>
+    <tr><td>WITH CHECK OPTION</td><td>뷰에 대해 수행되는 모든 데이터 수정 문장이 뷰를 정의하는 SELECT문의 조건을 지키도록 강제 — 뷰에서 선택할 수 없는 투플에 대한 삽입·삭제·수정은 에러 발생. 데이터 무결성 유지에 사용되며, 뷰의 정의 권한을 다른 사용자에게 부여하는 용도는 아님</td></tr>
+    <tr><td>WITH ENCRYPTION</td><td>뷰를 생성하는 텍스트를 사용자가 볼 수 없도록 암호화. 해제하려면 뷰를 삭제 후 재생성해야 함</td></tr>
+    <tr><td>제약사항</td><td>뷰의 사용자는 뷰 정의에 사용된 엔티티에 대한 SELECT 권한 보유 필요, SELECT INTO 문 사용 불가, 임시 테이블에 대한 뷰 생성 불가, 트리거·색인 생성 불가, 최대 250 컬럼 참조 가능</td></tr>
+  </table>
+
+  <h3>나. 뷰의 데이터 수정 제약</h3>
+  <p>뷰는 별도의 데이터 복사본을 가지지 않으므로 뷰에 대한 갱신은 항상 원본(기본) 테이블에 영향을 미친다. 뷰에 대한 갱신은 <strong>하나 이상의 원본 테이블에 영향을 미칠 수 없고, 단지 하나의 테이블에만 영향</strong>을 줄 수 있으며(따라서 두 개 이상의 릴레이션을 조인해 정의한 뷰는 일반적으로 갱신이 불가능), 계산된 값이나 내장함수·계산함수를 포함하는 컬럼(집계함수가 포함된 뷰 등)에 대해서는 뷰를 통한 갱신이 허용되지 않는다. NOT NULL 컬럼을 가지는 테이블에 영향을 미치는 경우에는 오류가 유발되며, 입력되지 않은 컬럼들은 디폴트 값이 정의되어 있거나 NULL이 허용되어 있어야 한다. 실체화된 뷰(Materialized View)를 생성할 때는 CREATE MATERIALIZED VIEW 구문을 사용하며, 일반 뷰의 GROUP BY절 사용 자체는 가능하다는 점도 함께 기억해 둔다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 갱신 가능한 뷰의 조건</span>대부분의 관계 DBMS에서 갱신이 가능한 뷰는 <strong>기본키가 포함된 한 릴레이션 위에 정의된 뷰</strong>이며, 두 개 이상의 릴레이션을 조인해 정의한 뷰, 집단(집계) 함수가 포함된 뷰, 뷰에 포함되지 않은 애트리뷰트에 NOT NULL 제약이 걸려 있는 뷰는 일반적으로 갱신이 허용되지 않는다.</div>
+</section>
+<section id="db04-s03" class="section">
+  <h2>3. 인덱스 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.92-112)</span></h2>
+
+  <h3>가. 인덱스의 역할과 의미</h3>
+  <p>인덱스는 튜닝의 가장 중요한 포인트(적절한 인덱스 선택·변경·생성·삭제)이자 옵티마이저가 실행계획(Plan)을 만드는 핵심 판단 기준이다. 최소한의 데이터 블록 읽기로 성능을 향상시키기 위해 대표 키와 Row 주소 정보(ROWID)만 미리 정렬해 두며, ROWID를 통한 액세스가 가장 빠른 조회 경로다. <strong>인덱스 구성 컬럼의 전체 값이 NULL이면 그 행은 인덱스에서 제외</strong>되지만(일부만 NULL인 경우는 포함), Bitmap Index는 정합성 보장을 위해 NULL 값도 포함한다. 인덱스 내 NULL 값은 자기 단계(정렬 순서)의 가장 끝에 위치한다.</p>
+
+  <h3>나. 인덱스 유형 — B*Tree, Bitmap, Function Based</h3>
+  <p>B*Tree Index는 가장 범용적으로 사용되는 인덱스(OLTP·DW 공통)로, Root Block과 Branch를 거쳐 Leaf Block에 각 값에 대한 ROWID를 포함하며 Leaf Block 간에는 Double Linked List로 연결되어 정렬 순서를 유지한다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB04fig/p097.jpg" alt="B*Tree 인덱스의 내부 구조도. INDEX-KEY와 ROWID 쌍이 정렬된 인덱스 블록과, 실제 데이터가 저장된 EMPNO/ENAME/BIRTH 컬럼을 가진 TABLE(emp) 사이를 화살표로 연결하는 구조"><figcaption>[그림] B*Tree 인덱스 구조 — 정렬된 INDEX-KEY·ROWID 쌍이 실제 테이블 행을 가리키는 구조</figcaption></figure>
+  <figure class="fig"><img loading="lazy" src="assets/DB04fig/p098.jpg" alt="B*Tree 인덱스에 새 값을 삽입하는 절차 다이어그램. 1) 선행 테이블에서 조건을 만족하는 행을 찾고 2) 조인 조건과 SELECT 절에서 필요로 하는 컬럼을 함께 찾아 3) 후행 테이블에서 조인 조건을 만족하는 행을 찾아 4) 후행 테이블의 조인 키를 이용해서 해당 데이터를 찾고 5) 3~5단계 작업을 반복 수행하는 5단계 흐름"><figcaption>[그림] B*Tree 인덱스 갱신(삽입) 처리 절차 5단계</figcaption></figure>
+  <p>Bitmap Index는 값의 종류가 적은(예: 성별, 결혼 여부) 컬럼에 대해 각 값의 존재 여부를 0/1 비트맵으로 표현하며, AND/OR 연산으로 결합된 복잡한 조건을 빠르게 처리할 수 있다. Function Based Index는 CBO(Cost Based Optimizer)에서만 사용 가능하며, 산술식·PL/SQL 함수·SQL 내장함수의 결과에 대해 range scan이 가능하도록 INSERT/UPDATE 시점에 미리 계산된 값을 인덱스에 저장한다(단, 집계함수(Aggregate function)와 LOB·REF·중첩 테이블 컬럼에는 생성 불가).</p>
+  <table>
+    <tr><th>구분</th><th>내용</th></tr>
+    <tr><td>대상 테이블</td><td>데이터 양이 많고 증가량이 큰 테이블</td></tr>
+    <tr><td>대상 컬럼</td><td>WHERE절에서 상수 조건으로 빈번히 사용되는 컬럼, 기본키·외래키, 테이블 조인에 사용되는 컬럼, 분포도가 좋은 컬럼(단독 생성), 자주 함께 쓰이는 조건 컬럼(결합 인덱스), 수정이 빈번하지 않은 컬럼</td></tr>
+    <tr><td>고려 사항</td><td>컬럼 분포도가 10~15% 이내인 경우 B*Tree 인덱스 생성(그 외 분포도가 낮지만 꼭 필요하면 Bitmap Index 고려), 넓은 범위 인덱스는 부하 가중 우려, 한 테이블에 인덱스가 과다하면 DML 오버헤드 발생</td></tr>
+  </table>
+
+  <h3>다. 조인의 유형 — Nested Loop / Sort Merge / Hash</h3>
+  <p>조인은 항상 2개 테이블(집합) 간 처리이며, FROM절에 3개 테이블이 있어도 동시에 3개가 조인되는 것이 아니라 단계별로 서로 다른 조인 기법이 적용될 수 있다.</p>
+  <table>
+    <tr><th>구분</th><th>Nested Loop</th><th>Sort Merge</th><th>Hash</th></tr>
+    <tr><td>처리 방식</td><td>선행 테이블의 조건을 만족하는 행을 하나씩 찾아 후행 테이블과 순차적으로 조인(완전 부분 범위)</td><td>양쪽 테이블을 각자 정렬(Sorted Lists)한 뒤 스캔하며 병합</td><td>작은 집합의 해시 테이블을 메모리에 만들고 큰 집합으로 탐색</td></tr>
+    <tr><td>Access 방식</td><td>Random Access(인덱스 유무에 성능 좌우)</td><td>Scan 방식</td><td>Hash Function</td></tr>
+    <tr><td>특징</td><td>OLTP에서 가장 많이 사용, 랜덤 액세스 위주라 대용량 처리에 한계, 드라이빙 테이블 선택(Join Order)이 중요</td><td>랜덤 I/O 부하가 큰 Nested Loop보다 전체 테이블 처리에 유리하나 SORT AREA 부담으로 대용량 시 속도 저하 가능</td><td>Random 액세스·정렬 부담이 모두 없어 대용량 조인에 유리하나 해시 테이블 생성 비용 발생, CBO·Equi-Join에서만 가능</td></tr>
+    <tr><td>사용 resource</td><td>BUFFER CACHE</td><td>PGA(Sort area size)</td><td>PGA(Hash area size)</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/DB04fig/p106.jpg" alt="해시 조인(Hash Join) 처리 과정 다이어그램. 선행 테이블에서 조건을 만족하는 행을 찾아 해시 함수를 적용해 해시 테이블을 생성하고, 후행 테이블에서 해시 테이블을 탐색해 조인에 성공한 데이터를 추출버퍼에 담는 흐름"><figcaption>[그림] 해시 조인(Hash Join) 처리 절차 — 선행 테이블로 해시 테이블 생성 → 후행 테이블 탐색 → 조인 결과 추출</figcaption></figure>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 해시 조인이 유리한 조건</span>조인 컬럼에 적당한 인덱스가 없어 자연조인이 비효율적일 때, 드라이빙 집합 쪽 Random 액세스 부하가 심할 때, 두 테이블이 너무 커서 Sort Merge Join의 정렬 부담이 클 때 해시 조인이 효과적이다. 반대로 <strong>수행빈도가 낮고 수행시간이 짧은 소량 테이블 조인</strong>에는 해시 테이블 생성 비용이 오히려 부담이 되어 해시 조인의 이점이 크지 않다.</div>
+
+  <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">[참고] 다음은 어떤 이진트리의 전위 순회(Preorder traversal)와 중위 순회(Inorder traversal)한 순서를 출력한 것이다. 이 트리의 단말노드만을 구한 것은? 전위 순회: A, B, D, E, C, F, G, H / 중위 순회: E, D, B, A, G, F, H, C</div>
+  <figure class="fig"><img loading="lazy" src="assets/DB04fig/p110.jpg" alt="문제에 제시된 조건으로 복원한 이진트리 다이어그램. 루트 A를 기준으로 왼쪽 서브트리(B-D-E)와 오른쪽 서브트리(C-F-G-H)로 나뉘며, 각 서브트리의 말단(리프) 노드가 표시된 구조"><figcaption>[그림] 전위·중위 순회 조건으로 복원한 이진트리 — 단말노드는 E, G, H</figcaption></figure>
+  <ol class="quiz-options"><li>A, E</li><li>A, C, H</li><li>B, C, F</li><li>E, G, H</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 전위순회에서 A가 먼저 나왔으므로 A가 루트이며, 중위순회에서 A를 기준으로 왼쪽(E,D,B)·오른쪽(G,F,H,C) 서브트리로 나뉜다. 왼쪽은 전위 B,D,E와 중위 E,D,B가 완전히 역순이므로 분기 없이 일렬로 이어져 단말은 E, 오른쪽은 전위 C,F,G,H·중위 G,F,H,C 순서를 대조하면 단말은 G와 H가 된다.</div></div>
+</section>
+<section id="db04-s04" class="section">
+  <h2>4. 튜닝 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.113-134)</span></h2>
+
+  <h3>가. 성능 지표와 성능 설계 튜닝</h3>
+  <figure class="fig"><img loading="lazy" src="assets/DB04fig/p113.jpg" alt="튜닝 대상 계층 피라미드 다이어그램. 위에서부터 애플리케이션(SQL), DBMS 서버, 데이터베이스, 시스템(O/S, H/W) 순으로 쌓인 4단 피라미드 구조"><figcaption>[그림] 튜닝 대상 4계층 — 애플리케이션(SQL) → DBMS 서버 → 데이터베이스 → 시스템(O/S, H/W)</figcaption></figure>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>처리능력(Throughput)</td><td>단위 시간당 수행되는 작업량</td></tr>
+    <tr><td>처리시간(Throughput Time)</td><td>단위 작업을 수행하는 데 소요되는 시간</td></tr>
+    <tr><td>응답시간(Response Time)</td><td>사용자가 키를 누른 순간부터 시스템이 응답할 때까지 소요되는 시간</td></tr>
+    <tr><td>로드 시간(Load Time)</td><td>데이터베이스를 적재하는 데 소요되는 시간</td></tr>
+  </table>
+  <p>성능 설계 튜닝은 유사 엔티티의 통합·분리, 복잡한 비즈니스 키(주민번호·학번 등)를 시스템 키(발생 순서 기반)로 대체하는 기본키 조정, 정규화·반정규화를 통한 데이터 모델 구조 변경, 기본키 구성 속성의 효율적 순서 지정·외래키 컬럼 인덱스 생성 등 인덱스 관련 개선을 포함한다.</p>
+
+  <h3>나. SQL 튜닝 절차와 SQL 성능 저하 원인</h3>
+  <table>
+    <tr><th>튜닝 단계</th><th>설명</th></tr>
+    <tr><td>문제 SQL문 식별</td><td>자원을 많이 소모하거나 빈번히 수행되는 악성 SQL 추출(SQL TRACE 등 활용)</td></tr>
+    <tr><td>Optimizer 모드·통계정보 확인</td><td>Optimizer Mode(ALL_ROWS/FIRST_ROWS) 확인, 통계정보 수집 여부·최신성 확인</td></tr>
+    <tr><td>실행계획 분석</td><td>스텝별 결과 Row 수로 병목지점 식별, 인덱스 사용 여부·조인 방식/순서·비의도적 Cartesian Product 확인</td></tr>
+    <tr><td>SQL문 재구성</td><td>AND 및 "="을 사용한 술어 작성, 인덱스 사용 컬럼 변형 금지, 필요한 경우에만 힌트 사용</td></tr>
+    <tr><td>인덱스 생성/재구성</td><td>중요 컬럼에 인덱스 생성, 결합 인덱스로 선택도 향상, 불필요한 인덱스 제거</td></tr>
+    <tr><td>실행계획 유지관리</td><td>필요 시 stored outline으로 단일 SQL문의 실행계획 유지</td></tr>
+  </table>
+  <p>SQL 성능 저하의 주요 원인으로는 인덱스 부재 및 비효율적 설계, 잘못된 조인 순서·방법, 불필요한 Sorting, 과도한 Hard Parsing, 부정확한 통계정보, CPU/Memory 자원 부족, Disk 성능 저하·IO 경합, 데이터 편중(Skewed data)으로 인한 인덱스 효율 저하, 업무 변경에 따른 SQL 수정 필요, 데이터 증가, 부적절한 Hint 등이 있다. <strong>개발자는 옵티마이저가 생성한 질의 실행계획 자체를 직접 편집하거나 실행계획에 직접 힌트를 추가할 수는 없으며</strong>, 대신 인덱스를 추가·변경하거나 SQL문을 재작성해 질의 최적화를 수행할 수 있다.</p>
+
+  <h3>다. 비용 기반 옵티마이저(CBO)와 실행 엔진</h3>
+  <table>
+    <tr><th>엔진</th><th>역할</th></tr>
+    <tr><td>Parser</td><td>SQL 문장의 개별 구성요소를 분석·파싱해 파싱 트리 생성, Syntax·Semantic 체크 수행</td></tr>
+    <tr><td>Optimizer &gt; Query Transformer</td><td>파싱된 SQL을 더 일반적이고 표준적인 형태로 변환</td></tr>
+    <tr><td>Optimizer &gt; Estimator</td><td>통계 정보를 이용해 각 단계의 선택도·카디널리티·비용을 계산, 전체 실행계획의 총 비용 산정</td></tr>
+    <tr><td>Optimizer &gt; Plan Generator</td><td>후보군이 될 만한 실행계획들을 생성</td></tr>
+    <tr><td>Row-Source Generator</td><td>옵티마이저가 생성한 실행계획을 실제 실행 가능한 코드/프로시저 형태로 포맷팅</td></tr>
+    <tr><td>SQL Engine</td><td>SQL 실행</td></tr>
+  </table>
+  <figure class="fig"><img loading="lazy" src="assets/DB04fig/p119.jpg" alt="비용 기반 옵티마이저(CBO) 동작 흐름도. 사용자가 SQL을 입력하면 Parser를 거쳐 옵티마이저가 규칙 기반 옵티마이저와 비용 기반 옵티마이저 중 하나로 통계 정보와 딕셔너리를 참조해 실행계획을 생성하고 결과를 반환하는 구조"><figcaption>[그림] 옵티마이저의 실행계획 결정 흐름 — 사용자 SQL → Parser → 옵티마이저(규칙/비용 기반) → 통계·딕셔너리 참조 → 실행계획 생성</figcaption></figure>
+  <p>CBO는 SQL문 처리에 필요한 비용(예상 소요시간·자원 사용량)이 가장 적은 실행계획을 선택하는 방식으로, 통계정보가 없거나 부정확하면 비효율적인 실행계획을 생성하므로 정확한 통계정보 유지가 중요하다. <strong>사용자 접근 제어 권한을 정하는 것은 성능 튜닝이 아니라 보안 관점의 고려사항</strong>이라는 점도 출제 포인트다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 인덱스·정렬 관련 성능 개선 함정 포인트</span>검색효율 저하 시 테이블을 나누는 방법은 애트리뷰트를 나누는 <strong>수직 분할</strong>이며 "수평 분할"은 오답이다. 값의 종류가 적은 속성(성별 등)에는 해시 인덱스가 아니라 <strong>비트맵 인덱스</strong>가 적합하다. 외래키 등 조인 컬럼에는 인덱스를 생성하는 것이 좋으며, 갱신이 빈번한 릴레이션에는 인덱스를 과다하게 만들지 않아야 한다. 클러스터링 인덱스는 테이블당 하나만 지정 가능하고 변경이 거의 없는 테이블에 적합하다. 소트 발생을 줄이려면 UNION을 UNION ALL로 대체하고 DISTINCT를 EXISTS 서브쿼리로 대체하는 것이 유리하다.</div>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (34문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 다음과 같은 DB가 있다. 여기서 밑줄 친 속성은 기본 키를 나타낸다. 학생 (학생번호, 학생이름, 학과, 주소, 전화번호) 과목 (과목번호, 과목이름, 학과, 학점) 수강 (학생번호, 과목번호, 연도, 학기) 다음 SQL의 의미로 적절한 것은? DELETE FROM 수강 WHERE ((SELECT 학과 FROM 학생 WHERE 학생.학생번호 = 수강.학생번호) = (SELECT 학과 FROM 과목 WHERE 과목.과목번호 = 수강.과목번호)); <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.18)</span></div><ol class="quiz-options"><li>재수강 하는 경우 수강 테이블의 해당 투플(Tuple)를 삭제시킨다</li><li>학생의 학생번호와 수강의 학생번호가 같고 과목의 과목번호와 수강의 과목번호가 같은 경우 수강 테이블의 해당 투플(Tuple)를 삭제시킨다</li><li>소속된 학과의 과목을 수강하는 경우 수강 테이블의 해당 투플(Tuple)를 삭제시킨다</li><li>학생 테이블의 학과와 과목 테이블의 학과가 같은 경우 수강 테이블의 해당 투플(Tuple)을 삭제시킨다</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 학생의 학생번호와 수강의 학생번호가 같고 과목의 과목번호와 수강의 과목번호가 같은 경우 삭제</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 다음과 같은 문장으로 '학생' 테이블을 생성한 후, 유효한 투플(Tuple)들을 삽입하였다. create table 학생 (학번 char(8) primary key, 장학금 integer); 아래 두 SQL문장을 성공적으로 실행한 후 SQL 1, SQL 2 문장의 실행 결과로 가장 적절한 것은? SQL 1: select count(학번) from 학생 where 장학금 &gt;= 5000 or 장학금 &lt; 5000; SQL 2: select count(학번) from 학생; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.22)</span></div><ol class="quiz-options"><li>SQL 1, SQL 2 문장의 실행 결과는 항상 같다.</li><li>SQL 1, SQL 2 문장의 실행 결과는 항상 다르다.</li><li>SQL 1, SQL 2 문장의 실행 결과는 다를 수 있으며, 그 이유는 장학금 속성(Attribute)에 널(Null)값이 존재할 수 있기 때문이다.</li><li>SQL 1, SQL 2 문장의 실행 결과는 다를 수 있으며, 그 이유는 학번 속성(Attribute)에 널(Null) 값이 존재할 수 있기 때문이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 장학금에 NULL이 존재하면 SQL 1의 OR 조건으로도 걸러지지 않아 결과가 달라질 수 있음(학번은 기본키이므로 NULL 불가)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 아래 CREATE TABLE 문으로 릴레이션 R을 생성하였다. CREATE TABLE R (NAME VARCHAR(20) PRIMARY KEY, SALARY INTEGER CHECK(SALARY &lt;= 4000)); 릴레이션 R의 현재 내용은 다음과 같다. &lt;KIM, 1000&gt; &lt;LEE, 2000&gt; &lt;PARK, 3000&gt; (합계 6000) 이 릴레이션 R에 대하여 아래의 순서로 SQL문들을 수행하였다. 이들 중에서 일부는 릴레이션에 정의된 제약조건 때문에 거절될 수 있다. INSERT INTO R VALUES ('CHOI', 1200); UPDATE R SET SALARY=5000 WHERE NAME='PARK'; INSERT INTO R VALUES ('KIM', 1300); DELETE FROM R WHERE NAME='LEE' 릴레이션 R에 들어 있는 모든 투플(Tuple)들의 SALARY의 합은 얼마인가? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.24)</span></div><ol class="quiz-options"><li>5200</li><li>6000</li><li>7200</li><li>9200</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — INSERT('CHOI',1200) 성공(합계 7200) → UPDATE(PARK→5000)는 CHECK(≤4000) 위반으로 거절 → INSERT('KIM',1300)은 기본키(NAME) 중복으로 거절 → DELETE(LEE) 성공(합계 5200)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. 다음과 같은 데이터베이스에서 '자신과 성별이 같은 부양가족을 가진 직원의 이름을 검색'하는 질의를 SQL로 적절하게 표현한 것을 고르시오. 여기서 밑줄 친 속성은 기본키를 표현한다. (2개 선택) 직원(직원번호, 이름, 성별) 부양가족(직원번호, 이름, 성별) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.26)</span></div><ol class="quiz-options"><li>SELECT E.이름 FROM 직원 AS E WHERE E.직원번호 IN (SELECT 직원번호 FROM 부양가족 WHERE E.성별 = 성별);</li><li>SELECT E.이름 FROM 직원 AS E WHERE NOT EXISTS (SELECT * FROM 부양가족 WHERE E.직원번호 = 직원번호);</li><li>SELECT E.이름 FROM 직원 AS E WHERE EXISTS (SELECT * FROM 부양가족 WHERE E.직원번호 = 직원번호 AND E.성별 = 성별);</li><li>SELECT E.이름 FROM 직원 AS E WHERE NOT EXISTS (SELECT * FROM 부양가족 WHERE E.직원번호 = 직원번호 AND E.성별 = 성별);</li></ol><div class="quiz-explanation"><strong>정답</strong> ① ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음과 같은 쇼핑몰 데이터베이스가 있다. 여기서 밑줄 친 속성은 기본키를 나타낸다. 단, 고객이름은 중복되지 않는다고 가정한다. 고객 (고객번호, 고객이름, 주소, 전화번호) 상품 (상품번호, 상품이름, 무게, 가격) 주문 (고객번호, 상품번호, 수량, 날짜) 다음 질의의 의미로 가장 적절한 것은? SELECT 고객이름, SUM(수량) FROM 고객, 상품, 주문 WHERE 고객.고객번호 = 주문.고객번호 AND 상품.상품번호 = 주문.상품번호 GROUP BY 고객.고객이름 HAVING COUNT(*) &gt; 10; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.28)</span></div><ol class="quiz-options"><li>고객번호가 10보다 큰 고객이름과 주문한 수량의 합을 구한다.</li><li>수량이 10보다 큰 주문을 한 고객이름과 주문한 수량의 합을 구한다.</li><li>열한 번 이상 상품을 주문한 고객이름과 주문한 수량의 합을 구한다.</li><li>주문한 수량의 합이 10보다 큰 고객이름과 주문한 수량의 합을 구한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 다음 중 SQL의 GRANT 구문으로 부여할 수 있는 권한이 아닌 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.33)</span></div><ol class="quiz-options"><li>릴레이션에 대한 SELECT 권한</li><li>릴레이션에 대한 UPDATE 권한</li><li>릴레이션에 대한 CHECK 권한</li><li>릴레이션에 대한 DELETE 권한</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — CHECK는 제약조건이지 GRANT 대상 권한이 아님</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 다음은 어느 대학교에 단과대학들이 운영하는 연구센터에 대한 정보를 저장하는 CENTER 릴레이션을 생성하는 CREATE 문이다. sid는 단과대학을 나타내는 SCHOOL 릴레이션의 기본키이고, fid는 교수를 나타내는 FACULTY 릴레이션의 기본키이다. 릴레이션 스키마에서 유추할 수 있는 설명 중 맞는 것을 모두 고르시오. CREATE TABLE CENTER( 센터이름 CHAR(20), 단과대학 INTEGER, 센터장번호 INTEGER, CONSTRAINT rc_pk PRIMARY KEY(센터이름, 단과대학), CONSTRAINT rc_fk1 FOREIGN KEY(단과대학) REFERENCES SCHOOL(sid), CONSTRAINT rc_fk2 FOREIGN KEY(센터장번호) REFERENCES FACULTY(fid)) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.35)</span></div><ol class="quiz-options"><li>한 교수가 2개 센터의 센터장이 될 수 없다.</li><li>단과대학이 2개 이상의 센터를 가질 수 없다.</li><li>단과대학에 소속되지 않은 센터가 있을 수 있다.</li><li>대학교 내에 이름이 같은 센터가 2개 있을 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 센터이름·단과대학이 복합 기본키이므로 같은 이름의 센터가 다른 단과대학에 2개 있을 수 있음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 두 개의 릴레이션 student(sno, sname, address, score, dept)와 department(dno, dname)가 있을 때, SQL문 "SELECT * FROM student s, department d WHERE s.dept &gt; 100;"을 수행한다고 가정하자. 위 질의의 결과 릴레이션의 차수(degree)와 카디날리티(cardinality)는 얼마인가? (단, 릴레이션 student의 애트리뷰트 'dept'는 릴레이션 department의 애트리뷰트 'dno'를 외래키(foreign key)로 참조한다) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.37)</span></div><ol class="quiz-options"><li>차수 = 5, 카디날리티 = 3</li><li>차수 = 5, 카디날리티 = 2</li><li>차수 = 7, 카디날리티 = 9</li><li>차수 = 7, 카디날리티 = 2</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 카티션 프로덕트이므로 차수는 5+2=7, dept&gt;100 조건을 만족하는 student 3행 × department 3행 = 9</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 두 개의 릴레이션 직원과 부서에 대한 정의와 인스턴스 예가 다음과 같을 때, 주어진 SQL문들을 차례대로 실행했을 때 최종 SELECT 문의 실행 결과는? CREATE TABLE 부서 (부서번호 INTEGER, 부서이름 CHAR(20), PRIMARY KEY(부서번호)); CREATE TABLE 직원 (이름 CHAR(20), 부서번호 INTEGER, PRIMARY KEY(이름), FOREIGN KEY 부서번호 REFERENCES 부서(부서번호) ON DELETE RESTRICT ON UPDATE CASCADE); 직원 인스턴스: (박동호,1),(이수아,1),(강승희,2),(김민지,2) DELETE FROM 부서 WHERE 부서번호 = 1; UPDATE 부서 SET 부서번호 = 5 WHERE 부서번호 = 2; SELECT DISTINCT(부서번호) FROM 직원; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.40-42)</span></div><ol class="quiz-options"><li>DELETE FROM 부서 WHERE 부서번호=1은 ON DELETE RESTRICT 옵션에 의해 실행되지 않는다.</li><li>UPDATE 부서 SET 부서번호=5 WHERE 부서번호=2는 ON UPDATE CASCADE 옵션에 의해 직원 테이블의 부서번호 2인 행이 모두 5로 변경된다.</li><li>최종 SELECT DISTINCT(부서번호) FROM 직원의 결과는 1, 5이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> 1, 5 — 부서번호 1에 속한 직원(박동호·이수아)이 있어 RESTRICT로 DELETE가 거부되고, 부서번호 2는 CASCADE로 5로 갱신되어 최종 직원 테이블의 부서번호는 {1, 5}만 남는다.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 각각 학생과 학과의 정보를 저장하는 릴레이션 student와 department가 있다고 가정하자. 이 때 "2명 이상의 학생을 갖는 학과에 대해, 성적(score) 평균이 80 이상인 학과의 학과코드(dno), 학과명(dname), 학생수를 검색하시오"라는 질의를 SQL문으로 바르게 표현한 것은? student(sno,sname,address,score,dept): (100,HONG,Seoul,95,100),(300,LEE,Busan,90,200),(200,KIM,Jeju,85,100),(500,HONG,Busan,95,300),(400,SON,Seoul,80,300) / department(dno,dname): (100,computer),(200,electronics),(300,MIS) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.43-47)</span></div><ol class="quiz-options"><li>SELECT d.dno, d.dname, count(*) FROM student s, department d WHERE s.dno = d.dno and avg(score) &gt;= 80 GROUP BY d.dno, d.dname HAVING count(*) &gt;= 2;</li><li>SELECT d.dno, d.dname, count(*) FROM student s, department d WHERE s.dno = d.dno GROUP BY d.dno, d.dname HAVING count(*) &gt;= 2 and avg(score) &gt;= 80;</li><li>SELECT d.dno, d.dname, count(*) FROM student s, department d WHERE s.dno = d.dno and s.dno = (SELECT dno FROM student GROUP BY dno HAVING avg(score) &gt;= 80) GROUP BY d.dno, d.dname;</li><li>SELECT d.dno, d.dname, count(*) FROM student s, department d WHERE s.dno = d.dno and dno IN (SELECT dno, dname FROM student GROUP BY dno HAVING avg(score) &gt;= 80) GROUP BY d.dno, d.dname;</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — ①은 WHERE절에 집계함수(avg) 사용으로 에러, ③은 서브쿼리 결과가 여러 건이라 에러, ④는 dno가 student·department 어느 테이블인지 모호함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. 사용자 Lee가 릴레이션 R(A, B)를 생성한 후, &lt;보기&gt;와 같은 권한부여 SQL문들을 실행하였다. 그 이후에 실행할 수 없는 SQL문을 모두 고르시오. (2개 선택) (단, A, B의 데이터 타입은 정수형이다) &lt;보기&gt; Lee: GRANT SELECT, INSERT, DELETE ON R TO Kim WITH GRANT OPTION; Kim: GRANT SELECT, INSERT ON R TO Park; Lee: REVOKE GRANT OPTION FOR SELECT ON R FROM Kim; Lee: REVOKE INSERT ON R FROM Kim CASCADE; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.48)</span></div><ol class="quiz-options"><li>Kim: SELECT * FROM R WHERE A = 100;</li><li>Park: INSERT INTO R VALUES (200, 300);</li><li>Park: DELETE FROM R WHERE B = 400;</li><li>Park: SELECT * FROM R WHERE A = 500 AND B = 600;</li></ol><div class="quiz-explanation"><strong>정답</strong> ② ③ — REVOKE INSERT ... CASCADE로 Kim의 INSERT 권한이 회수되며 이를 통해 부여받은 Park의 INSERT 권한도 함께 회수되고, Park은 애초에 DELETE 권한을 받은 적이 없음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q12. 릴레이션 R의 정의와 인스턴스 예가 다음과 같을 때, 주어진 SQL문들을 차례대로 실행을 시도하였을 때, 최종 SELECT 문의 실행 결과로 맞는 것은? CREATE TABLE R (NAME CHAR(20), PRIMARY KEY (NAME), SALARY INTEGER CHECK(SALARY &lt;= 400)); R 인스턴스: (황진경,100),(조정현,200),(박수병,300) INSERT INTO R VALUES ('김범수', 400); UPDATE R SET SALARY = 500 WHERE NAME = '박수병'; INSERT INTO R VALUES ('조정현', 300); DELETE FROM R WHERE NAME = '황진경'; SELECT AVG(SALARY) FROM R; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.50)</span></div><ol class="quiz-options"><li>250</li><li>300</li><li>400</li><li>NULL</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — INSERT(김범수,400) 성공 → UPDATE(박수병→500)는 CHECK(≤400) 위반으로 거절 → INSERT('조정현',300)은 기본키 중복으로 거절 → DELETE(황진경) 성공 → 남은 값 조정현200, 박수병300, 김범수400의 평균 = 300</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q13. 다음과 같은 2개의 릴레이션이 있다고 가정하자. student의 기본키는 st_num이고, department의 기본키는 dept_num이다. 또한 student의 d_num은 department의 dept_num을 참조하는 외래키(foreign key)이다. 아래의 SQL문의 실행 결과는? SELECT count(st_name) FROM student s WHERE not exists (SELECT * FROM department d WHERE s.d_num = d.dept_num and dept_name = '전기공학과'); <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.53)</span></div><ol class="quiz-options"><li>2</li><li>3</li><li>4</li><li>5</li></ol><div class="quiz-explanation"><strong>정답</strong> ③</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q14. 상기 제시된 표준 SQL2 문장 (A) DROP INDEX &lt;index name&gt; (B) ALTER TABLE &lt;table name&gt; (B1) &lt;column name&gt; &lt;column type&gt; (C) DELETE FROM &lt;table name&gt; [WHERE ...] (D) UPDATE &lt;table name&gt; (D1) &lt;column name&gt; = &lt;value&gt; [(D2) ...] (E) CREATE [(E1)] INDEX &lt;index name&gt; ON &lt;table name&gt; (...) [(E2)] (F) DROP TABLE &lt;table name&gt; 은 데이터 정의어(DDL)와 데이터 조작어(DML)이다. 이 중 데이터 조작어로만 구성된 조합은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.55)</span></div><ol class="quiz-options"><li>(B)와 (D)</li><li>(B)와 (E)</li><li>(A)와 (F)</li><li>(C)와 (D)</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — (A)(B)(E)(F)는 DDL, (C)(D)는 DML</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q15. 위 표준 SQL2 구문에서 비워둔 (B1), (D1), (D2), (E1), (E2) 중, 선택된 두 항목에 들어갈 키워드가 모두 옳은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.57)</span></div><ol class="quiz-options"><li>(B1) ADD, (E2) CLUSTER</li><li>(D1) FROM, (D2) WHERE</li><li>(E1) PRIMARY, (D2) WHERE</li><li>(B1) WHERE, (E2) COLUMN</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — (D1)은 FROM이 아니라 SET이어야 하고, (E1)은 PRIMARY가 아니라 UNIQUE여야 함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q16. 저장 프로시저에 대한 다음 설명 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.58)</span></div><ol class="quiz-options"><li>프로시저를 미리 만들어 두어 성능 향상과 코드 재사용의 장점이 있다.</li><li>한곳에 저장해 둠으로써 접근 제어가 어려워 보안에 취약하다.</li><li>SQL CREATE 구문을 이용하여 사용자가 생성할 수 있다.</li><li>인자를 통하여 값을 전달하며 또 출력 값을 받아낼 수도 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 저장 프로시저는 DBMS 내부에서 동작하며 사용자별 접근·권한 제어 면에서 Adhoc SQL보다 상대적으로 안전함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q17. 내장 SQL(Embedded SQL)은 C, Java, JSP 등 프로그래밍 언어(호스트 언어)에 SQL을 직접 끼워넣어 사용하며 SQL 전처리 컴파일러(precompiler)가 번역을 한다. 내장 SQL에 대한 다음 설명 중 옳지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.72)</span></div><ol class="quiz-options"><li>SQL 문 결과를 행단위로 처리하기 위하여 호스트 언어에 추가적인 명령문이 사용된다.</li><li>SQL 문에서는 호스트 언어에 의하여 선언된 변수를 참조할 수 없다.</li><li>호스트 언어에 의하여 선언된 변수를 이용하여 SQL 문의 실행 결과를 저장할 수 있다.</li><li>데이터베이스에 NULL 값을 삽입할 수 있으며, NULL 값을 읽어낼 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 호스트 변수는 콜론(:)을 앞에 붙여 SQL문에서 참조 가능</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q18. "부양가족이 없는 직원의 이름을 검색하라"라는 SQL 질의를 다음과 같이 작성했다고 할 때, ㉮, ㉯, ㉰에 들어갈 내용으로 바르게 구성된 것은? SELECT NAME FROM EMPLOYEE WHERE ㉮ (SELECT ㉯ FROM DEPENDENT WHERE ㉰); (EMPLOYEE 기본키 SSN, DEPENDENT는 ESSN을 외래키로 EMPLOYEE.SSN 참조) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.75)</span></div><ol class="quiz-options"><li>NOT IN * NAME=DEPNAME</li><li>NOT EXISTS * SSN=ESSN</li><li>NOT IN ESSN SSN=ESSN</li><li>NOT EXISTS ESSN NAME=DEPNAME</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — WHERE절에 연산자만 있으므로 NOT EXISTS를, DEPENDENT가 외래키 ESSN을 가지므로 조인 조건은 SSN=ESSN</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q19. 두 릴레이션 EMPLOYEE, DEPENDENT로부터 다음과 같이 EMPDEPEND라는 뷰(view)를 생성하고자 할 때, ㉱와 ㉲에 들어갈 내용이 바르게 짝지어진 것은? (EMPSSN·EMPNAME은 SSN·이름, NO_DEPS·M_AGE는 부양가족 수·나이 평균) CREATE VIEW EMPDEPEND(EMPSSN, EMPNAME, NO_DEPS, M_AGE) AS SELECT SSN, NAME, ㉱, ㉲ FROM EMPLOYEE, DEPENDENT WHERE SSN=ESSN GROUP BY SSN; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.76)</span></div><ol class="quiz-options"><li>UNIQUE(*), MEDIAN(AGE)</li><li>COUNT(*), MEDIAN(AGE)</li><li>COUNT(*), AVG(AGE)</li><li>UNIQUE(*), AVG(AGE)</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 부양가족 수는 COUNT, 나이 평균은 AVG</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q20. 권한(authorization)을 부여하는 ㉮와 회수하는 ㉯를 SQL로 바르게 표현한 것은? ㉮ 테이블 EMPLOYEE에 대한 SELECT 권한을 계정 Mary와 John에게 부여한다. ㉯ 테이블 EMPLOYEE에 대한 SELECT 권한을 계정 John으로부터 회수한다. <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.79)</span></div><ol class="quiz-options"><li>㉮ = GRANT SELECT ON EMPLOYEE TO Mary, John; ㉯ = REVOKE SELECT ON EMPLOYEE FROM John;</li><li>㉮ = AUTHORIZE SELECT ON EMPLOYEE TO Mary, John; ㉯ = CANCEL SELECT ON EMPLOYEE FROM John;</li><li>㉮ = GRANT EMPLOYEE TO Mary, John ON SELECT; ㉯ = REVOKE EMPLOYEE FROM John ON SELECT;</li><li>㉮ = AUTHORIZE EMPLOYEE TO Mary, John ON SELECT; ㉯ = CANCEL EMPLOYEE FROM John ON SELECT;</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q21. 릴레이션 'employee'와 'department'에서 다음 SQL 질의문의 수행결과는? &lt;질의문&gt; SELECT e.dno, d.dname, e.ename, e.score FROM employee e, department d WHERE e.dno = d.dno and (e.dno, score) IN (SELECT dno, max(score) FROM employee GROUP BY dno); employee(eno,ename,address,score,dno): (10,Hong,서울,80,100),(20,Kim,대전,90,200),(30,Lee,강릉,90,100),(40,Kim,대전,95,200),(50,Hong,서울,65,300) / department(dno,dname): (100,영업),(200,개발),(300,서비스) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.65-67)</span></div><ol class="quiz-options"><li>{ (100, 영업, Lee, 90), (200, 개발, Kim, 95), (300, 서비스, Hong, 65) }</li><li>{ (100, 영업, Lee, 90), (200, 개발, Kim, 95) }</li><li>{ (100, 영업, Lee, 90) }</li><li>{ (100, 영업, Hong, 80), (100, 영업, Lee, 90), (200, 개발, Kim, 90), (200, 개발, Kim, 95), (600, null, Hong, 65) }</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 부서별(dno) 최고 점수(max(score))를 가진 직원만 골라 부서명과 함께 출력: 100(영업)-Lee 90, 200(개발)-Kim 95, 300(서비스)-Hong 65</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q22. 다음 중 데이터베이스 뷰(View)에 대한 설명으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.84)</span></div><ol class="quiz-options"><li>사용자의 질의를 간단하게 할 수 있다.</li><li>데이터의 일부를 사용자로부터 감추어 보안 기능을 할 수 있다.</li><li>데이터의 일부를 복사하여 백업 기능을 할 수 있다.</li><li>데이터의 논리적 독립성을 향상시킨다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 뷰는 별도의 저장 공간을 가지지 않으므로 백업 기능을 할 수 없음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q23. 다음 중 SQL 뷰(view)에 대한 설명으로 적합하지 않은 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.88)</span></div><ol class="quiz-options"><li>뷰에 대한 투플의 삽입은 시스템에 의해 거부될 수 있다.</li><li>원본과의 불일치 문제로 인해 뷰 생성 시 GROUP BY 절을 사용할 수 없다.</li><li>집계(aggregation)에 의해 생성된 뷰의 경우 일반적으로 갱신을 허용하지 않는다.</li><li>실체화된 뷰(materialized view)를 생성할 경우에는 CREATE VIEW 구문을 사용하고, 그렇지 않은 뷰를 생성할 경우에는 CREATE TABLE을 사용한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② ④ — GROUP BY절 사용은 가능하며, 실체화된 뷰는 CREATE MATERIALIZED VIEW 구문을 사용</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q24. 뷰에 대한 갱신은 기본 릴레이션에 대한 갱신으로 변환되는데, 이 때 대부분의 관계 DBMS에서 갱신이 가능한 뷰로 가장 적절한 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.90)</span></div><ol class="quiz-options"><li>기본키가 포함된 한 릴레이션 위에 정의된 뷰</li><li>두 개 이상의 릴레이션 위에 조인으로 정의된 뷰</li><li>집단 함수가 포함된 뷰</li><li>기본 릴레이션의 애트리뷰트들 중에서 뷰에 포함되지 않은 애트리뷰트에 대해 NOT NULL이 지정되어 있을 때의 뷰</li></ol><div class="quiz-explanation"><strong>정답</strong> ①</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q25. 아래와 같은 '학생' 릴레이션(Relation)을 고려해 보자. 학생(학번,이름,학년,소속학과): (2000,김철수,4,기계),(2001,이화성,4,정보통신),(2002,박민숙,3,정보통신),(2003,송석현,2,전기),(2004,김연희,4,정보통신) 소속학과가 '정보통신'이고 '4'학년인 학생의 이름, 학년을 검색한 후, 결과 투플로 이루어지는 뷰 'VIC4'를 생성하였다. 그리고 아래 UPDATE문을 수행한 후, SELECT문을 수행한 결과는? (단, 뷰 'VIC4'에는 WITH CHECK OPTION이 포함되어 있고, 애트리뷰트(Attribute) 이름은 '학생' 릴레이션과 동일하게 부여하며, 자료형태는 모두 CHAR(10)이라고 가정한다) UPDATE VIC4 SET 소속학과 = '전기' WHERE 이름 = '이화성'; SELECT * FROM VIC4; <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.20)</span></div><ol class="quiz-options"><li>&lt;이화성, 4&gt;</li><li>&lt;김연희, 4&gt;</li><li>&lt;이화성, 4&gt;, &lt;박민숙, 3&gt;</li><li>&lt;이화성, 4&gt;, &lt;김연희, 4&gt;</li><li>&lt;이화성, 4&gt;, &lt;박민숙, 3&gt;, &lt;김연희, 4&gt;</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 뷰의 조건이 소속학과='정보통신' 및 4학년이고 WITH CHECK OPTION이 걸려 있으므로, UPDATE로 소속학과를 '전기'로 바꾸면 뷰 조건을 벗어나 에러가 발생해 수행되지 않고 원래 값(이화성 4, 김연희 4)이 조회됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q26. 다음은 어떤 이진트리의 전위 순회(Preorder traversal)와 중위 순회(Inorder traversal)한 순서를 출력한 것이다. 이 트리의 단말노드만을 구한 것은? 전위 순회: A, B, D, E, C, F, G, H 중위 순회: E, D, B, A, G, F, H, C <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.108)</span></div><ol class="quiz-options"><li>A, E</li><li>A, C, H</li><li>B, C, F</li><li>E, G, H</li></ol><div class="quiz-explanation"><strong>정답</strong> ④</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q27. 해싱(Hashing) 기법을 이용하여 조인을 하는 해시조인(Hash join)은 한쪽 테이블이 주 메모리의 가용 메모리에 담길 정도로 충분히 작고 해시 키 속성에 중복값이 적을 때 사용한다. 해시조인이 더 효과적일 수 있는 조건에 대한 다음 설명들 중 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.111)</span></div><ol class="quiz-options"><li>조인 컬럼에 적당한 인덱스가 없어서 자연조인(Natural join)이 비효율적일 때</li><li>자연조인(Natural join)시 드라이빙(Inner driving) 집합쪽으로 조인 액세스량이 많아 Random 액세스 부하가 심할 때</li><li>소트 머지 조인(Sort Merge Join)하기에 두 테이블이 너무 커서 소트(Sort) 부하가 심할 때</li><li>수행빈도가 낮고 수행시간이 적게 걸리는 소량 테이블을 조인할 때</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 대용량 자료 조인 시 Sort Merge·Nested Loop보다 빠른 것이 해시조인의 장점이며, 소량 테이블에는 해시 테이블 생성 비용이 부담됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q28. 데이터베이스 시스템의 성능을 향상시키기 위한 튜닝 방법으로 가장 적절하지 않은 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.122)</span></div><ol class="quiz-options"><li>디스크 I/O 성능 개선을 위하여 투플(Tuple) 크기를 조정한다.</li><li>하나의 투플(Tuple)에 과도하게 다양한 정보가 수록되어 검색효율을 저하시킬 경우 이를 해결하기 위하여 테이블을 수평 분할한다.</li><li>자주 함께 조인되는 테이블들을 역정규화하여 조인 경로를 줄인다.</li><li>'성별'과 같이 값의 종류가 적은 속성은 해시 인덱스를 생성한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② ④ — ②는 수직 분할이 맞고, ④는 비트맵 인덱스가 적합함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q29. 데이터베이스 성능 향상을 위한 물리적인 데이터베이스 설계 및 튜닝을 수행할 때 고려사항으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.124)</span></div><ol class="quiz-options"><li>인덱스를 생성할 테이블을 정하는 것</li><li>사용자의 접근 제어 권한을 정하는 것</li><li>실체화 뷰(materialized view)를 선정하는 것</li><li>테이블에 대한 입력, 수정, 삭제 작업의 발생 빈도를 고려하여 인덱스의 유형을 정하는 것</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 접근 제어 권한은 성능보다는 보안 관점의 고려사항</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q30. 질의최적기가 생성한 SQL 문의 질의 실행계획(query execution plan)에 관한 다음 설명 중 맞지 않은 것을 고르시오. (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.126)</span></div><ol class="quiz-options"><li>개발자는 질의 실행계획을 직접 편집하여 질의 최적화를 수행할 수 있다.</li><li>개발자는 질의 실행계획을 참조하여 인덱스 추가 및 변경을 통하여 질의 최적화를 수행할 수 있다.</li><li>개발자는 질의 실행계획에 힌트를 추가하여 질의 최적화를 수행할 수 있다.</li><li>개발자는 질의 실행계획을 참조하여 SQL 문을 재작성하여 질의 최적화를 수행할 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① ③ — 개발자는 실행계획 자체를 직접 수정할 수 없고, 힌트도 실행계획이 아닌 SQL문에 추가함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q31. 데이터베이스 성능 향상을 위한 설명으로 틀린 것을 모두 고르시오. (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.128)</span></div><ol class="quiz-options"><li>정렬 속도와 그룹화 속도를 향상시키기 위해서 SQL문의 ORDER BY절과 GROUP BY절에 자주 사용되는 애트리뷰트에 인덱스를 정의하는 것이 좋다.</li><li>외래 키(foreign key)는 인덱스로 선정하지 않는 것이 좋다.</li><li>하나의 애트리뷰트에 들어있는 상이한 값들의 개수가 레코드 수와 비슷하고, 그 애트리뷰트가 동등 조건에 사용되는 경우, 클러스터링 인덱스를 생성하면 성능 향상 효과가 크다.</li><li>갱신이 빈번하게 일어나는 릴레이션에는 인덱스를 많이 만드는 것을 피해야 한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② ③ — 외래키(조인 컬럼)에는 인덱스를 생성하는 것이 좋고, 분포도가 레코드 수와 비슷할 만큼 넓은 컬럼에는 일반 인덱스가 더 적합함(클러스터링 인덱스는 테이블당 1개, 넓은 범위 조건에 유리)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q32. 인덱스 튜닝과 관련된 설명으로 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.131)</span></div><ol class="quiz-options"><li>R.A가 S.B를 참조하는 외래키일 때, S.B에 대한 인덱스는 R에 대한 삽입 속도를 높여줄 수 있다.</li><li>동등(equality) 및 비동등(nonequality) 질의에는 해시 구조의 인덱스가 유용하다.</li><li>단일 디스크 판독으로 테이블 전체를 읽을 수 있을 정도의 소형 테이블에 대한 인덱스는 성능 저하를 일으킬 수도 있다.</li><li>인덱스 사용으로 인해 질의에서 절약되는 시간보다 삽입이나 갱신에서 손해보는 시간이 더 크다면 인덱스를 사용하지 않는 것이 좋다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 해시 구조 인덱스는 Equi(동등) 조건에서만 유효하며 비동등 질의에는 적합하지 않음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q33. SQL의 질의처리 성능을 개선하기 위해 튜닝 할 때, 불필요한 소트(sort)가 발생하지 않도록 하는 것으로 거리가 먼 것은? (2개 선택) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2015, 원본 p.133)</span></div><ol class="quiz-options"><li>Union ALL을 Union으로 대체</li><li>Distinct를 Exists 서브쿼리로 대체</li><li>Sort Aggregate를 Sort Unique로 대체</li><li>데이터 존재 여부만을 확인할 경우 불필요한 Count 연산 제거</li></ol><div class="quiz-explanation"><strong>정답</strong> ① ③ — 소트를 줄이려면 반대로 UNION을 UNION ALL로 대체해야 하며, Sort Aggregate는 실제로 Sort가 발생하지 않는 연산임</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q34. WHERE절 연산자의 우선순위가 낮은 것부터 높은 순으로 바르게 나열된 것은? (예상문제)</div><ol class="quiz-options"><li>OR &lt; AND &lt; 비교연산자·SQL 비교연산자 &lt; NOT 연산자 &lt; 괄호()</li><li>괄호() &lt; NOT 연산자 &lt; 비교연산자·SQL 비교연산자 &lt; AND &lt; OR</li><li>NOT 연산자 &lt; 괄호() &lt; AND &lt; 비교연산자·SQL 비교연산자 &lt; OR</li><li>AND &lt; OR &lt; 괄호() &lt; NOT 연산자 &lt; 비교연산자·SQL 비교연산자</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — WHERE절 연산 우선순위는 ① 괄호() ② NOT 연산자 ③ 비교 연산자·SQL 비교 연산자 ④ AND ⑤ OR 순으로 높다.</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

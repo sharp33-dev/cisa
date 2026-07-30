@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[DB05] Ch5 · 유형</title>
+<style>
+:root { --primary:#1e3a8a; --secondary:#3b82f6; --accent:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --table-header:#e0e7ff; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Pretendard',-apple-system,'Malgun Gothic',sans-serif; color:var(--text-main); background:var(--bg-main); line-height:1.7; }
+.top-nav { background:#0f172a; padding:12px 20px; position:sticky; top:0; z-index:1000; }
+.top-nav a { color:#fff; text-decoration:none; font-weight:bold; font-size:0.95rem; }
+.top-nav a:hover { color:#93c5fd; }
+.header { background:var(--primary); color:#fff; padding:15px 20px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:15px; box-shadow:0 4px 6px rgba(0,0,0,0.1); position:sticky; top:45px; z-index:999; }
+.header-left { display:flex; align-items:center; gap:15px; }
+.toggle-btn { background:#fff; color:var(--primary); border:none; padding:6px 12px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.95rem; display:flex; align-items:center; gap:5px; }
+.toggle-btn:hover { background:var(--table-header); }
+.header-title { font-size:1.2rem; font-weight:bold; }
+.header-controls { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.control-group { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.1); padding:6px 12px; border-radius:6px; font-size:0.9rem; }
+.control-group input { padding:5px 8px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; outline:none; }
+.control-group input[type=number] { width:80px; }
+.control-group input[type=text] { width:140px; }
+.control-group button { padding:5px 12px; background:var(--secondary); color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold; }
+.container { max-width:1400px; margin:30px auto; padding:0 20px; display:flex; gap:40px; align-items:flex-start; }
+.sidebar { flex:0 0 300px; background:#fff; padding:20px; border-radius:8px; border:1px solid var(--border-color); position:sticky; top:130px; max-height:calc(100vh - 150px); overflow-y:auto; transition:all 0.3s ease; }
+.sidebar.hidden { width:0; padding:0; border:none; opacity:0; overflow:hidden; transform:translateX(-20px); flex:0 0 0px; margin:0; }
+.sidebar h3 { margin-bottom:12px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:10px; font-size:1rem; }
+.sidebar ul { list-style:none; }
+.sidebar li { margin-bottom:6px; font-size:0.9rem; }
+.sidebar a { text-decoration:none; color:var(--text-main); display:block; padding:4px 6px; border-radius:4px; }
+.sidebar a:hover { color:var(--secondary); background:#f1f5f9; }
+.content { flex:1; min-width:0; }
+mark.search-highlight { background:#fde68a; padding:0 1px; border-radius:2px; }
+mark.search-highlight.active { background:#f59e0b; color:#fff; }
+@media (max-width:992px) {
+  .container { flex-direction:column; }
+  .sidebar { position:static; width:100%; max-height:none; margin-bottom:20px; }
+  .header { justify-content:center; text-align:center; }
+}
+/* === 임베드(iframe) 대응 === */
+html.embedded { font-size:14.5px; }
+html.embedded .top-nav { display:none !important; }
+html.embedded .header { top:0 !important; padding:5px 12px; gap:8px; box-shadow:0 2px 4px rgba(0,0,0,0.08); }
+html.embedded .header-title { font-size:0.92rem; }
+html.embedded .toggle-btn { padding:3px 8px; font-size:0.78rem; }
+html.embedded .control-group { padding:3px 8px; font-size:0.78rem; gap:5px; }
+html.embedded .control-group input { padding:2px 6px; font-size:0.76rem; }
+html.embedded .control-group input[type=number] { width:58px; }
+html.embedded .control-group input[type=text] { width:108px; }
+html.embedded .control-group button { padding:2px 8px; }
+html.embedded .sidebar { top:var(--embed-hdr,92px); max-height:calc(100vh - var(--embed-hdr,92px) - 20px); position:sticky; margin-bottom:0; }
+html.embedded .container { flex-direction:row; gap:20px; margin:16px auto; padding:0 16px; }
+html.embedded .sidebar:not(.hidden) { width:auto; flex:0 0 210px; }
+html.embedded.chrome-hidden .header { display:none !important; }
+@media (max-width:640px) {
+  html.embedded .container { flex-direction:column; }
+  html.embedded .sidebar:not(.hidden) { position:static; width:100%; flex:none; max-height:none; margin-bottom:16px; }
+}
+
+/* === 주제별 섹션 표준 서식(감리 강좌와 통일) === */
+:root{--quiz-bg:#dcfce7;--quiz-border:#4ade80;}
+.section{background:#fff;padding:40px;margin-bottom:30px;border-radius:8px;border:1px solid var(--border-color);box-shadow:0 4px 6px rgba(0,0,0,0.05);scroll-margin-top:120px;}
+.section h2{color:var(--primary);border-bottom:3px solid var(--secondary);padding-bottom:10px;margin-top:0;font-size:1.45rem;}
+.section h3{color:var(--primary);margin-top:28px;border-left:5px solid var(--secondary);padding:8px 12px;font-size:1.1rem;background:#f1f5f9;}
+.section p{margin:8px 0;}
+.section ul,.section ol{margin:8px 0 8px 22px;}
+.section li{margin:4px 0;}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:0.9rem;line-height:1.5;}
+th,td{border:1px solid var(--border-color);padding:9px 12px;vertical-align:top;}
+th{background:var(--table-header);color:var(--primary);font-weight:bold;text-align:center;}
+.fig{margin:18px 0;text-align:center;}
+.fig img{max-width:620px;width:100%;border:1px solid var(--border-color);border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.08);}
+.fig figcaption{font-size:0.8rem;color:#64748b;margin-top:6px;}
+.quiz-container{border:2px solid var(--quiz-border);border-radius:8px;margin:22px 0;overflow:hidden;}
+.quiz-header{background:var(--quiz-bg);padding:12px 18px;font-weight:bold;color:#166534;border-bottom:1px solid var(--quiz-border);}
+.quiz-header::before{content:"📝 기출 & 예상문제  ";}
+.quiz-question{padding:16px 18px;font-weight:bold;}
+.quiz-options{padding:0 18px 14px 40px;}
+.quiz-options li{margin-bottom:6px;}
+.quiz-explanation{background:#f1f5f9;padding:16px 18px;border-top:1px dashed var(--border-color);font-size:0.92rem;}
+.quiz-explanation strong{color:var(--accent);}
+.fig-imgwrap{position:relative;display:inline-block;max-width:100%;}
+.zoom-btn{position:absolute;top:8px;right:8px;width:34px;height:34px;background:rgba(15,23,42,0.68);color:#fff;border:none;border-radius:7px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:background .15s;}
+.zoom-btn:hover{background:rgba(15,23,42,0.9);}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(10,15,25,0.9);z-index:5000;align-items:center;justify-content:center;padding:36px;}
+.img-lightbox.open{display:flex;}
+.img-lightbox img{max-width:94vw;max-height:88vh;border-radius:6px;box-shadow:0 10px 34px rgba(0,0,0,0.55);background:#fff;}
+.img-lightbox .lightbox-caption{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:0.9rem;padding:0 40px;}
+.lightbox-close{position:absolute;top:18px;right:26px;color:#fff;font-size:2.3rem;line-height:1;cursor:pointer;font-weight:300;}
+.lightbox-close:hover{color:#93c5fd;}
+.law-box{background:#f8fafc;border-left:4px solid var(--primary);padding:14px 18px;margin:18px 0;font-size:0.93rem;color:#334155;}
+.law-box strong{color:var(--primary);}
+.tip-box{background:#ecfeff;border:1px solid #a5f3fc;border-left:5px solid var(--accent);border-radius:6px;padding:14px 18px;margin:20px 0;font-size:0.93rem;}
+.tip-box .tip-h{font-weight:bold;color:#0e7490;display:block;margin-bottom:6px;}
+.tip-box ul{margin:6px 0 0 18px;}
+</style>
+</head>
+<body>
+<div class="top-nav"><a href="../../index.html">← 학습 사이트 메인으로</a></div>
+<div class="header">
+  <div class="header-left">
+    <button id="toggle-sidebar-btn" class="toggle-btn"><span>☰</span> 목차</button>
+    <div class="header-title">[DB05] Ch5 · 유형</div>
+  </div>
+  <div class="header-controls">
+    <div class="control-group"><span id="page-display">1/34</span>
+      <input type="number" id="page-input" placeholder="페이지" min="1">
+      <button type="button" id="page-move-btn">이동</button></div>
+    <div class="control-group"><input type="text" id="search-input" placeholder="본문 검색">
+      <button type="button" id="search-btn">검색</button></div>
+  </div>
+</div>
+<div class="container">
+  <aside class="sidebar" id="sidebar">
+    <h3>📑 학습 목차</h3>
+    <ul><li><a href="#db05-s01">1. 데이터베이스 유형</a></li><li><a href="#db05-s02">2. 데이터베이스 품질</a></li><li><a href="#db05-s03">3. 데이터베이스 보안</a></li><li><a href="#db05-s04">4. XML</a></li>      <li data-qb="1" style="margin-top:8px;"><a href="#allquiz" style="font-weight:700;color:#b91c1c;">📚 전체 기출·예상문제 (11)</a></li>
+</ul>
+  </aside>
+  <main class="content" id="content-area">
+<section id="db05-s01" class="section">
+  <h2>1. 데이터베이스 유형 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.2-13)</span></h2>
+
+  <h3>가. 데이터베이스의 발전과정</h3>
+  <figure class="fig"><img loading="lazy" src="assets/DB05fig/p002.jpg" alt="데이터베이스 발전과정 타임라인 차트. 1960년대 파일시스템부터 계층형 DBMS, 네트워크형 DBMS, 1980년대 관계형 DBMS, 객체지향 DBMS, 객체관계형 DBMS, 2000년대 XML DBMS, 최신 NoSQL까지 계단식으로 쌓여가는 막대 구조"><figcaption>[그림] 데이터베이스 발전과정 — 파일시스템 → 계층형·네트워크형 → 관계형 → 객체지향·객체관계형 → XML DBMS → NoSQL</figcaption></figure>
+
+  <h3>나. DBMS 유형별 특징</h3>
+  <table>
+    <tr><th>유형</th><th>특징</th></tr>
+    <tr><td>계층형 데이터베이스</td><td>데이터를 상하 종속적인 관계의 트리 형태로 저장. 액세스 속도가 빠르고 사용량 예측이 가능하나 변화하는 업무 프로세스 적응이 어려움</td></tr>
+    <tr><td>네트워크형(망형) 데이터베이스</td><td>계층형의 트리 구조를 망(Network) 형태로 확장. 레코드 간 다대다 관계를 포인터로 유지해 빠른 데이터 추출이 가능하나, 복잡한 시스템에서는 유지보수 비용이 큼</td></tr>
+    <tr><td>관계형 데이터베이스(RDB)</td><td>1970년대 E.F. Codd가 제안한 관계형 데이터 모델 기반. 이차원 구조(열·행)에 정보를 저장하며 수학적 이론을 바탕으로 연산을 최적화할 수 있고, 4GL 형식의 질의어(SQL)로 쉽게 검색 가능</td></tr>
+    <tr><td>객체지향 데이터베이스(OODB)</td><td>객체 모델 기반으로 정보를 저장·검색. 사용자 정의 데이터 타입 지원 및 상속성 명세 가능, 비정형 복합 정보 모델링과 참조 구조 기반 네비게이션 접근이 가능</td></tr>
+    <tr><td>객체관계 데이터베이스(ORDB)</td><td>관계형 DB에 객체지향 개념을 접목해 기능을 확장. 사용자 정의 데이터 타입·참조 타입·중첩 테이블·대단위 객체·테이블 상속 관계를 지원</td></tr>
+  </table>
+  <p>계층형 DBMS는 트리 구조, <strong>네트워크(망)형 DBMS가 망(Network) 구조</strong>로 정보를 표현한다는 차이를 혼동하지 않도록 유의한다(IMS는 계층형, DB2·Oracle·SQL Server는 관계형, Objectivity·O2·Versant는 객체지향, UniSQL·Oracle은 객체관계형 제품의 예).</p>
+
+  <h3>다. 객체지향 데이터 모델의 핵심 개념</h3>
+  <p>객체지향 데이터 모델에서 속성과 마찬가지로 메소드도 하위 클래스로 상속될 수 있으며, 메소드의 수행은 객체에 전달되는 메시지에 의해 이루어진다. 객체의 메소드는 오버로딩(Overloading)을 통해 여러 목적으로 사용될 수 있다. 객체식별자(OID: Object IDentifier)는 관계 데이터 모델의 주키와 달리 <strong>한 번 생성되면 값이 변하지 않으며</strong>, 값이 변경되어야 한다면 OID를 삭제하고 재생성해야 한다.</p>
+  <p>한 클래스의 속성(Attribute)과 그 속성의 도메인이 되는 클래스들 간의 관계는 <strong>클래스 구성 계층(class composition hierarchy)</strong>이라 하며, 상위 클래스와 하위 클래스 사이의 IS-A 관계는 클래스 계층(class hierarchy)·상속 계층(inheritance hierarchy)이라 한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · 다중 상속의 제약</span>서로 Super-Sub 관계가 아닌 클래스끼리는(예: 학생 클래스와 사원 클래스) 서로의 애트리뷰트를 상속받을 수 없으며, 공통의 하위 클래스(예: 시간제학생)는 여러 상위 클래스의 애트리뷰트를 모두 상속받는 다중 상속(Multiple Inheritance)이 가능하다. 다만 <strong>동일한 이름의 메소드가 여러 상위 클래스에 동시에 존재하면 이를 동시에 상속받을 수 없고</strong> 재정의(오버라이딩)가 필요하다는 점이 자주 출제된다.</div>
+</section>
+<section id="db05-s02" class="section">
+  <h2>2. 데이터베이스 품질 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.14-17)</span></h2>
+
+  <h3>가. 관점별 데이터 품질 관리 대상</h3>
+  <table>
+    <tr><th>대상 조직</th><th>데이터 값</th><th>데이터 구조</th><th>데이터 프로세스</th></tr>
+    <tr><td>CIO/EDA(개괄적 관점)</td><td>데이터 관리 정책</td><td>-</td><td>-</td></tr>
+    <tr><td>DA(개념적 관점)</td><td>표준 데이터</td><td>개념 데이터 모델, 데이터 참조 모델</td><td>데이터 표준관리, 요구사항 관리</td></tr>
+    <tr><td>모델러(논리적 관점)</td><td>모델 데이터</td><td>논리 데이터 모델</td><td>데이터 모델 관리, 데이터 흐름 관리</td></tr>
+    <tr><td>DBA(물리적 관점)</td><td>관리 데이터</td><td>물리 데이터 모델, 데이터베이스</td><td>DB 관리, DB 보안 관리</td></tr>
+    <tr><td>사용자(운용적 관점)</td><td>업무 데이터</td><td>사용자 뷰</td><td>데이터 활용 관리</td></tr>
+  </table>
+
+  <h3>나. 데이터 품질기준·품질관리 프로세스·성숙수준</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>데이터 품질기준</td><td>데이터 유효성 측면(정확성·일관성), 데이터 활용성 측면(유용성·접근성·적시성·보안성)</td></tr>
+    <tr><td>데이터 품질관리 프로세스</td><td>품질기준 향상에 필요한 프로세스로 요구사항 관리·데이터 구조 관리·데이터 흐름 관리·데이터베이스 관리·데이터 활용 관리·데이터 표준관리·데이터 오너십 관리·사용자 뷰 관리 등이 있으며, 품질기준과 반드시 1:1로 대응하지는 않고 여러 기준과 동시에 연관되기도 함</td></tr>
+    <tr><td>데이터 품질관리 성숙수준</td><td>1단계(도입)~5단계(최적화)로 정의되며, 성숙수준이 높을수록 체계적이고 정교한 관리가 수행됨을 의미(도입→정형화→통합화→정량화→최적화)</td></tr>
+  </table>
+  <table>
+    <tr><th>품질 진단 종류</th><th>설명</th></tr>
+    <tr><td>데이터 값 진단</td><td>데이터 값과 관련된 품질기준을 적용해 오류내역을 산출하고 주요 원인을 분석해 개선사항을 제안</td></tr>
+    <tr><td>데이터 구조 진단</td><td>데이터 모델링 관점에서 데이터 품질을 진단</td></tr>
+    <tr><td>데이터 관리 프로세스 진단</td><td>현행 데이터 관리 프로세스를 분석해 문제점을 도출하고 이를 개선할 수 있는 핵심 업무 프로세스를 표준화하여 재설계</td></tr>
+  </table>
+  <p>데이터 프로파일링은 데이터의 중요 정보와 통계 값을 수집하는 정보분석 기법으로, 데이터 값 진단의 기초 자료로 활용된다. <strong>"핵심 업무 프로세스를 최적화한다"는 설명은 데이터 구조 진단이 아니라 데이터 관리 프로세스 진단에 해당</strong>한다는 점이 출제 포인트다.</p>
+</section>
+<section id="db05-s03" class="section">
+  <h2>3. 데이터베이스 보안 <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.18-25)</span></h2>
+
+  <h3>가. 데이터베이스 보안의 필요성</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>기업 정보의 가치 중요성 증대</td><td>초경쟁 경영환경에서 신속한 의사결정·민첩한 대응을 위한 정보 중요성 증대</td></tr>
+    <tr><td>정보시스템 보안 위협 증가</td><td>해킹·웜/바이러스 증가 및 해킹 도구로 인한 악의적 정보 노출범위 확대</td></tr>
+    <tr><td>데이터베이스 보안 미비</td><td>네트워크·시스템 보안에 치중되어 상대적으로 소홀해지는 보안 사각지대</td></tr>
+    <tr><td>실수에 의한 정보 변경 방지</td><td>비의도적 행위로 발생하는 정보 침해 예방</td></tr>
+  </table>
+
+  <h3>나. 정보 노출 위협 유형과 보안 요구특성</h3>
+  <table>
+    <tr><th>구분</th><th>설명</th></tr>
+    <tr><td>불법 접근</td><td>비인가자의 DB 접근, 인가자의 인가범위를 벗어난 데이터 접근</td></tr>
+    <tr><td>Aggregation(조합·집단화)</td><td>낮은 보안등급의 정보조각들을 조합해 높은 등급의 정보를 획득. 개별 데이터 항목보다 종합정보의 보안등급이 높은 경우 심각(예: 각 지사의 영업실적을 조합해 대외비인 총 매출실적 산정)</td></tr>
+    <tr><td>Inference(추론)</td><td>보안등급이 없는 일반 사용자가 정당하게 접근한 비보안 정보로부터 기밀정보를 유추하는 행위</td></tr>
+  </table>
+  <table>
+    <tr><th>요구특성</th><th>설명</th></tr>
+    <tr><td>인증(Authentication)</td><td>DB에 접근하는 사용자가 정당한 사용자임을 확인. 정당한 인증절차 없이는 접근 불가</td></tr>
+    <tr><td>가용성(Availability)</td><td>부당한 서비스 거부를 감지·예방해 정당한 사용자가 필요할 때 데이터를 사용할 수 있도록 보장</td></tr>
+    <tr><td>무결성(Integrity)</td><td>정보의 부적절한 변경을 예방·감지 — 타인이 임의로 정보를 변경하지 못하도록 함</td></tr>
+    <tr><td>기밀성(Confidentiality)</td><td>정보의 부적절한 접근을 방지·제지·감시 — 일부 부서 전용 정보가 다른 부서에 노출되지 않도록 함</td></tr>
+  </table>
+
+  <h3>다. 접근통제 기법</h3>
+  <table>
+    <tr><th>구분</th><th>주요 내용</th></tr>
+    <tr><td>접근통제(Access Control)</td><td>허가받지 않은 사용자의 DB 자체에 대한 접근을 방지(예: 계정·암호, RBAC). 각종 조작의 주체를 파악하는 트랜잭션 로그 파일 자료 제공</td></tr>
+    <tr><td>허가 규칙(Authorization Rules)</td><td>정당한 절차로 DBMS에 접근한 사용자라도 허가받지 않은 데이터에는 접근하지 못하도록 방지 — 뷰를 통해 사용자별로 특정 투플의 속성 단위까지 세분화 가능</td></tr>
+    <tr><td>가상 테이블(Views)</td><td>가상 테이블로 전체 DB 중 사용자가 허가받은 관점만 볼 수 있도록 한정</td></tr>
+    <tr><td>암호화(Encryption)</td><td>데이터를 암호화해 형태를 변형, 가독성을 원천적으로 봉쇄</td></tr>
+  </table>
+  <p>권한부여 기법으로는 모든 사용자의 프로파일을 하나의 테이블로 종합 관리하는 권한 부여 테이블(Authorization Table), 뷰(View) 자체를 활용한 권한부여(단, 갱신·삽입·삭제 연산에는 제약), SQL의 GRANT/REVOKE 명령어 등이 있다. <strong>권한부여 대상 데이터 객체의 크기를 투플의 속성 단위까지 세분화하는 것도 뷰를 통해 가능</strong>하다는 점에 유의한다.</p>
+
+  <h3>라. 필수 접근 제어(MAC)와 벨라파둘라 모델</h3>
+  <p>필수 접근 제어(MAC: Mandatory Access Control)는 데이터 객체에는 비밀 등급, 사용자에는 허가 등급을 지정해, 사용자의 허가 등급이 데이터의 비밀 등급보다 <strong>크거나 같은 경우에 판독(읽기)이 가능</strong>하고, 반대로 허가 등급이 비밀 등급보다 <strong>작거나 같은 경우에 갱신(쓰기)이 가능</strong>하도록 통제한다("허가 등급이 비밀 등급보다 커야 갱신 가능"은 오답). 보안 등급은 극비(Top Secret) &gt; 비밀(Secret) &gt; 대외비(Confidential) &gt; 일반(Unclassified) 순이다.</p>
+  <figure class="fig"><img loading="lazy" src="assets/DB05fig/p025.jpg" alt="벨라파둘라 모델(Bell-LaPadula Model) 개념도. 주체(보안등급·범주집합)와 시스템상태, 객체(접근모드) 3단 구조와, 보안 레벨 1~3 사이에서 상위 레벨 문서 읽기 금지(No Read Up)·상위 레벨 쓰기 허락(Write Up)·하위 레벨 읽기 허용(Read Down)·하위 레벨 쓰기 금지(No Write Down) 화살표로 표현한 다이어그램"><figcaption>[그림] 벨라파둘라 모델(Bell-LaPadula Model) — No Read Up·Write Up(쓰기 상향 허용)·Read Down(읽기 하향 허용)·No Write Down 규칙</figcaption></figure>
+  <p>벨라파둘라 모델은 기밀성을 강조하는 Rule-based 접근통제 모델로, 읽기 권한은 <strong>자신의 권한과 같거나 낮은 수준의 문서만 읽을 수 있으며(No Read Up)</strong>, 쓰기 권한은 <strong>자신보다 높은 보안 레벨의 문서에는 쓸 수 있지만(Write Up) 보안 레벨이 낮은 문서에는 쓸 수 없다(No Write Down)</strong>는 원칙으로 정보가 높은 등급에서 낮은 등급으로 유출되는 것을 차단한다.</p>
+</section>
+<section id="db05-s04" class="section">
+  <h2>4. XML <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(원본 p.26-34)</span></h2>
+
+  <h3>가. XML의 개념과 특징</h3>
+  <p>XML(eXtensible Markup Language)은 웹 환경에서 데이터를 구조화하고 교환하기 위해 표준으로 개발된 확장 가능한 마크업 언어다.</p>
+  <table>
+    <tr><th>특징</th><th>설명</th></tr>
+    <tr><td>단순성</td><td>SGML을 간략화 — 사용되지 않는 기능은 없애고 주요 기능만 수용</td></tr>
+    <tr><td>개방성</td><td>HTML과 함께 Web에서 사용 가능하며 메타데이터를 주고받을 수 있음</td></tr>
+    <tr><td>확장성</td><td>자신만의 태그를 생성할 수 있는 자체기술(Self-describing) 구조</td></tr>
+    <tr><td>사람·기계 모두 이해 가능한 구조</td><td>데이터 비교·취합이 용이</td></tr>
+    <tr><td>내용과 표현의 분리</td><td>이용자가 원하는 포맷으로 변환 가능해 재사용성 증가</td></tr>
+    <tr><td>계층적 구조</td><td>구조 검색·전문 검색 모두 가능</td></tr>
+    <tr><td>유니코드</td><td>여러 국가 언어 지원</td></tr>
+  </table>
+
+  <h3>나. XML의 구성도</h3>
+  <figure class="fig"><img loading="lazy" src="assets/DB05fig/p027.jpg" alt="XML 구성도. 중심의 XML을 기준으로 왼쪽에는 XML Schema&amp;DTD(구조 선언)와 XQL(query), 위쪽에는 DOM(object 추출 Processing), 오른쪽에는 XSL(표현)이 XSLT(다양한 문서 양식으로 전환)로 이어지고, 아래쪽에는 XLL(query로 XML 연결)이 Xpath(addressing)와 Xpointer/Xlink(2가지 종류)로부터 연결되는 관계도"><figcaption>[그림] XML 구성도 — XML을 중심으로 DOM·XQL·XLL(Xpointer/Xlink)·XSL(XSLT)·XML Schema&DTD·Xpath가 맺는 관계</figcaption></figure>
+
+  <h3>다. XML 관련 구성요소</h3>
+  <table>
+    <tr><th>구성요소</th><th>설명</th></tr>
+    <tr><td>XML DTD</td><td>XML Document Type Definition — XML 문서의 형태를 일관된 구조로 정의, XML 유효성 검증에 사용</td></tr>
+    <tr><td>XML Schema</td><td>XML DTD를 대체하기 위해 개발된 고급 데이터 정의 언어. DTD보다 복잡한 데이터 타입 선언이 가능</td></tr>
+    <tr><td>Xpath</td><td>XML 경로식에 탐색 조건을 수용할 수 있도록 확장해 질의를 표현하는 언어</td></tr>
+    <tr><td>Xquery</td><td>XML 표준 질의어 — XML 파일로부터 데이터베이스처럼 원하는 정보를 추출. SQL이 아닌 W3C 표준 FLWOR(For, Let, Where, Order by, Return) 명령어 사용</td></tr>
+    <tr><td>XSL / XSLT</td><td>XSL은 XML 데이터를 여러 형태로 표현하기 위한 스타일시트 명세 언어. XSLT는 XSL의 일부로 XML 문서를 다른 유형(HTML 등)의 문서로 변환</td></tr>
+    <tr><td>XLL</td><td>XML 요소 간 연결·관계를 표시 — XLink(Hyper Link 인식·처리), XPointer(XML 문서 내 요소의 주소)</td></tr>
+  </table>
+  <p>XML 문서 작성 규칙으로는 첫 줄에 반드시 XML 선언 태그를 포함해야 하고(둘째 줄에 스타일시트를 포함할 필요는 없음), 루트 노드는 문서 중 반드시 하나여야 하며, 대소문자를 구분하고, 모든 요소는 닫는 태그를 가져야 하며 올바르게 중첩되어야 한다.</p>
+
+  <div class="tip-box"><span class="tip-h">💡 Tip · SQL/XML 표준과 XQuery</span>SQL 질의 결과로 XML을 생성하거나 INSERT문의 입력으로 XML을 사용할 수 있고, 데이터 저장 시 속성의 타입으로 XML 타입을 지정하는 것도 가능하다. 다만 <strong>XQuery문에서는 SQL문을 사용할 수 없으며</strong>, 대신 W3C 표준인 FLWOR(For-Let-Where-Order by-Return) 명령어를 사용한다는 점이 함정으로 출제된다.</div>
+</section>
+    <section id="allquiz" class="section">
+      <h2>📚 전체 기출·예상문제 (11문항) — 원문 수록</h2>
+      <p>본 강좌 원본 PDF에 수록된 기출·예상문제를 <strong>빠짐없이 원문 그대로</strong> 정리했습니다. 정답·해설은 강의 원문 기준입니다.</p>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q1. 객체-관계 DBMS의 기능을 설명한 것으로 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.4)</span></div><ol class="quiz-options"><li>공간, 시계열, 텍스트 및 문서 데이터베이스 등을 저장할 수 있는 확장된 기능을 제공한다.</li><li>다치(Multi-value) 애트리뷰트와 사용자 정의 데이터 타입을 지원한다.</li><li>상위 클래스의 애트리뷰트와 메소드를 상속받을 수 있다.</li><li>SQL:1986 표준안에서 객체지향 개념을 지원하도록 발표하였다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — 객체지향 개념은 SQL:1999에서 발표됨</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q2. 객체지향 데이터 모델에 대한 설명으로 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.6)</span></div><ol class="quiz-options"><li>속성과 마찬가지로 메소드도 하위 클래스로 상속될 수 있다.</li><li>메소드의 수행은 객체에 전달되는 메시지에 의해 전달된다.</li><li>객체의 메소드는 오버로딩(Overloading)을 통하여 여러 목적으로 사용될 수 있다.</li><li>객체식별자(OID: Object IDentifier)는 관계 데이터 모델의 주 키처럼 객체가 가지는 값의 일부로 생성되며 값이 변하면 OID도 변경된다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ④ — OID는 한 번 생성되면 값이 변하지 않으며, 값 변경이 필요하면 삭제 후 재생성해야 함</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q3. 객체지향 데이터베이스에서 한 클래스의 속성(attribute)과 그 속성의 도메인이 되는 클래스들 간의 관계를 지칭하는 말은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.8)</span></div><ol class="quiz-options"><li>클래스 계층(class hierarchy)</li><li>클래스 구성 계층(class composition hierarchy)</li><li>클래스 격자(class lattice)</li><li>상속 계층(inheritance hierarchy)</li></ol><div class="quiz-explanation"><strong>정답</strong> ②</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q4. DBMS 종류별 특징을 설명한 내용 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2012, 원본 p.10)</span></div><ol class="quiz-options"><li>계층형 DBMS는 네트워크 구조로 정보를 표현하기에 데이터 모델링 및 관리가 쉽다. IMS 등의 제품이 있다.</li><li>관계형 DBMS는 테이블 구조로 정보를 표현하며 SQL 언어를 지원한다. DB2, Oracle, SQL Server 등의 제품이 있다.</li><li>객체지향 DBMS는 상속, 캡슐화를 지원하며 멀티미디어 정보 관리에 유용하다. Objectivity, O2, Versant 등의 제품이 있다.</li><li>객체관계형 DBMS는 관계 데이터 모델과 객체지향 데이터 모델의 기능을 지원한다. UniSQL, Oracle 등의 제품이 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ① — 계층형 DBMS는 트리 구조이며, 네트워크(망) 구조는 네트워크형 DBMS의 특징</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q5. 다음의 클래스 계층(class hierarchy) 구조에 대한 설명 중 틀린 것을 모두 고르시오. (2개 선택) (단, 사람 클래스는 학생 클래스와 사원 클래스의 수퍼 클래스이고, 학생 클래스와 사원 클래스는 시간제학생 클래스의 수퍼 클래스이다) <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.12)</span></div>
+      <figure class="fig"><img loading="lazy" src="assets/DB05fig/p012.jpg" alt="클래스 계층 다이어그램. 최상위 사람 클래스(주민등록번호·이름·주소 애트리뷰트)가 학생 클래스(학번·학과·입학년도, 등록() 메소드)와 사원 클래스(사번·연봉·소속부서, 등록() 메소드) 두 서브클래스로 분화되고, 학생과 사원 두 클래스가 다시 시간제학생 클래스(전공·지도교수)로 다중 상속되는 4단 트리 구조"><figcaption>[그림] 클래스 계층 구조 — 사람 → (학생, 사원) → 시간제학생(다중 상속)</figcaption></figure>
+      <ol class="quiz-options"><li>학생 클래스는 사람 클래스의 애트리뷰트를 상속받을 수 있으나, 사원 클래스의 애트리뷰트는 상속받을 수 없다.</li><li>시간제학생 클래스는 학생 클래스와 사원 클래스의 애트리뷰트를 모두 상속받을 수 있다.</li><li>시간제학생 클래스는 학생 클래스의 등록() 메소드와 사원 클래스의 등록() 메소드를 동시에 상속받을 수 있다.</li><li>사람 클래스는 학생 클래스와 사원 클래스의 애트리뷰트는 상속받을 수 있으나, 시간제학생 클래스의 애트리뷰트는 상속받을 수 없다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ ④ — 학생·사원은 Super-Sub 관계가 아니므로 ①은 옳은 설명. 시간제학생은 학생·사원 모두의 서브클래스이므로 다중 상속으로 ②는 옳은 설명이나, 동일한 이름의 메소드(등록())를 동시에 상속받을 수는 없어 ③은 틀림. 상속은 상위→하위 방향으로만 이루어지므로 사람 클래스가 하위 클래스인 시간제학생의 애트리뷰트를 상속받는 것 자체가 성립하지 않는 잘못된 서술이라 ④도 틀림.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q6. 데이터 품질에 관한 다음 설명 중 옳지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.16)</span></div><ol class="quiz-options"><li>데이터 품질은 조직의 목적 달성을 위하여 관리되는 데이터가 이용자의 만족을 충족시킬 수 있는 수준을 말한다.</li><li>데이터 품질 관리는 조직이 운영하는 정보시스템을 활용하는 이용자의 기대를 만족시키기 위하여 수행하는 데이터 관리 활동이다.</li><li>데이터 품질 진단의 종류 중 데이터 구조 진단은 데이터 관리 프로세스를 분석하여 문제점을 도출하고, 이를 개선할 수 있는 핵심 업무 프로세스를 최적화한다.</li><li>데이터 품질 진단을 위한 데이터 프로파일링은 데이터의 중요 정보와 통계 값을 수집하는 정보분석 기법이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 해당 설명은 데이터 구조 진단이 아니라 데이터 관리 프로세스 진단에 해당</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q7. 데이터베이스 보안(Security)은 사용자가 정당한 권한(Authorization) 없이는 어떤 연산도 데이터베이스에 수행시킬 수 없도록 하는 것이다. 시스템은 사용자와 이 사용자에 부여한 권한에 대해 완전히 알고 있어야 하고 사용자에 권한을 부여하는 기법을 가지고 있어야 한다. 시스템의 권한부여 기법에 관한 설명 중에서 가장 적절하지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.21)</span></div><ol class="quiz-options"><li>모든 사용자에 대한 프로파일(Profile)을 하나의 테이블로 종합해서 관리할 수 있는 권한 부여 테이블(Authorization Table)이 있다.</li><li>뷰(View)의 정의는 그 자체가 권한부여 기법이 된다. 그러나 갱신이나 삽입, 삭제와 같은 연산에 제약이 있다.</li><li>권한부여의 대상이 되는 데이터 객체의 크기를 투플(Tuple)의 속성(Attribute)단위로 세분화할 수는 없다.</li><li>SQL은 특정 데이터와 연산을 특정 사용자만이 수행할 수 있게 권한부여를 명세할 수 있는 명령어를 제공한다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 뷰를 통해 사용자별로 특정 투플의 속성 단위까지 세분화하여 권한을 부여할 수 있음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q8. 데이터 객체에 대한 제어 기법 중 필수 접근 제어(mandatory access control)에 대한 설명으로 옳지 않은 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2016, 원본 p.23)</span></div><ol class="quiz-options"><li>데이터 객체에 대해서는 일정한 비밀 등급이, 사용자에 대해서는 일정한 허가 등급이 지정된다.</li><li>사용자의 허가 등급이 데이터의 비밀 등급보다 크거나 같은 경우에 판독이 가능하다.</li><li>사용자의 허가 등급이 데이터의 비밀 등급보다 커야 갱신이 가능하다.</li><li>보안 등급은 극비(top secret) &gt; 비밀(secret) &gt; 대외비(confidential) &gt; 일반(unclassified)의 순서이다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 벨라파둘라 모델(No Write Down)에 따르면 갱신(쓰기)은 허가 등급이 비밀 등급보다 작거나 같은 경우에 가능(자신보다 낮은 등급 문서에는 쓸 수 없음)하며, "커야 갱신 가능"이라는 서술은 틀림. 비밀등급 순위는 TS &gt; S &gt; C &gt; U.</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q9. 다음 중 XML 구문에 대한 설명으로 잘못된 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2011, 원본 p.29)</span></div><ol class="quiz-options"><li>첫줄은 반드시 XML 태그를 포함한다</li><li>둘째줄은 반드시 스타일시트(Stylesheet)를 포함한다</li><li>루트 노드는 문서 중에 반드시 한 개 있어야 한다</li><li>대소문자를 구분한다</li></ol><div class="quiz-explanation"><strong>정답</strong> ② — 스타일시트를 반드시 포함할 필요는 없음</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q10. 데이터베이스와 웹페이지간의 데이터 교환을 위해 개발된 XML의 주요 기술의 명칭을 올바르게 나열한 것은? 가. 한 XML 문서에서 다른 XML 문서로의 변환을 기술하는 XML 응용 나. XML 문서의 구조를 기술하는 XML 형식의 언어로 DTD를 확장하여 대체한 것 다. XML 문서의 파싱에 사용되며 XML 문서 전체를 한 번에 처리하여 트리의 형태로 표현하기 위한 API <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2013, 원본 p.31)</span></div><ol class="quiz-options"><li>XSLT, XML Schema, XQuery</li><li>XPath, RDF, SAX</li><li>XSLT, XML Schema, DOM</li><li>XSL, XPath, XSLT</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — 가=XSLT(변환), 나=XML Schema(구조 기술, DTD 확장·대체), 다=DOM(트리 형태로 표현하는 파싱 API)</div></div>
+      <div class="quiz-container"><div class="quiz-header"></div><div class="quiz-question">Q11. SQL/XML 표준이 2003년에 제안되어 XML을 SQL에서 사용하는 방법이 기술되었다. XML과 SQL에 대한 관계형 DBMS 벤더들의 지원에 대한 다음 설명 중 가장 거리가 먼 것은? <span style="font-weight:400;color:#94a3b8;font-size:0.8rem;">(2014, 원본 p.33)</span></div><ol class="quiz-options"><li>SQL 질의의 결과로 XML을 생성할 수 있다.</li><li>SQL INSERT 문의 입력으로 XML을 사용할 수 있다.</li><li>SQL문을 XQuery문에서 사용할 수 있다.</li><li>데이터 저장시 속성의 타입으로 XML 타입을 지정할 수 있다.</li></ol><div class="quiz-explanation"><strong>정답</strong> ③ — XQuery에서는 SQL을 사용할 수 없으며 W3C 표준인 FLWOR(For, Let, Where, Order by, Return) 명령어를 사용</div></div>
+    </section>
+
+  </main>
+</div>
+<div class="img-lightbox" id="img-lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var sidebar=document.getElementById('sidebar');
+  document.getElementById('toggle-sidebar-btn').addEventListener('click',function(){ sidebar.classList.toggle('hidden'); });
+
+  // === 이미지 확대 라이트박스 ===
+  (function(){
+    var lb=document.getElementById('img-lightbox'), lbImg=document.getElementById('lightbox-img'), lbCap=document.getElementById('lightbox-caption'), lbClose=document.getElementById('lightbox-close');
+    function openLb(src,cap){ lbImg.src=src; lbCap.textContent=cap||''; lb.classList.add('open'); }
+    function closeLb(){ lb.classList.remove('open'); lbImg.src=''; }
+    document.querySelectorAll('.fig img').forEach(function(img){
+      var wrap=document.createElement('span'); wrap.className='fig-imgwrap';
+      img.parentNode.insertBefore(wrap,img); wrap.appendChild(img);
+      var btn=document.createElement('button'); btn.type='button'; btn.className='zoom-btn'; btn.title='이미지 확대'; btn.innerHTML='🔍';
+      wrap.appendChild(btn);
+      var figEl=img.closest('figure'); var capEl=figEl?figEl.querySelector('figcaption'):null; var capText=capEl?capEl.textContent:(img.alt||'');
+      btn.addEventListener('click',function(e){ e.stopPropagation(); openLb(img.src,capText); });
+      img.addEventListener('click',function(){ openLb(img.src,capText); });
+    });
+    lbClose.addEventListener('click',closeLb);
+    lb.addEventListener('click',function(e){ if(e.target===lb) closeLb(); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLb(); });
+  })();
+  var pageDisplay=document.getElementById('page-display'), pageInput=document.getElementById('page-input'), pageMoveBtn=document.getElementById('page-move-btn');
+  function calc(){ var ph=window.innerHeight, tot=document.documentElement.scrollHeight; var tp=Math.max(1,Math.ceil(tot/ph)); var cp=Math.min(tp,Math.floor(window.scrollY/ph)+1); pageDisplay.textContent=cp+'/'+tp; pageInput.max=tp; return {ph:ph,tp:tp}; }
+  window.addEventListener('scroll',function(){ requestAnimationFrame(calc); }); window.addEventListener('resize',calc); calc();
+  pageMoveBtn.addEventListener('click',function(){ var t=parseInt(pageInput.value,10); var c=calc(); if(t>0&&t<=c.tp){ window.scrollTo({top:(t-1)*c.ph,behavior:'smooth'}); } else if(t>c.tp){ window.scrollTo({top:document.documentElement.scrollHeight,behavior:'smooth'}); } });
+  pageInput.addEventListener('keypress',function(e){ if(e.key==='Enter') pageMoveBtn.click(); });
+
+  var searchInput=document.getElementById('search-input'), searchBtn=document.getElementById('search-btn'), contentArea=document.getElementById('content-area');
+  var matches=[], mi=-1;
+  function clearHi(){ contentArea.querySelectorAll('mark.search-highlight').forEach(function(m){ var p=m.parentNode; p.replaceChild(document.createTextNode(m.textContent),m); p.normalize(); }); matches=[]; mi=-1; }
+  function doHighlight(term){ clearHi(); if(!term){ searchInput.dataset.last=''; return 0; } searchInput.dataset.last=term;
+    var esc=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    var w=document.createTreeWalker(contentArea,NodeFilter.SHOW_TEXT,null,false), nodes=[], n;
+    while(n=w.nextNode()){ if(n.parentElement.tagName!=='SCRIPT'&&n.parentElement.tagName!=='STYLE'&&n.nodeValue.toLowerCase().includes(term.toLowerCase())) nodes.push(n); }
+    nodes.forEach(function(tn){ var rx=new RegExp('('+esc+')','gi'), fr=document.createDocumentFragment(), li=0;
+      tn.nodeValue.replace(rx,function(mt,p1,off){ fr.appendChild(document.createTextNode(tn.nodeValue.slice(li,off))); var mk=document.createElement('mark'); mk.className='search-highlight'; mk.textContent=mt; fr.appendChild(mk); li=off+mt.length; });
+      fr.appendChild(document.createTextNode(tn.nodeValue.slice(li))); tn.parentNode.replaceChild(fr,tn); });
+    matches=contentArea.querySelectorAll('mark.search-highlight'); return matches.length; }
+  function scrollToEl(el,off){ if(!el) return; var r=el.getBoundingClientRect(); window.scrollTo({top:window.pageYOffset+r.top-(off||120),behavior:'smooth'}); }
+  function performSearch(){ var term=searchInput.value.trim();
+    if(term&&term===searchInput.dataset.last&&matches.length){ matches[mi].classList.remove('active'); mi=(mi+1)%matches.length; matches[mi].classList.add('active'); scrollToEl(matches[mi]); return; }
+    var c=doHighlight(term); if(!term) return; if(c===0){ alert('검색 결과가 없습니다.'); return; } mi=0; matches[0].classList.add('active'); scrollToEl(matches[0]); }
+  searchBtn.addEventListener('click',performSearch);
+  searchInput.addEventListener('keypress',function(e){ if(e.key==='Enter') performSearch(); });
+  searchInput.addEventListener('input',function(e){ if(e.target.value.trim()===''){ clearHi(); searchInput.dataset.last=''; } });
+
+  function externalGoto(id,term){ if(term){ var c=doHighlight(term); if(c>0){ mi=0; matches[0].classList.add('active'); } }
+    var el=id?document.getElementById(id):null; var target=el||(matches&&matches[0])||null;
+    var off=document.documentElement.classList.contains('embedded')?70:120; if(target) setTimeout(function(){ scrollToEl(target,off); },40); }
+  function parseNavHash(){ var h=(location.hash||'').replace(/^#/,''); if(!h) return null; var p=new URLSearchParams(h); if(p.has('sec')||p.has('q')) return {id:p.get('sec')||'',q:p.get('q')||''}; return {id:h,q:''}; }
+  var nav=parseNavHash(); if(nav) setTimeout(function(){ externalGoto(nav.id,nav.q); },80);
+  window.addEventListener('hashchange',function(){ var n=parseNavHash(); if(n) externalGoto(n.id,n.q); });
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-goto') externalGoto(d.id||'',d.q||''); });
+});
+</script>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('embedded');
+  var syncHeaderOffset=function(){ var hdr=document.querySelector('.header'); if(!hdr) return; var h=Math.ceil(hdr.getBoundingClientRect().height); document.documentElement.style.setProperty('--embed-hdr',(h+8)+'px'); };
+  window.addEventListener('load',syncHeaderOffset); window.addEventListener('resize',syncHeaderOffset); syncHeaderOffset();
+  window.addEventListener('message',function(e){ var d=e.data||{}; if(d&&d.type==='lecture-chrome'){ document.documentElement.classList.toggle('chrome-hidden',d.show===false); setTimeout(syncHeaderOffset,40); } });
+}
+</script>
+</body>
+</html>

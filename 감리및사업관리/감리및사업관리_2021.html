@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>감리및사업관리 2021년도 기출해설집</title>
+<title>감리 및 사업관리 2021년도 기출해설집</title>
 <style>
 :root {
   --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
@@ -63,11 +63,32 @@ strong { color:#0f172a; font-weight:700; }
 .answer-box { display:none; }
 .question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
 .question-view.show-answer .answer-box { display:block; }
+
+/* ── 삽입 이미지: 영역 폭에 맞춰 축소, 클릭 시 확대(라이트박스) ── */
+.fig-imgwrap { position:relative; display:block; margin:0.6rem auto; max-width:100%; text-align:center; }
+.section-text img, .overview-card img {
+  display:block; max-width:100%; width:auto; height:auto;
+  max-height:340px; margin:0 auto;
+  border:1px solid var(--border-color); border-radius:6px; background:#fff;
+  object-fit:contain; cursor:zoom-in;
+}
+.zoom-btn { position:absolute; top:6px; right:6px; z-index:2; width:28px; height:28px; line-height:1;
+  border:1px solid var(--border-color); border-radius:6px; background:rgba(255,255,255,0.92);
+  color:var(--primary-color); font-size:0.9rem; cursor:pointer; padding:0; }
+.zoom-btn:hover { background:#fff; border-color:var(--accent-color); }
+.img-lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.85);
+  align-items:center; justify-content:center; padding:2rem; }
+.img-lightbox.open { display:flex; }
+.img-lightbox img { max-width:96vw; max-height:88vh; width:auto; height:auto;
+  background:#fff; border-radius:8px; box-shadow:0 10px 30px rgb(0 0 0 / 0.45); cursor:zoom-out; }
+.lightbox-close { position:absolute; top:14px; right:18px; width:38px; height:38px; border:none; border-radius:8px;
+  background:rgba(255,255,255,0.9); color:#0f172a; font-size:1.2rem; font-weight:800; cursor:pointer; }
+.lightbox-caption { position:absolute; bottom:16px; left:0; right:0; text-align:center; color:#e2e8f0; font-size:0.82rem; padding:0 2rem; }
 </style>
 </head>
 <body>
   <div class="page-header">
-    <div class="page-title">감리및사업관리 <small>2021년도 기출해설집 · 총 25문항</small></div>
+    <div class="page-title">감리 및 사업관리 <small>2021년도 기출해설집 · 총 25문항</small></div>
     <div class="qnav">
       <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
       <button class="btn" onclick="go(-1)">← 이전</button>
@@ -533,7 +554,14 @@ strong { color:#0f172a; font-weight:700; }
 
     <div class="question-view" data-num="4" style="display:none;">
       <div class="content-workspace">
-        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 네트워크 다이어그램을 보고 가장 적절한 자원평준화(resource leveling) 방법은? (단, 활동들은 가능한 가장 빠른 시점에 시작된다고 가정한다.) [a(2일,자원3), b(3일,자원3), c(5일,자원6) 병행활동 네트워크]</p>
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 네트워크 다이어그램을 보고 가장 적절한 자원평준화(resource leveling) 방법은? (단, 활동들은 가능한 가장 빠른 시점에 시작된다고 가정한다.)</p>
+<p><img alt="2021년 4번 AOA 네트워크 - 마디1에서 활동a(2일,자원3)는 마디2로, 활동b(3일,자원3)는 마디3으로, 활동c(5일,자원6)는 마디4로 연결되고 마디2·마디3은 더미활동(점선)으로 마디4에 합류" src="assets/2021/q04.png" /></p>
+<p><strong>(그림 서술 전사)</strong> 활동-화살표(AOA) 네트워크이며, 화살표 라벨은 <code>활동명, 소요기간(일)</code> / 대괄호는 <code>소요자원(명)</code> 이다.<br />
+- <strong>① → ②</strong> : 활동 <strong>a</strong>, 2일, 자원 <strong>[3]</strong><br />
+- <strong>① → ③</strong> : 활동 <strong>b</strong>, 3일, 자원 <strong>[3]</strong><br />
+- <strong>① → ④</strong> : 활동 <strong>c</strong>, 5일, 자원 <strong>[6]</strong><br />
+- <strong>② → ④</strong>, <strong>③ → ④</strong> : <strong>더미활동</strong>(점선 화살표, 소요기간·자원 없음)</p>
+<p>즉 a·b·c 세 활동이 마디 ①에서 <strong>동시에 시작</strong>되어 병행 수행되고, a와 b가 끝나면 더미활동으로 마디 ④에 합류한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① a 활동을 4일 늦게 시작한다.<br />
 ② b 활동을 2일 늦게 시작한다.<br />
@@ -3212,6 +3240,42 @@ strong { color:#0f172a; font-weight:700; }
       </div>
     </div>
   </div>
+  <div class="img-lightbox" id="img-lightbox">
+    <button class="lightbox-close" id="lightbox-close" title="닫기 (Esc)">✕</button>
+    <img id="lightbox-img" src="" alt="확대 이미지">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+<script>
+/* 삽입 이미지 라이트박스: 본문에서는 영역 폭에 맞게 축소, 클릭·돋보기로 원본 확대 */
+(function () {
+  var box = document.getElementById('img-lightbox');
+  var bimg = document.getElementById('lightbox-img');
+  var bcap = document.getElementById('lightbox-caption');
+  function open(src, cap) {
+    bimg.src = src; bcap.textContent = cap || ''; box.classList.add('open');
+  }
+  function close() { box.classList.remove('open'); bimg.src = ''; }
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box || e.target === bimg) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.querySelectorAll('.section-text img, .overview-card img').forEach(function (img) {
+    if (img.closest('.fig-imgwrap')) return;
+    var wrap = document.createElement('span');
+    wrap.className = 'fig-imgwrap';
+    img.parentNode.insertBefore(wrap, img);
+    wrap.appendChild(img);
+    var btn = document.createElement('button');
+    btn.className = 'zoom-btn';
+    btn.type = 'button';
+    btn.title = '이미지 확대';
+    btn.textContent = '🔍';
+    wrap.appendChild(btn);
+    var fire = function () { open(img.getAttribute('src'), img.getAttribute('alt') || ''); };
+    btn.addEventListener('click', fire);
+    img.addEventListener('click', fire);
+  });
+})();
+</script>
 <script>
   const views = Array.from(document.querySelectorAll('.question-view'));
   const nums = views.map(function(v){ return v.dataset.num; });

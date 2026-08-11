@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>정보시스템 감리사 기출해설 시스템</title>
+
+    <!-- PWA: 앱 설치 / 아이콘 -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="감리사학습">
+    <script>
+      // 서비스워커는 http/https 로 서빙될 때만 등록(로컬 file:// 에서는 건너뜀)
+      if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        });
+      }
+    </script>
     <style>
         :root {
             --primary-color: #1e3a8a; --primary-dark: #0f172a; --accent-color: #0ea5e9;

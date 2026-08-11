@@ -1,0 +1,20 @@
+{
+  "name": "정보시스템 감리사 학습 시스템",
+  "short_name": "감리사학습",
+  "description": "정보시스템 감리사 기출해설 및 강의교재 학습 사이트",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#1e3a8a",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

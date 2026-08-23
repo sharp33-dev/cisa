@@ -63,6 +63,27 @@ strong { color:#0f172a; font-weight:700; }
 .answer-box { display:none; }
 .question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
 .question-view.show-answer .answer-box { display:block; }
+
+/* ── 삽입 이미지: 영역 폭에 맞춰 축소, 클릭 시 확대(라이트박스) ── */
+.fig-imgwrap { position:relative; display:block; margin:0.6rem auto; max-width:100%; text-align:center; }
+.section-text img, .overview-card img {
+  display:block; max-width:100%; width:auto; height:auto;
+  max-height:340px; margin:0 auto;
+  border:1px solid var(--border-color); border-radius:6px; background:#fff;
+  object-fit:contain; cursor:zoom-in;
+}
+.zoom-btn { position:absolute; top:6px; right:6px; z-index:2; width:28px; height:28px; line-height:1;
+  border:1px solid var(--border-color); border-radius:6px; background:rgba(255,255,255,0.92);
+  color:var(--primary-color); font-size:0.9rem; cursor:pointer; padding:0; }
+.zoom-btn:hover { background:#fff; border-color:var(--accent-color); }
+.img-lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.85);
+  align-items:center; justify-content:center; padding:2rem; }
+.img-lightbox.open { display:flex; }
+.img-lightbox img { max-width:96vw; max-height:88vh; width:auto; height:auto;
+  background:#fff; border-radius:8px; box-shadow:0 10px 30px rgb(0 0 0 / 0.45); cursor:zoom-out; }
+.lightbox-close { position:absolute; top:14px; right:18px; width:38px; height:38px; border:none; border-radius:8px;
+  background:rgba(255,255,255,0.9); color:#0f172a; font-size:1.2rem; font-weight:800; cursor:pointer; }
+.lightbox-caption { position:absolute; bottom:16px; left:0; right:0; text-align:center; color:#e2e8f0; font-size:0.82rem; padding:0 2rem; }
 </style>
 </head>
 <body>
@@ -2956,6 +2977,42 @@ strong { color:#0f172a; font-weight:700; }
       </div>
     </div>
   </div>
+  <div class="img-lightbox" id="img-lightbox">
+    <button class="lightbox-close" id="lightbox-close" title="닫기 (Esc)">✕</button>
+    <img id="lightbox-img" src="" alt="확대 이미지">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+<script>
+/* 삽입 이미지 라이트박스: 본문에서는 영역 폭에 맞게 축소, 클릭·돋보기로 원본 확대 */
+(function () {
+  var box = document.getElementById('img-lightbox');
+  var bimg = document.getElementById('lightbox-img');
+  var bcap = document.getElementById('lightbox-caption');
+  function open(src, cap) {
+    bimg.src = src; bcap.textContent = cap || ''; box.classList.add('open');
+  }
+  function close() { box.classList.remove('open'); bimg.src = ''; }
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box || e.target === bimg) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.querySelectorAll('.section-text img, .overview-card img').forEach(function (img) {
+    if (img.closest('.fig-imgwrap')) return;
+    var wrap = document.createElement('span');
+    wrap.className = 'fig-imgwrap';
+    img.parentNode.insertBefore(wrap, img);
+    wrap.appendChild(img);
+    var btn = document.createElement('button');
+    btn.className = 'zoom-btn';
+    btn.type = 'button';
+    btn.title = '이미지 확대';
+    btn.textContent = '🔍';
+    wrap.appendChild(btn);
+    var fire = function () { open(img.getAttribute('src'), img.getAttribute('alt') || ''); };
+    btn.addEventListener('click', fire);
+    img.addEventListener('click', fire);
+  });
+})();
+</script>
 <script>
   const views = Array.from(document.querySelectorAll('.question-view'));
   const nums = views.map(function(v){ return v.dataset.num; });

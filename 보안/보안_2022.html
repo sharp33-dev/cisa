@@ -1867,7 +1867,7 @@ strong { color:#0f172a; font-weight:700; }
 <li>정답 ④</li>
 </ol>
 <h2>---</h2></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>리눅스에서 <strong>root의 직접 로그인 가능 터미널</strong>은 <strong><code>/etc/securetty</code></strong>에 정의되며, 이 파일에서 원격 터미널(pts/<em>) 항목을 제거하면 root의 원격 로그인이 차단된다. 그리고 이 파일을 실제로 참조하도록 하는 것이 </em><em><code>/etc/pam.d/login</code></em><em>의 </em><em><code>pam_securetty.so</code></em>* 모듈 설정이다. 즉 두 파일이 함께 동작해 root 원격 접속을 통제하므로 정답은 ④번이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>리눅스에서 <strong>root의 직접 로그인 가능 터미널</strong>은 <strong><code>/etc/securetty</code></strong>에 정의되며, 이 파일에서 원격 터미널(pts/*) 항목을 제거하면 root의 원격 로그인이 차단된다. 그리고 이 파일을 실제로 참조하도록 하는 것이 <strong><code>/etc/pam.d/login</code></strong>의 <strong><code>pam_securetty.so</code></strong> 모듈 설정이다. 즉 두 파일이 함께 동작해 root 원격 접속을 통제하므로 정답은 ④번이다.</p>
 <p>①의 <code>/etc/crontab</code>은 예약 작업 설정, ②의 <code>/etc/shadow</code>는 암호화된 비밀번호 저장, ③의 <code>/etc/passwd</code>는 계정 기본 정보 파일로 <strong>원격 접속 허용 여부를 통제하는 파일이 아니다</strong>(다만 셸을 /sbin/nologin으로 바꿔 로그인을 막는 우회적 방법은 있다).</p>
 <p>참고로 <strong>SSH를 통한 접속</strong>은 별도로 <code>/etc/ssh/sshd_config</code>의 <strong><code>PermitRootLogin no</code></strong> 설정으로 차단해야 한다.</p>
 <hr /></div></div>

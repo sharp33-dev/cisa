@@ -1013,7 +1013,7 @@ T5 = {milk, pepsi, beer}
 <p><strong>전체 거래 수 N = 5</strong></p>
 <hr />
 <p><strong>② 검증 — 정답(틀린 보기)</strong></p>
-<p>$$\text{support}({milk} \to beer) = \frac{|milk \cap beer|}{N} = \frac{3}{5}$$</p>
+<p>$$\text{support}(\{milk\} \to beer) = \frac{|milk \cap beer|}{N} = \frac{3}{5}$$</p>
 <table>
 <thead>
 <tr>
@@ -1393,7 +1393,7 @@ T5 = {milk, pepsi, beer}
 </table>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석 (=올바른 계산)</div><div class="section-text"><h3>보기①({beer, milk}의 지지도 = 3/5) — 옳음</h3>
-<p>$$\text{support}({beer, milk}) = \frac{3}{5}$$</p>
+<p>$$\text{support}(\{beer, milk\}) = \frac{3}{5}$$</p>
 <p><strong>항목집합의 지지도</strong>는 <strong>그 집합을 모두 포함한 거래의 비율</strong>이다. T1, T3, T5 세 건이므로 <strong>3/5</strong> ✓</p>
 <blockquote>
 <p><strong>①과 ②의 관계</strong>: <strong>항목집합 {beer,milk}의 지지도</strong>와 <strong>규칙 {milk}→beer의 지지도는 같은 값</strong>이다. 둘 다 <strong>"milk와 beer를 모두 포함한 거래의 비율"</strong> 이기 때문이다.</p>
@@ -1401,7 +1401,7 @@ T5 = {milk, pepsi, beer}
 </blockquote>
 <hr />
 <h3>보기③({milk} → beer의 신뢰도 = 3/4) — 옳음</h3>
-<p>$$\text{confidence}({milk} \to beer) = \frac{|milk \cap beer|}{|milk|} = \frac{3}{4}$$</p>
+<p>$$\text{confidence}(\{milk\} \to beer) = \frac{|milk \cap beer|}{|milk|} = \frac{3}{4}$$</p>
 <table>
 <thead>
 <tr>
@@ -1427,7 +1427,7 @@ T5 = {milk, pepsi, beer}
 <p><strong>의미</strong>: milk를 산 4명 중 3명이 beer도 샀다.</p>
 <hr />
 <h3>보기④({juice} → milk의 신뢰도 = 1/2) — 옳음</h3>
-<p>$$\text{confidence}({juice} \to milk) = \frac{|juice \cap milk|}{|juice|} = \frac{1}{2}$$</p>
+<p>$$\text{confidence}(\{juice\} \to milk) = \frac{|juice \cap milk|}{|juice|} = \frac{1}{2}$$</p>
 <table>
 <thead>
 <tr>
@@ -3141,7 +3141,7 @@ UPDATE 상품 SET 재고 = :계산값 WHERE 상품코드 = 'A';
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(read_TS(x)를 그대로 둔다) — 틀림</h3>
 <p><strong>read가 성공하면 read_TS(x)를 반드시 갱신</strong>한다.</p>
-<p>$$\text{read_TS}(x) \leftarrow \max(\text{read_TS}(x),\ TS(T_i)) = \max(1, 2) = \mathbf{2}$$</p>
+<p>$$\text{read\_TS}(x) \leftarrow \max(\text{read\_TS}(x),\ TS(T_i)) = \max(1, 2) = \mathbf{2}$$</p>
 <table>
 <thead>
 <tr>
@@ -3724,9 +3724,9 @@ WHERE  상품코드 = 'A' AND 수정시각 = :조회당시시각;
 </tbody>
 </table>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① R ⋈<em>N S (자연조인)<br />
-② R ⋈</em>{B=B} S<br />
-<strong>③ R ⋈_{B\&lt;B} S</strong><br />
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① R ⋈_N S (자연조인)<br />
+② R ⋈_{B=B} S<br />
+<strong>③ R ⋈_{B&lt;B} S</strong><br />
 ④ R × S</p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
@@ -6431,7 +6431,7 @@ EXEC SQL INSERT INTO emp (empno, comm) VALUES (:eno, :comm :comm_ind);
 </tr>
 </tbody>
 </table>
-<p>$$\pi_{Sex,GPA}(\text{STUDENT}) = {(M,A),\ (F,B),\ (M,C),\ (F,A),\ (M,B)}$$</p>
+<p>$$\pi_{Sex,GPA}(\text{STUDENT}) = \{(M,A),\ (F,B),\ (M,C),\ (F,A),\ (M,B)\}$$</p>
 <p><strong>8행 → 5행으로 축소</strong> (중복 3건 제거)</p>
 <hr />
 <p><strong>SQL로 동일한 결과를 얻으려면</strong></p>
@@ -11705,7 +11705,7 @@ FROM   고객;
 <p><strong>담당부서가 R2에서 제거</strong>되었으므로 <strong>이행적 종속(상품번호 → 구매자 → 담당부서)이 사라졌다.</strong></p>
 </blockquote>
 <p><strong>무손실 분해 검증</strong></p>
-<p>$$R1 \cap R2 = {구매자}$$<br />
+<p>$$R1 \cap R2 = \{구매자\}$$<br />
 $$구매자 \to 담당부서 \ (\text{= } R1 - R2)$$</p>
 <p><strong>공통 속성이 R1의 슈퍼키</strong>이므로 <strong>무손실 조인 분해</strong> ✓</p>
 <p><strong>종속성 보존 검증</strong></p>
@@ -11823,7 +11823,7 @@ R2(상품번호, 상품명, 구매자)    R1(구매자, 담당부서)
 <blockquote>
 <p><strong>함수 종속의 방향은 "다(N) → 일(1)"</strong> 이다. <strong>"X는 하나의 Y에 속한다"</strong> 는 서술은 <strong>X → Y</strong> 를 의미한다.</p>
 </blockquote>
-<p>$$\boxed{\text{"A는 하나의 B에 속한다"} \Rightarrow A \to B}$$</p>
+<p>$$\boxed{\text{&quot;A는 하나의 B에 속한다&quot;} \Rightarrow A \to B}$$</p>
 <blockquote>
 <p><strong>소거 요령</strong>: <strong>①·②를 먼저 탈락</strong>시키면 자동으로 ③·④가 남는다.</p>
 <table>
@@ -12075,7 +12075,7 @@ R1 − R2 = {담당부서}
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>정규형 판정은 <strong>① FD 정리 → ② 후보키 확인 → ③ 위배 검사</strong> 순서로 기계적으로 수행한다.</p>
 <p><strong>절대 규칙 3가지</strong></p>
 <p>$$\boxed{\text{후보키가 모두 단일 속성} \Rightarrow \text{2NF 자동 만족}}$$<br />
-$$\boxed{\text{"A는 하나의 B에 속한다"} \Rightarrow A \to B}$$<br />
+$$\boxed{\text{&quot;A는 하나의 B에 속한다&quot;} \Rightarrow A \to B}$$<br />
 $$\boxed{\text{BCNF} \Leftrightarrow \text{모든 결정자가 후보키}}$$</p>
 <p><strong>참인 서술 (○)</strong></p>
 <table>
@@ -12353,7 +12353,7 @@ $$\boxed{\text{BCNF} \Leftrightarrow \text{모든 결정자가 후보키}}$$</p>
 <hr />
 <p><strong>분해 과정</strong></p>
 <p><strong>① A → B 위배 → 분리</strong></p>
-<p>$$R(A,B,C,D,E) \;\longrightarrow\; \boxed{R_1(A, B)} \;+\; R'(A, C, D, E)$$</p>
+<p>$$R(A,B,C,D,E) \;\longrightarrow\; \boxed{R_1(A, B)} \;+\; R&#x27;(A, C, D, E)$$</p>
 <table>
 <thead>
 <tr>
@@ -12379,7 +12379,7 @@ $$\boxed{\text{BCNF} \Leftrightarrow \text{모든 결정자가 후보키}}$$</p>
 </tbody>
 </table>
 <p><strong>② C → D 위배 → 분리</strong></p>
-<p>$$R'(A,C,D,E) \;\longrightarrow\; \boxed{R_2(C, D)} \;+\; \boxed{R_3(A, C, E)}$$</p>
+<p>$$R&#x27;(A,C,D,E) \;\longrightarrow\; \boxed{R_2(C, D)} \;+\; \boxed{R_3(A, C, E)}$$</p>
 <table>
 <thead>
 <tr>
@@ -13986,7 +13986,7 @@ T1 : read(x) → 200     ★ 두 번째 읽기 — 값이 달라짐!
 </tr>
 </tbody>
 </table>
-<p>(<em>) MySQL InnoDB는 </em><em>넥스트 키 락</em>*으로 REPEATABLE READ에서도 팬텀을 방지한다.</p>
+<p>(*) MySQL InnoDB는 <strong>넥스트 키 락</strong>으로 REPEATABLE READ에서도 팬텀을 방지한다.</p>
 <p>$$\boxed{\text{오손 읽기는 READ COMMITTED 이상에서 방지된다}}$$</p>
 <table>
 <thead>
@@ -15581,7 +15581,7 @@ T2 : SELECT SUM(price) FROM book;   → 반드시 10100
 </tr>
 </tbody>
 </table>
-<p>(<em>) MySQL InnoDB는 </em><em>넥스트 키 락</em>*으로 REPEATABLE READ에서도 팬텀 방지</p>
+<p>(*) MySQL InnoDB는 <strong>넥스트 키 락</strong>으로 REPEATABLE READ에서도 팬텀 방지</p>
 <p><strong>DBMS별 기본 격리 수준</strong></p>
 <table>
 <thead>
@@ -17329,7 +17329,7 @@ $$\boxed{\text{정확률(Precision)} = \frac{TP}{TP + FP} \quad (\text{예측 Po
 </tr>
 <tr>
 <td><strong>MAE</strong></td>
-<td>$\frac{1}{n}\sum|y_i - \hat{y}_i|$</td>
+<td>$\frac{1}{n}\sum\|y_i - \hat{y}_i\|$</td>
 <td><strong>이상치에 강건</strong></td>
 </tr>
 <tr>
@@ -18761,8 +18761,8 @@ FACULTY STUDENT                  ∪  (union)
 <hr /></div></div>
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>EER 문항은 <strong>두 제약의 표기</strong>를 정확히 읽는 것이 전부다.</p>
 <p><strong>절대 암기</strong></p>
-<p>$$\boxed{\text{'d' = disjoint = 서브클래스 중복 불가}}$$<br />
-$$\boxed{\text{'o' = overlap = 서브클래스 중복 가능}}$$<br />
+<p>$$\boxed{\text{&#x27;d&#x27; = disjoint = 서브클래스 중복 불가}}$$<br />
+$$\boxed{\text{&#x27;o&#x27; = overlap = 서브클래스 중복 가능}}$$<br />
 $$\boxed{\text{이중선 = total = 모든 수퍼 인스턴스가 반드시 어느 서브에 속함}}$$<br />
 $$\boxed{\text{단일선 = partial = 어느 서브에도 안 속할 수 있음}}$$</p>
 <p><strong>보기 문장 ↔ 제약 대응</strong></p>

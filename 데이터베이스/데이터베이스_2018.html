@@ -3341,7 +3341,7 @@ SELECT * FROM USER_TAB_COLUMNS WHERE TABLE_NAME = 'STUDENT';
 <p>즉 <strong>공통 속성이 R1의 슈퍼키이거나 R2의 슈퍼키</strong>여야 한다.</p>
 </blockquote>
 <p><strong>주어진 함수 종속성</strong></p>
-<p>$$F = {\ AB \to C,\quad C \to D,\quad D \to A\ }$$</p>
+<p>$$F = \{\ AB \to C,\quad C \to D,\quad D \to A\ \}$$</p>
 <hr />
 <p><strong>① R1(A, B), R2(B, C, D)</strong></p>
 <table>
@@ -3715,7 +3715,7 @@ R1 ⋈_C R2
 <p><strong>②는 무손실이지만 종속성은 보존되지 않는다.</strong> 두 성질이 독립적임을 보여주는 사례다. <strong>문제가 묻는 것은 무손실 여부뿐</strong>이므로 답에는 영향이 없다.</p>
 </blockquote>
 <p><strong>후보 키 확인(참고)</strong></p>
-<p>$$F = {AB \to C,\ C \to D,\ D \to A}$$</p>
+<p>$$F = \{AB \to C,\ C \to D,\ D \to A\}$$</p>
 <table>
 <thead>
 <tr>
@@ -5528,7 +5528,7 @@ CHECK (NOT EXISTS (SELECT 1 FROM 사원 WHERE 급여 &lt; 0 OR 급여 &gt; 10000
 <hr />
 <p><strong>③ π_{B,C}( (π_{B,C}(σ_{B=b1 ∨ C=c1}(R))) ⋈_{R.C=S.C} S ) — 틀림</strong></p>
 <p><strong>1단계 — 내부 π</strong> (②의 결과)</p>
-<p>$${(b1, c1),\ (b1, c2)}$$</p>
+<p>$$\{(b1, c1),\ (b1, c2)\}$$</p>
 <p><strong>2단계 — S와 조인 (C 기준)</strong></p>
 <table>
 <thead>
@@ -6254,11 +6254,11 @@ SELECT B, C FROM R;              -- 4행 (중복 포함)
 </tbody>
 </table>
 <p><strong>주어진 F</strong></p>
-<p>$$F = {\ A \to B,\quad C \to B,\quad BA \to C\ }$$</p>
+<p>$$F = \{\ A \to B,\quad C \to B,\quad BA \to C\ \}$$</p>
 <hr />
 <p><strong>1단계 — 우변을 단일 속성으로 분해</strong></p>
 <p>이미 모든 우변이 단일 속성이다.</p>
-<p>$$F = {\ A \to B,\quad C \to B,\quad AB \to C\ }$$</p>
+<p>$$F = \{\ A \to B,\quad C \to B,\quad AB \to C\ \}$$</p>
 <hr />
 <p><strong>2단계 — 좌변의 불필요 속성(extraneous attribute) 제거</strong></p>
 <p><strong><code>AB → C</code> 검사</strong></p>
@@ -6284,7 +6284,7 @@ SELECT B, C FROM R;              -- 4행 (중복 포함)
 </code></pre>
 <p><strong>C ∉ B⁺ 이므로 <code>B → C</code> 는 성립하지 않는다.</strong> → <strong>A는 필수 속성</strong></p>
 <p><strong>결과</strong></p>
-<p>$$F' = {\ A \to B,\quad C \to B,\quad A \to C\ }$$</p>
+<p>$$F&#x27; = \{\ A \to B,\quad C \to B,\quad A \to C\ \}$$</p>
 <hr />
 <p><strong>3단계 — 중복 함수 종속 제거</strong></p>
 <p>각 FD를 하나씩 빼 보고, <strong>나머지만으로 유도되는지</strong> 확인한다.</p>
@@ -6316,7 +6316,7 @@ SELECT B, C FROM R;              -- 4행 (중복 포함)
 <p><strong>C ∉ A⁺ 이므로 제거 불가</strong> → <strong>필수 ✓</strong></p>
 <hr />
 <p><strong>최소 커버 도출 결과</strong></p>
-<p>$$F_{\min} = {\ \mathbf{A \to C},\quad \mathbf{C \to B}\ } = {\ \mathbf{가},\ \mathbf{라}\ }$$</p>
+<p>$$F_{\min} = \{\ \mathbf{A \to C},\quad \mathbf{C \to B}\ \} = \{\ \mathbf{가},\ \mathbf{라}\ \}$$</p>
 <p><strong>→ 정답 ②</strong></p>
 <hr />
 <p><strong>검증 — 원래 F와 동등한가</strong></p>
@@ -13371,7 +13371,7 @@ EXEC SQL CLOSE emp_cursor;
 4) A     :  R ⋈ S'  최종 조인 → 결과
 </code></pre>
 <p><strong>전송량 공식</strong></p>
-<p>$$\text{총 전송량} = \underbrace{|R| \times \text{size}(\text{조인속성})}<em>{\text{1단계}} + \underbrace{|S'| \times \text{size}(\text{필요속성})}</em>{\text{3단계}}$$</p>
+<p>$$\text{총 전송량} = \underbrace{|R| \times \text{size}(\text{조인속성})}_{\text{1단계}} + \underbrace{|S&#x27;| \times \text{size}(\text{필요속성})}_{\text{3단계}}$$</p>
 <p><strong>본 문제 적용</strong></p>
 <table>
 <thead>

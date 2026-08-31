@@ -531,7 +531,7 @@ R: A=1, B='x', C=10   →       R: A=1, B='x', C=NULL  ← 행은 남고 값만 
 <blockquote>
 <p>자식 릴레이션의 외래키 값은 <strong>부모 릴레이션의 기본키 값 중 하나이거나 NULL</strong>이어야 한다.</p>
 </blockquote>
-<p>$$\pi_{FK}(\text{자식}) - {\text{NULL}} \subseteq \pi_{PK}(\text{부모})$$</p>
+<p>$$\pi_{FK}(\text{자식}) - \{\text{NULL}\} \subseteq \pi_{PK}(\text{부모})$$</p>
 <p><strong>참조 무결성 검사 시점</strong></p>
 <table>
 <thead>
@@ -2882,7 +2882,7 @@ T1: SELECT COUNT(*) FROM 사원 WHERE 부서=2;   → 6건 ★ 유령 행 출현
 </blockquote>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>베이즈 정리와 각 항의 이름</strong></p>
-<p>$$\underbrace{P(C \mid X)}<em>{\text{사후확률(posterior)}} = \frac{\overbrace{P(X \mid C)}^{\text{우도(likelihood)}} \cdot \overbrace{P(C)}^{\text{사전확률(prior)}}}{\underbrace{P(X)}</em>{\text{증거(evidence)}}}$$</p>
+<p>$$\underbrace{P(C \mid X)}_{\text{사후확률(posterior)}} = \frac{\overbrace{P(X \mid C)}^{\text{우도(likelihood)}} \cdot \overbrace{P(C)}^{\text{사전확률(prior)}}}{\underbrace{P(X)}_{\text{증거(evidence)}}}$$</p>
 <blockquote>
 <p><strong>분모 P(X)는 모든 클래스에 공통</strong>이므로, 클래스 비교 시에는 <strong>생략 가능</strong>하다. 그래서 실제 계산은 $P(C) \prod P(x_i|C)$ 만 비교한다.</p>
 </blockquote>
@@ -3198,7 +3198,7 @@ P(정상|메일) ∝ 0.4 × (1/4) × (3/4) = 0.4 × 0.25  × 0.75  = 0.0750
 <p><strong>Bag of Words</strong>: 문서를 <strong>단어의 순서를 무시한 집합(가방)</strong> 으로 표현한다. "나는 너를 좋아해"와 "너를 나는 좋아해"가 <strong>같은 벡터</strong>가 된다. 이 역시 <strong>독립 가정과 맥을 같이하는 단순화</strong>다.</p>
 <h3>보기④(수치 속성 → 확률 밀도 함수) — 옳음</h3>
 <p><strong>가우시안 나이브 베이즈(Gaussian NB)</strong> 에 해당한다.</p>
-<p>$$P(x_i \mid C) = \frac{1}{\sqrt{2\pi\sigma_C^2}} \exp!\left(-\frac{(x_i - \mu_C)^2}{2\sigma_C^2}\right)$$</p>
+<p>$$P(x_i \mid C) = \frac{1}{\sqrt{2\pi\sigma_C^2}} \exp\!\left(-\frac{(x_i - \mu_C)^2}{2\sigma_C^2}\right)$$</p>
 <p>연속형 속성은 <strong>개별 값의 확률이 0</strong>이므로, <strong>확률 밀도 함수(PDF)</strong> 값을 대신 사용한다. 클래스별로 <strong>평균 $\mu_C$·분산 $\sigma_C^2$</strong> 를 추정해 정규분포를 가정한다.</p>
 <blockquote>
 <p><strong>대안</strong>: 정규분포 가정이 부적절하면 <strong>이산화(binning)</strong> 하거나 <strong>커널 밀도 추정(KDE)</strong> 을 쓴다.</p>
@@ -3220,7 +3220,7 @@ Dept(deptno, dname, loc)
 </code></pre>
 <p><strong>②</strong></p>
 <pre><code class="language-sql">SELECT deptno FROM Dept a
-WHERE NOT EXISTS (SELECT * FROM Emp b WHERE a.deptno = b.deptno);
+WHERE NOT EXISTS (SELECT \* FROM Emp b WHERE a.deptno = b.deptno);
 </code></pre>
 <p><strong>③</strong></p>
 <pre><code class="language-sql">SELECT b.deptno FROM Emp a RIGHT OUTER JOIN Dept b
@@ -3847,10 +3847,10 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 </tbody>
 </table>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① ∏<em>A(R)<br />
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① ∏_A(R)<br />
 <strong>② R ÷ (∏_B(S))</strong><br />
-<strong>③ ∏<em>A(R ⋈</em>{B\&lt;B} (σ_{C='beta'}(S)))</strong><br />
-④ ∏_A(R ⋈</em>{B=B} (σ_{C='zetta'}(S)))</p>
+<strong>③ ∏_A(R ⋈_{B&lt;B} (σ_{C='beta'}(S)))</strong><br />
+④ ∏_A(R ⋈_{B=B} (σ_{C='zetta'}(S)))</p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번, ③번 (2개 선택)</strong></p>
 <p><strong>정답 신뢰도 : 매우 높음</strong> (원본 Bold 확인 · 문제 지문에 "2개 선택" 명시)</p>
@@ -3966,7 +3966,7 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 <hr />
 <p><strong>① ∏_A(R) — 틀림</strong></p>
 <p>R의 A 속성만 추출하고 <strong>중복을 제거</strong>한다.</p>
-<p>$$\pi_A(R) = {\text{John},\ \text{Tom},\ \text{Mary}}$$</p>
+<p>$$\pi_A(R) = \{\text{John},\ \text{Tom},\ \text{Mary}\}$$</p>
 <p><strong>3행이 나온다.</strong> 결과는 1행({Tom})이므로 <strong>불일치. ✗</strong></p>
 <hr />
 <p><strong>② R ÷ (∏_B(S)) — 옳음 ✔</strong></p>
@@ -3974,7 +3974,7 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 <blockquote>
 <p><strong>정의</strong>: R(A, B) ÷ S(B) = <strong>S의 모든 B값과 짝을 이루는 A값들의 집합</strong></p>
 </blockquote>
-<p>$$R \div {1, 5, 8} = {a \mid \forall b \in {1,5,8},\ (a,b) \in R}$$</p>
+<p>$$R \div \{1, 5, 8\} = \{a \mid \forall b \in \{1,5,8\},\ (a,b) \in R\}$$</p>
 <table>
 <thead>
 <tr>
@@ -4005,12 +4005,12 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 </tr>
 </tbody>
 </table>
-<p>$$R \div \pi_B(S) = {\textbf{Tom}}$$</p>
+<p>$$R \div \pi_B(S) = \{\textbf{Tom}\}$$</p>
 <p><strong>결과와 일치. ✔</strong></p>
 <hr />
-<p><strong>③ ∏<em>A(R ⋈</em>{B\&lt;B} (σ_{C='beta'}(S))) — 옳음 ✔</strong></p>
+<p><strong>③ ∏_A(R ⋈_{B&lt;B} (σ_{C='beta'}(S))) — 옳음 ✔</strong></p>
 <p><strong>1단계 — 선택(σ)</strong></p>
-<p>$$\sigma_{C='beta'}(S) = {(B{=}5,\ C{=}beta)}$$</p>
+<p>$$\sigma_{C=&#x27;beta&#x27;}(S) = \{(B{=}5,\ C{=}beta)\}$$</p>
 <p><strong>2단계 — 세타 조인(B \&lt; B)</strong></p>
 <p>R의 B값이 <strong>선택된 S의 B값(5)보다 작은</strong> 행만 조인된다.</p>
 <table>
@@ -4062,12 +4062,12 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 </tbody>
 </table>
 <p><strong>3단계 — 프로젝션</strong></p>
-<p>$$\pi_A({(\text{Tom}, 1, 5, beta)}) = {\textbf{Tom}}$$</p>
+<p>$$\pi_A(\{(\text{Tom}, 1, 5, beta)\}) = \{\textbf{Tom}\}$$</p>
 <p><strong>결과와 일치. ✔</strong></p>
 <hr />
-<p><strong>④ ∏<em>A(R ⋈</em>{B=B} (σ_{C='zetta'}(S))) — 틀림</strong></p>
+<p><strong>④ ∏_A(R ⋈_{B=B} (σ_{C='zetta'}(S))) — 틀림</strong></p>
 <p><strong>1단계 — 선택</strong></p>
-<p>$$\sigma_{C='zetta'}(S) = {(B{=}8,\ C{=}zetta)}$$</p>
+<p>$$\sigma_{C=&#x27;zetta&#x27;}(S) = \{(B{=}8,\ C{=}zetta)\}$$</p>
 <p><strong>2단계 — 동등 조인(B = 8)</strong></p>
 <table>
 <thead>
@@ -4118,7 +4118,7 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 </tbody>
 </table>
 <p><strong>3단계 — 프로젝션</strong></p>
-<p>$$\pi_A = {\textbf{Tom},\ \textbf{Mary}}$$</p>
+<p>$$\pi_A = \{\textbf{Tom},\ \textbf{Mary}\}$$</p>
 <p><strong>2행이 나온다.</strong> 결과는 1행이므로 <strong>불일치. ✗</strong></p>
 <hr />
 <p><strong>최종 판정표</strong></p>
@@ -4149,14 +4149,14 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 </tr>
 <tr>
 <td><strong>③</strong></td>
-<td><strong>∏<em>A(R ⋈</em>{B\&lt;B} σ_{C='beta'}(S))</strong></td>
+<td><strong>∏_A(R ⋈_{B&lt;B} σ_{C='beta'}(S))</strong></td>
 <td><strong>{Tom}</strong></td>
 <td><strong>일치</strong></td>
 <td><strong>○ ✔</strong></td>
 </tr>
 <tr>
 <td>④</td>
-<td>∏<em>A(R ⋈</em>{B=B} σ_{C='zetta'}(S))</td>
+<td>∏_A(R ⋈_{B=B} σ_{C='zetta'}(S))</td>
 <td>{Tom, Mary}</td>
 <td>2행 ≠ 1행</td>
 <td>✗</td>
@@ -4169,7 +4169,7 @@ SELECT deptno FROM Emp;      -- Oracle은 MINUS
 <blockquote>
 <p><strong>R(X, Y) ÷ S(Y)</strong> 는 <strong>"S의 모든 Y값과 짝을 이루는 X값"</strong> 을 반환한다.</p>
 </blockquote>
-<p>$$R \div S = { t[X] \mid t \in R \ \wedge\ \forall s \in S,\ (t[X], s) \in R }$$</p>
+<p>$$R \div S = \{ t[X] \mid t \in R \ \wedge\ \forall s \in S,\ (t[X], s) \in R \}$$</p>
 <table>
 <thead>
 <tr>
@@ -4418,7 +4418,7 @@ WHERE NOT EXISTS (
 <h3>보기④(B=8 동등 조인)</h3>
 <p><strong>B=8인 R 튜플이 두 개(Tom, Mary)</strong> 이므로 결과가 2행이 된다. <strong>'zetta' 대신 'alpha'(B=1)를 골랐다면 (Tom,1) 하나만 나와 {Tom}이 되었을 것</strong>이다.</p>
 <blockquote>
-<p>즉 ④는 <strong><code>σ_{C='alpha'}</code> 였다면 정답</strong>이 되었을 보기다. 출제자가 <strong>C값 하나만 바꿔</strong> 오답을 만들었다.</p>
+<p>즉 ④는 <strong><code>σ\_{C='alpha'}</code> 였다면 정답</strong>이 되었을 보기다. 출제자가 <strong>C값 하나만 바꿔</strong> 오답을 만들었다.</p>
 <p><strong>소거 요령</strong>: <strong>결과가 딱 1행({Tom})</strong> 이라는 점에서 출발한다.<br />
 1. <strong>① 프로젝션만</strong> → 3행 → <strong>즉시 탈락</strong><br />
 2. <strong>④ B=8</strong> → R에 B=8인 행이 <strong>2개(Tom, Mary)</strong> → <strong>2행 → 탈락</strong><br />
@@ -8247,7 +8247,7 @@ PROJECT에 ENO를 넣으면?
 <blockquote>
 <p>자식 릴레이션의 <strong>외래키 값</strong>은 반드시 <strong>부모 릴레이션의 기본키 값 중 하나</strong>이거나 <strong>NULL</strong>이어야 한다.</p>
 </blockquote>
-<p>$$\pi_B(R1) \setminus {\text{NULL}} \subseteq \pi_C(R2)$$</p>
+<p>$$\pi_B(R1) \setminus \{\text{NULL}\} \subseteq \pi_C(R2)$$</p>
 <p><strong>포함 관계를 차집합으로 표현</strong></p>
 <p>집합론의 기본 성질:</p>
 <p>$$X \subseteq Y \iff X - Y = \emptyset$$</p>
@@ -8407,7 +8407,7 @@ PROJECT에 ENO를 넣으면?
 </tbody>
 </table>
 <p><strong>NULL의 취급</strong></p>
-<p>$$\pi_B(R1) \setminus {\text{NULL}} \subseteq \pi_C(R2)$$</p>
+<p>$$\pi_B(R1) \setminus \{\text{NULL}\} \subseteq \pi_C(R2)$$</p>
 <table>
 <thead>
 <tr>
@@ -8810,7 +8810,7 @@ WHERE NOT EXISTS (SELECT 1 FROM R1 WHERE R1.B = R2.C);
 <p><strong>3단계 — BCNF 분해</strong></p>
 <p><strong>분해 알고리즘</strong>: 위반 종속 X → Y가 있으면 R을 <strong>R₁(X ∪ Y)</strong> 와 <strong>R₂(R − Y)</strong> 로 나눈다.</p>
 <p><strong>(1) C → D 위반 처리</strong></p>
-<p>$$R(A,B,C,D,E) \;\longrightarrow\; \underbrace{R_1(C, D)}<em>{\text{C가 키}} \;+\; \underbrace{R'(A,B,C,E)}</em>{\text{D 제거}}$$</p>
+<p>$$R(A,B,C,D,E) \;\longrightarrow\; \underbrace{R_1(C, D)}_{\text{C가 키}} \;+\; \underbrace{R&#x27;(A,B,C,E)}_{\text{D 제거}}$$</p>
 <ul>
 <li><strong>R₁(C, D)</strong>: 유일한 종속 C → D, <strong>C가 키</strong> → <strong>BCNF ✔</strong></li>
 </ul>
@@ -8839,7 +8839,7 @@ WHERE NOT EXISTS (SELECT 1 FROM R1 WHERE R1.B = R2.C);
 </tbody>
 </table>
 <p><strong>(3) E → C 위반 처리</strong></p>
-<p>$$R'(A,B,C,E) \;\longrightarrow\; \underbrace{R_2(E, C)}<em>{\text{E가 키}} \;+\; \underbrace{R_3(A,B,E)}</em>{\text{C 제거}}$$</p>
+<p>$$R&#x27;(A,B,C,E) \;\longrightarrow\; \underbrace{R_2(E, C)}_{\text{E가 키}} \;+\; \underbrace{R_3(A,B,E)}_{\text{C 제거}}$$</p>
 <ul>
 <li><strong>R₂(E, C)</strong>: 종속 E → C, <strong>E가 키</strong> → <strong>BCNF ✔</strong></li>
 <li><strong>R₃(A, B, E)</strong>: 종속 A → BE, B → AE, <strong>A·B 모두 키</strong> → <strong>BCNF ✔</strong></li>
@@ -12935,10 +12935,10 @@ X는 하위 전체에 대한 배타 권한을 요구하므로 어떤 접근도 �
 </tbody>
 </table>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① s(\&lt;{1}{2}&gt;) = 60%<br />
-② s(\&lt;{1}{2,3}&gt;) = 80%<br />
-<strong>③ s(\&lt;{2}{2,3}&gt;) = 60%</strong><br />
-④ s(\&lt;{3}{5}&gt;) = 60%</p>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① s(&lt;{1}{2}&gt;) = 60%<br />
+② s(&lt;{1}{2,3}&gt;) = 80%<br />
+<strong>③ s(&lt;{2}{2,3}&gt;) = 60%</strong><br />
+④ s(&lt;{3}{5}&gt;) = 60%</p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
 <p><strong>정답 신뢰도 : 매우 높음</strong> (원본 Bold 확인)</p>
@@ -13470,7 +13470,7 @@ X는 하위 전체에 대한 배타 권한을 요구하므로 어떤 접근도 �
 <p><strong>분모의 차이가 핵심</strong>이다. 순차 패턴의 지지도는 <strong>"몇 개의 시퀀스(객체)가 이 패턴을 포함하는가"</strong> 로 계산하며, <strong>한 객체 안에서 여러 번 나타나도 1로만 센다.</strong></p>
 </blockquote>
 <p><strong>순차 패턴의 지지도 정의</strong></p>
-<p>$$s(x) = \frac{|{\, s \in D \mid x \sqsubseteq s \,}|}{|D|}$$</p>
+<p>$$s(x) = \frac{|\{\, s \in D \mid x \sqsubseteq s \,\}|}{|D|}$$</p>
 <table>
 <thead>
 <tr>

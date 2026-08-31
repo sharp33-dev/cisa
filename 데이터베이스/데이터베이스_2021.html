@@ -712,9 +712,9 @@ strong { color:#0f172a; font-weight:700; }
 <h2>---</h2></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가</strong>: 중복값이 있는 속성이면 COUNT(속성)은 중복 포함, COUNT(DISTINCT 속성)은 중복 제거이므로 결과가 <strong>다르다</strong> → 틀림.</li>
-<li><strong>나</strong>: 중복값이 없고 NULL이 없는 속성이면 COUNT(<em>)와 COUNT(속성)이 </em><em>같다</em>*. "상이하다"는 → 틀림.</li>
-<li><strong>다</strong>: COUNT(<em>)는 투플 집합을 대상으로 투플의 수를 반환 → </em><em>옳음</em>*.</li>
-<li><strong>라</strong>: COUNT(<em>)는 중복 투플도 모두 세므로 결과에 중복이 포함 → </em><em>옳음</em>*.</li>
+<li><strong>나</strong>: 중복값이 없고 NULL이 없는 속성이면 COUNT(*)와 COUNT(속성)이 <strong>같다</strong>. "상이하다"는 → 틀림.</li>
+<li><strong>다</strong>: COUNT(*)는 투플 집합을 대상으로 투플의 수를 반환 → <strong>옳음</strong>.</li>
+<li><strong>라</strong>: COUNT(*)는 중복 투플도 모두 세므로 결과에 중복이 포함 → <strong>옳음</strong>.</li>
 </ul>
 <p>따라서 옳은 것은 다·라이며 정답은 ④번이다.</p>
 <hr /></div></div>
@@ -1606,8 +1606,8 @@ S(B,C,D): (b1,c1,d1),(b1,c1,d2),(b2,c3,d3)
 RS(A,B,C): (a1,b1,c1),(a2,b1,c1),(a4,b2,c3)
 </code></pre>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① R ⋈<em>N S (natural join)<br />
-② R ⋈</em>{c=c} S (right outer join)<br />
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① R ⋈_N S (natural join)<br />
+② R ⋈_{c=c} S (right outer join)<br />
 <strong>③ R ⋉ S (semi join)</strong><br />
 ④ R ∪⁺ S (outer union)</p>
 <hr /></div></div>
@@ -2555,7 +2555,7 @@ WHERE  ㉮ (SELECT ㉯ FROM DEPENDENT WHERE ㉰);
 <hr /></div></div>
 <div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
 <li>"없는" = <strong>NOT EXISTS</strong></li>
-<li>EXISTS는 <strong>SELECT </strong>*(존재 여부만)</li>
+<li>EXISTS는 <strong>SELECT *</strong>(존재 여부만)</li>
 <li>상관 조건 = <strong>SSN=ESSN</strong>(사원-부양가족)</li>
 <li>본 문항 ㉮NOT EXISTS/㉯*/㉰SSN=ESSN</li>
 <li>NOT IN은 값 목록 비교(상관 조건 아님)</li>

@@ -5642,7 +5642,7 @@ FROM   사원
 WHERE 부서번호 IN (SELECT 부서번호
                    FROM 사원
                    GROUP BY 부서번호
-                   HAVING COUNT(*) &gt;= 2);
+                   HAVING COUNT(\*) &gt;= 2);
 </code></pre>
 <table>
 <thead>
@@ -6387,14 +6387,14 @@ SELECT * FROM A WHERE NOT EXISTS
 <pre><code class="language-sql">SELECT S.rating, AVG(S.age) AS average
 FROM   Sailors S
 GROUP BY S.rating
-HAVING COUNT(*) &gt; 1;
+HAVING COUNT(\*) &gt; 1;
 </code></pre>
 <p><strong>②</strong></p>
 <pre><code class="language-sql">SELECT S.rating, AVG(S.age) AS average
 FROM   Sailors S
 WHERE  S.age &gt;= 18
 GROUP BY S.rating
-HAVING 1 &lt; (SELECT COUNT(*)
+HAVING 1 &lt; (SELECT COUNT(\*)
             FROM Sailors S2
             WHERE S.rating = S2.rating);
 </code></pre>
@@ -6403,7 +6403,7 @@ HAVING 1 &lt; (SELECT COUNT(*)
 FROM   Sailors S
 WHERE  S.age &gt;= 18
 GROUP BY S.rating
-HAVING 1 &lt; (SELECT COUNT(*)
+HAVING 1 &lt; (SELECT COUNT(\*)
             FROM Sailors S2
             WHERE S.rating = S2.rating AND S2.age &gt;= 18);
 </code></pre>
@@ -6411,7 +6411,7 @@ HAVING 1 &lt; (SELECT COUNT(*)
 <pre><code class="language-sql">SELECT S.rating, AVG(S.age) AS average
 FROM   Sailors S
 GROUP BY S.rating
-HAVING 1 &lt; (SELECT COUNT(*)
+HAVING 1 &lt; (SELECT COUNT(\*)
             FROM Sailors S2
             WHERE S.rating = S2.rating);
 </code></pre>
@@ -6619,7 +6619,7 @@ HAVING 1 &lt; (SELECT COUNT(*)
 <th>rating</th>
 <th>WHERE 통과 후</th>
 <th>평균</th>
-<th>부속질의 COUNT(<em>)<br>(</em><em>전체 Sailors 기준</em>*)</th>
+<th>부속질의 COUNT(*)<br>(<strong>전체 Sailors 기준</strong>)</th>
 <th>HAVING 1 &lt; ?</th>
 </tr>
 </thead>
@@ -6724,7 +6724,7 @@ HAVING 1 &lt; (SELECT COUNT(*) FROM Sailors S2
 <p>②와 ③의 차이는 <strong>부속질의의 <code>AND S2.age &gt;= 18</code> 한 줄뿐</strong>이다. 이 한 줄이 rating 10의 생사를 가른다.</p>
 </blockquote>
 <h3>보기④(WHERE 없음 + 상관 부속질의)</h3>
-<p>WHERE 필터가 없으므로 <strong>①과 완전히 동일한 결과</strong>를 낸다(부속질의 COUNT(<em>)&gt;1은 HAVING COUNT(</em>)&gt;1과 등가).</p>
+<p>WHERE 필터가 없으므로 <strong>①과 완전히 동일한 결과</strong>를 낸다(부속질의 COUNT(*)&gt;1은 HAVING COUNT(*)&gt;1과 등가).</p>
 <table>
 <thead>
 <tr>

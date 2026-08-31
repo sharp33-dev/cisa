@@ -355,9 +355,9 @@ strong { color:#0f172a; font-weight:700; }
 ② (함수적 종속성) A → B, B → C, C → D<br />
 　 (분해된 릴레이션) R1(A, B, C), R2(C, D)<br />
 <strong>③ (함수적 종속성) (A, B) → C, A → C</strong><br />
-**　 (분해된 릴레이션) R1(A, C), R2(A, B)<strong><br />
-</strong>④ (함수적 종속성) (A, B) → C, C → D, C → A<strong><br />
-**　 (분해된 릴레이션) R1(A, B), R2(A, C, D)</strong></p>
+<strong>(분해된 릴레이션) R1(A, C), R2(A, B)</strong><br />
+<strong>④ (함수적 종속성) (A, B) → C, C → D, C → A</strong><br />
+<strong>(분해된 릴레이션) R1(A, B), R2(A, C, D)</strong></p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③, ④번 (복수정답)</strong></p>
 <p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지에서 ③·④ 동시 Bold 확인 + 무손실조인 조건 검증)</p>
@@ -1132,8 +1132,8 @@ orders(orderid, custid, bookid, saleprice)
 ② SELECT cs.custid, cs.name, (SELECT SUM(saleprice) FROM orders od WHERE cs.custid = od.custid) total_sales<br />
 　 FROM customer cs;<br />
 <strong>③ SELECT cs.custid, cs.name, SUM(od.saleprice) total_sales</strong><br />
-**　 FROM customer cs LEFT JOIN orders od ON cs.custid = od.custid<strong><br />
-**　 GROUP BY cs.custid, cs.name HAVING total_sales &gt;= 0;</strong><br />
+<strong>FROM customer cs LEFT JOIN orders od ON cs.custid = od.custid</strong><br />
+<strong>GROUP BY cs.custid, cs.name HAVING total_sales &gt;= 0;</strong><br />
 ④ SELECT cs.custid, cs.name, s<br />
 　 FROM customer cs LEFT JOIN (SELECT custid, SUM(saleprice) AS s FROM orders GROUP BY custid) od ON cs.custid = od.custid;</p>
 <hr /></div></div>
@@ -1516,7 +1516,7 @@ WHERE  NOT EXISTS ((SELECT PNO
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>전체 선수 수 = 10(L) + 40(H) + 30(K) + 20(미정) = <strong>100명</strong>.</p>
 <p><strong>가. <code>SELECT 소속팀 FROM 선수</code></strong> : 중복 제거 없이 전체 투플을 그대로 반환하므로 카디널리티는 <strong>100</strong>이다(소속팀이 NULL인 20명도 모두 포함).</p>
 <p><strong>나. <code>SELECT DISTINCT 소속팀</code></strong> : 서로 다른 소속팀 값의 개수다. 팀은 L, H, K 세 개이고, <strong>NULL(미정)도 DISTINCT에서는 하나의 값으로 취급</strong>되어 별도 그룹이 된다. 따라서 L, H, K, NULL = <strong>4</strong>이다.</p>
-<p><strong>다. <code>GROUP BY 소속팀 HAVING COUNT(*) &gt;= 20</code></strong> : 그룹별 인원은 L=10, H=40, K=30, NULL(미정)=20이다. GROUP BY도 NULL을 하나의 그룹으로 만든다. COUNT(<em>)는 각 그룹의 행 수이므로 HAVING COUNT(</em>) &gt;= 20을 만족하는 그룹은 H(40), K(30), 미정(20) = <strong>3개</strong>이다(L=10은 탈락).</p>
+<p><strong>다. <code>GROUP BY 소속팀 HAVING COUNT(*) &gt;= 20</code></strong> : 그룹별 인원은 L=10, H=40, K=30, NULL(미정)=20이다. GROUP BY도 NULL을 하나의 그룹으로 만든다. COUNT(*)는 각 그룹의 행 수이므로 HAVING COUNT(*) &gt;= 20을 만족하는 그룹은 H(40), K(30), 미정(20) = <strong>3개</strong>이다(L=10은 탈락).</p>
 <p>따라서 (가, 나, 다) = (100, 4, 3)으로 정답은 ③번이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②</h3>
@@ -2344,10 +2344,10 @@ WHERE  NOT EXISTS ((SELECT PNO
  1007         1          컴퓨터공학과
 </code></pre>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① CREATE VIEW size(year, t_size) AS SELECT year, count(<em>) FROM student;<br />
-② CREATE VIEW size(year, t_size) AS SELECT year, count(</em>) FROM student GROUP BY year;<br />
-③ CREATE VIEW size(dept, t_size) AS SELECT dept, count(<em>) FROM student;<br />
-</em><em>④ CREATE VIEW size(dept, t_size) AS SELECT dept, count(</em>) FROM student GROUP BY dept;**</p>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① CREATE VIEW size(year, t_size) AS SELECT year, count(*) FROM student;<br />
+② CREATE VIEW size(year, t_size) AS SELECT year, count(*) FROM student GROUP BY year;<br />
+③ CREATE VIEW size(dept, t_size) AS SELECT dept, count(*) FROM student;<br />
+<strong>④ CREATE VIEW size(dept, t_size) AS SELECT dept, count(*) FROM student GROUP BY dept;</strong></p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
 <p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 집계 기준 검증)</p>

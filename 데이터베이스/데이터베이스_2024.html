@@ -934,10 +934,10 @@ ENROL(관계): Grade
 COURSE: CNO(기본키), CName
 </code></pre>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① STUDENT(<u>SNO</u>, Name, <em>CNO</em>, Grade), COURSE(<u>CNO</u>, CName)<br />
-② STUDENT(<u>SNO</u>, Name), COURSE(<u>CNO</u>, CName, <em>SNO</em>, Grade)<br />
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① STUDENT(<u>SNO</u>, Name, *CNO*, Grade), COURSE(<u>CNO</u>, CName)<br />
+② STUDENT(<u>SNO</u>, Name), COURSE(<u>CNO</u>, CName, *SNO*, Grade)<br />
 ③ STUDENT(<u>SNO</u>, Name), COURSE(<u>CNO</u>, CName), ENROL(Grade)<br />
-<strong>④ STUDENT(<u>SNO</u>, Name), COURSE(<u>CNO</u>, CName), ENROL(<em>SNO, CNO</em>, Grade)</strong></p>
+<strong>④ STUDENT(<u>SNO</u>, Name), COURSE(<u>CNO</u>, CName), ENROL(*SNO, CNO*, Grade)</strong></p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
 <p><strong>정답 신뢰도 : 매우 높음</strong> (공식 답안표 A형 + N:M 사상 규칙 확인)</p>

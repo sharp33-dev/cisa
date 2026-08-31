@@ -4547,8 +4547,8 @@ D2 = P ⊕ D1 ⊕ D3 = 0001 ⊕ 1011 ⊕ 1100 = 0110 ✓
 <hr /></div></div>
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>빅데이터 문항은 <strong>"대용량 ↔ 실시간"의 상충 관계</strong>가 핵심이다.</p>
 <p><strong>절대 원칙</strong></p>
-<p>$$\boxed{\text{빅데이터의 기본 처리 모델은 대용량 "배치"이며, 실시간 처리에는 오히려 불리하다}}$$<br />
-$$\boxed{\text{Velocity(속도)는 "데이터 생성 속도"이지 "처리 실시간성"이 아니다}}$$</p>
+<p>$$\boxed{\text{빅데이터의 기본 처리 모델은 대용량 &quot;배치&quot;이며, 실시간 처리에는 오히려 불리하다}}$$<br />
+$$\boxed{\text{Velocity(속도)는 &quot;데이터 생성 속도&quot;이지 &quot;처리 실시간성&quot;이 아니다}}$$</p>
 <p><strong>참인 서술 (○)</strong></p>
 <table>
 <thead>
@@ -8084,7 +8084,7 @@ $$\boxed{\text{마지막(브로드캐스트) 주소} = \text{네트워크 주소
 </table>
 <p><strong>②는 "혼잡 발생 시"에 "선형 증가"</strong> 를 붙였으므로 오답이다.</p>
 <p><strong>AIMD 이름으로 검증</strong></p>
-<p>$$\text{AIMD} = \underbrace{\text{Additive Increase}}<em>{\text{평상시 선형 증가}} + \underbrace{\text{Multiplicative Decrease}}</em>{\text{혼잡 시 승법적 감소}}$$</p>
+<p>$$\text{AIMD} = \underbrace{\text{Additive Increase}}_{\text{평상시 선형 증가}} + \underbrace{\text{Multiplicative Decrease}}_{\text{혼잡 시 승법적 감소}}$$</p>
 <p><strong>"혼잡 시 = Decrease(감소)"</strong> 가 알고리즘 이름에 명시되어 있다. ★</p>
 <p><strong>상식적 판정</strong>: <strong>혼잡한 도로에 차를 더 밀어 넣으면</strong> 더 막힌다. <strong>혼잡 시에는 줄여야</strong> 한다.</p>
 </blockquote>
@@ -11321,7 +11321,7 @@ CPI를 줄이려면 → 명령어를 단순하게(RISC)
 </blockquote>
 <h2>---</h2></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>ReLU의 정의</strong></p>
-<p>$$\text{ReLU}(z) = \max(z, 0) = \begin{cases} z &amp; (z &gt; 0) \ 0 &amp; (z \leq 0) \end{cases}$$</p>
+<p>$$\text{ReLU}(z) = \max(z, 0) = \begin{cases} z &amp; (z &gt; 0) \\ 0 &amp; (z \leq 0) \end{cases}$$</p>
 <p><strong>→ 정답 ③</strong></p>
 <hr />
 <p><strong>함수 그래프</strong></p>
@@ -15056,7 +15056,7 @@ Content-Type: application/json
 </tr>
 </tbody>
 </table>
-<p>$$\boxed{\text{"멱등이 아닌 것은 POST와 PATCH뿐"}}$$</p>
+<p>$$\boxed{\text{&quot;멱등이 아닌 것은 POST와 PATCH뿐&quot;}}$$</p>
 <p><strong>핵심 개념 정의</strong></p>
 <table>
 <thead>
@@ -16989,7 +16989,7 @@ Content-Type: application/json
 </table>
 <hr />
 <p><strong>워킹 세트 모델(Working Set Model)</strong></p>
-<p>$$WS(t, \Delta) = {\text{시각 } t-\Delta \text{ 부터 } t \text{ 까지 참조된 페이지 집합}}$$</p>
+<p>$$WS(t, \Delta) = \{\text{시각 } t-\Delta \text{ 부터 } t \text{ 까지 참조된 페이지 집합}\}$$</p>
 <pre><code class="language-text">참조열: ... 2 6 1 5 7 7 7 7 5 1 6 2 3 4 1 2 3 4 4 4 3 4 ...
                 └──────── Δ 윈도우 ────────┘
                      WS = {1, 2, 5, 6, 7}  (5개)
@@ -20788,7 +20788,7 @@ $$\boxed{\text{L4 = IP·포트} \qquad \text{L7 = URL·쿠키·헤더}}$$</p>
 </code></pre>
 <p><strong>MIT 라이선스의 핵심 문장</strong></p>
 <blockquote>
-<p><em>"The above copyright notice and this permission notice </em><em>shall be included</em><em> in all copies or substantial portions of the Software."</em></p>
+<p><strong>"The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."</strong></p>
 </blockquote>
 <table>
 <thead>
@@ -22350,7 +22350,7 @@ $$\boxed{\text{AGPL: 네트워크 사용(SaaS)도 배포로 간주}}$$</p>
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>IPv6 문항은 <strong>헤더 구조</strong>와 <strong>IPv4 대비 차이</strong>가 핵심이다.</p>
 <p><strong>절대 암기</strong></p>
 <p>$$\boxed{\text{확장 헤더 6종: 홉간 옵션 · 목적지 옵션 · 라우팅 · 단편화 · AH · ESP}}$$<br />
-$$\boxed{\text{우선순위 = 기본 헤더의 "트래픽 클래스" 필드(확장 헤더 아님)}}$$<br />
+$$\boxed{\text{우선순위 = 기본 헤더의 &quot;트래픽 클래스&quot; 필드(확장 헤더 아님)}}$$<br />
 $$\boxed{\text{기본 헤더 40바이트 고정 · 체크섬 없음 · 라우터 단편화 금지}}$$</p>
 <p><strong>참인 서술 (○)</strong></p>
 <table>
@@ -24250,7 +24250,7 @@ $$\boxed{RTO = SRTT + 4 \times RTTVAR}$$</p>
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>TCP 타이머 문항은 <strong>4대 타이머의 목적</strong>을 정확히 구분하면 해결된다.</p>
 <p><strong>절대 암기</strong></p>
 <p>$$\boxed{\text{재전송=손실복구} \ \ \text{지속=교착방지} \ \ \text{연결유지=생사확인·정리} \ \ \text{시간대기}=2\times MSL}$$<br />
-$$\boxed{\text{Keepalive는 연결을 "유지"가 아니라 "확인해서 죽었으면 끊는" 타이머}}$$</p>
+$$\boxed{\text{Keepalive는 연결을 &quot;유지&quot;가 아니라 &quot;확인해서 죽었으면 끊는&quot; 타이머}}$$</p>
 <p><strong>참인 서술 (○)</strong></p>
 <table>
 <thead>

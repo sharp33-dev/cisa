@@ -1032,7 +1032,7 @@ docker run -it alpine:3.18   sh      # 알파인 환경
 </tr>
 </tbody>
 </table>
-<p>$$\boxed{\text{컨테이너는 "배포판"은 다양하게, "커널"은 하나만}}$$</p>
+<p>$$\boxed{\text{컨테이너는 &quot;배포판&quot;은 다양하게, &quot;커널&quot;은 하나만}}$$</p>
 <blockquote>
 <p><strong>중요한 한계</strong>: <strong>리눅스 호스트에서 윈도우 컨테이너는 실행할 수 없다.</strong> 커널이 다르기 때문이다. <strong>Docker Desktop for Windows/Mac이 리눅스 컨테이너를 돌리는 것은 내부적으로 경량 리눅스 VM을 띄우기 때문</strong>이다.</p>
 </blockquote>
@@ -5860,7 +5860,7 @@ strcpy(p, &quot;hello&quot;);   // ★ 일반 메모리 쓰기 — 시스템 호
 <blockquote>
 <p><strong>자주 나오는 함정</strong>: <strong>"Static(정적)"이라는 이름 때문에 비휘발성으로 오해</strong>하기 쉽다. <strong>"Static"은 "재충전이 불필요하다"는 뜻</strong>이지, <strong>"전원 없이도 유지된다"는 뜻이 아니다.</strong></p>
 </blockquote>
-<p>$$\boxed{\text{SRAM의 "Static"} = \text{재충전 불필요} \neq \text{비휘발성}}$$</p>
+<p>$$\boxed{\text{SRAM의 &quot;Static&quot;} = \text{재충전 불필요} \neq \text{비휘발성}}$$</p>
 <hr />
 <p><strong>휘발성 메모리는 단 두 가지</strong></p>
 <table>
@@ -8625,7 +8625,7 @@ $$\boxed{\text{나머지는 전부 비휘발성}}$$</p>
 </tr>
 </tbody>
 </table>
-<p>$$\boxed{\text{"공간·개수"는 오버커미트 가능} \quad / \quad \text{"성능·대역폭"은 불가}}$$</p>
+<p>$$\boxed{\text{&quot;공간·개수&quot;는 오버커미트 가능} \quad / \quad \text{&quot;성능·대역폭&quot;은 불가}}$$</p>
 <blockquote>
 <p><strong>핵심 원리</strong>: <strong>저장 공간처럼 "쓴 만큼만 소비되는 자원"</strong> 은 오버커미트가 성립한다. 반면 <strong>처리 능력·대역폭처럼 "순간 총량이 물리적으로 고정된 자원"</strong> 은 논리적으로 더 준다고 해서 실제로 더 나오지 않는다.</p>
 </blockquote>
@@ -9108,8 +9108,8 @@ $$\boxed{\text{나머지는 전부 비휘발성}}$$</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>오버커미트 문항은 <strong>자원의 성격 구분</strong>이 핵심이다.</p>
 <p><strong>절대 기준</strong></p>
-<p>$$\boxed{\text{저장 "공간" · 자원 "개수"} \Rightarrow \text{오버커미트 가능}}$$<br />
-$$\boxed{\text{처리 "능력" · "대역폭"} \Rightarrow \text{오버커미트 불가}}$$</p>
+<p>$$\boxed{\text{저장 &quot;공간&quot; · 자원 &quot;개수&quot;} \Rightarrow \text{오버커미트 가능}}$$<br />
+$$\boxed{\text{처리 &quot;능력&quot; · &quot;대역폭&quot;} \Rightarrow \text{오버커미트 불가}}$$</p>
 <p><strong>자원별 정리</strong></p>
 <table>
 <thead>
@@ -18351,7 +18351,7 @@ $$\boxed{\text{RARP} : \text{MAC} \to \text{IP} \quad (\text{DHCP로 대체})}$$
 </tr>
 </tbody>
 </table>
-<p>$$\boxed{\text{인증서는 언제나 "공개키"를 담는다 — "비공개키 인증서"는 존재하지 않는다}}$$</p>
+<p>$$\boxed{\text{인증서는 언제나 &quot;공개키&quot;를 담는다 — &quot;비공개키 인증서&quot;는 존재하지 않는다}}$$</p>
 <blockquote>
 <p><strong>강의자료 근거</strong>: <code>[1]시스템 구조 감리사 강의자료.pdf</code> <strong>Chapter III 최신기술 - 분산원장(p.65)·블록체인(p.66)</strong> 에 블록체인 기본이 수록되어 있다. <strong>FIDO 표준(TTAK.KO-12.0337) 자체는 강의자료 미수록</strong>이다.</p>
 </blockquote>
@@ -18396,7 +18396,7 @@ $$\boxed{\text{RARP} : \text{MAC} \to \text{IP} \quad (\text{DHCP로 대체})}$$
 <hr /></div></div>
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>표준 인용 문항은 <strong>암호학 기본 상식</strong>으로 상당수 판정된다.</p>
 <p><strong>절대 원칙</strong></p>
-<p>$$\boxed{\text{인증서} = \text{공개키} + \text{신원} + \text{CA 서명} \quad (\text{"비공개키 인증서"는 없다})}$$<br />
+<p>$$\boxed{\text{인증서} = \text{공개키} + \text{신원} + \text{CA 서명} \quad (\text{&quot;비공개키 인증서&quot;는 없다})}$$<br />
 $$\boxed{\text{FIDO} : \text{개인키는 기기를 떠나지 않고, 생체는 로컬에만 저장}}$$</p>
 <p><strong>보기 판정 요령</strong></p>
 <table>
@@ -19108,7 +19108,7 @@ $$\boxed{\text{FIDO} : \text{개인키는 기기를 떠나지 않고, 생체는 
 <hr /></div></div>
 <div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>블록체인 문항은 <strong>"막는 것"과 "해소하는 것"의 구분</strong>이 핵심이다.</p>
 <p><strong>절대 원칙</strong></p>
-<p>$$\boxed{\text{비트코인은 분기를 "예방"하지 않고, 최장 체인 규칙으로 "해소"한다}}$$<br />
+<p>$$\boxed{\text{비트코인은 분기를 &quot;예방&quot;하지 않고, 최장 체인 규칙으로 &quot;해소&quot;한다}}$$<br />
 $$\boxed{\text{나카모토 합의} = \text{PoW} + \text{최장 체인} + \text{경제적 인센티브}}$$</p>
 <p><strong>참인 서술 (○)</strong></p>
 <table>
@@ -19953,7 +19953,7 @@ MSE = (0 + 25) / 2 = 12.5  ★
 ④ 가중치 갱신: w ← w − η · ∂MSE/∂w
 </code></pre>
 <p><strong>MSE의 그래디언트</strong></p>
-<p>$$\frac{\partial MSE}{\partial w_j} = \frac{2}{n}\sum_{i}(\hat{y}<em>i - y_i) \cdot x</em>{ij}$$</p>
+<p>$$\frac{\partial MSE}{\partial w_j} = \frac{2}{n}\sum_{i}(\hat{y}_i - y_i) \cdot x_{ij}$$</p>
 <p><strong>본 문항 데이터로 계산</strong></p>
 <pre><code class="language-text">∂MSE/∂w1 = (2/2)[(4−4)·1 + (12−7)·5] = 0 + 25 = 25
 ∂MSE/∂w2 = (2/2)[(0)·2 + (5)·6]       = 30
@@ -21292,7 +21292,7 @@ $$\boxed{\text{CoAP} = \text{Req/Res} \cdot \text{UDP} \cdot \text{브로커 불
 </tr>
 </tbody>
 </table>
-<p>$$\boxed{\text{지식관리자} = \text{지식의 "보관·관리·제공"} \quad \neq \quad \text{환경 인식 · 지식 생성}}$$</p>
+<p>$$\boxed{\text{지식관리자} = \text{지식의 &quot;보관·관리·제공&quot;} \quad \neq \quad \text{환경 인식 · 지식 생성}}$$</p>
 <p><strong>→ 정답 ③</strong></p>
 <hr />
 <p><strong>지능 프레임워크의 계층 구조</strong></p>

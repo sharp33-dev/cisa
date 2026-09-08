@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감리 및 사업관리 2026년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+
+/* ── 삽입 이미지: 영역 폭에 맞춰 축소, 클릭 시 확대(라이트박스) ── */
+.fig-imgwrap { position:relative; display:block; margin:0.6rem auto; max-width:100%; text-align:center; }
+.section-text img, .overview-card img {
+  display:block; max-width:100%; width:auto; height:auto;
+  max-height:340px; margin:0 auto;
+  border:1px solid var(--border-color); border-radius:6px; background:#fff;
+  object-fit:contain; cursor:zoom-in;
+}
+.zoom-btn { position:absolute; top:6px; right:6px; z-index:2; width:28px; height:28px; line-height:1;
+  border:1px solid var(--border-color); border-radius:6px; background:rgba(255,255,255,0.92);
+  color:var(--primary-color); font-size:0.9rem; cursor:pointer; padding:0; }
+.zoom-btn:hover { background:#fff; border-color:var(--accent-color); }
+.img-lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.85);
+  align-items:center; justify-content:center; padding:2rem; }
+.img-lightbox.open { display:flex; }
+.img-lightbox img { max-width:96vw; max-height:88vh; width:auto; height:auto;
+  background:#fff; border-radius:8px; box-shadow:0 10px 30px rgb(0 0 0 / 0.45); cursor:zoom-out; }
+.lightbox-close { position:absolute; top:14px; right:18px; width:38px; height:38px; border:none; border-radius:8px;
+  background:rgba(255,255,255,0.9); color:#0f172a; font-size:1.2rem; font-weight:800; cursor:pointer; }
+.lightbox-caption { position:absolute; bottom:16px; left:0; right:0; text-align:center; color:#e2e8f0; font-size:0.82rem; padding:0 2rem; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">감리 및 사업관리 <small>2026년도 기출해설집 · 총 25문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 감리 및 사업관리 기출문제 해설집</h1>
+<h2>2026년 제27회 (문항 1~25)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 업로드된 「1-1 정보화법_제도_감리」, 「1-2 사업관리」 강의자료 우선 근거, 외부지식은 보조적으로만 사용(강의자료 미수록 최신 지침·가이드는 각 문항에 명시)<br />
+<strong>정답 출처</strong>: 2026년(제27회) 정보시스템 감리사 필기시험 문제 및 답안.pdf (원본 Bold 표시 정답 - 글자 잉크농도 자동판별 + 페이지 이미지 육안 대조 이중 검증)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (25문항 전량 원본 Bold를 이미지로 재확인)<br />
+<strong>특이사항</strong>: 2026년 시험은 2025년 개정 지침(SW사업 대가산정 가이드 2025 개정판, 국가계약법 시행규칙 2026.1.2., AI 데이터 품질관리 가이드라인 v3.5, 고영향 인공지능 판단 가이드라인 등) 인용 문항이 다수 출제됨. 해당 최신 지침은 강의자료 미수록분으로 외부지식으로 보완함.</p>
+</blockquote>
+<hr />
+<h2>2026년 감리 및 사업관리 정답표 (Q1~25)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>①</td>
+<td>10</td>
+<td>②</td>
+<td>19</td>
+<td>③</td>
+</tr>
+<tr>
+<td>2</td>
+<td>④</td>
+<td>11</td>
+<td>②</td>
+<td>20</td>
+<td>②</td>
+</tr>
+<tr>
+<td>3</td>
+<td>④</td>
+<td>12</td>
+<td>③</td>
+<td>21</td>
+<td>③</td>
+</tr>
+<tr>
+<td>4</td>
+<td>②</td>
+<td>13</td>
+<td>①</td>
+<td>22</td>
+<td>③</td>
+</tr>
+<tr>
+<td>5</td>
+<td>④</td>
+<td>14</td>
+<td>③</td>
+<td>23</td>
+<td>④</td>
+</tr>
+<tr>
+<td>6</td>
+<td>③</td>
+<td>15</td>
+<td>③</td>
+<td>24</td>
+<td>④</td>
+</tr>
+<tr>
+<td>7</td>
+<td>④</td>
+<td>16</td>
+<td>④</td>
+<td>25</td>
+<td>①</td>
+</tr>
+<tr>
+<td>8</td>
+<td>④</td>
+<td>17</td>
+<td>③</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>②</td>
+<td>18</td>
+<td>②</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="1" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「SW사업자를 위한 정보시스템감리 준비 및 대응 가이드(한국지능정보사회진흥원, 2023. 2.)」에서 정한 요구정의단계 감리의 점검대상 산출물로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 검사기준서</strong><br />
+② 기술협상서<br />
+③ 과업대비표<br />
+④ 사업수행계획서</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>정보시스템 감리 3단계(요구정의·설계·종료단계)</li>
+<li>요구정의단계 점검대상 산출물</li>
+<li>검사기준서(시험단계 산출물)</li>
+<li>과업대비표·사업수행계획서</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>1번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>요구정의단계 감리 점검대상 산출물 (SW사업자를 위한 정보시스템감리 준비 및 대응 가이드)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>정보시스템 감리는 사업 진행 단계에 따라 <strong>요구정의단계 → 설계단계 → 종료단계</strong>로 나누어 수행되며, 각 단계별로 점검대상이 되는 산출물이 다르다. 요구정의단계 감리는 사업 착수 직후 요구사항이 제대로 정의·반영되었는지를 점검하는 단계로, <strong>사업수행계획서, 요구사항정의서, 과업대비표(과업내용 대비표), 기술협상서(기술협상 결과)</strong> 등 사업 초기·기획 단계의 산출물을 점검한다.</p>
+<p>반면 <strong>① 검사기준서</strong>는 개발된 산출물이 요구사항을 충족하는지 검사·시험하기 위한 기준을 담은 문서로, <strong>시험단계(또는 종료단계의 검사)</strong> 에서 활용·점검되는 산출물이다. 요구정의단계에서는 검사기준서 자체가 아직 확정·점검 대상이 되지 않으므로, 요구정의단계 감리의 점검대상 산출물로 "가장 적절하지 않은 것"은 ①번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>기술협상서는 발주기관과 사업자 간 기술 협상 결과를 정리한 문서로, 사업 초기 요구·과업 확정 과정에서 검토되는 요구정의단계 점검대상에 해당한다.</p>
+<h3>보기③</h3>
+<p>과업대비표(과업내용 대비표)는 제안요청서(RFP)의 과업내용이 사업수행계획서·요구사항정의서에 빠짐없이 반영되었는지를 대비하는 문서로, 요구정의단계 감리의 핵심 점검 산출물이다.</p>
+<h3>보기④</h3>
+<p>사업수행계획서는 사업자가 과업을 어떻게 수행할지 기술한 문서로, 요구정의단계에서 과업 반영 여부를 점검하는 대표적 대상 산출물이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>정보시스템 감리 단계별 주요 점검 산출물</strong></p>
+<table>
+<thead>
+<tr>
+<th>감리단계</th>
+<th>주요 점검 산출물</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>요구정의단계</td>
+<td>사업수행계획서, 요구사항정의서, 과업대비표, 기술협상서</td>
+</tr>
+<tr>
+<td>설계단계</td>
+<td>설계서(화면/DB/인터페이스), 기술적용계획표, 요구사항추적표</td>
+</tr>
+<tr>
+<td>종료단계(시험)</td>
+<td>검사기준서, 시험계획서·결과서, 과업대비표(최종), 기술적용결과표</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "어떤 산출물이 어느 단계 점검대상인가"를 뒤섞는 유형이 반복 출제된다. <strong>검사기준서·기술적용결과표 = 후반(시험/종료)</strong>, <strong>과업대비표·요구사항정의서 = 요구정의</strong> 로 구분해 기억한다.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="2" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「정보시스템 감리 수행가이드(한국지능정보사회진흥원)」에서 정한 기술적용결과표 준수 여부를 점검하는 감리단계로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 요구정의단계<br />
+② 설계단계<br />
+③ 시험단계<br />
+<strong>④ 종료단계</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>기술적용계획표(설계단계) vs 기술적용결과표(종료단계)</li>
+<li>정보시스템 감리 수행가이드</li>
+<li>감리 3단계</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>2번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>기술적용결과표 준수 여부 점검 감리단계 (정보시스템 감리 수행가이드)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「정보시스템 감리 수행가이드」는 기술적용의 계획과 결과를 서로 다른 단계에서 점검하도록 규정한다. <strong>기술적용계획표</strong>는 설계단계에서 "어떤 기술·표준을 적용할 것인지" 계획의 적정성을 점검하고, <strong>기술적용결과표</strong>는 사업이 마무리되는 <strong>종료단계</strong>에서 "계획한 기술·표준이 실제로 준수·적용되었는지" 그 결과를 점검한다.</p>
+<p>따라서 기술적용결과표의 준수 여부를 점검하는 단계는 <strong>④ 종료단계</strong>이다. 계획표(설계)와 결과표(종료)를 대응시켜 기억하는 것이 핵심이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>요구정의단계는 과업·요구사항 반영 여부를 점검하는 단계로, 기술적용 결과를 판단할 산출물이 아직 생성되지 않는다.</p>
+<h3>보기②</h3>
+<p>설계단계에서는 기술적용"계획표"의 적정성을 점검한다. "결과표"는 아직 산출되지 않으므로 오답이다.</p>
+<h3>보기③</h3>
+<p>정보시스템 감리는 통상 요구정의·설계·종료(시험 포함)의 3단계로 구성되며, 기술적용결과표는 시험 결과를 포함해 최종 확인하는 종료단계 점검대상이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>기술적용계획표 ↔ 기술적용결과표</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>산출·점검 단계</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기술적용계획표</td>
+<td>설계단계</td>
+<td>적용할 기술·표준·아키텍처의 계획과 적정성</td>
+</tr>
+<tr>
+<td>기술적용결과표</td>
+<td>종료단계</td>
+<td>계획 대비 실제 적용·준수 결과, 미준수 사유</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "계획표=설계, 결과표=종료" 대응은 최빈출 함정. 요구사항추적표·과업대비표의 단계도 함께 정리해 둘 것.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="3" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「정보시스템 감리 수행가이드(한국지능정보사회진흥원)」에서 정한 ‘부적합’ 판정에 해당하는 평가기준은 모두 몇 개인가?</p>
+<ol>
+<li>시스템 동작 중단 결함</li>
+<li>원인이 규명되지 않은 결함</li>
+<li>중요 과업 요건이 구현되지 않은 경우</li>
+<li>다른 기능 수행에 영향을 미치는 결함</li>
+<li>검사기준서의 요건을 충족하지 못한 결함</li>
+<li>감리 기간 내 보완되지 않은 기타 결함</li>
+</ol>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 3개<br />
+② 4개<br />
+③ 5개<br />
+<strong>④ 6개</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>적부(적합/부적합) 판정 기준</li>
+<li>검사기준서 요건 충족</li>
+<li>종료단계 검사·적부판정</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>3번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>‘부적합’ 판정 평가기준 개수 (정보시스템 감리 수행가이드)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「정보시스템 감리 수행가이드」의 종료단계 검사에서는 검사항목별로 요건 충족 여부를 확인하여 <strong>적합/부적합</strong>을 판정한다. 제시된 6개 항목 — ①시스템 동작 중단 결함, ②원인이 규명되지 않은 결함, ③중요 과업 요건 미구현, ④다른 기능 수행에 영향을 미치는 결함, ⑤검사기준서 요건 미충족, ⑥감리 기간 내 미보완 기타 결함 — 은 모두 검사 결과를 "부적합"으로 판정하게 하는 사유에 해당한다.</p>
+<p>즉 제시된 항목 전부가 부적합 판정 기준이므로 정답은 <strong>④ 6개</strong>이다. 이들은 결함의 심각도(동작 중단·타 기능 영향)와 과업/기준 미충족(중요 과업 미구현·검사기준 미충족), 미해결성(원인 미규명·기간 내 미보완)을 포괄한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②·③</h3>
+<p>제시된 6개 항목 중 일부만 부적합 기준으로 보는 것은 오답이다. 6개 항목은 각각 "결함의 심각성 / 과업·기준 미충족 / 미해결" 관점에서 모두 부적합 사유로 규정되어 있으므로 3·4·5개는 성립하지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>적부판정 개념</strong></p>
+<ul>
+<li><strong>적합</strong>: 검사기준서의 요건을 충족하고, 중대한 결함이 없으며, 지적사항이 기간 내 보완된 경우</li>
+<li>
+<p><strong>부적합</strong>: 동작 중단·타 기능 영향 등 중대한 결함, 중요 과업 미구현, 검사기준 미충족, 원인 미규명·기간 내 미보완 결함이 있는 경우</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "몇 개인가" 계수형 문제는 제시 항목이 모두 기준에 포함되는지(전부 정답형)를 노린다. 부적합 사유의 3범주(심각성/미충족/미해결)를 기억하면 판별이 쉽다.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="4" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「공공기관의 데이터베이스 표준화 지침(행정안전부 고시)」에 따라 정보시스템 감리 시 점검하여야 할 공공데이터베이스 표준화 업무로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 데이터 값 검증 방안<br />
+<strong>② 공통표준용어의 제·개정 관리 방안</strong><br />
+③ 메타데이터 등록 및 현행화 방안<br />
+④ 공공데이터베이스 표준화 체계 정비·개선 및 관리방안</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>공공기관의 데이터베이스 표준화 지침</li>
+<li>공통표준용어(범정부 표준) vs 기관 표준</li>
+<li>메타데이터 등록·현행화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>4번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>공공데이터베이스 표준화 점검 업무 (공공기관의 데이터베이스 표준화 지침)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「공공기관의 데이터베이스 표준화 지침」에 따른 감리 점검은 개별 공공기관이 자기 정보시스템의 DB를 표준화하기 위해 수행해야 하는 업무 — <strong>데이터 값 검증, 메타데이터 등록·현행화, 표준화 체계의 정비·개선 및 관리</strong> 등 — 가 적정한지를 확인하는 것이다.</p>
+<p>반면 <strong>② 공통표준용어의 제·개정 관리</strong>는 범정부 차원의 <strong>공통표준용어를 제정·개정·관리하는 주체(행정안전부 등 총괄기관)</strong> 의 업무 영역으로, 개별 공공기관의 감리 시 점검 대상 표준화 업무로는 가장 적절하지 않다. 개별 기관은 이미 정해진 공통표준용어를 "준용·적용"하는 것이지, 그 제·개정을 관리하는 주체가 아니다. 따라서 정답은 ②번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>데이터 값 검증 방안은 데이터 품질 확보를 위한 표준화 업무로, 감리 점검 대상에 해당한다.</p>
+<h3>보기③</h3>
+<p>메타데이터의 등록 및 현행화는 데이터 표준·구조 정보를 최신 상태로 유지하는 핵심 표준화 업무로 점검 대상이다.</p>
+<h3>보기④</h3>
+<p>공공DB 표준화 체계의 정비·개선 및 관리방안은 기관이 표준화를 지속 운영하기 위한 업무로 점검 대상이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>공공데이터 표준화 계층</strong></p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>관리 주체</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>공통표준(용어·도메인·코드)</td>
+<td>총괄기관(행정안전부)</td>
+<td>공통표준용어 제·개정</td>
+</tr>
+<tr>
+<td>기관표준</td>
+<td>개별 공공기관</td>
+<td>공통표준 준용 + 기관 고유 표준</td>
+</tr>
+<tr>
+<td>데이터 품질·메타데이터</td>
+<td>개별 공공기관</td>
+<td>값 검증, 메타데이터 등록·현행화</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "제·개정 관리(총괄기관 업무)"와 "준용·적용·현행화(개별 기관 업무)"를 구분하는 것이 핵심 함정이다.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="5" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「정보시스템 감리기준(행정안전부 고시)」 [별표 2] 감리제안서 기술평가 기준의 평가항목으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 점검내용<br />
+② 점검방법<br />
+③ 총괄감리원<br />
+<strong>④ 감리법인의 감리실적</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>정보시스템 감리기준 [별표 2] 감리제안서 기술평가</li>
+<li>점검내용·점검방법·감리일정·감리인력</li>
+<li>감리실적(정량평가 항목)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>5번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>감리제안서 기술평가 기준 평가항목 (정보시스템 감리기준 [별표 2])</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「정보시스템 감리기준」 [별표 2]의 <strong>감리제안서 기술평가 기준</strong>은 해당 감리 사업을 "어떻게 수행할 것인가"에 대한 제안 내용을 정성적으로 평가하는 항목들로 구성된다. 즉 <strong>점검내용(무엇을 점검할지), 점검방법(어떤 기법으로 점검할지), 감리일정 및 절차, 투입 감리인력(총괄감리원·감리원 구성)</strong> 등이 평가항목이다.</p>
+<p>반면 <strong>④ 감리법인의 감리실적</strong>은 감리제안서의 "기술평가(제안 내용의 우수성)" 항목이 아니라, 입찰 참가자격·정량평가(수행능력) 영역에서 다루어지는 성격의 항목이다. 따라서 [별표 2] 기술평가 기준의 평가항목으로 "가장 적절하지 않은 것"은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>점검내용은 감리대상 사업의 특성·위험요소를 반영해 무엇을 점검할지 제시했는지를 평가하는 기술평가 항목이다.</p>
+<h3>보기②</h3>
+<p>점검방법은 필수점검사항에 대한 점검 기법·방법의 구체성과 객관성·타당성을 평가하는 항목이다.</p>
+<h3>보기③</h3>
+<p>총괄감리원(감리인력 구성)은 투입 인력의 적정성을 평가하는 기술평가 항목에 해당한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>감리제안서 기술평가 평가항목(예시)</strong>: 점검내용의 적정성, 점검방법의 구체성, 감리일정 및 절차의 적정성, 투입 감리인력(총괄감리원 등)의 적정성.</p>
+<ul>
+<li><strong>시험 포인트</strong>: "제안의 우수성=기술평가"와 "회사의 실적·재무=정량/자격평가"를 구분한다. 감리실적·재무상태 등은 기술평가 항목이 아니다.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="6" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「정보시스템 감리기준(행정안전부 고시)」에 제시된 감리 실시 시기 및 인력 배치에 대한 내용으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 2단계 감리를 하는 경우, 발주자가 요구사항정의서의 과업내용 반영여부 등을 직접 점검하여야 한다.<br />
+② 상주감리를 추가로 하는 경우, 요구정의단계 감리는 생략하고, 상주감리원은 요구사항정의서의 과업내용 반영여부 등을 직접 점검하여야 한다.<br />
+<strong>③ 전체 감리인력의 50퍼센트 범위 내에서 인공지능, 클라우드, 빅데이터, 모바일, 정보보호, 법률 및 회계 등 다른 분야의 전문가를 배치할 수 있다.</strong><br />
+④ 상주감리원은 감리대상 사업비 20억원 이상의 감리에 참여한 경력이 3회 이상인 수석감리원을 배치할 수 있다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>감리 단계(2단계/3단계) 및 상주감리</li>
+<li>감리인력 구성·전문가 배치 비율</li>
+<li>수석감리원 배치 요건</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>6번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>감리 실시 시기 및 인력 배치 (정보시스템 감리기준)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「정보시스템 감리기준」은 감리 실시 시기(요구정의·설계·종료 등 단계)와 인력 배치에 관한 요건을 규정한다. 다른 분야(인공지능·클라우드·빅데이터·정보보호·법률·회계 등) 전문가를 보조적으로 배치할 수 있도록 하되, 그 비율은 전체 감리인력 대비 일정 한도 내로 제한된다. 보기 ③의 <strong>"50퍼센트 범위 내"</strong> 라는 수치는 감리기준이 정한 실제 한도(통상 그보다 낮은 범위)와 달라 <strong>가장 적절하지 않은</strong> 설명이다. 감리는 정보시스템 감리원(자격 보유자)이 주가 되어야 하며, 타 분야 전문가가 절반까지 차지할 수 있다는 것은 감리의 전문성·독립성 취지에 맞지 않는다.</p>
+<p>따라서 수치가 과도하게 제시된 ③번이 정답이다.</p>
+<blockquote>
+<p>※ 본 문항의 정확한 배치 비율 수치는 2025~2026년 개정 감리기준 고시의 조문에 근거하며, 강의자료에는 세부 개정 수치가 아직 반영되지 않아 외부지식으로 보완하였다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>단계별 감리 시 발주자가 요구사항정의서의 과업 반영여부를 점검하도록 하는 것은 감리기준 취지에 부합하는 적절한 설명이다.</p>
+<h3>보기②</h3>
+<p>상주감리를 추가하는 경우 상주감리원이 요구사항 반영여부를 직접 점검하도록 하는 것은 상주감리의 상시 점검 취지에 맞는 설명이다.</p>
+<h3>보기④</h3>
+<p>상주감리원으로 일정 사업비(20억원) 이상 감리 경력 3회 이상의 수석감리원을 배치하도록 하는 것은 상주감리의 전문성 확보를 위한 적절한 요건이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>감리원 자격</strong>: 감리원/수석감리원(경력·자격 요건 상이). 대형·상주감리에는 수석감리원 배치 요건이 강화된다.</li>
+<li><strong>전문가 보조 배치</strong>: 신기술·법률·회계 등 전문가는 감리를 보조하기 위해 제한적 비율로만 배치 가능.</li>
+<li><strong>시험 포인트</strong>: 인력·비율·경력 "숫자"를 바꾼 함정이 자주 출제된다. 과도한 비율(50%)·완화된 경력 요건을 의심할 것.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="7" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「정보시스템 감리 수행가이드(한국지능정보사회진흥원)」에서 정한 종료단계 감리의 감리원 활동으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 사업자의 과업 대비표 실증 점검<br />
+② 전수조사 및 표본추출 대상 선정<br />
+③ 검사항목별 완료여부 확인 및 적부판정<br />
+<strong>④ 점검항목별 설계산출물의 충실도 점검</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>종료단계 감리(검사·적부판정)</li>
+<li>과업대비표 실증, 전수조사·표본추출</li>
+<li>설계산출물 충실도(=설계단계 활동)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>7번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>종료단계 감리의 감리원 활동 (정보시스템 감리 수행가이드)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>종료단계 감리는 개발·구축이 완료된 결과물이 과업과 검사기준을 충족하는지를 <strong>검사·적부판정</strong>하는 단계이다. 이 단계의 감리원 활동은 ①사업자의 과업대비표 실증 점검, ②검사 대상 선정(전수조사 및 표본추출 대상 선정), ③검사항목별 완료여부 확인 및 적부판정 등 "완료 결과의 검증"에 초점이 있다.</p>
+<p>반면 <strong>④ 점검항목별 설계산출물의 충실도 점검</strong>은 산출물이 설계 기준에 맞게 작성되었는지 보는 <strong>설계단계 감리</strong> 활동이다. 종료단계에서는 설계 충실도가 아니라 "과업 이행·검사기준 충족(완료 여부)"을 판정하므로, 종료단계 활동으로 가장 적절하지 않은 것은 ④번이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>과업대비표 실증 점검은 계약 과업이 실제로 이행·완료되었는지 종료단계에서 확인하는 핵심 활동이다.</p>
+<h3>보기②</h3>
+<p>전수조사 및 표본추출 대상 선정은 종료단계 검사의 범위·방법을 정하는 활동으로 적절하다.</p>
+<h3>보기③</h3>
+<p>검사항목별 완료여부 확인 및 적부판정은 종료단계 검사의 목적 그 자체이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>대표 활동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>설계단계</td>
+<td>설계산출물 충실도·정합성 점검, 기술적용계획표 점검</td>
+</tr>
+<tr>
+<td>종료단계</td>
+<td>과업대비표 실증, 검사대상 선정(전수/표본), 완료여부 확인·적부판정, 기술적용결과표 점검</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "충실도(설계) vs 완료여부·적부(종료)" 대비. 활동을 엉뚱한 단계에 배치한 보기를 찾는다.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="8" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 프로젝트 일정 개발에서 사용되는 분석 기법인 주경로법(critical path method)에 대한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 개발된 하나의 일정에서 주경로(critical path)는 여러 개가 될 수 있다.<br />
+② 주경로(critical path)란 하나의 일정 내에서 가장 긴 경로를 의미한다.<br />
+③ 주경로(critical path)의 길이는 프로젝트 전체 기간과 같다.<br />
+<strong>④ 주경로법으로 계산 시 전방계산과 후방계산을 하는 이유는 일정을 검산하기 위함이다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>주경로(Critical Path), 여유(Float=0)</li>
+<li>전방계산(ES/EF)·후방계산(LS/LF)</li>
+<li>프로젝트 최소 완료기간</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>8번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>주경로법(CPM)의 이해</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>주경로법(CPM)에서 <strong>전방계산(Forward Pass)</strong> 은 각 활동의 빠른 시작/완료(ES/EF)를 구해 프로젝트 최소 완료기간을 산정하고, <strong>후방계산(Backward Pass)</strong> 은 늦은 시작/완료(LS/LF)를 구해 각 활동의 <strong>여유시간(Float)</strong> 을 계산하기 위한 절차이다. 즉 전방·후방계산의 목적은 "일정 검산"이 아니라 <strong>활동별 여유(Total Float)를 산출하고 여유가 0인 주경로를 식별</strong>하기 위함이다. 따라서 "검산하기 위함"이라고 설명한 ④번이 가장 적절하지 않다.</p>
+<p>나머지 보기는 옳다: 주경로는 여유가 0인 가장 긴 경로이며(②), 그 길이가 프로젝트 전체 기간과 같고(③), 동일 길이의 경로가 복수 존재하면 주경로도 여러 개가 될 수 있다(①).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>동일한 최장 길이를 갖는 경로가 둘 이상이면 주경로도 복수가 될 수 있다. 옳은 설명이다.</p>
+<h3>보기②</h3>
+<p>주경로는 시작~종료 활동을 잇는 경로 중 소요기간이 가장 긴 경로이다. 옳다.</p>
+<h3>보기③</h3>
+<p>주경로의 길이(총 소요기간)는 프로젝트를 완료하는 데 필요한 최소 기간과 같다. 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>CPM 4대 값</strong>: ES(빠른 시작)·EF(빠른 완료)는 전방계산, LS(늦은 시작)·LF(늦은 완료)는 후방계산으로 산출. <strong>Total Float = LS−ES = LF−EF</strong>. 여유=0인 활동들의 경로가 주경로.</p>
+<ul>
+<li><strong>시험 포인트</strong>: 전방/후방계산의 "목적(여유 산정)"을 검산·확인 등으로 바꾼 함정이 자주 출제된다.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="9" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「SW사업 대가산정 가이드(한국소프트웨어산업협회, 2025년 개정판)」에 따른 인공지능(AI) 도입 사업비(사업 유형이 커스터마이징형일 경우) 비용항목으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 서비스 이용료<br />
+<strong>② 서비스 이용료, 커스터마이징 작업비용</strong><br />
+③ 서비스 이용료, 구축·개발 비용<br />
+④ 서비스 이용료, 커스터마이징 작업비용, 구축·개발 비용</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SW사업 대가산정 가이드(2025 개정)</li>
+<li>AI 도입 사업 유형: 서비스이용형 / 커스터마이징형 / 구축형</li>
+<li>비용항목 구성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>9번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>AI 도입 사업비 비용항목 - 커스터마이징형 (SW사업 대가산정 가이드 2025 개정판)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「SW사업 대가산정 가이드(2025년 개정판)」는 인공지능(AI) 도입 사업을 유형별로 구분하고 유형에 따라 비용항목을 달리 산정하도록 한다. <strong>커스터마이징형</strong>은 기성 AI 서비스를 이용하되 조직 요구에 맞게 일부 조정·설정하는 유형으로, 비용항목은 <strong>① 서비스 이용료 + ② 커스터마이징 작업비용</strong> 으로 구성된다.</p>
+<ul>
+<li>서비스이용형: 서비스 이용료(구독·이용료)만</li>
+<li>커스터마이징형: 서비스 이용료 + 커스터마이징 작업비용 → <strong>정답 ②</strong></li>
+<li>구축(개발)형: 서비스 이용료 + 구축·개발 비용(직접 개발) 중심</li>
+</ul>
+<p>따라서 커스터마이징형의 비용항목으로 가장 적절한 것은 ②번이다.</p>
+<blockquote>
+<p>※ 2025년 개정판의 AI 사업 대가 산정 체계는 강의자료 미수록 최신 내용으로 외부지식으로 보완하였다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>서비스 이용료만 산정하는 것은 별도 조정 없이 기성 서비스를 그대로 쓰는 "서비스이용형"에 해당한다.</p>
+<h3>보기③</h3>
+<p>서비스 이용료 + 구축·개발 비용은 직접 개발 비중이 큰 "구축형"에 가까운 구성으로, 커스터마이징형과는 다르다.</p>
+<h3>보기④</h3>
+<p>세 항목을 모두 더하는 것은 특정 단일 유형의 표준 구성이 아니라 과다 산정으로, 커스터마이징형의 비용항목으로는 부적절하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>AI 도입 사업 유형별 비용 구성(2025 개정 가이드)</strong></p>
+<table>
+<thead>
+<tr>
+<th>유형</th>
+<th>비용항목</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>서비스이용형</td>
+<td>서비스 이용료</td>
+</tr>
+<tr>
+<td>커스터마이징형</td>
+<td>서비스 이용료 + 커스터마이징 작업비용</td>
+</tr>
+<tr>
+<td>구축(개발)형</td>
+<td>서비스 이용료 + 구축·개발 비용</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: 유형 명칭과 비용항목 조합을 뒤섞는 유형. "커스터마이징=이용료+커스터마이징 작업비"를 정확히 매칭한다.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="10" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 표와 같은 프로젝트 일정에서 프로젝트 전체 완료 기간을 2일 단축하려고 한다. 공정압축법(crashing)을 이용할 경우 소요되는 최소 비용은 얼마인가? (단위기간당 단축비용 : 1일 단축에 소요되는 비용)</p>
+<table>
+<thead>
+<tr>
+<th>활동</th>
+<th>소요기간(일)</th>
+<th>직전선행활동</th>
+<th>단위기간당 단축비용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>2</td>
+<td>-</td>
+<td>200만원</td>
+</tr>
+<tr>
+<td>B</td>
+<td>4</td>
+<td>A</td>
+<td>100만원</td>
+</tr>
+<tr>
+<td>C</td>
+<td>3</td>
+<td>A</td>
+<td>200만원</td>
+</tr>
+<tr>
+<td>D</td>
+<td>2</td>
+<td>B, C</td>
+<td>300만원</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 200만원<br />
+<strong>② 300만원</strong><br />
+③ 400만원<br />
+④ 500만원</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>공정압축법(Crashing), 주경로</li>
+<li>단위기간당 단축비용 최소 조합</li>
+<li>복수 주경로 동시 단축</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>10번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>공정압축법(Crashing) 최소 비용 계산</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>경로별 소요기간을 계산한다.<br />
+- 경로 A→B→D = 2+4+2 = <strong>8일</strong> (주경로)<br />
+- 경로 A→C→D = 2+3+2 = 7일</p>
+<p>전체 완료기간은 8일이며, 2일 단축하여 6일로 만들어야 한다.</p>
+<p><strong>1일차 단축</strong>: 주경로 A-B-D 위에서 단위비용이 가장 싼 활동은 <strong>B(100만원)</strong>. B를 1일 단축 → A-B-D=7, A-C-D=7 → 두 경로가 모두 7일로 <strong>공동 주경로</strong>가 된다. (비용 100만원)</p>
+<p><strong>2일차 단축</strong>: 이제 두 주경로(A-B-D, A-C-D)를 동시에 1일 줄여야 한다.<br />
+- 공통활동 <strong>A</strong>를 1일 단축하면 두 경로가 동시에 감소 → 비용 <strong>200만원</strong><br />
+- 대안: B(100)+C(200)=300만원 → 더 비쌈. D(공통, 300)도 더 비쌈.</p>
+<p>따라서 최소는 A 단축(200만원). <strong>총 비용 = 100 + 200 = 300만원</strong>, 정답 <strong>②</strong>.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>200만원은 1일만 단축한 경우(B 100 + ?)로 2일 단축 요건을 충족하지 못하거나, 공동 주경로를 고려하지 않은 값이다.</p>
+<h3>보기③·④</h3>
+<p>2일차에 B+C(300)나 D(300) 등 비싼 조합을 택하면 400~500만원이 되지만, 공통활동 A(200)를 단축하는 것이 최소이므로 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>Crashing 원칙</strong>: ① 주경로 상의 활동만 단축이 의미가 있다. ② 단위비용이 낮은 활동부터 단축한다. ③ 단축으로 다른 경로가 주경로가 되면(공동 주경로), 이후에는 모든 주경로를 동시에 줄일 수 있는 활동(공통활동 또는 각 경로별 최저비용 조합)을 선택한다.</p>
+<ul>
+<li><strong>시험 포인트</strong>: "공동 주경로 발생 후 공통활동 단축이 유리" 패턴이 핵심. 단순히 최저단가만 반복 선택하면 오답.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="11" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 품질과 관련된 개념에 대한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 정확도(accuracy)란, 측정값이 얼마나 참값(true value)에 근접해 있느냐를 의미한다.<br />
+<strong>② 정밀도(precision)란, 반복하여 수집한 측정값이 평균에서 얼마나 떨어져 있는가를 의미한다.</strong><br />
+③ 품질(quality)이란, 명시적 혹은 암묵적 요구사항을 만족시키는 능력에 대한 실체의 총체적인 특성이다.<br />
+④ 등급(grade)이란, 기능상 용도는 같지만 서로 다른 기술적 특성 또는 기능을 갖고 있는 제품의 분류 기준이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>정확도(Accuracy) vs 정밀도(Precision)</li>
+<li>품질(Quality) vs 등급(Grade)</li>
+<li>재현성·일관성</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>11번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>품질 관련 개념 - 정확도·정밀도·품질·등급</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>정밀도(precision)</strong> 는 동일 대상을 반복 측정했을 때 그 측정값들이 <strong>서로 얼마나 근접(일관)</strong> 한가, 즉 재현성·산포(흩어짐)의 정도를 의미한다. 보기 ②는 "측정값이 <strong>평균에서</strong> 얼마나 떨어져 있는가"라고 서술했는데, 이는 산포(표준편차)의 표현일 수는 있으나 정밀도 정의로는 부정확하고 오히려 "평균에서 떨어져 있음(=흩어짐이 큼)"은 정밀도가 낮음을 뜻해 개념을 혼동시킨다. 정밀도는 "측정값들끼리 서로 가까운(모여 있는) 정도"로 정의하는 것이 정확하므로 ②가 가장 적절하지 않다.</p>
+<p>정확도(①)는 참값 근접성, 품질(③)은 요구사항 충족 능력의 총체적 특성, 등급(④)은 용도는 같으나 기술적 특성이 다른 제품 분류로 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>정확도는 측정값이 참값에 얼마나 가까운지(bias의 작음)를 의미한다. 옳다.</p>
+<h3>보기③</h3>
+<p>품질은 명시적·암묵적 요구를 만족시키는 실체의 총체적 특성(ISO 정의)으로 옳다.</p>
+<h3>보기④</h3>
+<p>등급은 용도는 같으나 기술적 특성·기능이 다른 제품의 분류로, "낮은 등급≠낮은 품질"이라는 점과 함께 옳은 정의이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>정확도</strong>: 참값과의 근접성(치우침 bias 관점)</li>
+<li><strong>정밀도</strong>: 반복 측정값 간의 일관성/재현성(산포 관점)</li>
+<li>
+<p><strong>품질 vs 등급</strong>: 등급이 낮아도 품질(요구 충족)은 높을 수 있다.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 정확도·정밀도의 정의를 서로 바꾸거나, 정밀도를 "평균과의 거리"로 흐리게 서술한 함정을 판별한다.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="12" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 현재의 ‘원가성과지수(CPI)가 앞으로도 계속 적용될 것으로 예상될 때’ 완료시점산정치(EAC)를 계산하는 방법으로 가장 적절한 것은? [BAC : 완료시점예산, EV : 획득가치, AC : 실제원가, CPI : 원가성과지수, SPI : 일정성과지수, ETC : 잔여분산정치]</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① EAC = AC + [(BAC - EV)/(CPI x SPI)]<br />
+② EAC = AC + (BAC - EV)<br />
+<strong>③ EAC = BAC/CPI</strong><br />
+④ EAC = AC + Bottom-up ETC</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>EVM 예측 - EAC 4가지 공식</li>
+<li>CPI 지속 가정 → EAC = BAC/CPI</li>
+<li>ETC, TCPI</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>12번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>완료시점산정치(EAC) 계산식 - CPI 지속 가정</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>EVM에서 완료시점산정치(EAC)는 잔여 성과에 대한 가정에 따라 공식이 달라진다.</p>
+<ul>
+<li><strong>현재 CPI가 계속 유지된다고 가정</strong> → <strong>EAC = BAC / CPI</strong> → <strong>정답 ③</strong></li>
+<li>잔여작업을 계획대로(원래 예산율) 수행한다고 가정 → EAC = AC + (BAC − EV) (②)</li>
+<li>CPI와 SPI를 함께 고려(일정도 반영) → EAC = AC + [(BAC − EV)/(CPI × SPI)] (①)</li>
+<li>잔여분을 상향식으로 재산정 → EAC = AC + Bottom-up ETC (④)</li>
+</ul>
+<p>문제의 조건은 "CPI가 앞으로도 계속 적용"이므로 ③ EAC = BAC/CPI가 정확하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>CPI와 SPI를 곱해 반영하는 공식으로, "원가·일정 성과가 모두 잔여에 영향을 준다"는 가정에 해당한다. 문제 조건(CPI만 지속)과 다르다.</p>
+<h3>보기②</h3>
+<p>잔여작업을 원래 예산 효율로 수행한다는 가정(현재까지의 차이는 이례적)으로, CPI 지속 가정과 다르다.</p>
+<h3>보기④</h3>
+<p>잔여분을 상향식으로 다시 산정하는 방식으로, 특정 지수 지속 가정이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>EAC 4대 공식 요약</strong></p>
+<table>
+<thead>
+<tr>
+<th>가정</th>
+<th>공식</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>현재 CPI 지속</td>
+<td>EAC = BAC / CPI</td>
+</tr>
+<tr>
+<td>잔여는 계획대로</td>
+<td>EAC = AC + (BAC − EV)</td>
+</tr>
+<tr>
+<td>CPI·SPI 동시 영향</td>
+<td>EAC = AC + (BAC − EV)/(CPI×SPI)</td>
+</tr>
+<tr>
+<td>상향식 재산정</td>
+<td>EAC = AC + Bottom-up ETC</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "가정 문구 → 공식" 매칭이 핵심. "CPI 지속=BAC/CPI"를 반드시 암기.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="13" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 품질 비용 모델 가운데 외부 결함에 대한 예시로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 결함이 있는 자재나 오류 수정과 같은 재작업 또는 수리</strong><br />
+② 교체된 고장 제품 또는 보증에 따라 재수행된 서비스와 같은 보증 요청<br />
+③ 결함의 유형 및 심각도에 따라 명성과 대중의 인식이 손상될 수 있는 평판<br />
+④ 고객 불만 처리 및 서비스 제공과 관련된 모든 작업과 비용에 대한 불만</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>품질비용(COQ): 예방·평가·실패(내부/외부)</li>
+<li>내부 실패비용(재작업·폐기) vs 외부 실패비용(보증·평판·리콜)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>13번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>품질비용(COQ) - 외부 실패비용 구분</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>품질비용(Cost of Quality)은 <strong>적합비용(예방·평가)</strong> 과 <strong>부적합비용(내부 실패·외부 실패)</strong> 으로 나뉜다. <strong>외부 실패비용</strong>은 제품·서비스가 <strong>고객에게 인도된 후</strong> 발견된 결함으로 인한 비용으로, 보증(warranty) 처리, 리콜/제품 교체, 고객 불만 처리, 평판(명성) 손상 등이 해당한다.</p>
+<p>보기 ①의 "결함 자재·오류 수정 재작업 또는 수리"는 제품이 고객에게 전달되기 <strong>전(조직 내부)</strong> 에서 발견·처리되는 <strong>내부 실패비용</strong>의 예이다. 따라서 외부 결함(외부 실패비용)의 예시로 "가장 적절하지 않은 것"은 ①번이다.</p>
+<p>②보증 요청, ③평판 손상, ④고객 불만 처리는 모두 고객 인도 후 발생하는 외부 실패비용이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>보증에 따른 제품 교체·서비스 재수행은 인도 후 발생하는 대표적 외부 실패비용이다.</p>
+<h3>보기③</h3>
+<p>결함으로 인한 평판·명성 손상은 외부 실패비용(무형)에 해당한다.</p>
+<h3>보기④</h3>
+<p>고객 불만 처리 비용은 인도 후 고객 접점에서 발생하는 외부 실패비용이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>품질비용(COQ) 4분류</strong></p>
+<table>
+<thead>
+<tr>
+<th>대분류</th>
+<th>세부</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>적합비용</td>
+<td>예방비용</td>
+<td>교육, 프로세스 개선, 표준 수립</td>
+</tr>
+<tr>
+<td>적합비용</td>
+<td>평가비용</td>
+<td>검사, 테스트, 심사</td>
+</tr>
+<tr>
+<td>부적합비용</td>
+<td>내부 실패</td>
+<td>재작업, 폐기, 수리(인도 전)</td>
+</tr>
+<tr>
+<td>부적합비용</td>
+<td>외부 실패</td>
+<td>보증, 리콜, 고객불만, 평판손상(인도 후)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "인도 전=내부 / 인도 후=외부"가 판별 기준. 재작업·폐기(내부)를 외부로 섞는 함정을 찾는다.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="14" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 원가 기준선(Cost Baseline)에 대한 설명으로 옳은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 프로젝트 완료 후 실제 비용을 집계하여 만드는 보고서<br />
+② 프로젝트 팀이 임의로 설정하는 예산 상한선<br />
+<strong>③ 승인된 시간단계별 예산으로, 실제 결과와 비교하는 기준</strong><br />
+④ 우발사태 예비비와 관리예비를 포함한 활동 비용의 합</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>원가 기준선(Cost Baseline)</li>
+<li>시간단계별(time-phased) 예산, S-곡선</li>
+<li>관리예비 제외 / 우발사태 예비비 포함</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>14번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>원가 기준선(Cost Baseline)의 정의</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>원가 기준선(Cost Baseline)</strong> 은 승인된 <strong>시간단계별(time-phased) 예산</strong>으로, 프로젝트 진행 중 실제 원가(AC)·획득가치(EV)와 비교하여 성과를 측정·통제하는 기준이 된다(누적하면 S-곡선). 따라서 "승인된 시간단계별 예산으로 실제 결과와 비교하는 기준"이라는 ③이 옳다.</p>
+<p>주의: 원가 기준선은 <strong>활동 원가 산정치 + 우발사태 예비비</strong>로 구성되며, <strong>관리예비(Management Reserve)는 원가 기준선에 포함되지 않는다.</strong> 관리예비까지 포함하면 <strong>예산(Budget/BAC)</strong> 이 된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>완료 후 실제 비용 집계는 결산 보고서일 뿐 기준선이 아니다. 기준선은 사전에 승인된 계획값이다.</p>
+<h3>보기②</h3>
+<p>임의로 설정하는 상한선이 아니라, 정식으로 승인·통제되는 기준이다.</p>
+<h3>보기④</h3>
+<p>"우발사태 예비비 + 관리예비"를 모두 포함하면 총 예산(BAC 이상)이 된다. 원가 기준선은 <strong>관리예비를 제외</strong>하므로 이 설명은 부정확하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>예산 구성 계층</strong>: 활동원가 산정 → (+우발사태 예비비) = <strong>원가 기준선</strong> → (+관리예비) = <strong>원가 예산(BAC)</strong>.</p>
+<ul>
+<li><strong>시험 포인트</strong>: "관리예비 포함/제외"가 단골 함정. 원가 기준선=관리예비 제외.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="15" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 프로젝트 리스크관리에서 ‘리스크 대응 전략’에 대한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① ‘회피’는 리스크로부터 프로젝트를 보호하기 위해 원래 계획을 변경하는 대응이다.<br />
+② ‘완화’는 계획은 변경하지 않고 리스크가 발생할 확률이나 영향을 최소화하는 대응이다.<br />
+<strong>③ ‘전가’는 다른 당사자에게 리스크관리의 책임을 주어 리스크 자체를 제거하는 대응이다.</strong><br />
+④ ‘수용’은 리스크에 대해 대응하지 않고 계획도 변경하지 않는 대응이다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>부정적 리스크(위협) 대응: 회피·전가·완화·수용</li>
+<li>전가(Transfer) = 책임·영향을 제3자로 이전(제거 아님)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>15번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>리스크 대응 전략 - 회피·전가·완화·수용</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>부정적 리스크(위협)에 대한 대응 전략은 <strong>회피(Avoid)·전가(Transfer)·완화(Mitigate)·수용(Accept)</strong> 이다. <strong>전가</strong>는 보험·보증·아웃소싱·계약 등을 통해 리스크의 <strong>책임과 영향(결과)을 제3자에게 이전</strong>하는 전략이다. 그러나 전가한다고 해서 <strong>리스크 자체가 사라지는(제거되는) 것은 아니다</strong> — 리스크는 여전히 존재하며 관리 책임만 이전된다. 보기 ③은 "리스크 자체를 제거"라고 서술하여 가장 적절하지 않다. 리스크 자체를 원천적으로 없애는 것은 오히려 <strong>회피(Avoid)</strong> 에 가깝다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>회피는 원인을 없애기 위해 원래 계획(범위·일정 등)을 변경하는 대응으로 옳다.</p>
+<h3>보기②</h3>
+<p>완화는 계획의 큰 변경 없이 발생확률·영향을 낮추는 대응으로 옳다.</p>
+<h3>보기④</h3>
+<p>수용은 적극 대응 없이(능동적 수용은 예비비 확보 정도) 리스크를 받아들이는 전략으로 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>위협 대응</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>회피(Avoid)</td>
+<td>원인 제거·계획 변경으로 리스크 자체를 없앰</td>
+</tr>
+<tr>
+<td>전가(Transfer)</td>
+<td>책임·영향을 제3자로 이전(보험·계약), 리스크는 존속</td>
+</tr>
+<tr>
+<td>완화(Mitigate)</td>
+<td>확률·영향을 허용수준까지 감소</td>
+</tr>
+<tr>
+<td>수용(Accept)</td>
+<td>대응하지 않고 받아들임(능동: 예비비)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "전가=제거"는 대표 오답. 전가는 이전이지 제거가 아니다. (기회 대응: 활용·공유·증대·수용)</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="16" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>‘프로젝트에 의해 제공될 제품 서비스 또는 결과를 자세히 기술한 문서’로 가장 적합한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① RPS (Request proposal statement)<br />
+② RFQ (Request for Quotation)<br />
+③ RFI (Request for Information)<br />
+<strong>④ SOW (statement of work)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>SOW(작업기술서/과업내용서)</li>
+<li>RFI/RFQ/RFP 등 조달 문서 구분</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>16번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>하</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>작업기술서(SOW)의 개념</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>SOW(Statement of Work, 작업기술서/과업지시서)</strong> 는 프로젝트가 제공할 <strong>제품·서비스·결과물을 상세히 기술한 문서</strong>로, 과업의 범위·산출물·요구사항을 정의한다. 따라서 정답은 ④번이다.</p>
+<p>나머지는 조달 과정의 요청 문서다: <strong>RFI</strong>(정보요청), <strong>RFQ</strong>(견적요청), RFP(제안요청). ①RPS는 표준 약어가 아닌 혼동용 보기이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>RPS는 조달 표준 문서 약어가 아니며(혼동 보기), 과업 상세 기술 문서가 아니다.</p>
+<h3>보기②</h3>
+<p>RFQ(견적요청서)는 가격 견적을 받기 위한 요청 문서로, 과업 상세 기술 문서가 아니다.</p>
+<h3>보기③</h3>
+<p>RFI(정보요청서)는 공급자 정보·시장조사를 위한 요청 문서이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>조달·과업 문서</strong>: SOW(과업 상세 기술) / RFP(제안요청) / RFQ(견적요청) / RFI(정보요청). SOW는 RFP의 핵심 구성요소로 첨부되기도 한다.</p>
+<ul>
+<li><strong>시험 포인트</strong>: "제품·서비스·결과를 상세 기술=SOW"를 즉시 매칭. 요청(RF~) 문서들과 구분.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="17" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 프로젝트 인적자원관리에서 ‘프로젝트 팀 개발(develop project team)’과 관련된 활동에 대한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 프로젝트 팀 개발은 프로젝트 성과를 향상하기 위해 팀원의 역량 향상, 팀원 간 협력체계 등을 구축하는 활동이다.<br />
+② 프로젝트 팀이 높은 성과를 창출하는 강력한 조직으로 변신하기 위해서 도전적 목표와 기회를 부여한다.<br />
+<strong>③ 프로젝트에서 경험이나 스킬(skill)이 많은 사람과 적은 사람을 의도적으로 짝을 지워주는 것을 스토밍(storming)이라고 한다.</strong><br />
+④ 프로젝트 관리자는 프로젝트 팀을 구성한 이후 중간 이탈방지를 위한 팀원 유지활동을 수행한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>팀 개발(Develop Team): 교육·팀빌딩·인정과 보상</li>
+<li>터크만 팀 발전 5단계(형성-스토밍-규범-수행-해산)</li>
+<li>섀도잉/멘토링·짝 프로그래밍</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>17번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>프로젝트 팀 개발(Develop Project Team)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>스토밍(Storming)</strong> 은 터크만(Tuckman)의 팀 발전 5단계(<strong>Forming → Storming → Norming → Performing → Adjourning</strong>) 중 <strong>갈등·의견충돌이 표출되는 단계</strong>를 가리키는 용어이지, "경험 많은 사람과 적은 사람을 의도적으로 짝지어 주는 활동"을 뜻하지 않는다. 숙련자·비숙련자를 짝지어 역량을 전수하는 것은 <strong>멘토링/섀도잉/짝(pair) 방식</strong>에 해당한다. 따라서 스토밍을 그렇게 정의한 ③이 가장 적절하지 않다.</p>
+<p>나머지 ①(역량·협력체계 구축), ②(도전적 목표·기회 부여로 고성과 팀화), ④(팀원 유지활동)는 팀 개발의 적절한 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>팀 개발의 목적(역량 향상·협력체계 구축)을 옳게 설명한다.</p>
+<h3>보기②</h3>
+<p>동기부여를 위한 도전적 목표·기회 부여는 고성과 팀 형성 활동으로 옳다.</p>
+<h3>보기④</h3>
+<p>팀 구성 후 이탈 방지·유지 활동은 인적자원 관리의 적절한 활동이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>터크만 5단계</strong>: 형성(Forming)-혼돈/스토밍(Storming)-규범(Norming)-수행(Performing)-해산(Adjourning). 스토밍은 "갈등 단계"이다.</p>
+<ul>
+<li><strong>시험 포인트</strong>: 팀 발전 단계 용어(특히 Storming)를 다른 활동으로 바꿔치기한 함정에 유의.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="18" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 사례를 「고영향 인공지능 판단 가이드라인」에 따라 고영향 인공지능에 해당하는지 판단한 결과로 가장 적절한 것은?</p>
+<ul>
+<li><strong>가.</strong> A 선사에는 선박 운항의 효율성을 높이기 위해 선박 자율 제어 기술을 통한 자율운항 인공지능 시스템을 활용하고 있다.</li>
+<li><strong>나.</strong> B 지방자치단체에서는 인공지능 기반 스마트 수질 모니터링 시스템을 이용하여 상수원에서 나오는 수질을 실시간으로 감시하고 있다.</li>
+<li><strong>다.</strong> C 항공사는 D 인공지능시스템을 통해 운항 중인 객실 내에서 승객의 행동을 분석하여 비상상황에 대비하여 신속한 대처방안을 승객에게 제시하고 있다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (가) 비해당 - (나) 비해당 - (다) 비해당<br />
+<strong>② (가) 해당 - (나) 비해당 - (다) 비해당</strong><br />
+③ (가) 비해당 - (나) 해당 - (다) 비해당<br />
+④ (가) 해당 - (나) 해당 - (다) 해당</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>고영향 인공지능(AI기본법)</li>
+<li>국민의 생명·신체 안전에 중대한 영향</li>
+<li>선박·항공 등 운송수단 제어</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>18번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>고영향 인공지능 해당 여부 판단 (고영향 인공지능 판단 가이드라인)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>「고영향 인공지능 판단 가이드라인」은 <strong>사람의 생명·신체의 안전 및 기본권에 중대한 영향을 미치는 영역</strong>(예: 에너지, 보건의료, 교통·운송수단의 안전 제어 등)에 사용되는 AI를 고영향 AI로 본다. 핵심은 "AI가 <strong>직접 안전을 제어</strong>하여 오작동 시 생명·신체에 중대한 위해가 발생하는가"이다.</p>
+<ul>
+<li><strong>가. 자율운항 선박 제어 AI</strong> → 선박을 직접 제어(운송수단 안전 제어)하여 사고 시 인명·안전에 중대한 영향 → <strong>해당</strong></li>
+<li><strong>나. 스마트 수질 모니터링</strong> → 수질을 실시간 "감시·측정"하는 보조·모니터링 용도로, AI가 직접 안전을 제어하지 않음 → <strong>비해당</strong></li>
+<li><strong>다. 객실 내 승객 행동 분석·대처안 제시</strong> → 정보를 분석해 "대처방안을 제시"하는 보조 용도로, 비행 자체를 제어하지 않음 → <strong>비해당</strong></li>
+</ul>
+<p>따라서 (가)해당-(나)비해당-(다)비해당인 ②가 정답이다.</p>
+<blockquote>
+<p>※ 「고영향 인공지능 판단 가이드라인」은 AI기본법 시행에 따른 최신 자료로 강의자료 미수록분이며 외부지식으로 보완하였다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기① / ③ / ④</h3>
+<p>(가)의 자율운항 제어 AI는 운송수단 안전을 직접 제어하므로 명백히 고영향에 "해당"한다. 따라서 (가)를 비해당으로 둔 ①·③은 오답이다. (나)수질 감시·(다)행동 분석은 모니터링/의사결정 보조로 직접 안전 제어가 아니어서 비해당이므로, 이들을 해당으로 본 ③·④도 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>고영향 AI 판단 기준(요지)</strong>: 생명·신체 안전 또는 기본권에 중대한 영향 + AI의 <strong>직접적 제어·결정</strong> 여부.</li>
+<li><strong>해당 예</strong>: 운송수단(선박·항공·자동차) 안전 제어, 의료 진단·처치, 에너지·수도 등 필수 기반시설 제어.</li>
+<li>
+<p><strong>비해당 경향</strong>: 단순 모니터링·분석·정보 제시(사람이 최종 판단).</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "직접 제어(해당) vs 보조·감시(비해당)" 구분이 판단 핵심.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="19" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>의사소통 당사자의 수가 5명에서 7명으로 2명이 더 늘었다면 의사소통 채널 수는 현재보다 얼마나 증가하는가?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 2개<br />
+② 4개<br />
+<strong>③ 11개</strong><br />
+④ 15개</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>의사소통 채널 수 = n(n−1)/2</li>
+<li>채널 증가량 계산</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>19번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>의사소통 채널 수 계산 (n(n-1)/2)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>프로젝트 의사소통 채널 수는 <strong>n(n−1)/2</strong> 로 계산한다.<br />
+- 5명: 5×4/2 = <strong>10개</strong><br />
+- 7명: 7×6/2 = <strong>21개</strong><br />
+- 증가량 = 21 − 10 = <strong>11개</strong> → 정답 ③</p>
+<p>"현재보다 얼마나 증가하는가"를 물었으므로 21개(총 채널)가 아니라 증가분 11개가 답이다. ④ 15개(=6×5/2, 6명일 때)나 ① 2개(인원 증가분) 등은 함정이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>2개는 늘어난 "인원 수"일 뿐 채널 증가량이 아니다.</p>
+<h3>보기②</h3>
+<p>4개는 계산 근거가 없는 값이다.</p>
+<h3>보기④</h3>
+<p>15개는 6명일 때의 총 채널(6×5/2) 또는 오계산 값으로, 5→7명 증가분(11)이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>의사소통 채널 = n(n−1)/2</strong>. 인원이 늘수록 채널은 제곱에 가깝게 급증한다(의사소통 복잡도 증가). 증가량 문제는 "(새 채널)−(기존 채널)"로 계산.</p>
+<ul>
+<li><strong>시험 포인트</strong>: "총 개수 vs 증가량"을 구분. 공식 암기 필수.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="20" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 프로젝트 측정과 관련하여 ‘어떤 것을 측정하는 행위가 행동에 영향을 미치는 것’을 의미하는 용어로 옳은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 허영 지표 (Vanity metric)<br />
+<strong>② 호손 효과 (Hawthorne effect)</strong><br />
+③ 사기 저하 (Demoralization)<br />
+④ 확증 편향 (Confirmation bias)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>호손 효과(Hawthorne effect)</li>
+<li>허영 지표, 확증 편향</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>20번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>측정 관련 용어 - 호손 효과(Hawthorne effect)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>호손 효과(Hawthorne effect)</strong> 는 사람들이 <strong>자신이 관찰·측정되고 있다는 사실을 인지할 때 평소와 다르게 행동(대개 성과가 향상)</strong> 하는 현상을 말한다. 즉 "측정하는 행위 자체가 대상의 행동에 영향을 미치는 것"으로 정답은 ②이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>허영 지표(Vanity metric)는 보기에는 좋아 보이나 실제 의사결정·성과와 무관한 지표를 뜻한다.</p>
+<h3>보기③</h3>
+<p>사기 저하(Demoralization)는 부적절한 측정·평가가 팀 동기를 떨어뜨리는 부작용을 가리키나, "측정이 행동에 영향"이라는 정의와는 다르다.</p>
+<h3>보기④</h3>
+<p>확증 편향(Confirmation bias)은 자기 신념에 부합하는 정보만 취하는 인지 편향으로, 관찰로 인한 행동 변화와는 다른 개념이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>호손 효과</strong>: 관찰 인지 → 행동 변화(성과 일시 향상). 측정 설계 시 유의해야 할 편향.</li>
+<li>
+<p><strong>관련 개념</strong>: 관찰자 효과, 굿하트의 법칙("측정이 목표가 되면 좋은 측정이 못 됨").</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 측정·지표 관련 심리/편향 용어의 정의 매칭.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="21" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「전자정부 성과관리 지침(행정안전부 고시)」에 따라 사전협의 신청 시 제출하여야 하는 서류에 포함되지 않는 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 사업계획서<br />
+② 자체검토결과서<br />
+<strong>③ SW사업 영향평가 결과서</strong><br />
+④ SW개발사업의 적정 사업기간 종합 산정서</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>사전협의 제출서류</li>
+<li>사업계획서·자체검토결과서·적정 사업기간 산정서</li>
+<li>SW사업 영향평가(별도 제도)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>21번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>사전협의 신청 제출서류 (전자정부 성과관리 지침)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>전자정부(정보화)사업 사전협의 신청 시에는 사업의 타당성·적정성을 검토하기 위한 서류 — <strong>사업계획서, 자체검토결과서, SW개발사업의 적정 사업기간 종합 산정서</strong> 등 — 를 제출한다. 반면 <strong>③ SW사업 영향평가 결과서</strong>는 「소프트웨어진흥법」상 <strong>공공소프트웨어사업 영향평가 제도</strong>의 산출물로, 민간시장 침해 여부를 평가하는 별개 절차에 속한다. 따라서 사전협의 신청 제출서류에 "포함되지 않는 것"은 ③번이다.</p>
+<blockquote>
+<p>※ 사전협의 제출서류의 구체 목록은 최신 고시 기준이며, 강의자료의 사전협의 관련 내용과 최신 개정분을 함께 반영해 판단하였다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>사업계획서는 사전협의의 기본 검토 대상 서류로 제출 대상이다.</p>
+<h3>보기②</h3>
+<p>자체검토결과서는 신청기관이 스스로 타당성을 검토한 결과로 제출 서류에 포함된다.</p>
+<h3>보기④</h3>
+<p>SW개발사업의 적정 사업기간 종합 산정서는 무리한 단기 일정 방지를 위해 요구되는 제출 서류이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>사전협의</strong>: 일정 규모 이상 정보화사업 추진 시 중복·연계·표준 준수 등을 사전 협의하는 제도.</li>
+<li>
+<p><strong>SW사업 영향평가</strong>: 공공SW가 민간시장에 미치는 영향을 평가하는 별도 제도(소프트웨어진흥법).</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 서로 다른 제도의 산출물을 섞은 함정. "영향평가 결과서=사전협의 서류 아님".</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="22" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 「전자정부 성과관리 지침(행정안전부 고시)」에 따른 성과관리에 대한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 행정안전부 장관은 매년 전자정부 성과관리를 수립하여야 한다.<br />
+② 행정안전부 장관은 성과측정 및 분석결과에 따라 성과관리가 특별히 필요하다고 판단되는 사업에 대해 사업규모를 조정할 것을 요청할 수 있다.<br />
+<strong>③ 중앙행정기관의 장은 성과측정을 비용측면, 효과측면으로 구분하여 시행한다.</strong><br />
+④ 행정안전부 장관은 성과 평가 결과 40점 미만은 폐기하도록 권고할 수 있다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>전자정부 성과관리 지침</li>
+<li>성과측정 측면(업무/비용) 구분</li>
+<li>성과평가 결과 활용(사업규모 조정·폐기 권고)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>22번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>전자정부 성과관리 지침 - 성과관리 절차</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>전자정부 성과관리에서 성과측정은 통상 <strong>업무 측면과 비용 측면</strong>으로 구분하여 시행한다(과거 정보시스템 운영 성과관리 지침의 "비용 측면/업무 측면" 체계와 동일한 맥락). 보기 ③은 "<strong>비용측면, 효과측면</strong>"으로 구분한다고 하여 측정 측면의 명칭을 잘못 서술했고(효과측면 X → 업무측면), 또한 그 시행 주체를 단정적으로 서술한 점에서도 지침 규정과 어긋난다. 따라서 가장 적절하지 않은 것은 ③이다.</p>
+<p>①(장관의 성과관리 수립), ②(성과결과에 따른 사업규모 조정 요청), ④(저평가 사업 폐기 권고)는 지침이 정한 성과 결과 활용·관리 활동으로 옳다.</p>
+<blockquote>
+<p>※ 성과측정 측면 명칭·점수 기준 등 세부 수치는 최신 고시를 근거로 하며 강의자료 관련 내용과 대조해 판단하였다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>행정안전부 장관이 매년 전자정부 성과관리(계획)를 수립하도록 하는 것은 지침의 총괄 규정으로 옳다.</p>
+<h3>보기②</h3>
+<p>성과 분석 결과에 따라 필요한 사업의 규모 조정을 요청할 수 있도록 한 것은 성과 결과 활용의 적절한 예이다.</p>
+<h3>보기④</h3>
+<p>일정 점수(40점) 미만 사업에 대해 폐기 권고를 할 수 있게 한 것은 성과평가 결과 활용의 적절한 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>성과측정 측면</strong>: 업무(효율성·효과성) 측면 + 비용 측면. ("효과측면"이라는 별도 축으로 바꾼 서술에 유의)</li>
+<li>
+<p><strong>결과 활용</strong>: 사업규모 조정 요청, 저성과 사업 폐기·재검토 권고 등.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 측정 "측면" 명칭을 바꾼 함정. "비용/업무"가 표준.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="23" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「AI 데이터 품질관리 가이드라인 v3.5 (2025.2)」에서 초거대 언어모델(LLM) 품질관리 지표 중 ‘유효성’ 영역에서 ROUGE-L 지표를 활용한 성능 평가 방법은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 알고리즘이 데이터 포인트를 올바르게 분류하는 빈도를 측정<br />
+② 각각의 객체에 대한 검출 정확도를 측정<br />
+③ 참값 정확도의 평균 개수를 계산하여 식별 정밀도를 측정<br />
+<strong>④ 가장 긴 일치하는 단어 시퀀스를 측정</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>ROUGE-L = LCS(최장 공통 부분수열) 기반</li>
+<li>생성 텍스트 요약/일치도 평가</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>23번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>LLM 품질관리 지표 - ROUGE-L (AI 데이터 품질관리 가이드라인 v3.5)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>ROUGE-L</strong> 은 생성된 텍스트와 참조(정답) 텍스트 사이의 <strong>최장 공통 부분수열(LCS, Longest Common Subsequence)</strong>, 즉 <strong>가장 길게 일치하는 단어 시퀀스</strong>를 기준으로 요약·생성 품질을 평가하는 지표이다. 따라서 "가장 긴 일치하는 단어 시퀀스를 측정"이라고 한 ④가 정답이다.</p>
+<p>①(분류 정확도 빈도)은 Accuracy, ②(객체별 검출 정확도)는 객체탐지 지표(예: IoU/AP), ③(정밀도 계산)은 Precision 계열로 ROUGE-L과 무관하다.</p>
+<blockquote>
+<p>※ AI 데이터 품질관리 가이드라인 v3.5는 강의자료 미수록 최신 자료로 외부지식으로 보완하였다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>분류 정확도(Accuracy) 측정 방법으로, 언어 생성 일치도(ROUGE-L)와 다르다.</p>
+<h3>보기②</h3>
+<p>객체 검출 정확도(컴퓨터 비전)의 평가로, 텍스트 시퀀스 일치와 무관하다.</p>
+<h3>보기③</h3>
+<p>정밀도(Precision) 계열 서술로, LCS 기반 ROUGE-L 정의가 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>ROUGE 계열</strong>: ROUGE-N(n-gram 중복), <strong>ROUGE-L(LCS)</strong>, ROUGE-S(skip-bigram). 요약/생성 평가에 사용.</li>
+<li>
+<p><strong>BLEU</strong>: 기계번역에서 n-gram 정밀도 기반.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "ROUGE-L = 최장 공통 시퀀스(LCS)"를 기억. 분류/검출 지표와 혼동 주의.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="24" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>「국가를 당사자로 하는 계약에 관한 법률 시행규칙 (2026.1.2.)」에서 규정한 ‘상용 소프트웨어 직접구매’ 제외 사유와 거리가 먼 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 기존 정보시스템과 통합이 불가능하거나 현저한 비용상승이 초래되는 경우<br />
+② 소프트웨어 제품을 직접 공급하면 해당 사업이 기간 내에 완성될 수 없을 정도로 현저하게 지연될 우려가 있는 경우<br />
+③ 분리발주로 인한 행정업무 증가 외에 직접 구매하는 것이 현저하게 비효율적이라고 판단되는 경우<br />
+<strong>④ 운영 및 유지보수에서 확장성 문제가 발생할 우려가 있는 경우</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>상용SW 직접구매(분리발주) 원칙과 예외</li>
+<li>제외 사유: 통합 불가·비용상승, 사업 지연 우려, 현저한 비효율</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>24번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>상용SW 직접구매 제외 사유 (국가계약법 시행규칙 2026.1.2.)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>상용 소프트웨어는 원칙적으로 <strong>분리발주·직접구매</strong> 하되, 예외적으로 직접구매(분리발주)에서 제외할 수 있는 사유를 규칙에서 열거한다: <strong>①기존 시스템과 통합 불가 또는 현저한 비용상승, ②직접 공급 시 사업이 기간 내 완성 불가할 정도의 현저한 지연 우려, ③직접구매가 현저하게 비효율적인 경우</strong> 등이다.</p>
+<p>반면 <strong>④ "운영·유지보수에서 확장성 문제가 발생할 우려"</strong> 는 규칙이 정한 직접구매 제외 사유로 명시되어 있지 않다(확장성 우려는 일반적 기술 고려사항일 뿐 법정 제외 사유가 아님). 따라서 "거리가 먼 것"은 ④번이다.</p>
+<blockquote>
+<p>※ 2026.1.2. 시행 국가계약법 시행규칙 개정 조문 기준으로, 강의자료 미수록 최신 내용을 외부지식으로 보완하였다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>기존 시스템과 통합 불가·현저한 비용상승은 대표적 직접구매 제외 사유이다.</p>
+<h3>보기②</h3>
+<p>직접 공급 시 사업이 기간 내 완성 불가할 정도의 지연 우려는 제외 사유에 해당한다.</p>
+<h3>보기③</h3>
+<p>직접구매가 현저하게 비효율적이라 판단되는 경우도 제외 사유로 규정된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>상용SW 분리발주 원칙</strong>: 중소SW 판로·품질 확보를 위해 일정 금액 이상 상용SW는 분리발주.</li>
+<li>
+<p><strong>제외(예외) 사유 3요지</strong>: 통합불가·비용상승 / 사업 지연 / 현저한 비효율.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 그럴듯한 기술적 사유(확장성 우려)를 법정 제외 사유로 섞은 함정.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="25" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 중 몬테카를로 시뮬레이션 분석에 대한 설명으로 가장 적절하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 분석을 위한 투입물 값(원가산정치, 기간산정치 등)은 반복할 때마다 3점 산정법의 평균값으로 계산한다.</strong><br />
+② 시뮬레이션의 산출물은 프로젝트 종료날짜나 완료시점의 프로젝트 원가 등과 같은 프로젝트의 가능한 결과물 범위를 나타낸다.<br />
+③ 프로젝트 목표 달성에 미칠 잠재적 영향을 평가하기 위해 개별 프로젝트 리스크 및 기타 불확실성 원인의 종합적 영향을 분석할 때 사용할 수 있다.<br />
+④ 일반적인 산출물에는 시뮬레이션에서 특정 결과를 얻은 반복(iteration) 횟수를 나타내는 히스토그램 또는 특정 결과를 달성할 확률 또는 그 미만을 나타내는 누적 확률분포(S-곡선)가 포함된다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>몬테카를로 시뮬레이션(정량적 리스크 분석)</li>
+<li>확률분포에서 무작위 추출(반복)</li>
+<li>S-곡선(누적확률), 히스토그램</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>감리 및 사업관리</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>25번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>몬테카를로 시뮬레이션 분석</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>몬테카를로 시뮬레이션은 각 투입 변수(원가·기간 산정치)를 <strong>확률분포(예: 삼각·베타 분포)</strong> 로 모델링한 뒤, 매 반복(iteration)마다 그 분포에서 <strong>무작위로 값을 추출</strong>하여 수천 번 시뮬레이션함으로써 결과의 확률적 범위를 도출한다. 보기 ①은 "반복할 때마다 3점 산정법의 <strong>평균값</strong>으로 계산한다"고 했는데, 매번 평균값(단일 고정값)만 쓴다면 결과가 매번 동일해져 시뮬레이션 자체가 성립하지 않는다. 실제로는 분포에서 무작위 표본을 뽑으므로 ①이 가장 적절하지 않다.</p>
+<p>②(결과물 범위), ③(리스크·불확실성의 종합적 영향 분석), ④(히스토그램·S-곡선 산출물)는 모두 옳은 설명이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>산출물이 완료일·완료원가 등 "가능한 결과의 범위"라는 설명은 옳다.</p>
+<h3>보기③</h3>
+<p>개별 리스크와 불확실성의 종합 영향을 정량 분석하는 용도는 몬테카를로의 대표 활용이다.</p>
+<h3>보기④</h3>
+<p>반복 횟수 히스토그램과 누적확률분포(S-곡선)는 몬테카를로의 전형적 산출물이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>정량적 리스크 분석</strong>: 몬테카를로 시뮬레이션, 의사결정나무, 민감도 분석(토네이도 다이어그램) 등.</li>
+<li>
+<p><strong>핵심 원리</strong>: 변수는 확률분포로, 매 반복 무작위 추출 → 결과의 확률분포(S-곡선) 산출.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "평균값(고정값) 반복"은 오답 포인트. 무작위 추출이 본질.</p>
+</li>
+</ul>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="img-lightbox" id="img-lightbox">
+    <button class="lightbox-close" id="lightbox-close" title="닫기 (Esc)">✕</button>
+    <img id="lightbox-img" src="" alt="확대 이미지">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+<script>
+/* 삽입 이미지 라이트박스: 본문에서는 영역 폭에 맞게 축소, 클릭·돋보기로 원본 확대 */
+(function () {
+  var box = document.getElementById('img-lightbox');
+  var bimg = document.getElementById('lightbox-img');
+  var bcap = document.getElementById('lightbox-caption');
+  function open(src, cap) {
+    bimg.src = src; bcap.textContent = cap || ''; box.classList.add('open');
+  }
+  function close() { box.classList.remove('open'); bimg.src = ''; }
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box || e.target === bimg) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.querySelectorAll('.section-text img, .overview-card img').forEach(function (img) {
+    if (img.closest('.fig-imgwrap')) return;
+    var wrap = document.createElement('span');
+    wrap.className = 'fig-imgwrap';
+    img.parentNode.insertBefore(wrap, img);
+    wrap.appendChild(img);
+    var btn = document.createElement('button');
+    btn.className = 'zoom-btn';
+    btn.type = 'button';
+    btn.title = '이미지 확대';
+    btn.textContent = '🔍';
+    wrap.appendChild(btn);
+    var fire = function () { open(img.getAttribute('src'), img.getAttribute('alt') || ''); };
+    btn.addEventListener('click', fire);
+    img.addEventListener('click', fire);
+  });
+})();
+</script>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

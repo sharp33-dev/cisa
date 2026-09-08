@@ -9,8 +9,39 @@ AREA2 = ['정답 해설', '오답 분석', '관련 이론 정리', '실무 적�
 AREA3 = ['매칭 강의자료', '출제패턴 분석', '유사문제', '빈출도 분석', '암기 포인트']
 KNOWN = set(AREA1 + AREA2 + AREA3)
 
+# --- LaTeX 수식($$...$$, $...$) 보호 -------------------------------------
+# 마크다운이 수식 안의 _ , * 를 강조로 파싱해 아래첨자가 사라지는 문제 방지.
+# 코드펜스(```)·인라인코드(`)는 제외해야 MongoDB $group 등 오탐이 없다.
+RE_FENCE  = re.compile(r'```.*?```', re.S)
+RE_ICODE  = re.compile(r'`[^`\n]*`')
+RE_MATH2  = re.compile(r'\$\$.+?\$\$', re.S)
+RE_MATH1  = re.compile(r'\$[^$\n]*\\[^$\n]*\$')       # 백슬래시 있는 것만 = LaTeX
+
+def _protect_math(text):
+    """코드 영역을 잠시 가린 뒤 수식을 토큰으로 치환. (본문, 수식목록) 반환"""
+    codes = []
+    def stash(m):
+        codes.append(m.group(0))
+        return '\x00C%d\x00' % (len(codes) - 1)
+    masked = RE_ICODE.sub(stash, RE_FENCE.sub(stash, text))
+
+    maths = []
+    def grab(m):
+        maths.append(m.group(0))
+        return 'zXMATH%dXz' % (len(maths) - 1)
+    masked = RE_MATH1.sub(grab, RE_MATH2.sub(grab, masked))
+
+    # 코드 복원 (마크다운이 정상 처리하도록)
+    out = re.sub(r'\x00C(\d+)\x00', lambda m: codes[int(m.group(1))], masked)
+    return out, maths
+
 def md2html(text):
-    return markdown.markdown(text.strip(), extensions=MD_EXT)
+    body, maths = _protect_math(text.strip())
+    out = markdown.markdown(body, extensions=MD_EXT)
+    if maths:
+        out = re.sub(r'zXMATH(\d+)Xz',
+                     lambda m: html.escape(maths[int(m.group(1))]), out)
+    return out
 
 def parse_md(md_text):
     lines = md_text.split('\n')
@@ -138,6 +169,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }

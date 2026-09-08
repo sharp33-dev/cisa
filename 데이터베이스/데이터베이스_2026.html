@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터베이스 2026년도 기출해설집</title>
+<style>
+:root {
+  --primary-color:#1e3a8a; --accent-color:#0ea5e9; --border-color:#cbd5e1;
+  --bg-main:#f8fafc; --text-main:#334155; --text-dark:#0f172a; --area-bg:#ffffff;
+  --area-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+* { box-sizing:border-box; margin:0; padding:0; font-family:'Pretendard',-apple-system,sans-serif; }
+html,body { height:100%; }
+body { background:var(--bg-main); color:var(--text-main); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+
+.page-header { background:#fff; border-bottom:1px solid var(--border-color); padding:0.7rem 1.25rem 0.7rem 3.2rem; display:flex; align-items:center; gap:1rem; flex-shrink:0; flex-wrap:wrap; }
+.page-title { font-size:1rem; font-weight:800; color:var(--text-dark); }
+.page-title small { display:block; font-size:0.72rem; color:#64748b; font-weight:600; margin-top:2px; }
+.qnav { display:flex; align-items:center; gap:0.4rem; margin-left:auto; }
+.qselect { padding:0.45rem 0.6rem; font-size:0.82rem; font-weight:700; border-radius:6px; border:1px solid var(--border-color); background:#fff; color:var(--text-dark); cursor:pointer; max-width:180px; }
+.qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
+.qnav .btn:hover { background:#f1f5f9; }
+.qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+
+.stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
+.question-view { height:100%; min-height:0; }
+.content-workspace { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr; gap:1rem; height:100%; min-height:0; }
+.area-card { background:var(--area-bg); border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); display:flex; flex-direction:column; overflow:hidden; min-height:0; }
+.area-left { grid-column:1/2; grid-row:1/2; }
+.area-2 { grid-column:2/3; grid-row:1/2; }
+.area-header { padding:0.55rem 1rem; background:#f8fafc; border-bottom:1px solid var(--border-color); font-size:0.78rem; font-weight:800; color:var(--primary-color); letter-spacing:0.03em; flex-shrink:0; }
+.area-body { padding:1.1rem; overflow-y:auto; flex:1; min-height:0; font-size:0.9rem; line-height:1.65; }
+.merge-divider { border-top:2px solid var(--border-color); margin:1.1rem 0; }
+
+.overview-view { height:100%; overflow-y:auto; padding:0; }
+.overview-card { background:#fff; border:1px solid var(--border-color); border-radius:8px; box-shadow:var(--area-shadow); padding:1.5rem 2rem; max-width:1100px; margin:0 auto; }
+
+.content-section { margin-bottom:1.25rem; border-bottom:1px dashed #e2e8f0; padding-bottom:1rem; }
+.content-section:last-child { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+.section-label { font-weight:800; font-size:0.88rem; color:var(--text-dark); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem; }
+.section-label::before { content:''; display:inline-block; width:3.5px; height:13px; background:var(--accent-color); border-radius:2px; }
+.section-text { color:var(--text-main); }
+.section-text p { margin:0.4rem 0; }
+.section-text ul, .section-text ol { margin:0.4rem 0 0.4rem 1.25rem; }
+.section-text li { margin:0.2rem 0; }
+.section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
+.section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
+.section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
+th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
+th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
+strong { color:#0f172a; font-weight:700; }
+
+.ans-switch { margin-left:auto; display:inline-flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.72rem; font-weight:700; color:#64748b; user-select:none; }
+.ans-switch input { display:none; }
+.ans-switch .track { width:34px; height:18px; background:#cbd5e1; border-radius:999px; position:relative; transition:background .2s; flex-shrink:0; }
+.ans-switch .track::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; transition:transform .2s; }
+.ans-switch input:checked + .track { background:var(--accent-color); }
+.ans-switch input:checked + .track::after { transform:translateX(16px); }
+.ans-switch input:checked ~ .switch-text { color:var(--accent-color); }
+.opts strong { font-weight:normal; color:inherit; }
+.answer-box { display:none; }
+.question-view.show-answer .opts strong { font-weight:700; color:#0f172a; }
+.question-view.show-answer .answer-box { display:block; }
+
+/* ── 삽입 이미지: 영역 폭에 맞춰 축소, 클릭 시 확대(라이트박스) ── */
+.fig-imgwrap { position:relative; display:block; margin:0.6rem auto; max-width:100%; text-align:center; }
+.section-text img, .overview-card img {
+  display:block; max-width:100%; width:auto; height:auto;
+  max-height:340px; margin:0 auto;
+  border:1px solid var(--border-color); border-radius:6px; background:#fff;
+  object-fit:contain; cursor:zoom-in;
+}
+.zoom-btn { position:absolute; top:6px; right:6px; z-index:2; width:28px; height:28px; line-height:1;
+  border:1px solid var(--border-color); border-radius:6px; background:rgba(255,255,255,0.92);
+  color:var(--primary-color); font-size:0.9rem; cursor:pointer; padding:0; }
+.zoom-btn:hover { background:#fff; border-color:var(--accent-color); }
+.img-lightbox { display:none; position:fixed; inset:0; z-index:9999; background:rgba(15,23,42,0.85);
+  align-items:center; justify-content:center; padding:2rem; }
+.img-lightbox.open { display:flex; }
+.img-lightbox img { max-width:96vw; max-height:88vh; width:auto; height:auto;
+  background:#fff; border-radius:8px; box-shadow:0 10px 30px rgb(0 0 0 / 0.45); cursor:zoom-out; }
+.lightbox-close { position:absolute; top:14px; right:18px; width:38px; height:38px; border:none; border-radius:8px;
+  background:rgba(255,255,255,0.9); color:#0f172a; font-size:1.2rem; font-weight:800; cursor:pointer; }
+.lightbox-caption { position:absolute; bottom:16px; left:0; right:0; text-align:center; color:#e2e8f0; font-size:0.82rem; padding:0 2rem; }
+</style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-title">데이터베이스 <small>2026년도 기출해설집 · 총 25문항</small></div>
+    <div class="qnav">
+      <select class="qselect" id="qselect" onchange="jump(this.value)" title="문항 바로가기"></select>
+      <button class="btn" onclick="go(-1)">← 이전</button>
+      <button class="btn btn-primary" onclick="go(1)">다음 →</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="overview-view question-view" data-num="overview" style="display:none;">
+      <div class="overview-card"><div class="section-text"><h1>정보시스템 감리사 데이터베이스 기출문제 해설집</h1>
+<h2>2026년 제27회 (문항 51~75)</h2>
+<blockquote>
+<p><strong>작성 기준</strong>: 데이터베이스 강의자료 우선 근거, 표준 이론(관계모델·SQL·정규화·트랜잭션·인덱스·분산DB) 보조 활용<br />
+<strong>정답 출처</strong>: 2026년(제27회) 정보시스템 감리사 필기시험 문제 및 답안.pdf (원본 Bold 표시 + 문항별 논리 검증)<br />
+<strong>정답 신뢰도</strong>: 매우 높음 (25문항 전량 페이지 이미지 육안 대조 + 계산·SQL·관계대수 로직 재검증)<br />
+<strong>검증 특이사항</strong>: 코드블록형 문항(Q57)·복수보기형(Q58)은 자동 잉크판별이 부정확하여 <strong>원문 이미지와 논리로 재검증하여 확정</strong>함(Q57=①, Q58=②).</p>
+</blockquote>
+<hr />
+<h2>2026년 데이터베이스 정답표 (Q51~75)</h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+<th>번호</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>51</td>
+<td>③</td>
+<td>60</td>
+<td>②</td>
+<td>69</td>
+<td>③</td>
+</tr>
+<tr>
+<td>52</td>
+<td>④</td>
+<td>61</td>
+<td>③</td>
+<td>70</td>
+<td>③</td>
+</tr>
+<tr>
+<td>53</td>
+<td>②</td>
+<td>62</td>
+<td>②</td>
+<td>71</td>
+<td>②</td>
+</tr>
+<tr>
+<td>54</td>
+<td>④</td>
+<td>63</td>
+<td>②</td>
+<td>72</td>
+<td>④</td>
+</tr>
+<tr>
+<td>55</td>
+<td>③</td>
+<td>64</td>
+<td>②</td>
+<td>73</td>
+<td>①</td>
+</tr>
+<tr>
+<td>56</td>
+<td>①</td>
+<td>65</td>
+<td>③</td>
+<td>74</td>
+<td>④</td>
+</tr>
+<tr>
+<td>57</td>
+<td>①</td>
+<td>66</td>
+<td>②</td>
+<td>75</td>
+<td>③</td>
+</tr>
+<tr>
+<td>58</td>
+<td>②</td>
+<td>67</td>
+<td>②</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>59</td>
+<td>①</td>
+<td>68</td>
+<td>④</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2>---</h2></div></div>
+    </div>
+
+    <div class="question-view" data-num="51" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>JDBC 환경에서 자바 응용 프로그램이 데이터베이스에 연결되어 SQL을 수행하는 과정의 처리 순서로 올바른 것은?</p>
+<ul>
+<li>가. 요청된 SQL 문을 DBMS가 실행한다.</li>
+<li>나. 등록된 드라이버 중 적합한 드라이버를 선택하여 연결을 위임한다.</li>
+<li>다. 자바 응용 프로그램이 getConnection()을 호출한다.</li>
+<li>라. 드라이버가 DBMS와 네트워크 소켓 연결을 설정한다.</li>
+<li>마. Statement 또는 PreparedStatement 객체를 생성한다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 나 → 다 → 라 → 마 → 가<br />
+② 다 → 라 → 가 → 나 → 마<br />
+<strong>③ 다 → 나 → 라 → 마 → 가</strong><br />
+④ 다 → 라 → 마 → 나 → 가</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>JDBC 연결 절차: DriverManager.getConnection → 드라이버 선택 → 소켓 연결 → Statement 생성 → 실행</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>51번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>JDBC 처리 순서</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>JDBC 처리 흐름은 다음과 같다.<br />
+1. <strong>다</strong>: 응용이 <code>DriverManager.getConnection()</code> 호출<br />
+2. <strong>나</strong>: 등록된 드라이버 중 적합한 드라이버 선택·연결 위임<br />
+3. <strong>라</strong>: 드라이버가 DBMS와 네트워크 소켓 연결 설정<br />
+4. <strong>마</strong>: <code>Statement</code>/<code>PreparedStatement</code> 객체 생성<br />
+5. <strong>가</strong>: SQL 실행</p>
+<p>따라서 <strong>다 → 나 → 라 → 마 → 가</strong>인 ③이 정답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>getConnection 호출(다)보다 드라이버 선택(나)을 먼저 둘 수 없다. 연결 요청이 선행한다.</p>
+<h3>보기②</h3>
+<p>연결 설정(라) 후 곧바로 실행(가)으로 갈 수 없다. Statement 생성(마)이 실행 전에 있어야 한다.</p>
+<h3>보기④</h3>
+<p>소켓 연결(라) 후 Statement(마)를 생성했는데 드라이버 선택(나)이 뒤에 오는 것은 순서가 맞지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>JDBC 6단계</strong>: 드라이버 로딩 → Connection 획득(getConnection) → Statement 생성 → SQL 실행(executeQuery/Update) → ResultSet 처리 → 자원 반납(close).</p>
+<ul>
+<li><strong>시험 포인트</strong>: "getConnection이 드라이버 선택·소켓 연결을 촉발"하는 흐름 이해.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="52" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>참조하는 테이블을 EMP, 참조되는 테이블을 DEPT라 할 때 참조 무결성 제약조건을 보장하기 위해 사용하는 ‘ON DELETE RESTRICT’에 대한 설명으로 가장 적절한 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 삭제된 기본키 값을 참조하는 EMP 테이블의 외래키에 널 값을 채운다.<br />
+② EMP 테이블에서 이 값을 참조하는 모든 투플도 연쇄적으로 삭제된다.<br />
+③ 참조하는 모든 투플의 애트리뷰트가 디폴트 값이 명시된 경우 디폴트 값을 갖는다.<br />
+<strong>④ DEPT 테이블에서 어떤 투플을 삭제하려는데, 이 투플의 기본키 값을 참조하고 있는 투플이 EMP 테이블에 존재하면 삭제 연산을 거절한다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>참조무결성 삭제 옵션: RESTRICT/NO ACTION, CASCADE, SET NULL, SET DEFAULT</li>
+<li>RESTRICT = 참조 투플 존재 시 삭제 거절</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>52번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>참조무결성 - ON DELETE RESTRICT</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>ON DELETE RESTRICT</strong> 는 부모(DEPT)의 투플을 삭제하려 할 때 그 기본키를 참조하는 자식(EMP) 투플이 <strong>하나라도 존재하면 삭제를 거절(오류)</strong> 하는 옵션이다. 따라서 ④가 정답이다.</p>
+<ul>
+<li>①은 SET NULL, ②는 CASCADE, ③은 SET DEFAULT에 대한 설명이다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>외래키에 널을 채우는 것은 <strong>SET NULL</strong> 옵션이다.</p>
+<h3>보기②</h3>
+<p>참조 투플을 연쇄 삭제하는 것은 <strong>CASCADE</strong> 옵션이다.</p>
+<h3>보기③</h3>
+<p>디폴트 값으로 설정하는 것은 <strong>SET DEFAULT</strong> 옵션이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>삭제 옵션</th>
+<th>동작</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RESTRICT / NO ACTION</td>
+<td>참조 존재 시 삭제 거절</td>
+</tr>
+<tr>
+<td>CASCADE</td>
+<td>참조 투플도 연쇄 삭제</td>
+</tr>
+<tr>
+<td>SET NULL</td>
+<td>외래키를 NULL로</td>
+</tr>
+<tr>
+<td>SET DEFAULT</td>
+<td>외래키를 기본값으로</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: 4가지 옵션의 동작 매칭.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="53" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>고객 릴레이션(고객번호, 이름 / 4투플)과 주문 릴레이션(주문번호, 고객번호, 판매가격 / 7투플)에 대하여 완전 외부조인(full outer join)을 수행한 결과 릴레이션의 차수(degree)와 카디널리티(cardinality)는? (조인 컬럼은 고객번호, 고객 4명 중 고객4는 주문 없음)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 4, 7<br />
+<strong>② 4, 8</strong><br />
+③ 5, 7<br />
+④ 5, 8</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>자연 완전외부조인 차수 = 두 릴레이션 속성 합 − 공통 조인속성</li>
+<li>카디널리티 = 매칭 + 양쪽 비매칭</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>53번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>완전 외부조인(Full Outer Join)의 차수·카디널리티</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>차수(degree)</strong>: 고객(2속성: 고객번호, 이름) + 주문(3속성: 주문번호, 고객번호, 판매가격)에서 조인 컬럼 고객번호가 공유되어 결과는 <strong>2 + 3 − 1 = 4</strong> 속성.</p>
+<p><strong>카디널리티(cardinality)</strong>: 주문 7건은 모두 유효한 고객번호(2,1,2,1,4,5,4)를 가지므로 매칭되어 7행. 여기에 주문이 없는 <strong>고객4(추신수)</strong> 가 완전 외부조인으로 1행 추가(주문 속성은 NULL). 따라서 <strong>7 + 1 = 8</strong> 행.</p>
+<p>결과: 차수 4, 카디널리티 8 → 정답 ②.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③</h3>
+<p>카디널리티 7은 주문 없는 고객4의 비매칭 행(완전외부조인의 좌측 잔여)을 누락한 값이다.</p>
+<h3>보기③④</h3>
+<p>차수 5는 공통 조인 컬럼(고객번호)을 중복 계산한 오류이다(자연조인은 중복 제거).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>Full Outer Join</strong>: 매칭 + 좌측 비매칭(우측 NULL) + 우측 비매칭(좌측 NULL).</li>
+<li>
+<p><strong>자연조인 차수</strong> = 속성 합 − 공통속성 수.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 비매칭 투플(고객4) 추가와 조인속성 중복 제거를 정확히 반영.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="54" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>EER 다이어그램에 대한 설명으로 옳은 것은? (직원의 특수화: 이중선=전체 참여 제약, 원의 d=분리 제약, 월급직원·시급직원 서브클래스, 시급직원-소속-노조)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 직원은 서브클래스 개체이다.<br />
+② 월급직원이나 시급직원에 속하지 않는 직원도 존재한다.<br />
+③ 월급직원도 노조에 소속할 수 있다.<br />
+<strong>④ 월급직원이면서 동시에 시급직원일 수는 없다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>d(disjoint) = 분리 제약(서브클래스 중복 불가)</li>
+<li>이중선 = 전체(total) 참여 제약</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>54번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>EER 다이어그램 - 분리(disjoint) 제약</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>원 안의 <strong>d는 분리(disjoint) 제약</strong>으로, 상위 개체(직원)의 인스턴스는 서브클래스 중 <strong>하나에만 속할 수 있다</strong>. 따라서 "월급직원이면서 동시에 시급직원일 수 없다"는 ④가 옳다.</p>
+<ul>
+<li>①: 직원은 상위(슈퍼클래스) 개체이지 서브클래스가 아니다.</li>
+<li>②: <strong>이중선(전체 참여)</strong> 이므로 모든 직원은 월급직원·시급직원 중 하나에 반드시 속한다 → "속하지 않는 직원도 존재"는 틀림.</li>
+<li>③: 소속(노조) 관계는 시급직원에 연결되어 있으므로 월급직원은 노조에 소속하지 않는다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>직원은 슈퍼클래스이다.</p>
+<h3>보기②</h3>
+<p>이중선(total)이므로 반드시 하나의 서브클래스에 속한다.</p>
+<h3>보기③</h3>
+<p>노조 소속 관계는 시급직원에만 연결되어 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>disjoint(d) vs overlap(o)</strong>: d는 중복 불가, o는 중복 허용.</li>
+<li>
+<p><strong>total(이중선) vs partial</strong>: total은 모든 상위 인스턴스가 서브클래스에 참여.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: d=배타, 이중선=전체참여를 다이어그램에서 정확히 해석.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="55" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>두 릴레이션 R(A)=[a1, a2, a2, a3], S(A)=[a1, a2, a4, a5]에 대해 SQL 연산 R(A) EXCEPT ALL S(A)를 적용한 결과 릴레이션 T는?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① T = [a1, a2, a3, a4, a5]<br />
+② T = [a1, a2]<br />
+<strong>③ T = [a2, a3]</strong><br />
+④ T = [a3]</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>EXCEPT ALL = 다중집합(multiset) 차집합</li>
+<li>중복 개수: max(0, count_R − count_S)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>55번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>관계연산 EXCEPT ALL (다중집합 차집합)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>EXCEPT ALL</strong> 은 중복을 제거하지 않는 다중집합 차집합으로, 각 값에 대해 <strong>(R의 개수 − S의 개수, 최소 0)</strong> 만큼 결과에 남긴다.</p>
+<ul>
+<li>a1: R 1개 − S 1개 = 0 → 없음</li>
+<li>a2: R 2개 − S 1개 = 1 → a2 1개</li>
+<li>a3: R 1개 − S 0개 = 1 → a3 1개</li>
+</ul>
+<p>따라서 T = <strong>[a2, a3]</strong> → 정답 ③.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>합집합(UNION) 결과이지 차집합이 아니다.</p>
+<h3>보기②</h3>
+<p>S에 있는 값을 잘못 남긴 결과이다.</p>
+<h3>보기④</h3>
+<p>a2의 잔여 1개(2−1)를 누락한 결과이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>EXCEPT (DISTINCT)</strong>: 집합 차집합(중복 제거). a2도 R에 있고 S에 있으므로 제거 → 결과 [a3].</li>
+<li>
+<p><strong>EXCEPT ALL</strong>: 다중집합 차집합(개수 차이 유지) → [a2, a3].</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: ALL 여부에 따라 중복 처리가 달라짐.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="56" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>릴레이션(학번, 지도교수, 학과)에서 함수종속 {학번→지도교수, 학번→학과, 지도교수→학과}가 존재한다고 가정할 때, 관련 설명으로 옳지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 어떤 지도교수가 특정 학과에 속한다는 사실만을 삽입하는 것이 가능하다.</strong><br />
+② 300번 학생의 투플을 삭제하면 지도교수 P3이 컴퓨터공학과에 속한다는 사실도 상실한다.<br />
+③ 지도교수 P1의 소속 학과를 일부 행에서만 변경하면 갱신 이상이 발생한다.<br />
+④ 이 릴레이션에는 이행적 함수 종속이 존재한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>이행적 함수종속(학번→지도교수→학과)</li>
+<li>삽입·삭제·갱신 이상</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>56번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>함수종속과 이상현상(삽입·삭제·갱신 이상)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>이 릴레이션은 <strong>이행적 종속(학번 → 지도교수 → 학과)</strong> 을 가져 제3정규형을 위반한다(④ 옳음). 기본키는 학번이므로, <strong>학번 없이 "지도교수-학과"만의 사실을 삽입할 수 없다</strong>(학번이 NULL이면 기본키 무결성 위반). 즉 ①의 "지도교수가 특정 학과에 속한다는 사실만 삽입 가능"은 <strong>삽입 이상 때문에 불가능</strong>하므로 옳지 않다 → 정답 ①.</p>
+<ul>
+<li>②: 학번 300 투플을 지우면 "P3이 컴퓨터공학과 소속"이라는 정보도 함께 사라짐 → <strong>삭제 이상</strong>(옳음).</li>
+<li>③: P1의 학과를 일부 행만 바꾸면 데이터 불일치 → <strong>갱신 이상</strong>(옳음).</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p>삭제 이상의 정확한 예로 옳다.</p>
+<h3>보기③</h3>
+<p>갱신 이상의 정확한 예로 옳다.</p>
+<h3>보기④</h3>
+<p>학번→지도교수→학과의 이행적 종속이 실제로 존재하므로 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>이상현상(Anomaly)</strong>: 삽입 이상(기본키 없이 사실 삽입 불가), 삭제 이상(관련 정보 동반 손실), 갱신 이상(중복으로 인한 불일치).</li>
+<li>
+<p><strong>해결</strong>: 3NF/BCNF로 분해(지도교수→학과를 분리).</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "옳지 않은 것"을 찾는 문제 — ①의 삽입 "가능"이 실제로는 불가능.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="57" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>소속부서(deptcode)는 같으면서 부서대표전화번호(deptphone)가 다른 행을 출력하는 SQL문은? (테이블 Emp(empid, empname, email, deptcode, deptphone))</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① <code>SELECT E1.deptcode, E1.deptphone FROM Emp E1 WHERE E1.deptcode IN (SELECT E2.deptcode FROM Emp E2 WHERE E1.deptcode=E2.deptcode AND E1.deptphone &lt;&gt; E2.deptphone)</code></strong><br />
+② <code>... FROM Emp E1, Emp E2 WHERE E1.deptcode=E2.deptcode AND E1.deptcode IN (SELECT E2.deptcode FROM Emp E2 WHERE E2.deptphone &lt;&gt; E2.deptphone)</code><br />
+③ <code>... FROM Emp WHERE Emp.deptcode IN (SELECT Emp.deptcode FROM Emp WHERE Emp.deptphone &lt;&gt; Emp.deptphone)</code><br />
+④ <code>... FROM Emp E1 WHERE NOT EXISTS (SELECT E2.deptcode FROM Emp E2 WHERE E1.deptcode=E2.deptcode AND E1.deptphone &lt;&gt; E2.deptphone)</code></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 대조 + SQL 논리 검증 — 자동 잉크판별 오류 정정)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>상관 서브쿼리(correlated subquery)</li>
+<li>자기 자신과 비교(self reference)로 인한 항상 거짓 조건 주의</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>57번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>상관 서브쿼리 - 같은 부서·다른 전화번호 조회</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>요구는 "<strong>같은 deptcode인데 deptphone이 다른</strong> 다른 행이 존재하는 사원"을 찾는 것이다.</p>
+<ul>
+<li><strong>①</strong>: 상관 서브쿼리로 <code>E1.deptcode=E2.deptcode AND E1.deptphone &lt;&gt; E2.deptphone</code>을 만족하는 E2가 존재하면 E1을 출력 → <strong>정확히 요구를 구현</strong>. 정답.</li>
+<li><strong>②</strong>: 서브쿼리 <code>WHERE E2.deptphone &lt;&gt; E2.deptphone</code>은 <strong>자기 자신과의 비교로 항상 거짓</strong> → 서브쿼리가 공집합 → 전체 결과가 공집합. 오답.</li>
+<li><strong>③</strong>: 마찬가지로 <code>Emp.deptphone &lt;&gt; Emp.deptphone</code>이 항상 거짓 → 공집합. 오답.</li>
+<li><strong>④</strong>: <code>NOT EXISTS</code>는 같은 부서·다른 전화의 상대가 <strong>없는</strong> 사원을 찾으므로 요구와 <strong>정반대</strong>. 오답.</li>
+</ul>
+<p>따라서 정답은 ①이다.</p>
+<blockquote>
+<p>※ 본 문항은 보기가 모두 코드블록이어서 자동 잉크농도 판별이 부정확했다. 원문 이미지 대조와 SQL 의미 분석으로 ①을 확정하였다(②·③은 공집합, ④는 반대 결과).</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
+<p><code>E2.deptphone &lt;&gt; E2.deptphone</code>은 동일 행 비교로 항상 FALSE → 결과 없음.</p>
+<h3>보기③</h3>
+<p>②와 동일한 항상 거짓 조건으로 결과 없음.</p>
+<h3>보기④</h3>
+<p>NOT EXISTS는 "동일 부서·다른 전화 상대가 없는" 행을 반환하여 요구와 반대이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>상관 서브쿼리</strong>: 외부 쿼리의 행마다 서브쿼리가 평가됨(E1 참조).</li>
+<li>
+<p><strong>함정</strong>: <code>X &lt;&gt; X</code> 형태의 자기 비교는 항상 거짓 → 공집합.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 서브쿼리 내부의 별칭(E1/E2) 참조가 올바른지 확인.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="58" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>DBMS의 기능과 SQL 문의 관계에 대한 설명 중 옳은 것을 모두 나열한 것은?</p>
+<ul>
+<li>가. 데이터 정의 기능은 스키마를 정의하며 CREATE, ALTER, DROP을 이용한다.</li>
+<li>나. 데이터 조작 기능은 검색·삽입·수정·삭제를 수행하며 SELECT, INSERT, UPDATE, TRUNCATE를 포함한다.</li>
+<li>다. 데이터 제어 기능은 사용자 권한을 관리하며 GRANT, REVOKE를 포함한다.</li>
+<li>라. 데이터 조작 기능은 저장 구조를 정의하는 기능이며 CREATE TABLE로 수행된다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 나<br />
+<strong>② 가, 다</strong><br />
+③ 가, 나, 다<br />
+④ 나, 다, 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 — 자동 잉크판별 오류 정정)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>DDL(CREATE/ALTER/DROP/TRUNCATE), DML(SELECT/INSERT/UPDATE/DELETE), DCL(GRANT/REVOKE)</li>
+<li>TRUNCATE는 DDL</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>58번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>DBMS 기능과 SQL 문의 분류(DDL/DML/DCL)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>가(옳음)</strong>: 데이터 정의(DDL) = CREATE, ALTER, DROP.</li>
+<li><strong>나(틀림)</strong>: 데이터 조작(DML)에 <strong>TRUNCATE가 포함된다는 서술은 오류</strong>이다. TRUNCATE는 테이블 구조를 유지한 채 모든 행을 제거하지만 <strong>DDL</strong>로 분류된다(DML은 SELECT/INSERT/UPDATE/DELETE).</li>
+<li><strong>다(옳음)</strong>: 데이터 제어(DCL) = GRANT, REVOKE.</li>
+<li><strong>라(틀림)</strong>: 저장 구조 정의·CREATE TABLE은 <strong>DDL</strong>이지 데이터 조작(DML)이 아니다.</li>
+</ul>
+<p>따라서 옳은 것은 <strong>가, 다</strong> → 정답 ②.</p>
+<blockquote>
+<p>※ 보기가 2열 배치되어 자동 판별이 ①로 오인식되었으나, 원문 Bold는 ②(가, 다)이며 분류 논리로도 ②가 정답이다.</p>
+</blockquote>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③</h3>
+<p>'나'(TRUNCATE를 DML로 봄)를 옳다고 포함하여 오답이다.</p>
+<h3>보기④</h3>
+<p>'나·라'(TRUNCATE·CREATE TABLE을 DML로 봄)를 포함하여 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>분류</th>
+<th>문장</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DDL</td>
+<td>CREATE, ALTER, DROP, TRUNCATE</td>
+</tr>
+<tr>
+<td>DML</td>
+<td>SELECT, INSERT, UPDATE, DELETE</td>
+</tr>
+<tr>
+<td>DCL</td>
+<td>GRANT, REVOKE</td>
+</tr>
+<tr>
+<td>TCL</td>
+<td>COMMIT, ROLLBACK, SAVEPOINT</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: TRUNCATE=DDL, DELETE=DML 구분이 핵심 함정.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="59" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>도서(도서번호, 도서명, 출판사, 가격), 주문내역(주문번호, 회원번호, 도서번호, 주문액) 테이블에 대해 다음 SQL의 실행 결과는?</p>
+<pre><code>SELECT D.도서명 FROM 도서 D
+WHERE D.가격 &gt; (SELECT AVG(가격) FROM 도서 WHERE 출판사 = D.출판사)
+  AND D.가격 &gt;= ALL (SELECT 주문액 FROM 주문내역 WHERE 회원번호 = 'M1');
+</code></pre>
+<p>(도서: B1 데이터베이스/남산/25000, B2 운영체제/종로/30000, B3 알고리즘/남산/28000, B4 컴퓨터구조/을지/32000, B5 인공지능/종로/35000. 회원 M1 주문: B1 25000, B3 28000)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 알고리즘, 인공지능</strong><br />
+② 운영체제, 알고리즘<br />
+③ 알고리즘, 컴퓨터구조, 인공지능<br />
+④ 컴퓨터구조, 인공지능</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>상관 서브쿼리(출판사별 평균)</li>
+<li>
+<blockquote>
+<p>= ALL (M1 주문액 최댓값 이상)</p>
+</blockquote>
+</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>59번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>상관 서브쿼리 + ALL 비교 SQL 결과</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>조건 1 — 출판사별 평균가격 초과</strong><br />
+- 남산(B1 25000, B3 28000) 평균 26500 → B3(28000) O, B1(25000) X<br />
+- 종로(B2 30000, B5 35000) 평균 32500 → B5(35000) O, B2(30000) X<br />
+- 을지(B4 32000) 평균 32000 → B4(32000) X (초과 아님)<br />
+- 통과: <strong>B3(알고리즘), B5(인공지능)</strong></p>
+<p><strong>조건 2 — 가격 &gt;= ALL(M1 주문액)</strong>: M1 주문액 = {25000, 28000} → 최댓값 28000 이상. B3(28000) O, B5(35000) O.</p>
+<p>두 조건 모두 만족: <strong>알고리즘(B3), 인공지능(B5)</strong> → 정답 ①.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③④</h3>
+<p>운영체제(B2)·컴퓨터구조(B4)는 조건1(출판사 평균 초과)을 만족하지 못한다(B2=평균 미만, B4=평균과 동일). 따라서 이들을 포함한 보기는 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>&gt;= ALL (집합)</strong>: 집합의 <strong>최댓값 이상</strong>과 동치.</li>
+<li>
+<p><strong>상관 서브쿼리</strong>: 바깥 행의 출판사(D.출판사)에 따라 평균이 달라짐.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "&gt;= ALL = 최댓값 이상", 출판사별 평균 계산 정확성.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="60" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>Emp 테이블에 deptno=10인 직원 5명, deptno=20인 직원 3명이 있을 때, 다음 트리거 정의문에서 실제로 트리거 액션이 실행되는 행(row)의 수는?</p>
+<pre><code>CREATE TRIGGER trg_sal_audit
+AFTER UPDATE OF sal ON Emp
+REFERENCING OLD ROW AS O, NEW ROW AS N
+FOR EACH ROW
+WHEN (N.sal &gt; O.sal AND N.deptno = 10)
+INSERT INTO sal_audit VALUES (N.empno, O.sal, N.sal, CURRENT_TIMESTAMP);
+UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
+</code></pre>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 8건<br />
+<strong>② 5건</strong><br />
+③ 3건<br />
+④ 0건</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 로직 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>FOR EACH ROW(행 트리거) + WHEN 조건</li>
+<li>갱신 대상 8행 중 조건 충족 행만 액션 실행</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>60번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>트리거 - WHEN 조건과 FOR EACH ROW 실행 횟수</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><code>UPDATE Emp SET sal = sal*1.1 WHERE deptno IN (10,20)</code>는 <strong>8행(dept10:5 + dept20:3)</strong> 을 갱신한다. 행 트리거(FOR EACH ROW)는 갱신된 각 행마다 평가되며, <strong>WHEN(N.sal &gt; O.sal AND N.deptno = 10)</strong> 조건을 만족하는 행에서만 액션(INSERT)이 실행된다.</p>
+<ul>
+<li><code>N.sal &gt; O.sal</code>: sal×1.1은 모든 행에서 증가 → 8행 모두 참</li>
+<li><code>N.deptno = 10</code>: dept10인 <strong>5행</strong>만 참</li>
+</ul>
+<p>두 조건의 교집합 = <strong>dept10의 5행</strong> → 트리거 액션 5회 실행 → 정답 ②.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(8건)</h3>
+<p>WHEN의 deptno=10 조건을 무시하고 갱신 전체 행을 센 값이다.</p>
+<h3>보기③(3건)</h3>
+<p>dept20(3명)을 잘못 센 값으로, 조건은 deptno=10이다.</p>
+<h3>보기④(0건)</h3>
+<p>sal×1.1로 모든 행이 증가하므로 N.sal&gt;O.sal은 참이다. 0건이 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>행 트리거 vs 문장 트리거</strong>: FOR EACH ROW는 영향받는 행마다, 문장 트리거는 문장당 1회.</li>
+<li>
+<p><strong>WHEN 절</strong>: 조건을 만족하는 행에서만 액션 수행.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "갱신 행 수 × WHEN 조건 필터"로 실행 횟수를 계산.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="61" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>R(A,B)=[(1,a),(2,b),(3,c),(5,x)], S(A,C)에 대해 다음 SQL의 결과는? <code>SELECT B FROM R WHERE NOT EXISTS (SELECT * FROM S WHERE A = R.A AND C = 'c3');</code> (S에서 C='c3'인 행: A=1, A=5)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① {a, b}<br />
+② {a, x}<br />
+<strong>③ {b, c}</strong><br />
+④ {c, x}</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>NOT EXISTS 상관 서브쿼리</li>
+<li>S에서 (A=R.A, C='c3')가 없는 R 행 선택</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>61번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>NOT EXISTS 상관 서브쿼리 결과</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>각 R 행에 대해 "S에 A=R.A이고 C='c3'인 행이 <strong>없으면</strong>" 선택한다. S에서 C='c3'인 행의 A값은 <strong>{1, 5}</strong> 이다.</p>
+<ul>
+<li>R.A=1 → S에 (1,'c3') 존재 → NOT EXISTS 거짓 → 제외 (B=a 제외)</li>
+<li>R.A=2 → (2,'c3') 없음 → 포함 → <strong>B=b</strong></li>
+<li>R.A=3 → (3,'c3') 없음 → 포함 → <strong>B=c</strong></li>
+<li>R.A=5 → (5,'c3') 존재 → 제외 (B=x 제외)</li>
+</ul>
+<p>결과 B = <strong>{b, c}</strong> → 정답 ③.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
+<p>c3을 참조하는 A값(1,5)에 해당하는 행(a,x)은 제외되어야 하므로 a·x를 포함한 보기는 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>NOT EXISTS</strong>: 서브쿼리 결과가 비어 있을 때(해당 상관 조건을 만족하는 행이 없을 때) 참.</li>
+<li>
+<p><strong>상관 참조</strong>: 서브쿼리 내 R.A가 바깥 행을 참조.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: c3을 가진 A값 집합을 먼저 구하고, 그 A를 가진 R 행을 제외.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="62" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>데이터베이스 객체인 저장 프로시저와 트리거에 대한 설명 중 옳은 것을 모두 고른 것은?</p>
+<ul>
+<li>가. 트리거는 매개변수를 통해 외부로부터 값을 전달받을 수 있으며, 수행 결과를 리턴값으로 반환할 수 있다.</li>
+<li>나. 저장 프로시저는 매개변수를 통해 외부와 데이터를 주고받을 수 있다.</li>
+<li>다. 저장 프로시저는 내부에 COMMIT이나 ROLLBACK 같은 트랜잭션 제어어를 사용할 수 없으나, 트리거는 자유롭게 사용할 수 있다.</li>
+<li>라. 저장 프로시저는 사용자의 명시적 호출에 의해 실행되고, 트리거는 데이터 변경 이벤트 발생 시 DBMS에 의해 자동 실행된다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 다<br />
+<strong>② 나, 라</strong><br />
+③ 가, 다, 라<br />
+④ 가, 나, 다, 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>트리거: 매개변수·리턴값 없음, 이벤트 자동 실행</li>
+<li>저장 프로시저: 매개변수 O, 명시적 호출</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>62번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>저장 프로시저 vs 트리거</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>가(틀림)</strong>: 트리거는 <strong>매개변수나 리턴값을 갖지 않는다</strong>(이벤트 기반 자동 실행).</li>
+<li><strong>나(옳음)</strong>: 저장 프로시저는 IN/OUT 매개변수로 외부와 데이터를 주고받는다.</li>
+<li><strong>다(틀림)</strong>: 일반적으로 저장 프로시저는 트랜잭션 제어(COMMIT/ROLLBACK)를 사용할 수 있고, <strong>트리거는 (실행 중인 트랜잭션의 일부이므로) 자유로운 COMMIT/ROLLBACK이 제한된다</strong>. 서술이 반대이다.</li>
+<li><strong>라(옳음)</strong>: 프로시저는 명시적 호출, 트리거는 이벤트 시 자동 실행.</li>
+</ul>
+<p>옳은 것은 <strong>나, 라</strong> → 정답 ②.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
+<p>'가'(트리거 매개변수·리턴)와 '다'(트랜잭션 제어 서술 반대)를 포함하여 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>구분</th>
+<th>저장 프로시저</th>
+<th>트리거</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>실행</td>
+<td>명시적 호출(CALL)</td>
+<td>이벤트 자동</td>
+</tr>
+<tr>
+<td>매개변수/리턴</td>
+<td>있음</td>
+<td>없음</td>
+</tr>
+<tr>
+<td>용도</td>
+<td>업무 로직 캡슐화</td>
+<td>무결성·감사 자동화</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: 트리거는 매개변수·리턴 없음, 자동 실행.</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="63" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>반(역)정규화 적용 유형에 대한 설명 중 옳은 것을 모두 고른 것은?</p>
+<ul>
+<li>가. 특정 컬럼 크기가 커서 디스크 I/O가 과다한 경우 해당 컬럼을 별도 테이블로 분리하는 것을 수평 분할이라 한다.</li>
+<li>나. 테이블 병합은 조인 비용을 줄이기 위해 여러 테이블을 하나로 통합하는 반정규화 방법이다.</li>
+<li>다. 부분 테이블 분할은 데이터 접근 빈도에 따라 테이블을 여러 개로 나누어 성능을 개선하는 정규화 기법이다.</li>
+<li>라. 접근 경로 단축을 위해 부모 테이블의 컬럼을 자식 테이블에 중복시킬 수 있다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 나<br />
+<strong>② 나, 라</strong><br />
+③ 가, 나, 다<br />
+④ 나, 다, 라</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>반정규화: 테이블 병합·분할(수평/수직)·중복 컬럼 추가</li>
+<li>수직 분할 vs 수평 분할</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>63번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>반정규화(De-normalization) 적용 유형</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>가(틀림)</strong>: 큰 컬럼을 별도 테이블로 분리하는 것은 <strong>수직 분할</strong>이다(수평 분할은 행 기준 분할).</li>
+<li><strong>나(옳음)</strong>: 테이블 병합은 조인 비용 절감을 위한 반정규화 기법이다.</li>
+<li><strong>다(틀림)</strong>: 부분 테이블 분할(접근 빈도별 분할)은 성능 개선을 위한 <strong>반정규화</strong> 기법이지 "정규화 기법"이 아니다.</li>
+<li><strong>라(옳음)</strong>: 접근 경로 단축을 위해 부모 컬럼을 자식에 <strong>중복(컬럼 추가)</strong> 하는 것은 반정규화의 전형이다.</li>
+</ul>
+<p>옳은 것은 <strong>나, 라</strong> → 정답 ②.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
+<p>'가'(수직↔수평 혼동)·'다'("정규화 기법"이라는 오기)를 포함하여 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>수직 분할</strong>: 컬럼 기준(큰/자주 안 쓰는 컬럼 분리).</li>
+<li><strong>수평 분할</strong>: 행 기준(범위·해시 파티셔닝).</li>
+<li>
+<p><strong>반정규화 유형</strong>: 테이블 병합, 테이블 분할, 중복 컬럼/테이블 추가.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "수직/수평" 명칭과 "반정규화 vs 정규화" 구분.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="64" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>두 릴레이션 R(A,B,C,D)과 S(D,E,F)에 대한 관계 대수식 보기 중에서 동등하지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① σ_{A=3 AND F=9} (R ⋈<em>{R.D=S.D} S)<br />
+<strong>② σ_{A=3 OR F=9} (R ⋈_{R.D=S.D} S)</strong><br />
+③ (σ</em>{A=3} R) ⋈<em>{R.D=S.D} (σ</em>{F=9} S)<br />
+④ σ_{A=3} (σ_{F=9} (R ⋈_{R.D=S.D} S))</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 관계대수 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>선택 연산의 분배·푸시다운</li>
+<li>AND는 분리·이동 가능, OR(서로 다른 릴레이션 속성)는 분리 불가</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>64번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>관계대수 - 선택 연산 분배와 조인 (동등성)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>①·③·④는 모두 <strong>σ_{A=3 AND F=9}(R⋈S)</strong> 와 동등하다: AND 조건은 각 릴레이션 속성으로 분리하여 조인 전에 밀어 넣을 수 있고(③), 순차 선택으로 나눌 수도 있다(④).</p>
+<p>그러나 <strong>② σ_{A=3 OR F=9}</strong> 는 <strong>서로 다른 릴레이션(R의 A, S의 F)에 대한 OR 조건</strong>이어서 조인 전에 각 릴레이션으로 분리·푸시다운할 수 없고, AND 버전과 결과 집합이 다르다. 따라서 ①·③·④와 <strong>동등하지 않은</strong> 것은 ②이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·④</h3>
+<p>AND 조건의 선택은 조인 결과에 대해 순차/결합으로 적용 가능하여 서로 동등하다.</p>
+<h3>보기③</h3>
+<p>AND 조건을 각 릴레이션(A는 R, F는 S)으로 분배해 조인 전에 적용한 형태로 ①과 동등하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>선택 분배 법칙</strong>: σ_{c1 AND c2}(E) = σ_{c1}(σ_{c2}(E)). 조건이 한 릴레이션 속성만 참조하면 조인 전 푸시다운 가능.</li>
+<li>
+<p><strong>OR의 한계</strong>: 서로 다른 릴레이션 속성에 걸친 OR는 조인 전 분리 불가.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "AND=분배·푸시다운 가능, 교차 OR=불가"가 동등성 판단 핵심.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="65" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>인덱스에 대한 설명 중 옳은 것으로만 짝지어진 것은?</p>
+<ul>
+<li>가. 한 데이터 파일은 희소 인덱스를 최대 한 개 가질 수 있다.</li>
+<li>나. 한 데이터 파일은 한 개의 밀집 인덱스와 다수의 희소 인덱스를 가질 수 있다.</li>
+<li>다. 3단계로 이루어진 다단계 인덱스가 있다면, 마스터 인덱스는 1단계이고, 데이터 파일에 대한 인덱스를 가지고 있는 인덱스는 3단계이다.</li>
+<li>라. 클러스터링 인덱스는 탐색 키 값에 따라 정렬된 데이터 파일에 대해 정의된 인덱스이고, 비클러스터링 인덱스는 탐색 키 값과 무관하게 저장된 데이터 파일에 대해 정의된 인덱스이다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 나<br />
+② 나, 라<br />
+<strong>③ 가, 라</strong><br />
+④ 나, 다</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>희소 인덱스는 정렬된 파일당 최대 1개</li>
+<li>클러스터링 = 정렬된 데이터 파일 기준</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>65번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>인덱스 - 밀집/희소, 다단계, 클러스터링</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>가(옳음)</strong>: 희소(sparse) 인덱스는 데이터 파일이 인덱스 키로 <strong>정렬되어 있어야</strong> 하므로, 한 파일에 대해 <strong>최대 1개</strong>만 가질 수 있다.</li>
+<li><strong>나(틀림)</strong>: 밀집(dense) 인덱스는 여러 개(각 속성별) 가능하나, "밀집 1개 + 희소 다수"라는 조합은 성립하지 않는다(희소는 정렬 기준 1개뿐).</li>
+<li><strong>다(틀림)</strong>: 다단계 인덱스에서 <strong>최상위(마스터)</strong> 는 가장 위 단계이고, 데이터 파일에 직접 대응하는 인덱스는 <strong>최하위(1단계)</strong> 이다. 단계 번호 부여가 반대로 서술되었다.</li>
+<li><strong>라(옳음)</strong>: 클러스터링 인덱스는 정렬된 데이터 파일 기준, 비클러스터링은 정렬과 무관한 파일 기준으로 정의된다.</li>
+</ul>
+<p>옳은 것은 <strong>가, 라</strong> → 정답 ③.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
+<p>'나'(밀집+희소 조합) 또는 '다'(단계 번호 반대)를 포함하여 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>밀집 인덱스</strong>: 모든 레코드에 엔트리(정렬 불필요, 여러 개 가능).</li>
+<li><strong>희소 인덱스</strong>: 블록당 대표 엔트리(정렬 필요, 파일당 1개).</li>
+<li>
+<p><strong>클러스터링 인덱스</strong>: 데이터가 인덱스 순으로 정렬(파일당 1개).</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "희소=정렬=1개", "클러스터링=정렬된 파일".</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="66" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>관계 데이터베이스의 조인 수행 원리에 대한 설명 중 옳은 것을 모두 고른 것은?</p>
+<ul>
+<li>가. Sort-Merge Join은 선행 테이블 조건을 만족하는 행별로 후행 테이블을 반복 탐색하며, 후행 테이블 조인 컬럼에 인덱스가 없으면 Table Full Scan이 반복 발생한다.</li>
+<li>나. Nested Loop Join은 조인 컬럼에 인덱스가 없거나 부등호(&gt;, &lt;) 조인에도 사용할 수 있으며, 양쪽이 조인 컬럼 순으로 이미 정렬되어 있다면 정렬 단계를 생략할 수 있다.</li>
+<li>다. Hash Join은 동등 조인(equi-join)에만 사용 가능하며, 대량 데이터 처리 시 일반적으로 Nested Loop나 Sort-Merge보다 효율적이다.</li>
+<li>라. Hash Join은 해시테이블을 메모리에 생성하며, 생성된 해시테이블이 메모리보다 커지면 임시영역(디스크)에 일부를 저장한다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (가), (나)<br />
+<strong>② (다), (라)</strong><br />
+③ (가), (다)<br />
+④ (나), (다), (라)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Nested Loop(행별 반복), Sort-Merge(정렬 후 병합), Hash Join(equi-join, 대량 유리)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>66번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>조인 수행 원리 - Nested Loop / Sort-Merge / Hash Join</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>가(틀림)</strong>: "선행 행별로 후행을 반복 탐색"은 <strong>Nested Loop Join</strong>의 설명이다(Sort-Merge가 아님).</li>
+<li><strong>나(틀림)</strong>: "양쪽이 정렬되어 있으면 정렬 생략"은 <strong>Sort-Merge Join</strong>의 특징이다. Nested Loop에 정렬 생략을 결합한 서술은 혼동을 유발하는 오류이다.</li>
+<li><strong>다(옳음)</strong>: Hash Join은 <strong>동등 조인 전용</strong>이며, 대량 데이터에서 일반적으로 NL/Sort-Merge보다 효율적이다.</li>
+<li><strong>라(옳음)</strong>: Hash Join은 해시테이블을 메모리에 만들고, 메모리를 초과하면 디스크 임시영역을 사용(grace/hybrid hash)한다.</li>
+</ul>
+<p>옳은 것은 <strong>다, 라</strong> → 정답 ②.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
+<p>'가'(NL 설명을 Sort-Merge로 오기)·'나'(정렬 생략을 NL에 결합)를 포함하여 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>조인</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nested Loop</td>
+<td>행별 반복, 소량·인덱스 유리, 부등호 가능</td>
+</tr>
+<tr>
+<td>Sort-Merge</td>
+<td>양쪽 정렬 후 병합(정렬돼 있으면 생략)</td>
+</tr>
+<tr>
+<td>Hash Join</td>
+<td>equi-join 전용, 대량 데이터 유리</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: 각 조인의 특징을 서로 바꾼 함정(반복탐색=NL, 정렬생략=Sort-Merge).</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="67" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>시스템 카탈로그에 관한 설명으로 옳지 않은 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① SQL 질의가 실행될 때 DBMS의 질의처리기는 반드시 시스템 카탈로그를 참조해야 한다.<br />
+<strong>② SYSTEM_LOG는 SQL 표준으로 정의된 가상 스키마로, 테이블·컬럼·제약조건 등 메타데이터를 표준화된 방법으로 조회할 수 있게 한다.</strong><br />
+③ CREATE, ALTER, DROP 등 DDL이 실행될 때마다 DBMS는 자동으로 시스템 카탈로그 테이블들의 행을 삽입·삭제·수정한다.<br />
+④ 데이터베이스에 포함되는 모든 데이터 객체에 대한 정의와 명세에 관한 정보인 메타데이터를 유지·관리한다.</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>시스템 카탈로그 = 데이터 사전(메타데이터)</li>
+<li>표준 메타데이터 스키마 = INFORMATION_SCHEMA (SYSTEM_LOG 아님)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>67번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>시스템 카탈로그(데이터 사전)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>SQL 표준으로 메타데이터를 표준화된 방법으로 조회하게 하는 가상 스키마는 <strong>INFORMATION_SCHEMA</strong> 이다. 보기 ②의 <strong>"SYSTEM_LOG"</strong> 라는 명칭은 존재하지 않는 오류이므로 옳지 않다 → 정답 ②.</p>
+<p>①(질의처리기의 카탈로그 참조), ③(DDL 실행 시 카탈로그 자동 갱신), ④(모든 객체의 정의·명세 메타데이터 유지)는 모두 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>질의 최적화·검증을 위해 질의처리기는 카탈로그를 참조한다. 옳다.</p>
+<h3>보기③</h3>
+<p>DDL 수행 시 DBMS가 카탈로그를 자동 갱신한다. 옳다.</p>
+<h3>보기④</h3>
+<p>카탈로그는 데이터 객체의 정의·명세(메타데이터)를 유지·관리한다. 옳다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>시스템 카탈로그(데이터 사전)</strong>: 테이블·컬럼·인덱스·뷰·제약·권한 등 메타데이터 저장소.</li>
+<li>
+<p><strong>INFORMATION_SCHEMA</strong>: 표준 메타데이터 조회용 가상 스키마.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 표준 메타데이터 스키마명은 INFORMATION_SCHEMA. 가짜 명칭(SYSTEM_LOG) 주의.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="68" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>두 트랜잭션이 정확하게 동작하더라도 동시성 제어를 하지 않고 동시에 수행할 때 문제가 발생할 수 있다. 오손 데이터 읽기(dirty read)가 발생하는 충돌 연산의 존재유형에 해당하는 것은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 두 트랜잭션에 read-read 충돌 연산이 존재할 때 발생<br />
+② 두 트랜잭션에 read-write 충돌 연산이 존재할 때 발생<br />
+③ 두 트랜잭션에 write-write 충돌 연산이 존재할 때 발생<br />
+<strong>④ 두 트랜잭션에 write-read 충돌 연산이 존재할 때 발생</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Dirty Read = 커밋되지 않은 write를 다른 트랜잭션이 read</li>
+<li>write→read 순서 충돌</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>68번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>동시성 제어 - Dirty Read 충돌 유형</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>오손 읽기(Dirty Read)</strong> 는 트랜잭션 T1이 데이터를 <strong>write(갱신)</strong> 한 뒤 아직 커밋하지 않은 상태에서, T2가 그 값을 <strong>read(읽기)</strong> 하는 상황이다. 즉 <strong>write(T1) → read(T2)</strong> 순서의 충돌이므로 정답은 ④ <strong>write-read 충돌</strong>이다.</p>
+<ul>
+<li>read-read(①)는 충돌이 아니다(둘 다 읽기).</li>
+<li>write-write(③)는 갱신 손실(lost update)/더티 write 유형.</li>
+<li>read-write(②)는 반복불가능 읽기(unrepeatable read) 유형과 연관.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>읽기끼리는 충돌하지 않는다.</p>
+<h3>보기②</h3>
+<p>read 후 write는 반복불가능 읽기 등과 관련되며 dirty read의 정의(미커밋 write를 read)와 순서가 다르다.</p>
+<h3>보기③</h3>
+<p>write-write는 갱신 손실 문제 유형이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>충돌 유형</strong>: WR(dirty read), RW(unrepeatable read), WW(lost update).</li>
+<li>
+<p><strong>격리수준</strong>: Read Committed 이상에서 dirty read 방지.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "미커밋 write를 read = WR = dirty read".</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="69" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>2단계 로킹 프로토콜의 확장과 수축 단계를 표시한 그림에서 로크포인트(lock point)는 ⓐ~ⓓ 중 어느 시점인가? (그림: 로크 요청으로 증가하다가 최고점 ⓒ 이후 로크 해제로 감소)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① ⓐ<br />
+② ⓑ<br />
+<strong>③ ⓒ</strong><br />
+④ ⓓ</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>2PL: 확장(lock 획득만)·수축(unlock만) 단계</li>
+<li>로크포인트 = 마지막 lock 획득 시점(lock 수 최대)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>69번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>2단계 로킹(2PL) - 로크포인트(Lock Point)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>2단계 로킹(2PL)</strong> 에서 트랜잭션은 <strong>확장 단계(로크 획득만)</strong> 를 거쳐 <strong>수축 단계(로크 해제만)</strong> 로 넘어간다. 이 전환이 일어나는, 즉 <strong>마지막 로크를 획득하여 보유 로크 수가 최대가 되는 시점</strong>이 <strong>로크포인트(Lock Point)</strong> 이다. 그림에서 로크 수가 정점에 도달한 지점 <strong>ⓒ</strong> 가 로크포인트이므로 정답은 ③이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②</h3>
+<p>ⓐ·ⓑ는 아직 로크를 더 획득하는 확장 단계 중간 지점이다.</p>
+<h3>보기④</h3>
+<p>ⓓ는 로크를 해제하는 수축 단계 지점으로 로크포인트 이후이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>2PL</strong>: 직렬가능성 보장. 로크포인트 순서로 직렬 순서 결정.</li>
+<li>
+<p><strong>엄격 2PL</strong>: 커밋/롤백 시까지 X-lock 유지(회복 용이).</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 로크포인트 = 확장→수축 전환점(보유 로크 최대).</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="70" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>데이터베이스 보안을 위한 접근제어 모델 및 정책에 대한 설명 중 옳은 것을 모두 고른 것은?</p>
+<ul>
+<li>가. MAC 기반의 레이블 보안은 객체의 보안 등급과 사용자 허가 등급을 비교해 통제하며, 관리자나 소유자가 임의로 권한을 변경할 수 없는 중앙 집중적 정책을 따른다.</li>
+<li>나. RBAC는 권한을 개별 사용자에게 직접 할당하지 않고, 객체 소유자가 자신의 판단으로 다른 사용자에게 자유롭게 권한을 위임(grant)하는 것을 원칙으로 한다.</li>
+<li>다. RLS는 WHERE 절 등 특정 조건에 따라 사용자별 조회 가능 레코드를 제한하는 미세 단위 접근제어(FGAC) 기법이다.</li>
+<li>라. DAC는 데이터 객체의 소유자가 접근 통제권한을 가지며 GRANT/REVOKE로 구현되고, 사용자 신분(identity)에 기반하여 유연한 권한 관리가 가능하다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (가), (나)<br />
+② (다), (라)<br />
+<strong>③ (가), (다), (라)</strong><br />
+④ (나), (다), (라)</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>MAC(중앙집중·레이블), DAC(소유자·신분 기반), RBAC(역할 기반), RLS/FGAC</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>70번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>접근제어 모델 - MAC/RBAC/DAC/RLS</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
+<li><strong>가(옳음)</strong>: MAC은 객체 보안등급과 사용자 허가등급을 비교하며 소유자가 임의로 바꿀 수 없는 중앙집중 정책이다.</li>
+<li><strong>나(틀림)</strong>: "소유자가 자유롭게 권한 위임"은 <strong>DAC</strong>의 특징이다. RBAC는 권한을 <strong>역할(role)</strong> 에 부여하고 사용자에게 역할을 할당한다.</li>
+<li><strong>다(옳음)</strong>: RLS는 조건에 따라 행 단위로 접근을 제한하는 FGAC 기법이다.</li>
+<li><strong>라(옳음)</strong>: DAC는 소유자가 GRANT/REVOKE로 신분 기반 통제를 한다.</li>
+</ul>
+<p>옳은 것은 <strong>가, 다, 라</strong> → 정답 ③.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
+<p>'나'(DAC 특징을 RBAC로 오기)를 옳다고 포함하거나, 옳은 '가'를 누락하여 오답이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>모델</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAC</td>
+<td>레이블·등급 비교, 중앙집중, 변경 불가</td>
+</tr>
+<tr>
+<td>DAC</td>
+<td>소유자 재량, 신분 기반, GRANT/REVOKE</td>
+</tr>
+<tr>
+<td>RBAC</td>
+<td>역할에 권한 부여, 사용자↔역할 할당</td>
+</tr>
+<tr>
+<td>RLS/FGAC</td>
+<td>행 단위 미세 접근제어</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>시험 포인트</strong>: "자유로운 위임=DAC(RBAC 아님)".</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="71" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>검색 결과의 랭킹 위치 i에서의 정확도(precision) P(i)에 대해 P(3), P(4), P(5)를 바르게 나열한 것은? (관련성: 1위 예, 2위 예, 3위 예, 4위 아니오, 5위 아니오, 6위 아니오, 7위 예 / 전체 관련 문서 10개, 단위 %)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 100, 100, 100<br />
+<strong>② 100, 75, 60</strong><br />
+③ 100, 75, 50<br />
+④ 30, 30, 40</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ②번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 계산 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>Precision@k = (상위 k개 중 관련 문서 수) / k</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>71번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>정보검색 - 순위별 정확도(Precision@i)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>상위 순위의 관련성: 1위 예, 2위 예, 3위 예, 4위 아니오, 5위 아니오.</p>
+<ul>
+<li><strong>P(3)</strong> = 상위 3개 중 관련 3개 / 3 = <strong>100%</strong></li>
+<li><strong>P(4)</strong> = 상위 4개 중 관련 3개 / 4 = <strong>75%</strong></li>
+<li><strong>P(5)</strong> = 상위 5개 중 관련 3개 / 5 = <strong>60%</strong></li>
+</ul>
+<p>따라서 100, 75, 60 → 정답 ②.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>P(4)·P(5)에서도 관련 문서 비율이 낮아지는데 100%로 둔 것은 오답이다.</p>
+<h3>보기③</h3>
+<p>P(5)를 50%로 계산(3/6 등 분모 오류)한 오답이다.</p>
+<h3>보기④</h3>
+<p>Recall(재현율, 분모=전체 관련 10)과 혼동한 값이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>Precision@k</strong> = 관련 검색 결과 수 / k(검색된 수).</li>
+<li>
+<p><strong>Recall</strong> = 관련 검색 결과 수 / 전체 관련 문서 수.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 정확도의 분모는 "검색된 상위 k"이지 전체 관련 문서가 아니다.</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="72" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>데이터 마이닝으로 획득 가능한 정보 유형(연관성·순차·분류·군집·예보) 중 군집(cluster)에 해당하는 예시는?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 집을 구매한 사람의 65%가 2주 이내에 새 냉장고를 구매하였다.<br />
+② 콘칩을 구매한 고객의 65%가 콜라도 함께 구매하였다.<br />
+③ 신용카드 회사에서 이탈 가능성이 높은 고객을 찾는 모델을 제시한다.<br />
+<strong>④ 은행 카드 사용자로부터 유사 그룹들을 찾는다거나, 하나의 데이터베이스를 고객의 인구통계학적 정보와 개인 투자 유형을 기반으로 나누었다.</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>군집(Clustering) = 레이블 없이 유사 그룹으로 분할</li>
+<li>연관(association), 분류/예측(classification) 구분</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>72번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>데이터마이닝 - 군집(Clustering) 예시</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>군집(Clustering)</strong> 은 사전 정의된 레이블 없이 <strong>유사한 개체들을 그룹으로 묶는(나누는)</strong> 비지도 기법이다. 보기 ④는 "유사 그룹을 찾거나 인구통계·투자유형 기반으로 나눈다"로 군집의 정의에 해당하므로 정답 ④.</p>
+<ul>
+<li>①(집→냉장고), ②(콘칩→콜라)는 <strong>연관성(association)</strong>.</li>
+<li>③(이탈 가능성 예측)은 <strong>분류/예측(classification)</strong>.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②</h3>
+<p>"A를 사면 B도 산다"류는 연관 규칙(association)이다.</p>
+<h3>보기③</h3>
+<p>이탈 고객을 미리 찾는 것은 분류/예측 모델이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>연관</strong>: 동시 구매 패턴(장바구니 분석).</li>
+<li><strong>분류/예측</strong>: 레이블 예측(이탈·부도 예측).</li>
+<li>
+<p><strong>군집</strong>: 레이블 없이 유사 그룹화(고객 세분화).</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "유사 그룹으로 나눔 = 군집(비지도)".</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="73" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>CAP 정리(C 일관성, A 가용성, P 분할 감내)에서, 네트워크가 두 파티션으로 분할된 후 각 파티션에 노드가 있을 때 ㉠·㉡에 들어갈 내용은?</p>
+<ul>
+<li>㉠을 보장하려면 분할 후에도 시스템이 계속 작동해야 하므로 각 파티션의 두 노드는 서로 다른 값을 읽을 수 있게 된다.</li>
+<li>㉡을 보장하려면 두 파티션 중 한 파티션은 사용할 수 없는 것처럼 작동해야 한다.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① ㉠ 가용성 + 분할감내 / ㉡ 일관성 + 분할감내</strong><br />
+② ㉠ 가용성 + 분할감내 / ㉡ 일관성 + 가용성<br />
+③ ㉠ 일관성 + 가용성 / ㉡ 일관성 + 분할감내<br />
+④ ㉠ 일관성 + 가용성 / ㉡ 가용성 + 분할감내</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ①번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>분할(P) 발생 시 C와 A는 동시 보장 불가</li>
+<li>AP(가용성 우선, 불일치 허용) vs CP(일관성 우선, 가용성 희생)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>73번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>CAP 정리 - AP vs CP</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>네트워크 분할(P)이 발생하면 일관성(C)과 가용성(A)을 동시에 만족할 수 없다.</p>
+<ul>
+<li><strong>㉠</strong>: "분할 후에도 계속 작동하되 노드마다 다른 값을 읽을 수 있음" = <strong>가용성(A) 우선, 일관성 희생</strong> = <strong>AP(가용성 + 분할감내)</strong>.</li>
+<li><strong>㉡</strong>: "한 파티션은 사용 불가처럼 작동" = 응답을 막아 <strong>일관성(C) 유지, 가용성 희생</strong> = <strong>CP(일관성 + 분할감내)</strong>.</li>
+</ul>
+<p>따라서 ㉠ = 가용성+분할감내, ㉡ = 일관성+분할감내 → 정답 ①.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③④</h3>
+<p>분할(P)이 전제된 상황이므로 두 선택지 모두 P를 포함해야 한다. "일관성+가용성(CA)"은 분할이 없는 경우의 조합이므로 P가 전제된 문제에서는 부적절하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>CAP</strong>: 분할 시 C·A 중 택1.</li>
+<li>
+<p><strong>AP 예</strong>: Cassandra, DynamoDB(최종 일관성). <strong>CP 예</strong>: HBase, MongoDB(기본).</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: 분할 상황에서 "계속 작동=AP", "응답 차단=CP".</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="74" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>MapReduce로 구현한 기능 설명: "Map 함수는 각 문서를 파싱하여 (단어, 문서번호) 쌍의 시퀀스를 출력한다. Reduce 함수는 주어진 단어에 대한 모든 쌍을 받아들여 문서번호로 정렬하고 (단어, 리스트(문서번호)) 쌍을 출력한다." 해당하는 기능은?</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 분산 grep (distributed grep)<br />
+② 웹-링크 그래프 (Web-Link graph)<br />
+③ 단어 빈도수 (word count)<br />
+<strong>④ 역 인덱스 (inverted index)</strong></p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>역 인덱스: 단어 → 등장 문서 목록</li>
+<li>Map (단어, 문서번호) / Reduce (단어, 문서번호 리스트)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>74번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>중</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>MapReduce - 역 인덱스(Inverted Index)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>역 인덱스(Inverted Index)</strong> 는 각 단어가 등장하는 <strong>문서들의 목록</strong>을 매핑하는 구조이다. Map이 (단어, 문서번호)를 방출하고 Reduce가 단어별로 문서번호 리스트를 만들어 (단어, [문서번호…])를 출력하는 것은 역 인덱스 생성의 전형적 MapReduce 구현이므로 정답 ④.</p>
+<ul>
+<li>word count(③)는 (단어, 횟수)를 출력한다(문서번호 리스트가 아님).</li>
+<li>distributed grep(①)은 패턴 일치 라인 출력, web-link graph(②)는 (target, source) 링크 집계.</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>grep은 매칭 라인을 출력할 뿐 단어→문서 목록을 만들지 않는다.</p>
+<h3>보기②</h3>
+<p>웹-링크 그래프는 링크 관계(출발→도착)를 집계한다.</p>
+<h3>보기③</h3>
+<p>word count는 단어별 총 빈도(정수)를 낸다. 문서번호 리스트가 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>역 인덱스</strong>: 검색엔진의 핵심 자료구조(단어 → posting list).</li>
+<li>
+<p><strong>MapReduce 예제</strong>: word count, inverted index, distributed grep, web-link graph.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "단어 → 문서번호 리스트 = 역 인덱스".</p>
+</li>
+</ul>
+<h2>---</h2></div></div></div></div>
+      </div>
+    </div>
+
+    <div class="question-view" data-num="75" style="display:none;">
+      <div class="content-workspace">
+        <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>ER 스키마를 관계 모델의 릴레이션으로 사상할 때 가장 적절한 것은? (E1(PK1, A1) 강한 개체 —1— R —N— E2, E2는 약한 개체(이중 사각형)로 부분키 K와 속성 A2를 가짐)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① E1E2(PK1, A1, K, A2) 단일 릴레이션<br />
+② E1(PK1, A1), E2(K, A2) — K만 기본키<br />
+<strong>③ E1(PK1, A1), E2(PK1, K, A2) — PK1과 K가 복합 기본키</strong><br />
+④ E1(PK1, A1), R(PK1, K), E2(K, A2) — R을 별도 릴레이션으로</p>
+<hr /></div></div>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 이미지 Bold 확인 + 사상 규칙 검증)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
+<li>약한 개체 사상: 소유(식별) 개체의 기본키 + 부분키 = 복합 기본키</li>
+<li>1:N 식별 관계는 별도 릴레이션 불필요</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">문제 정보</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>연도</td>
+<td>2026년 (제27회)</td>
+</tr>
+<tr>
+<td>과목</td>
+<td>데이터베이스</td>
+</tr>
+<tr>
+<td>문항번호</td>
+<td>75번</td>
+</tr>
+<tr>
+<td>난이도</td>
+<td>상</td>
+</tr>
+<tr>
+<td>출제주제</td>
+<td>ER→관계 모델 사상 - 약한 개체(Weak Entity)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div></div></div>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>약한 개체(E2)</strong> 는 자신만으로 식별되지 못하고 소유(식별) 개체(E1)에 의존한다. 관계 모델 사상 규칙에 따라 E2 릴레이션은 <strong>소유 개체의 기본키(PK1) + 자신의 부분키(K)</strong> 를 합쳐 <strong>복합 기본키 {PK1, K}</strong> 로 삼고, 여기에 속성 A2를 포함한다: <strong>E2(PK1, K, A2)</strong>. E1은 그대로 E1(PK1, A1)이다.</p>
+<p>식별 관계 R(1:N)은 이미 E2에 소유 키(PK1)를 포함시킴으로써 표현되므로 <strong>별도 릴레이션이 필요 없다</strong>. 따라서 정답은 ③이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
+<p>단일 릴레이션 병합은 1:N 관계에서 중복·이상을 유발하여 부적절하다.</p>
+<h3>보기②</h3>
+<p>E2의 기본키를 K만으로 두면 소유 개체 키(PK1)가 빠져 약한 개체를 식별할 수 없다.</p>
+<h3>보기④</h3>
+<p>1:N 식별 관계는 소유 키를 약한 개체에 포함시키면 되므로 R을 별도 릴레이션으로 만들 필요가 없다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><ul>
+<li><strong>약한 개체 사상</strong>: (소유 개체 PK) + (부분키) = 복합 PK.</li>
+<li>
+<p><strong>관계 사상</strong>: 1:N은 N측에 상대 PK를 외래키로, 1:1은 한쪽에 통합/외래키, N:M은 별도 릴레이션.</p>
+</li>
+<li>
+<p><strong>시험 포인트</strong>: "약한 개체 = 소유키 + 부분키 복합 기본키".</p>
+</li>
+</ul>
+<hr /></div></div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="img-lightbox" id="img-lightbox">
+    <button class="lightbox-close" id="lightbox-close" title="닫기 (Esc)">✕</button>
+    <img id="lightbox-img" src="" alt="확대 이미지">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+<script>
+/* 삽입 이미지 라이트박스: 본문에서는 영역 폭에 맞게 축소, 클릭·돋보기로 원본 확대 */
+(function () {
+  var box = document.getElementById('img-lightbox');
+  var bimg = document.getElementById('lightbox-img');
+  var bcap = document.getElementById('lightbox-caption');
+  function open(src, cap) {
+    bimg.src = src; bcap.textContent = cap || ''; box.classList.add('open');
+  }
+  function close() { box.classList.remove('open'); bimg.src = ''; }
+  document.getElementById('lightbox-close').addEventListener('click', close);
+  box.addEventListener('click', function (e) { if (e.target === box || e.target === bimg) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.querySelectorAll('.section-text img, .overview-card img').forEach(function (img) {
+    if (img.closest('.fig-imgwrap')) return;
+    var wrap = document.createElement('span');
+    wrap.className = 'fig-imgwrap';
+    img.parentNode.insertBefore(wrap, img);
+    wrap.appendChild(img);
+    var btn = document.createElement('button');
+    btn.className = 'zoom-btn';
+    btn.type = 'button';
+    btn.title = '이미지 확대';
+    btn.textContent = '🔍';
+    wrap.appendChild(btn);
+    var fire = function () { open(img.getAttribute('src'), img.getAttribute('alt') || ''); };
+    btn.addEventListener('click', fire);
+    img.addEventListener('click', fire);
+  });
+})();
+</script>
+<script>
+  const views = Array.from(document.querySelectorAll('.question-view'));
+  const nums = views.map(function(v){ return v.dataset.num; });
+  const select = document.getElementById('qselect');
+  let cur = 0;
+  views.forEach(function(v, i){
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = nums[i] === 'overview' ? '개요·정답표' : (nums[i] + '번');
+    select.appendChild(o);
+  });
+  function show(i){
+    if (i < 0 || i >= views.length) return;
+    views[cur].style.display = 'none';
+    cur = i;
+    views[cur].style.display = 'block';
+    select.value = i;
+    views[cur].querySelectorAll('.area-body, .overview-view').forEach(function(b){ b.scrollTop = 0; });
+  }
+  function go(d){ show(cur + d); }
+  function jump(v){ show(parseInt(v, 10)); }
+  function toggleAns(cb){
+    const v = cb.closest('.question-view');
+    if (v) v.classList.toggle('show-answer', cb.checked);
+  }
+  show(nums[0] === 'overview' ? 1 : 0);
+</script>
+</body>
+</html>

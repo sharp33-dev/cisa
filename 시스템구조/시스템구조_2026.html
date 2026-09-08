@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -193,7 +194,7 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
-<h2>---</h2></div></div>
+<hr /></div></div>
     </div>
 
     <div class="question-view" data-num="76" style="display:none;">
@@ -243,11 +244,50 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 가용성·재해복구</li>
+<li><strong>관련 페이지</strong>: DR/BCP</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: RPO/RTO 문항</li>
+<li><strong>재출제 경향</strong>: 재해복구·가용성 지표 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(DR)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>RPO=데이터 손실 허용→백업주기</li>
+<li>RTO=복구 시간 허용</li>
+<li>MTBF/MTTR=신뢰성/정비성</li>
+<li>RPO작을수록 백업 잦음</li>
+<li>BCP/DRP</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>RPO(Recovery Point Objective)</strong> 는 재해 발생 시 <strong>허용 가능한 데이터 손실의 범위를 시간 단위로 정의</strong>한 지표이다(예: RPO 1시간 = 최대 1시간치 데이터 손실 허용 → 백업 주기 결정). 따라서 정답은 ①이다.</p>
 <ul>
 <li>RTO는 복구까지 걸려도 되는 <strong>시간(가동 중단 허용 시간)</strong>.</li>
-<li>MTBF/MTTR은 신뢰성·정비성 지표로 재해복구 목표값이 아니다.</li>
+<li>MTBF/MTTR은 신뢰성·정비성 지표로 재해복구 목표값이 아니다.<br />
+ RPO는 재해 시 허용 가능한 데이터 손실 범위를 시간 단위로 정의한 지표(예: RPO 1시간=최대 1시간치 손실 허용→백업 주기 결정)이므로 ①이 정답이다. RTO는 복구 허용 시간, MTBF/MTTR은 신뢰성·정비성 지표로 재해복구 목표값이 아니다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
@@ -266,7 +306,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "데이터 손실=RPO, 복구 시간=RTO".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>재해복구 지표</strong>: RPO(데이터 손실 허용 시점→백업/복제 주기), RTO(복구 허용 시간→복구 체계 수준). RPO=0이면 동기 복제, RTO=0에 가까우면 이중화/HA가 필요.</p>
+<p><strong>DR 등급(Tier)</strong>: 미러사이트(즉시)·핫사이트(수시간)·웜사이트·콜드사이트 순으로 복구 속도·비용이 달라진다.</p>
+<p><strong>BCP/DRP</strong>: 업무연속성계획(BCP) 안에 IT 재해복구계획(DRP)이 포함된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>재해복구 설계 시 RPO(데이터 손실 허용)와 RTO(복구 시간 허용)로 목표를 정하고 백업 주기·복구 체계를 결정한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'데이터 손실=RPO, 복구 시간=RTO' 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -317,10 +364,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료 / 정보자원 통합기준(최신 고시)</li>
+<li><strong>관련 챕터</strong>: 정보자원 관리</li>
+<li><strong>관련 페이지</strong>: 최신 고시</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 등급별 안정성 수준 문항</li>
+<li><strong>재출제 경향</strong>: 정보자원·등급 기준 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★</strong> 드물게 출제(등급 기준)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>1·2등급=상</li>
+<li>3등급=중</li>
+<li>4등급=하</li>
+<li>1~4등급 체계</li>
+<li>5등급 없음</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>정보자원 통합기준에 따른 정보시스템 등급별 안정성 수준은 <strong>1·2등급 → "상", 3등급 → "중", 4등급 → "하"</strong> 로 구분한다. 따라서 정답은 ③이다. 등급 체계는 1~4등급으로, 5등급을 포함(④)하거나 1등급만 "상"으로 보는(①②) 것은 기준과 맞지 않는다.</p>
 <blockquote>
-<p>※ 등급별 수준의 정확한 매핑은 최신 고시를 근거로 하며, 강의자료의 관련 내용과 대조해 판단하였다.</p>
+<p>※ 등급별 수준의 정확한 매핑은 최신 고시를 근거로 하며, 강의자료의 관련 내용과 대조해 판단하였다.<br />
+ 정보자원 통합기준상 정보시스템 등급별 안정성 수준은 1·2등급→'상', 3등급→'중', 4등급→'하'로 구분하므로 ③이 정답이다. 등급 체계는 1~4등급으로, 5등급을 포함(④)하거나 1등급만 상으로 보는(①②) 것은 기준과 맞지 않는다.</p>
 </blockquote>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -338,7 +424,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "1·2등급=상, 3=중, 4=하" 매핑 암기.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>정보시스템 등급화</strong>: 업무 중요도·영향도·이용 규모에 따라 등급을 부여하고, 등급별로 가용성·이중화·백업·보안 수준을 차등 적용한다.</p>
+<p><strong>안정성 확보 수단</strong>: 서버·네트워크·전원 이중화, 무정지(HA) 구성, 재해복구 체계.</p>
+<p><strong>시험 관점</strong>: 최신 고시(제2026-11호 등)의 등급-수준 매핑을 확인해야 하며 숫자 함정에 유의한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>정보자원 통합기준에 따라 정보시스템 등급별 안정성(가용성·이중화) 수준을 차등 적용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'1·2등급=상, 3=중, 4=하' 매핑 암기. 최신 고시 반영.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -389,12 +482,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 저장장치 - RAID</li>
+<li><strong>관련 페이지</strong>: 스토리지</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: RAID 레벨 문항</li>
+<li><strong>재출제 경향</strong>: RAID·스토리지 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(RAID)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>0=스트라이핑</li>
+<li>1=미러링</li>
+<li>4=전용 패리티</li>
+<li>5=분산 패리티</li>
+<li>6=이중 패리티</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>RAID 4</strong> 는 데이터를 블록 단위로 스트라이핑하고, <strong>패리티를 별도의 전용 디스크 한 곳에 집중</strong> 저장하는 방식이다. 문제의 "별도 디스크에 패리티를 집중 저장"은 RAID 4의 정의이므로 정답은 ③이다.</p>
 <ul>
 <li>RAID 0: 스트라이핑만(패리티 없음).</li>
 <li>RAID 1: 미러링.</li>
-<li>RAID 5: 패리티를 여러 디스크에 <strong>분산</strong> 저장(전용 디스크 병목 해소).</li>
+<li>RAID 5: 패리티를 여러 디스크에 <strong>분산</strong> 저장(전용 디스크 병목 해소).<br />
+ RAID4는 데이터를 블록 단위로 스트라이핑하고 패리티를 별도 전용 디스크 한 곳에 집중 저장하는 방식이므로 ③이 정답이다. RAID0은 패리티 없음, RAID1은 미러링, RAID5는 패리티를 여러 디스크에 분산 저장해 전용 디스크 병목을 해소한다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -437,7 +569,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "전용 패리티=RAID4, 분산 패리티=RAID5".</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>RAID 레벨</strong>: 0(스트라이핑·성능), 1(미러링·가용성), 4(전용 패리티), 5(분산 패리티), 6(이중 분산 패리티), 1+0/0+1(결합).</p>
+<p><strong>패리티 원리</strong>: XOR로 한 디스크 장애 시 데이터를 복원(RAID5는 1개, RAID6는 2개 장애 허용).</p>
+<p><strong>트레이드오프</strong>: 쓰기 성능(패리티 갱신)·가용성·용량 효율의 균형으로 레벨을 선택한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>스토리지 이중화 설계 시 RAID 레벨을 선택한다. RAID4는 전용 패리티, RAID5는 분산 패리티다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'전용 패리티=RAID4, 분산 패리티=RAID5'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -487,12 +626,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 빅데이터 - 하둡</li>
+<li><strong>관련 페이지</strong>: 분산 처리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 하둡 에코시스템 문항</li>
+<li><strong>재출제 경향</strong>: 빅데이터 플랫폼 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(하둡)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>HDFS=저장</li>
+<li>YARN=자원관리</li>
+<li>MapReduce=처리</li>
+<li>Hive=질의, HBase=NoSQL</li>
+<li>Zookeeper=코디네이션</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>YARN</strong> 은 하둡 2.x 이후 클러스터의 <strong>자원 관리와 작업 스케줄링</strong>을 담당하는 프레임워크로, ResourceManager와 NodeManager로 구성된다. 따라서 정답은 ②이다.</p>
 <ul>
 <li>Hive: SQL 기반 데이터 웨어하우스(질의).</li>
 <li>HBase: 분산 NoSQL 컬럼 저장소.</li>
-<li>Zookeeper: 분산 코디네이션(구성·동기화).</li>
+<li>Zookeeper: 분산 코디네이션(구성·동기화).<br />
+ YARN은 하둡 2.x 이후 클러스터의 자원 관리와 작업 스케줄링을 담당하는 프레임워크(ResourceManager·NodeManager)이므로 ②가 정답이다. Hive는 SQL 질의, HBase는 NoSQL 저장소, Zookeeper는 분산 코디네이션 서비스이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -511,7 +689,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "자원관리·스케줄링=YARN".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>하둡 아키텍처</strong>: HDFS(분산 저장·NameNode/DataNode)+YARN(자원관리)+MapReduce/Spark(처리).</p>
+<p><strong>에코시스템</strong>: Hive(SQL), Pig(스크립트), HBase(NoSQL), Spark(인메모리), Sqoop(RDB 연동), Kafka(스트리밍), Zookeeper(코디네이션).</p>
+<p><strong>YARN 구성</strong>: RM(전역 자원)·NM(노드 자원)·AM(앱별 관리)·Container(자원 단위).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>하둡 기반 빅데이터 플랫폼에서 YARN이 자원 관리·작업 스케줄링을 담당한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'자원관리·스케줄링=YARN'. Hive/HBase/Zookeeper 역할 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -561,12 +746,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 컴퓨터 연산 - 수 표현</li>
+<li><strong>관련 페이지</strong>: 수 체계</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 2의 보수 변환 문항</li>
+<li><strong>재출제 경향</strong>: 수 표현·보수 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(수 표현)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>MSB=1→음수</li>
+<li>반전+1</li>
+<li>1111 1100=−4</li>
+<li>범위 −128~127</li>
+<li>unsigned=252(함정)</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><code>1111 1100</code>은 MSB가 1이므로 음수이다. 2의 보수 해석:<br />
 - 비트 반전: <code>0000 0011</code><br />
 - +1: <code>0000 0100</code> = 4<br />
 - 부호 적용: <strong>−4</strong></p>
-<p>따라서 정답은 ② −4이다. (검산: 4를 2의 보수로 = <code>0000 0100</code> → 반전 <code>1111 1011</code> → +1 <code>1111 1100</code> ✓)</p>
+<p>따라서 정답은 ② −4이다. (검산: 4를 2의 보수로 = <code>0000 0100</code> → 반전 <code>1111 1011</code> → +1 <code>1111 1100</code> ✓)<br />
+ 1111 1100은 MSB=1이라 음수이며, 비트 반전(0000 0011)+1(0000 0100=4)에 음부호를 적용해 −4이므로 ②가 정답이다. 부호를 무시하고 unsigned로 해석하면 252(④)가 되는 함정이 있다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(-124)</h3>
 <p>비트 위치를 잘못 계산한 값이다.</p>
@@ -584,7 +808,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: MSB=1 → 음수, "반전+1" 절차.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>정수 표현</strong>: 부호·크기, 1의 보수, 2의 보수(현대 표준). 2의 보수는 0 표현이 유일하고 덧셈 회로로 뺄셈을 처리한다.</p>
+<p><strong>범위</strong>: n비트 2의 보수는 −2^(n−1) ~ 2^(n−1)−1 (8비트: −128~127).</p>
+<p><strong>부호 확장</strong>: 상위 비트를 부호비트로 채워 비트폭을 확장한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>2의 보수로 부호 있는 정수를 표현·해석한다. MSB=1이면 음수, 값은 비트 반전+1에 음부호를 적용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>MSB=1→음수, '반전+1' 절차. unsigned 해석 함정 주의.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -634,10 +865,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 디지털 논리 - 코드</li>
+<li><strong>관련 페이지</strong>: 코드 체계</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 그레이 코드 문항</li>
+<li><strong>재출제 경향</strong>: 코드 체계 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(코드)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>그레이=인접 1비트 변화</li>
+<li>이진↔그레이=XOR</li>
+<li>Excess-3=자기보수</li>
+<li>순수2진=다중비트 변화</li>
+<li>엔코더 오류 감소</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>그레이 코드(Gray Code)</strong> 는 인접한 값으로 변할 때 <strong>오직 한 비트만 바뀌는</strong> 특성(단위 거리 코드)을 가져, 로터리 엔코더 등 위치 제어나 데이터 전송에서 <strong>오류(과도 상태)를 줄이는</strong> 데 사용된다. 설명과 일치하므로 정답은 ④이다.</p>
 <blockquote>
-<p>※ 보기 ③·④가 한 줄에 배치되어 자동 잉크농도 판별이 ③으로 오인식되었으나, 원문 Bold와 정의상 정답은 ④이다.</p>
+<p>※ 보기 ③·④가 한 줄에 배치되어 자동 잉크농도 판별이 ③으로 오인식되었으나, 원문 Bold와 정의상 정답은 ④이다.<br />
+ 그레이 코드는 인접한 값으로 변할 때 오직 한 비트만 바뀌는 단위 거리 코드로, 로터리 엔코더 등 위치 제어·데이터 전송에서 과도 상태로 인한 오류를 줄이는 데 사용되므로 ④가 정답이다. 순수 2진 코드는 인접 값에서 여러 비트가 동시에 바뀔 수 있다(0111→1000).</p>
 </blockquote>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -656,7 +926,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "인접 1비트 변화 = 그레이 코드".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>코드 체계</strong>: BCD(8421), Excess-3(자기보수), 그레이(단위 거리), 패리티/해밍(오류 검출·정정), ASCII/유니코드(문자).</p>
+<p><strong>이진↔그레이 변환</strong>: 그레이=이진 XOR (이진&gt;&gt;1). 카르노맵의 인접 셀 배치 근거.</p>
+<p><strong>용도</strong>: 엔코더·A/D 변환·통신에서 비트 전이 오류를 최소화한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>위치 엔코더·데이터 전송에서 인접 값이 1비트만 바뀌는 그레이 코드로 오류를 줄인다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'인접 1비트 변화=그레이 코드'. Excess-3·순수2진과 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -707,11 +984,50 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 컴퓨터 연산 - 부동소수점</li>
+<li><strong>관련 페이지</strong>: 부동소수점</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 부동소수점 연산 문항</li>
+<li><strong>재출제 경향</strong>: 부동소수점·연산 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(부동소수점)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>곱셈=지수 덧셈</li>
+<li>나눗셈=지수 뺄셈</li>
+<li>공통=정규화·라운딩</li>
+<li>가수 곱/나눗</li>
+<li>지수 덧셈은 곱셈</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>부동소수점 <strong>나눗셈</strong>은 가수(mantissa)를 <strong>나누고</strong>, 지수(exponent)를 <strong>빼며</strong>, 결과를 <strong>정규화</strong>한다. 반면 <strong>지수 덧셈</strong>은 부동소수점 <strong>곱셈</strong>에서 필요한 연산이므로, 나눗셈에서 필요하지 않은 것은 ① 지수 덧셈이다.</p>
 <ul>
 <li>곱셈: 가수 곱하기 + <strong>지수 더하기</strong> + 정규화</li>
-<li>나눗셈: 가수 나누기 + <strong>지수 빼기</strong> + 정규화</li>
+<li>나눗셈: 가수 나누기 + <strong>지수 빼기</strong> + 정규화<br />
+ 부동소수점 나눗셈은 가수 나누기+지수 뺄셈+정규화로 수행되므로 '지수 덧셈'은 필요하지 않아 ①이 정답이다. 지수 덧셈은 곱셈에서 필요한 연산이다(곱셈=가수 곱+지수 덧셈+정규화).</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
@@ -729,7 +1045,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "나눗셈=지수 뺄셈(덧셈 아님)".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>부동소수점(IEEE 754)</strong>: 부호·지수(바이어스)·가수(정규화 1.xxx). 단정도 32비트, 배정도 64비트.</p>
+<p><strong>연산</strong>: 덧셈/뺄셈(지수 정렬→가수 가감→정규화·라운딩), 곱셈(지수 덧셈), 나눗셈(지수 뺄셈).</p>
+<p><strong>오차</strong>: 표현 한계로 반올림 오차·자릿수 손실(cancellation)이 발생, 비교 시 오차 허용이 필요하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>부동소수점 연산 회로를 이해한다. 나눗셈은 가수 나누기+지수 뺄셈+정규화, 곱셈은 지수 덧셈이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'나눗셈=지수 뺄셈(덧셈 아님)'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -780,9 +1103,48 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 컴퓨터 연산 - 오버플로</li>
+<li><strong>관련 페이지</strong>: 연산·오버플로</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 오버플로 판정 문항</li>
+<li><strong>재출제 경향</strong>: 보수 연산·오버플로 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(오버플로)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>같은 부호인데 결과 부호 다름→오버플로</li>
+<li>0x40+0x41=129&gt;127</li>
+<li>결과 음수 해석</li>
+<li>Carry≠Overflow</li>
+<li>부호비트 확인</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>0x40 = 64, 0x41 = 65. 64 + 65 = <strong>129</strong>. 그러나 8비트 2의 보수의 표현 범위는 <strong>−128 ~ +127</strong> 이므로 129는 표현 불가능하다. 비트로 계산하면 <code>0100 0000 + 0100 0001 = 1000 0001</code>이 되어 MSB가 1(음수)로, <strong>−127</strong> 로 해석된다. 즉 <strong>양수 + 양수 = 음수</strong>의 <strong>부호 오버플로(Overflow)</strong> 가 발생한다. 따라서 정답은 ③이다.</p>
-<p>(주의: 여기서 자리올림(carry-out)은 없지만, 부호 비트로의 올림이 발생해 오버플로가 된다.)</p>
+<p>(주의: 여기서 자리올림(carry-out)은 없지만, 부호 비트로의 올림이 발생해 오버플로가 된다.)<br />
+ 0x40(64)+0x41(65)=129인데 8비트 2의 보수 범위(−128~127)를 벗어나 비트로는 1000 0001(−127)이 되어 양수+양수=음수의 부호 오버플로가 발생하므로 ③이 정답이다. 부호비트로의 올림이 오버플로를 만들며, Carry와는 다른 개념이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>언더플로가 아니며 결과도 0이 아니다.</p>
@@ -800,7 +1162,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 양수+양수인데 결과 MSB=1 → 오버플로(음수 해석).</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>오버플로 판정(부호 있는 덧셈)</strong>: 두 피연산자 부호가 같은데 결과 부호가 다르면 오버플로. 부호비트로의 캐리와 최상위 캐리아웃의 XOR로도 검출.</p>
+<p><strong>Carry vs Overflow</strong>: Carry=부호 없는 연산의 자리올림, Overflow=부호 있는 연산의 범위 초과.</p>
+<p><strong>상태 플래그</strong>: ALU의 Z(zero)·N(negative)·C(carry)·V(overflow) 플래그로 조건 분기를 제어한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>2의 보수 덧셈에서 부호 오버플로를 판정한다. 양수+양수=음수이면 오버플로가 발생한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>양수+양수인데 결과 MSB=1→오버플로. Carry≠Overflow.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -851,12 +1220,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 디지털 논리 - 불 대수</li>
+<li><strong>관련 페이지</strong>: 논리 간략화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 불 대수 간략화 문항</li>
+<li><strong>재출제 경향</strong>: 불 대수·카르노맵 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(불 대수)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>A+AB=A(흡수)</li>
+<li>A+A'B=A+B</li>
+<li>분배·드모르간</li>
+<li>카르노맵 병합</li>
+<li>Y=A+B</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>Y = A + AB' + A'B 를 간략화한다.<br />
 - A + AB' = <strong>A</strong> (흡수 법칙: A(1 + B') = A)<br />
 - 따라서 Y = A + A'B<br />
 - A + A'B = <strong>A + B</strong> (A + A'B = (A+A')(A+B) = A+B)</p>
-<p>따라서 Y = <strong>A + B</strong>, 정답 ④.</p>
+<p>따라서 Y = <strong>A + B</strong>, 정답 ④.<br />
+ Y=A+AB'+A'B에서 A+AB'=A(흡수 법칙), 이어 A+A'B=A+B이므로 Y=A+B로 ④가 정답이다. 흡수 법칙과 A+A'B=A+B 항등식을 순서대로 적용하는 것이 핵심이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②</h3>
 <p>AB'·AB로 축소되지 않는다. A 항이 흡수·확장되어 A+B가 된다.</p>
@@ -872,7 +1280,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 흡수 법칙과 A+A'B=A+B를 순서대로 적용.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>불 대수 법칙</strong>: 항등·지배·멱등·보수·교환·결합·분배·드모르간·흡수(A+AB=A, A(A+B)=A)·합의(consensus).</p>
+<p><strong>간략화 도구</strong>: 카르노맵(인접 1 병합), 퀴인-맥클러스키(체계적), 대수적 변형.</p>
+<p><strong>게이트 구현</strong>: 곱의 합(SOP)·합의 곱(POS), NAND/NOR 만능 게이트로 회로를 구성한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>불 대수로 논리회로를 간략화한다. 흡수(A+AB=A)와 A+A'B=A+B 항등식을 적용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>흡수 법칙과 A+A'B=A+B를 순서대로 적용.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -923,10 +1338,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 메모리 - 소자</li>
+<li><strong>관련 페이지</strong>: 기억장치</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: DRAM/SRAM 문항</li>
+<li><strong>재출제 경향</strong>: 메모리 소자·계층 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(메모리 소자)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>DRAM=1TR+커패시터</li>
+<li>리프레시 필요</li>
+<li>SRAM=플립플롭</li>
+<li>SRAM=캐시(빠름)</li>
+<li>DRAM=메인(집적도↑)</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>DRAM</strong> 은 1개의 트랜지스터와 <strong>커패시터(Capacitor)</strong> 로 셀을 구성하여 전하로 데이터를 저장하며, 누설로 인해 <strong>주기적 리프레시</strong>가 필요하다. 반면 SRAM은 플립플롭(여러 트랜지스터)으로 구성되어 리프레시가 필요 없고 빠르다. 따라서 DRAM의 물리적 특징은 ④ 커패시터이다.</p>
 <ul>
-<li>부동 게이트(①)는 플래시 메모리, 자기코어(②)는 과거 코어메모리, 플립플롭(③)은 SRAM의 특징이다.</li>
+<li>부동 게이트(①)는 플래시 메모리, 자기코어(②)는 과거 코어메모리, 플립플롭(③)은 SRAM의 특징이다.<br />
+ DRAM은 1개 트랜지스터와 커패시터로 셀을 구성해 전하로 데이터를 저장하며 누설로 주기적 리프레시가 필요하다. SRAM은 플립플롭(여러 트랜지스터)으로 구성되어 리프레시가 불필요하고 빠르므로, DRAM의 물리적 특징은 ④ 커패시터이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -970,7 +1424,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "DRAM=커패시터+리프레시, SRAM=플립플롭".</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>메모리 소자</strong>: DRAM(1T1C·리프레시·고집적·저가·메인메모리), SRAM(플립플롭·고속·저집적·캐시), ROM/PROM/EPROM/EEPROM/Flash(부동 게이트·비휘발).</p>
+<p><strong>메모리 계층</strong>: 레지스터&gt;캐시(SRAM)&gt;메인(DRAM)&gt;SSD/HDD로 속도·용량·비용을 절충.</p>
+<p><strong>신기술</strong>: DDR5·HBM(대역폭), 3D NAND, 차세대 비휘발(MRAM·PRAM).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>메모리 소자를 선택한다. DRAM은 커패시터(리프레시 필요), SRAM은 플립플롭(빠름)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'DRAM=커패시터+리프레시, SRAM=플립플롭'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1021,8 +1482,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 메모리 - 계층구조</li>
+<li><strong>관련 페이지</strong>: 기억장치 계층</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 메모리 계층 이유 문항</li>
+<li><strong>재출제 경향</strong>: 캐시·계층 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(메모리 계층)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>레지스터-캐시-메인-보조</li>
+<li>지역성(시간·공간)</li>
+<li>가성비 목적</li>
+<li>평균 접근시간=가중합</li>
+<li>캐시 히트율</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>메모리 계층 구조(레지스터-캐시-메인메모리-보조기억장치)는 <strong>빠르고 비싼 소량의 메모리와 느리지만 저렴한 대용량 메모리를 조합</strong>하여, 지역성(참조의 국소성)을 활용해 <strong>적은 비용으로 빠른 평균 접근 속도(가성비)</strong> 를 얻기 위한 설계이다. 따라서 정답은 ①이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>메모리 계층 구조(레지스터-캐시-메인메모리-보조기억장치)는 <strong>빠르고 비싼 소량의 메모리와 느리지만 저렴한 대용량 메모리를 조합</strong>하여, 지역성(참조의 국소성)을 활용해 <strong>적은 비용으로 빠른 평균 접근 속도(가성비)</strong> 를 얻기 위한 설계이다. 따라서 정답은 ①이다.<br />
+ 메모리 계층은 빠르고 비싼 소량 메모리와 느리지만 저렴한 대용량 메모리를 조합해, 지역성(참조의 국소성)을 활용함으로써 적은 비용으로 빠른 평균 접근 속도를 얻기 위한 설계이므로 ①이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
 <p>전력 절감이 "유일한" 목적이라는 단정은 틀리다(핵심은 속도·비용 절충).</p>
@@ -1040,7 +1540,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "속도·비용의 절충 + 지역성 활용".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>지역성</strong>: 시간 지역성(최근 참조 재참조)·공간 지역성(인접 참조). 캐시·프리페치·페이징이 이를 활용한다.</p>
+<p><strong>캐시 성능</strong>: 평균 접근시간=히트시간+미스율×미스패널티. 히트율↑을 위해 연관도·크기·교체정책(LRU 등)을 조정.</p>
+<p><strong>계층</strong>: 레지스터-L1/L2/L3 캐시-메인메모리-보조기억장치.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>메모리 계층으로 속도·비용을 절충한다. 지역성을 활용해 적은 비용으로 빠른 평균 접근 속도를 얻는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'속도·비용 절충 + 지역성 활용'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1090,8 +1597,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 운영체제 - 스케줄링</li>
+<li><strong>관련 페이지</strong>: 프로세스 스케줄링</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 스케줄링 알고리즘 문항</li>
+<li><strong>재출제 경향</strong>: OS 스케줄링 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(스케줄링)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>RR 퀀텀↑→FCFS</li>
+<li>퀀텀↓→문맥교환↑</li>
+<li>SJF/SRTF=최단 작업</li>
+<li>HRRN=응답비율</li>
+<li>FCFS=비선점</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>라운드 로빈은 각 프로세스에 <strong>타임퀀텀</strong> 만큼 CPU를 주고 선점(preempt)한다. 타임퀀텀이 <strong>무한히 커지면</strong> 프로세스가 완료될 때까지 선점되지 않으므로, <strong>먼저 도착한 순서대로 끝까지 실행</strong>하는 <strong>FCFS</strong> 와 동일하게 동작한다. 따라서 정답은 ①이다. (반대로 타임퀀텀이 매우 작으면 프로세서 공유(processor sharing)에 가까워진다.)</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>라운드 로빈은 각 프로세스에 <strong>타임퀀텀</strong> 만큼 CPU를 주고 선점(preempt)한다. 타임퀀텀이 <strong>무한히 커지면</strong> 프로세스가 완료될 때까지 선점되지 않으므로, <strong>먼저 도착한 순서대로 끝까지 실행</strong>하는 <strong>FCFS</strong> 와 동일하게 동작한다. 따라서 정답은 ①이다. (반대로 타임퀀텀이 매우 작으면 프로세서 공유(processor sharing)에 가까워진다.)<br />
+ 라운드 로빈은 각 프로세스에 타임퀀텀만큼 CPU를 주고 선점하는데, 타임퀀텀이 무한히 커지면 완료까지 선점되지 않아 먼저 도착한 순서대로 실행하는 FCFS와 동일해지므로 ①이 정답이다. 반대로 퀀텀이 매우 작으면 프로세서 공유에 가까워진다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③④</h3>
 <p>HRRN·SJF·SRTF는 실행시간·응답비율 등 작업 길이 정보를 이용하는 스케줄링으로, 타임퀀텀 크기와 무관하며 RR의 극한(선점 제거)과는 다르다.</p>
@@ -1105,7 +1651,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "타임퀀텀 ∞ = 선점 없음 = FCFS".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>스케줄링 알고리즘</strong>: FCFS(비선점·공정하나 convoy), SJF/SRTF(최단 작업·기아 위험), 우선순위(에이징으로 기아 완화), RR(타임퀀텀·응답성), HRRN(응답비율=(대기+서비스)/서비스), MLFQ(다단계 피드백).</p>
+<p><strong>평가 지표</strong>: 처리율·반환시간·대기시간·응답시간.</p>
+<p><strong>시험 관점</strong>: 퀀텀 크기에 따른 RR의 극한(FCFS/공유)을 이해한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>스케줄링 알고리즘을 이해한다. RR의 타임퀀텀이 무한대면 선점이 사라져 FCFS와 같아진다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'타임퀀텀 ∞=선점 없음=FCFS'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1155,6 +1708,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 병렬처리 - 성능</li>
+<li><strong>관련 페이지</strong>: 성능 평가</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 암달의 법칙 문항</li>
+<li><strong>재출제 경향</strong>: 병렬처리·성능 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(암달)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Speedup=1/((1−P)+P/N)</li>
+<li>P=0.85,N=8→3.9</li>
+<li>상한=1/(1−P)</li>
+<li>직렬이 지배</li>
+<li>Gustafson과 비교</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>Amdahl의 법칙: <strong>Speedup = 1 / ((1 − P) + P/N)</strong>, P=0.85(병렬 비율), N=8.</p>
 <ul>
@@ -1163,7 +1754,8 @@ strong { color:#0f172a; font-weight:700; }
 <li>분모 = 0.15 + 0.10625 = 0.25625</li>
 <li>Speedup = 1 / 0.25625 ≈ <strong>3.90</strong></li>
 </ul>
-<p>따라서 정답은 ② 3.90이다.</p>
+<p>따라서 정답은 ② 3.90이다.<br />
+ 암달의 법칙 Speedup=1/((1−P)+P/N)에 P=0.85, N=8을 대입하면 1/(0.15+0.10625)=1/0.25625≈3.90이므로 ②가 정답이다. 코어를 무한히 늘려도 상한은 1/0.15≈6.67이라 6.90(④)은 불가능하다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
 <p>분모 계산(0.25625) 착오 시 나오는 값들로, 정확히는 약 3.90이다. 코어 수를 무한대로 늘려도 상한은 1/0.15 ≈ 6.67이므로 6.90(④)은 불가능하다.</p>
@@ -1177,7 +1769,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 공식 대입과 직렬 부분(1−P)의 지배적 영향.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>암달 vs 구스타프슨</strong>: 암달은 고정 문제 크기에서 직렬 부분이 상한을 지배, 구스타프슨은 문제 크기를 확장하면 확장성이 선형에 가까움을 설명.</p>
+<p><strong>병렬 오버헤드</strong>: 통신·동기화·부하 불균형이 실제 speedup을 이론값보다 낮춘다.</p>
+<p><strong>시험 관점</strong>: 공식 대입과 직렬 부분(1−P)의 지배적 영향을 이해한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>병렬화 한계를 암달의 법칙으로 추정한다. Speedup=1/((1−P)+P/N)로 코어 증가 효과를 계산한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>공식 대입과 직렬 부분(1−P)의 지배적 영향.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1228,12 +1827,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 운영체제 - 가상메모리</li>
+<li><strong>관련 페이지</strong>: 가상 메모리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 페이지 테이블 크기 문항</li>
+<li><strong>재출제 경향</strong>: 가상메모리·페이징 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(페이징)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>페이지수=주소공간/페이지크기</li>
+<li>4GB/4KB=2^20</li>
+<li>×4B=4MB</li>
+<li>다단계로 절감</li>
+<li>역페이지 테이블</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li>페이지 수 = 4GB / 4KB = 2³²/2¹² = <strong>2²⁰ = 1,048,576개</strong></li>
 <li>페이지 테이블 크기 = 페이지 수 × 엔트리 크기 = 2²⁰ × 4B = 2²² = <strong>4MB</strong></li>
 </ul>
-<p>따라서 정답은 ③ 4MB이다.</p>
+<p>따라서 정답은 ③ 4MB이다.<br />
+ 가상 주소 4GB/페이지 4KB=2^32/2^12=2^20개 페이지, 엔트리 4B를 곱하면 2^20×4B=2^22=4MB이므로 ③이 정답이다. 엔트리 크기를 곱하지 않으면 1MB(②) 오답이 된다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②(1MB)</h3>
 <p>엔트리 크기(4B)를 곱하지 않고 페이지 수만(2²⁰×1B) 계산한 값이다.</p>
@@ -1249,7 +1887,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 2의 거듭제곱으로 단순화(2²⁰×4B=4MB).</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>페이징</strong>: 논리주소=페이지번호+오프셋, 페이지 테이블로 프레임 매핑. 단층 테이블은 크기 문제로 다단계·해시·역페이지 테이블을 사용.</p>
+<p><strong>TLB</strong>: 최근 변환을 캐시해 주소변환 속도를 높인다.</p>
+<p><strong>세그멘테이션·페이징</strong>: 논리적 분할(세그먼트)과 물리적 균등 분할(페이지)을 결합(페이지드 세그멘테이션).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>페이지 테이블 크기를 산정해 메모리 오버헤드를 예측한다. 크기=페이지 수×엔트리 크기다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>2의 거듭제곱으로 단순화(2^20×4B=4MB).</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1299,12 +1944,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: AI - 머신러닝</li>
+<li><strong>관련 페이지</strong>: 머신러닝</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 학습 패러다임 문항</li>
+<li><strong>재출제 경향</strong>: AI·ML 유형으로 확대</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(ML)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>지도=레이블 학습</li>
+<li>비지도=군집·구조</li>
+<li>강화=보상·시행착오</li>
+<li>준지도=소량 레이블</li>
+<li>정책·가치</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>강화 학습(Reinforcement Learning)</strong> 은 에이전트가 환경과 상호작용하며 <strong>시행착오</strong>를 통해 얻은 <strong>보상(reward)</strong> 을 <strong>최대화</strong>하는 정책을 학습하는 방법이다. 설명과 일치하므로 정답은 ③이다.</p>
 <ul>
 <li>지도 학습: 레이블된 데이터로 학습.</li>
 <li>비지도 학습: 레이블 없이 구조·군집 발견.</li>
-<li>준지도 학습: 소량 레이블 + 다량 비레이블.</li>
+<li>준지도 학습: 소량 레이블 + 다량 비레이블.<br />
+ 강화 학습은 에이전트가 환경과 상호작용하며 시행착오를 통해 얻은 보상을 최대화하는 정책을 학습하는 방법이므로 ③이 정답이다. 지도(레이블)·비지도(구조·군집)·준지도(소량 레이블)와 구분된다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
@@ -1319,7 +2003,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "보상 최대화·시행착오=강화 학습".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>RL 요소</strong>: 상태(S)·행동(A)·보상(R)·정책(π)·가치함수(V/Q), 탐험(exploration) vs 활용(exploitation).</p>
+<p><strong>알고리즘</strong>: Q-Learning·SARSA(가치기반), Policy Gradient·Actor-Critic(정책기반), DQN·PPO(심층 강화학습).</p>
+<p><strong>응용</strong>: 게임·로보틱스·추천·RLHF(LLM 정렬).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>머신러닝 패러다임을 구분한다. 강화 학습은 보상 최대화를 위해 시행착오로 정책을 학습한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'보상 최대화·시행착오=강화 학습'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1370,11 +2061,50 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 네트워크 - MAC</li>
+<li><strong>관련 페이지</strong>: 매체 접근 제어</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: CSMA/CA 문항</li>
+<li><strong>재출제 경향</strong>: LAN·MAC 프로토콜 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(MAC)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>CSMA/CA=무선(회피)</li>
+<li>백오프·ACK</li>
+<li>CSMA/CD=유선(감지)</li>
+<li>RTS/CTS</li>
+<li>숨은 단말 문제</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>CSMA/CA(Collision Avoidance)</strong> 는 무선 LAN(IEEE 802.11)의 매체 접근 방식으로, 전송 전 매체 감지(carrier sense) 후 <strong>충돌을 회피</strong>하기 위해 <strong>랜덤 백오프</strong> 시간만큼 대기하고, 전송 후 <strong>ACK 수신</strong>으로 성공을 확인한다(무선은 충돌 감지가 어렵기 때문). 따라서 정답은 ②이다.</p>
 <ul>
 <li>CSMA/CD는 유선 이더넷의 충돌 "감지" 방식.</li>
-<li>Token Ring·FDDI는 토큰 기반 접근 방식.</li>
+<li>Token Ring·FDDI는 토큰 기반 접근 방식.<br />
+ CSMA/CA는 무선 LAN(IEEE 802.11)의 매체 접근 방식으로, 전송 전 매체 감지 후 충돌 회피를 위해 랜덤 백오프만큼 대기하고 전송 후 ACK로 성공을 확인하므로 ②가 정답이다. 무선은 충돌 감지가 어려워 CSMA/CD 대신 CA를 쓴다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -1391,7 +2121,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "무선=CA(회피), 유선=CD(감지)".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>매체 접근 제어</strong>: 경쟁(CSMA/CD 유선·CSMA/CA 무선·ALOHA), 비경쟁(토큰링·토큰버스·폴링), 분할(TDMA·FDMA·CDMA).</p>
+<p><strong>CSMA/CA 보강</strong>: RTS/CTS로 숨은 단말 문제 완화, DCF/PCF, IFS(SIFS/DIFS) 간격.</p>
+<p><strong>시험 관점</strong>: '무선=CA(회피), 유선=CD(감지)'를 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>무선 LAN에서 CSMA/CA로 충돌을 회피한다. 백오프·ACK로 매체 접근을 제어한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'무선=CA(회피), 유선=CD(감지)'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1443,6 +2180,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 네트워크 - TCP</li>
+<li><strong>관련 페이지</strong>: 전송 계층</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: TCP Seq/Ack 문항</li>
+<li><strong>재출제 경향</strong>: TCP 흐름·재전송 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(TCP)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>누적 ACK=다음 기대 바이트</li>
+<li>손실 시 ACK 정체</li>
+<li>중복 ACK→빠른 재전송</li>
+<li>Seq=바이트 번호</li>
+<li>손실 지점 재전송</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>TCP는 <strong>누적 확인응답</strong>을 사용한다. 각 세그먼트는 500바이트(Seq 1000, 1500, 2000)이다.</p>
 <ul>
@@ -1451,7 +2226,8 @@ strong { color:#0f172a; font-weight:700; }
 <li>따라서 서버 세그먼트 <code>Seq:3000 Ack:ⓐ</code> 의 <strong>ⓐ = 1500</strong>.</li>
 <li>클라이언트는 중복 ACK(1500)에 따라 손실된 세그먼트를 <strong>재전송</strong>하므로 다음 <code>Seq:ⓑ = 1500</code>(재전송), Ack:4000(서버 세그먼트 확인).</li>
 </ul>
-<p>따라서 ⓐ=1500, ⓑ=1500 → 정답 ①.</p>
+<p>따라서 ⓐ=1500, ⓑ=1500 → 정답 ①.<br />
+ TCP는 누적 확인응답을 사용한다. 서버는 Seq1000을 받아 다음 기대 1500을 ACK하고, Seq1500 손실 후 Seq2000이 순서 없이 와도 누적 ACK는 1500에 머문다(ⓐ=1500). 클라이언트는 중복 ACK에 따라 손실 세그먼트를 재전송하므로 ⓑ=1500으로 ①이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③④</h3>
 <p>ⓐ가 2000이 되려면 서버가 1500 손실을 건너뛰고 확인해야 하는데, 누적 ACK는 손실 지점(1500)에 머문다. ⓑ가 2000/2500이 되려면 손실 세그먼트를 재전송하지 않는 것이므로 신뢰 전송 원리에 어긋난다.</p>
@@ -1465,7 +2241,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 손실 시 ACK는 손실 지점에 머물고, 그 지점을 재전송.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>TCP 신뢰 전송</strong>: 순서번호(바이트)·누적 ACK·재전송(타임아웃/3중복ACK 빠른 재전송)·흐름제어(수신 윈도우)·혼잡제어.</p>
+<p><strong>SACK</strong>: 선택적 확인응답으로 비연속 수신 블록을 알려 재전송 효율을 높인다.</p>
+<p><strong>시험 관점</strong>: 손실 시 누적 ACK가 손실 지점에 머물고 그 지점을 재전송한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>TCP는 누적 확인응답으로 신뢰 전송을 한다. 손실 시 ACK는 손실 지점에 머물고 그 지점을 재전송한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>손실 시 ACK는 손실 지점에 머물고 그 지점 재전송.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1516,10 +2299,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 네트워크 - 데이터링크</li>
+<li><strong>관련 페이지</strong>: 흐름 제어</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: ARQ 윈도우 문항</li>
+<li><strong>재출제 경향</strong>: ARQ·흐름제어 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(ARQ)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SR=2^(n−1)</li>
+<li>GBN=2^n−1</li>
+<li>4비트→SR 8</li>
+<li>순서번호 공간 2^n</li>
+<li>윈도우 제약</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>순서 번호가 4비트이면 전체 번호 공간은 2⁴ = 16이다. <strong>선택적 재전송(Selective Repeat)</strong> 에서는 송신·수신 윈도우 크기의 합이 번호 공간을 넘지 않아야 하므로, 최대 윈도우 크기는 <strong>2^(n−1) = 2³ = 8</strong> 이다. 따라서 정답은 ② 8이다.</p>
 <ul>
-<li>Go-Back-N이라면 최대 윈도우는 2ⁿ − 1 = 15.</li>
+<li>Go-Back-N이라면 최대 윈도우는 2ⁿ − 1 = 15.<br />
+ Selective Repeat ARQ에서 송·수신 윈도우 크기의 합이 순서번호 공간(2^n)을 넘지 않아야 하므로 최대 송신 윈도우는 2^(n−1)이다. 4비트면 2^3=8로 ②가 정답이다. Go-Back-N이면 2^n−1=15이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(7)</h3>
@@ -1550,7 +2372,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "SR=2^(n−1), GBN=2ⁿ−1" 구분.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>ARQ 방식</strong>: Stop-and-Wait(윈도우 1), Go-Back-N(누적 ACK·재전송 다수·수신 윈도우 1·최대 2^n−1), Selective Repeat(개별 ACK·선택 재전송·최대 2^(n−1)).</p>
+<p><strong>흐름 제어</strong>: 슬라이딩 윈도우로 송신량을 조절.</p>
+<p><strong>시험 관점</strong>: SR=2^(n−1), GBN=2^n−1 공식을 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>데이터링크 흐름제어로 ARQ를 설계한다. Selective Repeat 최대 윈도우는 2^(n−1)이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'SR=2^(n−1), GBN=2^n−1' 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1600,12 +2429,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 네트워크 - 라우팅</li>
+<li><strong>관련 페이지</strong>: 라우팅 프로토콜</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 라우팅 프로토콜 문항</li>
+<li><strong>재출제 경향</strong>: 라우팅(RIP/OSPF/BGP) 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(라우팅)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>거리벡터: RIP</li>
+<li>링크상태: OSPF/IS-IS</li>
+<li>경로벡터: BGP(EGP)</li>
+<li>OSPF=Dijkstra</li>
+<li>ARP=주소변환</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>OSPF(Open Shortest Path First)</strong> 는 <strong>다익스트라(SPF) 알고리즘 기반 링크 상태 라우팅</strong> 프로토콜로, <strong>AS 내부에서 사용하는 IGP</strong> 이며, 토폴로지 변화 시에만 갱신 정보를 <strong>멀티캐스트</strong>로 전송해 대역폭 효율이 높다. 설명과 일치하므로 정답은 ④이다.</p>
 <ul>
 <li>RIP: 거리 벡터(홉 카운트), 주기적 브로드캐스트.</li>
 <li>ARP: IP↔MAC 주소 변환(라우팅 프로토콜 아님).</li>
-<li>BGP: AS 간 경로 벡터 프로토콜(EGP).</li>
+<li>BGP: AS 간 경로 벡터 프로토콜(EGP).<br />
+ OSPF는 다익스트라(SPF) 기반 링크 상태 라우팅 프로토콜로 AS 내부에서 쓰는 IGP이며, 토폴로지 변화 시에만 갱신 정보를 멀티캐스트로 전송해 대역폭 효율이 높으므로 ④가 정답이다. RIP은 거리벡터, ARP은 주소변환, BGP는 AS 간 경로벡터(EGP)이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -1640,7 +2508,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "링크상태·Dijkstra·IGP·멀티캐스트=OSPF".</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>라우팅 분류</strong>: 거리벡터(RIP·EIGRP·벨만포드·주기적 전체 전송·홉 기반), 링크상태(OSPF·IS-IS·다익스트라·토폴로지 DB·변화 시 갱신), 경로벡터(BGP·정책 기반 EGP).</p>
+<p><strong>OSPF 특징</strong>: Area 계층화, DR/BDR, 메트릭=대역폭 기반 cost.</p>
+<p><strong>시험 관점</strong>: '링크상태·Dijkstra·IGP·멀티캐스트=OSPF'.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>동적 라우팅 프로토콜을 선택한다. OSPF는 링크상태(Dijkstra) 기반 IGP로 변화 시 멀티캐스트 갱신한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'링크상태·Dijkstra·IGP·멀티캐스트=OSPF'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1690,10 +2565,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 네트워크 - 응용계층</li>
+<li><strong>관련 페이지</strong>: 응용 프로토콜</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: DHCP 문항</li>
+<li><strong>재출제 경향</strong>: 응용 프로토콜 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(응용 프로토콜)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>DHCP=IP 자동 임대</li>
+<li>DORA</li>
+<li>임대 갱신</li>
+<li>FTP/SNMP/NAT 구분</li>
+<li>방송 Discover</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>DHCP(Dynamic Host Configuration Protocol)</strong> 는 클라이언트에게 IP 주소·서브넷마스크·기본 게이트웨이·DNS 등을 <strong>동적으로 임대</strong>하며, <strong>DORA(Discover → Offer → Request → Ack)</strong> 메시지 교환 과정을 거친다. 설명과 일치하므로 정답은 ③이다.</p>
 <ul>
-<li>FTP: 파일 전송. SNMP: 망 관리. NAT: 사설↔공인 IP 주소 변환(프로토콜이 아닌 기술).</li>
+<li>FTP: 파일 전송. SNMP: 망 관리. NAT: 사설↔공인 IP 주소 변환(프로토콜이 아닌 기술).<br />
+ DHCP는 클라이언트에게 IP·서브넷마스크·게이트웨이·DNS를 동적으로 임대하며 DORA(Discover→Offer→Request→Ack) 과정을 거치므로 ③이 정답이다. FTP는 파일 전송, SNMP는 망 관리, NAT는 주소 변환 기술이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -1712,7 +2626,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "IP 자동 임대·DORA=DHCP".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>응용 계층 프로토콜</strong>: HTTP(S)·FTP·SMTP/POP3/IMAP·DNS·DHCP·SNMP·Telnet/SSH.</p>
+<p><strong>DHCP</strong>: DORA 4단계, 임대(lease)·갱신(renew, T1/T2), 릴레이 에이전트로 서브넷 간 서비스.</p>
+<p><strong>시험 관점</strong>: 'IP 자동 임대·DORA=DHCP', NAT(주소 변환)와 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>응용 계층 프로토콜을 구분한다. DHCP는 IP를 DORA(Discover-Offer-Request-Ack)로 자동 임대한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'IP 자동 임대·DORA=DHCP'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1762,8 +2683,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 네트워크 - 혼잡제어</li>
+<li><strong>관련 페이지</strong>: TCP 혼잡제어</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 혼잡 제어 단계 문항</li>
+<li><strong>재출제 경향</strong>: TCP 혼잡제어 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(혼잡제어)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Slow Start=지수(cwnd 1)</li>
+<li>Congestion Avoidance=선형</li>
+<li>ssthresh 전환</li>
+<li>Fast Retransmit(3중복ACK)</li>
+<li>Fast Recovery</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Slow Start</strong> 는 연결 초기 또는 타임아웃 후 혼잡 윈도우(cwnd)를 1(MSS)로 시작하고, ACK를 받을 때마다 cwnd를 늘려(RTT당 2배로) <strong>혼잡 임계값(ssthresh)</strong> 에 도달할 때까지 지수적으로 증가시킨다. 설명과 일치하므로 정답은 ③이다. 임계값 이후에는 <strong>혼잡 회피(Congestion Avoidance)</strong> 로 전환되어 선형 증가한다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Slow Start</strong> 는 연결 초기 또는 타임아웃 후 혼잡 윈도우(cwnd)를 1(MSS)로 시작하고, ACK를 받을 때마다 cwnd를 늘려(RTT당 2배로) <strong>혼잡 임계값(ssthresh)</strong> 에 도달할 때까지 지수적으로 증가시킨다. 설명과 일치하므로 정답은 ③이다. 임계값 이후에는 <strong>혼잡 회피(Congestion Avoidance)</strong> 로 전환되어 선형 증가한다.<br />
+ Slow Start는 연결 초기/타임아웃 후 cwnd를 1로 시작하고 ACK를 받을 때마다 cwnd를 늘려(RTT당 2배) 혼잡 임계값(ssthresh)에 도달할 때까지 지수적으로 증가시키므로 ③이 정답이다. 임계값 이후에는 혼잡 회피(선형 증가)로 전환된다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>Fast Retransmission은 3개의 중복 ACK 수신 시 타임아웃 전에 재전송하는 기법이다.</p>
@@ -1780,7 +2740,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "cwnd=1 시작·지수 증가=Slow Start".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>TCP 혼잡 제어</strong>: Slow Start(지수)→Congestion Avoidance(선형, AIMD)→손실 감지 시 Fast Retransmit(3중복ACK)·Fast Recovery(cwnd 반감 후 재개), 타임아웃 시 cwnd=1.</p>
+<p><strong>혼잡 vs 흐름 제어</strong>: 혼잡=네트워크 보호(cwnd), 흐름=수신자 보호(rwnd). 실제 전송량=min(cwnd,rwnd).</p>
+<p><strong>변형</strong>: Reno·Cubic·BBR.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>TCP 혼잡 제어를 이해한다. Slow Start에서 cwnd=1로 시작해 ACK마다 지수 증가한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'cwnd=1 시작·지수 증가=Slow Start'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1831,8 +2798,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 네트워크 - IPv6</li>
+<li><strong>관련 페이지</strong>: IPv6</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: IPv6 확장헤더 문항</li>
+<li><strong>재출제 경향</strong>: IPv6·주소체계 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(IPv6)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>기본헤더: Hop Limit 등</li>
+<li>확장헤더: Fragment/AH/ESP/Dest</li>
+<li>Hop Limit=TTL 대응</li>
+<li>Next Header 체인</li>
+<li>Hop-by-Hop</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Hop Limit</strong> 은 IPv6 <strong>기본(고정) 헤더의 필드</strong>(IPv4의 TTL에 해당)로, 확장헤더가 아니다. 반면 Fragmentation(단편화), Destination Options(목적지 옵션), ESP(암호화 보안 페이로드)는 모두 IPv6 <strong>확장헤더</strong>에 속한다. 따라서 확장헤더로 적절하지 않은 것은 ④이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Hop Limit</strong> 은 IPv6 <strong>기본(고정) 헤더의 필드</strong>(IPv4의 TTL에 해당)로, 확장헤더가 아니다. 반면 Fragmentation(단편화), Destination Options(목적지 옵션), ESP(암호화 보안 페이로드)는 모두 IPv6 <strong>확장헤더</strong>에 속한다. 따라서 확장헤더로 적절하지 않은 것은 ④이다.<br />
+ Hop Limit은 IPv6 기본(고정) 헤더의 필드(IPv4 TTL 대응)로 확장헤더가 아니므로 ④가 정답이다. Fragmentation·Destination Options·ESP는 모두 IPv6 확장헤더에 속한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>Fragment 확장헤더는 단편화 정보를 담는다.</p>
@@ -1850,7 +2856,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "Hop Limit=기본헤더 필드(확장헤더 아님)".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>IPv6 기본헤더 필드</strong>: Version·Traffic Class·Flow Label·Payload Length·Next Header·Hop Limit·송수신 주소(40바이트 고정).</p>
+<p><strong>확장헤더</strong>: Hop-by-Hop Options·Routing·Fragment·AH·ESP·Destination Options(Next Header 체인).</p>
+<p><strong>IPv6 특징</strong>: 128비트 주소·헤더 단순화·단편화는 송신자만·IPsec 통합·자동구성(SLAAC).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>IPv6 헤더를 이해한다. Hop Limit은 기본 헤더 필드이고, Fragment·ESP·Destination은 확장 헤더다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'Hop Limit=기본헤더 필드(확장헤더 아님)'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1900,11 +2913,50 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 통신 이론 - 채널용량</li>
+<li><strong>관련 페이지</strong>: 정보이론</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 섀넌 용량 문항</li>
+<li><strong>재출제 경향</strong>: 채널용량·정보이론 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(섀넌)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>C=B·log2(1+SNR)</li>
+<li>3000·log2(32)=15000</li>
+<li>log2(32)=5</li>
+<li>나이퀴스트=2B·log2(M)</li>
+<li>SNR 순수비율</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>섀넌 채널 용량: <strong>C = B · log₂(1 + S/N)</strong>.<br />
 - B = 3000Hz, S/N = 31<br />
 - C = 3000 · log₂(1 + 31) = 3000 · log₂(32) = 3000 · 5 = <strong>15000 bps</strong></p>
-<p>따라서 정답은 ① 15000 bps이다.</p>
+<p>따라서 정답은 ① 15000 bps이다.<br />
+ 섀넌 채널 용량 C=B·log2(1+S/N)에 B=3000, S/N=31을 대입하면 3000·log2(32)=3000·5=15000bps이므로 ①이 정답이다. log2(32)=5임을 정확히 계산하는 것이 핵심이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③④</h3>
 <p>log₂(32)=5를 다른 값으로 오산하거나(예: log₂ 대신 다른 밑) 대역폭을 잘못 곱한 값들이다. 정확히는 3000×5=15000.</p>
@@ -1918,7 +2970,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: log₂(1+SNR) 계산, log₂(32)=5.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>용량 공식</strong>: 섀넌 C=B·log2(1+SNR)(잡음 채널 이론 한계), 나이퀴스트 C=2B·log2(M)(무잡음, M진 심볼).</p>
+<p><strong>SNR 단위</strong>: dB=10log10(S/N). 문제는 순수비율(31)로 제시.</p>
+<p><strong>시험 관점</strong>: 대역폭·SNR 대입과 로그 계산(log2(32)=5)에 유의한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>채널 용량을 섀넌 정리로 산정한다. C=B·log2(1+SNR)로 이론적 최대 전송률을 계산한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>log2(1+SNR) 계산, log2(32)=5.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1968,12 +3027,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: AI - LLM 미세조정</li>
+<li><strong>관련 페이지</strong>: LLM/PEFT</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: LLM 미세조정 문항</li>
+<li><strong>재출제 경향</strong>: AI·LLM 유형으로 확대</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 신규 출제(LLM)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>LoRA=저랭크 행렬만 학습</li>
+<li>가중치 동결(PEFT)</li>
+<li>RLHF=정렬(강화학습)</li>
+<li>RAG=검색 결합</li>
+<li>Few-shot=프롬프트</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>LoRA(Low-Rank Adaptation)</strong> 는 사전학습 모델의 가중치는 <strong>동결(그대로 유지)</strong> 하고, 각 층에 <strong>저랭크(low-rank) 행렬</strong>을 추가해 그 작은 파라미터만 학습하는 <strong>파라미터 효율적 미세조정(PEFT)</strong> 기법이다. 설명과 일치하므로 정답은 ②이다.</p>
 <ul>
 <li>RLHF: 사람 피드백 기반 강화학습 정렬.</li>
 <li>RAG: 외부 지식 검색을 결합한 생성.</li>
-<li>Few-shot Prompting: 예시를 프롬프트에 제공(학습 아님).</li>
+<li>Few-shot Prompting: 예시를 프롬프트에 제공(학습 아님).<br />
+ LoRA는 사전학습 모델의 가중치를 동결하고 각 층에 저랭크 행렬을 추가해 그 작은 파라미터만 학습하는 파라미터 효율적 미세조정(PEFT)이므로 ②가 정답이다. RLHF(정렬), RAG(검색 결합), Few-shot Prompting(프롬프트)과 구분된다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -1992,7 +3090,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "구조 유지·소수 파라미터 학습=LoRA".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>PEFT 기법</strong>: LoRA·QLoRA(저랭크), Adapter, Prefix/Prompt/P-Tuning. 전체 미세조정 대비 저장·연산 비용을 크게 절감하고 어댑터 교체로 다중 태스크를 지원.</p>
+<p><strong>LLM 활용 기법</strong>: 프롬프트 엔지니어링, Few-shot/CoT, RAG(외부지식), 파인튜닝, RLHF/DPO(정렬).</p>
+<p><strong>시험 관점</strong>: '구조 유지·소수 파라미터 학습=LoRA'.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>대규모 모델을 효율적으로 미세조정한다. LoRA는 가중치를 동결하고 저랭크 행렬만 학습한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'구조 유지·소수 파라미터 학습=LoRA'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -2043,12 +3148,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 시스템구조 강의자료</li>
+<li><strong>관련 챕터</strong>: 가상화 - 컨테이너/VM</li>
+<li><strong>관련 페이지</strong>: 가상화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 컨테이너 vs VM 문항</li>
+<li><strong>재출제 경향</strong>: 가상화·클라우드 유형으로 확대</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(가상화)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>컨테이너=커널 공유</li>
+<li>경량·빠른 기동</li>
+<li>VM=하이퍼바이저+게스트OS</li>
+<li>VM=강한 격리</li>
+<li>컨테이너 런타임</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>컨테이너</strong> 는 호스트 OS의 커널을 공유하고 애플리케이션과 의존성만 격리하므로, 게스트 OS 전체를 부팅하는 <strong>가상 머신보다 오버헤드가 적고 시작 속도가 매우 빠르다</strong>. 따라서 정답은 ④이다.</p>
 <p>나머지는 반대로 서술되어 틀리다:<br />
 - ①: 하드웨어 수준 가상화·강한 격리는 오히려 VM 쪽이다(컨테이너는 커널 공유로 격리 수준이 상대적으로 낮음).<br />
 - ②: 하이퍼바이저는 <strong>VM</strong>에 필요하다(컨테이너는 컨테이너 런타임 사용).<br />
-- ③: 커널을 <strong>공유</strong>하는 것은 컨테이너이고, VM이 독립 커널(게스트 OS)을 가진다(서술이 반대).</p>
+- ③: 커널을 <strong>공유</strong>하는 것은 컨테이너이고, VM이 독립 커널(게스트 OS)을 가진다(서술이 반대).<br />
+ 컨테이너는 호스트 OS 커널을 공유하고 앱과 의존성만 격리하므로 게스트 OS 전체를 부팅하는 VM보다 오버헤드가 적고 시작 속도가 매우 빨라 ④가 정답이다. ①③은 하드웨어 가상화·커널 공유 주체를, ②는 하이퍼바이저 필요 주체를 반대로 서술했다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>하드웨어 가상화·강한 격리는 VM의 특징이다.</p>
@@ -2086,6 +3230,13 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "컨테이너=커널 공유·경량·빠름, VM=하이퍼바이저·게스트OS".</li>
 </ul>
+<p><strong>가상화 계층</strong>: VM=하이퍼바이저(Type1 베어메탈·Type2 호스티드)+게스트 OS(강한 격리·무거움), 컨테이너=컨테이너 런타임(Docker)+커널 공유(경량·빠름·이식성).</p>
+<p><strong>오케스트레이션</strong>: Kubernetes로 컨테이너 배포·스케일·복구를 자동화.</p>
+<p><strong>트레이드오프</strong>: 컨테이너는 밀도·기동성↑, VM은 격리·보안 경계↑. 용도에 따라 병행한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>컨테이너와 VM을 비교해 배포를 설계한다. 컨테이너는 커널 공유로 경량·빠르고, VM은 하이퍼바이저·게스트OS로 강한 격리를 제공한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'컨테이너=커널 공유·경량·빠름, VM=하이퍼바이저·게스트OS'.</p>
 <hr /></div></div></div></div>
       </div>
     </div>

@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -192,7 +193,7 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
-<h2>---</h2></div></div>
+<hr /></div></div>
     </div>
 
     <div class="question-view" data-num="26" style="display:none;">
@@ -247,6 +248,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 강의자료 / 기능점수(FP)</li>
+<li><strong>관련 챕터</strong>: SW 규모 산정 - FP</li>
+<li><strong>관련 페이지</strong>: SE 규모산정</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 기능점수 ILF/EIF 식별 문항</li>
+<li><strong>재출제 경향</strong>: FP 데이터/트랜잭션 기능 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(FP)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>ILF=본 시스템 유지·갱신</li>
+<li>EIF=외부 유지, 본 시스템 조회만</li>
+<li>트랜잭션 기능: EI·EO·EQ</li>
+<li>조회만 하면 EIF</li>
+<li>외부 참조 개수 정확히 계상</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>기능점수(FP)의 <strong>데이터 기능</strong>은 애플리케이션이 직접 유지·갱신하는 <strong>내부논리파일(ILF)</strong> 과, 외부 애플리케이션이 유지하고 본 시스템은 <strong>참조(조회)만</strong> 하는 <strong>외부연계파일(EIF)</strong> 로 구분한다.</p>
 <ul>
@@ -254,7 +293,8 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>인사시스템의 직원 정보</strong>: 외부(인사시스템)가 유지, 본 시스템은 조회만 → <strong>EIF 1개</strong></li>
 <li><strong>회계시스템의 예산 데이터</strong>: 외부(회계시스템)가 유지, 본 시스템은 조회만 → <strong>EIF 1개</strong></li>
 </ul>
-<p>따라서 ILF 1개, <strong>EIF 2개</strong>로 정답은 ②이다.</p>
+<p>따라서 ILF 1개, <strong>EIF 2개</strong>로 정답은 ②이다.<br />
+ 민원 신청 정보는 본 시스템이 저장·갱신·수정하며 유지하므로 ILF 1개이고, 인사시스템의 직원 정보와 회계시스템의 예산 데이터는 각각 외부 시스템이 유지하고 본 시스템은 조회만 하므로 EIF 2개이다. '유지·갱신 여부'가 ILF/EIF를 가르는 핵심 기준이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>EIF를 1개로 본 것으로, 인사·회계 두 외부 파일을 하나로 잘못 합산했다.</p>
@@ -285,7 +325,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "유지·갱신 여부"가 ILF/EIF 판별 기준. 조회만 하면 EIF.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>FP 산정 흐름</strong>: 데이터 기능(ILF·EIF)과 트랜잭션 기능(EI 외부입력·EO 외부출력·EQ 외부조회)의 복잡도(DET·RET/FTR)를 판정해 미조정 FP(UFP)를 구하고, 14개 일반시스템특성(GSC)으로 조정한다.</p>
+<p><strong>ILF vs EIF</strong>: 둘 다 논리적 데이터 그룹이나, 유지 주체가 본 시스템이면 ILF, 외부면 EIF.</p>
+<p><strong>장점</strong>: 구현 기술과 무관한 규모 측정으로 초기 견적·생산성 비교에 유리하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>규모 산정 시 데이터 기능을 ILF(내부 유지)와 EIF(외부 참조)로 식별해 FP를 계상한다. 인사·회계 등 타 시스템 조회 데이터는 EIF로 산정한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'유지·갱신=ILF, 조회만=EIF' 판별이 핵심. 외부 참조 대상 개수를 정확히 센다.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -337,12 +384,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 디자인 패턴</li>
+<li><strong>관련 챕터</strong>: Part II - 디자인 패턴</li>
+<li><strong>관련 페이지</strong>: SE05 디자인 패턴</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: MVC 구성 패턴 문항</li>
+<li><strong>재출제 경향</strong>: GoF 패턴·MVC 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(패턴)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>MVC=Observer+Strategy+Composite</li>
+<li>Observer=모델→뷰 통지</li>
+<li>Strategy=입력 처리 전략</li>
+<li>Composite=뷰 트리</li>
+<li>CoR은 MVC 정의 패턴 아님</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>전통적 MVC는 여러 GoF 패턴의 조합으로 설명된다.<br />
 - <strong>Observer</strong>: 모델의 상태 변화가 뷰에 통지되어 갱신되는 구조(모델-뷰 관계)<br />
 - <strong>Strategy</strong>: 뷰가 컨트롤러를 교체 가능한 전략처럼 사용(입력 처리 정책 교체)<br />
 - <strong>Composite</strong>: 뷰가 하위 뷰(위젯)들을 트리로 구성하는 계층 구조</p>
-<p><strong>Chain of Responsibility(책임 연쇄)</strong> 는 요청을 처리 객체들의 사슬을 따라 전달하는 패턴으로, MVC의 핵심 상호작용을 설명하는 표준 패턴 조합에는 포함되지 않는다. 따라서 가장 적절하지 않은 것은 ④번이다.</p>
+<p><strong>Chain of Responsibility(책임 연쇄)</strong> 는 요청을 처리 객체들의 사슬을 따라 전달하는 패턴으로, MVC의 핵심 상호작용을 설명하는 표준 패턴 조합에는 포함되지 않는다. 따라서 가장 적절하지 않은 것은 ④번이다.<br />
+ 전통적 MVC는 Observer(모델의 상태 변화를 뷰에 통지), Strategy(뷰가 컨트롤러를 교체 가능한 전략처럼 사용), Composite(뷰가 하위 뷰를 트리로 구성)의 조합으로 설명된다. Chain of Responsibility는 요청을 처리 객체 사슬로 전달하는 패턴으로 MVC의 정의 패턴 조합에 포함되지 않는다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>Strategy는 뷰-컨트롤러 관계(입력 처리 전략 교체)로 MVC에서 사용된다.</p>
@@ -360,7 +446,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "MVC 구성 패턴 3종(Observer·Strategy·Composite)"을 기억하고 나머지를 고른다.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>GoF 패턴 분류</strong>: 생성(Factory·Singleton·Builder…), 구조(Adapter·Proxy·Composite·Decorator…), 행위(Observer·Strategy·State·Command·CoR…).</p>
+<p><strong>MVC 구성</strong>: Observer=모델-뷰 통지, Strategy=입력 처리 정책 교체, Composite=뷰 계층.</p>
+<p><strong>CoR</strong>: 이벤트 핸들링·미들웨어 파이프라인 등에 쓰이나 MVC 3요소 상호작용의 핵심 패턴은 아니다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>MVC 프레임워크는 Observer(모델→뷰 통지)·Strategy(뷰-컨트롤러)·Composite(뷰 계층)의 조합으로 구현된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'MVC 구성 패턴 3종(Observer·Strategy·Composite)'을 기억하고 나머지를 고른다.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -413,9 +506,48 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / UML·디자인 패턴</li>
+<li><strong>관련 챕터</strong>: Part II - UML·패턴</li>
+<li><strong>관련 페이지</strong>: SE04·SE05</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: UML 관계 표기·패턴 문항</li>
+<li><strong>재출제 경향</strong>: UML 표기·GoF 패턴 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(UML 표기)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>일반화=실선+빈삼각형</li>
+<li>실현=점선+빈삼각형</li>
+<li>연관=실선 화살표</li>
+<li>의존=점선 화살표</li>
+<li>Proxy: 실현(점선)+연관(실선)</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>코드에서 <strong>RealSubject와 Proxy는 Subject 인터페이스를 implements(구현)</strong> 한다. UML에서 인터페이스 구현(실현, Realization)은 <strong>점선 + 속이 빈 삼각형 화살표</strong>로 표기한다. 또한 <strong>Proxy는 private RealSubject 필드를 보유(-realSubject)</strong> 하므로 Proxy→RealSubject는 <strong>연관(Association)</strong> 이며 <strong>실선 화살표</strong>로 표기한다.</p>
-<p>따라서 두 implements를 점선 삼각형(실현)으로, Proxy→RealSubject를 실선 연관(-realSubject)으로 표현한 ③이 가장 적절하다. 실현을 실선으로 그리거나(①) 연관을 점선으로 그린(②④) 것은 UML 표기 규칙에 어긋난다.</p>
+<p>따라서 두 implements를 점선 삼각형(실현)으로, Proxy→RealSubject를 실선 연관(-realSubject)으로 표현한 ③이 가장 적절하다. 실현을 실선으로 그리거나(①) 연관을 점선으로 그린(②④) 것은 UML 표기 규칙에 어긋난다.<br />
+ 코드에서 RealSubject·Proxy는 Subject 인터페이스를 구현(실현)하므로 점선+빈 삼각형으로, Proxy는 private RealSubject 필드를 보유(-realSubject)하므로 실선 연관으로 그린다. 실현을 실선으로(①) 또는 연관을 점선으로(②④) 그린 것은 UML 표기 규칙에 어긋난다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>implements(실현)를 실선 삼각형으로 표기 → 실현은 점선이어야 하므로 오답(실선 삼각형은 상속/일반화).</p>
@@ -459,7 +591,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "실현=점선+빈삼각형 / 연관=실선"을 정확히 구분해야 오답 함정(선 종류 바꿔치기)을 피한다.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>UML 관계 표기</strong>: 일반화=실선+빈삼각형, 실현=점선+빈삼각형, 연관=실선 화살표, 의존=점선 화살표, 집약=속 빈 마름모, 합성=채운 마름모.</p>
+<p><strong>Proxy 패턴</strong>: 실제 객체 접근을 대리 제어(가상·보호·원격 프록시). 구조가 Decorator·Adapter와 유사해 혼동을 유발한다.</p>
+<p><strong>시험 관점</strong>: 선 종류(실선/점선)·화살표 머리(삼각/열림)를 바꾼 보기를 가려낸다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>Proxy 패턴을 UML로 표현할 때 인터페이스 구현은 점선+빈 삼각형(실현), 필드 보유는 실선 연관으로 그린다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'실현=점선+빈삼각형 / 연관=실선' 구분. 선 종류를 바꾼 함정을 가려낸다.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -510,10 +649,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / SW 프로세스</li>
+<li><strong>관련 챕터</strong>: Part I - 프로세스·품질</li>
+<li><strong>관련 페이지</strong>: SE 프로세스</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: CMMI 성숙도 단계 문항</li>
+<li><strong>재출제 경향</strong>: CMMI·SPICE 성숙도 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(CMMI)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>L1 초기 L2 관리 L3 정의 L4 정량 L5 최적화</li>
+<li>L4=통계적 공정관리</li>
+<li>L5=지속 개선·혁신</li>
+<li>L2=프로젝트 관리</li>
+<li>L3=조직 표준 프로세스</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>CMMI 성숙도 5단계는 <strong>① 초기(Initial) → ② 관리(Managed) → ③ 정의(Defined) → ④ 정량적 관리(Quantitatively Managed) → ⑤ 최적화(Optimizing)</strong> 이다.</p>
 <p><strong>Level 4(정량적 관리)</strong> 는 프로세스 성능을 <strong>정량적으로 측정하고 통계적 기법(통계적 공정관리)</strong> 으로 예측·관리하는 단계이다. 따라서 ①이 정답이다.</p>
-<p>②는 Level 2(관리), ③은 Level 3(정의), ④는 Level 5(최적화)의 특징이다.</p>
+<p>②는 Level 2(관리), ③은 Level 3(정의), ④는 Level 5(최적화)의 특징이다.<br />
+ CMMI 5단계는 초기-관리-정의-정량적관리-최적화이다. Level 4(정량적 관리)는 프로세스 성능을 정량 측정하고 통계적 기법(SPC)으로 예측·관리하며, Level 5(최적화)는 지속적 개선·혁신을 수행한다. 보기 ②는 L2, ③은 L3, ④는 L5의 특징이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
 <p>"프로젝트 관리가 기본적으로 수행" = Level 2(Managed).</p>
@@ -561,7 +739,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "정량적/통계적 = L4", "최적화/혁신 = L5"를 헷갈리지 말 것.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>CMMI 표현</strong>: 단계적(Staged, 성숙도 레벨 1~5)과 연속적(Continuous, 프로세스 영역별 능력도).</p>
+<p><strong>레벨 요지</strong>: L2 프로젝트 관리, L3 조직 표준 프로세스·정의, L4 통계적 관리(정량), L5 지속 개선.</p>
+<p><strong>SPICE(ISO/IEC 15504)와 비교</strong>: 능력수준 0~5로 프로세스 능력을 평가한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>조직은 CMMI로 프로세스 성숙도를 평가·개선한다. Level 4에서 프로세스 성능을 정량 측정·통계 관리하고, Level 5에서 지속 개선한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'정량적/통계적=L4', '최적화/혁신=L5'를 헷갈리지 않는다.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -612,6 +797,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 신뢰성·가용성</li>
+<li><strong>관련 챕터</strong>: 품질 - 신뢰성</li>
+<li><strong>관련 페이지</strong>: SE 품질</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 가용성 계산 문항</li>
+<li><strong>재출제 경향</strong>: 신뢰성/가용성 계산 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(가용성)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>A=MTTF/(MTTF+MTTR)</li>
+<li>MTBF=MTTF+MTTR</li>
+<li>MTTF=MTBF−MTTR</li>
+<li>예: MTBF5,MTTR2→3/5=0.6</li>
+<li>신뢰성↑·정비성↑=가용성↑</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>가용성(Availability)은 전체 시간 중 정상 가동 시간의 비율로, <strong>A = MTTF / (MTTF + MTTR)</strong> 로 정의된다. 여기서 <strong>MTBF = MTTF + MTTR</strong>(고장 간 평균시간 = 평균 가동시간 + 평균 수리시간)이다.</p>
 <ul>
@@ -620,7 +843,8 @@ strong { color:#0f172a; font-weight:700; }
 </ul>
 <p>따라서 정답은 ③ 0.6이다.</p>
 <blockquote>
-<p>※ MTBF를 "가동시간"으로 오해해 5/(5+2)=0.71로 계산하면 함정이다. 표준 정의상 MTBF는 MTTF와 MTTR을 포함한다.</p>
+<p>※ MTBF를 "가동시간"으로 오해해 5/(5+2)=0.71로 계산하면 함정이다. 표준 정의상 MTBF는 MTTF와 MTTR을 포함한다.<br />
+ 가용성은 A=MTTF/(MTTF+MTTR)이며 MTBF=MTTF+MTTR이다. MTBF=5, MTTR=2이면 MTTF=5−2=3, A=3/5=0.6이다. MTBF를 가동시간으로 오해해 5/(5+2)=0.71로 계산하면 함정에 빠진다.</p>
 </blockquote>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②·④</h3>
@@ -635,7 +859,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: MTBF·MTTF·MTTR의 관계(MTBF=MTTF+MTTR)를 정확히 적용.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>신뢰성 지표</strong>: MTTF(평균 고장까지 시간, 비수리계), MTBF(평균 고장 간격=MTTF+MTTR, 수리계), MTTR(평균 수리시간).</p>
+<p><strong>가용성 향상</strong>: 신뢰성↑(MTTF↑)·정비성↑(MTTR↓)·이중화(Fault Tolerance).</p>
+<p><strong>가용성 등급</strong>: 99%(3.65일/년 다운) → 99.999%('five nines', 5.26분/년) 등으로 SLA를 정의한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>가용성은 MTTF/(MTTF+MTTR)로 산정한다. MTBF=MTTF+MTTR 정의를 적용해 신뢰성·정비성을 관리한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>MTBF·MTTF·MTTR 관계(MTBF=MTTF+MTTR) 정확 적용. 5/(5+2) 오산 주의.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -687,10 +918,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / UML 동적 모델</li>
+<li><strong>관련 챕터</strong>: Part II - UML</li>
+<li><strong>관련 페이지</strong>: SE04 디자인·UML</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 상호작용 프래그먼트 문항</li>
+<li><strong>재출제 경향</strong>: 시퀀스/상태 다이어그램 해석 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(UML 동적)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>break=조건 시 내부 실행 후 탈출</li>
+<li>alt=택1, opt=선택</li>
+<li>loop=반복, par=병행</li>
+<li>조건 거짓 시 건너뜀</li>
+<li>흐름 추적으로 판별</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>UML 상호작용의 <strong>break 프래그먼트</strong>는 "조건이 참이면 break 내부를 실행하고 <strong>그것을 감싼 상위 프래그먼트의 나머지 흐름을 중단(탈출)</strong>"하는 의미를 가진다. 조건이 거짓이면 break 내부를 건너뛰고 나머지를 정상 진행한다.</p>
 <p>적법한 하나의 실행 흐름(trace) 예로 <strong>② a → d → f</strong> 가 성립한다: a 수행 후, 첫 break(z&gt;3)의 조건이 거짓이어서 b·c를 건너뛰고 d를 수행, 이어 두 번째 break(w==2)의 조건이 참이 되어 f(브레이크 내부)를 수행하고 종료하는 흐름이다. 따라서 정답은 ②이다.</p>
-<p>④(a→b→c→d→e→f)처럼 break 내부와 이후 흐름이 모두 실행되는 것은 break 의미(탈출)에 어긋나며, ①·③도 프래그먼트 구조상 성립하지 않는 조합이다.</p>
+<p>④(a→b→c→d→e→f)처럼 break 내부와 이후 흐름이 모두 실행되는 것은 break 의미(탈출)에 어긋나며, ①·③도 프래그먼트 구조상 성립하지 않는 조합이다.<br />
+ break 프래그먼트는 조건이 참이면 내부를 실행하고 그것을 감싼 상위 프래그먼트의 나머지 흐름을 중단(탈출)한다. a 수행 후 첫 break(z&gt;3) 조건이 거짓이어서 b·c를 건너뛰고 d를 수행, 이어 두 번째 break(w==2)가 참이 되어 f를 수행하고 종료하는 흐름이 ② a→d→f로 성립한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>a 이후 곧바로 f로 가려면 중간 프래그먼트 구조를 건너뛰어야 하는데, 이는 제시된 프래그먼트 경계와 맞지 않는다.</p>
@@ -701,7 +971,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: break = "실행 후 상위 프래그먼트 탈출"이라는 의미를 흐름 추적에 적용.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>결합 프래그먼트</strong>: alt(조건별 택1), opt(단일 선택), loop(반복), par(병행), break(조건 시 탈출), seq/strict(순서), critical(원자적).</p>
+<p><strong>break 의미</strong>: '실행 후 상위 프래그먼트 종료'. 조건 거짓이면 내부를 건너뛰고 정상 진행.</p>
+<p><strong>시험 관점</strong>: break 내부와 이후 메시지가 모두 실행되는 조합은 성립하지 않는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>시퀀스 다이어그램의 break 프래그먼트는 조건 성립 시 내부 실행 후 상위 프래그먼트를 탈출한다는 의미로 해석한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>break='실행 후 상위 프래그먼트 탈출' 의미를 흐름 추적에 적용. alt/opt/loop/par와 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -752,9 +1029,48 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / SW 설계</li>
+<li><strong>관련 챕터</strong>: Part I - SW 설계 원리</li>
+<li><strong>관련 페이지</strong>: SE01·SE06</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 응집도·결합도·정보은닉 문항</li>
+<li><strong>재출제 경향</strong>: 모듈화 원리 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(모듈화)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>응집도 높을수록 좋음(기능적&gt;…&gt;우연적)</li>
+<li>결합도 낮을수록 좋음(자료&lt;…&lt;내용)</li>
+<li>정보은닉=변경 가능 결정 은닉</li>
+<li>유지보수성↑ 방향</li>
+<li>반대 방향 보기 배제</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>유지보수성·확장성이 좋은 모듈 설계의 원칙은 <strong>응집도는 높이고(각 모듈이 하나의 기능에 집중), 결합도는 낮추며(모듈 간 의존 최소화), 정보은닉을 강화(내부 구현 은닉)</strong> 하는 것이다.</p>
-<p>문제의 요구("의존관계 최소화 = 결합도↓, 하나의 기능 중심 = 응집도↑, 내부 구현 비노출 = 정보은닉↑")에 정확히 대응하는 조합은 ② 응집도 증가 - 결합도 감소 - 정보은닉 강화이다.</p>
+<p>문제의 요구("의존관계 최소화 = 결합도↓, 하나의 기능 중심 = 응집도↑, 내부 구현 비노출 = 정보은닉↑")에 정확히 대응하는 조합은 ② 응집도 증가 - 결합도 감소 - 정보은닉 강화이다.<br />
+ 문제 요구('의존 최소화=결합도↓, 하나의 기능 중심=응집도↑, 내부 구현 비노출=정보은닉↑')는 좋은 모듈 설계의 3원칙과 정확히 대응하므로 ②(응집도 증가-결합도 감소-정보은닉 강화)가 정답이다. 나머지는 결합도 증가·응집도 감소가 포함되어 부적절하다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>"응집도 감소·결합도 증가"는 좋은 설계와 정반대 방향이다.</p>
@@ -773,7 +1089,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "응집↑·결합↓·은닉↑"이 좋은 설계의 3원칙.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>응집도(높을수록 좋음)</strong>: 기능적&gt;순차적&gt;교환적&gt;절차적&gt;시간적&gt;논리적&gt;우연적.</p>
+<p><strong>결합도(낮을수록 좋음)</strong>: 자료&lt;스탬프&lt;제어&lt;외부&lt;공통&lt;내용.</p>
+<p><strong>정보은닉·추상화</strong>: 변경 가능성이 큰 설계 결정을 모듈 내부에 숨겨 변경 파급을 최소화한다. 응집↑·결합↓·은닉↑가 유지보수성·재사용성을 높인다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>유지보수성·확장성 향상을 위해 응집도는 높이고 결합도는 낮추며 정보은닉을 강화하는 방향으로 설계를 개선한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'응집↑·결합↓·은닉↑'이 좋은 설계 3원칙. 반대 방향 보기를 배제한다.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -826,13 +1149,52 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 객체지향·UML</li>
+<li><strong>관련 챕터</strong>: Part II - 디자인·UML</li>
+<li><strong>관련 페이지</strong>: SE04</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: OO 개념(오버로딩/오버라이딩/상속) 문항</li>
+<li><strong>재출제 경향</strong>: 객체지향 개념 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(OO 개념)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>오버로딩=같은 이름·다른 시그니처</li>
+<li>오버라이딩=상속 재정의(런타임)</li>
+<li>상속=일반화(빈삼각형)</li>
+<li>집약=부분-전체(마름모)</li>
+<li>다형성=오버라이딩 기반</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>Overloading(중복)</strong>: ClassA가 <code>ClassA()</code>와 <code>ClassA(int)</code> 두 생성자를 가짐 = 같은 이름·다른 매개변수 → 오버로딩.</li>
 <li><strong>Inheritance(상속)</strong>: ClassB, ClassC가 ClassA를 상속.</li>
 <li><strong>Overriding(재정의)</strong>: 자식 클래스가 부모의 <code>draw()</code>를 각자 재정의.</li>
 </ul>
-<p>세 개념이 모두 유추되므로 ①이 정답이다. Aggregation(집약)은 "부분-전체" 연관 관계인데 다이어그램은 상속만 있으므로 해당하지 않는다(②③ 오답). Polymorphism은 유추 가능하나 ④에는 Aggregation이 포함되어 부적절하다.</p>
+<p>세 개념이 모두 유추되므로 ①이 정답이다. Aggregation(집약)은 "부분-전체" 연관 관계인데 다이어그램은 상속만 있으므로 해당하지 않는다(②③ 오답). Polymorphism은 유추 가능하나 ④에는 Aggregation이 포함되어 부적절하다.<br />
+ ClassA가 ClassA()·ClassA(int) 두 생성자를 가지므로 오버로딩, ClassB·ClassC가 ClassA를 상속하므로 상속, 자식이 부모의 draw()를 재정의하므로 오버라이딩이 모두 유추된다. 집약(부분-전체)은 다이어그램에 없으므로 이를 포함한 ②③은 오답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③</h3>
 <p>Aggregation(집약)을 포함하나, 다이어그램에는 부분-전체 연관이 없고 일반화(상속)만 있으므로 오답이다.</p>
@@ -848,7 +1210,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 생성자 2개(오버로딩) + 상속 + draw() 재정의(오버라이딩) 조합을 인식.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>오버로딩 vs 오버라이딩</strong>: 오버로딩=같은 이름·다른 시그니처(컴파일타임 정적 바인딩), 오버라이딩=상속 후 재정의(런타임 동적 바인딩, 다형성).</p>
+<p><strong>연관 vs 집약 vs 합성</strong>: 연관(실선)⊂집약(빈 마름모, 약한 전체-부분)⊂합성(채운 마름모, 생명주기 공유).</p>
+<p><strong>시험 관점</strong>: 다이어그램에 상속만 있으면 집약·합성은 배제한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>클래스 다이어그램에서 생성자 중복(오버로딩), 상속, 메서드 재정의(오버라이딩)를 식별한다. 집약(부분-전체)과 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>생성자 2개(오버로딩)+상속+draw() 재정의(오버라이딩) 조합 인식. 집약은 마름모 표기.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -900,6 +1269,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / UML 상태 모델</li>
+<li><strong>관련 챕터</strong>: Part II - UML</li>
+<li><strong>관련 페이지</strong>: SE04</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 상태 머신 계산 문항</li>
+<li><strong>재출제 경향</strong>: 상태 다이어그램 해석·계산 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(상태머신)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>전이: exit→effect→entry</li>
+<li>복합상태 entry=바깥→안</li>
+<li>복합상태 exit=안→바깥</li>
+<li>entry/exit 순서로 값 변화</li>
+<li>초기 전이 effect 먼저</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>초기 전이에서 x=1로 설정된다. 이후 순서대로 동작을 적용한다.</p>
 <ol>
@@ -911,7 +1318,8 @@ strong { color:#0f172a; font-weight:700; }
    - A.exit: x = x−1 = 5−1 = <strong>4</strong><br />
    - C.entry: x = x<em>2 = 4</em>2 = <strong>8</strong></li>
 </ol>
-<p>최종 x = <strong>8</strong>, 정답 ③.</p>
+<p>최종 x = <strong>8</strong>, 정답 ③.<br />
+ 전이 시 동작은 원 상태 exit→effect→목표 상태 entry 순으로 실행된다. x=1에서 E1로 A·B 진입(A.entry x=2, B.entry x=3), E2로 B·A 이탈 후 C 진입(B.exit x=5, A.exit x=4, C.entry x=8)하여 최종 x=8이다. entry/exit 순서와 복합상태 진입·이탈 순서가 계산의 핵심이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(3)</h3>
 <p>E1까지만 반영(B 진입 후)한 값으로, E2 전이의 exit/entry를 적용하지 않은 오답이다.</p>
@@ -928,7 +1336,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: entry/exit의 실행 순서와 복합상태 진입·이탈 순서를 정확히 적용해야 한다.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>상태 머신 동작</strong>: entry(진입 시), exit(이탈 시), do(상태 유지 중), effect(전이 시). 복합상태는 바깥→안 순 entry, 안→바깥 순 exit.</p>
+<p><strong>의사상태(pseudostate)</strong>: 초기·종료·이력(history)·선택(choice)·병렬(fork/join).</p>
+<p><strong>시험 관점</strong>: exit 누락, entry/exit 순서 오류가 오답을 만든다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>상태 머신 해석 시 전이는 원 상태 exit→effect→목표 상태 entry 순으로 동작을 실행한다. 복합상태는 바깥→안 순 entry, 안→바깥 순 exit.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>entry/exit 실행 순서와 복합상태 진입·이탈 순서를 정확히 적용해 값 계산.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -979,9 +1394,48 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / OO 설계 원칙</li>
+<li><strong>관련 챕터</strong>: Part I - 아키텍처·설계</li>
+<li><strong>관련 페이지</strong>: SE02·SE03</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: SOLID 원칙 문항</li>
+<li><strong>재출제 경향</strong>: SOLID·GRASP 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(SOLID)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>SRP=단일 책임</li>
+<li>OCP=확장 개방·변경 폐쇄</li>
+<li>LSP=치환 가능(자동검출 X)</li>
+<li>ISP=인터페이스 분리</li>
+<li>DIP=추상 의존</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>LSP(리스코프 치환 원칙)</strong> 는 "자식 타입은 부모 타입을 대체(치환)해도 프로그램의 정확성이 유지되어야 한다"는 원칙으로, 일반화(상속) 관계의 적절성을 점검하는 데 쓰인다. 그러나 LSP 위반은 <strong>의미론적·행위적 계약 위반</strong>이어서 <strong>컴파일러가 자동으로 에러를 발생시키지 못한다</strong>(런타임 오류나 논리적 결함으로 나타남). 따라서 "위반하면 컴파일러가 자동으로 에러를 발생"이라고 한 ④가 가장 거리가 멀다.</p>
-<p>①(SRP: 단일 변경 이유), ②(OCP: 확장에는 열려·변경에는 닫힘), ③(DIP: 변화가 적은 추상에 의존)은 모두 옳다.</p>
+<p>①(SRP: 단일 변경 이유), ②(OCP: 확장에는 열려·변경에는 닫힘), ③(DIP: 변화가 적은 추상에 의존)은 모두 옳다.<br />
+ LSP(리스코프 치환 원칙)는 자식 타입이 부모를 대체해도 정확성이 유지되어야 한다는 원칙으로 일반화 관계의 적절성을 점검한다. 그러나 LSP 위반은 의미론적·행위적 계약 위반이라 컴파일러가 자동 검출하지 못하고 런타임 오류·논리 결함으로 나타나므로, '컴파일러가 자동 에러'라고 한 ④가 거리가 멀다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>SRP는 "클래스는 하나의 책임(변경 이유)만"이라는 원칙으로 옳다.</p>
@@ -1023,7 +1477,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "LSP 위반=컴파일러 자동 검출"은 오답. 의미적 위반이라 자동 검출 불가.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>SOLID</strong>: SRP(단일 책임), OCP(확장 개방·변경 폐쇄), LSP(치환 가능), ISP(인터페이스 분리), DIP(추상 의존).</p>
+<p><strong>LSP 위반 예</strong>: 정사각형이 직사각형을 상속해 width/height 불변식을 깨는 경우.</p>
+<p><strong>GRASP·디자인 패턴과 연계</strong>: OCP는 Strategy·Template Method, DIP는 의존성 주입(DI)으로 실현한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>SOLID로 유지보수 가능한 설계를 점검한다. LSP 위반은 의미론적 계약 위반이라 컴파일러가 자동 검출하지 못하고 런타임 결함으로 나타난다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'LSP 위반=컴파일러 자동 검출'은 오답. SRP·OCP·DIP 정의도 함께 정리.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1080,9 +1541,48 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 형상관리</li>
+<li><strong>관련 챕터</strong>: Part II - SW 개발</li>
+<li><strong>관련 페이지</strong>: SE06 SW 개발</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 형상관리 활동 순서 문항</li>
+<li><strong>재출제 경향</strong>: SCM 활동·베이스라인 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(형상관리)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>식별→통제→기록→감사</li>
+<li>식별=형상항목 선정·관계</li>
+<li>통제=변경 평가·승인</li>
+<li>기록=상태 보고</li>
+<li>감사=반영 정확성 검증</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>형상관리(SCM) 활동은 표준적으로 <strong>① 형상 식별(라: 형상항목 선정·관계 정의) → ② 형상 통제/변경관리(다: 변경요청 평가·승인) → ③ 형상 상태 기록·보고(나) → ④ 형상 감사(가: 변경이 정확히 반영됐는지 평가)</strong> 순으로 수행된다.</p>
-<p>따라서 순서는 <strong>라 → 다 → 나 → 가</strong>로 정답은 ④이다.</p>
+<p>따라서 순서는 <strong>라 → 다 → 나 → 가</strong>로 정답은 ④이다.<br />
+ 형상관리는 형상 식별(라)→형상 통제/변경관리(다)→형상 상태 기록·보고(나)→형상 감사(가) 순으로 수행하므로 ④ 라-다-나-가가 정답이다. 베이스라인을 기준으로 변경요청을 평가·승인하고, 변경 반영의 정확성을 감사로 검증한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>"라, 나, 다, 가"는 통제(다)와 상태기록(나)의 순서가 뒤바뀌었다. 변경 통제 후 상태를 기록한다.</p>
@@ -1095,7 +1595,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "식별→통제→기록→감사" 순서 암기.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>형상관리(SCM) 4활동</strong>: 식별(형상항목 선정·관계 정의)→통제(변경 평가·승인, 형상통제위원회 CCB)→상태 기록/보고→감사(기능·물리 감사).</p>
+<p><strong>베이스라인</strong>: 공식 승인된 기준 형상으로, 이후 변경은 통제 절차를 따른다.</p>
+<p><strong>도구</strong>: Git·SVN 등 버전관리로 형상항목의 이력·브랜치를 관리한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>형상관리는 식별→통제(변경관리)→상태기록→감사 순으로 수행하며, 베이스라인을 기준으로 변경을 통제한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'식별→통제→기록→감사' 순서 암기. 순서를 뒤섞은 보기를 배제.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1151,6 +1658,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 버전관리</li>
+<li><strong>관련 챕터</strong>: Part II - SW 개발</li>
+<li><strong>관련 페이지</strong>: SE06</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: Git 명령어 문항</li>
+<li><strong>재출제 경향</strong>: 형상관리 도구(Git/SVN) 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(Git)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>clone=복제</li>
+<li>commit=로컬 기록</li>
+<li>push=원격 반영</li>
+<li>fetch=가져오기만</li>
+<li>pull=fetch+merge</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가. 복제</strong> → <code>clone</code></li>
@@ -1158,7 +1703,8 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>다. 가져오되 merge 안 함</strong> → <code>fetch</code></li>
 <li><strong>라. 가져와서 merge까지</strong> → <code>pull</code> (= fetch + merge)</li>
 </ul>
-<p>따라서 clone, push, fetch, pull 순인 ①이 정답이다. <code>commit</code>은 로컬 스테이징 변경을 로컬 저장소에 기록하는 명령으로, "원격 반영(push)"과 구분된다.</p>
+<p>따라서 clone, push, fetch, pull 순인 ①이 정답이다. <code>commit</code>은 로컬 스테이징 변경을 로컬 저장소에 기록하는 명령으로, "원격 반영(push)"과 구분된다.<br />
+ 가(복제)=clone, 나(로컬 변경을 원격 반영)=push, 다(가져오되 merge 안 함)=fetch, 라(가져와 merge)=pull이므로 ① clone·push·fetch·pull이 정답이다. commit은 로컬 저장소 기록으로 '원격 반영(push)'과 구분되며, pull=fetch+merge이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
 <p>'나(원격 반영)'에 commit을 배치 → commit은 로컬 기록일 뿐 원격 반영이 아니다(push여야 함).</p>
@@ -1174,7 +1720,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "fetch=가져오기만, pull=가져오기+병합" 구분이 핵심.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>Git 영역</strong>: 작업 디렉터리→(add)→스테이징→(commit)→로컬 저장소→(push)→원격 저장소.</p>
+<p><strong>fetch vs pull</strong>: fetch는 원격 변경만 가져와 추적 브랜치 갱신, pull은 fetch+merge(또는 rebase).</p>
+<p><strong>브랜치 전략</strong>: Git Flow, GitHub Flow, 트렁크 기반 개발 등으로 협업 규칙을 정한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>Git 협업 시 clone(복제)·commit(로컬 기록)·push(원격 반영)·fetch(가져오기)·pull(가져오기+병합) 명령을 구분해 사용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'fetch=가져오기만, pull=가져오기+병합', 'commit=로컬, push=원격' 구분이 핵심.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1226,8 +1779,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 리팩토링</li>
+<li><strong>관련 챕터</strong>: Part II - SW 개발</li>
+<li><strong>관련 페이지</strong>: SE06</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 리팩토링 기법 문항</li>
+<li><strong>재출제 경향</strong>: 리팩토링·코드스멜 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(리팩토링)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>타입 분기→다형성 대체</li>
+<li>OCP 향상</li>
+<li>Replace Type Code with Subclass/State</li>
+<li>Inline Method=인라인화</li>
+<li>Factory Method=생성 캡슐화</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>객체의 <strong>타입에 따라 분기하는 조건문(switch/if-else)</strong> 을 <strong>상속 계층과 메서드 재정의(다형성)</strong> 로 대체하여 각 서브클래스가 자신의 동작을 구현하게 하는 리팩토링이 <strong>"Replace Conditional with Polymorphism"</strong> 이다. 그림에서 <code>stop()</code> 내부의 type 분기를 Videoplayer·Musicplayer가 각각 <code>stop()</code>을 재정의하도록 바꾸었으므로 정답은 ③이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>객체의 <strong>타입에 따라 분기하는 조건문(switch/if-else)</strong> 을 <strong>상속 계층과 메서드 재정의(다형성)</strong> 로 대체하여 각 서브클래스가 자신의 동작을 구현하게 하는 리팩토링이 <strong>"Replace Conditional with Polymorphism"</strong> 이다. 그림에서 <code>stop()</code> 내부의 type 분기를 Videoplayer·Musicplayer가 각각 <code>stop()</code>을 재정의하도록 바꾸었으므로 정답은 ③이다.<br />
+ 객체 타입에 따라 분기하는 조건문을 상속 계층과 메서드 재정의(다형성)로 대체하는 리팩토링이 'Replace Conditional with Polymorphism'이다. stop()의 type 분기를 Videoplayer·Musicplayer가 각각 stop()을 재정의하도록 바꾸었으므로 ③이 정답이며, OCP를 향상한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>Inline Method는 단순 메서드를 호출부에 인라인하는 기법으로 무관하다.</p>
@@ -1245,7 +1837,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "타입 분기 → 다형성"이 키워드.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>코드 스멜</strong>: 긴 조건문·switch, 중복 코드, 큰 클래스, 기능 편애 등.</p>
+<p><strong>관련 리팩토링</strong>: Replace Type Code with Subclasses/State/Strategy, Extract Method, Move Method.</p>
+<p><strong>효과</strong>: 타입 추가 시 기존 코드를 수정하지 않고 서브클래스만 추가(OCP). 남용 시 클래스 수 증가의 단점도 있다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>타입 분기 조건문을 다형성(상속·재정의)으로 대체하는 'Replace Conditional with Polymorphism' 리팩토링으로 OCP를 향상한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'타입 분기→다형성'이 키워드. Inline/Encapsulate/Factory Method와 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1296,8 +1895,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 테스트</li>
+<li><strong>관련 챕터</strong>: Part III - 테스트</li>
+<li><strong>관련 페이지</strong>: SE07 테스트·유지관리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 테스트 기법(기호실행) 문항</li>
+<li><strong>재출제 경향</strong>: 테스트 기법·커버리지 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(테스트)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Concolic=Concrete+Symbolic</li>
+<li>경로 조건 반전→새 입력</li>
+<li>예: DART, CUTE</li>
+<li>회귀=변경 후 재검증</li>
+<li>랜덤=무작위 입력</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Concolic Testing</strong> 은 <strong>Concrete(구체 실행) + Symbolic(기호 실행)</strong> 을 결합한 기법으로, 실제 입력으로 프로그램을 실행하는 동시에 경로 조건식을 기호적으로 수집·반전하여 아직 커버되지 않은 경로를 실행할 <strong>새 입력값을 자동 생성</strong>한다. 설명과 정확히 일치하므로 정답은 ③이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>Concolic Testing</strong> 은 <strong>Concrete(구체 실행) + Symbolic(기호 실행)</strong> 을 결합한 기법으로, 실제 입력으로 프로그램을 실행하는 동시에 경로 조건식을 기호적으로 수집·반전하여 아직 커버되지 않은 경로를 실행할 <strong>새 입력값을 자동 생성</strong>한다. 설명과 정확히 일치하므로 정답은 ③이다.<br />
+ Concolic Testing은 Concrete(구체 실행)+Symbolic(기호 실행)을 결합해, 실제 입력으로 실행하면서 경로 조건식을 기호적으로 수집·반전하여 미탐색 경로를 실행할 새 입력을 자동 생성한다. 설명과 정확히 일치하므로 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>Regression Testing은 변경 후 기존 기능 회귀 여부를 확인하는 테스트로, 입력 자동 생성 기법이 아니다.</p>
@@ -1315,7 +1953,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "구체+기호=Concolic, 새 입력 자동 생성"을 기억.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>테스트 기법 계층</strong>: 명세 기반(블랙박스: 동등분할·경계값·결정표), 구조 기반(화이트박스: 문장·분기·조건·경로 커버리지), 경험 기반(탐색적).</p>
+<p><strong>기호실행·Concolic</strong>: 입력을 기호로 두고 경로 제약을 SMT 솔버로 풀어 커버리지를 높인다(DART·CUTE·KLEE).</p>
+<p><strong>시험 관점</strong>: 회귀·부하·랜덤 테스트와 목적을 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>입력 자동 생성 테스트로 Concolic(구체+기호 실행)을 활용해 미탐색 경로의 새 입력을 생성한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'구체+기호=Concolic, 새 입력 자동 생성' 기억. 회귀·부하·랜덤 테스트와 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1366,8 +2011,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 애자일·테스트</li>
+<li><strong>관련 챕터</strong>: Part III - 개발 방법</li>
+<li><strong>관련 페이지</strong>: SE07</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: TDD 절차 문항</li>
+<li><strong>재출제 경향</strong>: 애자일·TDD 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(TDD)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Red=실패 테스트 먼저</li>
+<li>Green=통과 최소 코드</li>
+<li>Refactor=구조 개선</li>
+<li>짧은 주기 반복</li>
+<li>테스트 우선</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>TDD는 <strong>실패하는 테스트를 먼저 작성(Red) → 테스트를 통과하는 최소 코드 작성(Green) → 중복 제거·구조 개선(Refactor)</strong> 의 사이클을 반복한다. 따라서 "테스트 작성 → 코드 작성 → 리팩토링"인 ④가 정답이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>TDD는 <strong>실패하는 테스트를 먼저 작성(Red) → 테스트를 통과하는 최소 코드 작성(Green) → 중복 제거·구조 개선(Refactor)</strong> 의 사이클을 반복한다. 따라서 "테스트 작성 → 코드 작성 → 리팩토링"인 ④가 정답이다.<br />
+ TDD는 실패하는 테스트를 먼저 작성(Red)→통과하는 최소 코드 작성(Green)→중복 제거·구조 개선(Refactor)의 짧은 사이클을 반복한다. '테스트가 항상 먼저'가 핵심이므로 ④ 테스트 작성-코드 작성-리팩토링이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·②</h3>
 <p>테스트를 먼저 작성하지 않고 설계·코드가 앞서므로 TDD 원칙(테스트 우선)에 어긋난다.</p>
@@ -1378,7 +2062,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "테스트가 항상 먼저"가 TDD의 핵심.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>TDD 효과</strong>: 회귀 안전망 확보, 설계 견인(테스트하기 쉬운 구조), 과설계 방지.</p>
+<p><strong>BDD·ATDD</strong>: 행위/인수 기준을 테스트로 표현(Given-When-Then).</p>
+<p><strong>테스트 피라미드</strong>: 단위&gt;통합&gt;E2E 비율로 빠르고 안정적인 검증을 구성한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>TDD로 실패 테스트(Red)→통과 코드(Green)→리팩토링(Refactor) 사이클을 반복해 설계를 견인한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'테스트가 항상 먼저'가 TDD 핵심. Red-Green-Refactor 순서 암기.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1437,6 +2128,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 객체지향</li>
+<li><strong>관련 챕터</strong>: Part II - OO 언어</li>
+<li><strong>관련 페이지</strong>: SE04</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 상속·형변환 컴파일 문항</li>
+<li><strong>재출제 경향</strong>: OO 언어·형변환 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(형변환)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>추상클래스 new 불가</li>
+<li>업캐스팅 항상 안전</li>
+<li>다운캐스팅=명시적 캐스트</li>
+<li>부모객체→자식참조 대입 에러</li>
+<li>인터페이스 new 불가</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>상속 관계는 AType(추상) ← BType ← CType 이다.</p>
 <ul>
@@ -1447,7 +2176,8 @@ strong { color:#0f172a; font-weight:700; }
 <li><strong>마</strong>: <code>BType a5 = new CType()</code> → CType은 BType의 자식, 업캐스팅 정상 (O)</li>
 <li><strong>바</strong>: <code>CType a6 = new BType()</code> → 부모(BType) 객체를 자식(CType) 참조에 직접 대입 불가 → 에러 (X)</li>
 </ul>
-<p>정상 컴파일: <strong>나, 다, 마</strong> → 정답 ②.</p>
+<p>정상 컴파일: <strong>나, 다, 마</strong> → 정답 ②.<br />
+ AType이 추상클래스이므로 new AType()(가)·new AType()을 BType에 대입(라)은 불가하고, CType 객체를 CType 참조에 대입(바, 실제로는 CType a6=new BType()로 부모→자식 대입)도 불가하다. 정상 컴파일은 나(BType=BType), 다(AType=BType 업캐스팅), 마(BType=CType 업캐스팅)로 ②이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>'가'(추상 인스턴스화)가 포함되어 오답.</p>
@@ -1464,7 +2194,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "new 추상클래스=에러", "부모객체를 자식참조 대입=에러".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>형변환 규칙</strong>: 업캐스팅(자식→부모 참조)은 암묵적·항상 안전, 다운캐스팅(부모→자식)은 명시적 캐스트가 필요하며 실제 객체가 자식일 때만 성공(아니면 ClassCastException).</p>
+<p><strong>추상클래스·인터페이스</strong>: 직접 new 불가, 구현/상속한 구체 클래스만 인스턴스화.</p>
+<p><strong>시험 관점</strong>: 'new 추상=에러', '부모객체→자식참조 대입=에러'를 판별한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>상속 계층에서 추상클래스는 인스턴스화 불가, 업캐스팅은 허용, 부모 객체를 자식 참조에 직접 대입은 불가함을 이해해 컴파일 오류를 판별한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'new 추상클래스=에러', '부모객체→자식참조 대입=에러'. 업/다운캐스팅 규칙 정리.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1519,6 +2256,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 제어구조·테스트</li>
+<li><strong>관련 챕터</strong>: Part III - 테스트</li>
+<li><strong>관련 페이지</strong>: SE07</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 코드 동작 비교/결함 문항</li>
+<li><strong>재출제 경향</strong>: 분기 커버리지·결함 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(코드 추적)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>else-if=먼저 참인 조건 채택</li>
+<li>넓은 조건 먼저→죽은 코드</li>
+<li>switch(score/10) 구간 분기</li>
+<li>70~79에서 D vs C 갈림</li>
+<li>경계값 추적</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>printGrade1(else-if)</strong> 은 위에서부터 처음 참인 조건을 채택한다. 조건 순서가 <code>&gt;=90 → &gt;=80 → &gt;=60 → &gt;=70</code> 이므로, <strong>70~79 점수</strong>는 <code>&gt;=60</code>이 먼저 참이 되어 <strong>'D'</strong> 로 판정된다(<code>&gt;=70</code>의 'C'는 도달 불가능한 죽은 코드).</p>
 <p><strong>printGrade2(switch)</strong> 는 <code>score/10</code>으로 분기한다. <strong>79/10 = 7 → case 7 → 'C'</strong>.</p>
@@ -1526,7 +2301,8 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li>95: 둘 다 'A'(동일)</li>
 <li>84: 둘 다 'B'(동일)</li>
-<li>60: printGrade1='D'(&gt;=60), printGrade2=case6→'D'(동일)</li>
+<li>60: printGrade1='D'(&gt;=60), printGrade2=case6→'D'(동일)<br />
+ printGrade1은 조건을 위에서부터 검사하는데 &gt;=60이 &gt;=70보다 앞이라 70~79 점수가 'D'로 판정되고 &gt;=70의 'C'는 죽은 코드가 된다. printGrade2는 switch(score/10)로 79→case7→'C'이다. 따라서 입력 79에서 grade1='D', grade2='C'로 결과가 갈려 ③이 정답이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(95)</h3>
@@ -1545,7 +2321,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 70~79 구간에서 두 구현의 결과가 갈린다는 점을 계산으로 찾아낸다.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>else-if 순서 의존성</strong>: 넓은 범위(&gt;=60)를 좁은 범위(&gt;=70)보다 먼저 검사하면 뒤 조건이 도달 불가능한 죽은 코드가 된다.</p>
+<p><strong>결함 유형</strong>: 경계값 오류·순서 오류·죽은 코드는 분기 커버리지 테스트로 검출한다.</p>
+<p><strong>시험 관점</strong>: 두 구현의 결과가 갈리는 구간(70~79)을 경계값 추적으로 찾는다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>else-if 순서 의존성 버그를 이해한다. 넓은 조건(&gt;=60)을 좁은 조건(&gt;=70)보다 먼저 두면 죽은 코드가 생겨 switch 구현과 결과가 갈린다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>else-if 순서 버그로 70~79 구간이 갈리는 지점을 계산으로 찾는다.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1603,12 +2386,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 애자일</li>
+<li><strong>관련 챕터</strong>: Part III - 개발 방법</li>
+<li><strong>관련 페이지</strong>: SE07</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 애자일/스크럼 실천 문항</li>
+<li><strong>재출제 경향</strong>: 애자일·스크럼 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(애자일)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>고객 온사이트·백로그 우선순위 변경</li>
+<li>사용자 스토리=단일 기능</li>
+<li>플래닝 포커=규모 추정</li>
+<li>스프린트=고정 길이(타임박스)</li>
+<li>속도(velocity) 측정</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>라(부적절)</strong>: <strong>플래닝 포커(Planning Poker)</strong> 는 작업 항목의 <strong>규모·공수를 합의로 추정</strong>하는 기법이지, "팀원에게 작업을 할당"하는 방법이 아니다.</li>
 <li><strong>마(부적절)</strong>: 스프린트 길이는 팀원 능력에 따라 매번 다르게 정하는 것이 아니라, <strong>일정한 길이로 고정(타임박싱, 통상 1~4주)</strong> 하는 것이 좋다. 일정한 리듬이 예측성과 속도(velocity) 측정을 가능하게 한다.</li>
 </ul>
-<p>가(고객 참여·온사이트), 나(백로그 우선순위 변경 가능), 다(사용자 스토리는 단일 기능)는 적절하다. 따라서 부적절한 것은 <strong>라, 마</strong> → 정답 ④.</p>
+<p>가(고객 참여·온사이트), 나(백로그 우선순위 변경 가능), 다(사용자 스토리는 단일 기능)는 적절하다. 따라서 부적절한 것은 <strong>라, 마</strong> → 정답 ④.<br />
+ 플래닝 포커는 작업 항목의 규모·공수를 합의로 추정하는 기법이지 작업 할당 방법이 아니며(라 부적절), 스프린트 길이는 팀 능력에 따라 매번 다르게 하지 않고 고정(타임박스)하는 것이 좋다(마 부적절). 가·나·다는 적절하므로 부적절한 것은 라·마로 ④이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②③</h3>
 <p>'가·나·다'는 애자일의 올바른 실천으로 부적절 항목이 아니다. 이들을 부적절로 포함한 조합은 오답이다.</p>
@@ -1622,7 +2444,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "플래닝 포커=추정(할당 아님)", "스프린트=고정 길이"가 함정 포인트.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>스크럼 5이벤트</strong>: 스프린트, 스프린트 계획, 일일 스크럼, 스프린트 리뷰, 회고.</p>
+<p><strong>추정</strong>: 스토리 포인트(상대 추정), 플래닝 포커(합의), 벨로시티(완료 포인트/스프린트).</p>
+<p><strong>타임박싱</strong>: 스프린트 길이를 고정해 리듬·예측성을 확보한다. XP·칸반과의 차이도 함께 정리한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>애자일(스크럼) 실천을 점검한다. 플래닝 포커는 규모 추정 기법이고, 스프린트 길이는 고정(타임박스)해 속도를 측정한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'플래닝 포커=추정(할당 아님)', '스프린트=고정 길이'가 함정 포인트.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1672,8 +2501,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 아키텍처</li>
+<li><strong>관련 챕터</strong>: Part I - 아키텍처</li>
+<li><strong>관련 페이지</strong>: SE02·SE03</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 아키텍처 스타일 문항</li>
+<li><strong>재출제 경향</strong>: 아키텍처 스타일 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(아키텍처)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>MSA=독립 배포·확장</li>
+<li>장애 격리</li>
+<li>Polyglot(언어·DB 다양)</li>
+<li>Layered=계층 분리</li>
+<li>Monolithic=단일 배포</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>"각 기능이 <strong>독립적으로 배포·확장</strong>되고, <strong>특정 기능 장애가 전체로 전파되지 않으며(장애 격리)</strong>, <strong>서비스별로 다른 기술 스택</strong>을 쓸 수 있다"는 요건은 <strong>마이크로서비스 아키텍처(MSA)</strong> 의 핵심 특성이다. 따라서 정답은 ①이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>"각 기능이 <strong>독립적으로 배포·확장</strong>되고, <strong>특정 기능 장애가 전체로 전파되지 않으며(장애 격리)</strong>, <strong>서비스별로 다른 기술 스택</strong>을 쓸 수 있다"는 요건은 <strong>마이크로서비스 아키텍처(MSA)</strong> 의 핵심 특성이다. 따라서 정답은 ①이다.<br />
+ '각 기능이 독립적으로 배포·확장되고, 특정 기능 장애가 전체로 전파되지 않으며(장애 격리), 서비스별로 다른 기술 스택을 쓸 수 있다'는 요건은 마이크로서비스 아키텍처의 핵심 특성이므로 ①이 정답이다. Layered·Monolithic·Repository는 이 요건을 충족하지 못한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
 <p>Repository Architecture는 중앙 공유 데이터 저장소 중심 구조로, 독립 배포·장애 격리 요건과 맞지 않는다.</p>
@@ -1690,7 +2558,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "독립 배포 + 장애 격리 + 기술 이질성 = MSA".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>MSA 특성</strong>: 서비스별 독립 배포·확장, 장애 격리, Polyglot(언어·DB 다양성), 분산 트랜잭션(Saga)·통신(API 게이트웨이·서비스 메시)의 복잡성 증가.</p>
+<p><strong>아키텍처 스타일</strong>: Layered(계층 분리), Client-Server, Pipe-Filter, Event-Driven, Microkernel, Monolithic.</p>
+<p><strong>트레이드오프</strong>: 유연성·확장성↑ vs 운영·관측성 복잡도↑.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>독립 배포·확장, 장애 격리, 서비스별 기술 스택이 필요한 대규모 시스템에는 마이크로서비스 아키텍처(MSA)를 적용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'독립 배포+장애 격리+기술 이질성=MSA'. Layered/Monolithic과 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1741,12 +2616,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / AOP</li>
+<li><strong>관련 챕터</strong>: Part II - 프로그래밍 패러다임</li>
+<li><strong>관련 페이지</strong>: SE05·SE06</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: AOP 용어 문항</li>
+<li><strong>재출제 경향</strong>: AOP·관점지향 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(AOP)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Joinpoint=실행 지점</li>
+<li>Pointcut=지점 선택</li>
+<li>Advice=부가기능 코드</li>
+<li>Weaving=결합</li>
+<li>Aspect=관점</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>조인 포인트(Joinpoint)</strong> 는 관점(Aspect)의 부가기능(Advice)이 삽입되어 실행될 수 있는 <strong>프로그램 실행 상의 특정 지점</strong>(메서드 호출·실행, 예외 처리 시작 등)을 의미한다. 설명과 정확히 일치하므로 ①이 정답이다.</p>
 <ul>
 <li><strong>포인트컷(Pointcut)</strong>: 여러 조인 포인트 중 실제로 Advice를 적용할 지점을 <strong>선별하는 표현식</strong>.</li>
 <li><strong>어드바이스(Advice)</strong>: 조인 포인트에 삽입되는 <strong>부가기능 코드</strong>(before/after/around 등).</li>
-<li><strong>위빙(Weaving)</strong>: Advice를 실제 대상 코드의 조인 포인트에 <strong>결합하는 과정</strong>.</li>
+<li><strong>위빙(Weaving)</strong>: Advice를 실제 대상 코드의 조인 포인트에 <strong>결합하는 과정</strong>.<br />
+ 조인 포인트(Joinpoint)는 관점(Aspect)의 부가기능(Advice)이 삽입되어 실행될 수 있는 프로그램 실행 상의 특정 지점(메서드 호출·실행, 예외 처리 시작 등)을 의미하므로 ①이 정답이다. 포인트컷은 조인포인트 선택, 어드바이스는 삽입 코드, 위빙은 결합 과정이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
@@ -1760,7 +2674,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "실행 지점=Joinpoint, 선택=Pointcut, 코드=Advice, 결합=Weaving" 매핑.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>AOP 핵심 용어</strong>: Aspect(관점), Joinpoint(실행 지점), Pointcut(지점 선택 표현식), Advice(before/after/around 부가기능), Weaving(컴파일·로드·런타임 결합), Target(대상), Introduction(구조 추가).</p>
+<p><strong>적용 예</strong>: 로깅·트랜잭션·보안·성능 측정 등 횡단 관심사 분리.</p>
+<p><strong>시험 관점</strong>: 용어 정의(위치=Joinpoint, 선택=Pointcut, 코드=Advice, 결합=Weaving)를 매칭한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>AOP로 횡단 관심사를 분리한다. Joinpoint(실행 지점)에 Advice(부가기능)를 Pointcut으로 선택해 Weaving(결합)한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'실행 지점=Joinpoint, 선택=Pointcut, 코드=Advice, 결합=Weaving' 매핑.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1811,8 +2732,47 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 애자일</li>
+<li><strong>관련 챕터</strong>: Part III - 개발 방법</li>
+<li><strong>관련 페이지</strong>: SE07</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 스크럼 산출물·이벤트 문항</li>
+<li><strong>재출제 경향</strong>: 스크럼 프로세스 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(스크럼)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>제품 백로그→스프린트 백로그</li>
+<li>일일 스크럼=24시간</li>
+<li>스프린트=2~4주 타임박스</li>
+<li>산출물: 백로그·증분</li>
+<li>이벤트: 계획·리뷰·회고</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>스크럼 흐름은 <strong>제품 백로그(전체 요구 목록)</strong> 에서 스프린트 계획으로 <strong>스프린트 백로그(이번 스프린트 작업)</strong> 를 선정하고, 매일 <strong>일일 스크럼(Daily Scrum, 24시간 주기)</strong> 을 진행하며, <strong>스프린트(2~4주 타임박스)</strong> 를 반복해 출시 가능한 증분을 만든다. 그림의 24시간=일일 스크럼(다), 2~4주=스프린트(라)이므로 (가)제품 백로그·(나)스프린트 백로그·(다)일일 스크럼·(라)스프린트 → 정답 ①.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>스크럼 흐름은 <strong>제품 백로그(전체 요구 목록)</strong> 에서 스프린트 계획으로 <strong>스프린트 백로그(이번 스프린트 작업)</strong> 를 선정하고, 매일 <strong>일일 스크럼(Daily Scrum, 24시간 주기)</strong> 을 진행하며, <strong>스프린트(2~4주 타임박스)</strong> 를 반복해 출시 가능한 증분을 만든다. 그림의 24시간=일일 스크럼(다), 2~4주=스프린트(라)이므로 (가)제품 백로그·(나)스프린트 백로그·(다)일일 스크럼·(라)스프린트 → 정답 ①.<br />
+ 스크럼 흐름은 제품 백로그(전체 요구)→스프린트 백로그(이번 스프린트 작업)→일일 스크럼(24시간 주기)→스프린트(2~4주 타임박스)→출시 가능한 증분으로 진행된다. 그림의 24시간=일일 스크럼, 2~4주=스프린트이므로 ①이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②④</h3>
 <p>(다)를 "일일 스프린트", (라)를 "스크럼"으로 표기 → 24시간 주기는 일일 "스크럼"(회의), 2~4주 타임박스는 "스프린트"이다. 용어가 뒤바뀌어 오답.</p>
@@ -1828,7 +2788,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "24시간=일일 스크럼, 2~4주=스프린트" 매칭.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>스크럼 산출물</strong>: 제품 백로그(PO 관리·우선순위), 스프린트 백로그(개발팀), 증분(완료 정의 DoD 충족).</p>
+<p><strong>역할</strong>: 제품 책임자(PO), 스크럼 마스터(SM), 개발팀.</p>
+<p><strong>시험 관점</strong>: '24시간=일일 스크럼(회의), 2~4주=스프린트(타임박스)' 용어를 뒤바꾼 보기를 가려낸다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>스크럼 흐름은 제품 백로그→스프린트 백로그→일일 스크럼(24h)→스프린트(2~4주)→증분으로 진행된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'24시간=일일 스크럼, 2~4주=스프린트' 매칭. 산출물/이벤트 용어 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1880,13 +2847,52 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 아키텍처 지표</li>
+<li><strong>관련 챕터</strong>: Part I - 아키텍처</li>
+<li><strong>관련 페이지</strong>: SE02·SE03</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 패키지 결합·안정성 문항</li>
+<li><strong>재출제 경향</strong>: 마틴 지표·의존성 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(안정성)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>I=Ce/(Ca+Ce)</li>
+<li>Ce=유출(밖으로 의존)</li>
+<li>Ca=유입(안으로 의존)</li>
+<li>I=0 안정, 1 불안정</li>
+<li>주계열 A+I≈1</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>패키지의 <strong>비안정성(Instability)</strong> 은 <strong>I = Ce / (Ca + Ce)</strong> 로 정의된다.<br />
 - <strong>Ce(Efferent, 유출)</strong>: 해당 패키지가 <strong>다른 패키지에 의존</strong>하는 수(밖으로 나가는 의존)<br />
 - <strong>Ca(Afferent, 유입)</strong>: <strong>다른 패키지가 해당 패키지에 의존</strong>하는 수(안으로 들어오는 의존)</p>
 <p>그림상 Package A는 외부로 나가는 의존(Ce)이 적고, 외부에서 A로 들어오는 의존(Ca)이 상대적으로 많아 <strong>I = Ce/(Ca+Ce) = 1/4</strong> 로 계산된다(예: Ce=1, Ca=3 → 1/4). I가 0에 가까울수록 안정적, 1에 가까울수록 불안정하다.</p>
 <blockquote>
-<p>※ 정확한 Ce·Ca 수치는 그림의 화살표 방향으로 셈하며, 결과값은 1/4(④)이다.</p>
+<p>※ 정확한 Ce·Ca 수치는 그림의 화살표 방향으로 셈하며, 결과값은 1/4(④)이다.<br />
+ 비안정성 I=Ce/(Ca+Ce)로, Ce는 해당 패키지가 다른 패키지에 의존하는 수(유출), Ca는 다른 패키지가 해당 패키지에 의존하는 수(유입)이다. Package A는 유출이 적고 유입이 상대적으로 많아 I=1/4로 계산된다(예: Ce=1, Ca=3). I가 0에 가까울수록 안정적이다.</p>
 </blockquote>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -1903,7 +2909,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: Ce(유출)·Ca(유입) 방향을 정확히 세어 대입.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>마틴(Martin) 지표</strong>: 비안정성 I=Ce/(Ca+Ce)(0 안정~1 불안정), 추상도 A=추상클래스/전체클래스, 주계열 |A+I−1|이 작을수록 균형('고통의 영역'·'무용의 영역' 회피).</p>
+<p><strong>설계 함의</strong>: 안정적 패키지는 추상적이어야(안정적 추상화 원칙), 불안정 패키지에 의존해야(안정 의존 원칙).</p>
+<p><strong>시험 관점</strong>: Ce·Ca 방향을 정확히 세어 대입한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>패키지 안정성은 I=Ce/(Ca+Ce)로 산정한다. 유출(Ce)·유입(Ca) 의존을 세어 리팩토링 대상을 판단한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>Ce(유출)·Ca(유입) 방향을 정확히 세어 대입. 주계열(A+I≈1)과 함께 학습.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1961,12 +2974,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / DevOps·CI</li>
+<li><strong>관련 챕터</strong>: Part III - SW 개발</li>
+<li><strong>관련 페이지</strong>: SE07</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: CI/CD 문항</li>
+<li><strong>재출제 경향</strong>: DevOps·CI/CD 유형으로 반복·확대</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(CI/CD)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>CI=커밋마다 자동 통합</li>
+<li>자동 빌드·테스트</li>
+<li>형상관리 도구 사용</li>
+<li>기능 완료 시가 아님</li>
+<li>CD로 확장(배포/전달)</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가(틀림)</strong>: CI는 "특정 기능 개발 완료 시점"에 하는 것이 아니라 <strong>자주(커밋마다) 통합</strong>하는 것이 핵심이다.</li>
 <li><strong>마(틀림)</strong>: "개발자가 코드 테스트를 완료한 후 커밋"이 아니라, <strong>커밋 시 CI 파이프라인이 자동으로 빌드·테스트</strong>를 수행한다(테스트의 주체·시점이 CI). 개발자의 사전 테스트가 권장되긴 하나, CI의 정의상 "커밋마다 자동 통합·테스트"가 본질이므로 마의 서술은 CI 원리와 맞지 않는다.</li>
 </ul>
-<p>나(커밋마다 진행), 다(형상관리 도구 사용), 라(빌드 자동화)는 옳다. 따라서 올바르지 않은 것은 <strong>가, 마</strong> → 정답 ②.</p>
+<p>나(커밋마다 진행), 다(형상관리 도구 사용), 라(빌드 자동화)는 옳다. 따라서 올바르지 않은 것은 <strong>가, 마</strong> → 정답 ②.<br />
+ 가('특정 기능 완료 시 CI')는 틀리다—CI는 커밋마다 자주 통합하는 것이 핵심이다. 마('개발자가 테스트 완료 후 커밋')도 CI 원리(커밋 시 파이프라인이 자동 빌드·테스트)와 맞지 않는다. 나·다·라는 옳으므로 올바르지 않은 것은 가·마로 ②이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
 <p>'나·다·라'는 CI의 올바른 설명이므로 이들을 포함한 조합은 오답이다.</p>
@@ -1980,7 +3032,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "기능 완료 시(X) vs 커밋마다(O)", "CI가 자동 테스트 수행".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>CI 원리</strong>: 잦은 통합+자동 빌드+자동 테스트로 통합 오류를 조기 발견한다. 형상관리(Git/SVN)·빌드 자동화가 전제.</p>
+<p><strong>CI→CD</strong>: 지속적 전달(스테이징까지 자동)·지속적 배포(운영까지 자동)로 확장.</p>
+<p><strong>시험 관점</strong>: '기능 완료 시(X) vs 커밋마다(O)', 'CI가 자동 테스트 수행'을 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>CI로 커밋마다 자동 빌드·통합·테스트를 수행해 통합 오류를 조기 발견한다. 기능 완료 시점이 아니라 자주 통합한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'기능 완료 시(X) vs 커밋마다(O)', 'CI가 자동 테스트 수행'이 포인트.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -2032,9 +3091,48 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / MSA 패턴</li>
+<li><strong>관련 챕터</strong>: Part I - 아키텍처</li>
+<li><strong>관련 페이지</strong>: SE03</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: MSA 데이터 패턴 문항</li>
+<li><strong>재출제 경향</strong>: MSA·이벤트 아키텍처 유형으로 확대</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(MSA 패턴)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Database per Service</li>
+<li>CQRS=명령/조회 분리</li>
+<li>Saga=분산 트랜잭션</li>
+<li>상관관계 ID=분산 추적</li>
+<li>이벤트 소싱과 결합</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>그림은 각 서비스가 <strong>자체 데이터베이스를 소유(Database per Service)</strong> 하고 Message Broker로 비동기 통신하는 전형적 MSA 구조이다. 이때 서비스별로 분산된 데이터를 효율적으로 조회·갱신하기 위한 대표 Best Practice가 <strong>CQRS(명령/조회 책임 분리)</strong> 로, <strong>읽기(Query) 모델과 쓰기(Command) 모델을 분리</strong>하여 확장성과 성능을 높인다. 따라서 가장 적절한 것은 ②이다.</p>
-<p>③(상관관계 ID로 분산 추적)과 ④(비동기 메시지 구조 이해)도 MSA에서 유용한 실천이지만, 그림이 강조하는 "서비스별 DB + 읽기/쓰기 분리"라는 특정 패턴 적용의 Best Practice로는 CQRS가 가장 적절하다.</p>
+<p>③(상관관계 ID로 분산 추적)과 ④(비동기 메시지 구조 이해)도 MSA에서 유용한 실천이지만, 그림이 강조하는 "서비스별 DB + 읽기/쓰기 분리"라는 특정 패턴 적용의 Best Practice로는 CQRS가 가장 적절하다.<br />
+ 각 서비스가 자체 DB를 소유(Database per Service)하고 Message Broker로 비동기 통신하는 MSA 구조에서, 분산 데이터를 효율적으로 조회·갱신하기 위한 Best Practice가 읽기/쓰기 책임을 분리하는 CQRS이므로 ②가 정답이다. 상관관계 ID·비동기 메시지 이해도 유용하나 그림의 특정 패턴에는 CQRS가 부합한다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>"DB는 데이터 저장 용도로만"은 일반 원칙일 뿐, 그림의 특정 패턴(서비스별 DB) 적용 Best Practice로는 초점이 아니다.</p>
@@ -2052,7 +3150,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "서비스별 DB + 읽기/쓰기 분리 = CQRS".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>MSA 데이터 패턴</strong>: Database per Service(결합도↓, 일관성은 Saga로), CQRS(명령/조회 모델 분리), Event Sourcing(상태를 이벤트 로그로), API Composition/CQRS로 조회 집계.</p>
+<p><strong>분산 트랜잭션</strong>: 2PC 대신 Saga(오케스트레이션/코레오그래피)로 최종 일관성을 확보.</p>
+<p><strong>시험 관점</strong>: '서비스별 DB+읽기/쓰기 분리=CQRS'.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>서비스별 DB(Database per Service)와 비동기 메시징 구조에서 읽기/쓰기를 분리하는 CQRS를 적용해 확장성·성능을 높인다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'서비스별 DB+읽기/쓰기 분리=CQRS'. 상관관계 ID·비동기 메시지도 MSA 실천.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -2154,6 +3259,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 소프트웨어공학 / 프로젝트 일정</li>
+<li><strong>관련 챕터</strong>: 일정관리 - CPM</li>
+<li><strong>관련 페이지</strong>: SE / M09</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: CPM 여유(Slack) 계산 문항</li>
+<li><strong>재출제 경향</strong>: CPM·여유 계산 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(CPM)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Slack=LS−ES=LF−EF</li>
+<li>주경로 활동 Slack=0</li>
+<li>전방계산 ES/EF</li>
+<li>후방계산 LS/LF</li>
+<li>LF=후속 LS 최솟값</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>전방계산(ES/EF)</strong><br />
 - T1: 0~4<br />
@@ -2169,7 +3312,8 @@ strong { color:#0f172a; font-weight:700; }
 - T3: 후속 T5(LS13)·T6(LS26) → LF=13, LS=4<br />
 - T2, T1 …</p>
 <p><strong>T6의 Slack = LS − ES = 26 − 13 = 13일</strong> → 정답 ③.</p>
-<p>즉 T6는 최대 13일까지 늦어져도 전체 일정(40일)에 영향을 주지 않는다(주경로는 T1-T3-T5-T7-T8).</p>
+<p>즉 T6는 최대 13일까지 늦어져도 전체 일정(40일)에 영향을 주지 않는다(주경로는 T1-T3-T5-T7-T8).<br />
+ 전방계산으로 각 활동 ES/EF를 구하면 프로젝트 완료는 40일(주경로 T1-T3-T5-T7-T8)이다. 후방계산에서 T6의 LS는 후속 T8의 LS(34)에서 T6 기간(8)을 빼 26, ES는 13이므로 여유(Slack)=LS−ES=26−13=13일이다. 따라서 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
 <p>8·11·15일은 ES/LS 계산 착오(예: T6 후속 T8의 LS를 잘못 산정)로 나오는 값이며, 정확한 후방계산에서 T6 Slack은 13일이다.</p>
@@ -2183,6 +3327,13 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 후방계산에서 후속 활동의 LS 최솟값으로 LF를 정하는 것이 핵심.</p>
 </li>
 </ul>
+<p><strong>Float 계산</strong>: Total Float=LS−ES=LF−EF. 후방계산 시 LF=후속 활동 LS의 최솟값. 주경로 활동의 Float은 0.</p>
+<p><strong>활용</strong>: 여유가 큰 활동은 자원 재배치·평준화의 여지가 있고, 여유 0인 주경로는 집중 관리 대상이다.</p>
+<p><strong>시험 관점</strong>: 종속관계 표에서 ES/EF·LS/LF를 정확히 전개해 특정 활동의 Slack을 구한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>PM은 CPM 후방계산으로 각 활동의 여유(Slack)를 구해, 일정 지연 없이 지연 가능한 범위를 판단한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>후방계산에서 후속 활동의 LS 최솟값으로 LF를 정하는 것이 핵심. Slack=LS−ES.</p>
 <hr /></div></div></div></div>
       </div>
     </div>

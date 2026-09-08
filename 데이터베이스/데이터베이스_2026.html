@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -193,7 +194,7 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
-<h2>---</h2></div></div>
+<hr /></div></div>
     </div>
 
     <div class="question-view" data-num="51" style="display:none;">
@@ -249,6 +250,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: DB 응용 - JDBC</li>
+<li><strong>관련 페이지</strong>: DB 연동</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: JDBC 처리 순서 문항</li>
+<li><strong>재출제 경향</strong>: DB 연결/트랜잭션 절차 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(JDBC)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>getConnection→드라이버 선택</li>
+<li>소켓 연결→Statement</li>
+<li>실행→ResultSet</li>
+<li>close로 반납</li>
+<li>6단계 흐름</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>JDBC 처리 흐름은 다음과 같다.<br />
 1. <strong>다</strong>: 응용이 <code>DriverManager.getConnection()</code> 호출<br />
@@ -256,7 +295,8 @@ strong { color:#0f172a; font-weight:700; }
 3. <strong>라</strong>: 드라이버가 DBMS와 네트워크 소켓 연결 설정<br />
 4. <strong>마</strong>: <code>Statement</code>/<code>PreparedStatement</code> 객체 생성<br />
 5. <strong>가</strong>: SQL 실행</p>
-<p>따라서 <strong>다 → 나 → 라 → 마 → 가</strong>인 ③이 정답이다.</p>
+<p>따라서 <strong>다 → 나 → 라 → 마 → 가</strong>인 ③이 정답이다.<br />
+ JDBC 흐름은 응용이 getConnection()을 호출(다)하면 DriverManager가 적합한 드라이버를 선택·위임(나)하고, 드라이버가 DBMS와 소켓 연결을 설정(라)한 뒤 Statement/PreparedStatement를 생성(마)하여 SQL을 실행(가)한다. 따라서 다-나-라-마-가인 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>getConnection 호출(다)보다 드라이버 선택(나)을 먼저 둘 수 없다. 연결 요청이 선행한다.</p>
@@ -269,7 +309,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: "getConnection이 드라이버 선택·소켓 연결을 촉발"하는 흐름 이해.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>JDBC 6단계</strong>: 드라이버 로딩→Connection 획득(getConnection)→Statement 생성→SQL 실행(executeQuery/Update)→ResultSet 처리→자원 반납(close).</p>
+<p><strong>Statement 종류</strong>: Statement(정적), PreparedStatement(파라미터 바인딩·SQL Injection 방지·성능), CallableStatement(저장 프로시저).</p>
+<p><strong>Connection Pool</strong>: 연결 생성 비용을 줄이기 위해 커넥션을 재사용(DBCP·HikariCP).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>JDBC로 DB 연결 시 드라이버 로딩→getConnection→Statement 생성→실행→결과 처리→자원 반납 순으로 개발한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>getConnection이 드라이버 선택·소켓 연결을 촉발하는 흐름 이해.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -320,10 +367,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 관계모델 - 무결성</li>
+<li><strong>관련 페이지</strong>: 무결성 제약</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 참조무결성 옵션 문항</li>
+<li><strong>재출제 경향</strong>: 무결성·제약조건 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(무결성)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>RESTRICT/NO ACTION=삭제 거절</li>
+<li>CASCADE=연쇄 삭제</li>
+<li>SET NULL=NULL로</li>
+<li>SET DEFAULT=기본값</li>
+<li>참조 존재 여부 확인</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>ON DELETE RESTRICT</strong> 는 부모(DEPT)의 투플을 삭제하려 할 때 그 기본키를 참조하는 자식(EMP) 투플이 <strong>하나라도 존재하면 삭제를 거절(오류)</strong> 하는 옵션이다. 따라서 ④가 정답이다.</p>
 <ul>
-<li>①은 SET NULL, ②는 CASCADE, ③은 SET DEFAULT에 대한 설명이다.</li>
+<li>①은 SET NULL, ②는 CASCADE, ③은 SET DEFAULT에 대한 설명이다.<br />
+ ON DELETE RESTRICT는 부모(DEPT) 투플 삭제 시 그 기본키를 참조하는 자식(EMP) 투플이 하나라도 존재하면 삭제를 거절(오류)하는 옵션이므로 ④가 정답이다. ①은 SET NULL, ②는 CASCADE, ③은 SET DEFAULT의 동작이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -362,7 +448,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: 4가지 옵션의 동작 매칭.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>참조무결성 삭제/갱신 옵션</strong>: RESTRICT·NO ACTION(참조 시 거절), CASCADE(연쇄), SET NULL(NULL로), SET DEFAULT(기본값).</p>
+<p><strong>RESTRICT vs NO ACTION</strong>: 검사 시점 차이(즉시 vs 문장 종료 시)만 있을 뿐 결과는 유사하다.</p>
+<p><strong>무결성 종류</strong>: 개체 무결성(기본키 NOT NULL·유일), 참조 무결성(외래키), 도메인 무결성(자료형·제약), 사용자정의 무결성.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>참조무결성 유지 위해 FK 삭제 옵션(RESTRICT/CASCADE/SET NULL/SET DEFAULT)을 설계한다. RESTRICT는 참조 존재 시 삭제를 거절한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>4가지 삭제 옵션 동작 매칭. RESTRICT=거절, CASCADE=연쇄삭제.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -413,10 +506,49 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 관계대수 - 조인</li>
+<li><strong>관련 페이지</strong>: 조인 연산</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 조인 차수/카디널리티 문항</li>
+<li><strong>재출제 경향</strong>: 조인 종류·결과 계산 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(조인)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>자연조인 차수=속성합−공통</li>
+<li>완전외부=매칭+양쪽 비매칭</li>
+<li>비매칭 시 NULL</li>
+<li>좌/우 외부조인 구분</li>
+<li>카디널리티 계산</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>차수(degree)</strong>: 고객(2속성: 고객번호, 이름) + 주문(3속성: 주문번호, 고객번호, 판매가격)에서 조인 컬럼 고객번호가 공유되어 결과는 <strong>2 + 3 − 1 = 4</strong> 속성.</p>
 <p><strong>카디널리티(cardinality)</strong>: 주문 7건은 모두 유효한 고객번호(2,1,2,1,4,5,4)를 가지므로 매칭되어 7행. 여기에 주문이 없는 <strong>고객4(추신수)</strong> 가 완전 외부조인으로 1행 추가(주문 속성은 NULL). 따라서 <strong>7 + 1 = 8</strong> 행.</p>
-<p>결과: 차수 4, 카디널리티 8 → 정답 ②.</p>
+<p>결과: 차수 4, 카디널리티 8 → 정답 ②.<br />
+ 고객(2속성)과 주문(3속성)의 공통 조인컬럼 고객번호가 중복 제거되어 차수는 2+3−1=4이다. 주문 7건은 모두 유효 고객번호로 매칭되고, 주문이 없는 고객4가 완전 외부조인으로 1행(주문 속성 NULL) 추가되어 카디널리티는 7+1=8이다. 따라서 ②(4,8)가 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③</h3>
 <p>카디널리티 7은 주문 없는 고객4의 비매칭 행(완전외부조인의 좌측 잔여)을 누락한 값이다.</p>
@@ -432,7 +564,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 비매칭 투플(고객4) 추가와 조인속성 중복 제거를 정확히 반영.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>조인 종류</strong>: 내부조인(매칭만), 좌/우 외부조인(한쪽 비매칭 포함), 완전 외부조인(양쪽 비매칭 포함), 세타/동등/자연 조인.</p>
+<p><strong>차수·카디널리티</strong>: 자연조인 차수=속성합−공통속성, 카디널리티는 조인 조건·매칭 정도에 따라 결정.</p>
+<p><strong>시험 관점</strong>: 비매칭 투플 포함 여부(외부조인)와 조인속성 중복 제거를 정확히 반영한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>조인 결과 차수·카디널리티를 산정해 질의 결과 규모를 예측한다. 완전 외부조인은 비매칭 투플까지 포함한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>비매칭 투플 추가와 조인속성 중복 제거를 정확히 반영.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -484,12 +623,51 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 데이터 모델링 - EER</li>
+<li><strong>관련 페이지</strong>: EER 모델</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: EER 특수화/제약 문항</li>
+<li><strong>재출제 경향</strong>: EER·확장 모델 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(EER)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>d=분리(중복 불가)</li>
+<li>o=중첩(중복 허용)</li>
+<li>이중선=전체 참여</li>
+<li>단일선=부분 참여</li>
+<li>슈퍼/서브 클래스</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>원 안의 <strong>d는 분리(disjoint) 제약</strong>으로, 상위 개체(직원)의 인스턴스는 서브클래스 중 <strong>하나에만 속할 수 있다</strong>. 따라서 "월급직원이면서 동시에 시급직원일 수 없다"는 ④가 옳다.</p>
 <ul>
 <li>①: 직원은 상위(슈퍼클래스) 개체이지 서브클래스가 아니다.</li>
 <li>②: <strong>이중선(전체 참여)</strong> 이므로 모든 직원은 월급직원·시급직원 중 하나에 반드시 속한다 → "속하지 않는 직원도 존재"는 틀림.</li>
-<li>③: 소속(노조) 관계는 시급직원에 연결되어 있으므로 월급직원은 노조에 소속하지 않는다.</li>
+<li>③: 소속(노조) 관계는 시급직원에 연결되어 있으므로 월급직원은 노조에 소속하지 않는다.<br />
+ 원의 d는 분리(disjoint) 제약으로 상위 개체(직원)의 인스턴스는 서브클래스 중 하나에만 속할 수 있어 '월급직원이면서 시급직원일 수 없다'는 ④가 옳다. 이중선(전체 참여)이므로 모든 직원은 한 서브클래스에 반드시 속하고(②틀림), 노조 소속은 시급직원에만 연결된다(③틀림).</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -508,7 +686,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: d=배타, 이중선=전체참여를 다이어그램에서 정확히 해석.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>특수화 제약</strong>: 분리(d, 배타) vs 중첩(o, 중복 허용), 전체(total, 이중선) vs 부분(partial, 단일선)의 4조합.</p>
+<p><strong>특수화 vs 일반화</strong>: 특수화(top-down 세분화), 일반화(bottom-up 공통 추출), 범주화(union 타입).</p>
+<p><strong>사상</strong>: 슈퍼/서브를 별도 릴레이션으로, 또는 단일 테이블로 통합(제약에 따라 선택).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>EER로 특수화/일반화를 모델링한다. d(분리)는 서브클래스 중복 불가, 이중선은 전체 참여를 의미한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>d=배타, 이중선=전체참여를 다이어그램에서 정확히 해석.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -559,6 +744,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: SQL - 집합 연산</li>
+<li><strong>관련 페이지</strong>: 집합 연산</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 집합/다중집합 연산 문항</li>
+<li><strong>재출제 경향</strong>: SQL 집합 연산 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(집합연산)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>EXCEPT ALL=다중집합 차</li>
+<li>max(0,cntR−cntS)</li>
+<li>EXCEPT=집합 차(중복 제거)</li>
+<li>UNION/INTERSECT ALL 유사</li>
+<li>개수 유지 여부</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>EXCEPT ALL</strong> 은 중복을 제거하지 않는 다중집합 차집합으로, 각 값에 대해 <strong>(R의 개수 − S의 개수, 최소 0)</strong> 만큼 결과에 남긴다.</p>
 <ul>
@@ -566,7 +789,8 @@ strong { color:#0f172a; font-weight:700; }
 <li>a2: R 2개 − S 1개 = 1 → a2 1개</li>
 <li>a3: R 1개 − S 0개 = 1 → a3 1개</li>
 </ul>
-<p>따라서 T = <strong>[a2, a3]</strong> → 정답 ③.</p>
+<p>따라서 T = <strong>[a2, a3]</strong> → 정답 ③.<br />
+ EXCEPT ALL은 중복을 유지하는 다중집합 차집합으로 각 값에 대해 max(0, R개수−S개수)만큼 남긴다. a1:1−1=0, a2:2−1=1, a3:1−0=1이므로 결과는 [a2,a3]로 ③이 정답이다. EXCEPT(DISTINCT)면 a2도 제거되어 [a3]가 된다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>합집합(UNION) 결과이지 차집합이 아니다.</p>
@@ -584,7 +808,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: ALL 여부에 따라 중복 처리가 달라짐.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>집합 연산</strong>: UNION/INTERSECT/EXCEPT는 기본적으로 중복 제거(집합), ALL을 붙이면 중복 유지(다중집합).</p>
+<p><strong>다중집합 규칙</strong>: UNION ALL=합, INTERSECT ALL=min(개수), EXCEPT ALL=max(0,차).</p>
+<p><strong>주의</strong>: 집합 연산은 두 릴레이션의 속성 수·도메인이 호환(합병 가능)해야 한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>집합/다중집합 연산으로 데이터를 비교한다. EXCEPT ALL은 개수 차이를 유지하는 다중집합 차집합이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>ALL 여부에 따라 중복 처리가 달라짐(EXCEPT=집합, EXCEPT ALL=다중집합).</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -636,11 +867,50 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 정규화 - 함수종속</li>
+<li><strong>관련 페이지</strong>: 함수종속·이상</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 이상현상/함수종속 문항</li>
+<li><strong>재출제 경향</strong>: 정규화·이상현상 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(정규화)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>이행종속=A→B→C</li>
+<li>삽입/삭제/갱신 이상</li>
+<li>삽입이상=키 없이 삽입 불가</li>
+<li>3NF로 분해</li>
+<li>지도교수→학과 분리</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>이 릴레이션은 <strong>이행적 종속(학번 → 지도교수 → 학과)</strong> 을 가져 제3정규형을 위반한다(④ 옳음). 기본키는 학번이므로, <strong>학번 없이 "지도교수-학과"만의 사실을 삽입할 수 없다</strong>(학번이 NULL이면 기본키 무결성 위반). 즉 ①의 "지도교수가 특정 학과에 속한다는 사실만 삽입 가능"은 <strong>삽입 이상 때문에 불가능</strong>하므로 옳지 않다 → 정답 ①.</p>
 <ul>
 <li>②: 학번 300 투플을 지우면 "P3이 컴퓨터공학과 소속"이라는 정보도 함께 사라짐 → <strong>삭제 이상</strong>(옳음).</li>
-<li>③: P1의 학과를 일부 행만 바꾸면 데이터 불일치 → <strong>갱신 이상</strong>(옳음).</li>
+<li>③: P1의 학과를 일부 행만 바꾸면 데이터 불일치 → <strong>갱신 이상</strong>(옳음).<br />
+ 릴레이션은 이행종속(학번→지도교수→학과)을 가져 제3정규형을 위반한다(④옳음). 기본키가 학번이므로 학번 없이 '지도교수-학과' 사실만 삽입할 수 없어(삽입 이상) ①의 '삽입 가능'은 옳지 않다. 300번 삭제 시 P3-컴퓨터 정보 손실(②삭제 이상), P1 학과 일부만 변경(③갱신 이상)은 옳다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
@@ -659,7 +929,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: "옳지 않은 것"을 찾는 문제 — ①의 삽입 "가능"이 실제로는 불가능.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>정규형</strong>: 1NF(원자값)→2NF(부분종속 제거)→3NF(이행종속 제거)→BCNF(모든 결정자가 후보키)→4NF(다치종속)→5NF(조인종속).</p>
+<p><strong>이상현상</strong>: 삽입(키 없이 삽입 불가)·삭제(연관 정보 동반 손실)·갱신(중복 불일치).</p>
+<p><strong>해결</strong>: 지도교수→학과를 별도 릴레이션으로 무손실 분해하면 3NF를 만족한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>함수종속을 분석해 이상현상(삽입/삭제/갱신)을 진단하고 정규화 대상을 판단한다. 이행종속은 3NF로 분해한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'옳지 않은 것' 유형—삽입 이상으로 사실 단독 삽입이 불가함을 판별.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -710,6 +987,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: SQL - 서브쿼리</li>
+<li><strong>관련 페이지</strong>: 상관 서브쿼리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 상관 서브쿼리 문항</li>
+<li><strong>재출제 경향</strong>: SQL 서브쿼리·조인 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(서브쿼리)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>상관 서브쿼리=행마다 평가</li>
+<li>E1.x&lt;&gt;E2.x 조건</li>
+<li>X&lt;&gt;X=항상 거짓(공집합)</li>
+<li>NOT EXISTS=반대 결과</li>
+<li>별칭 참조 확인</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>요구는 "<strong>같은 deptcode인데 deptphone이 다른</strong> 다른 행이 존재하는 사원"을 찾는 것이다.</p>
 <ul>
@@ -720,7 +1035,8 @@ strong { color:#0f172a; font-weight:700; }
 </ul>
 <p>따라서 정답은 ①이다.</p>
 <blockquote>
-<p>※ 본 문항은 보기가 모두 코드블록이어서 자동 잉크농도 판별이 부정확했다. 원문 이미지 대조와 SQL 의미 분석으로 ①을 확정하였다(②·③은 공집합, ④는 반대 결과).</p>
+<p>※ 본 문항은 보기가 모두 코드블록이어서 자동 잉크농도 판별이 부정확했다. 원문 이미지 대조와 SQL 의미 분석으로 ①을 확정하였다(②·③은 공집합, ④는 반대 결과).<br />
+ 요구는 '같은 deptcode인데 deptphone이 다른 다른 행이 존재하는 사원' 조회다. ①은 상관 서브쿼리로 E1.deptcode=E2.deptcode AND E1.deptphone&lt;&gt;E2.deptphone을 만족하는 E2가 있으면 E1을 출력해 요구를 정확히 구현한다. ②·③은 X&lt;&gt;X(자기 비교)로 항상 거짓→공집합, ④는 NOT EXISTS로 반대 결과이므로 ①이 정답이다.</p>
 </blockquote>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②</h3>
@@ -739,7 +1055,14 @@ strong { color:#0f172a; font-weight:700; }
 <p><strong>시험 포인트</strong>: 서브쿼리 내부의 별칭(E1/E2) 참조가 올바른지 확인.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>서브쿼리 유형</strong>: 비상관(독립 실행)·상관(외부 행마다 평가)·스칼라(단일값)·EXISTS/IN/ANY/ALL.</p>
+<p><strong>자기조인</strong>: 같은 테이블을 별칭으로 두 번 참조해 행 간 비교(같은 부서·다른 값)를 수행한다.</p>
+<p><strong>함정</strong>: <code>col&lt;&gt;col</code>은 항상 거짓(NULL 제외)이라 서브쿼리가 공집합이 된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>상관 서브쿼리로 '같은 부서·다른 전화' 같은 조건을 조회한다. X&lt;&gt;X 형태의 자기 비교는 항상 거짓이 되는 함정을 주의한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>서브쿼리 내 별칭(E1/E2) 참조가 올바른지 확인. 자기 비교는 공집합.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -796,6 +1119,44 @@ strong { color:#0f172a; font-weight:700; }
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: SQL - 분류</li>
+<li><strong>관련 페이지</strong>: SQL 언어 분류</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: SQL 분류(DDL/DML/DCL) 문항</li>
+<li><strong>재출제 경향</strong>: SQL 명령 분류 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(SQL 분류)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>DDL: CREATE/ALTER/DROP/TRUNCATE</li>
+<li>DML: SELECT/INSERT/UPDATE/DELETE</li>
+<li>DCL: GRANT/REVOKE</li>
+<li>TCL: COMMIT/ROLLBACK</li>
+<li>TRUNCATE=DDL</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가(옳음)</strong>: 데이터 정의(DDL) = CREATE, ALTER, DROP.</li>
@@ -805,7 +1166,8 @@ strong { color:#0f172a; font-weight:700; }
 </ul>
 <p>따라서 옳은 것은 <strong>가, 다</strong> → 정답 ②.</p>
 <blockquote>
-<p>※ 보기가 2열 배치되어 자동 판별이 ①로 오인식되었으나, 원문 Bold는 ②(가, 다)이며 분류 논리로도 ②가 정답이다.</p>
+<p>※ 보기가 2열 배치되어 자동 판별이 ①로 오인식되었으나, 원문 Bold는 ②(가, 다)이며 분류 논리로도 ②가 정답이다.<br />
+ 가(DDL=CREATE/ALTER/DROP)와 다(DCL=GRANT/REVOKE)는 옳다. 나는 TRUNCATE를 DML로 본 오류(TRUNCATE는 DDL), 라는 CREATE TABLE을 데이터 조작으로 본 오류(DDL)이다. 따라서 옳은 것은 가·다로 ②가 정답이다.</p>
 </blockquote>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③</h3>
@@ -842,7 +1204,14 @@ strong { color:#0f172a; font-weight:700; }
 <ul>
 <li><strong>시험 포인트</strong>: TRUNCATE=DDL, DELETE=DML 구분이 핵심 함정.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>SQL 분류</strong>: DDL(CREATE·ALTER·DROP·TRUNCATE·RENAME), DML(SELECT·INSERT·UPDATE·DELETE·MERGE), DCL(GRANT·REVOKE), TCL(COMMIT·ROLLBACK·SAVEPOINT).</p>
+<p><strong>TRUNCATE vs DELETE</strong>: TRUNCATE는 DDL(자동 커밋·구조 유지·빠름·롤백 제한), DELETE는 DML(조건 삭제·롤백 가능·트리거 동작).</p>
+<p><strong>시험 관점</strong>: TRUNCATE=DDL을 반드시 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>SQL 문을 DDL/DML/DCL/TCL로 분류해 권한·기능을 이해한다. TRUNCATE는 DDL, DELETE는 DML이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>TRUNCATE=DDL, DELETE=DML 구분이 핵심 함정.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -902,6 +1271,48 @@ WHERE D.가격 &gt; (SELECT AVG(가격) FROM 도서 WHERE 출판사 = D.출판�
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: SQL - 고급 질의</li>
+<li><strong>관련 페이지</strong>: 서브쿼리·집계</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 복합 SQL 질의 문항</li>
+<li><strong>재출제 경향</strong>: SQL 결과 계산 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(SQL)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>
+<blockquote>
+<p>=ALL=최댓값 이상</p>
+</blockquote>
+</li>
+<li>상관 서브쿼리(그룹별 평균)</li>
+<li>AVG per 출판사</li>
+<li>두 조건 교집합</li>
+<li>결과 도서 판별</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>조건 1 — 출판사별 평균가격 초과</strong><br />
 - 남산(B1 25000, B3 28000) 평균 26500 → B3(28000) O, B1(25000) X<br />
@@ -909,7 +1320,8 @@ WHERE D.가격 &gt; (SELECT AVG(가격) FROM 도서 WHERE 출판사 = D.출판�
 - 을지(B4 32000) 평균 32000 → B4(32000) X (초과 아님)<br />
 - 통과: <strong>B3(알고리즘), B5(인공지능)</strong></p>
 <p><strong>조건 2 — 가격 &gt;= ALL(M1 주문액)</strong>: M1 주문액 = {25000, 28000} → 최댓값 28000 이상. B3(28000) O, B5(35000) O.</p>
-<p>두 조건 모두 만족: <strong>알고리즘(B3), 인공지능(B5)</strong> → 정답 ①.</p>
+<p>두 조건 모두 만족: <strong>알고리즘(B3), 인공지능(B5)</strong> → 정답 ①.<br />
+ 조건1(출판사별 평균가격 초과): 남산 평균 26500→B3(28000)만, 종로 평균 32500→B5(35000)만, 을지 32000→초과 없음. 조건2(가격≥ALL M1 주문액={25000,28000}→28000 이상): B3(28000)·B5(35000) 통과. 두 조건 모두 만족은 알고리즘(B3)·인공지능(B5)으로 ①이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③④</h3>
 <p>운영체제(B2)·컴퓨터구조(B4)는 조건1(출판사 평균 초과)을 만족하지 못한다(B2=평균 미만, B4=평균과 동일). 따라서 이들을 포함한 보기는 오답이다.</p>
@@ -923,7 +1335,14 @@ WHERE D.가격 &gt; (SELECT AVG(가격) FROM 도서 WHERE 출판사 = D.출판�
 <p><strong>시험 포인트</strong>: "&gt;= ALL = 최댓값 이상", 출판사별 평균 계산 정확성.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>ALL/ANY 비교</strong>: <code>&gt;= ALL(집합)</code>=최댓값 이상, <code>&gt;= ANY(집합)</code>=최솟값 이상. <code>= ANY</code>는 IN과 동치.</p>
+<p><strong>상관 서브쿼리</strong>: 바깥 행의 출판사(D.출판사)에 따라 평균이 달라지는 그룹별 비교.</p>
+<p><strong>시험 관점</strong>: 그룹 평균 계산과 ALL 비교(최댓값 이상)를 정확히 적용한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>상관 서브쿼리와 &gt;= ALL을 사용해 그룹별 평균 초과·최댓값 이상 등 복합 조건을 조회한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'&gt;= ALL=최댓값 이상', 출판사별 평균 계산 정확성.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -982,13 +1401,52 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: DB 객체 - 트리거</li>
+<li><strong>관련 페이지</strong>: 트리거·프로시저</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 트리거 실행 횟수 문항</li>
+<li><strong>재출제 경향</strong>: 트리거·저장프로시저 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(트리거)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>FOR EACH ROW=행마다</li>
+<li>WHEN 조건 만족 시 액션</li>
+<li>문장 트리거=문장당 1회</li>
+<li>OLD/NEW 참조</li>
+<li>갱신행×조건</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><code>UPDATE Emp SET sal = sal*1.1 WHERE deptno IN (10,20)</code>는 <strong>8행(dept10:5 + dept20:3)</strong> 을 갱신한다. 행 트리거(FOR EACH ROW)는 갱신된 각 행마다 평가되며, <strong>WHEN(N.sal &gt; O.sal AND N.deptno = 10)</strong> 조건을 만족하는 행에서만 액션(INSERT)이 실행된다.</p>
 <ul>
 <li><code>N.sal &gt; O.sal</code>: sal×1.1은 모든 행에서 증가 → 8행 모두 참</li>
 <li><code>N.deptno = 10</code>: dept10인 <strong>5행</strong>만 참</li>
 </ul>
-<p>두 조건의 교집합 = <strong>dept10의 5행</strong> → 트리거 액션 5회 실행 → 정답 ②.</p>
+<p>두 조건의 교집합 = <strong>dept10의 5행</strong> → 트리거 액션 5회 실행 → 정답 ②.<br />
+ UPDATE는 dept10(5)+dept20(3)=8행을 갱신하고 모든 행에서 sal×1.1로 증가한다. 행 트리거는 각 행마다 WHEN(N.sal&gt;O.sal AND N.deptno=10)을 평가하는데, 증가 조건은 8행 모두 참이나 deptno=10은 5행만 참이므로 액션은 5회 실행되어 ②(5건)가 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①(8건)</h3>
 <p>WHEN의 deptno=10 조건을 무시하고 갱신 전체 행을 센 값이다.</p>
@@ -1006,7 +1464,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "갱신 행 수 × WHEN 조건 필터"로 실행 횟수를 계산.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>트리거 분류</strong>: 시점(BEFORE/AFTER/INSTEAD OF), 이벤트(INSERT/UPDATE/DELETE), 단위(행 트리거 FOR EACH ROW / 문장 트리거).</p>
+<p><strong>참조 변수</strong>: OLD(변경 전)·NEW(변경 후) 행, WHEN 절로 조건 필터.</p>
+<p><strong>활용</strong>: 무결성 강제, 감사 로그, 파생 컬럼 자동 계산. 남용 시 성능·디버깅 부담.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>트리거로 감사·무결성을 자동화한다. 행 트리거는 영향받는 행마다 WHEN 조건을 만족할 때 액션을 수행한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'갱신 행 수 × WHEN 조건 필터'로 실행 횟수 계산.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1057,6 +1522,44 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: SQL - 서브쿼리</li>
+<li><strong>관련 페이지</strong>: 상관 서브쿼리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: NOT EXISTS 질의 문항</li>
+<li><strong>재출제 경향</strong>: 서브쿼리 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(서브쿼리)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>NOT EXISTS=서브쿼리 비었을 때 참</li>
+<li>상관 참조(R.A)</li>
+<li>c3 가진 A={1,5}</li>
+<li>그 행 제외</li>
+<li>결과 {b,c}</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>각 R 행에 대해 "S에 A=R.A이고 C='c3'인 행이 <strong>없으면</strong>" 선택한다. S에서 C='c3'인 행의 A값은 <strong>{1, 5}</strong> 이다.</p>
 <ul>
@@ -1065,7 +1568,8 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <li>R.A=3 → (3,'c3') 없음 → 포함 → <strong>B=c</strong></li>
 <li>R.A=5 → (5,'c3') 존재 → 제외 (B=x 제외)</li>
 </ul>
-<p>결과 B = <strong>{b, c}</strong> → 정답 ③.</p>
+<p>결과 B = <strong>{b, c}</strong> → 정답 ③.<br />
+ 각 R 행에 대해 S에 (A=R.A, C='c3')가 없으면 선택한다. S에서 C='c3'인 A값은 {1,5}이므로, R.A=1(a)·R.A=5(x)는 제외되고 R.A=2(b)·R.A=3(c)가 선택되어 결과는 {b,c}로 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
 <p>c3을 참조하는 A값(1,5)에 해당하는 행(a,x)은 제외되어야 하므로 a·x를 포함한 보기는 오답이다.</p>
@@ -1079,7 +1583,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: c3을 가진 A값 집합을 먼저 구하고, 그 A를 가진 R 행을 제외.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>EXISTS 계열</strong>: EXISTS(하나라도 있으면 참), NOT EXISTS(하나도 없으면 참). 상관 서브쿼리와 결합해 '~인 것이 없는' 조건을 표현한다.</p>
+<p><strong>분할(division) 연산</strong>: '모든 ~에 대해' 조건은 NOT EXISTS 이중 부정으로 구현한다.</p>
+<p><strong>시험 관점</strong>: 참조 값 집합을 먼저 구하고 그 행을 제외/포함하는 방식으로 결과를 도출한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>NOT EXISTS 상관 서브쿼리로 '~가 없는' 조건을 조회한다. 참조 값 집합을 먼저 구해 대상 행을 제외한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>c3을 가진 A값 집합을 먼저 구하고 그 행을 제외.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1136,6 +1647,44 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: DB 객체 - 프로시저/트리거</li>
+<li><strong>관련 페이지</strong>: 프로시저·트리거</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 프로시저 vs 트리거 문항</li>
+<li><strong>재출제 경향</strong>: DB 프로그래밍 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(프로시저/트리거)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>프로시저=명시적 호출·매개변수</li>
+<li>트리거=이벤트 자동·매개변수 없음</li>
+<li>트리거 리턴 없음</li>
+<li>무결성·감사 자동화</li>
+<li>트랜잭션 제어 차이</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가(틀림)</strong>: 트리거는 <strong>매개변수나 리턴값을 갖지 않는다</strong>(이벤트 기반 자동 실행).</li>
@@ -1143,7 +1692,8 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <li><strong>다(틀림)</strong>: 일반적으로 저장 프로시저는 트랜잭션 제어(COMMIT/ROLLBACK)를 사용할 수 있고, <strong>트리거는 (실행 중인 트랜잭션의 일부이므로) 자유로운 COMMIT/ROLLBACK이 제한된다</strong>. 서술이 반대이다.</li>
 <li><strong>라(옳음)</strong>: 프로시저는 명시적 호출, 트리거는 이벤트 시 자동 실행.</li>
 </ul>
-<p>옳은 것은 <strong>나, 라</strong> → 정답 ②.</p>
+<p>옳은 것은 <strong>나, 라</strong> → 정답 ②.<br />
+ 가(트리거가 매개변수·리턴)는 틀리다—트리거는 매개변수·리턴값이 없다. 다(저장프로시저는 트랜잭션 제어 불가, 트리거는 자유)도 서술이 반대다. 나(저장프로시저 매개변수)·라(프로시저=명시적 호출, 트리거=이벤트 자동)는 옳으므로 나·라로 ②가 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
 <p>'가'(트리거 매개변수·리턴)와 '다'(트랜잭션 제어 서술 반대)를 포함하여 오답이다.</p>
@@ -1177,7 +1727,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <ul>
 <li><strong>시험 포인트</strong>: 트리거는 매개변수·리턴 없음, 자동 실행.</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>저장 프로시저 vs 트리거</strong>: 프로시저는 명시적 CALL·IN/OUT 매개변수·트랜잭션 제어 가능, 트리거는 이벤트 자동 실행·매개변수/리턴 없음·실행 트랜잭션의 일부.</p>
+<p><strong>함수(UDF)</strong>: 값을 반환하고 SQL 내에서 호출 가능(부작용 제한).</p>
+<p><strong>활용</strong>: 프로시저=업무 로직 캡슐화, 트리거=무결성·감사 자동화.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>저장 프로시저와 트리거를 구분해 업무 로직·자동화를 구현한다. 트리거는 매개변수·리턴이 없고 이벤트로 자동 실행된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>트리거는 매개변수·리턴 없음, 자동 실행.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1234,6 +1791,44 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 정규화 - 반정규화</li>
+<li><strong>관련 페이지</strong>: 반정규화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 반정규화 유형 문항</li>
+<li><strong>재출제 경향</strong>: 정규화/반정규화 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(반정규화)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>수직 분할=컬럼 기준</li>
+<li>수평 분할=행 기준</li>
+<li>테이블 병합=조인 절감</li>
+<li>중복 컬럼 추가</li>
+<li>반정규화=성능 목적</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가(틀림)</strong>: 큰 컬럼을 별도 테이블로 분리하는 것은 <strong>수직 분할</strong>이다(수평 분할은 행 기준 분할).</li>
@@ -1241,7 +1836,8 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <li><strong>다(틀림)</strong>: 부분 테이블 분할(접근 빈도별 분할)은 성능 개선을 위한 <strong>반정규화</strong> 기법이지 "정규화 기법"이 아니다.</li>
 <li><strong>라(옳음)</strong>: 접근 경로 단축을 위해 부모 컬럼을 자식에 <strong>중복(컬럼 추가)</strong> 하는 것은 반정규화의 전형이다.</li>
 </ul>
-<p>옳은 것은 <strong>나, 라</strong> → 정답 ②.</p>
+<p>옳은 것은 <strong>나, 라</strong> → 정답 ②.<br />
+ 가는 큰 컬럼을 별도 테이블로 분리하는 '수직 분할'을 수평 분할로 잘못 서술(틀림), 다는 부분 테이블 분할(성능 개선)을 '정규화 기법'이라 오기(실제 반정규화)했다. 나(테이블 병합=조인 절감)·라(부모 컬럼 자식에 중복)는 옳으므로 나·라로 ②가 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
 <p>'가'(수직↔수평 혼동)·'다'("정규화 기법"이라는 오기)를 포함하여 오답이다.</p>
@@ -1256,7 +1852,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "수직/수평" 명칭과 "반정규화 vs 정규화" 구분.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>반정규화 유형</strong>: 테이블 병합(1:1·1:M·슈퍼서브), 테이블 분할(수직=컬럼·수평=행/파티셔닝), 중복(컬럼·테이블·통계 추가).</p>
+<p><strong>수직 vs 수평</strong>: 수직=자주 안 쓰는/큰 컬럼 분리, 수평=범위·해시 파티셔닝으로 대량 행 분리.</p>
+<p><strong>트레이드오프</strong>: 조회 성능↑ vs 갱신 이상·정합성 관리 부담↑(정규화와 균형).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>성능을 위해 반정규화(테이블 병합·분할·중복)를 적용한다. 수직 분할(컬럼 분리)과 수평 분할(행 분리)을 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'수직/수평' 명칭과 '반정규화 vs 정규화' 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1307,9 +1910,48 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 관계대수 - 최적화</li>
+<li><strong>관련 페이지</strong>: 질의 최적화</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 관계대수 동등성 문항</li>
+<li><strong>재출제 경향</strong>: 질의 최적화·관계대수 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(관계대수)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>σ(c1 AND c2)=σc1(σc2)</li>
+<li>단일 릴레이션 조건 푸시다운</li>
+<li>교차 OR=분리 불가</li>
+<li>조인 전 선택 이동</li>
+<li>동등성 판단</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>①·③·④는 모두 <strong>σ_{A=3 AND F=9}(R⋈S)</strong> 와 동등하다: AND 조건은 각 릴레이션 속성으로 분리하여 조인 전에 밀어 넣을 수 있고(③), 순차 선택으로 나눌 수도 있다(④).</p>
-<p>그러나 <strong>② σ_{A=3 OR F=9}</strong> 는 <strong>서로 다른 릴레이션(R의 A, S의 F)에 대한 OR 조건</strong>이어서 조인 전에 각 릴레이션으로 분리·푸시다운할 수 없고, AND 버전과 결과 집합이 다르다. 따라서 ①·③·④와 <strong>동등하지 않은</strong> 것은 ②이다.</p>
+<p>그러나 <strong>② σ_{A=3 OR F=9}</strong> 는 <strong>서로 다른 릴레이션(R의 A, S의 F)에 대한 OR 조건</strong>이어서 조인 전에 각 릴레이션으로 분리·푸시다운할 수 없고, AND 버전과 결과 집합이 다르다. 따라서 ①·③·④와 <strong>동등하지 않은</strong> 것은 ②이다.<br />
+ ①·③·④는 모두 σ_{A=3 AND F=9}(R⋈S)와 동등하다—AND 조건은 각 릴레이션 속성으로 분리해 조인 전 푸시다운하거나 순차 선택으로 나눌 수 있다. 그러나 ② σ_{A=3 OR F=9}는 서로 다른 릴레이션 속성에 걸친 OR라 조인 전 분리·푸시다운이 불가해 결과가 달라지므로 동등하지 않은 것은 ②이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①·④</h3>
 <p>AND 조건의 선택은 조인 결과에 대해 순차/결합으로 적용 가능하여 서로 동등하다.</p>
@@ -1325,7 +1967,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "AND=분배·푸시다운 가능, 교차 OR=불가"가 동등성 판단 핵심.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>질의 최적화 규칙</strong>: 선택 분배(σ_{c1∧c2}=σc1(σc2)), 선택 푸시다운(단일 릴레이션 조건을 조인 전으로), 프로젝션 푸시다운, 조인 순서 재배열, 카티션곱 회피.</p>
+<p><strong>논리적 vs 물리적 최적화</strong>: 관계대수 변환(논리)과 접근경로·조인방식 선택(물리, 비용 기반).</p>
+<p><strong>시험 관점</strong>: 교차 OR는 분리 불가라는 점이 핵심.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>관계대수 최적화 시 선택을 조인 전으로 푸시다운한다. 서로 다른 릴레이션에 걸친 OR 조건은 분리 불가함을 이해한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'AND=분배·푸시다운 가능, 교차 OR=불가'가 동등성 판단 핵심.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1382,6 +2031,44 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 물리 설계 - 인덱스</li>
+<li><strong>관련 페이지</strong>: 인덱스</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 인덱스 종류 문항</li>
+<li><strong>재출제 경향</strong>: 인덱스·물리설계 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(인덱스)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>밀집=모든 레코드 엔트리</li>
+<li>희소=블록당 대표(정렬 필요)</li>
+<li>희소는 파일당 1개</li>
+<li>클러스터링=정렬된 파일</li>
+<li>다단계=최상위 마스터</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가(옳음)</strong>: 희소(sparse) 인덱스는 데이터 파일이 인덱스 키로 <strong>정렬되어 있어야</strong> 하므로, 한 파일에 대해 <strong>최대 1개</strong>만 가질 수 있다.</li>
@@ -1389,7 +2076,8 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <li><strong>다(틀림)</strong>: 다단계 인덱스에서 <strong>최상위(마스터)</strong> 는 가장 위 단계이고, 데이터 파일에 직접 대응하는 인덱스는 <strong>최하위(1단계)</strong> 이다. 단계 번호 부여가 반대로 서술되었다.</li>
 <li><strong>라(옳음)</strong>: 클러스터링 인덱스는 정렬된 데이터 파일 기준, 비클러스터링은 정렬과 무관한 파일 기준으로 정의된다.</li>
 </ul>
-<p>옳은 것은 <strong>가, 라</strong> → 정답 ③.</p>
+<p>옳은 것은 <strong>가, 라</strong> → 정답 ③.<br />
+ 가(희소 인덱스는 정렬 파일당 최대 1개)와 라(클러스터링=정렬된 파일, 비클러스터링=정렬과 무관)는 옳다. 나(밀집 1개+희소 다수)는 틀리고, 다는 다단계 인덱스의 단계 번호를 반대로 서술(최상위=마스터, 데이터파일 대응=최하위)했다. 따라서 가·라로 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
 <p>'나'(밀집+희소 조합) 또는 '다'(단계 번호 반대)를 포함하여 오답이다.</p>
@@ -1404,7 +2092,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "희소=정렬=1개", "클러스터링=정렬된 파일".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>인덱스 분류</strong>: 밀집(모든 레코드 엔트리)·희소(블록당 대표, 정렬 필요), 클러스터드(데이터가 인덱스 순 정렬, 테이블당 1개)·논클러스터드, 기본/보조 인덱스, 다단계(B+트리).</p>
+<p><strong>B+트리</strong>: 단말에 모든 키·포인터, 범위 검색에 유리(리프 연결 리스트).</p>
+<p><strong>시험 관점</strong>: '희소=정렬=1개', '클러스터링=정렬된 파일'을 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>인덱스를 설계할 때 밀집/희소, 다단계, 클러스터링을 구분한다. 희소 인덱스는 정렬 파일당 최대 1개다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'희소=정렬=1개', '클러스터링=정렬된 파일'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1460,6 +2155,44 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 질의 처리 - 조인</li>
+<li><strong>관련 페이지</strong>: 조인 알고리즘</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 조인 수행 원리 문항</li>
+<li><strong>재출제 경향</strong>: 조인 알고리즘 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(조인 알고리즘)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Nested Loop=행별 반복</li>
+<li>Sort-Merge=정렬 후 병합</li>
+<li>Hash=equi-join·대량 유리</li>
+<li>정렬돼있으면 정렬 생략(SM)</li>
+<li>해시테이블 메모리 초과→디스크</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가(틀림)</strong>: "선행 행별로 후행을 반복 탐색"은 <strong>Nested Loop Join</strong>의 설명이다(Sort-Merge가 아님).</li>
@@ -1467,7 +2200,8 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <li><strong>다(옳음)</strong>: Hash Join은 <strong>동등 조인 전용</strong>이며, 대량 데이터에서 일반적으로 NL/Sort-Merge보다 효율적이다.</li>
 <li><strong>라(옳음)</strong>: Hash Join은 해시테이블을 메모리에 만들고, 메모리를 초과하면 디스크 임시영역을 사용(grace/hybrid hash)한다.</li>
 </ul>
-<p>옳은 것은 <strong>다, 라</strong> → 정답 ②.</p>
+<p>옳은 것은 <strong>다, 라</strong> → 정답 ②.<br />
+ 가(선행 행별 후행 반복 탐색)는 Nested Loop 설명을 Sort-Merge로 오기, 나(양쪽 정렬 시 정렬 생략)는 Sort-Merge 특징을 Nested Loop에 결합한 오류다. 다(Hash Join=equi-join·대량 유리)·라(해시테이블 메모리 초과 시 디스크)는 옳으므로 다·라로 ②가 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①③④</h3>
 <p>'가'(NL 설명을 Sort-Merge로 오기)·'나'(정렬 생략을 NL에 결합)를 포함하여 오답이다.</p>
@@ -1497,7 +2231,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <ul>
 <li><strong>시험 포인트</strong>: 각 조인의 특징을 서로 바꾼 함정(반복탐색=NL, 정렬생략=Sort-Merge).</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>조인 알고리즘</strong>: Nested Loop(행별 반복, 소량·인덱스 유리, 부등호 가능), Sort-Merge(정렬 후 병합, 정렬돼 있으면 생략), Hash Join(equi-join 전용, 대량 유리, grace/hybrid로 디스크 사용).</p>
+<p><strong>옵티마이저 선택</strong>: 데이터량·인덱스·통계·메모리를 고려해 비용 기반으로 조인 방식·순서를 결정한다.</p>
+<p><strong>시험 관점</strong>: 각 조인의 특징을 서로 바꾼 함정을 가려낸다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>조인 알고리즘(Nested Loop/Sort-Merge/Hash)을 상황에 맞게 선택한다. Hash Join은 동등조인·대량 데이터에 유리하다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>각 조인 특징을 서로 바꾼 함정(반복탐색=NL, 정렬생략=Sort-Merge).</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1548,9 +2289,48 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: DBMS 구조 - 카탈로그</li>
+<li><strong>관련 페이지</strong>: 시스템 카탈로그</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 시스템 카탈로그 문항</li>
+<li><strong>재출제 경향</strong>: DBMS 구조·카탈로그 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(카탈로그)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>카탈로그=메타데이터 저장소</li>
+<li>DDL 시 자동 갱신</li>
+<li>질의처리기 참조</li>
+<li>INFORMATION_SCHEMA(표준)</li>
+<li>SYSTEM_LOG는 가짜</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>SQL 표준으로 메타데이터를 표준화된 방법으로 조회하게 하는 가상 스키마는 <strong>INFORMATION_SCHEMA</strong> 이다. 보기 ②의 <strong>"SYSTEM_LOG"</strong> 라는 명칭은 존재하지 않는 오류이므로 옳지 않다 → 정답 ②.</p>
-<p>①(질의처리기의 카탈로그 참조), ③(DDL 실행 시 카탈로그 자동 갱신), ④(모든 객체의 정의·명세 메타데이터 유지)는 모두 옳다.</p>
+<p>①(질의처리기의 카탈로그 참조), ③(DDL 실행 시 카탈로그 자동 갱신), ④(모든 객체의 정의·명세 메타데이터 유지)는 모두 옳다.<br />
+ SQL 표준으로 메타데이터를 표준화된 방법으로 조회하는 가상 스키마는 INFORMATION_SCHEMA이므로, 'SYSTEM_LOG'라는 명칭을 쓴 ②는 옳지 않다. ①(질의처리기의 카탈로그 참조), ③(DDL 시 자동 갱신), ④(객체 정의·명세 메타데이터 유지)는 모두 옳다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>질의 최적화·검증을 위해 질의처리기는 카탈로그를 참조한다. 옳다.</p>
@@ -1568,7 +2348,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: 표준 메타데이터 스키마명은 INFORMATION_SCHEMA. 가짜 명칭(SYSTEM_LOG) 주의.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>시스템 카탈로그(데이터 사전)</strong>: 테이블·컬럼·인덱스·뷰·제약·권한·통계 등 메타데이터의 저장소. DBMS가 자동으로 유지·갱신하며 사용자는 대개 조회만 가능.</p>
+<p><strong>INFORMATION_SCHEMA</strong>: 표준 메타데이터 조회용 가상 스키마(오라클은 데이터 딕셔너리 뷰 USER_/ALL_/DBA_).</p>
+<p><strong>활용</strong>: 질의 최적화·권한 검증·무결성 검사에 참조된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>시스템 카탈로그(데이터 사전)로 메타데이터를 관리한다. 표준 조회 스키마는 INFORMATION_SCHEMA이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>표준 메타데이터 스키마명=INFORMATION_SCHEMA. 가짜 명칭 주의.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1619,12 +2406,51 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 트랜잭션 - 동시성</li>
+<li><strong>관련 페이지</strong>: 동시성 제어</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 동시성 충돌 유형 문항</li>
+<li><strong>재출제 경향</strong>: 트랜잭션·격리수준 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(트랜잭션)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>WR=dirty read</li>
+<li>RW=unrepeatable read</li>
+<li>WW=lost update</li>
+<li>read-read=충돌 아님</li>
+<li>Read Committed로 방지</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>오손 읽기(Dirty Read)</strong> 는 트랜잭션 T1이 데이터를 <strong>write(갱신)</strong> 한 뒤 아직 커밋하지 않은 상태에서, T2가 그 값을 <strong>read(읽기)</strong> 하는 상황이다. 즉 <strong>write(T1) → read(T2)</strong> 순서의 충돌이므로 정답은 ④ <strong>write-read 충돌</strong>이다.</p>
 <ul>
 <li>read-read(①)는 충돌이 아니다(둘 다 읽기).</li>
 <li>write-write(③)는 갱신 손실(lost update)/더티 write 유형.</li>
-<li>read-write(②)는 반복불가능 읽기(unrepeatable read) 유형과 연관.</li>
+<li>read-write(②)는 반복불가능 읽기(unrepeatable read) 유형과 연관.<br />
+ 오손 읽기(Dirty Read)는 트랜잭션 T1이 write(갱신)한 뒤 커밋하지 않은 값을 T2가 read하는 상황으로 write(T1)→read(T2) 순서의 WR 충돌이다. 따라서 ④(write-read 충돌)가 정답이다. read-read는 충돌이 아니고, WW는 갱신 손실, RW는 반복불가능 읽기와 연관된다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -1643,7 +2469,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "미커밋 write를 read = WR = dirty read".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>충돌 유형·이상현상</strong>: WR(dirty read), RW(unrepeatable read/phantom), WW(lost update).</p>
+<p><strong>격리수준</strong>: Read Uncommitted(더티 허용)→Read Committed(더티 방지)→Repeatable Read(반복불가 방지)→Serializable(팬텀까지 방지).</p>
+<p><strong>동시성 제어</strong>: 로킹(2PL), 타임스탬프, 낙관적(검증), MVCC(스냅샷).</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>동시성 제어로 이상 현상을 방지한다. 오손 읽기(dirty read)는 미커밋 write를 read하는 WR 충돌에서 발생한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'미커밋 write를 read=WR=dirty read'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1695,8 +2528,47 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 트랜잭션 - 로킹</li>
+<li><strong>관련 페이지</strong>: 2PL</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 2PL 로크포인트 문항</li>
+<li><strong>재출제 경향</strong>: 로킹·직렬가능성 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(2PL)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>확장=로크 획득만</li>
+<li>수축=로크 해제만</li>
+<li>로크포인트=전환점(최대)</li>
+<li>엄격 2PL=커밋까지 유지</li>
+<li>직렬가능성 보장</li>
+</ol>
 <hr /></div></div></div></div>
-        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>2단계 로킹(2PL)</strong> 에서 트랜잭션은 <strong>확장 단계(로크 획득만)</strong> 를 거쳐 <strong>수축 단계(로크 해제만)</strong> 로 넘어간다. 이 전환이 일어나는, 즉 <strong>마지막 로크를 획득하여 보유 로크 수가 최대가 되는 시점</strong>이 <strong>로크포인트(Lock Point)</strong> 이다. 그림에서 로크 수가 정점에 도달한 지점 <strong>ⓒ</strong> 가 로크포인트이므로 정답은 ③이다.</p>
+        <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>2단계 로킹(2PL)</strong> 에서 트랜잭션은 <strong>확장 단계(로크 획득만)</strong> 를 거쳐 <strong>수축 단계(로크 해제만)</strong> 로 넘어간다. 이 전환이 일어나는, 즉 <strong>마지막 로크를 획득하여 보유 로크 수가 최대가 되는 시점</strong>이 <strong>로크포인트(Lock Point)</strong> 이다. 그림에서 로크 수가 정점에 도달한 지점 <strong>ⓒ</strong> 가 로크포인트이므로 정답은 ③이다.<br />
+ 2PL은 확장 단계(로크 획득만)를 거쳐 수축 단계(로크 해제만)로 넘어가며, 그 전환이 일어나 보유 로크 수가 최대가 되는 시점이 로크포인트다. 그림에서 로크 수가 정점에 도달한 ⓒ가 로크포인트이므로 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②</h3>
 <p>ⓐ·ⓑ는 아직 로크를 더 획득하는 확장 단계 중간 지점이다.</p>
@@ -1712,7 +2584,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: 로크포인트 = 확장→수축 전환점(보유 로크 최대).</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>2PL 변형</strong>: 기본 2PL, 엄격 2PL(Strict, 커밋까지 X-lock 유지), 강한 엄격 2PL(모든 lock 유지). 엄격 2PL은 연쇄 롤백을 방지한다.</p>
+<p><strong>직렬가능성</strong>: 로크포인트 순서가 트랜잭션의 직렬 순서를 결정. 2PL은 충돌 직렬가능성을 보장하나 교착상태 가능.</p>
+<p><strong>교착 처리</strong>: 예방·회피(대기-사망/상처-대기)·탐지(대기 그래프)·타임아웃.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>2단계 로킹(2PL)으로 직렬가능성을 보장한다. 로크포인트(확장→수축 전환, 로크 최대)로 직렬 순서가 결정된다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>로크포인트=확장→수축 전환점(보유 로크 최대).</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1768,6 +2647,44 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: DB 보안 - 접근제어</li>
+<li><strong>관련 페이지</strong>: 접근제어</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: DB 접근제어 모델 문항</li>
+<li><strong>재출제 경향</strong>: 보안·접근제어 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(접근제어)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>MAC=레이블·중앙집중</li>
+<li>DAC=소유자·신분·GRANT</li>
+<li>RBAC=역할에 권한</li>
+<li>RLS/FGAC=행 단위</li>
+<li>자유 위임=DAC</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><ul>
 <li><strong>가(옳음)</strong>: MAC은 객체 보안등급과 사용자 허가등급을 비교하며 소유자가 임의로 바꿀 수 없는 중앙집중 정책이다.</li>
@@ -1775,7 +2692,8 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <li><strong>다(옳음)</strong>: RLS는 조건에 따라 행 단위로 접근을 제한하는 FGAC 기법이다.</li>
 <li><strong>라(옳음)</strong>: DAC는 소유자가 GRANT/REVOKE로 신분 기반 통제를 한다.</li>
 </ul>
-<p>옳은 것은 <strong>가, 다, 라</strong> → 정답 ③.</p>
+<p>옳은 것은 <strong>가, 다, 라</strong> → 정답 ③.<br />
+ 가(MAC 레이블·중앙집중·소유자 변경 불가)·다(RLS/FGAC=행 단위 접근제어)·라(DAC=소유자·신분 기반·GRANT/REVOKE)는 옳다. 나는 '소유자가 자유롭게 위임'을 RBAC라 했는데 이는 DAC의 특징이므로 틀리다. 따라서 가·다·라로 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②④</h3>
 <p>'나'(DAC 특징을 RBAC로 오기)를 옳다고 포함하거나, 옳은 '가'를 누락하여 오답이다.</p>
@@ -1809,7 +2727,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <ul>
 <li><strong>시험 포인트</strong>: "자유로운 위임=DAC(RBAC 아님)".</li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>접근제어 모델</strong>: MAC(레이블·보안등급 비교·중앙집중), DAC(소유자 재량·신분 기반), RBAC(역할에 권한 부여·사용자↔역할), ABAC(속성 기반 동적), RLS/FGAC(행 단위).</p>
+<p><strong>RBAC 계층</strong>: 역할 상속·직무 분리(SoD)로 최소권한을 구현.</p>
+<p><strong>시험 관점</strong>: '자유 위임=DAC(RBAC 아님)'을 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>접근제어 모델(MAC/DAC/RBAC/RLS)로 DB 보안을 설계한다. 소유자 자유 위임은 DAC의 특징이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'자유로운 위임=DAC(RBAC 아님)'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1859,6 +2784,44 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 정보검색 - 평가</li>
+<li><strong>관련 페이지</strong>: IR 평가</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 정확도/재현율 계산 문항</li>
+<li><strong>재출제 경향</strong>: 정보검색 평가 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 계산형(IR 평가)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>Precision@k=관련수/k</li>
+<li>Recall=관련수/전체관련</li>
+<li>P(3)=3/3, P(4)=3/4, P(5)=3/5</li>
+<li>분모=상위 k</li>
+<li>F1=조화평균</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>상위 순위의 관련성: 1위 예, 2위 예, 3위 예, 4위 아니오, 5위 아니오.</p>
 <ul>
@@ -1866,7 +2829,8 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <li><strong>P(4)</strong> = 상위 4개 중 관련 3개 / 4 = <strong>75%</strong></li>
 <li><strong>P(5)</strong> = 상위 5개 중 관련 3개 / 5 = <strong>60%</strong></li>
 </ul>
-<p>따라서 100, 75, 60 → 정답 ②.</p>
+<p>따라서 100, 75, 60 → 정답 ②.<br />
+ Precision@k=상위 k개 중 관련 문서 수/k이다. 상위 관련성이 1·2·3위 예, 4·5위 아니오이므로 P(3)=3/3=100%, P(4)=3/4=75%, P(5)=3/5=60%로 ②가 정답이다. 정확도의 분모는 '검색된 상위 k'이지 전체 관련 문서가 아니다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>P(4)·P(5)에서도 관련 문서 비율이 낮아지는데 100%로 둔 것은 오답이다.</p>
@@ -1884,7 +2848,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: 정확도의 분모는 "검색된 상위 k"이지 전체 관련 문서가 아니다.</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>IR 평가지표</strong>: 정확도(Precision)=관련/검색, 재현율(Recall)=관련/전체관련, F1=2PR/(P+R), MAP·MRR·nDCG(순위 반영).</p>
+<p><strong>정확도-재현율 트레이드오프</strong>: 임계값 조정에 따라 상충하며 PR 곡선으로 평가.</p>
+<p><strong>시험 관점</strong>: 분모(검색된 k vs 전체 관련)를 혼동한 보기를 가려낸다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>검색 품질을 정확도(Precision@k)·재현율로 평가한다. Precision@k=상위 k 중 관련 수/k이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>정확도 분모는 '검색된 상위 k'이지 전체 관련 문서가 아니다.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -1935,11 +2906,50 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 데이터마이닝</li>
+<li><strong>관련 페이지</strong>: 마이닝 기법</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: 마이닝 유형 구분 문항</li>
+<li><strong>재출제 경향</strong>: 데이터마이닝·분석 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(마이닝)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>연관=동시 구매 패턴</li>
+<li>분류/예측=레이블 예측</li>
+<li>군집=유사 그룹화(비지도)</li>
+<li>순차=시간 패턴</li>
+<li>고객 세분화=군집</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>군집(Clustering)</strong> 은 사전 정의된 레이블 없이 <strong>유사한 개체들을 그룹으로 묶는(나누는)</strong> 비지도 기법이다. 보기 ④는 "유사 그룹을 찾거나 인구통계·투자유형 기반으로 나눈다"로 군집의 정의에 해당하므로 정답 ④.</p>
 <ul>
 <li>①(집→냉장고), ②(콘칩→콜라)는 <strong>연관성(association)</strong>.</li>
-<li>③(이탈 가능성 예측)은 <strong>분류/예측(classification)</strong>.</li>
+<li>③(이탈 가능성 예측)은 <strong>분류/예측(classification)</strong>.<br />
+ 군집(Clustering)은 사전 레이블 없이 유사한 개체를 그룹으로 묶는 비지도 기법이다. 보기 ④(유사 그룹을 찾거나 인구통계·투자유형으로 나눔)가 군집에 해당한다. ①·②는 연관(장바구니), ③은 분류/예측(이탈 예측)이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①②</h3>
@@ -1957,7 +2967,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "유사 그룹으로 나눔 = 군집(비지도)".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>데이터마이닝 기능</strong>: 연관(Apriori·FP-Growth), 분류(의사결정나무·SVM·나이브베이즈), 군집(K-means·계층적·DBSCAN), 예측(회귀), 순차패턴, 이상탐지.</p>
+<p><strong>지도 vs 비지도</strong>: 분류/예측=지도(레이블), 군집/연관=비지도.</p>
+<p><strong>CRISP-DM</strong>: 비즈니스 이해→데이터 이해·준비→모델링→평가→배포.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>데이터마이닝으로 연관·분류·군집·예측 정보를 도출한다. 군집은 레이블 없이 유사 그룹으로 나누는 비지도 기법이다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'유사 그룹으로 나눔=군집(비지도)'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -2012,13 +3029,52 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 분산 DB - CAP</li>
+<li><strong>관련 페이지</strong>: 분산 데이터</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: CAP 정리 문항</li>
+<li><strong>재출제 경향</strong>: 분산DB·NoSQL 유형으로 확대</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(CAP)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>분할 시 C·A 택1</li>
+<li>AP=가용성 우선(불일치 허용)</li>
+<li>CP=일관성 우선(가용성 희생)</li>
+<li>AP예: Cassandra</li>
+<li>CP예: HBase</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p>네트워크 분할(P)이 발생하면 일관성(C)과 가용성(A)을 동시에 만족할 수 없다.</p>
 <ul>
 <li><strong>㉠</strong>: "분할 후에도 계속 작동하되 노드마다 다른 값을 읽을 수 있음" = <strong>가용성(A) 우선, 일관성 희생</strong> = <strong>AP(가용성 + 분할감내)</strong>.</li>
 <li><strong>㉡</strong>: "한 파티션은 사용 불가처럼 작동" = 응답을 막아 <strong>일관성(C) 유지, 가용성 희생</strong> = <strong>CP(일관성 + 분할감내)</strong>.</li>
 </ul>
-<p>따라서 ㉠ = 가용성+분할감내, ㉡ = 일관성+분할감내 → 정답 ①.</p>
+<p>따라서 ㉠ = 가용성+분할감내, ㉡ = 일관성+분할감내 → 정답 ①.<br />
+ CAP에서 네트워크 분할(P) 시 일관성(C)과 가용성(A)을 동시에 만족할 수 없다. ㉠(분할 후에도 작동·노드마다 다른 값 읽음)=AP(가용성+분할감내, 일관성 희생), ㉡(한 파티션은 사용 불가처럼 작동)=CP(일관성+분할감내, 가용성 희생)이므로 ①이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기②③④</h3>
 <p>분할(P)이 전제된 상황이므로 두 선택지 모두 P를 포함해야 한다. "일관성+가용성(CA)"은 분할이 없는 경우의 조합이므로 P가 전제된 문제에서는 부적절하다.</p>
@@ -2032,7 +3088,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: 분할 상황에서 "계속 작동=AP", "응답 차단=CP".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>CAP 정리</strong>: 분할 시 C·A 중 택1. AP(최종 일관성, Cassandra·DynamoDB), CP(강한 일관성, HBase·MongoDB 기본).</p>
+<p><strong>BASE vs ACID</strong>: NoSQL은 BASE(Basically Available·Soft state·Eventually consistent)를 지향.</p>
+<p><strong>PACELC</strong>: 분할 아닐 때도 지연(L) vs 일관성(C)의 트레이드오프를 추가로 설명한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>분산 데이터 저장소 설계 시 CAP 정리를 고려한다. 분할(P) 시 가용성(AP)과 일관성(CP) 중 택1한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>분할 상황에서 '계속 작동=AP', '응답 차단=CP'.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -2083,11 +3146,50 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 빅데이터 - MapReduce</li>
+<li><strong>관련 페이지</strong>: 분산 처리</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: MapReduce 예제 문항</li>
+<li><strong>재출제 경향</strong>: 빅데이터 처리 유형으로 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★</strong> 보통(MapReduce)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>역인덱스=단어→문서목록</li>
+<li>Map(단어,문서번호)</li>
+<li>Reduce(단어,리스트)</li>
+<li>word count=단어→횟수</li>
+<li>검색엔진 자료구조</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>역 인덱스(Inverted Index)</strong> 는 각 단어가 등장하는 <strong>문서들의 목록</strong>을 매핑하는 구조이다. Map이 (단어, 문서번호)를 방출하고 Reduce가 단어별로 문서번호 리스트를 만들어 (단어, [문서번호…])를 출력하는 것은 역 인덱스 생성의 전형적 MapReduce 구현이므로 정답 ④.</p>
 <ul>
 <li>word count(③)는 (단어, 횟수)를 출력한다(문서번호 리스트가 아님).</li>
-<li>distributed grep(①)은 패턴 일치 라인 출력, web-link graph(②)는 (target, source) 링크 집계.</li>
+<li>distributed grep(①)은 패턴 일치 라인 출력, web-link graph(②)는 (target, source) 링크 집계.<br />
+ 역 인덱스는 각 단어가 등장하는 문서 목록을 매핑하는 구조다. Map이 (단어, 문서번호)를 방출하고 Reduce가 단어별 문서번호 리스트를 만들어 (단어, [문서번호…])를 출력하는 것은 역 인덱스 생성의 전형적 MapReduce 구현이므로 ④가 정답이다.</li>
 </ul>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
@@ -2106,7 +3208,14 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "단어 → 문서번호 리스트 = 역 인덱스".</p>
 </li>
 </ul>
-<h2>---</h2></div></div></div></div>
+<p><strong>MapReduce</strong>: Map(분할·매핑)→Shuffle&amp;Sort(키별 그룹)→Reduce(집계). 예제: word count(단어→횟수), inverted index(단어→문서목록), distributed grep, web-link graph.</p>
+<p><strong>역 인덱스</strong>: 검색엔진의 핵심 자료구조(posting list). tf-idf·BM25로 랭킹.</p>
+<p><strong>시험 관점</strong>: '단어→문서번호 리스트=역 인덱스', word count(단어→횟수)와 구분한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>MapReduce로 대용량 병렬 처리를 구현한다. 역 인덱스는 단어→문서목록을 만드는 대표 예제다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'단어→문서번호 리스트=역 인덱스'. word count와 구분.</p>
+<hr /></div></div></div></div>
       </div>
     </div>
 
@@ -2158,9 +3267,48 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 </tr>
 </tbody>
 </table>
+<hr /></div></div><div class="merge-divider"></div><div class="content-section"><div class="section-label">매칭 강의자료</div><div class="section-text"><ul>
+<li><strong>PDF명</strong>: 데이터베이스 강의자료</li>
+<li><strong>관련 챕터</strong>: 논리 설계 - ER 사상</li>
+<li><strong>관련 페이지</strong>: ER→관계 사상</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">출제패턴 분석</div><div class="section-text"><ul>
+<li><strong>최초 출제 유형</strong>: ER 사상 문항</li>
+<li><strong>재출제 경향</strong>: ER 사상·논리설계 유형으로 매년 반복</li>
+<li><strong>최근 출제년도</strong>: 2026년(본 문항)</li>
+</ul>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">유사문제</div><div class="section-text"><table>
+<thead>
+<tr>
+<th>연도</th>
+<th>문항번호</th>
+<th>핵심개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2004~2025 기출 교차분석</td>
+<td>-</td>
+<td>동일 개념 반복 출제(향후 전체 연도 해설집 완성 시 문항번호 갱신)</td>
+</tr>
+</tbody>
+</table>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">빈출도 분석</div><div class="section-text"><p><strong>★★★★</strong> 자주 출제(ER 사상)</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">암기 포인트</div><div class="section-text"><ol>
+<li>약한 개체=소유키+부분키</li>
+<li>복합 기본키</li>
+<li>1:N=N측에 외래키</li>
+<li>N:M=별도 릴레이션</li>
+<li>식별 관계 별도 불필요</li>
+</ol>
 <hr /></div></div></div></div>
         <div class="area-card area-2"><div class="area-header">영역 2 · 정답 해설 / 오답 분석 / 이론</div><div class="area-body"><div class="content-section"><div class="section-label">정답 해설</div><div class="section-text"><p><strong>약한 개체(E2)</strong> 는 자신만으로 식별되지 못하고 소유(식별) 개체(E1)에 의존한다. 관계 모델 사상 규칙에 따라 E2 릴레이션은 <strong>소유 개체의 기본키(PK1) + 자신의 부분키(K)</strong> 를 합쳐 <strong>복합 기본키 {PK1, K}</strong> 로 삼고, 여기에 속성 A2를 포함한다: <strong>E2(PK1, K, A2)</strong>. E1은 그대로 E1(PK1, A1)이다.</p>
-<p>식별 관계 R(1:N)은 이미 E2에 소유 키(PK1)를 포함시킴으로써 표현되므로 <strong>별도 릴레이션이 필요 없다</strong>. 따라서 정답은 ③이다.</p>
+<p>식별 관계 R(1:N)은 이미 E2에 소유 키(PK1)를 포함시킴으로써 표현되므로 <strong>별도 릴레이션이 필요 없다</strong>. 따라서 정답은 ③이다.<br />
+ 약한 개체(E2)는 소유(식별) 개체(E1)에 의존하므로, 관계 사상 시 E2 릴레이션은 소유 개체의 기본키(PK1)와 자신의 부분키(K)를 합쳐 복합 기본키 {PK1,K}로 삼고 속성 A2를 포함한다(E2(PK1,K,A2)). 1:N 식별 관계는 소유키를 포함시켜 표현되므로 별도 릴레이션이 불필요해 ③이 정답이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
 <p>단일 릴레이션 병합은 1:N 관계에서 중복·이상을 유발하여 부적절하다.</p>
@@ -2178,6 +3326,13 @@ UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
 <p><strong>시험 포인트</strong>: "약한 개체 = 소유키 + 부분키 복합 기본키".</p>
 </li>
 </ul>
+<p><strong>ER→관계 사상 규칙</strong>: 강한 개체=릴레이션+기본키, 약한 개체=소유키+부분키(복합 PK), 1:1=한쪽에 외래키/통합, 1:N=N측에 상대 PK를 외래키, N:M=별도 릴레이션(양측 PK), 다치속성=별도 릴레이션.</p>
+<p><strong>약한 개체 표기</strong>: 이중 사각형(개체)·이중 마름모(식별 관계)·점선 밑줄(부분키).</p>
+<p><strong>시험 관점</strong>: 약한 개체의 복합 기본키 구성을 정확히 사상한다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">실무 적용 사례</div><div class="section-text"><p>ER→관계 사상 시 약한 개체는 소유 개체의 키와 자신의 부분키를 합쳐 복합 기본키로 만든다.</p>
+<hr /></div></div>
+<div class="content-section"><div class="section-label">감리사 시험 출제 포인트</div><div class="section-text"><p>'약한 개체=소유키+부분키 복합 기본키'.</p>
 <hr /></div></div></div></div>
       </div>
     </div>

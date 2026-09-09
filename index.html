@@ -127,6 +127,14 @@
         .welcome-screen p { font-size: 1rem; color: var(--text-main); max-width: 640px; margin-bottom: 1.5rem; line-height: 1.7; }
         .welcome-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
         .welcome-badges span { background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 999px; padding: 0.4rem 0.9rem; font-size: 0.82rem; font-weight: 700; color: var(--primary-color); }
+        .welcome-analysis { margin-top: 2rem; width: 100%; max-width: 720px; }
+        .welcome-analysis .wa-title { font-size: 0.95rem; font-weight: 800; color: var(--text-dark); margin-bottom: 0.2rem; display: flex; align-items: center; justify-content: center; gap: 0.4rem; }
+        .welcome-analysis .wa-sub { font-size: 0.8rem; color: #64748b; margin-bottom: 1rem; }
+        .analysis-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.6rem; }
+        .analysis-btn { background: #ffffff; border: 1px solid var(--border-color); border-radius: 10px; padding: 0.8rem 0.6rem; cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 0.35rem; transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s; }
+        .analysis-btn:hover { border-color: var(--accent-color); box-shadow: 0 4px 12px rgba(14,165,233,0.15); transform: translateY(-2px); }
+        .analysis-btn .ab-name { font-size: 0.9rem; font-weight: 800; color: var(--primary-color); }
+        .analysis-btn .ab-meta { font-size: 0.72rem; color: #94a3b8; }
 
         .placeholder-screen { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem; background-color: var(--bg-main); }
         .placeholder-screen h2 { font-size: 1.4rem; color: var(--text-dark); margin-bottom: 0.75rem; font-weight: 800; }
@@ -149,6 +157,7 @@
         <div class="view-tabs">
             <button class="view-tab active" id="tab-exam" onclick="setView('exam')">📝 기출 해설</button>
             <button class="view-tab" id="tab-lecture" onclick="setView('lecture')">📘 강좌 교재</button>
+            <button class="view-tab" id="tab-analysis" onclick="setView('analysis')">📊 출제 분석</button>
         </div>
         <div class="menu-container" id="menu-container"></div>
     </div>
@@ -189,9 +198,16 @@
 
             <div class="welcome-screen" id="welcome-screen">
                 <h2>정보시스템 감리사 기출해설 학습 시스템</h2>
-                <p>왼쪽 메뉴에서 <strong>과목</strong>을 펼치고 <strong>연도</strong>를 선택하면, 해당 연도 기출문제 해설집이 이 영역에 표시됩니다. 각 해설집은 원본 해설 md의 내용을 축약·변경 없이 그대로 담습니다.</p>
-                <div class="welcome-badges">
-                    <span>감리 및 사업관리</span><span>소프트웨어공학</span><span>데이터베이스</span><span>시스템구조</span><span>보안</span>
+                <div class="welcome-analysis">
+                    <div class="wa-title">📊 기출문제 출제 분석 (2016~2026)</div>
+                    <div class="wa-sub">과목을 선택하면 11개년 문항별 출제주제·빈출도·유사문제 분석을 볼 수 있습니다.</div>
+                    <div class="analysis-btns">
+                        <button class="analysis-btn" onclick="openAnalysis('감리및사업관리','감리 및 사업관리')"><span class="ab-name">감리 및 사업관리</span><span class="ab-meta">문항 1~25 · 275문항</span></button>
+                        <button class="analysis-btn" onclick="openAnalysis('소프트웨어공학','소프트웨어공학')"><span class="ab-name">소프트웨어공학</span><span class="ab-meta">문항 26~50 · 275문항</span></button>
+                        <button class="analysis-btn" onclick="openAnalysis('데이터베이스','데이터베이스')"><span class="ab-name">데이터베이스</span><span class="ab-meta">문항 51~75 · 275문항</span></button>
+                        <button class="analysis-btn" onclick="openAnalysis('시스템구조','시스템구조')"><span class="ab-name">시스템구조</span><span class="ab-meta">문항 76~100 · 275문항</span></button>
+                        <button class="analysis-btn" onclick="openAnalysis('보안','보안')"><span class="ab-name">보안</span><span class="ab-meta">문항 101~120 · 220문항</span></button>
+                    </div>
                 </div>
             </div>
 
@@ -311,12 +327,42 @@
             viewMode = mode;
             document.getElementById('tab-exam').classList.toggle('active', mode === 'exam');
             document.getElementById('tab-lecture').classList.toggle('active', mode === 'lecture');
+            document.getElementById('tab-analysis').classList.toggle('active', mode === 'analysis');
             buildMenu();
         }
 
         function buildMenu() {
             const container = document.getElementById('menu-container');
             container.innerHTML = '';
+
+            // 출제주제 분석: 과목 목록만 표시(연도/강좌 없이 바로 진입)
+            if (viewMode === 'analysis') {
+                const label = document.createElement('div');
+                label.className = 'group-label';
+                label.textContent = '📊 출제 분석 · 2016~2026';
+                container.appendChild(label);
+                const ul = document.createElement('ul');
+                ul.className = 'lecture-list';
+                courses.forEach(course => {
+                    const li = document.createElement('li');
+                    li.className = 'lecture-item';
+                    li.dataset.analysis = course.slug;
+                    const b = document.createElement('button');
+                    b.className = 'lecture-btn';
+                    b.innerHTML = '<span class="l-title">' + course.name + '</span>' +
+                        '<span class="tag ready">분석</span>';
+                    b.onclick = () => {
+                        if (activeItemEl) activeItemEl.classList.remove('active');
+                        li.classList.add('active'); activeItemEl = li;
+                        openAnalysis(course.slug, course.name);
+                    };
+                    li.appendChild(b);
+                    ul.appendChild(li);
+                });
+                container.appendChild(ul);
+                return;
+            }
+
             courses.forEach((course, ci) => {
                 const item = document.createElement('div');
                 item.className = 'course-item';
@@ -401,6 +447,21 @@
                 document.getElementById('placeholder-msg').textContent = soonMsg;
                 placeholder.style.display = 'flex';
             }
+        }
+
+        // 출제주제 분석 페이지 로드(welcome 화면의 과목 버튼)
+        function openAnalysis(slug, name) {
+            const frame = document.getElementById('content-frame');
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('placeholder-screen').style.display = 'none';
+            frame.style.display = 'block';
+            frame.src = '출제주제분석.html?subject=' + encodeURIComponent(slug);
+            currentLectureBase = null;
+            document.getElementById('gb-subject').textContent = name;
+            document.getElementById('gb-lecture').textContent = '출제 분석 (2016~2026)';
+            document.getElementById('gb-prev').disabled = true;
+            document.getElementById('gb-next').disabled = true;
+            document.getElementById('gb-jump').value = '';
         }
 
         function toggleSidebar() {

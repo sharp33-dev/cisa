@@ -3806,7 +3806,16 @@ strong { color:#0f172a; font-weight:700; }
     const v = cb.closest('.question-view');
     if (v) v.classList.toggle('show-answer', cb.checked);
   }
-  show(nums[0] === 'overview' ? 1 : 0);
+  (function(){
+    var h = (location.hash || '').replace(/^#q?/i, '');
+    var idx = h ? nums.indexOf(h) : -1;
+    show(idx >= 0 ? idx : (nums[0] === 'overview' ? 1 : 0));
+  })();
+  window.addEventListener('hashchange', function(){
+    var h = (location.hash || '').replace(/^#q?/i, '');
+    var idx = h ? nums.indexOf(h) : -1;
+    if (idx >= 0) show(idx);
+  });
 </script>
 </body>
 </html>

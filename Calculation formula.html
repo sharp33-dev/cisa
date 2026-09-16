@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감리 및 사업관리 — 계산식·공식 통합 암기</title>
+<style>
+  :root{
+    --primary:#1e3a8a; --primary-dark:#0f172a; --accent:#0ea5e9;
+    --bg:#f8fafc; --card:#ffffff; --border:#cbd5e1; --text:#334155; --text-dark:#0f172a;
+    --calc:#0369a1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
+  body{background:var(--bg);color:var(--text);line-height:1.6;}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--primary-dark);color:#fff;padding:.6rem 1rem .5rem;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .topbar h1{font-size:1.02rem;font-weight:800;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+  .topbar h1 .yr{font-size:.72rem;font-weight:600;color:#93c5fd;background:#1e293b;padding:.15rem .5rem;border-radius:6px;}
+  .subnav{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem;}
+  .nav-btn{font-size:.8rem;font-weight:700;color:#cbd5e1;background:#1e293b;border:1px solid #334155;border-radius:20px;padding:.28rem .8rem;text-decoration:none;transition:all .15s;white-space:nowrap;}
+  .nav-btn:hover{background:#334155;color:#fff;}
+  .nav-btn.active{background:var(--accent);color:#04283b;border-color:var(--accent);}
+  .wrap{max-width:1080px;margin:0 auto;padding:1.3rem 1.1rem 4rem;}
+  .content h2{font-size:1.12rem;color:var(--primary);font-weight:800;margin:2rem 0 .7rem;padding:.45rem .7rem;background:linear-gradient(90deg,#e0e7ff,transparent);border-left:5px solid var(--primary);border-radius:4px;}
+  .content h2:first-child{margin-top:.3rem;}
+  .content h3{font-size:.96rem;color:var(--text-dark);font-weight:800;margin:1.3rem 0 .45rem;padding-left:.6rem;border-left:3px solid var(--accent);}
+  .content p{margin:.5rem 0;font-size:.9rem;}
+  .content ul,.content ol{margin:.4rem 0 .8rem 1.3rem;font-size:.89rem;}
+  .content li{margin:.28rem 0;}
+  .content strong{color:var(--text-dark);font-weight:700;}
+  .content code{background:#eef2ff;color:#1e3a8a;font-family:'SFMono-Regular',Consolas,monospace;font-size:.86em;padding:.08rem .35rem;border-radius:5px;font-weight:600;}
+  .lead{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0 1rem;font-size:.86rem;color:#475569;}
+  .lead div{margin:.15rem 0;}
+  .tbl-scroll{overflow-x:auto;margin:.5rem 0 1rem;border:1px solid var(--border);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;font-size:.83rem;background:var(--card);}
+  th{background:var(--primary);color:#fff;font-weight:700;padding:.5rem .55rem;text-align:left;white-space:nowrap;}
+  td{padding:.45rem .55rem;border-top:1px solid #e2e8f0;vertical-align:top;}
+  tr:hover td{background:#f1f5f9;}
+  .stars{color:#f59e0b;letter-spacing:-1px;white-space:nowrap;}
+  /* 기출문제 버튼 */
+  .exam-q{background:#1e3a8a;color:#fff;border:none;border-radius:6px;padding:.18rem .5rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;margin:.12rem .18rem .12rem 0;transition:background .15s;}
+  .exam-q:hover{background:var(--accent);}
+  .exam-block{margin:1rem 0 .4rem;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:.7rem .85rem;}
+  .exam-block-t{font-size:.82rem;font-weight:800;color:#0369a1;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+  .exam-block-t span{font-size:.7rem;font-weight:600;color:#0ea5e9;}
+  .exam-block-b{display:flex;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>🧮 감리 및 사업관리 계산식·공식 통합 암기 <span class="yr">2016~2026</span></h1>
+  <nav class="subnav">
+    <a href="Exam%20Topics.html?subject=감리및사업관리" class="nav-btn">📊 출제 분석</a>
+    <a href="Rule%20and%20Guide.html" class="nav-btn">📖 관련 법령·가이드</a>
+    <a href="Calculation%20formula.html" class="nav-btn active">🧮 계산공식</a>
+  </nav>
+</div>
+<div class="wrap"><div class="content" id="content"></div></div>
+
+<script type="text/markdown" id="md">
+# 감리 및 사업관리 — 계산식·공식 통합 암기 노트 (2016~2026)
+
+> 기출(2016~2026)에서 반복·변형 출제된 계산식을 **주제별로 통합**하고, 각 항목을 **기출해설 수준으로 상세 설명**했다.
+> 영문 약어는 처음 나올 때 **PV (Planned Value, 계획가치)** 형식으로 풀어 표기한다.
+> 각 항목 하단의 **📝 관련 기출문제** 버튼을 누르면 해당 문항 해설이 새 탭으로 열린다.
+
+## 0. 한눈에 보는 빈출 계산 주제
+
+| 빈출도 | 주제 | 대표 공식 | 출제 이력 |
+|---|---|---|---|
+| ★★★★★ | 획득가치관리(EVM) 지표 | 원가차이 CV = EV − AC, 일정성과지수 SPI = EV ÷ PV | '16-Q1·Q5, '18-Q9, '20-Q13, '22-Q4, '23-Q6 |
+| ★★★★★ | EVM 예측(EAC·ETC·VAC·TCPI) | 완료시점산정치 EAC = BAC ÷ CPI | '19-Q3, '20-Q19, '26-Q12 |
+| ★★★★★ | 주공정법(CPM) 여유·주공정 | 총여유 TF = LS − ES | '16-Q6, '17-Q25, '18-Q13, '25-Q22, '26-Q8 |
+| ★★★★☆ | 3점 산정(PERT·삼각분포) | 기대치 = (O + 4M + P) ÷ 6 | '17-Q9, '19-Q8, '25-Q24 |
+| ★★★★☆ | SW사업 대가산정(기능점수·투입공수·재개발) | 개발원가 = FP × 단가 × 보정계수 | '17-Q23, '19-Q21, '22-Q14, '23-Q16, '24-Q2 |
+| ★★★★☆ | 감리대가·기본감리비 | 임금 × (1+제경비율) × (1+기술료율) × 계수 × (사업비÷1억)^지수 | '18-Q25, '22-Q16, '24-Q8, '25-Q18 |
+| ★★★☆☆ | 적정 사업기간(기능점수 생산성) | 개발기간 = FP ÷ 생산성 ÷ 인원 | '24-Q1 |
+| ★★★☆☆ | 획득일정(ES) | 시간기준 일정차이 SV(t) = ES − AT | '18-Q2 |
+| ★★★☆☆ | 리스크 감소 레버리지(RRL) | RRL = (조치 전 RE − 조치 후 RE) ÷ 비용 | '19-Q1 |
+| ★★☆☆☆ | 품질비용(COQ) | 적합비용 = 예방비용 + 평가비용 | '22-Q5, '20-Q16 |
+| ★★☆☆☆ | 의사소통 채널 수 | n(n−1) ÷ 2 | '24-Q19, '26-Q19 |
+| ★★☆☆☆ | 재무 타당성(IRR·NPV) | NPV = 0으로 만드는 할인율 | '22-Q8 |
+
+**용어 사전(공통):**
+- **PV (Planned Value, 계획가치)**: 특정 시점까지 **계획상 완료했어야 할 작업**의 예산액.
+- **EV (Earned Value, 획득가치)**: 특정 시점까지 **실제로 완료한 작업**을 계획예산으로 환산한 값(=성과).
+- **AC (Actual Cost, 실제원가)**: 그 작업에 **실제로 투입한 비용**.
+- **BAC (Budget At Completion, 완료시점예산=총예산)**: 프로젝트 전체의 계획 총예산.
+
+## 1. 획득가치관리(EVM, Earned Value Management) 기본 지표 ★★★★★
+`[출제] '16-Q1·Q5, '18-Q9, '20-Q13, '21-Q7, '22-Q4, '23-Q6`
+
+**개념**: EVM (Earned Value Management, 획득가치관리)은 계획(PV)·성과(EV)·실제비용(AC) 세 값을 이용해 프로젝트의 **범위·일정·원가를 통합 측정·통제**하는 기법이다. "얼마 쓸 계획이었나(PV) / 실제 얼마어치 했나(EV) / 실제 얼마 썼나(AC)"의 3각 비교가 핵심이다.
+
+### 1-1. 3대 기본값
+| 값 | 의미 | 성격 |
+|---|---|---|
+| PV (Planned Value, 계획가치) | 계획된 작업의 예산 | 계획 |
+| EV (Earned Value, 획득가치) | 완료된 작업의 예산 환산 | 실적(성과) |
+| AC (Actual Cost, 실제원가) | 실제 투입 원가 | 실적(비용) |
+
+### 1-2. 차이(Variance)·지수(Index) — 핵심 4공식
+| 지표 | 산식 | 의미 | 판정 |
+|---|---|---|---|
+| **SV (Schedule Variance, 일정차이)** | **EV − PV** | 계획 대비 진척(금액) | > 0 일정 선행 / < 0 지연 |
+| **CV (Cost Variance, 원가차이)** | **EV − AC** | 성과 대비 실제 지출 | > 0 원가 절감 / < 0 초과 |
+| **SPI (Schedule Performance Index, 일정성과지수)** | **EV ÷ PV** | 일정 효율 | > 1 선행 / < 1 지연 |
+| **CPI (Cost Performance Index, 원가성과지수)** | **EV ÷ AC** | 비용 효율 | > 1 절감 / < 1 초과 |
+
+**상세 설명**
+- **차이(Variance)는 뺄셈, 지수(Index)는 나눗셈**이다. 차이는 "금액이 얼마 벌어졌나", 지수는 "몇 배 효율인가"를 본다.
+- 모든 산식에서 **EV(획득가치)가 항상 앞(피감수·분자)**에 온다. 이것만 기억하면 부호·방향이 자동으로 맞는다.
+- **짝 맞추기**: **S(Schedule, 일정) ↔ PV(계획)**, **C(Cost, 비용) ↔ AC(실제원가)**. 즉 일정 관련 지표(SV·SPI)에는 PV가, 비용 관련 지표(CV·CPI)에는 AC가 짝으로 들어간다.
+- **판정 기준**: 차이는 **0 기준**(양수면 좋음), 지수는 **1 기준**(1보다 크면 좋음 = 빠르다/저렴하다).
+
+**계산 예시**: PV=100, EV=90, AC=120 →
+- SV = 90 − 100 = **−10**(일정 지연), CV = 90 − 120 = **−30**(원가 초과)
+- SPI = 90 ÷ 100 = **0.9**(계획의 90%만 진행), CPI = 90 ÷ 120 = **0.75**(1원 써서 0.75원어치 성과)
+
+### 1-3. 역산 관계(계산 문항 필수)
+문제에서 일부 값만 주고 나머지를 구하게 하는 경우가 많다.
+
+| 아는 값 | 구하는 값 | 관계 |
+|---|---|---|
+| PV, SPI | EV | **EV = PV × SPI** |
+| AC, CPI | EV | **EV = AC × CPI** |
+| EV, PV | SPI | SPI = EV ÷ PV |
+| EV, AC | CPI | CPI = EV ÷ AC |
+
+> 지수 정의식(SPI=EV÷PV)을 이항하면 EV=PV×SPI가 된다. **정의식만 알면 역산은 자동**이다.
+
+### 1-4. 4상한 해석 매트릭스
+일정(SV·SPI)과 비용(CV·CPI)의 부호 조합으로 프로젝트 상태를 4가지로 해석한다.
+
+| 상태 | 일정 SV/SPI | 비용 CV/CPI | 해석 |
+|---|---|---|---|
+| 이상적 | + / >1 | + / >1 | 빠르고 싸게 |
+| 자원 과투입 | + / >1 | − / <1 | 빠르지만 비싸게(자원 많이 투입해 일정 당김) |
+| 흔한 위험 | − / <1 | + / >1 | 느리지만 싸게(투입 부족 의심) |
+| 최악 | − / <1 | − / <1 | 느리고 비싸게 |
+
+> **함정**: CV > 0(원가 절감)이라도 SV < 0(일정 지연)이면, 절감이 성과가 아니라 **"일을 덜 했기 때문"**일 수 있다. 투입 인력 부족·선행 지연·저효율 저비용 인력 투입이 원인. CV 양수라고 안심 금지.
+
+### 1-5. 범위 변경 시 지표 변화
+| 상황 | BAC | EV | AC | CPI |
+|---|---|---|---|---|
+| **승인 변경**(기준선 반영) | 증가 | 수행분만큼 증가 | 증가 | 증감폭 따라 결정 |
+| **미승인 변경**(스코프 크리프) | 불변 | **증가 안 함** | 증가 | **하락** |
+
+**상세**: 승인 없이 작업을 추가하면 그 작업은 기준선(baseline)에 없으므로 **EV로 인정받지 못하고 AC만 늘어난다** → CPI(=EV÷AC)가 악화된다. 그래서 범위 변경은 반드시 **CCB (Change Control Board, 변경통제위원회)** 절차로 기준선에 반영해야 한다.
+
+## 2. EVM 예측 지표 (EAC·ETC·VAC·TCPI) ★★★★★
+`[출제] '19-Q3, '20-Q19, '26-Q12`
+
+**개념**: 현재까지의 성과(CPI·SPI)를 근거로 **"이 프로젝트를 끝내려면 결국 총 얼마가 들까(EAC)"**, **"앞으로 얼마가 더 필요한가(ETC)"**를 예측한다.
+
+### 2-1. 완료시점산정치(EAC) 4대 공식 — 가정 → 공식 매칭이 핵심
+> 모든 **EAC (Estimate At Completion, 완료시점산정치)**는 **EAC = AC + ETC** (이미 쓴 돈 + 앞으로 쓸 돈) 구조에서 출발한다. **ETC (Estimate To Complete, 잔여분산정치)**를 어떻게 가정하느냐에 따라 4가지 표준 공식이 나온다.
+
+| 잔여 작업 가정 | ETC (잔여분산정치) | **EAC (완료시점산정치)** |
+|---|---|---|
+| 현재 **원가효율(CPI)이 그대로 지속** | (BAC − EV) ÷ CPI | **EAC = BAC ÷ CPI** |
+| 현재 차이가 **비정상·비반복**(잔여는 계획대로) | BAC − EV | **EAC = AC + (BAC − EV)** |
+| **원가·일정 효율(CPI·SPI) 동시** 영향 | (BAC − EV) ÷ (CPI × SPI) | **EAC = AC + (BAC − EV) ÷ (CPI × SPI)** |
+| 잔여 작업을 **상향식(Bottom-up) 재산정** | Bottom-up ETC | **EAC = AC + Bottom-up ETC** |
+
+**상세 설명**
+- **① CPI 지속 가정**이 가장 자주 출제된다. "현재 원가효율이 끝까지 유지된다" → **EAC = BAC ÷ CPI**. (예: BAC=1000, CPI=0.8 → EAC=1250)
+- **③ CPI·SPI 동시**는 분모가 **곱(CPI × SPI)** 이다 — **합이 아님**(대표 함정). 원가·일정이 둘 다 나쁠 때 가장 비관적 예측.
+- **검산법**: CPI = SPI = 1을 대입해 EAC = BAC가 나오면 공식이 맞다.
+
+### 2-2. 기타 예측 지표
+| 지표 | 산식 | 의미 |
+|---|---|---|
+| ETC (Estimate To Complete, 잔여분산정치) | EAC − AC (또는 (BAC − EV) ÷ CPI) | 앞으로 더 필요한 원가 |
+| **VAC (Variance At Completion, 완료시점차이)** | **BAC − EAC** | 최종 예산 초과/절감(양수 = 예산 내 완료) |
+| **TCPI (To-Complete Performance Index, 잔여작업성과지수)** | **(BAC − EV) ÷ (BAC − AC)** | 남은 예산으로 완료하려면 필요한 효율 |
+| TCPI (EAC 목표 기준) | (BAC − EV) ÷ (EAC − AC) | 원 예산을 포기하고 새 예상(EAC)을 목표로 할 때 |
+
+- **TCPI ≤ 1**: 지금 효율만 유지해도 예산 내 완료 가능. **TCPI > 1**: 남은 기간 더 높은 효율 필요(달성 난이도 상승).
+- **ETC 특례** `[출제] '19-Q3`: 향후 작업을 계획된 예산대로 수행(즉 CPI = 1 가정) → **ETC = BAC − EV**. 이때 **EV = PV × SPI**로 EV를 먼저 구해야 하는 경우가 많다.
+
+## 3. 획득일정(ES, Earned Schedule) ★★★☆☆
+`[출제] '18-Q2`
+
+**개념**: 기존 EVM의 일정지표(SV·SPI)는 **금액 단위**라, 프로젝트 종료 시점이 되면 EV와 PV가 같아져 **SV→0, SPI→1로 수렴**하는 왜곡이 있다(실제로는 늦게 끝났는데도 "정상"으로 보임). 이를 **시간 단위**로 바꿔 해결한 것이 **ES (Earned Schedule, 획득일정)**이다.
+
+| 구분 | 기존 EVM(금액) | 획득일정(ES, 시간) |
+|---|---|---|
+| 단위 | 금액 | **시간** |
+| 일정차이 | SV = EV − PV | **SV(t) = ES − AT** |
+| 일정성과지수 | SPI = EV ÷ PV | **SPI(t) = ES ÷ AT** |
+| 종료시점 왜곡 | SV→0, SPI→1 수렴(왜곡) | 없음(실제 지연 그대로 드러남) |
+| 완료 예측 | — | IEAC(t) = PD ÷ SPI(t) |
+
+- **AT (Actual Time, 실제경과시간)**, **PD (Planned Duration, 계획기간)**.
+- **ES 정의**: 현재 획득가치(EV)가 **계획선(PV 곡선)상 언제 시점**에 해당하는지를 시간으로 환산한 값.
+- **예시**: 현재 EV가 계획상 5개월 차 수준(ES=5)인데 실제로는 6개월 경과(AT=6) → **SV(t) = 5 − 6 = −1개월**(1개월 지연).
+
+## 4. 주공정법(CPM, Critical Path Method) — 여유시간·주공정 ★★★★★
+`[출제] '16-Q6, '17-Q25, '18-Q13, '25-Q22, '26-Q8`
+
+**개념**: **CPM (Critical Path Method, 주공정법)**은 활동 네트워크에서 각 활동의 착수·완료 가능 시점을 계산해 **여유시간(Float)**과 **주공정(가장 긴 경로)**을 찾는 기법이다. 약어: **ES (Early Start, 최조착수)**, **EF (Early Finish, 최조완료)**, **LS (Late Start, 최지착수)**, **LF (Late Finish, 최지완료)**.
+> ※ 여기서 ES는 CPM의 Early Start로, 3절의 획득일정(Earned Schedule)과 약어만 같고 다른 개념이다.
+
+### 4-1. 전진/후진 계산
+| 단계 | 내용 |
+|---|---|
+| ① 전진계산(Forward) | **ES = max(선행 활동들의 EF)**, **EF = ES + 소요기간** |
+| ② 프로젝트 기간 | 마지막 활동 EF의 **최댓값** |
+| ③ 후진계산(Backward) | **LF = min(후행 활동들의 LS)**, **LS = LF − 소요기간** |
+
+- 전진계산은 "가장 빨리 시작·끝나는 시점"을, 후진계산은 "프로젝트를 늦추지 않는 한도에서 가장 늦게 시작·끝나도 되는 시점"을 구한다.
+- 여러 선행이 합류하면 **max**(모두 끝나야 시작), 여러 후행으로 분기하면 후진에서 **min**을 쓴다.
+
+### 4-2. 여유시간(Float) 2종
+| 구분 | 산식 | 의미 |
+|---|---|---|
+| **총여유 TF (Total Float, 총여유시간)** | **LS − ES = LF − EF** | **프로젝트 종료일**에 영향 없이 지연 가능한 기간 |
+| **자유여유 FF (Free Float, 자유여유시간)** | **min(후행 ES) − 현재 EF** | **후행 활동의 착수(ES)**에 영향 없이 지연 가능한 기간 |
+
+- 총여유(TF)는 프로젝트 전체 종료일 기준, 자유여유(FF)는 바로 다음 활동 기준의 여유다. 항상 **FF ≤ TF**.
+
+### 4-3. 주공정(Critical Path, 주경로)
+- **총여유(TF) = 0인 활동들을 연결한 경로**이며, 곧 네트워크에서 **가장 긴 경로**다.
+- 주공정 활동이 하루라도 지연되면 **프로젝트 전체가 그만큼 지연**된다.
+- 길이가 같은 경로가 여럿이면 **주공정도 여러 개**일 수 있다.
+- 일정단축(Crashing, 공정압축)은 **주공정 활동**에 적용해야 전체 기간이 준다(비주공정 단축은 효과 없음).
+
+### 4-4. 시험장 빠른 계산법
+> **TF(활동) = 프로젝트 총 기간 − (그 활동이 포함된 최장 경로의 길이)**
+> 보기에 나온 활동이 지나는 경로만 계산하면 전체 네트워크를 다 풀지 않아도 된다.
+
+## 5. 3점 산정 (PERT / 삼각분포) ★★★★☆
+`[출제] '17-Q9, '19-Q8, '21-Q1, '25-Q24`
+
+**개념**: 단일 추정 대신 **낙관치·최빈치·비관치 3개 값**으로 기간(원가)을 추정한다. **PERT (Program Evaluation and Review Technique, 프로그램 평가·검토 기법)**는 베타분포를 가정해 최빈치에 4배 가중을 준다. 약어: **O (Optimistic, 낙관치)**, **M (Most likely, 최빈치)**, **P (Pessimistic, 비관치)**.
+
+### 5-1. 기대값·표준편차
+| 분포 | 기대값 TE (Time Expected, 기대소요시간) | 특징 |
+|---|---|---|
+| **베타분포(PERT)** | **(O + 4M + P) ÷ 6** | 최빈치에 **4배 가중**, 가장 널리 사용 |
+| 삼각분포(Triangular) | (O + M + P) ÷ 3 | 세 값 **균등 가중**, 데이터 부족 시 |
+| **표준편차 σ (sigma)** | **(P − O) ÷ 6** | 추정의 불확실성 크기 |
+| 분산 σ² | [(P − O) ÷ 6]² | 표준편차의 제곱 |
+
+- 계산 순서: **분자를 먼저 합산**한 뒤 분모(6 또는 3)로 나눈다(계산 실수 주의).
+- 예: O=2, M=4, P=12 → 베타 TE = (2 + 16 + 12) ÷ 6 = 30 ÷ 6 = **5**, σ = (12 − 2) ÷ 6 ≈ **1.67**.
+
+### 5-2. 정규분포 신뢰구간(암기)
+| 구간 | 확률 | z값 |
+|---|---|---|
+| TE ± 1σ | 68.3% (약 68%) | — |
+| TE ± 2σ | 95.5% (약 95%) | — |
+| TE ± 3σ | 99.7% | — |
+| **목표기간** | — | **목표 = TE + (z × σ)**, z: 90%=1.28, 95%=1.65, 99%=2.33 |
+
+> "90% 확률로 며칠 안에 끝나는가" 같은 문제는 **TE + (z × σ)**로 계산한다.
+
+## 6. 리스크 정량 지표 (RRL / RE) ★★★☆☆
+`[출제] '19-Q1`
+
+**개념**: 리스크 대응 조치가 **비용 대비 효과적인지**를 정량 판단한다.
+
+| 항목 | 산식 | 설명 |
+|---|---|---|
+| **RE (Risk Exposure, 리스크 노출도)** | **발생확률 × 손실규모(금액)** | 리스크의 기대손실액 |
+| **RRL (Risk Reduction Leverage, 리스크 감소 레버리지)** | **(조치 전 RE − 조치 후 RE) ÷ 리스크 감소 비용** | 들인 비용 1원당 줄인 리스크 |
+
+- **RRL > 1 → 비용-효과적**(줄인 리스크 금액이 들인 비용보다 큼), RRL = 1 손익분기, **RRL < 1 → 비효과적**.
+- 예: 조치 전 RE=1,000만, 조치 후 RE=200만, 조치비용=400만 → RRL = (1000−200) ÷ 400 = **2.0**(효과적).
+
+## 7. 품질비용 (COQ, Cost of Quality) ★★★☆☆
+`[출제] '16-Q3, '17-Q12, '20-Q16, '22-Q5, '26-Q13`
+
+**개념**: **COQ (Cost of Quality, 품질비용)**는 품질을 확보·미확보함으로써 발생하는 모든 비용이다.
+
+| 대분류 | 구성 | 의미 |
+|---|---|---|
+| **적합비용(Conformance)** | **예방비용 + 평가비용** | 실패를 **피하기 위한** 비용 |
+| **부적합비용(Non-conformance)** | **내부실패비용 + 외부실패비용** | 실패로 **인한** 비용 |
+
+- **예방비용**: 교육·프로세스 정비 등 사전 예방. **평가비용**: 검사·시험·심사 등 확인.
+- **내부실패비용**: 고객 인도 **전** 발견(재작업·폐기). **외부실패비용**: 인도 **후** 발견(리콜·클레임·소송) — 가장 비싸다.
+- 매칭형으로 출제: "리콜 = 외부실패", "재작업 = 내부실패", "검사 = 평가", "교육 = 예방".
+
+## 8. 재무 타당성 (IRR / NPV) ★★☆☆☆
+`[출제] '22-Q8, '20-Q23`
+
+- **NPV (Net Present Value, 순현재가치)**: 미래 현금흐름을 현재가치로 할인해 합산한 값. **NPV > 0이면 투자 타당**.
+- **IRR (Internal Rate of Return, 내부수익률)**: **NPV를 0으로 만드는 할인율**. **IRR > 요구수익률(할인율)이면 투자 타당**.
+- 복리 계산: **원금 × (1 + r)^n = 회수금액** (r=이자율, n=기간).
+
+## 9. 의사소통 채널 수 ★★☆☆☆
+`[출제] '24-Q19, '26-Q19`
+
+> **채널 수 = n(n − 1) ÷ 2** (n = 이해관계자/팀원 수)
+
+- 모든 사람이 서로 1:1로 연결될 때의 경로 수. 인원이 1명 늘면 채널은 급증한다.
+- 예: 6명 → 6 × 5 ÷ 2 = **15**. / 10명 → 10 × 9 ÷ 2 = **45**.
+- 응용: "팀원 3명 추가 시 채널 증가분"처럼 **증가분**을 묻기도 함(변경 후 − 변경 전).
+
+## 10. SW사업 대가 산정 ★★★★☆
+`[출제] '17-Q23, '19-Q21, '22-Q14·Q18, '23-Q16, '24-Q2, '25-Q9`
+
+**개념**: 소프트웨어(SW, Software) 사업의 대가를 산정하는 방식으로, 사업 성격에 따라 방식이 달라진다.
+
+### 10-1. 산정 방식 비교
+| 방식 | 산정식 | 특징 |
+|---|---|---|
+| **투입공수 방식**(실비정액가산) | **직접인건비 + 제경비 + 기술료 + 직접경비** | 기능 정의가 어려운 사업(ISP·컨설팅 등). **기술료에 이윤 포함** |
+| **기능점수(FP) 방식** | **개발원가 + 직접경비 + 이윤** | 공공 SW개발비 표준 |
+| **재개발비** | **보정 후 재개발원가 + 직접경비 + 이윤** | 재사용률 반영 |
+| **요율제(유지관리)** | **SW개발비(현재가치) × 유지관리요율 + 직접경비** | 간이 산정 |
+| **상용SW 유지관리비** | **최초 라이선스 구매금액 × 등급별 요율** | — |
+
+- **ISP (Information Strategy Planning, 정보화전략계획)**.
+
+### 10-2. 투입공수 방식 구성요소
+| 항목 | 내용 |
+|---|---|
+| 직접인건비 | 등급별 노임단가 × 투입공수(MM (Man-Month, 인월)) |
+| 제경비 | 직접인건비의 일정 비율(간접경비 — 임원·사무실·복리후생 등) |
+| **기술료** | (직접인건비 + 제경비) × 요율 — **조사연구비·기술개발비·기술이전비·이윤 포함** |
+| 직접경비 | 여비·특수장비 사용료·자료비 등 실비 |
+
+> **핵심 함정**: **기술료 안에 이미 이윤이 들어 있다**. 따라서 투입공수 방식 산식에 "이윤"이 별도 항목으로 또 나오면 오답이다.
+
+### 10-3. 기능점수(FP, Function Point) 개발원가
+> **개발원가 = 기능점수(FP) × FP당 단가 × 보정계수**
+> → (+ 직접경비 + 이윤(25% 이하)) → **SW 개발비**
+
+- **보정 4축**: **규모 · 애플리케이션 유형 · 언어 · 품질 및 특성**.
+- 품질·특성 세부: 성능·신뢰성·사용성·보안성·연계복잡성 → **"~성"으로 끝나면 품질·특성** 보정, 언어·유형은 별도 보정계수.
+- **FP 5대 단위기능**(데이터 2 + 트랜잭션 3):
+
+| 구분 | 단위기능 | 내용 |
+|---|---|---|
+| 데이터 | **ILF (Internal Logical File, 내부논리파일)** | 애플리케이션 **내부**에서 유지·관리하는 데이터 그룹 |
+| 데이터 | **EIF (External Interface File, 외부연계파일)** | **외부** 애플리케이션이 유지하는 참조용 데이터 그룹 |
+| 트랜잭션 | **EI (External Input, 외부입력)** | 데이터를 **입력·변경·삭제**하는 처리 |
+| 트랜잭션 | **EO (External Output, 외부출력)** | 가공·계산을 **포함**한 출력(집계·통계) |
+| 트랜잭션 | **EQ (External inQuiry, 외부조회)** | 가공 **없이** 저장 데이터를 조회·표시 |
+
+### 10-4. SW개발비 vs 감리대가 (혼동 주의)
+| 구분 | 산정식 |
+|---|---|
+| SW개발비(FP 방식) | 개발원가 + 직접경비 + **이윤** |
+| 감리대가 | 기본감리비 + 직접경비 + **부가가치세** |
+
+> 둘 다 "+ 직접경비"가 들어가지만 **마지막 항이 이윤(SW개발비) vs 부가가치세(감리대가)**로 다르다.
+
+## 11. 감리대가 산정 ★★★★☆
+`[출제] '18-Q25, '20-Q12, '22-Q16, '24-Q8, '25-Q18`
+
+**개념**: 정보시스템 감리기준 [별표1]에 따라 감리대가를 산정한다.
+
+### 11-1. 기본 구조
+> **감리대가 = 기본감리비 + 직접경비 + 부가가치세**
+
+### 11-2. 기본감리비 산정식(규모 방식)
+> **기본감리비 = 특급기술자 평균임금 × (1 + 제경비율) × (1 + 기술료율) × 계수 × (감리대상사업비 보정금액 ÷ 1억)^지수**
+
+| 감리 단계 | 계수 | 지수 |
+|---|---|---|
+| **3단계 감리** | **22.13** | **0.63** |
+| **2단계 감리** | **19.78** | **0.64** |
+
+- **추가/상주 기본감리비 = (평균임금 × 투입공수) × (1 + 제경비율) × (1 + 기술료율)**.
+- 간이식: 감리대가 = **기본감리비 × 보정계수**(+ 상주감리 추가분). 보정계수는 난이도·분산·기술복잡도 반영.
+
+### 11-3. 감리대상사업비 보정비율 표 (암기법 "1·456·422")
+`[출제] '25-Q18`
+
+| 구성항목 | 보정비율 |
+|---|---|
+| 가) SW 개발비·유지관리비, 정보시스템 운영 용역비 | **1.000** |
+| 나) 하드웨어·소프트웨어 구입비 및 유지관리비 | **0.456** |
+| 다) 지식정보자원·행정정보 등 데이터베이스 구축비 | **0.422** |
+| 라) 기타 전산설비·시설공사·이전·임차, 센서·단말장치, 통신회선·전기료, 재료비 등 | **0.000** |
+
+> 보정금액 = Σ(구성항목 금액 × 보정비율). "라)"는 0이므로 감리대가에 미반영.
+
+## 12. 적정 사업기간 산정 (기능점수 생산성) ★★★☆☆
+`[출제] '24-Q1, '23-Q15`
+
+> ① **1인 총 투입기간 = 사업규모(FP) ÷ 1인 생산성(FP/MM)**
+> ② **전체 개발기간 = 1인 총 투입기간 ÷ 투입 인원 수**
+
+### 기능점수(FP) 구간별 1인 생산성 (반드시 암기 — 함정 다수)
+| 규모 | 1인 생산성(FP/MM) |
+|---|---|
+| 1,000 FP 이하 | **19** |
+| 1,000 ~ 1,999 FP | **22** |
+| 2,000 ~ 2,999 FP | **24** |
+| 3,000 FP 이상 | **22** (26 아님 — 함정) |
+
+- **주의**: 생산성이 규모에 비례해 계속 커지지 않는다. 2,000~2,999 구간(24)이 정점이고 **3,000 이상은 22로 다시 낮아진다**(대규모 사업의 관리 복잡성 때문).
+- 예: 2,400 FP, 4명 투입 → 1인 투입기간 = 2400 ÷ 24 = 100 MM → 개발기간 = 100 ÷ 4 = **25개월**.
+
+## 13. 진도 측정 원칙 (참고)
+`[출제] '19-Q6, '23-Q1`
+
+EVM에서 EV(획득가치)를 인정하는 방식으로, 작업 성격에 따라 선택한다.
+
+| 원칙 | 방식 | 특징 |
+|---|---|---|
+| 0/100 | 완료 시에만 100% 인정 | 가장 보수적, 조작 여지 없음 |
+| **50/50** | 착수 시 50% + 완료 시 50% | 절충형, 널리 사용 |
+| 20/80 | 착수 20% + 완료 80% | 0/100과 50/50의 중간 |
+| 완료율법(% Complete) | 실제 진척률 인정 | 가장 낙관적, 주관 개입 여지 |
+| 가중 마일스톤 | 마일스톤별 가중치 | 긴 작업에 객관적 |
+
+## 14. 원가 기준선 (Cost Baseline) — 개념/계산 경계
+`[출제] '19-Q13, '20-Q17, '26-Q14`
+
+- **원가 기준선(Cost Baseline) = 작업패키지 원가 + 우발예비**(관리예비 **제외**).
+- **예산(BAC 이상) = 원가 기준선 + 관리예비**.
+- **우발예비(Contingency Reserve)** = 식별된 리스크 대비 = **알려진 미지(known unknowns)**, PM 재량으로 사용.
+- **관리예비(Management Reserve)** = 식별 못한 리스크 대비 = **미지의 미지(unknown unknowns)**, 경영진 승인 필요.
+
+---
+
+**[출처]** 사용자 학습 정리본 「감리 및 사업관리 계산식 암기 포인트.md」(2016~2026 기출 기반)을 통합·재구성하고, 각 항목을 기출해설 수준으로 상세화·약어 풀이함.
+</script>
+
+<script>
+(function(){
+  const SLUG='감리및사업관리';
+  const YEAR_RE=/'(\d{2})-Q(\d+)|·\s*Q(\d+)|,\s*Q(\d+)/g;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fmtText(t){return esc(t).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
+
+  // year-Q 토큰 → 참조 목록
+  function refsFrom(text){
+    let last=null, out=[]; let m;
+    YEAR_RE.lastIndex=0;
+    while((m=YEAR_RE.exec(text))){
+      let year,num,yy;
+      if(m[1]){yy=m[1];year='20'+m[1];num=m[2];last=yy;}
+      else{if(!last)continue;yy=last;year='20'+last;num=(m[3]||m[4]);}
+      out.push({year:year,num:num,label:"'"+yy+'-Q'+num});
+    }
+    return out;
+  }
+  function dedupe(refs){
+    const seen={},out=[];
+    refs.forEach(r=>{const k=r.year+'q'+r.num;if(!seen[k]){seen[k]=1;out.push(r);}});
+    return out;
+  }
+  function btnHTML(r){return '<button class="exam-q" data-year="'+r.year+'" data-num="'+r.num+'">'+esc(r.label)+'</button>';}
+
+  let SECT=null; // 현재 섹션 참조 수집기(널이면 수집 안 함)
+  function collect(refs){ if(SECT){ refs.forEach(r=>SECT.push(r)); } }
+
+  // 인라인: 볼드 + 코드 + [출제] 스팬(수집만, 인라인 출력 없음)
+  function inline(s){
+    let out='', lastIdx=0, m; const re=/`([^`]+)`/g;
+    while((m=re.exec(s))){
+      out+=fmtText(s.slice(lastIdx,m.index));
+      const code=m[1];
+      if(code.trim().indexOf('[출제]')===0){ collect(refsFrom(code)); }
+      else out+='<code>'+esc(code)+'</code>';
+      lastIdx=re.lastIndex;
+    }
+    out+=fmtText(s.slice(lastIdx));
+    return out;
+  }
+  // 표 셀: year-Q 토큰을 클릭 버튼으로(섹션 수집엔 넣지 않음)
+  function cellHTML(cell){
+    if(/'\d{2}-Q|·\s*Q\d|,\s*Q\d/.test(cell)){
+      let last=null;
+      return fmtText(cell).replace(YEAR_RE,function(mm,yy,n1,n2,n3){
+        let year,num,lab;
+        if(yy){year='20'+yy;num=n1;last=yy;lab="'"+yy+'-Q'+num;}
+        else{if(!last)return mm;year='20'+last;num=(n2||n3);lab="'"+last+'-Q'+num;}
+        return '<button class="exam-q" data-year="'+year+'" data-num="'+num+'">'+esc(lab)+'</button>';
+      });
+    }
+    if(cell.indexOf('★')>=0) return '<span class="stars">'+esc(cell)+'</span>';
+    return inline(cell);
+  }
+  function examBlock(refs){
+    refs=dedupe(refs); if(!refs.length)return '';
+    return '<div class="exam-block"><div class="exam-block-t">📝 관련 기출문제 <span>클릭 시 새 탭으로 해설 열기</span></div>'
+      +'<div class="exam-block-b">'+refs.map(btnHTML).join('')+'</div></div>';
+  }
+  function splitRow(r){let c=r.trim();if(c.startsWith('|'))c=c.slice(1);if(c.endsWith('|'))c=c.slice(0,-1);return c.split('|').map(x=>x.trim());}
+  function renderTable(rows){
+    if(rows.length<2)return '';
+    const header=splitRow(rows[0]);
+    let thead='<tr>'+header.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr>';
+    let body='';
+    for(let r=2;r<rows.length;r++){
+      const cells=splitRow(rows[r]);
+      if(cells.every(x=>/^-*$/.test(x)))continue;
+      body+='<tr>'+cells.map(c=>'<td>'+cellHTML(c)+'</td>').join('')+'</tr>';
+    }
+    return '<div class="tbl-scroll"><table>'+thead+body+'</table></div>';
+  }
+  function renderMD(md){
+    const lines=md.split('\n');
+    let html='', i=0, para=[], quote=[], list=null, listTag='';
+    function flushPara(){if(para.length){html+='<p>'+para.map(inline).join(' ')+'</p>';para=[];}}
+    function flushQuote(){if(quote.length){html+='<div class="lead">'+quote.map(q=>'<div>'+inline(q)+'</div>').join('')+'</div>';quote=[];}}
+    function flushList(){if(list){html+='<'+listTag+'>'+list.map(li=>'<li>'+inline(li)+'</li>').join('')+'</'+listTag+'>';list=null;listTag='';}}
+    function flushAll(){flushPara();flushQuote();flushList();}
+    function closeSection(){flushAll(); if(SECT&&SECT.length){html+=examBlock(SECT);} SECT=null;}
+    while(i<lines.length){
+      let ln=lines[i];
+      if(/^\s*\|/.test(ln)){flushAll();let rows=[];while(i<lines.length&&/^\s*\|/.test(lines[i])){rows.push(lines[i]);i++;}html+=renderTable(rows);continue;}
+      // 단독 [출제] 마커 라인 → 수집만
+      if(SECT!==null && /^`\s*\[출제\][^`]*`\s*$/.test(ln.trim())){collect(refsFrom(ln));i++;continue;}
+      if(ln.startsWith('### ')){flushAll();html+='<h3>'+inline(ln.slice(4))+'</h3>';i++;continue;}
+      if(ln.startsWith('## ')){closeSection();SECT=[];html+='<h2>'+inline(ln.slice(3))+'</h2>';i++;continue;}
+      if(ln.startsWith('# ')){i++;continue;}
+      if(ln.startsWith('> ')){flushPara();flushList();quote.push(ln.slice(2));i++;continue;}
+      let um=ln.match(/^\s*[-*]\s+(.*)$/);
+      let om=ln.match(/^\s*\d+\.\s+(.*)$/);
+      if(um){flushPara();flushQuote();if(listTag!=='ul'){flushList();listTag='ul';list=[];}list.push(um[1]);i++;continue;}
+      if(om){flushPara();flushQuote();if(listTag!=='ol'){flushList();listTag='ol';list=[];}list.push(om[1]);i++;continue;}
+      if(/^---\s*$/.test(ln)){flushAll();i++;continue;}
+      if(ln.trim()===''){flushAll();i++;continue;}
+      para.push(ln.trim());i++;
+    }
+    closeSection();
+    return html;
+  }
+  function openExam(year,num){
+    const url=encodeURIComponent(SLUG)+'/'+encodeURIComponent(SLUG+'_'+year+'.html')+'#q'+num;
+    window.open(url,'_blank','noopener');
+  }
+  const contentEl=document.getElementById('content');
+  contentEl.innerHTML=renderMD(document.getElementById('md').textContent);
+  contentEl.addEventListener('click',e=>{
+    const b=e.target.closest('.exam-q');
+    if(b){openExam(b.getAttribute('data-year'),b.getAttribute('data-num'));}
+  });
+})();
+</script>
+</body>
+</html>

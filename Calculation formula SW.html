@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>소프트웨어공학 — 계산식·공식 통합 암기</title>
+<style>
+  :root{
+    --primary:#0f766e; --primary-dark:#0f172a; --accent:#14b8a6;
+    --bg:#f8fafc; --card:#ffffff; --border:#cbd5e1; --text:#334155; --text-dark:#0f172a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
+  body{background:var(--bg);color:var(--text);line-height:1.6;}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--primary-dark);color:#fff;padding:.6rem 1rem .5rem;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .topbar h1{font-size:1.02rem;font-weight:800;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+  .topbar h1 .yr{font-size:.72rem;font-weight:600;color:#99f6e4;background:#1e293b;padding:.15rem .5rem;border-radius:6px;}
+  .subj-sel{margin-left:.3rem;background:#1e293b;color:#ccfbf1;border:1px solid #14b8a6;border-radius:8px;font-size:.82rem;font-weight:700;padding:.28rem 1.8rem .28rem .6rem;cursor:pointer;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%2314b8a6'><path d='M7 10l5 5 5-5z'/></svg>");background-repeat:no-repeat;background-position:right .5rem center;}
+  .subj-sel:focus{outline:none;box-shadow:0 0 0 2px rgba(20,184,166,.4);}
+  .subj-sel option{background:#0f172a;color:#ccfbf1;}
+  .subnav{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem;}
+  .nav-btn{font-size:.8rem;font-weight:700;color:#cbd5e1;background:#1e293b;border:1px solid #334155;border-radius:20px;padding:.28rem .8rem;text-decoration:none;transition:all .15s;white-space:nowrap;}
+  .nav-btn:hover{background:#334155;color:#fff;}
+  .nav-btn.active{background:var(--accent);color:#04302c;border-color:var(--accent);}
+  .wrap{max-width:1080px;margin:0 auto;padding:1.3rem 1.1rem 4rem;}
+  .content h2{font-size:1.12rem;color:var(--primary);font-weight:800;margin:2rem 0 .7rem;padding:.45rem .7rem;background:linear-gradient(90deg,#ccfbf1,transparent);border-left:5px solid var(--primary);border-radius:4px;}
+  .content h2:first-child{margin-top:.3rem;}
+  .content h3{font-size:.96rem;color:var(--text-dark);font-weight:800;margin:1.3rem 0 .45rem;padding-left:.6rem;border-left:3px solid var(--accent);}
+  .content p{margin:.5rem 0;font-size:.9rem;}
+  .content ul,.content ol{margin:.4rem 0 .8rem 1.3rem;font-size:.89rem;}
+  .content li{margin:.28rem 0;}
+  .content strong{color:var(--text-dark);font-weight:700;}
+  .content code{background:#ccfbf1;color:#0f766e;font-family:'SFMono-Regular',Consolas,monospace;font-size:.86em;padding:.08rem .35rem;border-radius:5px;font-weight:600;}
+  .lead{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0 1rem;font-size:.86rem;color:#475569;}
+  .lead div{margin:.15rem 0;}
+  .tbl-scroll{overflow-x:auto;margin:.5rem 0 1rem;border:1px solid var(--border);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;font-size:.83rem;background:var(--card);}
+  th{background:var(--primary);color:#fff;font-weight:700;padding:.5rem .55rem;text-align:left;white-space:nowrap;}
+  td{padding:.45rem .55rem;border-top:1px solid #e2e8f0;vertical-align:top;}
+  tr:hover td{background:#f0fdfa;}
+  .stars{color:#f59e0b;letter-spacing:-1px;white-space:nowrap;}
+  .exam-q{background:#0f766e;color:#fff;border:none;border-radius:6px;padding:.18rem .5rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;margin:.12rem .18rem .12rem 0;transition:background .15s;}
+  .exam-q:hover{background:var(--accent);}
+  .exam-block{margin:1rem 0 .4rem;background:#f0fdfa;border:1px solid #99f6e4;border-radius:10px;padding:.7rem .85rem;}
+  .exam-block-t{font-size:.82rem;font-weight:800;color:#0f766e;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+  .exam-block-t span{font-size:.7rem;font-weight:600;color:#14b8a6;}
+  .exam-block-b{display:flex;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>🧮 소프트웨어공학 계산식·공식 통합 암기 <span class="yr">2016~2026</span>
+    <select class="subj-sel" title="과목 선택" onchange="if(this.value)location.href=this.value">
+      <option value="Calculation%20formula.html">감리 및 사업관리</option>
+      <option value="Calculation%20formula%20SW.html" selected>소프트웨어공학</option>
+    </select>
+  </h1>
+  <nav class="subnav">
+    <a href="Exam%20Topics.html?subject=소프트웨어공학" class="nav-btn">📊 출제 분석</a>
+    <a href="Calculation%20formula%20SW.html" class="nav-btn active">🧮 계산공식</a>
+  </nav>
+</div>
+<div class="wrap"><div class="content" id="content"></div></div>
+
+<script type="text/markdown" id="md">
+# 소프트웨어공학 — 계산식·공식 통합 암기 노트 (2016~2026)
+
+> 기출(2016~2026)에서 반복·변형 출제된 **소프트웨어공학 계산식**을 주제별로 통합하고, 각 항목을 **기출해설 수준으로 상세 설명**했다.
+> 영문 약어는 처음 나올 때 **CC (Cyclomatic Complexity, 순환복잡도)** 형식으로 풀어 표기한다.
+> 각 항목 하단의 **📝 관련 기출문제** 버튼을 누르면 해당 문항 해설이 새 탭으로 열린다.
+
+## 0. 한눈에 보는 빈출 계산 주제
+
+| 빈출도 | 주제 | 대표 공식 | 출제 이력 |
+|---|---|---|---|
+| ★★★★★ | 테스트 커버리지(문장·결정·조건·MC/DC·경로) | 커버리지(%) = 실행 항목 ÷ 전체 항목 × 100 | '16-Q38, '17-Q44, '18-Q36, '19-Q50, '20-Q33·Q47, '21-Q29, '22-Q33, '23-Q27·Q45, '25-Q42·Q46, '26-Q50 |
+| ★★★★☆ | McCabe 순환복잡도(CC) | V(G) = E − N + 2 = P + 1 | '18-Q28, '20-Q32, '22-Q29·Q50, '24-Q42, '25-Q39 |
+| ★★★★☆ | 테스트 케이스 수 산정(조합·페어와이즈) | 전조합 = ∏vᵢ, Base Choice = 1 + Σ(vᵢ−1) | '18-Q30, '20-Q29, '21-Q44, '24-Q36, '17-Q38 |
+| ★★★☆☆ | 기능점수(FP) 산정 | AFP = UFP × VAF, VAF = 0.65 + 0.01 × ΣGSC | '16-Q45, '18-Q26, '20-Q48, '24-Q48, '26-Q26 |
+| ★★★☆☆ | 신뢰성·가용성(MTBF·MTTR·POFOD) | 가용성 A = MTTF ÷ (MTTF + MTTR) | '16-Q29·Q32·Q41, '22-Q46·Q47·Q48, '25-Q31, '26-Q30 |
+| ★★★☆☆ | C&K 객체지향 메트릭 | LCOM = P − Q(쌍 수 차), CBO·RFC·WMC·DIT·NOC | '22-Q40·Q50, '23-Q44, '26-Q47 |
+| ★★★☆☆ | 패키지·컴포넌트 안정성(Martin) | I = Ce ÷ (Ca + Ce), D = 절댓값(A + I − 1) | '23-Q28·Q44, '25-Q26, '26-Q47 |
+| ★★☆☆☆ | COCOMO 비용산정 | 노력 = a × KLOC^b | '17-Q42, '24-Q27 |
+| ★★☆☆☆ | 애자일 속도(Velocity) 릴리스 산정 | 스프린트 수 = 총 SP ÷ 평균 Velocity | '19-Q37·Q40, '20-Q36, '22-Q38 |
+| ★★☆☆☆ | PCE(단계 결함 억제 효과) | PCE = 단계 내 발견 ÷ (단계 내 + 유출) | '23-Q41 |
+| ★★☆☆☆ | CPM 임계경로·여유(일정 융합) | 여유 = LS − ES = LF − EF | '17-Q43, '25-Q50, '26-Q50 |
+
+**용어 사전(공통):**
+- **CFG (Control Flow Graph, 제어흐름그래프)**: 프로그램의 실행 흐름을 노드(처리)·간선(흐름)으로 표현한 그래프.
+- **LOC / SLOC (Lines Of Code / Source LOC, 소스코드 라인 수)**, **KLOC (Kilo LOC, 1,000 라인)**.
+- **PM (Person-Month, 인월)**: 1명이 1개월 투입하는 작업량. **MM (Man-Month)**과 동의.
+- **SP (Story Point, 스토리 포인트)**: 애자일에서 작업 규모를 상대 추정한 단위.
+
+## 1. McCabe 순환 복잡도 (CC, Cyclomatic Complexity) ★★★★☆
+`[출제] '18-Q28, '20-Q32, '22-Q29·Q50, '24-Q42, '25-Q39`
+
+**개념**: **CC (Cyclomatic Complexity, 순환복잡도)**는 프로그램의 **제어흐름 복잡도**를 측정하는 화이트박스 지표로, **CFG (제어흐름그래프)** 위에서 계산한다. 값이 곧 **선형 독립 경로(Independent Path)의 수**이자 **기본경로(Basis Path) 테스트에 필요한 최소 테스트케이스 수**다.
+
+### 1-1. 3가지 산출식 (모두 같은 값)
+| 산출식 | 공식 | 설명 |
+|---|---|---|
+| **간선-노드식** | **V(G) = E − N + 2** | E = 간선(Edge) 수, N = 노드(Node) 수 (연결요소 1개 가정) |
+| **분기노드식** | **V(G) = P + 1** | P = 분기(Predicate, 판단) 노드 수 = 조건문 수 |
+| **영역식** | **V(G) = 폐영역(Region) 수 + 1** | 평면 그래프에서 닫힌 영역 + 바깥 영역 1 |
+
+**상세 설명**
+- **세 식은 항상 동일한 값**을 준다. 문제에 그래프가 주어지면 영역식, 코드/의사코드가 주어지면 분기노드식(P+1)이 가장 빠르다.
+- **P(분기 노드)** = `if`, `while`, `for`, `case` 등 **판단이 일어나는 지점**의 수.
+- **복합 조건 함정**: `if (A && B)`는 내부적으로 **조건 2개**로 분기하므로 P를 **2로 계산**한다(단순 if 1개로 세면 오답).
+- **switch 함정**: `case`가 n개면 분기는 보통 **n개**(또는 default 포함 방식)로 센다 — 문제의 그래프/흐름을 그대로 따를 것.
+
+**계산 예시**: 노드 N=8, 간선 E=10 → V(G) = 10 − 8 + 2 = **4**. 분기 노드가 3개면 P+1 = **4**로 일치. → 기본경로 테스트에 **최소 4개 TC** 필요.
+
+**품질 기준**: V(G) ≤ 10 권장(10 초과 시 리팩토링·모듈 분할 검토).
+
+## 2. 테스트 커버리지 (Coverage) ★★★★★
+`[출제] '16-Q38, '17-Q44, '18-Q36, '19-Q50, '20-Q33·Q47, '21-Q29, '23-Q27·Q45, '25-Q42·Q46, '26-Q50`
+
+**개념**: 테스트가 코드/조건을 **얼마나 실행했는지**를 백분율로 측정한다.
+
+> **커버리지(%) = (실행(검사)한 항목 수 ÷ 전체 항목 수) × 100**
+
+### 2-1. 커버리지 종류와 강도(포함 관계)
+| 커버리지 | 측정 대상 | 강도 |
+|---|---|---|
+| **문장(Statement, 구문)** | 모든 실행문을 1회 이상 실행 | 가장 약함 |
+| **결정(Decision, 분기 Branch)** | 각 분기의 **참·거짓 결과**를 1회 이상 | 문장보다 강함 |
+| **조건(Condition)** | 결정 내 **개별 조건** 각각을 참·거짓 | — |
+| **조건/결정(Condition/Decision)** | 결정 + 모든 개별 조건을 참·거짓 | 조건·결정 결합 |
+| **변형 조건/결정(MC/DC)** | 각 조건이 **독립적으로 결정 결과를 바꾸는** 경우 | 강함 |
+| **다중 조건(Multiple Condition)** | 조건들의 **모든 조합(2ⁿ)** | 가장 강함(경로 제외) |
+| **경로(Path)** | 모든 **독립 실행 경로** | 이론상 최강 |
+
+**포함(강도) 관계**: **문장 ⊆ 결정 ⊆ 조건/결정 ⊆ MC/DC ⊆ 다중조건**. (결정 100%면 문장 100% 보장, 역은 성립 안 함)
+
+**상세 설명**
+- **문장 vs 결정**: `if(x){A}` 에서 참일 때만 테스트하면 문장 커버리지는 될 수 있으나, **거짓 분기를 안 타면 결정 커버리지는 미달**.
+- **MC/DC**: 항공·안전(DO-178C) 필수. **조건 n개 → 최소 n+1개 TC**로 100% 달성 가능(효율적).
+- **다중조건**: 조건 n개 → **2ⁿ개 조합** 필요(조건 많으면 폭발).
+
+**계산 예시**: 전체 실행문 20개 중 15개 실행 → 문장 커버리지 = 15 ÷ 20 × 100 = **75%**. 분기 8개 중 6개 실행 → 결정 커버리지 = **75%**.
+
+## 3. 테스트 케이스 수 산정 (조합·페어와이즈) ★★★★☆
+`[출제] '18-Q30, '20-Q29, '21-Q44, '24-Q36, '17-Q38`
+
+**개념**: 파라미터(인자)별 입력 값의 개수가 v₁, v₂, …, v_k 일 때, 조합 전략별 테스트케이스(TC) 수를 산정한다.
+
+| 전략 | TC 수 공식 | 설명 |
+|---|---|---|
+| **전조합(All Combinations)** | **∏ vᵢ (모두 곱)** | 모든 값의 조합 — 가장 많음 |
+| **각 값 1회(Each Choice)** | **max(vᵢ)** | 각 파라미터의 모든 값을 최소 1회 |
+| **기본 선택(Base Choice)** | **1 + Σ(vᵢ − 1)** | 기준 케이스 1개 + 값별 1개씩 변형 |
+| **페어와이즈(Pairwise, 2-way)** | **≈ 두 최대 값개수의 곱** | 모든 **값 쌍**을 1회 이상(직교배열) |
+
+**상세 설명**
+- **전조합**은 파라미터가 3개(각 3·2·4개 값)면 3 × 2 × 4 = **24 TC**. 조합 폭발 때문에 실무에선 지양.
+- **Base Choice**: 위 예에서 1 + (3−1) + (2−1) + (4−1) = 1 + 2 + 1 + 3 = **7 TC**.
+- **페어와이즈**는 대부분 결함이 **2개 인자 상호작용**에서 나온다는 경험칙에 기반해 TC를 크게 줄인다.
+- **동등분할(Equivalence Partitioning)**: 입력을 유효/무효 클래스로 나눠 **대표값 1개씩**만 테스트.
+
+## 4. 기능점수 (FP, Function Point) ★★★☆☆
+`[출제] '16-Q45, '18-Q26, '20-Q48, '24-Q48, '26-Q26`
+
+**개념**: 사용자 관점의 **기능 규모**를 측정하는 단위. 코드량(LOC)과 달리 언어·기술에 독립적이다.
+
+### 4-1. 5대 단위기능
+| 구분 | 단위기능 | 내용 |
+|---|---|---|
+| 데이터 | **ILF (Internal Logical File, 내부논리파일)** | 내부에서 유지·관리하는 데이터 그룹 |
+| 데이터 | **EIF (External Interface File, 외부연계파일)** | 외부가 유지하는 참조용 데이터 그룹 |
+| 트랜잭션 | **EI (External Input, 외부입력)** | 입력·변경·삭제 처리 |
+| 트랜잭션 | **EO (External Output, 외부출력)** | 가공·계산 포함 출력 |
+| 트랜잭션 | **EQ (External inQuiry, 외부조회)** | 가공 없는 단순 조회 |
+
+### 4-2. 복잡도 등급 산정 요소
+- **데이터 기능(ILF·EIF)**: **DET (Data Element Type, 데이터요소유형)** + **RET (Record Element Type, 레코드요소유형)** → Low/Average/High.
+- **트랜잭션 기능(EI·EO·EQ)**: **DET** + **FTR (File Type Referenced, 참조파일유형)** → Low/Average/High.
+
+### 4-3. 핵심 산정식
+> ① **UFP (Unadjusted FP, 미조정 기능점수) = Σ(단위기능 수 × 복잡도 가중치)**
+> ② **VAF (Value Adjustment Factor, 값 조정 인자) = 0.65 + 0.01 × Σ(GSC 14개)**
+> ③ **AFP (Adjusted FP, 조정 기능점수) = UFP × VAF**
+
+**상세 설명**
+- **GSC (General System Characteristics, 일반시스템특성)** 14개, 각 **0~5점** → 합계 0~70 → **VAF 범위 0.65 ~ 1.35**.
+- **개선(Enhancement) 기능점수 EFP** = 추가(ADD) + 변경(CHGA) + 삭제(DEL) 기능점수의 합(재개발·유지관리 산정).
+- **생산성 = FP ÷ 투입공수(MM)**, **개발원가 = FP × FP당 단가 × 보정계수** (SW대가산정 — 감리 계산공식 10장과 연계).
+
+**계산 예시**: UFP = 100, GSC 합 = 35 → VAF = 0.65 + 0.01 × 35 = 1.00 → AFP = 100 × 1.00 = **100 FP**.
+
+## 5. 신뢰성·가용성 (MTBF·MTTR·MTTF·POFOD·ROCOF) ★★★☆☆
+`[출제] '16-Q29·Q32·Q41, '22-Q46·Q47·Q48, '25-Q31, '26-Q30`
+
+**개념**: 시스템이 **얼마나 오래 정상 동작하고(신뢰성)**, **필요할 때 사용 가능한지(가용성)**를 정량화한다.
+
+### 5-1. 시간 지표
+| 지표 | 의미 |
+|---|---|
+| **MTTF (Mean Time To Failure, 평균 고장 전 시간)** | 고장 발생 전까지 평균 **정상 가동 시간** |
+| **MTTR (Mean Time To Repair, 평균 수리시간)** | 고장~복구까지 평균 **수리 시간** |
+| **MTBF (Mean Time Between Failures, 평균 고장 간격)** | **MTBF = MTTF + MTTR** (한 고장~다음 고장) |
+
+### 5-2. 가용성·신뢰도
+> **가용성 A (Availability) = 가동시간 ÷ (가동시간 + 수리시간) = MTTF ÷ (MTTF + MTTR) = MTTF ÷ MTBF**
+> ※ 교재에 따라 **A = MTBF ÷ (MTBF + MTTR)**로도 표기(MTBF를 가동시간 의미로 사용). 본질은 **가동 ÷ (가동+수리)**.
+
+- **신뢰도 R(t) = e^(−λt)**, **고장률 λ (lambda) = 1 ÷ MTBF**.
+- **가용성 등급("9의 개수")**: 99.9%(three nines)≈연 8.76시간 정지, 99.999%(five nines)≈연 5.26분 정지.
+
+### 5-3. 결함 기반 신뢰성 척도
+| 척도 | 의미 |
+|---|---|
+| **POFOD (Probability Of Failure On Demand, 요구 시 고장확률)** | 서비스 **요청당** 고장이 날 확률(0~1). 안전필수 시스템에 중요 |
+| **ROCOF (Rate of OCcurrence Of Failure, 고장 발생률)** | **단위시간당** 고장 발생 횟수 |
+| **가용성(AVAIL)** | 요청 시점에 서비스가 **가용할 확률** |
+
+### 5-4. 직렬·병렬 신뢰도
+- **직렬 구조**: **R = R₁ × R₂ × … × Rₙ** (하나라도 고장이면 전체 고장 → 신뢰도 하락).
+- **병렬(이중화) 구조**: **R = 1 − ∏(1 − Rᵢ)** (모두 고장나야 전체 고장 → 신뢰도 상승).
+
+**계산 예시**: MTTF = 950시간, MTTR = 50시간 → MTBF = 1,000시간, 가용성 A = 950 ÷ 1000 = **0.95 (95%)**.
+
+## 6. C&K 객체지향 메트릭 (CK Metrics) ★★★☆☆
+`[출제] '22-Q40·Q50, '23-Q44, '26-Q47`
+
+**개념**: Chidamber & Kemerer가 제안한 **객체지향 설계 품질 6대 척도**. 대체로 **값이 작을수록 좋다**(복잡·결합이 낮음).
+
+| 메트릭 | 의미 | 낮을수록 |
+|---|---|---|
+| **WMC (Weighted Methods per Class, 가중 메서드 수)** | 클래스 내 메서드 복잡도 합 | 단순·유지보수 용이 |
+| **DIT (Depth of Inheritance Tree, 상속 트리 깊이)** | 최상위까지 상속 단계 수 | 이해 용이(단, 재사용은 감소) |
+| **NOC (Number Of Children, 자식 클래스 수)** | 직속 하위 클래스 수 | 과도한 재사용·테스트 부담 감소 |
+| **CBO (Coupling Between Objects, 객체 간 결합도)** | 결합된 다른 클래스 수 | 결합 낮음(독립성↑) |
+| **RFC (Response For a Class, 응답 집합 크기)** | 자신 메서드 + 호출하는 메서드 수 | 복잡도·테스트 부담 감소 |
+| **LCOM (Lack of Cohesion in Methods, 응집도 결여)** | 응집 부족 정도 | 응집도 높음(값 0이 이상) |
+
+### LCOM 계산
+> **LCOM = |P| − |Q|** (단, 음수면 0)
+> - **P** = 공통 인스턴스 변수를 **공유하지 않는** 메서드 쌍의 수
+> - **Q** = 공통 인스턴스 변수를 **공유하는** 메서드 쌍의 수
+
+**계산 예시**: 메서드 쌍 중 공유 없는 쌍 P=5, 공유 쌍 Q=2 → LCOM = 5 − 2 = **3**(응집도 낮음, 분리 검토).
+
+## 7. 패키지·컴포넌트 안정성 (Martin Metrics) ★★★☆☆
+`[출제] '23-Q28·Q44, '25-Q26, '26-Q47`
+
+**개념**: Robert Martin의 패키지 의존성 지표. **Clean Architecture**의 "안정 의존 원칙(SDP)" 근거.
+
+| 지표 | 공식 | 의미 |
+|---|---|---|
+| **Ca (Afferent Coupling, 구심 결합=입력 결합)** | 유입 의존 수 | 이 패키지에 **의존하는** 외부 클래스 수 |
+| **Ce (Efferent Coupling, 원심 결합=출력 결합)** | 유출 의존 수 | 이 패키지가 **의존하는** 외부 클래스 수 |
+| **I (Instability, 불안정성)** | **I = Ce ÷ (Ca + Ce)** | 0 = 매우 안정 / 1 = 매우 불안정 |
+| **A (Abstractness, 추상도)** | **A = 추상클래스·인터페이스 수 ÷ 전체 클래스 수** | 0 = 완전 구현 / 1 = 완전 추상 |
+| **D (Distance, 주계열 거리)** | **D = 절댓값(A + I − 1)** | 0에 가까울수록 이상적 |
+
+**상세 설명**
+- **주계열(Main Sequence)**: **A + I = 1** 인 이상적 균형선. 여기서 벗어난 거리가 D.
+- **I = 1, A = 0**(불안정·구체) = "고통의 지대"는 피할 영역, **I = 0, A = 1**(안정·추상)도 "쓸모없는 지대"로 극단.
+- **안정 의존 원칙**: 의존은 **안정성이 높은(=I가 낮은)** 방향으로 흘러야 한다.
+
+**계산 예시**: Ca = 1, Ce = 3 → I = 3 ÷ (1 + 3) = **0.75**(불안정). 추상클래스 비율 A = 0.1 → D = |0.1 + 0.75 − 1| = **0.15**.
+
+## 8. COCOMO 비용산정 ★★☆☆☆
+`[출제] '17-Q42, '24-Q27`
+
+**개념**: **COCOMO (COnstructive COst MOdel)**는 **KLOC(코드 규모)** 기반 노력·기간 추정 모델.
+
+> ① **노력 Effort(PM, Person-Month) = a × (KLOC)^b**
+> ② **개발기간 TDEV(월) = c × (Effort)^d**
+> ③ **필요 인력 = Effort ÷ TDEV**
+
+### 유형별 계수 (기본 COCOMO)
+| 유형 | 특징 | a | b | c | d |
+|---|---|---|---|---|---|
+| **Organic(조직형)** | 소규모·친숙한 팀 | 2.4 | 1.05 | 2.5 | 0.38 |
+| **Semi-detached(반결합형)** | 중간 규모·혼합 | 3.0 | 1.12 | 2.5 | 0.35 |
+| **Embedded(내장형)** | 대규모·엄격한 제약 | 3.6 | 1.20 | 2.5 | 0.32 |
+
+- **COCOMO II**: 규모를 **객체포인트·기능점수(FP)·SLOC**로 표현, **Application Composition / Early Design / Post-Architecture** 3단계 모델.
+
+**계산 예시**: Organic, 32 KLOC → 노력 = 2.4 × 32^1.05 ≈ 2.4 × 38.3 ≈ **91.9 PM**.
+
+## 9. 생산성·인력·기간 산정 ★★☆☆☆
+`[출제] '16-Q45, '17-Q42, '24-Q48`
+
+> - **생산성 = 규모(LOC 또는 FP) ÷ 투입공수(MM)**
+> - **필요 투입공수(MM) = 규모 ÷ 생산성**
+> - **개발기간(월) = 투입공수 ÷ 투입 인원**, **필요 인력 = 투입공수 ÷ 개발기간**
+
+- LOC 기반·FP 기반 모두 동일한 구조. **단위(LOC/MM, FP/MM)**를 문제에서 정확히 확인할 것.
+
+**계산 예시**: 30,000 LOC, 생산성 500 LOC/MM → 투입공수 = 30000 ÷ 500 = 60 MM. 6개월 완료 목표 → 필요 인력 = 60 ÷ 6 = **10명**.
+
+## 10. 애자일 속도(Velocity) 기반 릴리스 산정 ★★☆☆☆
+`[출제] '19-Q37·Q40, '20-Q36, '22-Q38`
+
+**개념**: **Velocity(속도)**는 한 스프린트에서 **완료(Done)한 스토리포인트(SP)의 합**이다.
+
+> - **평균 Velocity = 최근 스프린트들의 완료 SP 평균**
+> - **필요 스프린트 수 = 총(잔여) 스토리포인트 ÷ 평균 Velocity**
+
+**상세 설명**
+- **완료(DoD, Definition of Done 충족)된 스토리만** 속도에 포함한다. **부분 완료·미완료는 0으로 처리**(대표 함정).
+- 릴리스 일정 = 필요 스프린트 수 × 스프린트 길이.
+
+**계산 예시**: 총 120 SP, 평균 Velocity 20 SP/스프린트 → 120 ÷ 20 = **6 스프린트**. 스프린트가 2주면 **12주** 소요.
+
+## 11. PCE (Phase Containment Effectiveness, 단계 결함 억제 효과) ★★☆☆☆
+`[출제] '23-Q41`
+
+**개념**: 각 개발 단계가 **자기 단계에서 결함을 얼마나 걸러냈는지**를 측정하는 품질 지표.
+
+> **PCE(%) = (해당 단계에서 발견·제거한 결함 수) ÷ (해당 단계 발견 결함 + 이후 단계로 유출된 결함) × 100**
+
+- 값이 **높을수록** 그 단계의 리뷰·검증 활동이 효과적(결함을 다음 단계로 넘기지 않음).
+- 결함이 후반 단계로 갈수록 수정 비용이 급증하므로 **초기 단계의 PCE**가 특히 중요하다.
+
+**계산 예시**: 설계 단계에서 8건 발견, 이 단계 결함이 이후 단계에서 2건 추가 발견(유출) → PCE = 8 ÷ (8 + 2) × 100 = **80%**.
+
+## 12. CPM 임계경로·여유 (일정 융합형) ★★☆☆☆
+`[출제] '17-Q43, '25-Q50, '26-Q50`
+
+**개념**: 소프트웨어 일정관리에서도 **CPM (Critical Path Method, 주공정법)**으로 임계경로·여유를 구한다(감리 과목과 공통, SW에서는 지체상금 등과 **융합 출제**).
+
+> - **여유(Slack/Float) = LS − ES = LF − EF**
+> - **임계경로(Critical Path) = 여유 0 인 활동들의 경로 = 최장 경로**
+> - **지체상금 = 계약금액 × 지체상금률 × 지체일수** (융합형)
+
+- **ES (Early Start)**·**EF (Early Finish)**는 전진계산, **LS (Late Start)**·**LF (Late Finish)**는 후진계산으로 구한다.
+- 상세 계산 절차는 **감리 계산공식 4장(CPM)** 참조.
+
+**계산 예시**: 어떤 활동의 ES=4, LS=7 → 여유 = 7 − 4 = **3일**(임계경로 아님). 여유 0이면 임계경로 활동.
+
+## 13. Halstead 복잡도 (참고)
+
+직접 출제 이력은 확인되지 않았으나 화이트박스 복잡도의 고전 지표로 알아둔다.
+
+- **n₁ (고유 연산자 수)**, **n₂ (고유 피연산자 수)**, **N₁ (총 연산자 수)**, **N₂ (총 피연산자 수)**
+- 어휘 **n = n₁ + n₂**, 길이 **N = N₁ + N₂**
+- **볼륨 V = N × log₂(n)**, **난이도 D = (n₁ ÷ 2) × (N₂ ÷ n₂)**, **노력 E = D × V**
+
+## 14. AI 소프트웨어 강건성 거리 메트릭 (신규 트렌드·참고)
+`[출제] '25-Q34`
+
+2023년 이후 AI 소프트웨어 품질에서 등장한 계산형 개념.
+
+- **강건성(Robustness)** = 입력에 작은 **섭동(perturbation)**을 주어도 출력이 유지되는 정도.
+- 섭동 거리 측정: **L2 노름(유클리드 거리)**, **L∞ 노름(최대 절대차)**.
+- **오분류를 유발하는 최소 섭동 거리가 클수록** 모델이 강건하다.
+
+---
+
+**[출처]** 「소프트웨어공학_출제주제_분석_2016-2026.md」 및 각 연도 기출해설집(2016~2026)의 계산 문항을 통합·재구성. 표준 계산식은 SWEBOK·IFPUG·ISO/IEC 25023·Chidamber&Kemerer·R.Martin·COCOMO 등 통용 정의를 따름.
+</script>
+
+<script>
+(function(){
+  const SLUG='소프트웨어공학';
+  const YEAR_RE=/'(\d{2})-Q(\d+)|·\s*Q(\d+)|,\s*Q(\d+)/g;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fmtText(t){return esc(t).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
+  function refsFrom(text){
+    let last=null, out=[]; let m; YEAR_RE.lastIndex=0;
+    while((m=YEAR_RE.exec(text))){
+      let year,num,yy;
+      if(m[1]){yy=m[1];year='20'+m[1];num=m[2];last=yy;}
+      else{if(!last)continue;yy=last;year='20'+last;num=(m[3]||m[4]);}
+      out.push({year:year,num:num,label:"'"+yy+'-Q'+num});
+    }
+    return out;
+  }
+  function dedupe(refs){const seen={},out=[];refs.forEach(r=>{const k=r.year+'q'+r.num;if(!seen[k]){seen[k]=1;out.push(r);}});return out;}
+  function btnHTML(r){return '<button class="exam-q" data-year="'+r.year+'" data-num="'+r.num+'">'+esc(r.label)+'</button>';}
+  let SECT=null;
+  function collect(refs){ if(SECT){ refs.forEach(r=>SECT.push(r)); } }
+  function inline(s){
+    let out='', lastIdx=0, m; const re=/`([^`]+)`/g;
+    while((m=re.exec(s))){
+      out+=fmtText(s.slice(lastIdx,m.index));
+      const code=m[1];
+      if(code.trim().indexOf('[출제]')===0){ collect(refsFrom(code)); }
+      else out+='<code>'+esc(code)+'</code>';
+      lastIdx=re.lastIndex;
+    }
+    out+=fmtText(s.slice(lastIdx));
+    return out;
+  }
+  function cellHTML(cell){
+    if(/'\d{2}-Q|·\s*Q\d|,\s*Q\d/.test(cell)){
+      let last=null;
+      return fmtText(cell).replace(YEAR_RE,function(mm,yy,n1,n2,n3){
+        let year,num,lab;
+        if(yy){year='20'+yy;num=n1;last=yy;lab="'"+yy+'-Q'+num;}
+        else{if(!last)return mm;year='20'+last;num=(n2||n3);lab="'"+last+'-Q'+num;}
+        return '<button class="exam-q" data-year="'+year+'" data-num="'+num+'">'+esc(lab)+'</button>';
+      });
+    }
+    if(cell.indexOf('★')>=0) return '<span class="stars">'+esc(cell)+'</span>';
+    return inline(cell);
+  }
+  function examBlock(refs){
+    refs=dedupe(refs); if(!refs.length)return '';
+    return '<div class="exam-block"><div class="exam-block-t">📝 관련 기출문제 <span>클릭 시 새 탭으로 해설 열기</span></div>'
+      +'<div class="exam-block-b">'+refs.map(btnHTML).join('')+'</div></div>';
+  }
+  function splitRow(r){let c=r.trim();if(c.startsWith('|'))c=c.slice(1);if(c.endsWith('|'))c=c.slice(0,-1);return c.split('|').map(x=>x.trim());}
+  function renderTable(rows){
+    if(rows.length<2)return '';
+    const header=splitRow(rows[0]);
+    let thead='<tr>'+header.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr>';
+    let body='';
+    for(let r=2;r<rows.length;r++){
+      const cells=splitRow(rows[r]);
+      if(cells.every(x=>/^-*$/.test(x)))continue;
+      body+='<tr>'+cells.map(c=>'<td>'+cellHTML(c)+'</td>').join('')+'</tr>';
+    }
+    return '<div class="tbl-scroll"><table>'+thead+body+'</table></div>';
+  }
+  function renderMD(md){
+    const lines=md.split('\n');
+    let html='', i=0, para=[], quote=[], list=null, listTag='';
+    function flushPara(){if(para.length){html+='<p>'+para.map(inline).join(' ')+'</p>';para=[];}}
+    function flushQuote(){if(quote.length){html+='<div class="lead">'+quote.map(q=>'<div>'+inline(q)+'</div>').join('')+'</div>';quote=[];}}
+    function flushList(){if(list){html+='<'+listTag+'>'+list.map(li=>'<li>'+inline(li)+'</li>').join('')+'</'+listTag+'>';list=null;listTag='';}}
+    function flushAll(){flushPara();flushQuote();flushList();}
+    function closeSection(){flushAll(); if(SECT&&SECT.length){html+=examBlock(SECT);} SECT=null;}
+    while(i<lines.length){
+      let ln=lines[i];
+      if(/^\s*\|/.test(ln)){flushAll();let rows=[];while(i<lines.length&&/^\s*\|/.test(lines[i])){rows.push(lines[i]);i++;}html+=renderTable(rows);continue;}
+      if(SECT!==null && /^`\s*\[출제\][^`]*`\s*$/.test(ln.trim())){collect(refsFrom(ln));i++;continue;}
+      if(ln.startsWith('### ')){flushAll();html+='<h3>'+inline(ln.slice(4))+'</h3>';i++;continue;}
+      if(ln.startsWith('## ')){closeSection();SECT=[];html+='<h2>'+inline(ln.slice(3))+'</h2>';i++;continue;}
+      if(ln.startsWith('# ')){i++;continue;}
+      if(ln.startsWith('> ')){flushPara();flushList();quote.push(ln.slice(2));i++;continue;}
+      let um=ln.match(/^\s*[-*]\s+(.*)$/);
+      let om=ln.match(/^\s*\d+\.\s+(.*)$/);
+      if(um){flushPara();flushQuote();if(listTag!=='ul'){flushList();listTag='ul';list=[];}list.push(um[1]);i++;continue;}
+      if(om){flushPara();flushQuote();if(listTag!=='ol'){flushList();listTag='ol';list=[];}list.push(om[1]);i++;continue;}
+      if(/^---\s*$/.test(ln)){flushAll();i++;continue;}
+      if(ln.trim()===''){flushAll();i++;continue;}
+      para.push(ln.trim());i++;
+    }
+    closeSection();
+    return html;
+  }
+  function openExam(year,num){
+    const url=encodeURIComponent(SLUG)+'/'+encodeURIComponent(SLUG+'_'+year+'.html')+'#q'+num;
+    window.open(url,'_blank','noopener');
+  }
+  const contentEl=document.getElementById('content');
+  contentEl.innerHTML=renderMD(document.getElementById('md').textContent);
+  contentEl.addEventListener('click',e=>{
+    const b=e.target.closest('.exam-q');
+    if(b){openExam(b.getAttribute('data-year'),b.getAttribute('data-num'));}
+  });
+})();
+</script>
+</body>
+</html>

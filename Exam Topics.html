@@ -65,8 +65,8 @@
   </h1>
   <nav class="subnav">
     <a href="Exam%20Topics.html" class="nav-btn active">📊 출제 분석</a>
-    <a href="Rule%20and%20Guide.html" class="nav-btn">📖 관련 법령·가이드</a>
-    <a href="Calculation%20formula.html" class="nav-btn">🧮 계산공식</a>
+    <a href="Rule%20and%20Guide.html" class="nav-btn" id="navLaw">📖 관련 법령·가이드</a>
+    <a href="Calculation%20formula.html" class="nav-btn" id="navCalc">🧮 계산공식</a>
   </nav>
 </div>
 <div class="wrap">
@@ -1985,10 +1985,25 @@
     subjSel.value=active;
   }
   subjSel.addEventListener('change',()=>{active=parseInt(subjSel.value,10)||0;render();});
+  // 과목별 계산공식/법령가이드 페이지 매핑(존재하는 것만)
+  var CALC_PAGE={'감리및사업관리':'Calculation%20formula.html','소프트웨어공학':'Calculation%20formula%20SW.html'};
+  var LAW_PAGE={'감리및사업관리':'Rule%20and%20Guide.html'};
+  function updateNav(){
+    var calc=document.getElementById('navCalc'), law=document.getElementById('navLaw');
+    if(calc){
+      if(CALC_PAGE[curSlug]){calc.href=CALC_PAGE[curSlug];calc.style.display='';}
+      else{calc.style.display='none';}
+    }
+    if(law){
+      if(LAW_PAGE[curSlug]){law.href=LAW_PAGE[curSlug];law.style.display='';}
+      else{law.style.display='none';}
+    }
+  }
   function render(){
     subjSel.value=active;
     curSlug=subjects[active].slug;
     contentEl.innerHTML=renderMD(subjects[active].md);
+    updateNav();
     document.getElementById('q').value='';
     filter('');
     window.scrollTo(0,0);

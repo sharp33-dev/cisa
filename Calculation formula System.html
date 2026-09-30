@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시스템구조 — 계산식·공식 통합 암기</title>
+<style>
+  :root{
+    --primary:#be123c; --primary-dark:#0f172a; --accent:#f43f5e;
+    --bg:#f8fafc; --card:#ffffff; --border:#cbd5e1; --text:#334155; --text-dark:#0f172a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
+  body{background:var(--bg);color:var(--text);line-height:1.6;}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--primary-dark);color:#fff;padding:.6rem 1rem .5rem;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .topbar h1{font-size:1.02rem;font-weight:800;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+  .topbar h1 .yr{font-size:.72rem;font-weight:600;color:#fecdd3;background:#1e293b;padding:.15rem .5rem;border-radius:6px;}
+  .subj-sel{margin-left:.3rem;background:#1e293b;color:#ffe4e6;border:1px solid #f43f5e;border-radius:8px;font-size:.82rem;font-weight:700;padding:.28rem 1.8rem .28rem .6rem;cursor:pointer;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%23f43f5e'><path d='M7 10l5 5 5-5z'/></svg>");background-repeat:no-repeat;background-position:right .5rem center;}
+  .subj-sel:focus{outline:none;box-shadow:0 0 0 2px rgba(20,184,166,.4);}
+  .subj-sel option{background:#0f172a;color:#ffe4e6;}
+  .subnav{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem;}
+  .nav-btn{font-size:.8rem;font-weight:700;color:#cbd5e1;background:#1e293b;border:1px solid #334155;border-radius:20px;padding:.28rem .8rem;text-decoration:none;transition:all .15s;white-space:nowrap;}
+  .nav-btn:hover{background:#334155;color:#fff;}
+  .nav-btn.active{background:var(--accent);color:#4c0519;border-color:var(--accent);}
+  .wrap{max-width:1080px;margin:0 auto;padding:1.3rem 1.1rem 4rem;}
+  .content h2{font-size:1.12rem;color:var(--primary);font-weight:800;margin:2rem 0 .7rem;padding:.45rem .7rem;background:linear-gradient(90deg,#ffe4e6,transparent);border-left:5px solid var(--primary);border-radius:4px;}
+  .content h2:first-child{margin-top:.3rem;}
+  .content h3{font-size:.96rem;color:var(--text-dark);font-weight:800;margin:1.3rem 0 .45rem;padding-left:.6rem;border-left:3px solid var(--accent);}
+  .content p{margin:.5rem 0;font-size:.9rem;}
+  .content ul,.content ol{margin:.4rem 0 .8rem 1.3rem;font-size:.89rem;}
+  .content li{margin:.28rem 0;}
+  .content strong{color:var(--text-dark);font-weight:700;}
+  .content code{background:#ffe4e6;color:#be123c;font-family:'SFMono-Regular',Consolas,monospace;font-size:.86em;padding:.08rem .35rem;border-radius:5px;font-weight:600;}
+  .lead{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0 1rem;font-size:.86rem;color:#475569;}
+  .lead div{margin:.15rem 0;}
+  .tbl-scroll{overflow-x:auto;margin:.5rem 0 1rem;border:1px solid var(--border);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;font-size:.83rem;background:var(--card);}
+  th{background:var(--primary);color:#fff;font-weight:700;padding:.5rem .55rem;text-align:left;white-space:nowrap;}
+  td{padding:.45rem .55rem;border-top:1px solid #e2e8f0;vertical-align:top;}
+  tr:hover td{background:#fff1f2;}
+  .stars{color:#f59e0b;letter-spacing:-1px;white-space:nowrap;}
+  .exam-q{background:#be123c;color:#fff;border:none;border-radius:6px;padding:.18rem .5rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;margin:.12rem .18rem .12rem 0;transition:background .15s;}
+  .exam-q:hover{background:var(--accent);}
+  .exam-block{margin:1rem 0 .4rem;background:#fff1f2;border:1px solid #fecdd3;border-radius:10px;padding:.7rem .85rem;}
+  .exam-block-t{font-size:.82rem;font-weight:800;color:#be123c;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+  .exam-block-t span{font-size:.7rem;font-weight:600;color:#f43f5e;}
+  .exam-block-b{display:flex;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>🧮 시스템구조 계산식·공식 통합 암기 <span class="yr">2016~2026</span>
+    <select class="subj-sel" title="과목 선택" onchange="if(this.value)location.href=this.value">
+      <option value="Calculation%20formula.html">감리 및 사업관리</option>
+      <option value="Calculation%20formula%20SW.html">소프트웨어공학</option>
+      <option value="Calculation%20formula%20DB.html">데이터베이스</option>
+      <option value="Calculation%20formula%20System.html" selected>시스템구조</option>
+      <option value="Calculation%20formula%20Security.html">보안</option>
+    </select>
+  </h1>
+  <nav class="subnav">
+    <a href="Exam%20Topics.html?subject=시스템구조" class="nav-btn">📊 출제 분석</a>
+    <a href="Calculation%20formula%20System.html" class="nav-btn active">🧮 계산공식</a>
+  </nav>
+</div>
+<div class="wrap"><div class="content" id="content"></div></div>
+
+<script type="text/markdown" id="md">
+# 시스템구조 — 계산식·공식 통합 암기 노트 (2016~2026)
+
+> 기출(2016~2026)에서 반복·변형 출제된 **시스템구조 계산식**을 주제별로 통합하고, 각 항목을 **기출해설 수준으로 상세 설명**했다.
+> 영문 약어는 처음 나올 때 **AMAT (Average Memory Access Time, 평균 메모리 접근시간)** 형식으로 풀어 표기한다.
+> 각 항목 하단의 **📝 관련 기출문제** 버튼을 누르면 해당 문항 해설이 새 탭으로 열린다.
+
+## 0. 한눈에 보는 빈출 계산 주제
+
+| 빈출도 | 주제 | 대표 공식 | 출제 이력 |
+|---|---|---|---|
+| ★★★★★ | 캐시 평균 접근시간(AMAT)·적중률 | AMAT = 적중시간 + 실패율 × 실패손실 | '19-Q87, '21-Q81, '25-Q85, '26-Q86 |
+| ★★★★★ | 페이지 교체·페이지 테이블 크기 | 적중률 = 적중 ÷ 총참조, 엔트리 = 가상공간 ÷ 페이지크기 | '19-Q85·Q88, '23-Q76, '25-Q86, '26-Q89 |
+| ★★★★☆ | CPU 성능 방정식·암달의 법칙 | CPU시간 = IC × CPI ÷ 클록, 속도향상 = 1 ÷ ((1−f)+f÷s) | '17-Q86·Q100, '18-Q87·Q89, '19-Q81, '25-Q84, '26-Q88 |
+| ★★★★☆ | RAID 용량·최소 디스크·성능 | RAID5 유효용량 = (n−1) × 디스크, 최소 3개 | '18-Q76, '21-Q83, '22-Q87·Q100, '24-Q83, '25-Q81, '26-Q78 |
+| ★★★★☆ | 서브네팅·IP 주소 계산 | 서브넷당 호스트 = 2^(호스트비트) − 2 | '16-Q97·Q98, '18-Q83, '20-Q86, '23-Q92, '24-Q87·Q89·Q99 |
+| ★★★☆☆ | 가용성·MTBF·MTTR | 가용성 = MTBF ÷ (MTBF + MTTR) | '19-Q90, '21-Q82, '24-Q80, '26-Q76·Q77 |
+| ★★★☆☆ | 오류검출(패리티·해밍·CRC) | 해밍 검사비트 r: 2^r ≥ m + r + 1 | '17-Q92·Q97, '22-Q79, '23-Q85, '24-Q85, '25-Q87·Q92 |
+| ★★★☆☆ | 수 표현(2의 보수·부동소수점·그레이) | 2의 보수 = 1의 보수 + 1 | '22-Q80, '24-Q79, '25-Q78·Q79, '26-Q80·Q81·Q82·Q83·Q84 |
+| ★★★☆☆ | HW 규모산정 지침 | tpmC·OLTP·IOPS·보정치 | '17-Q80, '19-Q76, '20-Q99, '22-Q97, '23-Q86, '25-Q76 |
+| ★★☆☆☆ | 처리량(TPS)·응답시간·스케줄링·대역폭 | TPS = 1 ÷ 응답시간(직렬), 버스대역폭 = 클록 × 버스폭 | '18-Q79, '19-Q79, '20-Q95, '25-Q80, '26-Q87 |
+| ★★☆☆☆ | 채널용량·SNR·토폴로지·ARQ | 섀넌 C = B·log₂(1 + S/N), 완전그물 = n(n−1)÷2 | '17-Q96, '18-Q86, '20-Q81·Q97, '26-Q93·Q98 |
+
+**용어 사전(공통):**
+- **IC (Instruction Count, 명령어 수)**, **CPI (Cycles Per Instruction, 명령어당 사이클)**, **클록 주기 Tc = 1 ÷ 클록 주파수 f**.
+- **MTBF (Mean Time Between Failures, 평균 고장간격)**, **MTTR (Mean Time To Repair, 평균 수리시간)**.
+- **TPS (Transactions Per Second, 초당 처리 건수)**, **IOPS (Input/Output Per Second)**.
+
+## 1. CPU 성능 방정식 ★★★★☆
+`[출제] '17-Q86, '18-Q87·Q89, '19-Q81, '22-Q84`
+
+> **CPU 실행시간 = 명령어 수(IC) × CPI × 클록 주기(Tc) = IC × CPI ÷ 클록 주파수(f)**
+> **MIPS = 클록 주파수 ÷ (CPI × 10⁶)**
+
+**상세 설명**
+- 성능 개선 3요소: **명령어 수(IC)**(컴파일러·ISA), **CPI**(구조·파이프라인), **클록(f)**(회로).
+- **평균 CPI = Σ(명령어 유형별 비율 × 유형 CPI)**.
+- 두 구성의 성능비 = (IC×CPI×Tc) 비율로 비교.
+
+**계산 예시**: IC = 10⁶, CPI = 2, f = 2GHz → 실행시간 = 10⁶ × 2 ÷ (2×10⁹) = **10⁻³초(1ms)**.
+
+## 2. 암달의 법칙 (Amdahl's Law) ★★★☆☆
+`[출제] '17-Q100, '25-Q84, '26-Q88`
+
+> **전체 속도향상 = 1 ÷ ((1 − f) + f ÷ s)**
+> (f = 개선되는 부분 비율, s = 그 부분의 속도향상 배수)
+
+- **한계**: 개선 안 되는 부분(1 − f)이 병목 → s가 무한대여도 최대 속도향상 = **1 ÷ (1 − f)**.
+
+**계산 예시**: f = 0.6(60%)를 s = 3배 개선 → 속도향상 = 1 ÷ (0.4 + 0.6÷3) = 1 ÷ 0.6 ≈ **1.67배**. (s→∞ 여도 최대 1÷0.4 = 2.5배)
+
+## 3. 캐시 평균 접근시간(AMAT)·적중률 ★★★★★
+`[출제] '19-Q87, '21-Q81, '25-Q85, '26-Q86`
+
+> **AMAT (평균 메모리 접근시간) = 적중시간(Hit Time) + 실패율(Miss Rate) × 실패손실(Miss Penalty)**
+> **유효 접근시간 = 적중률 × 캐시접근시간 + 실패율 × 주기억접근시간**
+
+- **적중률(Hit Ratio) + 실패율(Miss Rate) = 1**.
+- 다단계 캐시: AMAT = L1적중시간 + L1실패율 × (L2적중시간 + L2실패율 × 주기억접근).
+- 사상 방식: **직접 사상**(교체 후보 1개), **완전 연관**(전체), **집합 연관 n-way**(집합 내 n개).
+
+**계산 예시**: 적중시간 1ns, 실패율 5%, 실패손실 100ns → AMAT = 1 + 0.05 × 100 = **6ns**.
+
+## 4. 페이지 교체·페이지 테이블 크기 ★★★★★
+`[출제] '19-Q85·Q88, '20-Q93, '23-Q76, '25-Q86, '26-Q89`
+
+### 4-1. 페이지 교체 알고리즘·적중률
+> **페이지 적중률 = 적중 횟수 ÷ 총 참조 횟수**, **페이지 폴트율 = 폴트 수 ÷ 총 참조**
+
+- **FIFO**(가장 오래된 것), **LRU**(가장 오래 미사용), **LFU**(가장 적게 사용), **MRU**(가장 최근 사용) — 참조열을 프레임 수만큼 추적해 폴트 수 계산.
+- **벨레이디의 모순(Belady's Anomaly)**: FIFO는 프레임을 늘려도 폴트가 늘 수 있음.
+
+### 4-2. 페이지 테이블 크기
+> - **페이지(테이블) 엔트리 수 = 가상 주소공간 크기 ÷ 페이지 크기**
+> - **페이지 테이블 크기 = 엔트리 수 × 엔트리(PTE) 크기**
+
+**계산 예시**: 가상주소 32비트(4GB), 페이지 4KB → 엔트리 = 2³²÷2¹² = 2²⁰ = **1M개**. PTE 4B → 테이블 = 1M × 4B = **4MB**.
+
+## 5. RAID 용량·최소 디스크·성능 ★★★★☆
+`[출제] '18-Q76, '20-Q85, '21-Q83, '22-Q87·Q100, '23-Q79, '24-Q83, '25-Q81, '26-Q78`
+
+| RAID | 최소 디스크 | 유효 용량(디스크 n개, 용량 c) | 특징 |
+|---|---|---|---|
+| **RAID 0**(스트라이핑) | 2 | **n × c** | 성능↑, 무결함내성 |
+| **RAID 1**(미러링) | 2 | **n ÷ 2 × c**(50%) | 완전 이중화 |
+| **RAID 5**(분산 패리티) | **3** | **(n − 1) × c** | 디스크 1개 장애 허용 |
+| **RAID 6**(이중 패리티) | **4** | **(n − 2) × c** | 디스크 2개 장애 허용 |
+| **RAID 1+0/0+1** | 4 | **n ÷ 2 × c**(50%) | 미러+스트라이프 |
+
+- **RAID 5 쓰기 손실**: 데이터+패리티 갱신으로 쓰기 성능 저하(작은 쓰기 패널티).
+- RAID 4는 **전용 패리티 디스크**(병목), RAID 5는 **패리티 분산**.
+
+**계산 예시**: 1TB 디스크 5개 RAID 5 → 유효용량 = (5−1)×1TB = **4TB**.
+
+## 6. 가용성·MTBF·MTTR ("9의 개수") ★★★☆☆
+`[출제] '19-Q90, '21-Q82, '24-Q80, '26-Q76·Q77`
+
+> **가용성 A(Availability) = MTBF ÷ (MTBF + MTTR) = 가동시간 ÷ (가동시간 + 정지시간)**
+> **MTBF = MTTF(평균 고장 전 시간) + MTTR**
+
+| 가용성 | "9의 개수" | 연간 다운타임(근사) |
+|---|---|---|
+| 99% | two nines | 약 3.65일 |
+| 99.9% | three nines | 약 8.76시간 |
+| 99.99% | four nines | 약 52.6분 |
+| **99.999%** | **five nines** | **약 5.26분** |
+
+**계산 예시**: MTBF = 990시간, MTTR = 10시간 → A = 990 ÷ 1000 = **0.99 (99%)**.
+
+## 7. 서브네팅·IP 주소 계산 ★★★★☆
+`[출제] '16-Q97·Q98, '17-Q91, '18-Q83, '20-Q86, '23-Q92, '24-Q87·Q89·Q99`
+
+> - **서브넷당 호스트 수 = 2^(호스트 비트 수) − 2** (네트워크·브로드캐스트 주소 제외)
+> - **서브넷 수 = 2^(빌려온 서브넷 비트 수)**
+> - **블록 크기 = 256 − 서브넷 마스크 해당 옥텟 값** → 네트워크 주소는 블록 크기의 배수.
+
+- **네트워크 주소**(호스트 비트 모두 0), **브로드캐스트 주소**(호스트 비트 모두 1), 사용 가능 범위는 그 사이.
+- CIDR /n → 호스트 비트 = 32 − n.
+
+**계산 예시**: /27 → 호스트 비트 = 5 → 호스트 = 2⁵ − 2 = **30개**, 블록 크기 = 256 − 224 = **32**(주소 .0, .32, .64 …).
+
+## 8. 오류검출 — 패리티·해밍·CRC ★★★☆☆
+`[출제] '17-Q92·Q97, '22-Q79, '23-Q85, '24-Q85, '25-Q87·Q92`
+
+| 방식 | 핵심 공식/규칙 | 능력 |
+|---|---|---|
+| **패리티(Parity)** | 1의 개수를 짝수(우수)/홀수(기수)로 맞춤 | 1비트 오류 **검출** |
+| **해밍 코드(Hamming)** | 검사비트 r: **2^r ≥ m + r + 1** (m=데이터 비트) | 1비트 오류 **정정** |
+| **CRC(순환중복검사)** | 데이터 × 2^(차수) 를 **생성다항식으로 모듈로-2 나눗셈**, 나머지가 검사코드 | 버스트 오류 검출 |
+
+- 해밍 거리 d: **검출 = d − 1비트**, **정정 = 내림((d − 1) ÷ 2)비트**.
+
+**계산 예시**: 데이터 m = 4비트 → 2^r ≥ 4 + r + 1. r=3: 2³=8 ≥ 8 성립 → **검사비트 3개**(전체 7비트, 해밍(7,4)).
+
+## 9. 수 표현 — 2의 보수·부동소수점·그레이 코드 ★★★☆☆
+`[출제] '22-Q80, '24-Q79, '25-Q78·Q79, '26-Q80·Q81·Q82·Q83·Q84`
+
+> - **2의 보수 = 1의 보수(비트 반전) + 1**. n비트 표현 범위 = **−2^(n−1) ~ 2^(n−1) − 1**.
+> - **덧셈 오버플로**: 같은 부호끼리 더했는데 결과 부호가 달라지면 발생(부호비트 캐리 불일치).
+> - **IEEE 754 단정도**: 부호 1 + 지수 8(바이어스 127) + 가수 23비트. 값 = (−1)^부호 × 1.가수 × 2^(지수−127).
+> - **그레이 코드**: 연속 값이 **1비트만 변화**. 이진→그레이: **G = B XOR (B >> 1)**.
+
+**계산 예시**: −5를 4비트 2의 보수 → 5 = 0101, 반전 1010, +1 → **1011**.
+
+## 10. 처리량(TPS)·응답시간·스케줄링·버스 대역폭 ★★☆☆☆
+`[출제] '18-Q79, '19-Q79, '20-Q95, '25-Q80, '26-Q87`
+
+> - **직렬 처리 TPS = 1 ÷ 평균 응답시간**, 가동률 ρ 반영 시 **최대 TPS = 처리기 수 × 가동률 ÷ 서비스시간**.
+> - **버스 대역폭 = 버스 클록 × 버스 폭(바이트)**.
+> - **라운드 로빈**: 시간할당량(quantum)이 매우 크면 FCFS에 수렴, 매우 작으면 문맥교환 급증.
+
+- 스케줄링 지표: **반환시간 = 완료 − 도착**, **대기시간 = 반환 − 실행(버스트)**.
+
+**계산 예시**: 버스 클록 100MHz, 버스 폭 8바이트 → 대역폭 = 100×10⁶ × 8 = **800MB/s**.
+
+## 11. 채널용량·SNR·토폴로지·ARQ ★★☆☆☆
+`[출제] '17-Q96, '18-Q86, '20-Q81·Q97, '26-Q93·Q98`
+
+> - **섀넌 채널용량 C = B × log₂(1 + S/N)** (B=대역폭, S/N=신호대잡음비, 선형값).
+> - **나이퀴스트 C = 2 × B × log₂(M)** (M=신호 준위 수).
+> - **SNR(dB) = 10 × log₁₀(S/N)**.
+> - **완전 그물형(Full Mesh) 회선 수 = n(n − 1) ÷ 2**.
+> - **ARQ 송신 윈도우**: Go-Back-N = **2^m − 1**, Selective Repeat = **2^(m−1)** (m=순서번호 비트).
+
+**계산 예시**: 대역폭 3kHz, S/N = 1023 → C = 3000 × log₂(1024) = 3000 × 10 = **30,000bps**.
+
+## 12. HW 규모산정 지침 ★★★☆☆
+`[출제] '17-Q80, '19-Q76, '20-Q99, '22-Q97, '23-Q86, '25-Q76`
+
+**개념**: 「정보시스템 하드웨어 규모산정 지침」에 따라 서버·스토리지·네트워크 용량을 산정한다.
+
+- **CPU(서버)**: OLTP는 **tpmC**, 정보계는 **OPS/보정치**. 피크부하·여유율·보정계수 반영.
+- **스토리지**: 데이터 용량 + 증가율 + 여유율, 성능은 **IOPS** 기준.
+- **네트워크(L2/L3 스위치)**: 포트 수·백본 대역폭·이중화.
+- **WEB/WAS**: 동시사용자·초당 트랜잭션·연계부하 보정.
+
+**계산 예시**: 산정 = 기준 성능치 × (1 + 피크부하율) × (1 + 여유율) ÷ 단위 처리성능 → 필요 대수 산출.
+
+## 13. (참고) 디지털 데이터량·신경망 특징맵
+`[출제] '17-Q89, '19-Q98, '21-Q85, '22-Q86, '25-Q89`
+
+> - **디지털 오디오 데이터량 = 표본화율(Hz) × 표본 비트수 × 채널 수 × 시간(초) ÷ 8 (바이트)**.
+> - **CNN 특징맵 크기 = 내림((입력 − 필터 + 2×패딩) ÷ 스트라이드) + 1**.
+> - **MSE(평균제곱오차) = (1 ÷ n) × Σ(실제 − 예측)²**.
+
+**계산 예시**: 44.1kHz, 16비트, 스테레오(2채널), 60초 → 44100 × 16 × 2 × 60 ÷ 8 ≈ **10.1MB**.
+
+---
+
+**[출처]** 「시스템구조_출제주제_분석_2016-2026.md」 및 각 연도 기출해설집(2016~2026)의 계산 문항을 통합·재구성. 표준 정의는 컴퓨터구조·운영체제·데이터통신 이론 및 HW 규모산정 지침을 따름.
+
+</script>
+
+<script>
+(function(){
+  const SLUG='시스템구조';
+  const YEAR_RE=/'(\d{2})-Q(\d+)|·\s*Q(\d+)|,\s*Q(\d+)/g;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fmtText(t){return esc(t).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
+  function refsFrom(text){
+    let last=null, out=[]; let m; YEAR_RE.lastIndex=0;
+    while((m=YEAR_RE.exec(text))){
+      let year,num,yy;
+      if(m[1]){yy=m[1];year='20'+m[1];num=m[2];last=yy;}
+      else{if(!last)continue;yy=last;year='20'+last;num=(m[3]||m[4]);}
+      out.push({year:year,num:num,label:"'"+yy+'-Q'+num});
+    }
+    return out;
+  }
+  function dedupe(refs){const seen={},out=[];refs.forEach(r=>{const k=r.year+'q'+r.num;if(!seen[k]){seen[k]=1;out.push(r);}});return out;}
+  function btnHTML(r){return '<button class="exam-q" data-year="'+r.year+'" data-num="'+r.num+'">'+esc(r.label)+'</button>';}
+  let SECT=null;
+  function collect(refs){ if(SECT){ refs.forEach(r=>SECT.push(r)); } }
+  function inline(s){
+    let out='', lastIdx=0, m; const re=/`([^`]+)`/g;
+    while((m=re.exec(s))){
+      out+=fmtText(s.slice(lastIdx,m.index));
+      const code=m[1];
+      if(code.trim().indexOf('[출제]')===0){ collect(refsFrom(code)); }
+      else out+='<code>'+esc(code)+'</code>';
+      lastIdx=re.lastIndex;
+    }
+    out+=fmtText(s.slice(lastIdx));
+    return out;
+  }
+  function cellHTML(cell){
+    if(/'\d{2}-Q|·\s*Q\d|,\s*Q\d/.test(cell)){
+      let last=null;
+      return fmtText(cell).replace(YEAR_RE,function(mm,yy,n1,n2,n3){
+        let year,num,lab;
+        if(yy){year='20'+yy;num=n1;last=yy;lab="'"+yy+'-Q'+num;}
+        else{if(!last)return mm;year='20'+last;num=(n2||n3);lab="'"+last+'-Q'+num;}
+        return '<button class="exam-q" data-year="'+year+'" data-num="'+num+'">'+esc(lab)+'</button>';
+      });
+    }
+    if(cell.indexOf('★')>=0) return '<span class="stars">'+esc(cell)+'</span>';
+    return inline(cell);
+  }
+  function examBlock(refs){
+    refs=dedupe(refs); if(!refs.length)return '';
+    return '<div class="exam-block"><div class="exam-block-t">📝 관련 기출문제 <span>클릭 시 새 탭으로 해설 열기</span></div>'
+      +'<div class="exam-block-b">'+refs.map(btnHTML).join('')+'</div></div>';
+  }
+  function splitRow(r){let c=r.trim();if(c.startsWith('|'))c=c.slice(1);if(c.endsWith('|'))c=c.slice(0,-1);return c.split('|').map(x=>x.trim());}
+  function renderTable(rows){
+    if(rows.length<2)return '';
+    const header=splitRow(rows[0]);
+    let thead='<tr>'+header.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr>';
+    let body='';
+    for(let r=2;r<rows.length;r++){
+      const cells=splitRow(rows[r]);
+      if(cells.every(x=>/^-*$/.test(x)))continue;
+      body+='<tr>'+cells.map(c=>'<td>'+cellHTML(c)+'</td>').join('')+'</tr>';
+    }
+    return '<div class="tbl-scroll"><table>'+thead+body+'</table></div>';
+  }
+  function renderMD(md){
+    const lines=md.split('\n');
+    let html='', i=0, para=[], quote=[], list=null, listTag='';
+    function flushPara(){if(para.length){html+='<p>'+para.map(inline).join(' ')+'</p>';para=[];}}
+    function flushQuote(){if(quote.length){html+='<div class="lead">'+quote.map(q=>'<div>'+inline(q)+'</div>').join('')+'</div>';quote=[];}}
+    function flushList(){if(list){html+='<'+listTag+'>'+list.map(li=>'<li>'+inline(li)+'</li>').join('')+'</'+listTag+'>';list=null;listTag='';}}
+    function flushAll(){flushPara();flushQuote();flushList();}
+    function closeSection(){flushAll(); if(SECT&&SECT.length){html+=examBlock(SECT);} SECT=null;}
+    while(i<lines.length){
+      let ln=lines[i];
+      if(/^\s*\|/.test(ln)){flushAll();let rows=[];while(i<lines.length&&/^\s*\|/.test(lines[i])){rows.push(lines[i]);i++;}html+=renderTable(rows);continue;}
+      if(SECT!==null && /^`\s*\[출제\][^`]*`\s*$/.test(ln.trim())){collect(refsFrom(ln));i++;continue;}
+      if(ln.startsWith('### ')){flushAll();html+='<h3>'+inline(ln.slice(4))+'</h3>';i++;continue;}
+      if(ln.startsWith('## ')){closeSection();SECT=[];html+='<h2>'+inline(ln.slice(3))+'</h2>';i++;continue;}
+      if(ln.startsWith('# ')){i++;continue;}
+      if(ln.startsWith('> ')){flushPara();flushList();quote.push(ln.slice(2));i++;continue;}
+      let um=ln.match(/^\s*[-*]\s+(.*)$/);
+      let om=ln.match(/^\s*\d+\.\s+(.*)$/);
+      if(um){flushPara();flushQuote();if(listTag!=='ul'){flushList();listTag='ul';list=[];}list.push(um[1]);i++;continue;}
+      if(om){flushPara();flushQuote();if(listTag!=='ol'){flushList();listTag='ol';list=[];}list.push(om[1]);i++;continue;}
+      if(/^---\s*$/.test(ln)){flushAll();i++;continue;}
+      if(ln.trim()===''){flushAll();i++;continue;}
+      para.push(ln.trim());i++;
+    }
+    closeSection();
+    return html;
+  }
+  function openExam(year,num){
+    const url=encodeURIComponent(SLUG)+'/'+encodeURIComponent(SLUG+'_'+year+'.html')+'#q'+num;
+    window.open(url,'_blank','noopener');
+  }
+  const contentEl=document.getElementById('content');
+  contentEl.innerHTML=renderMD(document.getElementById('md').textContent);
+  contentEl.addEventListener('click',e=>{
+    const b=e.target.closest('.exam-q');
+    if(b){openExam(b.getAttribute('data-year'),b.getAttribute('data-num'));}
+  });
+})();
+</script>
+</body>
+</html>

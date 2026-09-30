@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보안 — 계산식·공식 통합 암기</title>
+<style>
+  :root{
+    --primary:#4338ca; --primary-dark:#0f172a; --accent:#6366f1;
+    --bg:#f8fafc; --card:#ffffff; --border:#cbd5e1; --text:#334155; --text-dark:#0f172a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
+  body{background:var(--bg);color:var(--text);line-height:1.6;}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--primary-dark);color:#fff;padding:.6rem 1rem .5rem;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .topbar h1{font-size:1.02rem;font-weight:800;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+  .topbar h1 .yr{font-size:.72rem;font-weight:600;color:#c7d2fe;background:#1e293b;padding:.15rem .5rem;border-radius:6px;}
+  .subj-sel{margin-left:.3rem;background:#1e293b;color:#e0e7ff;border:1px solid #6366f1;border-radius:8px;font-size:.82rem;font-weight:700;padding:.28rem 1.8rem .28rem .6rem;cursor:pointer;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%236366f1'><path d='M7 10l5 5 5-5z'/></svg>");background-repeat:no-repeat;background-position:right .5rem center;}
+  .subj-sel:focus{outline:none;box-shadow:0 0 0 2px rgba(20,184,166,.4);}
+  .subj-sel option{background:#0f172a;color:#e0e7ff;}
+  .subnav{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem;}
+  .nav-btn{font-size:.8rem;font-weight:700;color:#cbd5e1;background:#1e293b;border:1px solid #334155;border-radius:20px;padding:.28rem .8rem;text-decoration:none;transition:all .15s;white-space:nowrap;}
+  .nav-btn:hover{background:#334155;color:#fff;}
+  .nav-btn.active{background:var(--accent);color:#1e1b4b;border-color:var(--accent);}
+  .wrap{max-width:1080px;margin:0 auto;padding:1.3rem 1.1rem 4rem;}
+  .content h2{font-size:1.12rem;color:var(--primary);font-weight:800;margin:2rem 0 .7rem;padding:.45rem .7rem;background:linear-gradient(90deg,#e0e7ff,transparent);border-left:5px solid var(--primary);border-radius:4px;}
+  .content h2:first-child{margin-top:.3rem;}
+  .content h3{font-size:.96rem;color:var(--text-dark);font-weight:800;margin:1.3rem 0 .45rem;padding-left:.6rem;border-left:3px solid var(--accent);}
+  .content p{margin:.5rem 0;font-size:.9rem;}
+  .content ul,.content ol{margin:.4rem 0 .8rem 1.3rem;font-size:.89rem;}
+  .content li{margin:.28rem 0;}
+  .content strong{color:var(--text-dark);font-weight:700;}
+  .content code{background:#e0e7ff;color:#4338ca;font-family:'SFMono-Regular',Consolas,monospace;font-size:.86em;padding:.08rem .35rem;border-radius:5px;font-weight:600;}
+  .lead{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0 1rem;font-size:.86rem;color:#475569;}
+  .lead div{margin:.15rem 0;}
+  .tbl-scroll{overflow-x:auto;margin:.5rem 0 1rem;border:1px solid var(--border);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;font-size:.83rem;background:var(--card);}
+  th{background:var(--primary);color:#fff;font-weight:700;padding:.5rem .55rem;text-align:left;white-space:nowrap;}
+  td{padding:.45rem .55rem;border-top:1px solid #e2e8f0;vertical-align:top;}
+  tr:hover td{background:#eef2ff;}
+  .stars{color:#f59e0b;letter-spacing:-1px;white-space:nowrap;}
+  .exam-q{background:#4338ca;color:#fff;border:none;border-radius:6px;padding:.18rem .5rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;margin:.12rem .18rem .12rem 0;transition:background .15s;}
+  .exam-q:hover{background:var(--accent);}
+  .exam-block{margin:1rem 0 .4rem;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;padding:.7rem .85rem;}
+  .exam-block-t{font-size:.82rem;font-weight:800;color:#4338ca;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+  .exam-block-t span{font-size:.7rem;font-weight:600;color:#6366f1;}
+  .exam-block-b{display:flex;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>🧮 보안 계산식·공식 통합 암기 <span class="yr">2016~2026</span>
+    <select class="subj-sel" title="과목 선택" onchange="if(this.value)location.href=this.value">
+      <option value="Calculation%20formula.html">감리 및 사업관리</option>
+      <option value="Calculation%20formula%20SW.html">소프트웨어공학</option>
+      <option value="Calculation%20formula%20DB.html">데이터베이스</option>
+      <option value="Calculation%20formula%20System.html">시스템구조</option>
+      <option value="Calculation%20formula%20Security.html" selected>보안</option>
+    </select>
+  </h1>
+  <nav class="subnav">
+    <a href="Exam%20Topics.html?subject=보안" class="nav-btn">📊 출제 분석</a>
+    <a href="Calculation%20formula%20Security.html" class="nav-btn active">🧮 계산공식</a>
+  </nav>
+</div>
+<div class="wrap"><div class="content" id="content"></div></div>
+
+<script type="text/markdown" id="md">
+# 보안 — 계산식·공식 통합 암기 노트 (2016~2026)
+
+> 기출(2016~2026)에서 계산·정량 유형으로 출제된 **보안 계산식**을 통합했다. 보안 과목은 개념 문항 비중이 크고 계산은 **정량적 위험분석(SLE·ALE)**이 핵심이며, 그 외 암기용 정량 공식을 함께 정리한다.
+> 영문 약어는 처음 나올 때 **ALE (Annual Loss Expectancy, 연간 예상손실)** 형식으로 풀어 표기한다.
+> 각 항목 하단의 **📝 관련 기출문제** 버튼을 누르면 해당 문항 해설이 새 탭으로 열린다.
+
+## 0. 한눈에 보는 빈출 계산 주제
+
+| 빈출도 | 주제 | 대표 공식 | 출제 이력 |
+|---|---|---|---|
+| ★★★★☆ | 정량적 위험분석(SLE·ALE·ARO) | ALE = SLE × ARO, SLE = 자산가치 × EF | '16-Q106·Q107, '18-Q109·Q120, '19-Q105, '20-Q103, '22-Q113, '23-Q120, '26-Q106·Q110 |
+| ★★☆☆☆ | 암호 키 개수(대칭·공개키) | 대칭키 = n(n−1)÷2, 공개키 = 2n | (참고) |
+| ★★☆☆☆ | 패스워드 엔트로피·경우의 수 | 경우의 수 = N^L, 엔트로피 = L × log₂ N | (참고) |
+| ★★☆☆☆ | 해시 충돌·생일 공격 | n비트 해시 충돌 ≈ 2^(n÷2) 시도 | (참고) |
+| ★★☆☆☆ | 가용성·RTO·RPO·MTD(BCP) | 가용성 = MTBF ÷ (MTBF + MTTR) | (참고) |
+
+**용어 사전(공통):**
+- **SLE (Single Loss Expectancy, 1회 손실 예상액)**, **EF (Exposure Factor, 노출 계수, 0~1)**.
+- **ARO (Annualized Rate of Occurrence, 연간 발생 빈도)**, **ALE (Annual Loss Expectancy, 연간 예상손실)**.
+- **RTO (Recovery Time Objective, 목표 복구 시간)**, **RPO (Recovery Point Objective, 목표 복구 시점)**.
+
+## 1. 정량적 위험분석 (SLE·ALE·ARO·안전장치 비용효과) ★★★★☆
+`[출제] '16-Q106·Q107, '18-Q109·Q120, '19-Q105, '20-Q103, '22-Q113, '23-Q120, '26-Q106·Q110`
+
+**개념**: 위험을 **금액으로 정량화**해 안전대책의 비용 대비 효과를 판단한다.
+
+> - **SLE (1회 손실 예상액) = 자산가치(AV) × EF (노출계수)**
+> - **ALE (연간 예상손실) = SLE × ARO (연간 발생빈도)**
+> - **안전장치의 가치(비용효과) = (대책 전 ALE − 대책 후 ALE) − 연간 대책 비용(ACS)**
+
+**상세 설명**
+- **EF (노출계수)**: 자산이 해당 위협으로 입는 **손실 비율**(0~1). 예: 화재로 자산의 60% 손실 → EF = 0.6.
+- **ARO**: 1년에 몇 번 발생하는지. 10년에 1번이면 ARO = 0.1.
+- **대책 도입 판단**: (대책 전 ALE − 대책 후 ALE) > 연간 대책비용이면 **도입 타당**(순이익 > 0).
+- **정성적 분석**과 대비: 정량은 금액·객관, 정성(델파이·시나리오)은 주관·신속.
+
+**계산 예시**: 자산 1억, EF = 0.5 → SLE = 5,000만. ARO = 0.2(5년 1회) → ALE = 5,000만 × 0.2 = **1,000만/년**. 대책으로 ALE가 200만으로 감소하고 연간비용 500만이면 가치 = (1,000 − 200) − 500 = **+300만(도입 타당)**.
+
+## 2. 암호 키 개수 (대칭·공개키) ★★☆☆☆
+
+**개념**: n명이 통신할 때 필요한 키 수. **대칭키의 확장성 한계**를 보여주는 고전 공식.
+
+> - **대칭키(비밀키) 필요 키 수 = n(n − 1) ÷ 2** (모든 쌍이 서로 다른 키)
+> - **공개키(비대칭) 필요 키 수 = 2n** (각자 공개키·개인키 1쌍)
+
+- 대칭키는 인원이 늘면 키가 **제곱에 비례**해 급증(관리 어려움) → 공개키·키분배(KDC) 필요.
+
+**계산 예시**: 10명 → 대칭키 = 10×9÷2 = **45개**, 공개키 = 2×10 = **20개**.
+
+## 3. 패스워드 엔트로피·경우의 수 (참고)
+
+> - **경우의 수 = N^L** (N = 사용 문자 종류 수, L = 길이)
+> - **엔트로피(비트) = L × log₂ N**
+> - **평균 해독 시간 ≈ (경우의 수 ÷ 2) ÷ 초당 시도 횟수**
+
+**계산 예시**: 소문자+숫자(N=36), 길이 8 → 경우의 수 = 36⁸ ≈ 2.8×10¹², 엔트로피 = 8 × log₂36 ≈ **41비트**.
+
+## 4. 해시 충돌·생일 공격 (참고)
+
+> - **n비트 해시의 충돌 저항**: 생일 역설로 약 **2^(n÷2)** 번 시도 시 충돌 발생 확률 50%.
+> - 역상 저항(preimage)·제2역상 저항은 약 **2^n**.
+
+- 그래서 충돌 저항을 위해 해시 출력 길이를 충분히(예: SHA-256) 둔다.
+
+**계산 예시**: 128비트 해시 → 충돌은 약 2⁶⁴ 시도(생일 공격)로 발생 가능 → 128비트도 충돌엔 상대적으로 취약.
+
+## 5. 가용성·RTO·RPO·MTD (BCP·재해복구) (참고)
+
+> - **가용성 A = MTBF ÷ (MTBF + MTTR)** (시스템구조와 공통).
+> - **RTO (목표 복구 시간)**: 중단 후 **얼마나 빨리** 복구할지의 목표(다운타임 허용).
+> - **RPO (목표 복구 시점)**: **얼마 전 데이터**까지 복구할지의 목표(데이터 손실 허용).
+> - **MTD (Maximum Tolerable Downtime, 최대 허용 중단시간)** ≥ RTO 여야 함.
+
+- 복구 목표가 엄격(RTO·RPO 작음)할수록 **비용 증가**(핫사이트·실시간 복제 등).
+
+**계산 예시**: RPO = 1시간 → 최소 1시간마다 백업/복제 필요. RTO = 4시간 → 4시간 내 서비스 재개 체계 필요.
+
+---
+
+**[출처]** 「보안_출제주제_분석_2016-2026.md」 및 각 연도 기출해설집(2016~2026)의 계산·정량 문항을 통합·재구성. 정량적 위험분석은 정보보호 위험관리 표준(SLE·ALE 모델)을 따름.
+
+</script>
+
+<script>
+(function(){
+  const SLUG='보안';
+  const YEAR_RE=/'(\d{2})-Q(\d+)|·\s*Q(\d+)|,\s*Q(\d+)/g;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fmtText(t){return esc(t).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
+  function refsFrom(text){
+    let last=null, out=[]; let m; YEAR_RE.lastIndex=0;
+    while((m=YEAR_RE.exec(text))){
+      let year,num,yy;
+      if(m[1]){yy=m[1];year='20'+m[1];num=m[2];last=yy;}
+      else{if(!last)continue;yy=last;year='20'+last;num=(m[3]||m[4]);}
+      out.push({year:year,num:num,label:"'"+yy+'-Q'+num});
+    }
+    return out;
+  }
+  function dedupe(refs){const seen={},out=[];refs.forEach(r=>{const k=r.year+'q'+r.num;if(!seen[k]){seen[k]=1;out.push(r);}});return out;}
+  function btnHTML(r){return '<button class="exam-q" data-year="'+r.year+'" data-num="'+r.num+'">'+esc(r.label)+'</button>';}
+  let SECT=null;
+  function collect(refs){ if(SECT){ refs.forEach(r=>SECT.push(r)); } }
+  function inline(s){
+    let out='', lastIdx=0, m; const re=/`([^`]+)`/g;
+    while((m=re.exec(s))){
+      out+=fmtText(s.slice(lastIdx,m.index));
+      const code=m[1];
+      if(code.trim().indexOf('[출제]')===0){ collect(refsFrom(code)); }
+      else out+='<code>'+esc(code)+'</code>';
+      lastIdx=re.lastIndex;
+    }
+    out+=fmtText(s.slice(lastIdx));
+    return out;
+  }
+  function cellHTML(cell){
+    if(/'\d{2}-Q|·\s*Q\d|,\s*Q\d/.test(cell)){
+      let last=null;
+      return fmtText(cell).replace(YEAR_RE,function(mm,yy,n1,n2,n3){
+        let year,num,lab;
+        if(yy){year='20'+yy;num=n1;last=yy;lab="'"+yy+'-Q'+num;}
+        else{if(!last)return mm;year='20'+last;num=(n2||n3);lab="'"+last+'-Q'+num;}
+        return '<button class="exam-q" data-year="'+year+'" data-num="'+num+'">'+esc(lab)+'</button>';
+      });
+    }
+    if(cell.indexOf('★')>=0) return '<span class="stars">'+esc(cell)+'</span>';
+    return inline(cell);
+  }
+  function examBlock(refs){
+    refs=dedupe(refs); if(!refs.length)return '';
+    return '<div class="exam-block"><div class="exam-block-t">📝 관련 기출문제 <span>클릭 시 새 탭으로 해설 열기</span></div>'
+      +'<div class="exam-block-b">'+refs.map(btnHTML).join('')+'</div></div>';
+  }
+  function splitRow(r){let c=r.trim();if(c.startsWith('|'))c=c.slice(1);if(c.endsWith('|'))c=c.slice(0,-1);return c.split('|').map(x=>x.trim());}
+  function renderTable(rows){
+    if(rows.length<2)return '';
+    const header=splitRow(rows[0]);
+    let thead='<tr>'+header.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr>';
+    let body='';
+    for(let r=2;r<rows.length;r++){
+      const cells=splitRow(rows[r]);
+      if(cells.every(x=>/^-*$/.test(x)))continue;
+      body+='<tr>'+cells.map(c=>'<td>'+cellHTML(c)+'</td>').join('')+'</tr>';
+    }
+    return '<div class="tbl-scroll"><table>'+thead+body+'</table></div>';
+  }
+  function renderMD(md){
+    const lines=md.split('\n');
+    let html='', i=0, para=[], quote=[], list=null, listTag='';
+    function flushPara(){if(para.length){html+='<p>'+para.map(inline).join(' ')+'</p>';para=[];}}
+    function flushQuote(){if(quote.length){html+='<div class="lead">'+quote.map(q=>'<div>'+inline(q)+'</div>').join('')+'</div>';quote=[];}}
+    function flushList(){if(list){html+='<'+listTag+'>'+list.map(li=>'<li>'+inline(li)+'</li>').join('')+'</'+listTag+'>';list=null;listTag='';}}
+    function flushAll(){flushPara();flushQuote();flushList();}
+    function closeSection(){flushAll(); if(SECT&&SECT.length){html+=examBlock(SECT);} SECT=null;}
+    while(i<lines.length){
+      let ln=lines[i];
+      if(/^\s*\|/.test(ln)){flushAll();let rows=[];while(i<lines.length&&/^\s*\|/.test(lines[i])){rows.push(lines[i]);i++;}html+=renderTable(rows);continue;}
+      if(SECT!==null && /^`\s*\[출제\][^`]*`\s*$/.test(ln.trim())){collect(refsFrom(ln));i++;continue;}
+      if(ln.startsWith('### ')){flushAll();html+='<h3>'+inline(ln.slice(4))+'</h3>';i++;continue;}
+      if(ln.startsWith('## ')){closeSection();SECT=[];html+='<h2>'+inline(ln.slice(3))+'</h2>';i++;continue;}
+      if(ln.startsWith('# ')){i++;continue;}
+      if(ln.startsWith('> ')){flushPara();flushList();quote.push(ln.slice(2));i++;continue;}
+      let um=ln.match(/^\s*[-*]\s+(.*)$/);
+      let om=ln.match(/^\s*\d+\.\s+(.*)$/);
+      if(um){flushPara();flushQuote();if(listTag!=='ul'){flushList();listTag='ul';list=[];}list.push(um[1]);i++;continue;}
+      if(om){flushPara();flushQuote();if(listTag!=='ol'){flushList();listTag='ol';list=[];}list.push(om[1]);i++;continue;}
+      if(/^---\s*$/.test(ln)){flushAll();i++;continue;}
+      if(ln.trim()===''){flushAll();i++;continue;}
+      para.push(ln.trim());i++;
+    }
+    closeSection();
+    return html;
+  }
+  function openExam(year,num){
+    const url=encodeURIComponent(SLUG)+'/'+encodeURIComponent(SLUG+'_'+year+'.html')+'#q'+num;
+    window.open(url,'_blank','noopener');
+  }
+  const contentEl=document.getElementById('content');
+  contentEl.innerHTML=renderMD(document.getElementById('md').textContent);
+  contentEl.addEventListener('click',e=>{
+    const b=e.target.closest('.exam-q');
+    if(b){openExam(b.getAttribute('data-year'),b.getAttribute('data-num'));}
+  });
+})();
+</script>
+</body>
+</html>

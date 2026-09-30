@@ -1986,7 +1986,7 @@
   }
   subjSel.addEventListener('change',()=>{active=parseInt(subjSel.value,10)||0;render();});
   // 과목별 계산공식/법령가이드 페이지 매핑(존재하는 것만)
-  var CALC_PAGE={'감리및사업관리':'Calculation%20formula.html','소프트웨어공학':'Calculation%20formula%20SW.html'};
+  var CALC_PAGE={'감리및사업관리':'Calculation%20formula.html','소프트웨어공학':'Calculation%20formula%20SW.html','데이터베이스':'Calculation%20formula%20DB.html','시스템구조':'Calculation%20formula%20System.html','보안':'Calculation%20formula%20Security.html'};
   var LAW_PAGE={'감리및사업관리':'Rule%20and%20Guide.html'};
   function updateNav(){
     var calc=document.getElementById('navCalc'), law=document.getElementById('navLaw');

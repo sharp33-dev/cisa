@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터베이스 — 계산식·공식 통합 암기</title>
+<style>
+  :root{
+    --primary:#b45309; --primary-dark:#0f172a; --accent:#f59e0b;
+    --bg:#f8fafc; --card:#ffffff; --border:#cbd5e1; --text:#334155; --text-dark:#0f172a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
+  body{background:var(--bg);color:var(--text);line-height:1.6;}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--primary-dark);color:#fff;padding:.6rem 1rem .5rem;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .topbar h1{font-size:1.02rem;font-weight:800;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+  .topbar h1 .yr{font-size:.72rem;font-weight:600;color:#fde68a;background:#1e293b;padding:.15rem .5rem;border-radius:6px;}
+  .subj-sel{margin-left:.3rem;background:#1e293b;color:#fef3c7;border:1px solid #f59e0b;border-radius:8px;font-size:.82rem;font-weight:700;padding:.28rem 1.8rem .28rem .6rem;cursor:pointer;font-family:inherit;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='%23f59e0b'><path d='M7 10l5 5 5-5z'/></svg>");background-repeat:no-repeat;background-position:right .5rem center;}
+  .subj-sel:focus{outline:none;box-shadow:0 0 0 2px rgba(20,184,166,.4);}
+  .subj-sel option{background:#0f172a;color:#fef3c7;}
+  .subnav{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem;}
+  .nav-btn{font-size:.8rem;font-weight:700;color:#cbd5e1;background:#1e293b;border:1px solid #334155;border-radius:20px;padding:.28rem .8rem;text-decoration:none;transition:all .15s;white-space:nowrap;}
+  .nav-btn:hover{background:#334155;color:#fff;}
+  .nav-btn.active{background:var(--accent);color:#422006;border-color:var(--accent);}
+  .wrap{max-width:1080px;margin:0 auto;padding:1.3rem 1.1rem 4rem;}
+  .content h2{font-size:1.12rem;color:var(--primary);font-weight:800;margin:2rem 0 .7rem;padding:.45rem .7rem;background:linear-gradient(90deg,#fef3c7,transparent);border-left:5px solid var(--primary);border-radius:4px;}
+  .content h2:first-child{margin-top:.3rem;}
+  .content h3{font-size:.96rem;color:var(--text-dark);font-weight:800;margin:1.3rem 0 .45rem;padding-left:.6rem;border-left:3px solid var(--accent);}
+  .content p{margin:.5rem 0;font-size:.9rem;}
+  .content ul,.content ol{margin:.4rem 0 .8rem 1.3rem;font-size:.89rem;}
+  .content li{margin:.28rem 0;}
+  .content strong{color:var(--text-dark);font-weight:700;}
+  .content code{background:#fef3c7;color:#b45309;font-family:'SFMono-Regular',Consolas,monospace;font-size:.86em;padding:.08rem .35rem;border-radius:5px;font-weight:600;}
+  .lead{background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;padding:.7rem 1rem;margin:.6rem 0 1rem;font-size:.86rem;color:#475569;}
+  .lead div{margin:.15rem 0;}
+  .tbl-scroll{overflow-x:auto;margin:.5rem 0 1rem;border:1px solid var(--border);border-radius:10px;}
+  table{border-collapse:collapse;width:100%;font-size:.83rem;background:var(--card);}
+  th{background:var(--primary);color:#fff;font-weight:700;padding:.5rem .55rem;text-align:left;white-space:nowrap;}
+  td{padding:.45rem .55rem;border-top:1px solid #e2e8f0;vertical-align:top;}
+  tr:hover td{background:#fffbeb;}
+  .stars{color:#f59e0b;letter-spacing:-1px;white-space:nowrap;}
+  .exam-q{background:#b45309;color:#fff;border:none;border-radius:6px;padding:.18rem .5rem;font-size:.74rem;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;margin:.12rem .18rem .12rem 0;transition:background .15s;}
+  .exam-q:hover{background:var(--accent);}
+  .exam-block{margin:1rem 0 .4rem;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:.7rem .85rem;}
+  .exam-block-t{font-size:.82rem;font-weight:800;color:#b45309;margin-bottom:.5rem;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;}
+  .exam-block-t span{font-size:.7rem;font-weight:600;color:#f59e0b;}
+  .exam-block-b{display:flex;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>🧮 데이터베이스 계산식·공식 통합 암기 <span class="yr">2016~2026</span>
+    <select class="subj-sel" title="과목 선택" onchange="if(this.value)location.href=this.value">
+      <option value="Calculation%20formula.html">감리 및 사업관리</option>
+      <option value="Calculation%20formula%20SW.html">소프트웨어공학</option>
+      <option value="Calculation%20formula%20DB.html" selected>데이터베이스</option>
+      <option value="Calculation%20formula%20System.html">시스템구조</option>
+      <option value="Calculation%20formula%20Security.html">보안</option>
+    </select>
+  </h1>
+  <nav class="subnav">
+    <a href="Exam%20Topics.html?subject=데이터베이스" class="nav-btn">📊 출제 분석</a>
+    <a href="Calculation%20formula%20DB.html" class="nav-btn active">🧮 계산공식</a>
+  </nav>
+</div>
+<div class="wrap"><div class="content" id="content"></div></div>
+
+<script type="text/markdown" id="md">
+# 데이터베이스 — 계산식·공식 통합 암기 노트 (2016~2026)
+
+> 기출(2016~2026)에서 반복·변형 출제된 **데이터베이스 계산식**을 주제별로 통합하고, 각 항목을 **기출해설 수준으로 상세 설명**했다.
+> 영문 약어는 처음 나올 때 **FD (Functional Dependency, 함수종속)** 형식으로 풀어 표기한다.
+> 각 항목 하단의 **📝 관련 기출문제** 버튼을 누르면 해당 문항 해설이 새 탭으로 열린다.
+
+## 0. 한눈에 보는 빈출 계산 주제
+
+| 빈출도 | 주제 | 대표 공식 | 출제 이력 |
+|---|---|---|---|
+| ★★★★★ | 관계대수 차수·카디널리티 | 카티션곱 차수 = d1 + d2, 카디널리티 = c1 × c2 | '16-Q56·Q57, '20-Q51·Q56·Q61, '22-Q57·Q59, '24-Q52·Q60, '26-Q53·Q55 |
+| ★★★★★ | 함수종속·후보키·정규화(폐포·BCNF) | 후보키 = 속성폐포(X⁺)가 전체 릴레이션 | '16-Q66·Q67, '19-Q52·Q66, '20-Q58·Q65, '24-Q57·Q58, '25-Q51·Q52·Q54 |
+| ★★★★☆ | 연관규칙(지지도·신뢰도·향상도) | 신뢰도 = 지지도(X∪Y) ÷ 지지도(X) | '16-Q52, '20-Q54·Q66·Q68, '22-Q67·Q73, '21-Q75 |
+| ★★★★☆ | 분류 성능·불순도 | 정밀도 = TP ÷ (TP+FP), Gini = 1 − Σpᵢ² | '17-Q71·Q74, '20-Q70, '22-Q70·Q74, '25-Q74 |
+| ★★★☆☆ | 정보검색(정밀도·재현율·TF-IDF) | TF-IDF = TF × log(N ÷ DF) | '16-Q72, '20-Q69, '22-Q71, '24-Q62·Q66, '26-Q71·Q74 |
+| ★★★☆☆ | 키 개수 산정(슈퍼키·카디널리티 상한) | 슈퍼키 수 = 2^(n−1) (후보키가 단일 속성일 때) | '17-Q54, '18-Q54, '23-Q53, '25-Q56 |
+| ★★★☆☆ | ER→관계 변환 릴레이션 개수 | N:M·다치속성 → 별도 릴레이션 추가 | '17-Q52, '18-Q53, '19-Q63, '23-Q56 |
+| ★★★☆☆ | B-트리/B+트리·확장성 해싱 | m차 노드 최대 키 = m − 1, 디렉터리 = 2^전역깊이 | '21-Q58·Q66, '24-Q71·Q73, '25-Q63·Q64 |
+| ★★★☆☆ | 로그 회복(REDO/UNDO 판정) | 커밋=REDO, 미커밋=UNDO | '19-Q74, '21-Q71, '23-Q64, '24-Q74, '25-Q70 |
+| ★★★☆☆ | 베이즈 정리·나이브 베이즈 | P(A│B) = P(B│A)·P(A) ÷ P(B) | '19-Q56, '21-Q69, '25-Q69 |
+| ★★☆☆☆ | 블로킹 인수·조인 선택도 | 블로킹 인수 = 내림(블록크기 ÷ 레코드크기) | '17-Q66, '18-Q65, '19-Q54, '22-Q62, '23-Q52 |
+
+**용어 사전(공통):**
+- **차수(Degree)**: 릴레이션의 **속성(열) 수**. **카디널리티(Cardinality)**: **튜플(행) 수**.
+- **FD (Functional Dependency, 함수종속)**: X → Y, X가 정해지면 Y가 유일하게 결정됨.
+- **폐포(Closure, X⁺)**: 속성집합 X로부터 함수종속으로 유도되는 모든 속성의 집합.
+- **TP/FP/TN/FN**: 참양성/거짓양성/참음성/거짓음성(혼동행렬 Confusion Matrix 구성요소).
+
+## 1. 관계대수 차수·카디널리티 ★★★★★
+`[출제] '16-Q56·Q57, '18-Q59, '19-Q58·Q68, '20-Q51·Q56·Q61, '21-Q68, '22-Q57·Q59, '23-Q54, '24-Q52·Q60, '25-Q53·Q61, '26-Q53·Q55`
+
+**개념**: 관계 연산 결과의 **차수(속성 수)**와 **카디널리티(튜플 수)**를 예측한다. 시험 최다 빈출 계산 유형.
+
+| 연산 | 차수(Degree) | 카디널리티(Cardinality) |
+|---|---|---|
+| **선택 σ (Selection)** | 원본과 동일 | ≤ 원본(조건 만족 튜플만) |
+| **투영 π (Projection)** | 선택한 속성 수 | ≤ 원본(중복 제거로 감소 가능) |
+| **카티션 곱 × (Cartesian)** | **d1 + d2** | **c1 × c2** |
+| **세타/동등 조인 ⋈** | **d1 + d2** (자연조인은 공통속성 1회) | 0 ~ (c1 × c2) |
+| **자연 조인 ⋈ (Natural)** | d1 + d2 − 공통속성 수 | 매칭 튜플 수(0 ~ c1×c2) |
+| **합집합 ∪ (Union)** | 동일(합병가능) | ≤ c1 + c2 |
+| **교집합 ∩ (Intersection)** | 동일 | ≤ min(c1, c2) |
+| **차집합 − (Difference)** | 동일 | ≤ c1 |
+| **디비전 ÷ (Division)** | **d1 − d2** | 0 ~ (c1 ÷ c2) |
+
+**상세 설명**
+- **곱·조인은 차수가 더해진다**(자연조인만 공통속성 중복 제거로 감소). **집합 연산(합·교·차)은 차수 불변**(합병 가능 조건 필요).
+- **카티션 곱의 카디널리티 = c1 × c2**가 모든 조인의 상한(최대값)이다.
+- **디비전**은 "모든 ~를 포함하는" 질의(관계 나눗셈). 차수는 나누는 릴레이션 속성만큼 줄어든다.
+- **SQL 결과 예측**: `DISTINCT`·`GROUP BY`는 카디널리티 감소, `LEFT/FULL OUTER JOIN`은 NULL 튜플 추가로 카디널리티 증가 가능.
+
+**계산 예시**: R(차수 3, 튜플 4), S(차수 2, 튜플 5) → R × S: 차수 = 3+2 = **5**, 카디널리티 = 4×5 = **20**.
+
+## 2. 키 개수 산정 (슈퍼키·후보키·카디널리티 상한) ★★★☆☆
+`[출제] '17-Q54, '18-Q54, '23-Q53, '25-Q56`
+
+**개념**: 슈퍼키는 후보키를 포함하는 모든 속성 조합이다.
+
+> - **슈퍼키(Super Key) 수** = 후보키를 반드시 포함하는 부분집합의 수.
+> - 후보키가 **단일 속성 1개**이고 전체 속성이 n개면 → **슈퍼키 수 = 2^(n−1)**.
+> - **최대 카디널리티** = 각 속성 **도메인 크기의 곱**(기본키 조합의 상한).
+
+- 슈퍼키는 유일성만 만족하면 되고(최소성 불필요), 후보키는 **유일성 + 최소성** 모두 만족.
+- 후보키가 여러 개면 포함관계를 고려해 중복 제거(포함-배제)로 슈퍼키 수를 센다.
+
+**계산 예시**: 속성 4개(A,B,C,D), 후보키가 {A} 하나 → A를 반드시 포함하는 조합 = 2^(4−1) = **8개** 슈퍼키.
+
+## 3. 함수종속·후보키·정규화 (폐포·최소커버·BCNF) ★★★★★
+`[출제] '16-Q66·Q67, '17-Q53, '18-Q56·Q60, '19-Q52·Q66, '20-Q58·Q65, '21-Q53, '22-Q54, '24-Q57·Q58, '25-Q51·Q52·Q54, '26-Q56`
+
+**개념**: 함수종속(FD)으로부터 **후보키 도출**과 **정규형 판정**을 한다.
+
+### 3-1. 속성 폐포(Closure)로 후보키 찾기
+> **X⁺ (속성 폐포)** = X에서 FD로 유도되는 모든 속성. **X⁺ = 전체 릴레이션 속성**이면 X는 **슈퍼키**, 그중 최소면 **후보키**.
+
+- 어느 FD의 오른쪽에도 안 나오는 속성은 **반드시 모든 후보키에 포함**된다(먼저 그 속성부터 폐포 계산).
+
+### 3-2. 정규형 판정
+| 정규형 | 조건 |
+|---|---|
+| **1NF** | 모든 속성이 원자값(반복·다치 없음) |
+| **2NF** | 1NF + **부분 함수종속 제거**(기본키 일부에만 종속 금지) |
+| **3NF** | 2NF + **이행 함수종속 제거**(비주요속성 → 비주요속성 금지) |
+| **BCNF** | 모든 결정자(FD 왼쪽)가 **후보키**여야 함(가장 강함) |
+
+### 3-3. 최소 커버(Minimal Cover)
+- ① 우변을 단일 속성으로 분해 → ② 불필요한 FD 제거 → ③ 좌변의 불필요 속성 제거. 세 조건을 만족하는 최소 FD 집합.
+
+**계산 예시**: R(A,B,C,D), FD = {A→B, B→C}. A⁺ = {A,B,C} (D 없음) → A는 슈퍼키 아님. {A,D}⁺ = 전체 → **후보키 {A,D}**.
+
+## 4. ER→관계 변환 릴레이션 개수 ★★★☆☆
+`[출제] '17-Q52, '18-Q53, '19-Q63, '23-Q56, '16-Q74`
+
+**개념**: ER 다이어그램을 관계 스키마로 변환할 때 생성되는 릴레이션(테이블) 수를 센다.
+
+| ER 구성 | 변환 규칙 |
+|---|---|
+| 개체(Entity) | 각 개체 → **릴레이션 1개** |
+| 1:1 / 1:N 관계 | 보통 **외래키로 흡수**(별도 릴레이션 불필요) |
+| **N:M 관계** | **별도 릴레이션 1개 추가**(양쪽 기본키를 외래키로) |
+| **다치 속성(Multivalued)** | **별도 릴레이션 1개 추가** |
+| 삼항(Ternary) 관계 | 별도 릴레이션 1개(세 개체 기본키 참조) |
+
+**계산 예시**: 개체 3개 + N:M 관계 1개 + 다치 속성 1개 → 3 + 1 + 1 = **릴레이션 5개**.
+
+## 5. 블로킹 인수·블록 수·조인 선택도 ★★★☆☆
+`[출제] '17-Q66, '18-Q65, '19-Q54, '20-Q60, '22-Q62, '23-Q52`
+
+### 5-1. 블로킹 인수(Blocking Factor)
+> - **블로킹 인수 bfr = 내림(블록 크기 ÷ 레코드 크기)** (한 블록에 담는 레코드 수)
+> - **필요 블록 수 = 올림(전체 레코드 수 ÷ bfr)**
+
+### 5-2. 조인 선택도(Join Selectivity)
+> - **결과 튜플 수 ≈ 선택도 × c1 × c2**
+> - 등가조인(공통 속성 T개 값) 선택도 ≈ 1 ÷ max(고유값 수). 부등호 조인은 선택도 큼.
+
+**계산 예시**: 블록 4,000바이트, 레코드 100바이트 → bfr = 내림(4000÷100) = **40개/블록**. 레코드 10,000개 → 블록 = 올림(10000÷40) = **250블록**.
+
+## 6. B-트리 / B+트리 차수·삽입 ★★★☆☆
+`[출제] '21-Q58, '24-Q73, '25-Q63`
+
+**개념**: **m차(order) B-트리**의 노드 구조와 분할.
+
+> - m차 노드: **자식 최대 m개**, **키 최대 m − 1개**.
+> - 루트를 제외한 노드는 최소 **올림(m÷2)개 자식**(키 최소 올림(m÷2) − 1).
+> - 노드가 **꽉 차면(키 m개)** 중앙 키를 부모로 올리고 **분할(split)**.
+
+- **B+트리**: 모든 데이터(키·포인터)가 **리프에만** 저장되고 리프는 **연결 리스트**로 이어져 범위 검색에 유리. 내부 노드는 인덱스 역할만.
+
+**계산 예시**: 차수 3(2-3 트리) → 노드 최대 키 2개. 키 3개째 삽입 시 중앙 키를 올려 분할.
+
+## 7. 확장성(동적) 해싱 — 전역/지역 깊이 ★★★☆☆
+`[출제] '18-Q72, '20-Q72, '21-Q66, '24-Q71, '25-Q64`
+
+**개념**: **확장성 해싱(Extendible Hashing)**은 해시값 접두 비트로 버킷을 동적 관리한다.
+
+> - **디렉터리 크기 = 2^(전역 깊이 d)**
+> - **지역 깊이(local depth) = 해당 버킷을 가리키는 접두 비트 수**.
+> - 버킷 오버플로 시: 지역깊이 < 전역깊이면 **버킷만 분할**, 지역깊이 = 전역깊이면 **디렉터리를 2배로 확장**(전역깊이 +1).
+
+- 삭제 시 버킷이 비면 **짝(buddy) 버킷과 병합**하고, 모든 지역깊이 < 전역깊이면 디렉터리 축소 가능.
+
+**계산 예시**: 전역깊이 d=3 → 디렉터리 엔트리 = 2³ = **8개**.
+
+## 8. 로그 기반 회복 — REDO/UNDO 판정 ★★★☆☆
+`[출제] '19-Q74, '21-Q71, '23-Q64, '24-Q74, '25-Q70`
+
+**개념**: 장애 시 로그를 이용해 **재실행(REDO)**·**취소(UNDO)** 대상을 판정한다.
+
+| 상황 | 대상 | 판정 |
+|---|---|---|
+| 체크포인트 이후 **커밋 완료** 트랜잭션 | **REDO** | 변경을 디스크에 다시 반영 |
+| **커밋 못한(진행 중)** 트랜잭션 | **UNDO** | 변경을 취소(롤백) |
+| 체크포인트 이전 커밋 | 대상 아님 | 이미 반영됨 |
+
+- **즉시 갱신(Immediate Update)**: 커밋 전 디스크 반영 가능 → **REDO·UNDO 모두** 필요.
+- **지연 갱신(Deferred Update)**: 커밋 후에만 반영 → **REDO만** 필요(UNDO 불필요).
+
+**계산 예시**: 체크포인트 후 T1 커밋, T2 진행 중 장애 → **T1은 REDO, T2는 UNDO**.
+
+## 9. 연관규칙 — 지지도·신뢰도·향상도 (Apriori) ★★★★☆
+`[출제] '16-Q52, '19-Q73, '20-Q54·Q66·Q68, '21-Q75, '22-Q67·Q73`
+
+**개념**: 장바구니 분석에서 항목 간 연관성을 정량화한다.
+
+> - **지지도 Support(X) = (X를 포함한 거래 수) ÷ (전체 거래 수)**
+> - **신뢰도 Confidence(X→Y) = Support(X∪Y) ÷ Support(X)**
+> - **향상도 Lift(X→Y) = Confidence(X→Y) ÷ Support(Y) = Support(X∪Y) ÷ (Support(X)·Support(Y))**
+
+- **Lift > 1**: 양의 상관(함께 잘 팔림), **= 1**: 독립, **< 1**: 음의 상관.
+- **Apriori 원리**: 빈발 항목집합의 모든 부분집합도 빈발(minsup 미만이면 가지치기).
+
+**계산 예시**: 전체 10건, {빵,우유} 함께 4건, {빵} 5건, {우유} 6건 → Support(빵∪우유)=0.4, Confidence(빵→우유)=0.4÷0.5=**0.8**, Lift = 0.8÷0.6 ≈ **1.33**(양의 상관).
+
+## 10. 분류 성능·불순도 (혼동행렬·Gini·엔트로피·정보이득) ★★★★☆
+`[출제] '17-Q71·Q74, '20-Q70, '22-Q70·Q74, '25-Q74`
+
+### 10-1. 혼동행렬(Confusion Matrix) 지표
+> - **정확도 Accuracy = (TP + TN) ÷ 전체**
+> - **정밀도 Precision = TP ÷ (TP + FP)**
+> - **재현율 Recall(민감도) = TP ÷ (TP + FN)**
+> - **F1 점수 = 2 × (Precision × Recall) ÷ (Precision + Recall)** (조화평균)
+
+### 10-2. 불순도(Impurity) — 의사결정 트리
+> - **지니 불순도 Gini = 1 − Σ pᵢ²**
+> - **엔트로피 Entropy = − Σ pᵢ · log₂ pᵢ**
+> - **정보이득 Information Gain = 부모 엔트로피 − Σ(가중 자식 엔트로피)**
+
+- 분할 기준: 정보이득이 **최대**(또는 지니가 **최소**)인 속성을 선택.
+
+**계산 예시**: TP=40, FP=10, FN=20 → Precision = 40÷50 = **0.8**, Recall = 40÷60 ≈ **0.67**, F1 = 2×0.8×0.67÷(0.8+0.67) ≈ **0.73**.
+
+## 11. 베이즈 정리·나이브 베이즈 ★★★☆☆
+`[출제] '19-Q56, '21-Q69, '25-Q69`
+
+> **P(A│B) = P(B│A) × P(A) ÷ P(B)** (사후확률 = 우도 × 사전확률 ÷ 증거)
+
+- **나이브 베이즈**: 속성 간 **조건부 독립**을 가정 → P(클래스│특징들) ∝ P(클래스) × ∏ P(특징ᵢ│클래스).
+- 가장 큰 사후확률을 갖는 클래스로 분류(MAP).
+
+**계산 예시**: P(병)=0.01, P(양성│병)=0.9, P(양성│정상)=0.05 → P(양성)=0.01×0.9 + 0.99×0.05 = 0.0585 → P(병│양성)=0.009÷0.0585 ≈ **0.154**.
+
+## 12. 정보검색 — 정밀도·재현율·F·TF-IDF·코사인 ★★★☆☆
+`[출제] '16-Q72, '17-Q75, '20-Q69, '21-Q73, '22-Q71, '24-Q62·Q66, '26-Q71·Q74`
+
+> - **정밀도 Precision = 검색된 관련 문서 ÷ 검색된 전체 문서**
+> - **재현율 Recall = 검색된 관련 문서 ÷ 전체 관련 문서**
+> - **F-측정 = 2PR ÷ (P + R)**
+> - **TF-IDF = TF × log(N ÷ DF)** (TF=단어빈도, N=전체문서수, DF=단어가 나온 문서수)
+> - **코사인 유사도 = (A·B) ÷ (‖A‖ × ‖B‖)**
+
+- **IDF 특수사례**: 모든 문서에 등장하는 단어(DF = N) → log(1) = **0** → TF-IDF = 0.
+- **Precision@k**: 상위 k개 결과 중 관련 문서 비율(순위 평가).
+
+**계산 예시**: 전체 관련 8건, 검색 10건 중 관련 6건 → Precision = 6÷10 = **0.6**, Recall = 6÷8 = **0.75**, F = 2×0.6×0.75÷1.35 ≈ **0.67**.
+
+---
+
+**[출처]** 「데이터베이스_출제주제_분석_2016-2026.md」 및 각 연도 기출해설집(2016~2026)의 계산 문항을 통합·재구성. 표준 정의는 관계대수·정규화 이론, IR(정보검색)·데이터마이닝 표준을 따름.
+
+</script>
+
+<script>
+(function(){
+  const SLUG='데이터베이스';
+  const YEAR_RE=/'(\d{2})-Q(\d+)|·\s*Q(\d+)|,\s*Q(\d+)/g;
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function fmtText(t){return esc(t).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');}
+  function refsFrom(text){
+    let last=null, out=[]; let m; YEAR_RE.lastIndex=0;
+    while((m=YEAR_RE.exec(text))){
+      let year,num,yy;
+      if(m[1]){yy=m[1];year='20'+m[1];num=m[2];last=yy;}
+      else{if(!last)continue;yy=last;year='20'+last;num=(m[3]||m[4]);}
+      out.push({year:year,num:num,label:"'"+yy+'-Q'+num});
+    }
+    return out;
+  }
+  function dedupe(refs){const seen={},out=[];refs.forEach(r=>{const k=r.year+'q'+r.num;if(!seen[k]){seen[k]=1;out.push(r);}});return out;}
+  function btnHTML(r){return '<button class="exam-q" data-year="'+r.year+'" data-num="'+r.num+'">'+esc(r.label)+'</button>';}
+  let SECT=null;
+  function collect(refs){ if(SECT){ refs.forEach(r=>SECT.push(r)); } }
+  function inline(s){
+    let out='', lastIdx=0, m; const re=/`([^`]+)`/g;
+    while((m=re.exec(s))){
+      out+=fmtText(s.slice(lastIdx,m.index));
+      const code=m[1];
+      if(code.trim().indexOf('[출제]')===0){ collect(refsFrom(code)); }
+      else out+='<code>'+esc(code)+'</code>';
+      lastIdx=re.lastIndex;
+    }
+    out+=fmtText(s.slice(lastIdx));
+    return out;
+  }
+  function cellHTML(cell){
+    if(/'\d{2}-Q|·\s*Q\d|,\s*Q\d/.test(cell)){
+      let last=null;
+      return fmtText(cell).replace(YEAR_RE,function(mm,yy,n1,n2,n3){
+        let year,num,lab;
+        if(yy){year='20'+yy;num=n1;last=yy;lab="'"+yy+'-Q'+num;}
+        else{if(!last)return mm;year='20'+last;num=(n2||n3);lab="'"+last+'-Q'+num;}
+        return '<button class="exam-q" data-year="'+year+'" data-num="'+num+'">'+esc(lab)+'</button>';
+      });
+    }
+    if(cell.indexOf('★')>=0) return '<span class="stars">'+esc(cell)+'</span>';
+    return inline(cell);
+  }
+  function examBlock(refs){
+    refs=dedupe(refs); if(!refs.length)return '';
+    return '<div class="exam-block"><div class="exam-block-t">📝 관련 기출문제 <span>클릭 시 새 탭으로 해설 열기</span></div>'
+      +'<div class="exam-block-b">'+refs.map(btnHTML).join('')+'</div></div>';
+  }
+  function splitRow(r){let c=r.trim();if(c.startsWith('|'))c=c.slice(1);if(c.endsWith('|'))c=c.slice(0,-1);return c.split('|').map(x=>x.trim());}
+  function renderTable(rows){
+    if(rows.length<2)return '';
+    const header=splitRow(rows[0]);
+    let thead='<tr>'+header.map(h=>'<th>'+esc(h)+'</th>').join('')+'</tr>';
+    let body='';
+    for(let r=2;r<rows.length;r++){
+      const cells=splitRow(rows[r]);
+      if(cells.every(x=>/^-*$/.test(x)))continue;
+      body+='<tr>'+cells.map(c=>'<td>'+cellHTML(c)+'</td>').join('')+'</tr>';
+    }
+    return '<div class="tbl-scroll"><table>'+thead+body+'</table></div>';
+  }
+  function renderMD(md){
+    const lines=md.split('\n');
+    let html='', i=0, para=[], quote=[], list=null, listTag='';
+    function flushPara(){if(para.length){html+='<p>'+para.map(inline).join(' ')+'</p>';para=[];}}
+    function flushQuote(){if(quote.length){html+='<div class="lead">'+quote.map(q=>'<div>'+inline(q)+'</div>').join('')+'</div>';quote=[];}}
+    function flushList(){if(list){html+='<'+listTag+'>'+list.map(li=>'<li>'+inline(li)+'</li>').join('')+'</'+listTag+'>';list=null;listTag='';}}
+    function flushAll(){flushPara();flushQuote();flushList();}
+    function closeSection(){flushAll(); if(SECT&&SECT.length){html+=examBlock(SECT);} SECT=null;}
+    while(i<lines.length){
+      let ln=lines[i];
+      if(/^\s*\|/.test(ln)){flushAll();let rows=[];while(i<lines.length&&/^\s*\|/.test(lines[i])){rows.push(lines[i]);i++;}html+=renderTable(rows);continue;}
+      if(SECT!==null && /^`\s*\[출제\][^`]*`\s*$/.test(ln.trim())){collect(refsFrom(ln));i++;continue;}
+      if(ln.startsWith('### ')){flushAll();html+='<h3>'+inline(ln.slice(4))+'</h3>';i++;continue;}
+      if(ln.startsWith('## ')){closeSection();SECT=[];html+='<h2>'+inline(ln.slice(3))+'</h2>';i++;continue;}
+      if(ln.startsWith('# ')){i++;continue;}
+      if(ln.startsWith('> ')){flushPara();flushList();quote.push(ln.slice(2));i++;continue;}
+      let um=ln.match(/^\s*[-*]\s+(.*)$/);
+      let om=ln.match(/^\s*\d+\.\s+(.*)$/);
+      if(um){flushPara();flushQuote();if(listTag!=='ul'){flushList();listTag='ul';list=[];}list.push(um[1]);i++;continue;}
+      if(om){flushPara();flushQuote();if(listTag!=='ol'){flushList();listTag='ol';list=[];}list.push(om[1]);i++;continue;}
+      if(/^---\s*$/.test(ln)){flushAll();i++;continue;}
+      if(ln.trim()===''){flushAll();i++;continue;}
+      para.push(ln.trim());i++;
+    }
+    closeSection();
+    return html;
+  }
+  function openExam(year,num){
+    const url=encodeURIComponent(SLUG)+'/'+encodeURIComponent(SLUG+'_'+year+'.html')+'#q'+num;
+    window.open(url,'_blank','noopener');
+  }
+  const contentEl=document.getElementById('content');
+  contentEl.innerHTML=renderMD(document.getElementById('md').textContent);
+  contentEl.addEventListener('click',e=>{
+    const b=e.target.closest('.exam-q');
+    if(b){openExam(b.getAttribute('data-year'),b.getAttribute('data-num'));}
+  });
+})();
+</script>
+</body>
+</html>

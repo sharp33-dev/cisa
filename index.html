@@ -192,11 +192,11 @@
                 <span class="cur" id="gb-lecture">강좌를 선택하세요</span>
             </div>
             <div class="gb-nav">
-                <button id="gb-prev" onclick="stepLecture(-1)" disabled>◀ 이전</button>
-                <select id="gb-jump" onchange="jumpLecture(this.value)" title="강좌 바로가기">
+                <button id="gb-prev" onclick="gbStep(-1)" disabled>◀ 이전</button>
+                <select id="gb-jump" onchange="gbJump(this.value)" title="바로가기">
                     <option value="">강좌 바로가기…</option>
                 </select>
-                <button id="gb-next" onclick="stepLecture(1)" disabled>다음 ▶</button>
+                <button id="gb-next" onclick="gbStep(1)" disabled>다음 ▶</button>
             </div>
             <div class="gb-spacer"></div>
             <label class="gb-switch" onclick="toggleWideContent()" title="상단 바를 접어 본문을 넓게 봅니다">
@@ -388,7 +388,7 @@
                 const item = document.createElement('div');
                 item.className = 'course-item';
                 const btn = document.createElement('button');
-                btn.className = 'course-btn' + (ci === 0 ? '' : ' collapsed');
+                btn.className = 'course-btn collapsed';
                 btn.textContent = course.name;
                 btn.onclick = () => btn.classList.toggle('collapsed');
                 item.appendChild(btn);
@@ -405,13 +405,13 @@
                         const isReady = !!built[key];
                         const li = document.createElement('li');
                         li.className = 'year-item';
+                        li.dataset.slug = course.slug;
+                        li.dataset.year = year;
                         const yb = document.createElement('button');
                         yb.className = 'year-btn';
                         yb.innerHTML = '<span>' + year + '년도 기출해설집</span>' +
                             '<span class="tag ' + (isReady ? 'ready' : 'soon') + '">' + (isReady ? '열람' : '준비중') + '</span>';
-                        yb.onclick = () => selectContent(li, course.name + ' ' + year + '년도', isReady,
-                            encodeURIComponent(course.slug) + '/' + encodeURIComponent(course.slug + '_' + year + '.html'),
-                            '해당 연도 해설집은 원본 해설 md를 반영하여 개별 페이지로 순차 개방될 예정입니다.');
+                        yb.onclick = () => openExamYear(course, year, isReady, li);
                         li.appendChild(yb);
                         ulY.appendChild(li);
                     });
@@ -478,6 +478,7 @@
             frame.style.display = 'block';
             frame.src = 'Exam Topics.html?subject=' + encodeURIComponent(slug);
             currentLectureBase = null;
+            currentExamSlug = null;
             document.getElementById('gb-subject').textContent = name;
             document.getElementById('gb-lecture').textContent = '출제 분석 (2016~2026)';
             document.getElementById('gb-prev').disabled = true;
@@ -500,6 +501,64 @@
             wideContent = !wideContent;
             document.body.classList.toggle('wide-content', wideContent);
             postChrome();
+        }
+
+        /* ===================== 기출해설: 상단 '년도 이동' 메뉴 ===================== */
+        let currentExamSlug = null, currentExamYear = null;
+        // 상단 이전/다음·바로가기 디스패처: 기출해설 중이면 년도, 아니면 강좌
+        function gbStep(d) { if (viewMode === 'exam' && currentExamSlug) stepExamYear(d); else stepLecture(d); }
+        function gbJump(v) { if (viewMode === 'exam' && currentExamSlug) jumpExamYear(v); else jumpLecture(v); }
+        function examYearsReady(slug) {
+            const c = courses.find(c => c.slug === slug);
+            return c ? (c.years || []).filter(y => !!built[c.slug + '_' + y]) : [];
+        }
+        function findYearLi(slug, year) {
+            return Array.prototype.find.call(document.querySelectorAll('.year-item'),
+                x => x.dataset.slug === slug && x.dataset.year === String(year));
+        }
+        function openExamYear(course, year, isReady, li) {
+            if (!li) li = findYearLi(course.slug, year);
+            selectContent(li, course.name + ' ' + year + '년도', isReady,
+                encodeURIComponent(course.slug) + '/' + encodeURIComponent(course.slug + '_' + year + '.html'),
+                '해당 연도 해설집은 원본 해설 md를 반영하여 개별 페이지로 순차 개방될 예정입니다.');
+            currentExamSlug = course.slug; currentExamYear = year;
+            currentLectureBase = null;
+            if (isReady) updateExamNav();
+        }
+        function updateExamNav() {
+            const c = courses.find(c => c.slug === currentExamSlug);
+            if (!c) return;
+            document.getElementById('gb-subject').textContent = c.name;
+            document.getElementById('gb-lecture').textContent = currentExamYear + '년도 기출해설집';
+            const sel = document.getElementById('gb-jump');
+            sel.innerHTML = '<option value="">년도 바로가기…</option>';
+            (c.years || []).forEach(y => {
+                const ready = !!built[c.slug + '_' + y];
+                const opt = document.createElement('option');
+                opt.value = String(y);
+                opt.textContent = y + '년도' + (ready ? '' : ' (준비중)');
+                if (!ready) opt.disabled = true;
+                sel.appendChild(opt);
+            });
+            sel.value = String(currentExamYear);
+            const rys = examYearsReady(currentExamSlug);
+            const idx = rys.indexOf(currentExamYear);
+            document.getElementById('gb-prev').disabled = !(idx > 0);
+            document.getElementById('gb-next').disabled = !(idx >= 0 && idx < rys.length - 1);
+        }
+        function stepExamYear(d) {
+            const rys = examYearsReady(currentExamSlug);
+            const i = rys.indexOf(currentExamYear), ni = i + d;
+            if (i < 0 || ni < 0 || ni >= rys.length) return;
+            const c = courses.find(c => c.slug === currentExamSlug);
+            openExamYear(c, rys[ni], true, null);
+        }
+        function jumpExamYear(v) {
+            if (!v) return;
+            const c = courses.find(c => c.slug === currentExamSlug);
+            const y = isNaN(+v) ? v : +v;
+            if (!c || !built[c.slug + '_' + y]) return;
+            openExamYear(c, y, true, null);
         }
 
         /* ===================== 전역 강좌: 열기 · 이동 · 검색 ===================== */
@@ -555,6 +614,8 @@
             const meta = lectureMeta(slug, file);
             if (!meta.course || !meta.lec) return;
             const lec = meta.lec, course = meta.course;
+            currentExamSlug = null;
+            populateJump();
             if (viewMode !== 'lecture') setView('lecture');
             const li = findLectureLi(slug, file);
             if (li) { // 소속 과목 펼치기

@@ -22,6 +22,8 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
 .qnav .btn:hover { background:#f1f5f9; }
 .qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+/* 터치 기기 sticky hover로 primary 버튼 배경이 흰색이 되어 흰 글자가 사라지는 문제 방지 */
+.qnav .btn-primary:hover, .qnav .btn-primary:focus { background:#1e40af; color:#fff; border-color:#1e40af; }
 
 .stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
 .question-view { height:100%; min-height:0; }

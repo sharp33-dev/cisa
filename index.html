@@ -139,6 +139,26 @@
         .placeholder-screen { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem; background-color: var(--bg-main); }
         .placeholder-screen h2 { font-size: 1.4rem; color: var(--text-dark); margin-bottom: 0.75rem; font-weight: 800; }
         .placeholder-screen p { font-size: 0.95rem; color: var(--text-main); max-width: 560px; line-height: 1.7; }
+
+        /* ===== 모바일 반응형(≤768px): 사이드바 오프캔버스 드로어 ===== */
+        @media (max-width: 768px) {
+          .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 84vw; max-width: 320px; z-index: 1000; margin-left: 0; transform: translateX(0); transition: transform 0.25s ease; box-shadow: 2px 0 18px rgba(0,0,0,0.4); }
+          .sidebar.hidden { margin-left: 0; transform: translateX(-100%); }
+          .main-container { width: 100%; }
+          body.sidebar-collapsed .content-region { padding-left: 0; }
+          body.sidebar-collapsed .content-region::before { display: none; }
+          .floating-toggle { display: flex; }
+          #mobile-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,0.5); z-index: 900; display: none; }
+          body:not(.sidebar-collapsed) #mobile-backdrop { display: block; }
+          .global-bar { flex-wrap: wrap; padding: 0.3rem 0.5rem 0.3rem 2.7rem; }
+          .gb-crumb { max-width: 100%; }
+          .gb-spacer { display: none; }
+          .gb-search { width: 100%; order: 10; }
+          .gb-nav select { width: 120px; max-width: 120px; }
+          .welcome-screen { padding: 1.5rem 1rem; }
+          .welcome-screen h2 { font-size: 1.3rem; }
+          .welcome-screen p { font-size: 0.9rem; }
+        }
     </style>
 </head>
 <body>
@@ -162,6 +182,7 @@
         <div class="menu-container" id="menu-container"></div>
     </div>
 
+    <div id="mobile-backdrop" onclick="toggleSidebar()"></div>
     <div class="main-container">
         <div class="global-bar">
             <div class="gb-crumb">
@@ -673,6 +694,23 @@
 
         buildMenu();
         populateJump();
+
+        // 모바일: 초기 사이드바 접힘 + 콘텐츠(연도/강의) 선택 시 드로어 닫기
+        (function(){
+          function isMobile(){ return window.matchMedia('(max-width:768px)').matches; }
+          if (isMobile() && !document.body.classList.contains('sidebar-collapsed')) {
+            var sb=document.getElementById('sidebar'); if(sb) sb.classList.add('hidden');
+            document.body.classList.add('sidebar-collapsed');
+          }
+          var mc=document.getElementById('menu-container');
+          if (mc) mc.addEventListener('click', function(e){
+            if (!isMobile()) return;
+            if (e.target.closest('.year-btn, .lecture-btn')) {
+              var sb=document.getElementById('sidebar'); if(sb) sb.classList.add('hidden');
+              document.body.classList.add('sidebar-collapsed');
+            }
+          });
+        })();
     </script>
 </body>
 </html>

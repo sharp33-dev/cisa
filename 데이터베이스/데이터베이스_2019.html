@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -84,6 +85,25 @@ strong { color:#0f172a; font-weight:700; }
 .lightbox-close { position:absolute; top:14px; right:18px; width:38px; height:38px; border:none; border-radius:8px;
   background:rgba(255,255,255,0.9); color:#0f172a; font-size:1.2rem; font-weight:800; cursor:pointer; }
 .lightbox-caption { position:absolute; bottom:16px; left:0; right:0; text-align:center; color:#e2e8f0; font-size:0.82rem; padding:0 2rem; }
+/* ===== 모바일 반응형(≤768px): 좌(문제)·우(해설) 2분할 → 세로 적층(상=문제, 하=해설) ===== */
+@media (max-width: 768px) {
+  body { height:auto; min-height:100vh; overflow:auto; -webkit-text-size-adjust:100%; }
+  .page-header { position:sticky; top:0; z-index:30; padding:0.6rem 0.8rem; gap:0.5rem; }
+  .page-title { font-size:0.95rem; }
+  .page-title small { display:block; font-size:0.72rem; margin-top:2px; }
+  .qnav { margin-left:0; width:100%; flex-wrap:wrap; gap:0.35rem; }
+  .qselect { max-width:none; flex:1 1 100%; }
+  .qnav .btn { flex:1 1 0; text-align:center; }
+  .stage { overflow:visible; height:auto; padding:0.7rem; }
+  .question-view { height:auto; min-height:0; }
+  .content-workspace { grid-template-columns:1fr; grid-template-rows:auto; height:auto; gap:0.8rem; }
+  .area-left, .area-2 { grid-column:1; grid-row:auto; }
+  .area-card { overflow:visible; }
+  .area-header { position:sticky; top:52px; z-index:10; }
+  .area-body { overflow:visible; max-height:none; flex:none; padding:0.9rem; font-size:0.92rem; }
+  .overview-card { padding:1rem 1.1rem; }
+  table { font-size:0.8rem; }
+}
 </style>
 </head>
 <body>
@@ -15297,6 +15317,12 @@ CREATE INDEX Idx6 ON Articles(journal, issue, title);
     var idx = h ? nums.indexOf(h) : -1;
     if (idx >= 0) show(idx);
   });
+  // 모바일: 문항 전환 시 페이지 상단으로 스크롤(적층 레이아웃 UX)
+  if (window.matchMedia('(max-width:768px)').matches) {
+    var _toTop = function(){ setTimeout(function(){ window.scrollTo(0,0); }, 0); };
+    document.addEventListener('click', function(e){ if (e.target.closest('.qnav .btn')) _toTop(); });
+    var _sel = document.getElementById('qselect'); if (_sel) _sel.addEventListener('change', _toTop);
+  }
 </script>
 </body>
 </html>

@@ -144,6 +144,8 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .qnav .btn { padding:0.45rem 0.9rem; font-size:0.82rem; font-weight:700; border-radius:6px; cursor:pointer; border:1px solid var(--border-color); background:#fff; color:var(--text-main); }
 .qnav .btn:hover { background:#f1f5f9; }
 .qnav .btn-primary { background:var(--primary-color); color:#fff; border-color:var(--primary-color); }
+/* 터치 기기 sticky hover로 primary 버튼 배경이 흰색이 되어 흰 글자가 사라지는 문제 방지 */
+.qnav .btn-primary:hover, .qnav .btn-primary:focus { background:#1e40af; color:#fff; border-color:#1e40af; }
 
 .stage { flex:1; overflow:hidden; padding:1rem; min-height:0; }
 .question-view { height:100%; min-height:0; }
@@ -207,6 +209,27 @@ strong { color:#0f172a; font-weight:700; }
 .lightbox-close { position:absolute; top:14px; right:18px; width:38px; height:38px; border:none; border-radius:8px;
   background:rgba(255,255,255,0.9); color:#0f172a; font-size:1.2rem; font-weight:800; cursor:pointer; }
 .lightbox-caption { position:absolute; bottom:16px; left:0; right:0; text-align:center; color:#e2e8f0; font-size:0.82rem; padding:0 2rem; }
+/* ===== 모바일 반응형(≤768px): 좌(문제)·우(해설) 2분할 → 세로 적층(상=문제, 하=해설) ===== */
+@media (max-width: 768px) {
+  body { height:auto; min-height:100vh; overflow:auto; -webkit-text-size-adjust:100%; }
+  .page-header { position:sticky; top:0; z-index:30; padding:0.6rem 0.8rem; gap:0.5rem; }
+  .page-title { font-size:0.95rem; }
+  .page-title small { display:block; font-size:0.72rem; margin-top:2px; }
+  .qnav { margin-left:0; width:100%; flex-wrap:nowrap; gap:0.35rem; }
+  .qselect { max-width:none; flex:1 1 auto; min-width:0; order:2; text-align:center; }
+  .qnav .btn { flex:0 0 auto; text-align:center; white-space:nowrap; padding:0.45rem 0.7rem; }
+  .qnav .btn[onclick="go(-1)"] { order:1; }
+  .qnav .btn[onclick="go(1)"] { order:3; }
+  .stage { overflow:visible; height:auto; padding:0.7rem; }
+  .question-view { height:auto; min-height:0; }
+  .content-workspace { grid-template-columns:1fr; grid-template-rows:auto; height:auto; gap:0.8rem; }
+  .area-left, .area-2 { grid-column:1; grid-row:auto; }
+  .area-card { overflow:visible; }
+  .area-header { position:sticky; top:52px; z-index:10; }
+  .area-body { overflow:visible; max-height:none; flex:none; padding:0.9rem; font-size:0.92rem; }
+  .overview-card { padding:1rem 1.1rem; }
+  table { font-size:0.8rem; }
+}
 </style>
 </head>
 <body>
@@ -295,6 +318,12 @@ __QUESTIONS__
     var idx = h ? nums.indexOf(h) : -1;
     if (idx >= 0) show(idx);
   });
+  // 모바일: 문항 전환 시 페이지 상단으로 스크롤(적층 레이아웃 UX)
+  if (window.matchMedia('(max-width:768px)').matches) {
+    var _toTop = function(){ setTimeout(function(){ window.scrollTo(0,0); }, 0); };
+    document.addEventListener('click', function(e){ if (e.target.closest('.qnav .btn')) _toTop(); });
+    var _sel = document.getElementById('qselect'); if (_sel) _sel.addEventListener('change', _toTop);
+  }
 </script>
 </body>
 </html>'''

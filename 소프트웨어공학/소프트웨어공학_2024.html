@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -1613,7 +1614,7 @@ int (*ptr)[4] = ary;  // ptr은 4개 int를 가리키는 포인터 배열
     <div class="question-view" data-num="35" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음의 Video 클래스는 2개의 type code를 가지고 있다. kindCode는 VHS, CD를 의미하며, priceCode는 Normal, Discount를 의미한다. 이에 대한 Refactoring 후의 클래스 다이어그램으로서 가장 적절한 것은?</p>
-<p><em>(Video 클래스: kindCode: int {readOnly}, priceCode: int)</em></p>
+<p><img alt="2024년 35번 Video 클래스 다이어그램(kindCode:int{readOnly}, priceCode:int)" src="assets/2024/q35.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Video → Price(상속), VHS·CD → Video(상속), Normal·Discount → Price(상속)<br />
 ② Video → Kind(상속), Normal·Discount → Video(상속), VHS·CD → Kind(상속)<br />
@@ -2696,7 +2697,7 @@ print(language.index('go'))
     <div class="question-view" data-num="42" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 특정 함수의 논리 흐름 그래프이다. 이 함수의 사이클로매틱 복잡도로 가장 적절한 것은?</p>
-<p><em>(그래프: 노드 1~10, 분기 노드: 2(→3,→10), 4(→5,→9), 5(→6,→7))</em></p>
+<p><img alt="2024년 42번 제어흐름그래프(노드 1~10, 분기 노드 2·4·5)" src="assets/2024/q42.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 3<br />
 <strong>② 4</strong><br />
@@ -3120,7 +3121,7 @@ print(language.index('go'))
     <div class="question-view" data-num="45" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 스프링 MVC의 구조를 나타낸다. (가)~(라)에 해당하는 가장 적절한 것은?</p>
-<p><em>(Client → Request → (가) → (다) → Controller → (나) → (가) → (라) → (마) → View)</em></p>
+<p><img alt="2024년 45번 MVC 컨테이너 처리 흐름도(Client·Request·(가)~(마)·Controller·View)" src="assets/2024/q45.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① (가) DispatcherServlet  (나) HandlerMapping  (다) ModelAndView  (라) ViewResolver</strong><br />
 ② (가) DispatcherServlet  (나) ModelAndView  (다) HandlerMapping  (라) ViewResolver<br />

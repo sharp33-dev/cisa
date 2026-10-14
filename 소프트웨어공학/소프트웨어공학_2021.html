@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -937,7 +938,7 @@ else { ... }         // False 분기
     <div class="question-view" data-num="31" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 클래스 다이어그램이 나타내는 디자인 패턴으로 가장 적절한 것은?</p>
-<p><em>(다이어그램: Comp←ConcreteComp, Comp←Quest(Comp 참조), Quest←ConcreteQuestA, Quest←ConcreteQuestB(AddedBehavior 추가), Comp::Op() 호출 구조)</em></p>
+<p><img alt="2021년 31번 Decorator 패턴 클래스 다이어그램(Comp·ConcreteComp·Quest·ConcreteQuestA·ConcreteQuestB)" src="assets/2021/q31.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① bridge 패턴<br />
 <strong>② decorator 패턴</strong><br />
@@ -1437,7 +1438,7 @@ else { ... }         // False 분기
     <div class="question-view" data-num="34" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 스프링 프레임워크가 제공하는 어드바이스의 유형을 그림으로 나타내고 있다. (가)~(다)에 가장 적절한 어드바이스는?</p>
-<p><em>(그림: (가)=메서드 실행 후 정상 종료 시 삽입, (나)=메서드 실행 전과 후, 예외 발생 시에도 삽입, (다)=메서드 실행 후 예외 발생 시 삽입)</em></p>
+<p><img alt="2021년 34번 AOP 프록시 삽입 시점((가)정상종료 후, (나)실행 전·후·예외, (다)예외 발생 시)" src="assets/2021/q34.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① (가) AfterReturning, (나) Around, (다) AfterThrowing</strong><br />
 ② (가) AfterReturning, (나) AfterThrowing, (다) Around<br />
@@ -2670,7 +2671,7 @@ int getRating() {
     <div class="question-view" data-num="42" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음은 UML로 작성한 클래스 다이어그램과 이에 해당하는 Java 코드의 일부를 나타낸 것이다. 가장 적절하지 않은 것은?</p>
-<p><em>(가: Car→Tire(집합), 나: NextGenDrive→Drive(인터페이스), 다: Door(추상클래스), 라: Car→Engine(합성))</em></p>
+<p><img alt="2021년 42번 클래스 관계 유형 표((가)집합 Car-Tire, (나)인터페이스 실현, (다)추상클래스 Door, (라)합성 Car-Engine, UML+코드)" src="assets/2021/q42.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가<br />
 <strong>② 나</strong><br />
@@ -2817,7 +2818,7 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
     #endif
 }
 </code></pre>
-<p><em>(보기①②③④: Feature1/Feature2의 선택/필수 관계를 다르게 표현한 다이어그램)</em></p>
+<p><img alt="2021년 43번 보기 ①~④ 피처 모델 다이어그램(f-g1-g2·g3, AND/OR·필수/선택 표기)" src="assets/2021/q43.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (Feature1과 Feature2 둘 다 필수)<br />
 ② (Feature1은 선택, Feature2는 Feature1의 자식으로 선택)<br />
@@ -3648,8 +3649,7 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
     <div class="question-view" data-num="48" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>(가)의 클래스 다이어그램은 (나)의 클래스 다이어그램으로 개선이 되었다. 이 개선 과정에서 적용된 설계 원칙으로서 가장 적절한 것은?</p>
-<p><em>(가: 세탁사용자-세탁기(세탁시작,오작동진단), 오작동수리기사-세탁기 직접 의존)</em><br />
-<em>(나: 세탁사용자→I세탁(세탁시작), 오작동수리기사→I진단(오작동진단), 세탁기가 I세탁+I진단 구현)</em></p>
+<p><img alt="2021년 48번 인터페이스 분리 원칙(ISP) 전/후((가)세탁기 단일, (나)I세탁·I진단 분리)" src="assets/2021/q48.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① SRP, DIP<br />
 ② SRP, OCP<br />
@@ -3773,7 +3773,7 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
     <div class="question-view" data-num="49" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 시퀀스 다이어그램은 아키텍처 패턴의 개략적인 동작을 보여 준다. 이 패턴에 대한 설명으로서 가장 적절한 것은?</p>
-<p><em>(A→B:send_request, B→B:pack_data, B→B:forward_request, B→C:find_server, C→D:call_service, D→E:unpack_data, E→E:run_service)</em></p>
+<p><img alt="2021년 49번 브로커 패턴 시퀀스 다이어그램(:A~:E, send_request·pack_data·forward_request·find_server·call_service·unpack_data·run_service)" src="assets/2021/q49.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 분산 애플리케이션을 개발할 때의 복잡도를 증가시킨다.<br />
 ② 동일한 환경에서의 서비스 실행을 지원한다.<br />
@@ -3916,8 +3916,7 @@ Java에서 인터페이스 구현 = <code>implements</code> 키워드</p>
     <div class="question-view" data-num="50" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>(가)의 클래스 다이어그램이 (나)의 클래스 다이어그램으로 개선이 되었다. 이때 적용된 리팩토링으로서 가장 적절한 것은?</p>
-<p><em>(가: UI → Car.getOwner():Person → Person.getName():String — UI가 Person에 직접 접근)</em><br />
-<em>(나: UI → Car.getOwnerName():String — Car가 Person에 대한 접근을 캡슐화)</em></p>
+<p><img alt="2021년 50번 디미터 법칙 클래스 다이어그램((가)UI→Car→Person 직접 접근, (나)getOwnerName으로 캡슐화)" src="assets/2021/q50.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① hide delegate</strong><br />
 ② remove middle man<br />

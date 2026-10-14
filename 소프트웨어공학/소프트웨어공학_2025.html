@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -109,7 +110,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="26" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>Clean Architecture에서는 패키지의 Instability를 측정하기 위한 메트릭을 정의하고 있다. 다음 다이어그램에서 P3 패키지의 Instability 값으로 가장 적절한 것은?</p>
-<p><em>(P1→C11→P3←C31, P3→C32, P4: C41←P3→C42 구조의 다이어그램)</em></p>
+<p><img alt="2025년 26번 Clean Architecture 패키지 다이어그램(P1·C11, P2·C21, P3·C31·C32, P4·C41·C42 의존관계)" src="assets/2025/q26.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 0.3<br />
 ② 0.4<br />
@@ -726,7 +727,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="29" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 UML Sequence diagram은 시스템의 동작을 표현한다. 이 동작에 적용된 패턴으로 가장 적절한 것은?</p>
-<p><em>(UI → Main: service(data), Main → Controller1: split(data), Main → Controller1: do(data1), Main → Controller2: do(data2), Main: merge(subResult1, subResult2), Main → UI: result - par 블록 사용)</em></p>
+<p><img alt="2025년 29번 UML 시퀀스 다이어그램(:UI·:Main·:Controller, par 병렬 프래그먼트, service/split/do/merge 메시지)" src="assets/2025/q29.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Pipe and Filter<br />
 <strong>② Master-Slave</strong><br />
@@ -890,7 +891,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="30" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 클래스 다이어그램에서 Class2에 대한 Java 소스코드로 가장 적절한 것은?</p>
-<p><em>(Class1 ← Class2: Class2는 Class1을 상속(extends). Class2 속성: attr1: int {readOnly}, attr2: int)</em></p>
+<p><img alt="2025년 30번 UML 클래스 다이어그램(Class1을 Class2가 상속, attr1:int{readOnly}·attr2:int)" src="assets/2025/q30.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① <code>class Class2 extends Class1 { private int attr1; private int attr2; }</code><br />
 ② <code>class Class2 implements Class1 { private int attr1; private static int attr2; }</code><br />
@@ -1568,7 +1569,7 @@ UML의 밑줄(underline) = Java의 <code>static</code></p>
     <div class="question-view" data-num="34" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>임의의 거리만큼 떨어진 두 데이터에 대하여 동일한 결과를 출력하는 AI SW는 이 두 데이터에 대하여 강건성(Robustness)를 갖는다고 할 수 있다. 다음 그림에 주어진 두 점 사이의 거리의 의미로 가장 적절한 것은?</p>
-<p><em>(그림: 세 가지 거리 측정 방식 가, 나, 다 표시)</em></p>
+<p><img alt="2025년 34번 두 점 x1·x2 사이 거리 측정 방식(가·나·다) 그래프" src="assets/2025/q34.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① 가 - 유클리드 거리(Euclidean distance)</strong><br />
 ② 나 - 세이프 거리(Safe distance)<br />

@@ -47,6 +47,7 @@ body { background:var(--bg-main); color:var(--text-main); display:flex; flex-dir
 .section-text h3 { font-size:0.9rem; color:var(--text-dark); margin:0.7rem 0 0.3rem; }
 .section-text pre { background:#f1f5f9; padding:0.6rem; border-radius:5px; overflow-x:auto; font-family:monospace; font-size:0.82rem; }
 .section-text code { background:#f1f5f9; padding:0.1rem 0.3rem; border-radius:3px; font-size:0.85em; }
+.section-text hr { border:0; border-top:1px solid #e2e8f0; margin:0.85rem 0 0.1rem; }
 table { width:100%; border-collapse:collapse; margin:0.6rem 0; font-size:0.82rem; }
 th,td { border:1px solid var(--border-color); padding:0.45rem 0.65rem; text-align:left; vertical-align:top; }
 th { background:#f1f5f9; color:var(--text-dark); font-weight:700; }
@@ -206,7 +207,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="26" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 Sequence diagram의 동작에서 적용된 디자인 패턴으로 가장 적절한 것은?</p>
-<p><em>(Client → C1: handle() → [hasHandler==true] C1 → C2: do1(), [else] C1 → C2: handle() → [hasHandler==true] C2 → C3: do2(), [else] C2 → C3: handle() 재귀 구조)</em></p>
+<p><img alt="2023년 26번 책임연쇄(Chain of Responsibility) 시퀀스 다이어그램(:Client·:C1·:C2·:C3, alt 프래그먼트)" src="assets/2023/q26.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Iterator<br />
 ② Strategy<br />
@@ -2417,7 +2418,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="40" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 UML State Machine 다이어그램의 Y 상태에서 signal 이벤트를 받았을 때 Z 상태로 전이하면서 실행되는 액션의 순서로 가장 적절한 것은?</p>
-<p><em>(Y 상태: exit/B, 내부에 X 상태(exit/A 포함), Z 상태: entry/E. Y→Z 전이: signal/C, D 포함)</em></p>
+<p><img alt="2023년 40번 UML 상태 머신(복합상태 X: exit/A, 내부 Y: exit/B, Z: entry/E, signal/C·/D 전이)" src="assets/2023/q40.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① A, B, C, E, D<br />
 <strong>② B, C, A, D, E</strong><br />
@@ -2871,7 +2872,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="43" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 메인라인, 베이스라인, 코드라인의 관계를 나타낸다. A, B, C를 각각의 코드라고 할 때, (가)~(다)에 해당하는 것을 바르게 연결한 것은?</p>
-<p><em>(그림: (가)는 A,B,C가 순차 연결된 주선, (나)는 각 버전에 태그, (다)는 브랜치에서 라이브러리/외부 컴포넌트 분리)</em></p>
+<p><img alt="2023년 43번 형상관리 브랜치 다이어그램((가) 주선 A·B·C, (나) 버전 태그, (다) 라이브러리·외부컴포넌트)" src="assets/2023/q43.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>(가) (나) (다)</strong><br />
 <strong>① 코드라인 메인라인 베이스라인</strong><br />
@@ -3029,7 +3030,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="44" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 컴포넌트 Cc의 안정성(stability) 지표로 가장 적절한 것은?</p>
-<p><em>(그림: Ca에서 Cc로 여러 화살표, Cb에서 Cc로 화살표, Cc에서 Cd로 화살표)</em></p>
+<p><img alt="2023년 44번 컴포넌트 의존관계도(Ca·Cb·Cc·Cd, q·r·s·t·u·v 인터페이스)" src="assets/2023/q44.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① Fan-in: 3, Fan-out: 1, I(Instability): 1/4</strong><br />
 ② Fan-in: 1, Fan-out: 3, I(Instability): 1/4<br />
@@ -3164,7 +3165,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="45" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 소스 코드 커버리지의 포함 관계에서 (가)~(라)에 해당하는 항목으로 바르게 연결한 것은?</p>
-<p><em>(동심원 다이어그램: 안쪽(가) → 순서대로 (나), (다), (라) → 결정 커버리지와 조건 커버리지 표시)</em></p>
+<p><img alt="2023년 45번 커버리지 포함관계 동심원((가)~(라), 결정·조건 커버리지)" src="assets/2023/q45.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① (가) 구문커버리지, (나) 조건/결정커버리지, (다) 변경조건/결정커버리지, (라) 다중조건커버리지<br />
 ② (가) 다중조건커버리지, (나) 조건/결정커버리지, (다) 변경조건/결정커버리지, (라) 구문커버리지<br />

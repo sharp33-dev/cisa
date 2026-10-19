@@ -35,7 +35,7 @@
         .sidebar.hidden { margin-left: -300px; }
         .sidebar-header { padding: 1.25rem 1.25rem 1.25rem 0.9rem; background-color: var(--primary-dark); border-bottom: 1px solid #334155; }
         .sidebar-header-row { display: flex; align-items: center; gap: 0.6rem; }
-        .sidebar-header-row > .icon-btn { margin-left: auto; }
+        .sidebar-header-row > .icon-btn:first-of-type { margin-left: auto; }
         .sidebar-header h1 { font-size: 1.05rem; font-weight: 800; color: #ffffff; }
         .sidebar-header p { font-size: 0.72rem; color: #94a3b8; margin-top: 0.2rem; }
 
@@ -53,6 +53,9 @@
         .course-btn { width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1.25rem; color: #cbd5e1; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .course-btn::after { content: '▼'; font-size: 0.65rem; transition: transform 0.2s; }
         .course-btn.collapsed::after { transform: rotate(-90deg); }
+        .course-btn.theory-item::after { content: ''; }
+        .course-btn.theory-item:hover { color: #38bdf8; }
+        .course-item.theory-nav.active > .theory-item { color: #38bdf8; background-color: #1e293b; }
         .year-list { list-style: none; background-color: #0f172a; }
         .course-body { background-color: #0f172a; }
         .course-btn.collapsed + .course-body { display: none; }
@@ -177,6 +180,9 @@
                     <h1>정보시스템 감리사 강좌 및 기출해설</h1>
                     <p>과목별 강좌 교재 · 연도별 기출 해설 학습 시스템</p>
                 </div>
+                <button class="icon-btn" onclick="goHome()" title="홈 (초기 화면)" aria-label="홈">
+                    <svg viewBox="0 0 24 24"><path d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3l9-8z"/></svg>
+                </button>
                 <button class="icon-btn" onclick="toggleSidebar()" title="메뉴 접기">
                     <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
                 </button>
@@ -237,6 +243,7 @@
                         <button class="analysis-btn" onclick="openAnalysis('데이터베이스','데이터베이스')"><span class="ab-name">데이터베이스</span><span class="ab-meta">문항 51~75 · 275문항</span></button>
                         <button class="analysis-btn" onclick="openAnalysis('시스템구조','시스템구조')"><span class="ab-name">시스템구조</span><span class="ab-meta">문항 76~100 · 275문항</span></button>
                         <button class="analysis-btn" onclick="openAnalysis('보안','보안')"><span class="ab-name">보안</span><span class="ab-meta">문항 101~120 · 220문항</span></button>
+                        <button class="analysis-btn" onclick="openCommonTheory()"><span class="ab-name">공통 이론 정리</span><span class="ab-meta">ISO 표준 등 · 공통 이론</span></button>
                     </div>
                 </div>
             </div>
@@ -455,6 +462,22 @@
                 item.appendChild(body);
                 container.appendChild(item);
             });
+
+            // 강좌 교재 탭: 보안 아래에 '공통 이론' 진입 항목 추가
+            if (viewMode === 'lecture') {
+                const titem = document.createElement('div');
+                titem.className = 'course-item theory-nav';
+                const tbtn = document.createElement('button');
+                tbtn.className = 'course-btn theory-item';
+                tbtn.textContent = '📚 공통 이론';
+                tbtn.onclick = () => {
+                    if (activeItemEl) activeItemEl.classList.remove('active');
+                    titem.classList.add('active'); activeItemEl = titem;
+                    openCommonTheory();
+                };
+                titem.appendChild(tbtn);
+                container.appendChild(titem);
+            }
         }
 
         // 기출/강좌 공용 콘텐츠 로더
@@ -490,6 +513,44 @@
             currentExamSlug = null;
             document.getElementById('gb-subject').textContent = name;
             document.getElementById('gb-lecture').textContent = '출제 분석 (2016~2026)';
+            document.getElementById('gb-prev').disabled = true;
+            document.getElementById('gb-next').disabled = true;
+            document.getElementById('gb-jump').value = '';
+        }
+
+        // 홈: 초기 화면(welcome)으로 복귀
+        function goHome() {
+            const frame = document.getElementById('content-frame');
+            frame.style.display = 'none';
+            frame.removeAttribute('src');
+            document.getElementById('placeholder-screen').style.display = 'none';
+            document.getElementById('welcome-screen').style.display = 'flex';
+            if (activeItemEl) { activeItemEl.classList.remove('active'); activeItemEl = null; }
+            currentLectureBase = null;
+            currentExamSlug = null;
+            document.getElementById('gb-subject').textContent = '강좌';
+            document.getElementById('gb-lecture').textContent = '강좌를 선택하세요';
+            document.getElementById('gb-prev').disabled = true;
+            document.getElementById('gb-next').disabled = true;
+            document.getElementById('gb-jump').value = '';
+            if (window.matchMedia('(max-width:768px)').matches) {
+                const sb = document.getElementById('sidebar');
+                if (sb) sb.classList.add('hidden');
+                document.body.classList.add('sidebar-collapsed');
+            }
+        }
+
+        // 공통 이론 정리 목록 페이지 로드
+        function openCommonTheory() {
+            const frame = document.getElementById('content-frame');
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('placeholder-screen').style.display = 'none';
+            frame.style.display = 'block';
+            frame.src = encodeURIComponent('공통 이론') + '/공통이론.html';
+            currentLectureBase = null;
+            currentExamSlug = null;
+            document.getElementById('gb-subject').textContent = '공통 이론 정리';
+            document.getElementById('gb-lecture').textContent = '이론 목록';
             document.getElementById('gb-prev').disabled = true;
             document.getElementById('gb-next').disabled = true;
             document.getElementById('gb-jump').value = '';
@@ -787,7 +848,7 @@
           var mc=document.getElementById('menu-container');
           if (mc) mc.addEventListener('click', function(e){
             if (!isMobile()) return;
-            if (e.target.closest('.year-btn, .lecture-btn')) {
+            if (e.target.closest('.year-btn, .lecture-btn, .course-btn.theory-item')) {
               var sb=document.getElementById('sidebar'); if(sb) sb.classList.add('hidden');
               document.body.classList.add('sidebar-collapsed');
             }

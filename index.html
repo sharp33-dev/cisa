@@ -106,6 +106,9 @@
         .gb-search .clr { position: absolute; right: 0.45rem; top: 50%; transform: translateY(-50%); border: none; background: none; color: #94a3b8; cursor: pointer; font-size: 1rem; line-height: 1; display: none; }
         .gb-results { position: absolute; top: 34px; right: 0; width: 380px; max-height: 60vh; overflow-y: auto; background: #fff; border: 1px solid var(--border-color); border-radius: 10px; box-shadow: 0 8px 24px rgb(0 0 0 / 0.12); padding: 0.35rem; display: none; z-index: 40; }
         .gb-results.show { display: block; }
+        /* 공통 이론 모드: 이동(이전·년도·다음)·본문넓게 숨김, 검색만 유지 */
+        .global-bar.gb-theory .gb-nav,
+        .global-bar.gb-theory .gb-switch { display: none; }
         .gb-rhint { font-size: 0.72rem; color: #64748b; padding: 0.4rem 0.5rem; }
         .gb-ritem { padding: 0.5rem 0.55rem; border-radius: 7px; cursor: pointer; }
         .gb-ritem:hover, .gb-ritem.active { background-color: #e0f2fe; }
@@ -504,6 +507,7 @@
 
         // 출제주제 분석 페이지 로드(welcome 화면의 과목 버튼)
         function openAnalysis(slug, name) {
+            exitTheory();
             const frame = document.getElementById('content-frame');
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('placeholder-screen').style.display = 'none';
@@ -518,8 +522,33 @@
             document.getElementById('gb-jump').value = '';
         }
 
+        // 공통 이론 모드 상태 + 상단바 전환
+        let theoryMode = false;
+        function enterTheory() {
+            theoryMode = true;
+            document.querySelector('.global-bar').classList.add('gb-theory');
+            const gsi = document.getElementById('gb-search-input');
+            if (gsi) { gsi.placeholder = '검색'; gsi.value = ''; }
+            const gsc = document.getElementById('gb-search-clear'); if (gsc) gsc.style.display = 'none';
+            document.getElementById('gb-results').classList.remove('show');
+        }
+        function exitTheory() {
+            if (!theoryMode) return;
+            theoryMode = false;
+            document.querySelector('.global-bar').classList.remove('gb-theory');
+            const gsi = document.getElementById('gb-search-input');
+            if (gsi) { gsi.placeholder = '전체 강좌 검색'; gsi.value = ''; }
+            const gsc = document.getElementById('gb-search-clear'); if (gsc) gsc.style.display = 'none';
+            document.getElementById('gb-results').classList.remove('show');
+        }
+        function sendTheorySearch(q) {
+            const f = document.getElementById('content-frame');
+            if (f && f.contentWindow) f.contentWindow.postMessage({ type: 'theory-search', q: q || '' }, '*');
+        }
+
         // 홈: 초기 화면(welcome)으로 복귀
         function goHome() {
+            exitTheory();
             const frame = document.getElementById('content-frame');
             frame.style.display = 'none';
             frame.removeAttribute('src');
@@ -549,6 +578,7 @@
             frame.src = encodeURIComponent('공통 이론') + '/공통이론.html';
             currentLectureBase = null;
             currentExamSlug = null;
+            enterTheory();
             document.getElementById('gb-subject').textContent = '공통 이론 정리';
             document.getElementById('gb-lecture').textContent = '이론 목록';
             document.getElementById('gb-prev').disabled = true;
@@ -595,6 +625,7 @@
                 x => x.dataset.slug === slug && x.dataset.year === String(year));
         }
         function openExamYear(course, year, isReady, li) {
+            exitTheory();
             if (!li) li = findYearLi(course.slug, year);
             selectContent(li, course.name + ' ' + year + '년도', isReady,
                 encodeURIComponent(course.slug) + '/' + encodeURIComponent(course.slug + '_' + year + '.html'),
@@ -692,6 +723,7 @@
             const meta = lectureMeta(slug, file);
             if (!meta.course || !meta.lec) return;
             const lec = meta.lec, course = meta.course;
+            exitTheory();
             currentExamSlug = null;
             populateJump();
             if (viewMode !== 'lecture') setView('lecture');
@@ -818,14 +850,15 @@
             let timer = null;
             gsi.addEventListener('input', () => {
                 gsc.style.display = gsi.value ? 'block' : 'none';
+                if (theoryMode) { sendTheorySearch(gsi.value); return; }
                 clearTimeout(timer);
                 timer = setTimeout(() => gbSearch(gsi.value), 180);
             });
-            gsi.addEventListener('focus', () => { if (gsi.value.trim()) gbSearch(gsi.value); });
+            gsi.addEventListener('focus', () => { if (!theoryMode && gsi.value.trim()) gbSearch(gsi.value); });
             gsi.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') { gsi.value = ''; gsc.style.display = 'none'; box.classList.remove('show'); }
+                if (e.key === 'Escape') { gsi.value = ''; gsc.style.display = 'none'; box.classList.remove('show'); if (theoryMode) sendTheorySearch(''); }
             });
-            gsc.addEventListener('click', () => { gsi.value = ''; gsc.style.display = 'none'; box.classList.remove('show'); gsi.focus(); });
+            gsc.addEventListener('click', () => { gsi.value = ''; gsc.style.display = 'none'; box.classList.remove('show'); gsi.focus(); if (theoryMode) sendTheorySearch(''); });
             document.addEventListener('click', (e) => { if (!e.target.closest('.gb-search')) box.classList.remove('show'); });
             // 새 강좌가 로드되면 현재 '본문 넓게' 상태를 다시 알려 헤더 접힘을 유지
             document.getElementById('content-frame').addEventListener('load', postChrome);

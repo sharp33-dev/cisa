@@ -3911,8 +3911,13 @@ IDF = inverse document frequency(용어가 문서 집합에 나타나는 정도�
     const v = cb.closest('.question-view');
     if (v) v.classList.toggle('show-answer', cb.checked);
   }
+  function _targetNum(){
+    var m = (location.search || '').match(/[?&]q=([^&#]+)/);
+    if (m) return decodeURIComponent(m[1]).replace(/^q/i, '');
+    return (location.hash || '').replace(/^#q?/i, '');
+  }
   (function(){
-    var h = (location.hash || '').replace(/^#q?/i, '');
+    var h = _targetNum();
     var idx = h ? nums.indexOf(h) : -1;
     show(idx >= 0 ? idx : (nums[0] === 'overview' ? 1 : 0));
   })();

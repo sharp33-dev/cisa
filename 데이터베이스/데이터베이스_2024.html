@@ -3980,8 +3980,13 @@ WHERE R1.age NOT IN (SELECT age FROM R2);
     const v = cb.closest('.question-view');
     if (v) v.classList.toggle('show-answer', cb.checked);
   }
+  function _targetNum(){
+    var m = (location.search || '').match(/[?&]q=([^&#]+)/);
+    if (m) return decodeURIComponent(m[1]).replace(/^q/i, '');
+    return (location.hash || '').replace(/^#q?/i, '');
+  }
   (function(){
-    var h = (location.hash || '').replace(/^#q?/i, '');
+    var h = _targetNum();
     var idx = h ? nums.indexOf(h) : -1;
     show(idx >= 0 ? idx : (nums[0] === 'overview' ? 1 : 0));
   })();

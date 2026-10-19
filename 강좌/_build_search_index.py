@@ -4,7 +4,7 @@
 - 강좌/<과목slug>/*.html (밑줄로 시작하는 파일 제외)을 스캔
 - 각 파일에서 <section id="..."> 단위(없으면 id 부여된 heading)로
   { id, title, text } 를 추출
-- 결과를 8. 학습사이트/search-index.js 로 저장 (window.SEARCH_INDEX = {...})
+- 결과를 3. 학습사이트/search-index.js 로 저장 (window.SEARCH_INDEX = {...})
   → <script src>로 로드되므로 file:// 로컬에서도 CORS 없이 동작
 
 사용법:  python3 _build_search_index.py
@@ -12,8 +12,8 @@
 """
 import os, re, json, datetime, glob
 
-BASE = os.path.dirname(os.path.abspath(__file__))          # .../8. 학습사이트/강좌
-SITE = os.path.dirname(BASE)                                # .../8. 학습사이트
+BASE = os.path.dirname(os.path.abspath(__file__))          # .../3. 학습사이트/강좌
+SITE = os.path.dirname(BASE)                                # .../3. 학습사이트
 OUT  = os.path.join(SITE, "search-index.js")
 
 from bs4 import BeautifulSoup

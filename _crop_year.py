@@ -2,11 +2,11 @@
 # 범용 도형 크롭(다중 컬럼 대응): python3 _crop_year.py <YEAR> <slug_dir> <qnum:page_idx> ...
 import fitz, re, os, sys
 YEAR=sys.argv[1]; SLUG=sys.argv[2]
-PDFS={"2025":"6 기출문제/2025년(제26회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
- "2021":"6 기출문제/2021년(제22회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
- "2022":"6 기출문제/2022년(제23회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
- "2023":"6 기출문제/2023년(제24회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
- "2024":"6 기출문제/2024년(제25회) 정보시스템 감리사 필기시험 문제.pdf"}
+PDFS={"2025":"1 기출문제/2025년(제26회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
+ "2021":"1 기출문제/2021년(제22회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
+ "2022":"1 기출문제/2022년(제23회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
+ "2023":"1 기출문제/2023년(제24회) 정보시스템 감리사 필기시험 문제 및 답안.pdf",
+ "2024":"1 기출문제/2024년(제25회) 정보시스템 감리사 필기시험 문제.pdf"}
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 d=fitz.open(os.path.join(ROOT,PDFS[YEAR]))
 
@@ -84,7 +84,7 @@ def crop(qnum,page_idx,pad=6,zoom=3.5):
     if yopt: fy1=min(fy1, yopt-2)
     clip=fitz.Rect(max(band[0],fx0-pad), max(y0-2,fy0-pad), min(band[1],fx1+pad), fy1+pad)
     pix=pg.get_pixmap(matrix=fitz.Matrix(zoom,zoom),clip=clip)
-    outdir=os.path.join(os.path.dirname(os.path.abspath(__file__)),SLUG,"assets",YEAR); os.makedirs(outdir,exist_ok=True)
+    outdir=os.path.join(os.path.dirname(os.path.abspath(__file__)),"기출해설",SLUG,"assets",YEAR); os.makedirs(outdir,exist_ok=True)
     path=os.path.join(outdir,f"q{qnum}.png"); pix.save(path)
     print(f"Q{qnum} p{page_idx} band=({band[0]:.0f},{band[1]:.0f}) -> q{qnum}.png ({pix.width}x{pix.height}) y0={y0:.0f} y1={fy1:.0f} opt={yopt}")
 

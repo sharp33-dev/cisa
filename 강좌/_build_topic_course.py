@@ -9,7 +9,7 @@ import fitz, re, os, sys, io, html as htmlmod
 from PIL import Image
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # CISA
-LEC = os.path.join(ROOT, "8. 학습사이트", "강좌")
+LEC = os.path.join(ROOT, "3. 학습사이트", "강좌")
 
 # ---------- 공통 유틸 ----------
 def esc(x): return (x or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")

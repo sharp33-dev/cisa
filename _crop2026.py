@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import fitz, re, os
-PDF="/sessions/epic-eloquent-hypatia/mnt/CISA/6 기출문제/2026년(제27회) 정보시스템 감리사 필기시험 문제 및 답안.pdf"
+PDF="/sessions/epic-eloquent-hypatia/mnt/CISA/1 기출문제/2026년(제27회) 정보시스템 감리사 필기시험 문제 및 답안.pdf"
 d=fitz.open(PDF)
 def qtop(pg, qnum):
     mid=pg.rect.width/2

@@ -17,7 +17,7 @@ import os, re, sys, json, html, hashlib, io
 import fitz  # PyMuPDF
 from PIL import Image
 
-BASE = os.path.dirname(os.path.abspath(__file__))          # .../8. 학습사이트/강좌
+BASE = os.path.dirname(os.path.abspath(__file__))          # .../3. 학습사이트/강좌
 ROOT = os.path.dirname(os.path.dirname(BASE))              # .../CISA
 MANIFEST = os.path.join(BASE, "_lectures_manifest.json")
 

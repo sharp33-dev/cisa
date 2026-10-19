@@ -43,10 +43,12 @@
    ============================================================ */
 const ITEMS = [
   { title: "ISO/IEC 국제표준 출제 통합 정리 (5과목)", file: "ISO표준_통합정리_전과목.html",
-    desc: "25010·9126·29119·15504·21500·8000·27014 등 ISO/IEC 표준의 품질특성·세부항목·출제년도·관련문항 링크 통합.", tag: "ISO/IEC" },
+    desc: "25010·9126·29119·15504·21500·8000·27014 등 ISO/IEC 표준의 품질특성·세부항목·출제년도·관련문항 링크 통합.", tag: "ISO/IEC",
+    keywords: "ISO IEC 25010 25023 25012 9126 29119 15504 33063 SPICE 5055 22989 21500 8000 27001 27002 27014 27018 13335 품질특성 부특성 제품품질 소프트웨어 테스트 프로세스 프로젝트관리 데이터품질 정보보호 거버넌스 ISMS 감리 소프트웨어공학 데이터베이스 보안" },
   // 예) { title: "새 공통이론 제목", file: "새파일.html", desc: "설명", tag: "분류" },
 ];
 
+const _cards = [];
 (function(){
   const box = document.getElementById('list');
   if (!ITEMS.length){ box.innerHTML = '<div class="empty">등록된 공통 이론 항목이 없습니다.</div>'; return; }
@@ -60,8 +62,32 @@ const ITEMS = [
       (it.tag ? '<span class="tag">' + it.tag + '</span>' : '') + '</div>' +
       (it.desc ? '<div class="desc">' + it.desc + '</div>' : '');
     box.appendChild(a);
+    const txt = [it.title, it.desc, it.tag, it.keywords].filter(Boolean).join(' ').toLowerCase();
+    _cards.push({ el: a, text: txt });
+  });
+  // 상단바 '검색'(부모 iframe) 또는 자체 검색어 수신 → 항목 필터
+  window.addEventListener('message', function(e){
+    const d = e.data; if (!d || d.type !== 'theory-search') return;
+    filterTheory(d.q || '');
   });
 })();
+
+function filterTheory(q){
+  q = (q || '').trim().toLowerCase();
+  let shown = 0;
+  _cards.forEach(function(c){
+    const ok = !q || c.text.indexOf(q) >= 0;
+    c.el.style.display = ok ? '' : 'none';
+    if (ok) shown++;
+  });
+  let em = document.getElementById('no-result');
+  if (!shown) {
+    if (!em) { em = document.createElement('div'); em.id = 'no-result'; em.className = 'empty';
+      document.getElementById('list').appendChild(em); }
+    em.textContent = '"' + q + '" 검색 결과가 없습니다.';
+    em.style.display = '';
+  } else if (em) { em.style.display = 'none'; }
+}
 </script>
 </body>
 </html>

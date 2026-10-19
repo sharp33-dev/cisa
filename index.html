@@ -53,9 +53,9 @@
         .course-btn { width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1.25rem; color: #cbd5e1; font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
         .course-btn::after { content: '▼'; font-size: 0.65rem; transition: transform 0.2s; }
         .course-btn.collapsed::after { transform: rotate(-90deg); }
-        .course-btn.theory-item::after { content: ''; }
-        .course-btn.theory-item:hover { color: #38bdf8; }
-        .course-item.theory-nav.active > .theory-item { color: #38bdf8; background-color: #1e293b; }
+        .course-btn.theory-item { color: #eab308; }
+        .course-btn.theory-item:hover { color: #fde047; }
+        .course-item.theory-nav.active > .theory-item { color: #fde047; background-color: #1e293b; }
         .year-list { list-style: none; background-color: #0f172a; }
         .course-body { background-color: #0f172a; }
         .course-btn.collapsed + .course-body { display: none; }
@@ -472,7 +472,7 @@
                 titem.className = 'course-item theory-nav';
                 const tbtn = document.createElement('button');
                 tbtn.className = 'course-btn theory-item';
-                tbtn.textContent = '📚 공통 이론';
+                tbtn.textContent = '공통 이론';
                 tbtn.onclick = () => {
                     if (activeItemEl) activeItemEl.classList.remove('active');
                     titem.classList.add('active'); activeItemEl = titem;

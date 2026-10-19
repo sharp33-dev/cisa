@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>공통 이론 정리</title>
+<style>
+  :root{ --primary:#1e3a8a; --primary-dark:#0f172a; --accent:#0ea5e9; --bg:#f8fafc; --card:#fff; --border:#cbd5e1; --text:#334155; --text-dark:#0f172a; }
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
+  body{background:var(--bg);color:var(--text);line-height:1.6;}
+  .topbar{position:sticky;top:0;z-index:50;background:var(--primary-dark);color:#fff;padding:.7rem 1rem;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .topbar .back{display:inline-block;font-size:.8rem;font-weight:700;color:#cbd5e1;background:#1e293b;border:1px solid #334155;border-radius:20px;padding:.3rem .8rem;text-decoration:none;margin-bottom:.5rem;}
+  .topbar .back:hover{background:#334155;color:#fff;}
+  .topbar h1{font-size:1.05rem;font-weight:800;display:flex;align-items:center;gap:.5rem;}
+  .topbar p{font-size:.74rem;color:#93c5fd;margin-top:.2rem;}
+  .wrap{max-width:900px;margin:0 auto;padding:1.4rem 1.1rem 4rem;}
+  .list{display:flex;flex-direction:column;gap:.7rem;}
+  .card{display:block;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.15rem;text-decoration:none;color:inherit;transition:box-shadow .15s,border-color .15s,transform .05s;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+  .card:hover{border-color:var(--accent);box-shadow:0 6px 18px rgba(2,132,199,.12);}
+  .card:active{transform:translateY(1px);}
+  .card .c-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+  .card .num{flex-shrink:0;width:26px;height:26px;border-radius:7px;background:var(--primary);color:#fff;font-size:.8rem;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .card .title{font-size:1rem;font-weight:800;color:var(--text-dark);}
+  .card .tag{margin-left:auto;font-size:.72rem;font-weight:700;color:#0369a1;background:#e0f2fe;border-radius:20px;padding:.15rem .6rem;white-space:nowrap;}
+  .card .desc{font-size:.84rem;color:#64748b;margin-top:.4rem;}
+  .empty{color:#94a3b8;font-size:.9rem;text-align:center;padding:2rem;}
+  @media (max-width:768px){ .wrap{padding:1rem .7rem 3rem;} .card .title{font-size:.95rem;} }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>📚 공통 이론 정리</h1>
+  <p>여러 과목에 걸친 공통 이론을 모아 정리한 자료 목록</p>
+</div>
+<div class="wrap"><div class="list" id="list"></div></div>
+
+<script>
+/* ============================================================
+   공통 이론 항목 목록.  항목을 추가하려면 아래 배열에 한 줄 추가:
+     { title: "제목", file: "파일명.html", desc: "설명", tag: "태그" }
+   - file 은 이 폴더(공통 이론/) 안의 HTML 파일명
+   - 새 MD는 _build_theory.py 로 HTML 변환 후 파일명을 등록
+   ============================================================ */
+const ITEMS = [
+  { title: "ISO/IEC 국제표준 출제 통합 정리 (5과목)", file: "ISO표준_통합정리_전과목.html",
+    desc: "25010·9126·29119·15504·21500·8000·27014 등 ISO/IEC 표준의 품질특성·세부항목·출제년도·관련문항 링크 통합.", tag: "ISO/IEC" },
+  // 예) { title: "새 공통이론 제목", file: "새파일.html", desc: "설명", tag: "분류" },
+];
+
+(function(){
+  const box = document.getElementById('list');
+  if (!ITEMS.length){ box.innerHTML = '<div class="empty">등록된 공통 이론 항목이 없습니다.</div>'; return; }
+  ITEMS.forEach(function(it, i){
+    const a = document.createElement('a');
+    a.className = 'card';
+    a.href = encodeURIComponent(it.file);
+    a.innerHTML =
+      '<div class="c-top"><span class="num">' + (i+1) + '</span>' +
+      '<span class="title">' + it.title + '</span>' +
+      (it.tag ? '<span class="tag">' + it.tag + '</span>' : '') + '</div>' +
+      (it.desc ? '<div class="desc">' + it.desc + '</div>' : '');
+    box.appendChild(a);
+  });
+})();
+</script>
+</body>
+</html>

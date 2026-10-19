@@ -24438,8 +24438,13 @@ $$\boxed{\text{Keepalive는 연결을 &quot;유지&quot;가 아니라 &quot;확�
     const v = cb.closest('.question-view');
     if (v) v.classList.toggle('show-answer', cb.checked);
   }
+  function _targetNum(){
+    var m = (location.search || '').match(/[?&]q=([^&#]+)/);
+    if (m) return decodeURIComponent(m[1]).replace(/^q/i, '');
+    return (location.hash || '').replace(/^#q?/i, '');
+  }
   (function(){
-    var h = (location.hash || '').replace(/^#q?/i, '');
+    var h = _targetNum();
     var idx = h ? nums.indexOf(h) : -1;
     show(idx >= 0 ? idx : (nums[0] === 'overview' ? 1 : 0));
   })();

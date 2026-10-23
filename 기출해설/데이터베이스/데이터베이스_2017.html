@@ -8352,48 +8352,7 @@ WHERE CommissionPercent &gt; 0;
     <div class="question-view" data-num="63" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>트랜잭션 <strong>T1, T2</strong>가 수행되는 다음 그림에서, <strong>T1의 연산 결과(x + 100)가 T2의 연산 결과(x * 2)로 인해 바르게 저장되지 않는 현상</strong>이 발생할 수 있다. 이 같은 현상을 무엇이라고 하는가?</p>
-<p><strong>(제시 스케줄 전사)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>T1</strong></th>
-<th>시간</th>
-<th><strong>T2</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>read(x)</code></td>
-<td>↓</td>
-<td></td>
-</tr>
-<tr>
-<td><code>x ← x + 100</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><code>read(x)</code></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td><code>x ← x * 2</code></td>
-</tr>
-<tr>
-<td><code>write(x)</code></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>↓</td>
-<td><code>write(x)</code></td>
-</tr>
-</tbody>
-</table>
+<p><img alt="2017년 63번 트랜잭션 인터리빙 스케줄(T1: read·x+100·write / T2: read·x*2·write, 갱신 손실)" src="assets/2017/q63.png" /></p>
 <ul>
 <li><strong>T1</strong>: x를 읽어 100을 더한 뒤 기록</li>
 <li><strong>T2</strong>: x를 읽어 2를 곱한 뒤 기록</li>

@@ -935,8 +935,7 @@ strong { color:#0f172a; font-weight:700; }
     <div class="question-view" data-num="56" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 ER 다이어그램을 관계 모델로 변환할 경우 릴레이션의 개수로 가장 적절한 것은? (단, ER 다이어그램의 이중선은 전체 참여를, 이중타원은 다치 속성을, 밑줄을 친 속성은 키 속성을 의미한다.)</p>
-<pre><code>EMPLOYEE(ENO, Name) ─N─ WORKS_ON(Hours) ─M─ PROJECT(PNO, Name, Location[이중타원=다치])
-</code></pre>
+<p><img alt="2023년 56번 ER 다이어그램(EMPLOYEE N–WORKS_ON–M PROJECT, 이중타원 Location=다치, 키 밑줄)" src="assets/2023/q56.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 2<br />
 ② 3<br />
@@ -2098,12 +2097,7 @@ ENROLL(Sno, Cno, Grade)
     <div class="question-view" data-num="64" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 트랜잭션 T1~T5에 대해 각각의 수행 시간을 표기하였다. 트랜잭션 수행 중 체크 포인트를 실시하였고, 그 이후 시스템이 다운되었다. 시스템이 재가동될 때 수행되는 회복 기능으로 가장 적절한 것은?</p>
-<pre><code>- T1: 체크포인트 이전에 시작·완료(커밋)
-- T2: 체크포인트 이전 시작 → 이후(다운 전) 완료
-- T4: 체크포인트 이후 시작 → 다운 전 완료
-- T3: 체크포인트 걸쳐 다운 시점까지 미완료
-- T5: 체크포인트 이후 시작 → 다운 시점까지 미완료
-</code></pre>
+<p><img alt="2023년 64번 트랜잭션 T1~T5 수행시간 타임라인(체크포인트·시스템 다운 시점)" src="assets/2023/q64.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① T2, T4 트랜잭션은 재수행한다.</strong><br />
 ② T2, T4 트랜잭션은 취소한다.<br />
@@ -2387,12 +2381,7 @@ CREATE TABLE DEPENDENT ( Essn CHAR(9) NOT NULL, Name VARCHAR(15) NOT NULL, PRIMA
     <div class="question-view" data-num="66" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 트랜잭션의 동시성 제어에서 격리성(isolation)을 나타내는 예로써, 트랜잭션 T1, T2가 ①~⑤ 순서대로 수행할 때 생길 수 있는 현상으로 가장 적절한 것은?</p>
-<pre><code>T1: ① SELECT 도시, COUNT(*) FROM 고객 GROUP BY 도시;
-T2: ② INSERT INTO 고객(고객번호, 이름, 도시, 나이) VALUES(3,'김민재','통영',27);
-T2: ③ COMMIT;
-T1: ④ SELECT 나이, COUNT(*) FROM 고객 GROUP BY 나이;
-T1: ⑤ COMMIT;
-</code></pre>
+<p><img alt="2023년 66번 격리성 스케줄(T1·T2, ①~⑤: SELECT GROUP BY·INSERT·COMMIT, 유령 읽기)" src="assets/2023/q66.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 오손 데이터 읽기(dirty read)<br />
 <strong>② 유령 데이터 읽기(phantom read)</strong><br />

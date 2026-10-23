@@ -12969,45 +12969,7 @@ EXEC SQL CLOSE emp_cursor;
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 그림은 <strong>2개의 사이트에 분산 저장된 교수와 학과 릴레이션</strong>을 보여주고 있다. <strong>사이트 2에서 "각 학과의 학과이름과 학과장교수이름을 검색"</strong> 하는 질의를 수행하려고 한다. <strong>사이트 간 데이터 전송량을 최소화하기 위해 세미조인을 사용한 분산 질의 처리</strong>를 하는 경우 <strong>사이트 간에 처음으로 전송되는 데이터의 크기</strong>로 가장 알맞은 것은?</p>
 <p><strong>(단, 각 스키마의 애트리뷰트 아래의 숫자는 그 애트리뷰트의 고정 크기(byte)를 의미하며, 교수는 총 1,000명, 학과는 50개가 있고, 밑줄은 기본키이다.)</strong></p>
-<p><strong>(제시 도해 전사)</strong></p>
-<p><strong>사이트 1 — 교수 (1,000 튜플)</strong></p>
-<table>
-<thead>
-<tr>
-<th>교수이름</th>
-<th><strong>교수번호</strong>(PK)</th>
-<th>주소</th>
-<th>학과코드</th>
-<th>연락처</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>15</strong></td>
-<td><strong>10</strong></td>
-<td><strong>60</strong></td>
-<td><strong>5</strong></td>
-<td><strong>30</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>사이트 2 — 학과 (50 튜플)</strong></p>
-<table>
-<thead>
-<tr>
-<th><strong>학과코드</strong>(PK)</th>
-<th>학과이름</th>
-<th>학과장교수번호</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>5</strong></td>
-<td><strong>15</strong></td>
-<td><strong>10</strong></td>
-</tr>
-</tbody>
-</table>
+<p><img alt="2018년 70번 분산 DB 사이트1 교수·사이트2 학과 릴레이션(속성 크기 byte 표기, 세미조인 전송량)" src="assets/2018/q70.png" /></p>
 <ul>
 <li><strong>조인 조건</strong>: <code>학과.학과장교수번호 = 교수.교수번호</code></li>
 <li><strong>질의 대상 속성</strong>: <code>학과.학과이름</code>, <code>교수.교수이름</code></li>

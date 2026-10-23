@@ -1372,14 +1372,7 @@ WHERE D.가격 &gt; (SELECT AVG(가격) FROM 도서 WHERE 출판사 = D.출판�
     <div class="question-view" data-num="60" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>Emp 테이블에 deptno=10인 직원 5명, deptno=20인 직원 3명이 있을 때, 다음 트리거 정의문에서 실제로 트리거 액션이 실행되는 행(row)의 수는?</p>
-<pre><code>CREATE TRIGGER trg_sal_audit
-AFTER UPDATE OF sal ON Emp
-REFERENCING OLD ROW AS O, NEW ROW AS N
-FOR EACH ROW
-WHEN (N.sal &gt; O.sal AND N.deptno = 10)
-INSERT INTO sal_audit VALUES (N.empno, O.sal, N.sal, CURRENT_TIMESTAMP);
-UPDATE Emp SET sal = sal * 1.1 WHERE deptno IN (10, 20);
-</code></pre>
+<p><img alt="2026년 60번 트리거 정의문(AFTER UPDATE OF sal, FOR EACH ROW, WHEN 조건, UPDATE deptno IN(10,20))" src="assets/2026/q60.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 8건<br />
 <strong>② 5건</strong><br />

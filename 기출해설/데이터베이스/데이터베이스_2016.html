@@ -15130,53 +15130,7 @@ $$\boxed{\text{국민은 제공을 신청할 수 있고, 거부 시 분쟁조정
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>테이블 <strong>BOOK(bookid, bookname, price)</strong> 에 대해 2개의 트랜잭션 <strong>T1</strong>과 <strong>T2</strong>가 동시에 실행된다고 하자. 사용자가 입력한 명령을 시간별로 다음과 같이 실행했을 경우, <strong>㉮와 ㉯에 출력되는 결과 값</strong>으로 옳은 것은?</p>
 <p><em>(단, BOOK 테이블을 읽거나 쓰는 트랜잭션은 T1과 T2만 있으며, BOOK 테이블에 bookid가 1인 투플이 존재한다고 가정한다.)</em></p>
-<p><strong>(제시 스케줄 전사 — 위에서 아래로 시간 순)</strong></p>
-<table>
-<thead>
-<tr>
-<th>시간 순</th>
-<th><strong>트랜잭션 T1</strong></th>
-<th><strong>트랜잭션 T2</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1</strong></td>
-<td></td>
-<td><code>BEGIN TRANSACTION</code><br><code>SET TRANSACTION ISOLATION LEVEL READ COMMITTED;</code><br><code>select sum(price) as 총액 from book;</code><br><strong>(결과 값) 10000</strong></td>
-</tr>
-<tr>
-<td><strong>2</strong></td>
-<td><code>BEGIN TRANSACTION</code><br><code>SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;</code><br><code>select sum(price) as 총액 from book;</code><br><strong>(결과 값) 10000</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td></td>
-<td><code>update book set price=price+100 where bookid=1;</code><br><code>/* 여기서 대기상태 */</code></td>
-</tr>
-<tr>
-<td><strong>4</strong></td>
-<td><code>select sum(price) as 총액 from book;</code><br><strong>(결과 값) ㉮</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>5</strong></td>
-<td><code>COMMIT;</code></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>6</strong></td>
-<td></td>
-<td><code>select sum(price) as 총액 from book;</code><br><strong>(결과 값) ㉯</strong></td>
-</tr>
-<tr>
-<td><strong>7</strong></td>
-<td></td>
-<td><code>COMMIT;</code></td>
-</tr>
-</tbody>
-</table>
+<p><img alt="2016년 71번 트랜잭션 스케줄(T1=REPEATABLE READ·T2=READ COMMITTED, 시간 1~7, 결과값 ㉮·㉯)" src="assets/2016/q71.png" /></p>
 <blockquote>
 <p><strong>격리 수준 정리</strong><br />
 - <strong>T1 = REPEATABLE READ</strong> (조회만 수행)<br />

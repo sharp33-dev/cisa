@@ -3298,12 +3298,12 @@ class Staff extends Person implements Service {
   public void doWork() { Task t = new Task(); ... }
 }
 </code></pre>
+<p><img alt="2025년 44번 보기 ①~④ 클래스 다이어그램(Service·Staff·Person·Task 관계 — 실현/의존 화살표의 실선·점선·삼각형 유형이 각 보기마다 다름)" src="assets/2025/q44.png" /></p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>①</strong> <code>«interface» Service</code> ←(속빈 삼각형 실선) <code>Staff</code> +doWork():void, Staff --(점선)--&gt; Person, Staff --(점선화살표)--&gt; Task<br />
-<strong>②</strong> <code>«interface» Service</code> ←(속빈 삼각형 실선) <code>Staff</code> +doWork():void, Staff --(점선삼각형)--&gt; Person, Staff --(점선화살표)--&gt; Task<br />
-<strong>③</strong> <code>«interface» Service</code> ←(속빈 삼각형 점선) <code>Staff</code> +doWork():void, Staff ---(실선삼각형)---&gt; Person, Staff --(점선화살표)--&gt; Task<br />
-<strong>④</strong> <code>«interface» Service</code> ←(속빈 삼각형 점선) <code>Staff</code> +doWork():void, Staff ---(점선삼각형)---&gt; Person, Staff --(점선화살표)--&gt; Task</p>
-<p>*(각 보기는 Service-Staff-Person-Task 사이의 관계 화살표 유형이 다름)*</p>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 실현(implements)=실선 삼각형, Staff→Person·Task=점선 화살표(의존)<br />
+② 실현=실선 삼각형, Staff→Person=점선 삼각형<br />
+<strong>③ 실현(implements)=점선+속 빈 삼각형(realization), Staff→Person=실선 화살표, Staff→Task=점선 화살표</strong><br />
+④ 실현=점선+속 빈 삼각형, Staff→Person=점선 삼각형</p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
 <p><strong>정답 신뢰도 : 매우 높음</strong> (답안지 Bold 표시 확인)</p>
@@ -3544,12 +3544,12 @@ class Staff extends Person implements Service {
     <div class="question-view" data-num="45" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>보통의 경우 Normal 유스케이스 시나리오가 사용되지만 특정 조건 하에서 Conditional 유스케이스 시나리오가 사용된다는 UML 표기법으로 가장 적절한 것은?</p>
+<p><img alt="2025년 45번 보기 ①~④ 유스케이스 표기법(Normal↔Conditional, «include»/«extend» 스테레오타입·화살표 방향이 각 보기마다 다름)" src="assets/2025/q45.png" /></p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① <code>Normal</code> --(«include»)--→ <code>Conditional</code><br />
-② <code>Normal</code> ←--(«include»)-- <code>Conditional</code><br />
-③ <code>Normal</code> --(«extend»)--→ <code>Conditional</code><br />
-<strong>④ <code>Normal</code> ←--(«extend»)-- <code>Conditional</code></strong></p>
-<p>*(각 보기의 화살표 방향 및 스테레오타입이 다름)*</p>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Normal →(«include») Conditional<br />
+② Normal ←(«include») Conditional<br />
+③ Normal →(«extend») Conditional<br />
+<strong>④ Normal ←(«extend») Conditional</strong></p>
 <hr /></div></div>
 <div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
 <p><strong>정답 신뢰도 : 매우 높음</strong> (답안지 Bold 표시 확인)</p>
@@ -4081,12 +4081,7 @@ class Staff extends Person implements Service {
     <div class="question-view" data-num="47" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>RESTful 서비스의 사용 예로 가장 적절하게 묶은 것은?</p>
-<ul>
-<li>가. 회원 정보를 알고 싶은 경우, <code>READ http://localhost:8080/rest/api/v1/user/1</code></li>
-<li>나. 회원 가입을 하는 경우, <code>POST http://localhost:8080/rest/api/v1/user { ... }</code></li>
-<li>다. 회원 정보를 수정하고 싶은 경우, <code>UPDATE http://localhost:8080/rest/api/v1/user/1 { ... }</code></li>
-<li>라. 회원을 탈퇴 처리하고 싶은 경우, <code>DELETE http://localhost:8080/rest/api/v1/user/1</code></li>
-</ul>
+<p><img alt="2025년 47번 RESTful 사용 예 가~라(원본 박스: READ·POST·UPDATE·DELETE 요청과 JSON 본문 예시)" src="assets/2025/q47.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 가, 라<br />
 ② 가, 다<br />
@@ -4261,8 +4256,7 @@ class Staff extends Person implements Service {
     <div class="question-view" data-num="48" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음과 같이 금고경비시스템을 구현하는 의사코드(가)를 의사코드(나)로 변경하는데 적용된 설계패턴으로 가장 적절한 것은?</p>
-<p><em>(가): 하나의 클래스에 if(주간)/else(야간) 분기로 메서드별 동작 구현<br />
-(나): 주간을 표현한 클래스, 야간을 표현한 클래스로 분리하여 각자 메서드 구현)</em></p>
+<p><img alt="2025년 48번 의사코드 (가)→(나): 하나의 class 경비시스템(if 주간/else 야간)을 주간·야간 클래스로 분리(State 패턴)" src="assets/2025/q48.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p><strong>① State Pattern</strong><br />
 ② Adapter Pattern<br />
@@ -4402,7 +4396,7 @@ class Staff extends Person implements Service {
     <div class="question-view" data-num="49" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음 코드와 같이 스위치 문에서 분류 코드 종류에 따라 객체가 다른 동작을 하는 코드에 적용한 리팩토링 기법으로 가장 적절한 것은?</p>
-<p><em>(switch(_typecode) → ShapeLine, ShapeRectangle, ShapeOval로 각각 subclass로 분리)</em></p>
+<p><img alt="2025년 49번 switch(_typecode) 코드 → ShapeLine·ShapeRectangle·ShapeOval 서브클래스로 분리하는 리팩토링 전/후" src="assets/2025/q49.png" /></p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Pull Up Method<br />
 ② Replace Type Code with Class<br />
@@ -4552,6 +4546,7 @@ class Staff extends Person implements Service {
     <div class="question-view" data-num="50" style="display:none;">
       <div class="content-workspace">
         <div class="area-card area-left"><div class="area-header">영역 1 · 문제 / 보기 / 정답 · 강의 연계 / 빈출도 / 암기</div><div class="area-body"><div class="content-section"><div class="section-label">문제</div><div class="section-text"><p>다음과 같은 바 차트가 주어졌다고 가정하자. 각 작업(T1~T12)에 개발 인력(A~E)을 배정할 때 임계경로 상의 작업들로만 배정된 인력으로 가장 적절한 것은? (단, 각 작업의 짙은색 박스는 slack time, M1~M8은 milestone을 나타낸다.)</p>
+<p><img alt="2025년 50번 바 차트(간트형: 작업 T1~T12, 마일스톤 M1~M8, 짙은색 박스=slack time, 시작~끝 일정)" src="assets/2025/q50.png" /></p>
 <ul>
 <li>A – T4, T8, T11, T12</li>
 <li>B – T1, T3, T9</li>

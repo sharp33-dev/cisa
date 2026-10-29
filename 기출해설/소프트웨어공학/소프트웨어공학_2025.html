@@ -3300,13 +3300,14 @@ class Staff extends Person implements Service {
 </code></pre>
 <p><img alt="2025년 44번 보기 ①~④ 클래스 다이어그램(Service·Staff·Person·Task 관계 — 실현/의존 화살표의 실선·점선·삼각형 유형이 각 보기마다 다름)" src="assets/2025/q44.png" /></p>
 <hr /></div></div>
-<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① 실현(implements)=실선 삼각형, Staff→Person·Task=점선 화살표(의존)<br />
-② 실현=실선 삼각형, Staff→Person=점선 삼각형<br />
-<strong>③ 실현(implements)=점선+속 빈 삼각형(realization), Staff→Person=실선 화살표, Staff→Task=점선 화살표</strong><br />
-④ 실현=점선+속 빈 삼각형, Staff→Person=점선 삼각형</p>
+<div class="content-section"><div class="section-label">보기<label class="ans-switch" title="정답 보기"><input type="checkbox" onchange="toggleAns(this)"><span class="track"></span><span class="switch-text">정답 보기</span></label></div><div class="section-text opts"><p>① Service←Staff 실선+속 빈 삼각형, Staff→Person 점선+속 빈 삼각형, Staff→Task 실선 화살표<br />
+② Service←Staff 실선+속 빈 삼각형, Staff→Person 점선+속 빈 삼각형, Staff→Task 점선 화살표<br />
+③ Service←Staff 점선+속 빈 삼각형, Staff→Person 실선+속 빈 삼각형, Staff→Task 실선 화살표<br />
+<strong>④ Service←Staff 점선+속 빈 삼각형, Staff→Person 실선+속 빈 삼각형, Staff→Task 점선 화살표</strong></p>
+<p>*(보기 도식은 위 원본 이미지 기준. 텍스트는 관계선 유형 요약)*</p>
 <hr /></div></div>
-<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ③번</strong></p>
-<p><strong>정답 신뢰도 : 매우 높음</strong> (답안지 Bold 표시 확인)</p>
+<div class="content-section answer-box"><div class="section-label">정답</div><div class="section-text"><p><strong>정답 : ④번</strong></p>
+<p><strong>정답 신뢰도 : 매우 높음</strong> (원본 PDF ④ 기호 Bold 폰트 확인 — Q45와 동일 표기, 2026-10-29 ③→④ 정정)</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">핵심 키워드</div><div class="section-text"><ul>
 <li>UML 클래스 다이어그램</li>
@@ -3461,14 +3462,15 @@ class Staff extends Person implements Service {
 - <strong>Service ←(점선삼각형)— Staff</strong>: 실체화 (implements) ✓<br />
 - <strong>Staff →(실선삼각형)→ Person</strong>: 일반화/상속 (extends) ✓<br />
 - <strong>Staff --(점선화살표)--&gt; Task</strong>: 의존 (지역변수로 사용) ✓</p>
-<p>이 세 가지 조건을 모두 올바르게 표현한 것이 <strong>③번</strong>이다.</p>
+<p>이 세 가지 조건을 모두 올바르게 표현한 것이 <strong>④번</strong>이다.</p>
+<p>출제 의도의 핵심은 <strong>Task와의 관계</strong>다. <code>Task t = new Task();</code>는 doWork() 안에서만 쓰이는 <strong>지역변수</strong>이므로, Staff가 Task를 멤버로 계속 보유하는 <strong>연관(Association, 실선 화살표)</strong>이 아니라 일시적으로 사용하는 <strong>의존(Dependency, 점선 화살표)</strong>으로 그려야 한다. ③번과 ④번은 실체화·상속 표기가 같고 Task 화살표(실선/점선)만 달라, 이 구분을 묻는 함정 문항이다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">오답 분석</div><div class="section-text"><h3>보기①</h3>
-<p>Service-Staff 관계를 실선삼각형(상속)으로 표현 → 오류. implements는 점선삼각형(실체화).</p>
+<p>Service-Staff 관계를 <strong>실선 삼각형(일반화)</strong>으로 표현 → 오류(implements는 점선 삼각형). Staff-Person 관계도 <strong>점선 삼각형(실체화)</strong>으로 표현 → 오류(extends는 실선 삼각형). Task도 <strong>실선 화살표(연관)</strong>로 그려 지역변수 사용(의존)과 맞지 않는다. 세 관계가 모두 틀렸다.</p>
 <h3>보기②</h3>
-<p>Staff-Person 관계를 점선삼각형(실체화)으로 표현 → 오류. extends는 실선삼각형(상속).</p>
-<h3>보기④</h3>
-<p>Staff-Person 관계를 점선삼각형으로 표현 → 오류. extends는 실선삼각형.</p>
+<p>Task는 점선 화살표(의존)로 올바르지만, Service-Staff를 <strong>실선 삼각형</strong>, Staff-Person을 <strong>점선 삼각형</strong>으로 그려 실체화와 일반화가 <strong>서로 뒤바뀌었다</strong> → 오류.</p>
+<h3>보기③</h3>
+<p>실체화(Service, 점선 삼각형)와 일반화(Person, 실선 삼각형)는 올바르다. 그러나 Staff→Task를 <strong>실선 화살표(연관)</strong>로 표현 → 오류. 연관은 Task를 멤버 변수로 보유할 때의 표기이고, 이 코드의 Task는 doWork() 안의 지역변수라 <strong>점선 화살표(의존)</strong>가 맞다. 정답 ④와는 이 한 가지만 다르다.</p>
 <hr /></div></div>
 <div class="content-section"><div class="section-label">관련 이론 정리</div><div class="section-text"><p><strong>UML 클래스 다이어그램 관계 표기법 총정리:</strong></p>
 <table>
@@ -3885,7 +3887,7 @@ class Staff extends Person implements Service {
 <tr>
 <td><strong>44</strong></td>
 <td><strong>Java코드→UML (실체화/상속/의존)</strong></td>
-<td><strong>③</strong></td>
+<td><strong>④</strong></td>
 <td><strong>★★★★★</strong></td>
 </tr>
 <tr>
